@@ -1,1 +1,2 @@
-export const TEST = '';
+export * from './role';
+export * from './account';
