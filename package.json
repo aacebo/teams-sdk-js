@@ -1,7 +1,13 @@
 {
   "name": "teams-sdk-js",
   "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@10.8.1",
+  "workspaces": ["packages/*"],
   "scripts": {
+    "clean": "turbo clean",
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
@@ -11,13 +17,5 @@
     "prettier": "^3.2.5",
     "turbo": "^2.0.11",
     "typescript": "^5.4.5"
-  },
-  "engines": {
-    "node": ">=18"
-  },
-  "packageManager": "npm@10.8.1",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  }
 }
