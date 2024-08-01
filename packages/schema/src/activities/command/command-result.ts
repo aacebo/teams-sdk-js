@@ -3,8 +3,7 @@ import { ActivityBase } from '../base';
 /**
  * Asynchronous external command result.
  */
-export interface CommandResultActivity<D = any, T = any>
-  extends ActivityBase<D> {
+export interface CommandResultActivity<D = any, T = any> extends ActivityBase<D> {
   readonly type: 'commandResult';
 
   name: string;

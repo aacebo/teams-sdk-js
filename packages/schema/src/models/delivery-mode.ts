@@ -1,5 +1,1 @@
-export type DeliveryMode =
-  | 'normal'
-  | 'notification'
-  | 'expectReplies'
-  | 'ephemeral';
+export type DeliveryMode = 'normal' | 'notification' | 'expectReplies' | 'ephemeral';

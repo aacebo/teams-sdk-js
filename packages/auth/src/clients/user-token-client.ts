@@ -1,11 +1,6 @@
 import { Activity } from '@teams/schema';
 
-import {
-  TokenStatus,
-  TokenResponse,
-  TokenExchangeRequest,
-  SignInUrlResponse,
-} from '../models';
+import { TokenStatus, TokenResponse, TokenExchangeRequest, SignInUrlResponse } from '../models';
 
 /**
  * Client for access user token service.
@@ -48,11 +43,7 @@ export interface UserTokenClient {
    * @param connectionName Name of the auth connection to use.
    * @param channelId The channel Id that will be associated with the token.
    */
-  signOutUser(
-    userId: string,
-    connectionName: string,
-    channelId: string
-  ): Promise<void>;
+  signOutUser(userId: string, connectionName: string, channelId: string): Promise<void>;
 
   /**
    * Retrieves the token status for each configured connection for the given user.
@@ -62,11 +53,7 @@ export interface UserTokenClient {
    * @param includeFilter The includeFilter.
    * @returns {Promise<TokenStatus[]>} A list of [TokenStatus](xref:botframework-schema.TokenStatus) objects.
    */
-  getTokenStatus(
-    userId: string,
-    channelId: string,
-    includeFilter: string
-  ): Promise<TokenStatus[]>;
+  getTokenStatus(userId: string, channelId: string, includeFilter: string): Promise<TokenStatus[]>;
 
   /**
    * Retrieves Azure Active Directory tokens for particular resources on a configured connection.
