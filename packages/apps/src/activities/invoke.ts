@@ -2,8 +2,8 @@ import { ConversationReference } from '@teams/schema';
 
 import { ActivityBase } from './base';
 
-export interface EventActivity<D = any> extends ActivityBase<D> {
-  readonly type: 'event';
+export interface InvokeActivity<D = any> extends ActivityBase<D> {
+  readonly type: 'invoke';
 
   /**
    * The name of the operation associated with an invoke or event activity.

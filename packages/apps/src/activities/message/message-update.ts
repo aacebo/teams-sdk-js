@@ -1,7 +1,7 @@
-import { ActivityBase } from './base';
+import { ActivityBase } from '../base';
 
-export interface MessageActivity<D = any> extends ActivityBase<D> {
-  readonly type: 'message';
+export interface MessageUpdateActivity<D = any> extends ActivityBase<D> {
+  readonly type: 'messageUpdate';
 
   /**
    * A locale name for the contents of the text field.
