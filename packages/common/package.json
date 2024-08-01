@@ -1,5 +1,5 @@
 {
-  "name": "@teams/apps",
+  "name": "@teams/common",
   "version": "0.0.0",
   "license": "MIT",
   "main": "dist/index",
@@ -13,12 +13,9 @@
     "build": "npm run clean && tsc -p ."
   },
   "dependencies": {
-    "@teams/config": "*",
-    "@teams/common": "*",
-    "@teams/schema": "*"
+    "@teams/config": "*"
   },
   "devDependencies": {
-    "@types/node": "^22.0.2",
     "rimraf": "^6.0.1",
     "typescript": "^5.4.5"
   }

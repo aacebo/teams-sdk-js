@@ -1,4 +1,4 @@
-import { HttpClient } from '@teams/schema';
+import { HttpClient } from '@teams/common';
 
 export interface AppOptions {
   readonly http?: HttpClient;
