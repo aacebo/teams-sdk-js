@@ -5,5 +5,5 @@ export interface AppOptions {
 }
 
 export class App {
-  constructor(readonly options?: AppOptions) { }
+  constructor(readonly options?: AppOptions) {}
 }

@@ -2,6 +2,7 @@
 
 ## Packages
 
-- [`@teams/apps`](./packages/apps/README.md)
-- [`@teams/config`](./packages/config/README.md)
-- [`@teams/schema`](./packages/schema/README.md)
+-   [`@teams/apps`](./packages/apps/README.md)
+-   [`@teams/auth`](./packages/auth/README.md)
+-   [`@teams/config`](./packages/config/README.md)
+-   [`@teams/schema`](./packages/schema/README.md)

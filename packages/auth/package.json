@@ -1,0 +1,23 @@
+{
+  "name": "@teams/auth",
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "clean": "npx rimraf ./dist",
+    "build": "npm run clean && tsc -p ."
+  },
+  "dependencies": {
+    "@teams/config": "*",
+    "@teams/schema": "*"
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "typescript": "^5.4.5"
+  }
+}
