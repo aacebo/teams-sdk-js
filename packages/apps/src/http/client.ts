@@ -9,21 +9,25 @@ const ContentParsers: Record<string, parsers.Parser> = {
 
 export interface HttpClient {
   get(url: string, options?: http.RequestOptions): Promise<HttpResponse>;
+
   post(
     url: string,
     data?: any,
     options?: http.RequestOptions
   ): Promise<HttpResponse>;
+
   patch(
     url: string,
     data?: any,
     options?: http.RequestOptions
   ): Promise<HttpResponse>;
+
   delete(
     url: string,
     data?: any,
     options?: http.RequestOptions
   ): Promise<HttpResponse>;
+
   request(
     url: string,
     data?: any,
