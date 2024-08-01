@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
-  "files": ["eslint.config.js"],
+  "files": [
+    "eslint.config.js"
+  ],
   "publishConfig": {
     "access": "public"
   }
