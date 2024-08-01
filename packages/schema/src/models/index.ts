@@ -3,7 +3,7 @@ export * from './account';
 export * from './entity';
 export * from './conversation-reference';
 export * from './message-reaction';
-export * from './input-hints';
+export * from './input-hint';
 export * from './text-format';
 export * from './attachment-layout';
 export * from './attachment';
