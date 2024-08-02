@@ -12,10 +12,13 @@
     "clean": "npx rimraf ./dist",
     "build": "npm run clean && tsc -p ."
   },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
   "peerDependencies": {
     "@teams/api": "*",
-    "@teams/config": "*",
     "@teams/common": "*",
+    "@teams/config": "*",
     "@teams/schema": "*"
   },
   "devDependencies": {
