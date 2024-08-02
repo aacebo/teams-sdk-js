@@ -1,8 +1,8 @@
 import http from 'http';
 
-export interface HttpResponse<D = any> {
+export interface Response<D = any> {
   code?: number;
   status?: string;
-  headers: http.IncomingHttpHeaders;
+  headers: http.OutgoingHttpHeaders;
   data: D;
 }

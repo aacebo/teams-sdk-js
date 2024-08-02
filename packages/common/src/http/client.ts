@@ -1,6 +1,6 @@
 import http from 'http';
 
-import { HttpResponse } from './response';
+import { Response } from './response';
 import * as parsers from './parsers';
 
 const ContentParsers: Record<string, parsers.Parser> = {
@@ -8,15 +8,11 @@ const ContentParsers: Record<string, parsers.Parser> = {
 };
 
 export interface HttpClient {
-  get<T = any>(url: string, options?: http.RequestOptions): Promise<HttpResponse<T>>;
-  post<T = any>(url: string, data?: any, options?: http.RequestOptions): Promise<HttpResponse<T>>;
-  patch<T = any>(url: string, data?: any, options?: http.RequestOptions): Promise<HttpResponse<T>>;
-  delete<T = any>(url: string, data?: any, options?: http.RequestOptions): Promise<HttpResponse<T>>;
-  request<T = any>(
-    url: string,
-    data?: any,
-    options?: http.RequestOptions
-  ): Promise<HttpResponse<T>>;
+  get<T = any>(url: string, options?: http.RequestOptions): Promise<Response<T>>;
+  post<T = any>(url: string, data?: any, options?: http.RequestOptions): Promise<Response<T>>;
+  patch<T = any>(url: string, data?: any, options?: http.RequestOptions): Promise<Response<T>>;
+  delete<T = any>(url: string, data?: any, options?: http.RequestOptions): Promise<Response<T>>;
+  request<T = any>(url: string, data?: any, options?: http.RequestOptions): Promise<Response<T>>;
 }
 
 export class DefaultHttpClient {
@@ -40,7 +36,7 @@ export class DefaultHttpClient {
     const contentType = (options?.headers || {})['Content-Type']?.toString() || 'application/json';
     const parser = ContentParsers[contentType] || parsers.text;
 
-    return new Promise<HttpResponse<T>>((resolve, reject) => {
+    return new Promise<Response<T>>((resolve, reject) => {
       const req = http.request(url, options || {}, (res) => {
         let data = '';
 
