@@ -1,4 +1,4 @@
-import { DefaultHttpClient, HttpClient } from '@teams/common';
+import { DefaultHttpClient, HttpClient } from '@teams/common/http';
 
 import { ClientOptions } from '../../client-options';
 

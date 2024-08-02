@@ -1,7 +1,6 @@
-import { DefaultHttpClient, HttpClient } from '@teams/common';
+import { DefaultHttpClient, HttpClient } from '@teams/common/http';
 
 import { UsersClient } from './clients';
-
 import { ClientOptions } from './client-options';
 
 export class Client {

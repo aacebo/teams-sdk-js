@@ -1,6 +1,6 @@
 import http from 'http';
 
-import { HttpClient } from '@teams/common';
+import { HttpClient } from '@teams/common/http';
 
 export interface ClientOptions {
   readonly http?: HttpClient;

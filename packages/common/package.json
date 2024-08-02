@@ -8,6 +8,16 @@
     "dist",
     "README.md"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./http": {
+      "types": "./dist/http/index.d.ts",
+      "default": "./dist/http/index.js"
+    }
+  },
   "scripts": {
     "clean": "npx rimraf ./dist",
     "build": "npm run clean && tsc -p ."
