@@ -36,7 +36,7 @@ export class App {
     req: http.IncomingMessage,
     res: http.ServerResponse<http.IncomingMessage>
   ) {
-    if (req.method !== 'post' || !req.url) {
+    if (req.method !== 'POST' || !req.url) {
       res.statusCode = 404;
       return res.end('not found');
     }
