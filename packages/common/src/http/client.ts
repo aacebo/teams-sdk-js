@@ -8,11 +8,15 @@ const ContentParsers: Record<string, parsers.Parser> = {
 };
 
 export interface HttpClient {
-  get(url: string, options?: http.RequestOptions): Promise<HttpResponse>;
-  post(url: string, data?: any, options?: http.RequestOptions): Promise<HttpResponse>;
-  patch(url: string, data?: any, options?: http.RequestOptions): Promise<HttpResponse>;
-  delete(url: string, data?: any, options?: http.RequestOptions): Promise<HttpResponse>;
-  request(url: string, data?: any, options?: http.RequestOptions): Promise<HttpResponse>;
+  get<T = any>(url: string, options?: http.RequestOptions): Promise<HttpResponse<T>>;
+  post<T = any>(url: string, data?: any, options?: http.RequestOptions): Promise<HttpResponse<T>>;
+  patch<T = any>(url: string, data?: any, options?: http.RequestOptions): Promise<HttpResponse<T>>;
+  delete<T = any>(url: string, data?: any, options?: http.RequestOptions): Promise<HttpResponse<T>>;
+  request<T = any>(
+    url: string,
+    data?: any,
+    options?: http.RequestOptions
+  ): Promise<HttpResponse<T>>;
 }
 
 export class DefaultHttpClient {

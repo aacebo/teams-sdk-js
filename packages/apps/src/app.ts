@@ -1,3 +1,4 @@
+import { Client } from '@teams/api';
 import { HttpClient } from '@teams/common';
 
 export interface AppOptions {
@@ -5,5 +6,9 @@ export interface AppOptions {
 }
 
 export class App {
-  constructor(readonly options?: AppOptions) {}
+  readonly api: Client;
+
+  constructor(readonly options?: AppOptions) {
+    this.api = new Client({ http: this.options?.http });
+  }
 }
