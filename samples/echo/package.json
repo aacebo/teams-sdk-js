@@ -12,16 +12,19 @@
   "scripts": {
     "clean": "npx rimraf ./dist",
     "build": "npm run clean && tsc -p .",
-    "start": "node ."
+    "start": "node .",
+    "dev": "npx nodemon -w \"./src/**\" -e ts --exec \"ts-node --transpileOnly ./src\""
   },
   "dependencies": {
     "@teams/api": "*",
-    "@teams/config": "*",
     "@teams/common": "*",
+    "@teams/config": "*",
     "@teams/schema": "*"
   },
   "devDependencies": {
+    "nodemon": "^3.1.4",
     "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   }
 }

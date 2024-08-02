@@ -5,6 +5,8 @@ import { Client } from '@teams/api';
 import { HttpClient, Request } from '@teams/common/http';
 import { Logger, ConsoleLogger } from '@teams/common/logging';
 
+import { Events } from './events';
+
 export interface AppOptions {
   readonly http?: HttpClient;
   readonly logger?: Logger;
@@ -12,13 +14,14 @@ export interface AppOptions {
 
 export class App {
   readonly api: Client;
+  readonly log: Logger;
 
-  private readonly _log: Logger;
   private readonly _server: http.Server;
+  private readonly _events: Events = {};
 
   constructor(readonly options?: AppOptions) {
     this.api = new Client({ http: this.options?.http });
-    this._log = this.options?.logger || new ConsoleLogger({ name: '@teams/app' });
+    this.log = this.options?.logger || new ConsoleLogger({ name: '@teams/app' });
     this._server = http.createServer();
   }
 
@@ -26,10 +29,14 @@ export class App {
     return new Promise<void>((resolve) => {
       this._server.addListener('request', this._on_incoming_request.bind(this));
       this._server.listen(port, undefined, undefined, () => {
-        this._log.info('listening 🚀');
+        this.log.info('listening 🚀');
         resolve();
       });
     });
+  }
+
+  on<Event extends keyof Events>(event: Event, cb: Events[Event]) {
+    this._events[event] = cb;
   }
 
   private _on_incoming_request(
@@ -71,11 +78,13 @@ export class App {
     } catch (err) {
       res.statusCode = 500;
       res.end('internal server error');
-      this._log.error(err);
+      this.log.error(err);
     }
   }
 
   private _on_request(req: Request, _res: http.ServerResponse<http.IncomingMessage>) {
-    this._log.debug(req.body);
+    if (this._events.activity) {
+      this._events.activity(req.body);
+    }
   }
 }
