@@ -16,7 +16,7 @@
       "dependsOn": ["^lint"],
       "cache": false
     },
-    "dev": {
+    "start": {
       "cache": false,
       "persistent": true
     }

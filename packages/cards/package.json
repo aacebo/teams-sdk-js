@@ -12,7 +12,7 @@
     "clean": "npx rimraf ./dist",
     "build": "npm run clean && tsc -p ."
   },
-  "dependencies": {
+  "peerDependencies": {
     "@teams/config": "*"
   },
   "devDependencies": {

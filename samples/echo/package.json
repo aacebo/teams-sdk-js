@@ -1,7 +1,8 @@
 {
-  "name": "@teams/schema",
+  "name": "@samples/echo",
   "version": "0.0.0",
   "license": "MIT",
+  "private": true,
   "main": "dist/index",
   "types": "dist/index",
   "files": [
@@ -10,10 +11,14 @@
   ],
   "scripts": {
     "clean": "npx rimraf ./dist",
-    "build": "npm run clean && tsc -p ."
+    "build": "npm run clean && tsc -p .",
+    "start": "node ."
   },
-  "peerDependencies": {
-    "@teams/config": "*"
+  "dependencies": {
+    "@teams/api": "*",
+    "@teams/config": "*",
+    "@teams/common": "*",
+    "@teams/schema": "*"
   },
   "devDependencies": {
     "rimraf": "^6.0.1",
