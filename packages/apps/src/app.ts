@@ -1,6 +1,5 @@
 import http from 'http';
 import url from 'url';
-import * as z from 'zod';
 
 import { Client } from '@teams/api';
 import { HttpClient, Request, StatusCodes } from '@teams/common/http';
@@ -8,10 +7,6 @@ import { Logger, ConsoleLogger } from '@teams/common/logging';
 import { Activity } from '@teams/schema';
 
 import { Events } from './events';
-
-const ActivitySchema = z.custom<Activity>((v) => z.record(z.unknown()).safeParse(v).success, {
-  message: 'Activity',
-});
 
 export interface AppOptions {
   readonly http?: HttpClient;
@@ -101,15 +96,16 @@ export class App {
   }
 
   private _on_request(req: Request, res: http.ServerResponse<http.IncomingMessage>) {
-    const valid = ActivitySchema.safeParse(req.body);
+    const authorization = req.headers['authorization']?.replace('Bearer ', '');
 
-    if (valid.error) {
-      res.statusCode = StatusCodes.BAD_REQUEST;
-      return res.end(valid.error.toString());
+    if (!authorization) {
+      res.statusCode = StatusCodes.UNAUTHORIZED;
+      return res.end('unauthorized');
     }
 
-    const activity = valid.data;
+    const activity: Activity = req.body;
     this._emit('activity', activity);
+    this._emit(`activity.${activity.type}`, activity);
   }
 
   private _emit<Event extends keyof Events>(event: Event, data?: any) {

@@ -9,6 +9,10 @@ app.on('activity', (activity) => {
   app.log.debug(activity);
 });
 
+app.on('activity.event', (activity) => {
+  app.log.info(activity);
+});
+
 (async () => {
   await app.start();
 })();
