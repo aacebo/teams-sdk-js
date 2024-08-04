@@ -57,7 +57,7 @@ export class DefaultHttpClient implements HttpClient {
 
     return new Promise<Response<T>>(async (resolve, reject) => {
       options = await this._emit('request', options);
-      const req = http.request(url, options, (res) => {
+      const req = http.request(url, options, res => {
         let data = '';
 
         res.on('data', (chunk) => {
