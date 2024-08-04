@@ -1,4 +1,4 @@
-import { CardAction } from '@teams/schema';
+import { CardAction } from '../card-action';
 
 /**
  * A card representing a request to sign in

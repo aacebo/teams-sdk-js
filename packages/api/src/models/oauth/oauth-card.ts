@@ -1,5 +1,4 @@
-import { CardAction } from '@teams/schema';
-
+import { CardAction } from '../card-action';
 import { TokenPostResource } from '../token';
 import { TokenExchangeResource } from '../token-exchange';
 

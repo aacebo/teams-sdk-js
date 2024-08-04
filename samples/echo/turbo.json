@@ -8,8 +8,7 @@
       "dependsOn": [
         "@teams/api#build",
         "@teams/apps#build",
-        "@teams/common#build",
-        "@teams/schema#build"
+        "@teams/common#build"
       ]
     }
   }

@@ -18,8 +18,7 @@
   "dependencies": {
     "@teams/api": "*",
     "@teams/common": "*",
-    "@teams/config": "*",
-    "@teams/schema": "*"
+    "@teams/config": "*"
   },
   "devDependencies": {
     "nodemon": "^3.1.4",

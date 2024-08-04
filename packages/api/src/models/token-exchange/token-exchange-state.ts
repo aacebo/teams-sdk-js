@@ -1,4 +1,4 @@
-import { ConversationReference } from '@teams/schema';
+import { ConversationReference } from '../conversation-reference';
 
 /**
  * State object passed to the bot token service.

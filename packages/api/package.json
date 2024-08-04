@@ -17,8 +17,7 @@
   },
   "peerDependencies": {
     "@teams/common": "*",
-    "@teams/config": "*",
-    "@teams/schema": "*"
+    "@teams/config": "*"
   },
   "devDependencies": {
     "@types/qs": "^6.9.15",

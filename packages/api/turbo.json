@@ -6,8 +6,7 @@
       "outputs": [".next/**", "!.next/cache/**"],
       "cache": false,
       "dependsOn": [
-        "@teams/common#build",
-        "@teams/schema#build"
+        "@teams/common#build"
       ]
     }
   }

@@ -1,10 +1,11 @@
 import http from 'http';
 import url from 'url';
 
-import { Client } from '@teams/api';
-import { HttpClient, Request, StatusCodes } from '@teams/common/http';
+import { Client, Activity } from '@teams/api';
+import { DefaultHttpClient, HttpClient, HttpRequest, StatusCodes } from '@teams/common/http';
 import { Logger, ConsoleLogger } from '@teams/common/logging';
-import { Activity } from '@teams/schema';
+
+import pkg from '../package.json';
 
 import { Events } from './events';
 
@@ -23,7 +24,9 @@ export class App {
   };
 
   constructor(readonly options?: AppOptions) {
-    this.api = new Client({ http: this.options?.http });
+    const client = this.options?.http || new DefaultHttpClient();
+    client.headers.add('user-agent', `teams[apps]/${pkg.version}`);
+    this.api = new Client({ http: client });
     this.log = this.options?.logger || new ConsoleLogger({ name: '@teams/app' });
     this._server = http.createServer();
   }
@@ -79,12 +82,12 @@ export class App {
       req.on('end', () => {
         body = JSON.parse(Buffer.concat(chunks).toString());
         this._on_request(
-          {
+          new HttpRequest({
             method: req.method!,
             url: req.url!,
             headers: req.headers,
             body,
-          },
+          }),
           res
         );
       });
@@ -95,7 +98,7 @@ export class App {
     }
   }
 
-  private _on_request(req: Request, res: http.ServerResponse<http.IncomingMessage>) {
+  private _on_request(req: HttpRequest, res: http.ServerResponse<http.IncomingMessage>) {
     const authorization = req.headers['authorization']?.replace('Bearer ', '');
 
     if (!authorization) {

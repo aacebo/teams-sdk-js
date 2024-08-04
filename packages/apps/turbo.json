@@ -7,8 +7,7 @@
       "cache": false,
       "dependsOn": [
         "@teams/api#build",
-        "@teams/common#build",
-        "@teams/schema#build"
+        "@teams/common#build"
       ]
     }
   }

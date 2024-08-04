@@ -15,8 +15,7 @@
   "peerDependencies": {
     "@teams/api": "*",
     "@teams/common": "*",
-    "@teams/config": "*",
-    "@teams/schema": "*"
+    "@teams/config": "*"
   },
   "devDependencies": {
     "@types/node": "^22.0.2",

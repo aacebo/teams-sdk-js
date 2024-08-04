@@ -47,7 +47,7 @@ export class UserTokenClient {
   async get(params: GetUserTokenParams) {
     const q = qs.stringify(params);
     return this._http.get<TokenResponse>(
-      `api/usertoken/GetToken?${q}`,
+      `/api/usertoken/GetToken?${q}`,
       this._options?.requestOptions
     );
   }
@@ -55,7 +55,7 @@ export class UserTokenClient {
   async getAad(params: GetUserAADTokenParams) {
     const q = qs.stringify(params);
     return this._http.post<Record<string, TokenResponse>>(
-      `api/usertoken/GetAadTokens?${q}`,
+      `/api/usertoken/GetAadTokens?${q}`,
       params,
       this._options?.requestOptions
     );
@@ -64,18 +64,18 @@ export class UserTokenClient {
   async getStatus(params: GetUserTokenStatusParams) {
     const q = qs.stringify(params);
     return this._http.get<TokenStatus[]>(
-      `api/usertoken/GetTokenStatus?${q}`,
+      `/api/usertoken/GetTokenStatus?${q}`,
       this._options?.requestOptions
     );
   }
 
   async signOut(params: SignOutUserParams) {
-    return this._http.delete<void>('api/usertoken/SignOut', params, this._options?.requestOptions);
+    return this._http.delete<void>('/api/usertoken/SignOut', params, this._options?.requestOptions);
   }
 
   async exchange(params: ExchangeUserTokenParams) {
     return this._http.post<TokenResponse>(
-      'api/usertoken/exchange',
+      '/api/usertoken/exchange',
       params,
       this._options?.requestOptions
     );

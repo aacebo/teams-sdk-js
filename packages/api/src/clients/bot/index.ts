@@ -2,17 +2,17 @@ import { DefaultHttpClient, HttpClient } from '@teams/common/http';
 
 import { ClientOptions } from '../../client-options';
 
-import { UserTokenClient } from './token';
+import { BotSignInClient } from './sign-in';
 
-export class UsersClient {
-  readonly token: UserTokenClient;
+export class BotClient {
+  readonly signIn: BotSignInClient;
 
   private readonly _http: HttpClient;
 
   constructor(private readonly _options?: ClientOptions) {
     this._http = this._options?.http || new DefaultHttpClient();
-    this.token = new UserTokenClient({ ...this._options, http: this._http });
+    this.signIn = new BotSignInClient({ ...this._options, http: this._http });
   }
 }
 
-export * from './token';
+export * from './sign-in';
