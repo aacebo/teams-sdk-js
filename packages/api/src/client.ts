@@ -16,6 +16,7 @@ export class Client {
     this._http = this._options?.http || new DefaultHttpClient();
     this._http.headers.add('user-agent', `teams[api]/${pkg.version}`);
     this._http.options.baseUrl = 'https://api.botframework.com';
+
     this.bots = new BotClient({ ...this._options, http: this._http });
     this.users = new UserClient({ ...this._options, http: this._http });
     this.conversations = new ConversationClient({ ...this._options, http: this._http });
