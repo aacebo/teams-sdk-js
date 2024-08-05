@@ -30,10 +30,10 @@ export class App {
   private _token?: string;
 
   constructor(readonly options: AppOptions) {
+    this.log = this.options.logger || new ConsoleLogger({ name: '@teams/app' });
     this._http = this.options.http || new DefaultHttpClient();
     this._http.headers.add('user-agent', `teams[apps]/${pkg.version}`);
     this._api = new Client({ http: this._http });
-    this.log = this.options.logger || new ConsoleLogger({ name: '@teams/app' });
     this._server = http.createServer();
   }
 
