@@ -4,7 +4,7 @@ export interface ActivityBase<D = any> {
   /**
    * Contains an ID that uniquely identifies the activity on the channel.
    */
-  id?: string;
+  id: string;
 
   /**
    * Contains the URL that specifies the channel's service endpoint. Set by the channel.
