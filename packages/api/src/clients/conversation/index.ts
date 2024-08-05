@@ -38,8 +38,9 @@ export class ConversationClient {
     return new ConversationMemberClient(conversationId, { ...this._options, http: this._http });
   }
 
-  get(params: GetConversationsParams) {
+  async get(params: GetConversationsParams) {
     const q = qs.stringify(params, { addQueryPrefix: true });
-    return this._http.get<GetConversationsResponse>(`/v3/conversations${q}`);
+    const res = await this._http.get<GetConversationsResponse>(`/v3/conversations${q}`);
+    return res.json();
   }
 }

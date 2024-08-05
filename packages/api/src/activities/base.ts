@@ -24,6 +24,13 @@ export interface ActivityBase<D = any> {
   localTimestamp?: Date;
 
   /**
+   * A string containing a URI identifying the caller of a bot. This field is not intended to be transmitted over
+   * the wire, but is instead populated by bots and clients based on cryptographically verifiable data that asserts
+   * the identity of the callers (e.g. tokens).
+   */
+  callerId: string;
+
+  /**
    * Contains an ID that uniquely identifies the channel. Set by the channel.
    */
   channelId: string;

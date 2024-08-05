@@ -8,6 +8,8 @@ type EventHandler<T = any> = (value: T) => void | Promise<void>;
 
 export interface Events extends ActivityEvents {
   error?: EventHandler<Error>;
+  auth?: EventHandler<string>;
+  start?: EventHandler<void>;
   activity?: EventHandler<Activity>;
 }
 

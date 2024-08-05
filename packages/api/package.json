@@ -13,6 +13,7 @@
     "build": "npm run clean && tsc -p ."
   },
   "dependencies": {
+    "jsonwebtoken": "^9.0.2",
     "qs": "^6.13.0"
   },
   "peerDependencies": {
@@ -20,6 +21,7 @@
     "@teams/config": "*"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/qs": "^6.9.15",
     "rimraf": "^6.0.1",
     "typescript": "^5.4.5"

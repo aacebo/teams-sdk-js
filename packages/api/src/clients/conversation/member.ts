@@ -13,15 +13,22 @@ export class ConversationMemberClient {
     this._http = this._options?.http || new DefaultHttpClient();
   }
 
-  get() {
-    return this._http.get<Account[]>(`/v3/conversations/${this.conversationId}/members`);
+  async get() {
+    const res = await this._http.get<Account[]>(`/v3/conversations/${this.conversationId}/members`);
+    return res.json();
   }
 
-  getById(id: string) {
-    return this._http.get<Account>(`/v3/conversations/${this.conversationId}/members/${id}`);
+  async getById(id: string) {
+    const res = await this._http.get<Account>(
+      `/v3/conversations/${this.conversationId}/members/${id}`
+    );
+    return res.json();
   }
 
-  delete(id: string) {
-    return this._http.delete<void>(`/v3/conversations/${this.conversationId}/members/${id}`);
+  async delete(id: string) {
+    const res = await this._http.delete<void>(
+      `/v3/conversations/${this.conversationId}/members/${id}`
+    );
+    return res.json();
   }
 }

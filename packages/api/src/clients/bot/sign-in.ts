@@ -27,18 +27,22 @@ export class BotSignInClient {
 
   async getUrl(params: GetBotSignInUrlParams) {
     const q = qs.stringify(params);
-    return this._http.get<string>(
+    const res = await this._http.get<string>(
       `/api/botsignin/GetSignInUrl?${q}`,
       this._options?.requestOptions
     );
+
+    return res.json();
   }
 
   async getResource(params: GetBotSignInResourceParams) {
     const q = qs.stringify(params);
-    return this._http.post<SignInUrlResponse>(
+    const res = await this._http.post<SignInUrlResponse>(
       `/api/botsignin/GetSignInResource?${q}`,
       params,
       this._options?.requestOptions
     );
+
+    return res.json();
   }
 }

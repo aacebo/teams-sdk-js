@@ -1,7 +1,7 @@
 import http from 'http';
 import url from 'url';
 
-import { Client, Activity } from '@teams/api';
+import { Client, Activity, Token, Credentials } from '@teams/api';
 import { DefaultHttpClient, HttpClient, HttpRequest, StatusCodes } from '@teams/common/http';
 import { Logger, ConsoleLogger } from '@teams/common/logging';
 
@@ -9,13 +9,14 @@ import pkg from '../package.json';
 
 import { Events } from './events';
 
-export interface AppOptions {
+export type AppOptions = Credentials & {
   readonly http?: HttpClient;
   readonly logger?: Logger;
-}
+};
 
 export class App {
   readonly api: Client;
+  readonly http: HttpClient;
   readonly log: Logger;
 
   private readonly _server: http.Server;
@@ -23,15 +24,19 @@ export class App {
     error: this._on_error.bind(this),
   };
 
-  constructor(readonly options?: AppOptions) {
-    const client = this.options?.http || new DefaultHttpClient();
-    client.headers.add('user-agent', `teams[apps]/${pkg.version}`);
-    this.api = new Client({ http: client });
-    this.log = this.options?.logger || new ConsoleLogger({ name: '@teams/app' });
+  constructor(readonly options: AppOptions) {
+    this.http = this.options.http || new DefaultHttpClient();
+    this.http.headers.add('user-agent', `teams[apps]/${pkg.version}`);
+    this.api = new Client({ http: this.http });
+    this.log = this.options.logger || new ConsoleLogger({ name: '@teams/app' });
     this._server = http.createServer();
   }
 
-  start(port = 3000) {
+  async start(port = 3000) {
+    const res = await this.api.bots.token.get(this.options);
+    this.http.headers.set('Authorization', `Bearer ${res.access_token}`);
+    this._emit('auth', res.access_token);
+
     return new Promise<void>((resolve, reject) => {
       this._server.on('request', this._on_incoming_request.bind(this));
       this._server.on('error', (err) => {
@@ -41,6 +46,7 @@ export class App {
 
       this._server.listen(port, undefined, undefined, () => {
         this.log.info('listening 🚀');
+        this._emit('start');
         resolve();
       });
     });
@@ -106,14 +112,17 @@ export class App {
       return res.end('unauthorized');
     }
 
+    const token = new Token(authorization);
     const activity: Activity = req.body;
+    activity.callerId = token.appId;
+
     this._emit('activity', activity);
     this._emit(`activity.${activity.type}`, activity);
   }
 
   private _emit<Event extends keyof Events>(event: Event, data?: any) {
     if (!this._events[event]) return;
-    this._events[event](data);
+    this._events[event](data as never);
   }
 
   private _on_error(err: Error) {

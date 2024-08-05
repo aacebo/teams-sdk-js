@@ -20,34 +20,47 @@ export class ConversationActivityClient {
     this._http = this._options?.http || new DefaultHttpClient();
   }
 
-  create<T extends Activity['type']>(params: CreateActivityParams<T>) {
-    return this._http.post<Resource>(`/v3/conversations/${this.conversationId}/activities`, params);
+  async create<T extends Activity['type']>(params: CreateActivityParams<T>) {
+    const res = await this._http.post<Resource>(
+      `/v3/conversations/${this.conversationId}/activities`,
+      params
+    );
+    return res.json();
   }
 
-  update<T extends Activity['type']>(id: string, params: UpdateActivityParams<T>) {
-    return this._http.put<Resource>(
+  async update<T extends Activity['type']>(id: string, params: UpdateActivityParams<T>) {
+    const res = await this._http.put<Resource>(
       `/v3/conversations/${this.conversationId}/activities/${id}`,
       params
     );
+
+    return res.json();
   }
 
-  reply<T extends Activity['type']>(id: string, params: ReplyActivityParams<T>) {
-    return this._http.post<Resource>(
+  async reply<T extends Activity['type']>(id: string, params: ReplyActivityParams<T>) {
+    const res = await this._http.post<Resource>(
       `/v3/conversations/${this.conversationId}/activities/${id}`,
       params
     );
+
+    return res.json();
   }
 
-  delete(id: string) {
-    return this._http.delete<void>(`/v3/conversations/${this.conversationId}/activities/${id}`);
+  async delete(id: string) {
+    const res = await this._http.delete<void>(
+      `/v3/conversations/${this.conversationId}/activities/${id}`
+    );
+    return res.json();
   }
 
   members(activityId: string) {
     return {
-      get: () => {
-        return this._http.get<Account[]>(
+      get: async () => {
+        const res = await this._http.get<Account[]>(
           `/v3/conversations/${this.conversationId}/activities/${activityId}/members`
         );
+
+        return res.json();
       },
     };
   }
