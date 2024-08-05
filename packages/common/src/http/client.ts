@@ -1,4 +1,5 @@
 import http from 'http';
+import https from 'https';
 
 import { HttpResponse } from './response';
 import { HttpHeaders } from './headers';
@@ -67,7 +68,7 @@ export class DefaultHttpClient implements HttpClient {
     return this.request<T>(url, data, { ...options, method: 'DELETE' });
   }
 
-  async request<T = any>(url: string, data?: any, options: http.RequestOptions = {}) {
+  request<T = any>(url: string, data?: any, options: http.RequestOptions = {}) {
     options = { ...this.options.requestOptions, ...options };
 
     return new Promise<HttpResponse<T>>(async (resolve, reject) => {
@@ -77,33 +78,40 @@ export class DefaultHttpClient implements HttpClient {
         url = this.options.baseUrl + url;
       }
 
-      const req = http.request(url, options, (res) => {
+      const req = https.request(url, options, (res) => {
         let data = '';
 
+        res.on('error', reject);
         res.on('data', (chunk) => {
           data += chunk;
         });
 
         res.on('end', async () => {
-          resolve(
-            await this._emit(
-              'response',
-              new HttpResponse<T>({
-                code: res.statusCode || 200,
-                status: res.statusMessage,
-                headers: res.headers,
-                body: data,
-              })
-            )
-          );
+          const parsed = new HttpResponse<T>({
+            code: res.statusCode || 200,
+            status: res.statusMessage,
+            headers: res.headers,
+            body: data,
+          });
+
+          if (parsed.code || 200 >= 400) {
+            throw parsed.error();
+          }
+
+          resolve(await this._emit('response', parsed));
         });
       });
 
       if (data) {
-        req.write(JSON.stringify(data), reject);
+        if (typeof data !== 'string') {
+          req.write(JSON.stringify(data), reject);
+        } else {
+          req.write(data, reject);
+        }
       }
 
       req.on('error', reject);
+      req.end();
     });
   }
 

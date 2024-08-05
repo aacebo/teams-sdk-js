@@ -21,7 +21,7 @@ export class App {
 
   private readonly _server: http.Server;
   private readonly _events: Events = {
-    error: this._on_error.bind(this),
+    error: this._onError.bind(this),
   };
 
   constructor(readonly options: AppOptions) {
@@ -32,13 +32,18 @@ export class App {
     this._server = http.createServer();
   }
 
-  async start(port = 3000) {
-    const res = await this.api.bots.token.get(this.options);
-    this.http.headers.set('Authorization', `Bearer ${res.access_token}`);
-    this._emit('auth', res.access_token);
+  start(port = 3000) {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        const res = await this.api.bots.token.get(this.options);
+        this.http.headers.set('Authorization', `Bearer ${res.access_token}`);
+        this._emit('auth', res.access_token);
+      } catch (err) {
+        this._emit('error', err);
+        return reject(err);
+      }
 
-    return new Promise<void>((resolve, reject) => {
-      this._server.on('request', this._on_incoming_request.bind(this));
+      this._server.on('request', this._onIncomingRequest.bind(this));
       this._server.on('error', (err) => {
         this._emit('error', err);
         reject(err);
@@ -56,7 +61,7 @@ export class App {
     this._events[event] = cb;
   }
 
-  private _on_incoming_request(
+  private _onIncomingRequest(
     req: http.IncomingMessage,
     res: http.ServerResponse<http.IncomingMessage>
   ) {
@@ -87,7 +92,7 @@ export class App {
 
       req.on('end', () => {
         body = JSON.parse(Buffer.concat(chunks).toString());
-        this._on_request(
+        this._onRequest(
           new HttpRequest({
             method: req.method!,
             url: req.url!,
@@ -104,7 +109,7 @@ export class App {
     }
   }
 
-  private _on_request(req: HttpRequest, res: http.ServerResponse<http.IncomingMessage>) {
+  private _onRequest(req: HttpRequest, res: http.ServerResponse<http.IncomingMessage>) {
     const authorization = req.headers['authorization']?.replace('Bearer ', '');
 
     if (!authorization) {
@@ -125,7 +130,7 @@ export class App {
     this._events[event](data as never);
   }
 
-  private _on_error(err: Error) {
+  private _onError(err: Error) {
     this.log.error(err);
   }
 }

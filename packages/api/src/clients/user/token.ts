@@ -41,8 +41,7 @@ export class UserTokenClient {
   private readonly _http: HttpClient;
 
   constructor(private readonly _options?: ClientOptions) {
-    this._http = this._options?.http || new DefaultHttpClient();
-    this._http.options.baseUrl = 'https://token.botframework.com';
+    this._http = new DefaultHttpClient({ baseUrl: 'https://token.botframework.com' });
   }
 
   async get(params: GetUserTokenParams) {
