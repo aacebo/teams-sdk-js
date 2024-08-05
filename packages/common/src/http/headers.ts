@@ -11,20 +11,20 @@ export class HttpHeaders {
     return this.entries[key];
   }
 
-  set(key: keyof http.OutgoingHttpHeaders, value: string | string[]) {
+  set(key: keyof http.OutgoingHttpHeaders, value: string) {
     this.entries[key] = value;
   }
 
   add(key: keyof http.OutgoingHttpHeaders, value: string) {
-    let entry = this.entries[key];
+    let entry: string | number | string[] = this.entries[key] || '';
+    const isArray = Array.isArray(entry);
 
-    if (Array.isArray(entry)) {
-      entry.push(value);
-    } else {
-      entry += ' ' + value;
+    if (!Array.isArray(entry)) {
+      entry = entry.toString().split(' ');
     }
 
-    this.entries[key] = entry;
+    entry = Array.from(new Set(entry).add(value));
+    this.entries[key] = isArray ? entry : entry.join(' ');
   }
 
   del(key: string) {

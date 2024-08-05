@@ -4,11 +4,11 @@ import { ClientOptions } from '../../client-options';
 import { Account, Resource } from '../../models';
 import { Activity } from '../../activities';
 
-export type CreateActivityParams<T extends Activity['type']> = Activity<T>;
+export type CreateActivityParams<T extends Activity['type']> = Partial<Activity<T>>;
 
-export type UpdateActivityParams<T extends Activity['type']> = Activity<T>;
+export type UpdateActivityParams<T extends Activity['type']> = Partial<Activity<T>>;
 
-export type ReplyActivityParams<T extends Activity['type']> = Activity<T>;
+export type ReplyActivityParams<T extends Activity['type']> = Partial<Activity<T>>;
 
 export class ConversationActivityClient {
   private readonly _http: HttpClient;
@@ -25,6 +25,7 @@ export class ConversationActivityClient {
       `/v3/conversations/${this.conversationId}/activities`,
       params
     );
+
     return res.json();
   }
 

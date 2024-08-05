@@ -3,8 +3,6 @@ import jwt from 'jsonwebtoken';
 import { CallerIds, CallerType } from './caller';
 
 export class Token {
-  readonly channelId: string;
-
   private readonly _payload: jwt.JwtPayload;
 
   get audience() {
@@ -31,8 +29,14 @@ export class Token {
     return this._payload['version'];
   }
 
-  get serviceUrl(): string | undefined {
-    return this._payload['serviceurl'];
+  get serviceUrl(): string {
+    let v: string = this._payload['serviceurl'] || 'https://smba.trafficmanager.net/teams';
+
+    if (v.endsWith('/')) {
+      v = v.slice(0, v.length - 1);
+    }
+
+    return v;
   }
 
   get from(): CallerType {
@@ -56,14 +60,12 @@ export class Token {
   }
 
   constructor(value: string) {
-    const [_, token, channelId] = value.split(' ');
-    const decoded = jwt.decode(token, { complete: true, json: true });
+    const decoded = jwt.decode(value, { complete: true, json: true });
 
     if (!decoded) {
       throw new Error('failed to decode token');
     }
 
-    this.channelId = channelId;
     this._payload = decoded.payload as jwt.JwtPayload;
   }
 }

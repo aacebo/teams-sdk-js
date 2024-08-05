@@ -15,8 +15,7 @@ export class Client {
   constructor(private readonly _options?: ClientOptions) {
     this._http = this._options?.http || new DefaultHttpClient();
     this._http.headers.add('user-agent', `teams[api]/${pkg.version}`);
-    this._http.headers.add('content-type', 'application/json');
-    this._http.options.baseUrl = 'https://api.botframework.com';
+    this._http.headers.set('content-type', 'application/json');
 
     this.bots = new BotClient({ ...this._options, http: this._http });
     this.users = new UserClient({ ...this._options, http: this._http });

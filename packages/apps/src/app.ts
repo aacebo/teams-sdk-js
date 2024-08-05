@@ -15,27 +15,33 @@ export type AppOptions = Credentials & {
 };
 
 export class App {
-  readonly api: Client;
-  readonly http: HttpClient;
   readonly log: Logger;
 
+  private readonly _api: Client;
+  private readonly _http: HttpClient;
   private readonly _server: http.Server;
   private readonly _events: Events = {
     error: this._onError.bind(this),
   };
 
+  get token() {
+    return this._token;
+  }
+  private _token?: string;
+
   constructor(readonly options: AppOptions) {
-    this.http = this.options.http || new DefaultHttpClient();
-    this.http.headers.add('user-agent', `teams[apps]/${pkg.version}`);
-    this.api = new Client({ http: this.http });
+    this._http = this.options.http || new DefaultHttpClient();
+    this._http.headers.add('user-agent', `teams[apps]/${pkg.version}`);
+    this._api = new Client({ http: this._http });
     this.log = this.options.logger || new ConsoleLogger({ name: '@teams/app' });
     this._server = http.createServer();
   }
 
   async start(port = 3000) {
     try {
-      const res = await this.api.bots.token.get(this.options);
-      this.http.headers.set('Authorization', `Bearer ${res.access_token}`);
+      const res = await this._api.bots.token.get(this.options);
+      this._token = res.access_token;
+      this._http.headers.set('Authorization', `Bearer ${res.access_token}`);
       this._emit('auth', res.access_token);
     } catch (err) {
       this._emit('error', err);
@@ -118,11 +124,19 @@ export class App {
     }
 
     const token = new Token(authorization);
+    const http = this.options.http || new DefaultHttpClient();
+    const api = new Client({ http });
+    const log = this.log;
+
+    http.options.baseUrl = token.serviceUrl;
+    http.headers.add('user-agent', `teams[apps]/${pkg.version}`);
+    http.headers.set('Authorization', `Bearer ${this.token}`);
+
     const activity: Activity = req.body;
     activity.callerId = token.appId;
 
-    this._emit('activity', activity);
-    this._emit(`activity.${activity.type}`, activity);
+    this._emit('activity', { req, activity, log, api, token });
+    this._emit(`activity.${activity.type}`, { req, activity, log, api, token });
   }
 
   private _emit<Event extends keyof Events>(event: Event, data?: any) {

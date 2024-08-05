@@ -1,6 +1,7 @@
 import http from 'http';
 
 import { HttpResponseOptions } from './response';
+import { HttpRequest } from './request';
 
 export interface HttpErrorOptions extends HttpResponseOptions {}
 
@@ -9,6 +10,7 @@ export class HttpError extends Error {
   readonly status?: string;
   readonly headers: http.IncomingHttpHeaders;
   readonly body: string;
+  readonly req: HttpRequest;
 
   constructor(options: HttpResponseOptions) {
     super(options.body || options.status);
@@ -16,6 +18,7 @@ export class HttpError extends Error {
     this.status = options.status;
     this.headers = options.headers;
     this.body = options.body || '';
+    this.req = options.req;
   }
 
   json(): Body {
@@ -33,6 +36,7 @@ export class HttpError extends Error {
       code: this.code,
       status: this.status,
       headers: this.headers,
+      req: this.req,
       body,
     };
   }

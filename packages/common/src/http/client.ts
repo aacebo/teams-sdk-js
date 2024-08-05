@@ -3,6 +3,7 @@ import https from 'https';
 
 import { HttpResponse } from './response';
 import { HttpHeaders } from './headers';
+import { HttpRequest } from './request';
 
 interface HttpClientEventPayloads {
   request: http.RequestOptions;
@@ -69,7 +70,15 @@ export class DefaultHttpClient implements HttpClient {
   }
 
   async request<T = any>(url: string, data?: any, options: http.RequestOptions = {}) {
-    options = { ...this.options.requestOptions, ...options };
+    options = {
+      ...this.options.requestOptions,
+      ...options,
+      headers: {
+        ...this.headers.entries,
+        ...(options.headers || {}),
+      },
+    };
+
     options = await this._emit('request', options);
 
     return await new Promise<HttpResponse<T>>((resolve, reject) => {
@@ -78,11 +87,11 @@ export class DefaultHttpClient implements HttpClient {
       }
 
       const req = https.request(url, options, (res) => {
-        let data = '';
+        let body = '';
 
         res.on('error', reject);
         res.on('data', (chunk) => {
-          data += chunk;
+          body += chunk;
         });
 
         res.on('end', () => {
@@ -90,7 +99,13 @@ export class DefaultHttpClient implements HttpClient {
             code: res.statusCode || 200,
             status: res.statusMessage,
             headers: res.headers,
-            body: data,
+            body: body,
+            req: new HttpRequest({
+              headers: (options.headers || {}) as http.IncomingHttpHeaders,
+              method: options.method || 'GET',
+              body: data,
+              url: url,
+            }),
           });
 
           if ((parsed.code || 200) >= 400) {
