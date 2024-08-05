@@ -48,32 +48,31 @@ export class DefaultHttpClient implements HttpClient {
     this.headers = new HttpHeaders(this.options.requestOptions?.headers);
   }
 
-  async get<T = any>(url: string, options?: http.RequestOptions) {
+  get<T = any>(url: string, options?: http.RequestOptions) {
     return this.request<T>(url, null, { ...options, method: 'GET' });
   }
 
-  async post<T = any>(url: string, data?: any, options?: http.RequestOptions) {
+  post<T = any>(url: string, data?: any, options?: http.RequestOptions) {
     return this.request<T>(url, data, { ...options, method: 'POST' });
   }
 
-  async patch<T = any>(url: string, data?: any, options?: http.RequestOptions) {
+  patch<T = any>(url: string, data?: any, options?: http.RequestOptions) {
     return this.request<T>(url, data, { ...options, method: 'PATCH' });
   }
 
-  async put<T = any>(url: string, data?: any, options?: http.RequestOptions) {
+  put<T = any>(url: string, data?: any, options?: http.RequestOptions) {
     return this.request<T>(url, data, { ...options, method: 'PUT' });
   }
 
-  async delete<T = any>(url: string, data?: any, options?: http.RequestOptions) {
+  delete<T = any>(url: string, data?: any, options?: http.RequestOptions) {
     return this.request<T>(url, data, { ...options, method: 'DELETE' });
   }
 
-  request<T = any>(url: string, data?: any, options: http.RequestOptions = {}) {
+  async request<T = any>(url: string, data?: any, options: http.RequestOptions = {}) {
     options = { ...this.options.requestOptions, ...options };
+    options = await this._emit('request', options);
 
-    return new Promise<HttpResponse<T>>(async (resolve, reject) => {
-      options = await this._emit('request', options);
-
+    return await new Promise<HttpResponse<T>>((resolve, reject) => {
       if (this.options.baseUrl) {
         url = this.options.baseUrl + url;
       }
@@ -86,7 +85,7 @@ export class DefaultHttpClient implements HttpClient {
           data += chunk;
         });
 
-        res.on('end', async () => {
+        res.on('end', () => {
           const parsed = new HttpResponse<T>({
             code: res.statusCode || 200,
             status: res.statusMessage,
@@ -94,20 +93,23 @@ export class DefaultHttpClient implements HttpClient {
             body: data,
           });
 
-          if (parsed.code || 200 >= 400) {
-            throw parsed.error();
+          if ((parsed.code || 200) >= 400) {
+            return reject(parsed.error());
           }
 
-          resolve(await this._emit('response', parsed));
+          this._emit('response', parsed).then(resolve).catch(reject);
         });
       });
 
       if (data) {
         if (typeof data !== 'string') {
-          req.write(JSON.stringify(data), reject);
-        } else {
-          req.write(data, reject);
+          data = JSON.stringify(data);
         }
+
+        req.write(data, (err) => {
+          if (!err) return;
+          reject(err);
+        });
       }
 
       req.on('error', reject);

@@ -3,8 +3,8 @@ import { ConsoleLogger } from '@teams/common/logging';
 
 const app = new App({
   type: 'MultiTenant',
-  clientId: 'test',
-  clientSecret: 'test',
+  clientId: process.env.CLIENT_ID || '241907c6-3ba3-48e7-9cf1-3cab8fda51c9',
+  clientSecret: process.env.CLIENT_SECRET || 'X0J8Q~tVhrFztHuPBH5vjpj9XUiDJU2ipgE1mbfs',
   logger: new ConsoleLogger({ name: '@samples/echo' }),
 });
 
@@ -18,9 +18,4 @@ app.on('activity.event', (activity) => {
 
 (async () => {
   await app.start();
-})().catch(onError);
-
-function onError(err: Error) {
-  console.log(err);
-  app.log.error(err);
-}
+})();

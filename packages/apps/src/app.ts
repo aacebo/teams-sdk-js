@@ -32,17 +32,17 @@ export class App {
     this._server = http.createServer();
   }
 
-  start(port = 3000) {
-    return new Promise<void>(async (resolve, reject) => {
-      try {
-        const res = await this.api.bots.token.get(this.options);
-        this.http.headers.set('Authorization', `Bearer ${res.access_token}`);
-        this._emit('auth', res.access_token);
-      } catch (err) {
-        this._emit('error', err);
-        return reject(err);
-      }
+  async start(port = 3000) {
+    try {
+      const res = await this.api.bots.token.get(this.options);
+      this.http.headers.set('Authorization', `Bearer ${res.access_token}`);
+      this._emit('auth', res.access_token);
+    } catch (err) {
+      this._emit('error', err);
+      throw err;
+    }
 
+    return await new Promise<void>((resolve, reject) => {
       this._server.on('request', this._onIncomingRequest.bind(this));
       this._server.on('error', (err) => {
         this._emit('error', err);
@@ -105,7 +105,7 @@ export class App {
     } catch (err) {
       res.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
       res.end('internal server error');
-      this.log.error(err);
+      this._emit('error', err);
     }
   }
 
