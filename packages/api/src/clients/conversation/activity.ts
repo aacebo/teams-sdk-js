@@ -38,6 +38,8 @@ export class ConversationActivityClient {
   }
 
   async reply<T extends Activity['type']>(id: string, params: ReplyActivityParams<T>) {
+    params.replyToId = id;
+
     const res = await this._http.post<Resource>(
       `/v3/conversations/${this.conversationId}/activities/${id}`,
       params
