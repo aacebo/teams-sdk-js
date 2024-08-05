@@ -1,4 +1,4 @@
-import { Activity, Client, Token } from '@teams/api';
+import { Activity, Client, Resource, Token } from '@teams/api';
 import { HttpRequest } from '@teams/common/http';
 import { Logger } from '@teams/common/logging';
 
@@ -13,6 +13,8 @@ export interface ActivityEventArgs {
   readonly log: Logger;
   readonly api: Client;
   readonly token: Token;
+  readonly say: (activity: Partial<Activity>) => Promise<Resource>;
+  readonly reply: (id: string, activity: Partial<Activity>) => Promise<Resource>;
 }
 
 export interface Events extends ActivityEvents {

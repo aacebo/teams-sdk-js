@@ -8,10 +8,8 @@ const app = new App({
   logger: new ConsoleLogger({ name: '@samples/echo' }),
 });
 
-app.on('activity.message', async ({ activity, api, log }) => {
-  log.debug(activity);
-
-  await api.conversations.activities(activity.conversation.id).create({
+app.on('activity.message', async ({ activity, say }) => {
+  await say({
     type: 'message',
     text: `you said: "${activity.text}"`,
   });

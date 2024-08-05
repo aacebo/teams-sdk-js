@@ -127,6 +127,13 @@ export class App {
     const http = this.options.http || new DefaultHttpClient();
     const api = new Client({ http });
     const log = this.log;
+    const say = (params: Partial<Activity>) => {
+      return api.conversations.activities(activity.conversation.id).create(params);
+    };
+
+    const reply = (id: string, params: Partial<Activity>) => {
+      return api.conversations.activities(activity.conversation.id).reply(id, params);
+    };
 
     http.options.baseUrl = token.serviceUrl;
     http.headers.add('user-agent', `teams[apps]/${pkg.version}`);
@@ -135,8 +142,8 @@ export class App {
     const activity: Activity = req.body;
     activity.callerId = token.appId;
 
-    this._emit('activity', { req, activity, log, api, token });
-    this._emit(`activity.${activity.type}`, { req, activity, log, api, token });
+    this._emit('activity', { req, activity, log, api, token, say, reply });
+    this._emit(`activity.${activity.type}`, { req, activity, log, api, token, say, reply });
   }
 
   private _emit<Event extends keyof Events>(event: Event, data?: any) {
