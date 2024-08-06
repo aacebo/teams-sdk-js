@@ -19,3 +19,6 @@ export * from './error';
 export * from './conversation';
 export * from './conversation-resource';
 export * from './resource';
+export * from './cache-info';
+export * from './config';
+export * from './task-module';

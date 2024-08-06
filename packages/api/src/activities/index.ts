@@ -10,7 +10,7 @@ import { CommandActivity } from './command';
 export type Activity<D = any> =
   | MessageActivity<D>
   | EventActivity<D>
-  | InvokeActivity<D>
+  | InvokeActivity<any, D>
   | TraceActivity<D>
   | TypingActivity<D>
   | HandoffActivity<D>

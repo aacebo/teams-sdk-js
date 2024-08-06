@@ -17,17 +17,17 @@ export type AppOptions = Credentials & {
 export class App {
   readonly log: Logger;
 
+  get token() {
+    return this._token;
+  }
+  private _token?: string;
+
   private readonly _api: Client;
   private readonly _http: HttpClient;
   private readonly _server: http.Server;
   private readonly _events: Events = {
     error: this._onError.bind(this),
   };
-
-  get token() {
-    return this._token;
-  }
-  private _token?: string;
 
   constructor(readonly options: AppOptions) {
     this.log = this.options.logger || new ConsoleLogger({ name: '@teams/app' });
@@ -127,6 +127,7 @@ export class App {
     const http = this.options.http || new DefaultHttpClient();
     const api = new Client({ http });
     const log = this.log;
+
     const say = (params: Partial<Activity>) => {
       return api.conversations.activities(activity.conversation.id).create(params);
     };
@@ -140,7 +141,7 @@ export class App {
     http.headers.set('Authorization', `Bearer ${this.token}`);
 
     const activity: Activity = req.body;
-    activity.callerId = token.appId;
+    activity.callerId = token.fromId;
 
     this._emit('activity', { req, activity, log, api, token, say, reply });
     this._emit(`activity.${activity.type}`, { req, activity, log, api, token, say, reply });
