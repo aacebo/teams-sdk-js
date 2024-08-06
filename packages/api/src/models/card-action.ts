@@ -1,4 +1,4 @@
-export type ActionType =
+export type CardActionType =
   | 'openUrl'
   | 'imBack'
   | 'postBack'
@@ -15,7 +15,7 @@ export interface CardAction {
    * 'postBack', 'playAudio', 'playVideo', 'showImage', 'downloadFile', 'signin', 'call',
    * messageBack', 'openApp'
    */
-  type: ActionType;
+  type: CardActionType;
 
   /**
    * Text description which appears on the button
