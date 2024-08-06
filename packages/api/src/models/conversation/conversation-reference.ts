@@ -1,4 +1,4 @@
-import { Account, ConversationAccount } from './account';
+import { Account, ConversationAccount } from '../account';
 
 /**
  * An object relating to a particular point in a conversation

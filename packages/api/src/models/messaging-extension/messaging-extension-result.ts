@@ -1,5 +1,5 @@
 import { Activity } from '../../activities';
-import { AttachmentLayout } from '../attachment-layout';
+import { AttachmentLayout } from '../attachment';
 
 import { MessagingExtensionAttachment } from './messaging-extension-attachment';
 import { MessagingExtensionSuggestedAction } from './messaging-extension-suggested-action';

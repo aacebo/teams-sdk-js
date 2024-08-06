@@ -1,4 +1,4 @@
-import { Account } from './account';
+import { Account } from '../account';
 
 /**
  * Conversation and its members

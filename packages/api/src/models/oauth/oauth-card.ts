@@ -1,4 +1,4 @@
-import { CardAction } from '../card-action';
+import { CardAction } from '../card';
 import { TokenPostResource } from '../token';
 import { TokenExchangeResource } from '../token-exchange';
 

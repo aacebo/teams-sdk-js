@@ -1,4 +1,4 @@
-import { ConversationReference } from '../conversation-reference';
+import { ConversationReference } from '../conversation';
 
 /**
  * State object passed to the bot token service.

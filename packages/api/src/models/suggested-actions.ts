@@ -1,4 +1,4 @@
-import { CardAction } from './card-action';
+import { CardAction } from './card';
 
 export interface SuggestedActions {
   /**
