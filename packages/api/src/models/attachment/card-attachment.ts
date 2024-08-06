@@ -1,3 +1,5 @@
+import { Card } from '@teams/cards';
+
 import { AnimationCard, AudioCard, HeroCard, ThumbnailCard, VideoCard } from '../card';
 import { OAuthCard } from '../oauth';
 import { SigninCard } from '../sign-in';
@@ -14,7 +16,7 @@ export type CardAttachment =
 
 export interface AdaptiveCardAttachment {
   contentType: 'application/vnd.microsoft.card.adaptive';
-  content: any;
+  content: Card;
 }
 
 export interface AnimationCardAttachment {

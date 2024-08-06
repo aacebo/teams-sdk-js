@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@teams/api": "*",
+    "@teams/cards": "*",
     "@teams/common": "*",
     "@teams/config": "*"
   },

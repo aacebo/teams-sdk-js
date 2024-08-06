@@ -1,3 +1,4 @@
+import { AdaptiveCardAttachment } from '@teams/api';
 import { App } from '@teams/apps';
 import { ConsoleLogger } from '@teams/common/logging';
 
@@ -12,6 +13,26 @@ app.on('activity.message', async ({ activity, say }) => {
   await say({
     type: 'message',
     text: `you said: "${activity.text}"`,
+  });
+
+  await say({
+    type: 'message',
+    attachments: [
+      {
+        contentType: 'application/vnd.microsoft.card.adaptive',
+        content: {
+          type: 'AdaptiveCard',
+          version: '1.4',
+          body: [
+            {
+              type: 'TextBlock',
+              text: 'testing123',
+              wrap: true,
+            },
+          ],
+        },
+      } as AdaptiveCardAttachment,
+    ],
   });
 });
 
