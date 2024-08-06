@@ -1,9 +1,20 @@
-import { Activity, Client, Resource, Token } from '@teams/api';
+import {
+  Activity,
+  InvokeActivity,
+  Client,
+  Resource,
+  Token,
+  InvokeActivitySchema,
+} from '@teams/api';
 import { HttpRequest } from '@teams/common/http';
 import { Logger } from '@teams/common/logging';
 
 type Prefixed<T, P extends string | undefined = undefined> = {
   [K in Extract<keyof T, string> as P extends string ? `${P}${K}` : K]?: T[K];
+};
+
+type Suffixed<T, S extends string | undefined = undefined> = {
+  [K in Extract<keyof T, string> as S extends string ? `${K}${S}` : K]?: T[K];
 };
 
 type EventHandler<T = any> = (value: T) => void | Promise<void>;
@@ -17,7 +28,7 @@ export interface ActivityEventArgs {
   readonly reply: (id: string, activity: Partial<Activity>) => Promise<Resource>;
 }
 
-export interface Events extends ActivityEvents {
+export interface Events extends ActivityEvents, InvokeActivityEvents {
   error?: EventHandler<Error>;
   auth?: EventHandler<string>;
   start?: EventHandler<void>;
@@ -37,4 +48,18 @@ export type ActivityEvents = Prefixed<
     >;
   },
   'activity.'
+>;
+
+export type InvokeActivityEvents = Suffixed<
+  Prefixed<
+    {
+      [K in keyof InvokeActivitySchema]?: EventHandler<
+        ActivityEventArgs & {
+          readonly activity: InvokeActivity<K>;
+        }
+      >;
+    },
+    'activity.invoke['
+  >,
+  ']'
 >;

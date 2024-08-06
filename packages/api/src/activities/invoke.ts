@@ -18,7 +18,7 @@ import { ActivityBase } from './base';
 
 export type InvokeActivityName = keyof InvokeActivitySchema;
 
-export interface InvokeActivity<Name extends InvokeActivityName = any, Data = any>
+export interface InvokeActivity<Name extends InvokeActivityName, Data = any>
   extends ActivityBase<Data> {
   readonly type: 'invoke';
 
@@ -38,7 +38,7 @@ export interface InvokeActivity<Name extends InvokeActivityName = any, Data = an
   relatesTo?: ConversationReference;
 }
 
-interface InvokeActivitySchema {
+export interface InvokeActivitySchema {
   'config/fetch': {
     input: any;
     output: ConfigResponse;
