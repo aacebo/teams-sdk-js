@@ -27,6 +27,10 @@ app.on('activity.message', async ({ activity, say }) => {
               type: 'Image',
               url: 'https://adaptivecards.io/content/cats/1.png',
             },
+            {
+              type: 'TextBlock',
+              text: '[Lets Go!!!](https://google.com)',
+            },
           ],
         })
       ),

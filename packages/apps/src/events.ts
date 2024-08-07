@@ -1,11 +1,4 @@
-import {
-  Activity,
-  InvokeActivity,
-  Client,
-  Resource,
-  Token,
-  InvokeActivitySchema,
-} from '@teams/api';
+import { Activity, InvokeActivity, Client, Resource, Token } from '@teams/api';
 import { HttpRequest } from '@teams/common/http';
 import { Logger } from '@teams/common/logging';
 
@@ -53,9 +46,9 @@ export type ActivityEvents = Prefixed<
 export type InvokeActivityEvents = Suffixed<
   Prefixed<
     {
-      [K in keyof InvokeActivitySchema]?: EventHandler<
+      [K in InvokeActivity['name']]?: EventHandler<
         ActivityEventArgs & {
-          readonly activity: InvokeActivity<K>;
+          readonly activity: Extract<InvokeActivity, { name: K }>;
         }
       >;
     },

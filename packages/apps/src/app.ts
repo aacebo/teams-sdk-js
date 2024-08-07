@@ -1,7 +1,7 @@
 import http from 'http';
 import url from 'url';
 
-import { Client, Activity, Token, Credentials, InvokeActivityName } from '@teams/api';
+import { Client, Activity, Token, Credentials } from '@teams/api';
 import { DefaultHttpClient, HttpClient, HttpRequest, StatusCodes } from '@teams/common/http';
 import { Logger, ConsoleLogger } from '@teams/common/logging';
 
@@ -147,7 +147,7 @@ export class App {
     this._emit(`activity.${activity.type}`, { req, activity, log, api, token, say, reply });
 
     if (activity.type === 'invoke') {
-      this._emit(`activity.${activity.type}[${activity.name as InvokeActivityName}]`, {
+      this._emit(`activity.${activity.type}[${activity.name}]`, {
         req,
         activity,
         log,
