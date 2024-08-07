@@ -10,21 +10,13 @@ const app = new App({
   logger: new ConsoleLogger({ name: '@samples/echo' }),
 });
 
-app.on('error', async err => {
-  app.log.error(err);
-});
-
-app.on('activity.invoke[composeExtension/submitAction]', async () => {
-  return {
-    composeExtension: {},
-  };
-});
-
 app.on('activity.message', async ({ activity, say }) => {
-  await say({
+  const { id } = await say({
     type: 'message',
     text: `you said: "${activity.text}"`,
   });
+
+  await say({ id, type: 'message', text: 'poop' });
 
   await say({
     type: 'message',

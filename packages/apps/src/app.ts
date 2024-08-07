@@ -129,6 +129,10 @@ export class App {
     const log = this.log;
 
     const say = (params: Partial<Activity>) => {
+      if (params.id) {
+        return api.conversations.activities(activity.conversation.id).update(params.id, params);
+      }
+
       return api.conversations.activities(activity.conversation.id).create(params);
     };
 
@@ -146,6 +150,11 @@ export class App {
     this.log.debug(
       `activity/${activity.type}${activity.type === 'invoke' ? `/${activity.name}` : ''}`
     );
+
+    if (activity.type === 'message') {
+      await say({ type: 'typing' });
+    }
+
     this._emit('activity', { req, activity, log, api, token, say, reply });
     this._emit(`activity.${activity.type}`, { req, activity, log, api, token, say, reply });
 
@@ -162,7 +171,7 @@ export class App {
 
       if (!res) return;
 
-      await api.conversations.activities(activity.conversation.id).create({
+      await say({
         type: 'invokeResponse',
         value: {
           status: 200,
