@@ -143,6 +143,9 @@ export class App {
     const activity: Activity = req.body;
     activity.callerId = token.fromId;
 
+    this.log.debug(
+      `activity/${activity.type}${activity.type === 'invoke' ? `/${activity.name}` : ''}`
+    );
     this._emit('activity', { req, activity, log, api, token, say, reply });
     this._emit(`activity.${activity.type}`, { req, activity, log, api, token, say, reply });
 
