@@ -10,6 +10,12 @@ const app = new App({
   logger: new ConsoleLogger({ name: '@samples/echo' }),
 });
 
+app.on('activity.invoke[composeExtension/query]', async () => {
+  return {
+    composeExtension: {},
+  };
+});
+
 app.on('activity.message', async ({ activity, say }) => {
   await say({
     type: 'message',

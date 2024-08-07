@@ -115,7 +115,7 @@ export class App {
     }
   }
 
-  private _onRequest(req: HttpRequest, res: http.ServerResponse<http.IncomingMessage>) {
+  private async _onRequest(req: HttpRequest, res: http.ServerResponse<http.IncomingMessage>) {
     const authorization = req.headers['authorization']?.replace('Bearer ', '');
 
     if (!authorization) {
@@ -147,7 +147,7 @@ export class App {
     this._emit(`activity.${activity.type}`, { req, activity, log, api, token, say, reply });
 
     if (activity.type === 'invoke') {
-      this._emit(`activity.${activity.type}[${activity.name}]`, {
+      const res = this._emit(`activity.${activity.type}[${activity.name}]`, {
         req,
         activity,
         log,
@@ -156,12 +156,22 @@ export class App {
         say,
         reply,
       });
+
+      if (!res) return;
+
+      await api.conversations.activities(activity.conversation.id).create({
+        type: 'invokeResponse',
+        value: {
+          status: 200,
+          body: res,
+        },
+      });
     }
   }
 
   private _emit<Event extends keyof Events>(event: Event, data?: any) {
     if (!this._events[event]) return;
-    this._events[event](data as never);
+    return this._events[event](data as never);
   }
 
   private _onError(err: Error) {

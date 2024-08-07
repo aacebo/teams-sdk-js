@@ -1,4 +1,4 @@
-import { Activity, InvokeActivity, Client, Resource, Token } from '@teams/api';
+import { Activity, InvokeActivity, Client, Resource, Token, InvokeResponse } from '@teams/api';
 import { HttpRequest } from '@teams/common/http';
 import { Logger } from '@teams/common/logging';
 
@@ -10,7 +10,7 @@ type Suffixed<T, S extends string | undefined = undefined> = {
   [K in Extract<keyof T, string> as S extends string ? `${K}${S}` : K]?: T[K];
 };
 
-type EventHandler<T = any> = (value: T) => void | Promise<void>;
+type EventHandler<In = any, Out = void> = (value: In) => Out | Promise<Out>;
 
 export interface ActivityEventArgs {
   readonly req: HttpRequest;
@@ -49,7 +49,8 @@ export type InvokeActivityEvents = Suffixed<
       [K in InvokeActivity['name']]?: EventHandler<
         ActivityEventArgs & {
           readonly activity: Extract<InvokeActivity, { name: K }>;
-        }
+        },
+        InvokeResponse<K>['body']
       >;
     },
     'activity.invoke['
