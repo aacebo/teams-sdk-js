@@ -10,7 +10,11 @@ const app = new App({
   logger: new ConsoleLogger({ name: '@samples/echo' }),
 });
 
-app.on('activity.invoke[composeExtension/query]', async () => {
+app.on('error', async err => {
+  app.log.error(err);
+});
+
+app.on('activity.invoke[composeExtension/submitAction]', async () => {
   return {
     composeExtension: {},
   };
