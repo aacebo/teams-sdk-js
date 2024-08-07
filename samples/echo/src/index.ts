@@ -11,12 +11,10 @@ const app = new App({
 });
 
 app.on('activity.message', async ({ activity, say }) => {
-  const { id } = await say({
+  await say({
     type: 'message',
     text: `you said: "${activity.text}"`,
   });
-
-  await say({ id, type: 'message', text: 'poop' });
 
   await say({
     type: 'message',
