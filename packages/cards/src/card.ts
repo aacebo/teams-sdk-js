@@ -6,8 +6,12 @@ import {
   ToggleVisibilityAction,
 } from './actions';
 import { Auth, Refresh, VerticalAlignment } from './common';
-import { BackgroundImage, Element } from './elements';
+import { BackgroundImage } from './medias';
+import { Element } from './element';
 
+/**
+ * An Adaptive Card, containing a free-form body of card elements, and an optional set of actions.
+ */
 export interface Card {
   type: 'AdaptiveCard';
 
@@ -80,4 +84,13 @@ export interface Card {
    * Defines how the content should be aligned vertically within the container. Only relevant for fixed-height cards, or cards with a minHeight specified.
    */
   verticalContentAlignment?: VerticalAlignment;
+}
+
+export function card(params: Partial<Card>): Card {
+  return {
+    $schema: 'http://adaptivecards.io/schemas/adaptive-card.json',
+    type: 'AdaptiveCard',
+    version: '1.6',
+    ...params,
+  };
 }

@@ -1,5 +1,6 @@
-import { AdaptiveCardAttachment } from '@teams/api';
 import { App } from '@teams/apps';
+import { cardAttachment } from '@teams/api';
+import { card } from '@teams/cards';
 import { ConsoleLogger } from '@teams/common/logging';
 
 const app = new App({
@@ -18,20 +19,17 @@ app.on('activity.message', async ({ activity, say }) => {
   await say({
     type: 'message',
     attachments: [
-      {
-        contentType: 'application/vnd.microsoft.card.adaptive',
-        content: {
-          type: 'AdaptiveCard',
-          version: '1.4',
+      cardAttachment(
+        'adaptive',
+        card({
           body: [
             {
-              type: 'TextBlock',
-              text: 'testing123',
-              wrap: true,
+              type: 'Image',
+              url: 'https://adaptivecards.io/content/cats/1.png',
             },
           ],
-        },
-      } as AdaptiveCardAttachment,
+        })
+      ),
     ],
   });
 });

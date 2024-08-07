@@ -1,8 +1,8 @@
 import { ExecuteAction, OpenUrlAction, SubmitAction, ToggleVisibilityAction } from '../actions';
 import { BaseElement } from '../base';
 import { VerticalAlignment } from '../common';
-import { Element } from '../elements';
-import { BackgroundImage } from '../elements';
+import { Element } from '../element';
+import { BackgroundImage } from '../medias';
 
 /**
  * Style hint for `Container`.
