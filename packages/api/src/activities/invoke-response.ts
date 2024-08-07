@@ -49,4 +49,6 @@ interface InvokeResponseBody {
   'task/submit': TaskModuleResponse;
   'tab/fetch': TabResponse;
   'tab/submit': TabResponse;
+  'message/submitAction': void;
+  'handoff/action': void;
 }
