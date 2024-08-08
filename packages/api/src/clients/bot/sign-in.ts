@@ -1,4 +1,4 @@
-import { DefaultHttpClient, HttpClient } from '@teams/common/http';
+import { HttpClient } from '@teams/common/http';
 import qs from 'qs';
 
 import { ClientOptions } from '../../client-options';
@@ -12,17 +12,20 @@ export interface GetBotSignInUrlParams {
 }
 
 export interface GetBotSignInResourceParams {
-  userId: string;
-  connectionName: string;
-  resourceUrls: string[];
-  channelId: string;
+  state: string;
+  codeChallenge?: string;
+  emulatorUrl?: string;
+  finalRedirect?: string;
 }
 
 export class BotSignInClient {
   private readonly _http: HttpClient;
 
   constructor(private readonly _options?: ClientOptions) {
-    this._http = this._options?.http || new DefaultHttpClient();
+    this._http = new HttpClient({
+      ...this._options,
+      baseUrl: 'https://token.botframework.com',
+    });
   }
 
   async getUrl(params: GetBotSignInUrlParams) {
@@ -37,9 +40,8 @@ export class BotSignInClient {
 
   async getResource(params: GetBotSignInResourceParams) {
     const q = qs.stringify(params);
-    const res = await this._http.post<SignInUrlResponse>(
+    const res = await this._http.get<SignInUrlResponse>(
       `/api/botsignin/GetSignInResource?${q}`,
-      params,
       this._options?.requestOptions
     );
 

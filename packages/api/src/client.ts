@@ -1,4 +1,4 @@
-import { DefaultHttpClient, HttpClient } from '@teams/common/http';
+import { HttpClient } from '@teams/common/http';
 
 import pkg from '../package.json';
 
@@ -13,12 +13,12 @@ export class Client {
   private readonly _http: HttpClient;
 
   constructor(private readonly _options?: ClientOptions) {
-    this._http = this._options?.http || new DefaultHttpClient();
+    this._http = new HttpClient(this._options);
     this._http.headers.add('user-agent', `teams[api]/${pkg.version}`);
     this._http.headers.set('content-type', 'application/json');
 
-    this.bots = new BotClient({ ...this._options, http: this._http });
-    this.users = new UserClient({ ...this._options, http: this._http });
-    this.conversations = new ConversationClient({ ...this._options, http: this._http });
+    this.bots = new BotClient(this._options);
+    this.users = new UserClient(this._options);
+    this.conversations = new ConversationClient(this._options);
   }
 }

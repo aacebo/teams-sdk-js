@@ -1,4 +1,4 @@
-import { Account, ConversationAccount, Entity } from '../models';
+import { Account, ConversationAccount, ConversationReference, Entity } from '../models';
 
 export interface ActivityBase<D = any> {
   /**
@@ -15,6 +15,15 @@ export interface ActivityBase<D = any> {
    * Contains the date and time that the message was sent, in UTC, expressed in ISO-8601 format.
    */
   timestamp?: Date;
+
+  /**
+   * A locale name for the contents of the text field.
+   * The locale name is a combination of an ISO 639 two- or three-letter culture code associated
+   * with a language
+   * and an ISO 3166 two-letter subculture code associated with a country or region.
+   * The locale name can also correspond to a valid BCP-47 language tag.
+   */
+  locale?: string;
 
   /**
    * Contains the local date and time of the message, expressed in ISO-8601 format.
@@ -44,6 +53,11 @@ export interface ActivityBase<D = any> {
    * Identifies the conversation to which the activity belongs.
    */
   conversation: ConversationAccount;
+
+  /**
+   * A reference to another conversation or activity.
+   */
+  relatesTo?: ConversationReference;
 
   /**
    * Identifies the recipient of the message.

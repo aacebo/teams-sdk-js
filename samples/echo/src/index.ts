@@ -1,6 +1,4 @@
 import { App } from '@teams/apps';
-import { cardAttachment } from '@teams/api';
-import { card } from '@teams/cards';
 import { ConsoleLogger } from '@teams/common/logging';
 
 const app = new App({
@@ -10,32 +8,16 @@ const app = new App({
   logger: new ConsoleLogger({ name: '@samples/echo' }),
 });
 
-app.on('activity.message', async ({ activity, say }) => {
-  await say({
-    type: 'message',
-    text: `you said: "${activity.text}"`,
-  });
+app.on('activity.message', async ({ signin }) => {
+  await signin('graph-connection');
+});
 
-  await say({
-    type: 'message',
-    attachments: [
-      cardAttachment(
-        'adaptive',
-        card({
-          body: [
-            {
-              type: 'Image',
-              url: 'https://adaptivecards.io/content/cats/1.png',
-            },
-            {
-              type: 'TextBlock',
-              text: '[Lets Go!!!](https://google.com)',
-            },
-          ],
-        })
-      ),
-    ],
-  });
+app.on('token', () => {
+  app.log.info('got your token!');
+});
+
+app.on('error', (err) => {
+  app.log.debug(err);
 });
 
 (async () => {

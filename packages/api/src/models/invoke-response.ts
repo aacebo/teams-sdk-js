@@ -6,14 +6,6 @@ import {
   TaskModuleResponse,
 } from '../models';
 
-import { ActivityBase } from './base';
-
-export interface InvokeResponseActivity<T extends keyof InvokeResponseBody = any, D = any>
-  extends ActivityBase<D> {
-  type: 'invokeResponse';
-  value: InvokeResponse<T>;
-}
-
 /**
  * Represents a response returned by a bot when it receives an `invoke` activity.
  *
@@ -51,4 +43,6 @@ interface InvokeResponseBody {
   'tab/submit': TabResponse;
   'message/submitAction': void;
   'handoff/action': void;
+  'signin/tokenExchange': void;
+  'signin/verifyState': void;
 }

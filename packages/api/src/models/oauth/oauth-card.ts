@@ -19,12 +19,12 @@ export interface OAuthCard {
   /**
    * The token exchange resource for single sign on
    */
-  tokenExchangeResource: TokenExchangeResource;
+  tokenExchangeResource?: TokenExchangeResource;
 
   /**
    * The token for directly post a token to token service
    */
-  tokenPostResource: TokenPostResource;
+  tokenPostResource?: TokenPostResource;
 
   /**
    * Action to use to perform signin

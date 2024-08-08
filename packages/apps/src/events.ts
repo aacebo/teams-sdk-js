@@ -1,4 +1,13 @@
-import { Activity, InvokeActivity, Client, Resource, Token, InvokeResponse } from '@teams/api';
+import {
+  Activity,
+  InvokeActivity,
+  Client,
+  Resource,
+  Token,
+  InvokeResponse,
+  ConversationReference,
+  TokenResponse,
+} from '@teams/api';
 import { HttpRequest } from '@teams/common/http';
 import { Logger } from '@teams/common/logging';
 
@@ -12,33 +21,29 @@ type Suffixed<T, S extends string | undefined = undefined> = {
 
 type EventHandler<In = any, Out = void> = (value: In) => Out | Promise<Out>;
 
-export interface ActivityEventArgs {
+export interface ActivityEventArgs<T extends Activity> {
+  readonly activity: T;
+  readonly conversation: ConversationReference;
   readonly req: HttpRequest;
   readonly log: Logger;
   readonly api: Client;
   readonly token: Token;
   readonly say: (activity: Partial<Activity>) => Promise<Resource>;
   readonly reply: (id: string, activity: Partial<Activity>) => Promise<Resource>;
+  readonly signin: (name: string, text?: string) => Promise<Resource>;
 }
 
 export interface Events extends ActivityEvents, InvokeActivityEvents {
   error?: EventHandler<Error>;
   auth?: EventHandler<string>;
   start?: EventHandler<void>;
-  activity?: EventHandler<
-    ActivityEventArgs & {
-      readonly activity: Activity;
-    }
-  >;
+  token?: EventHandler<TokenResponse>;
+  activity?: EventHandler<ActivityEventArgs<Activity>>;
 }
 
 export type ActivityEvents = Prefixed<
   {
-    [K in Activity['type']]?: EventHandler<
-      ActivityEventArgs & {
-        readonly activity: Extract<Activity, { type: K }>;
-      }
-    >;
+    [K in Activity['type']]?: EventHandler<ActivityEventArgs<Extract<Activity, { type: K }>>>;
   },
   'activity.'
 >;
@@ -47,9 +52,7 @@ export type InvokeActivityEvents = Suffixed<
   Prefixed<
     {
       [K in InvokeActivity['name']]?: EventHandler<
-        ActivityEventArgs & {
-          readonly activity: Extract<InvokeActivity, { name: K }>;
-        },
+        ActivityEventArgs<Extract<InvokeActivity, { name: K }>>,
         InvokeResponse<K>['body']
       >;
     },

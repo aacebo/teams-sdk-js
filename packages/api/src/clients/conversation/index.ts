@@ -1,4 +1,4 @@
-import { DefaultHttpClient, HttpClient } from '@teams/common/http';
+import { HttpClient } from '@teams/common/http';
 import qs from 'qs';
 
 import { ClientOptions } from '../../client-options';
@@ -27,15 +27,15 @@ export class ConversationClient {
   private readonly _http: HttpClient;
 
   constructor(private readonly _options?: ClientOptions) {
-    this._http = this._options?.http || new DefaultHttpClient();
+    this._http = new HttpClient(this._options);
   }
 
   activities(conversationId: string) {
-    return new ConversationActivityClient(conversationId, { ...this._options, http: this._http });
+    return new ConversationActivityClient(conversationId, this._options);
   }
 
   members(conversationId: string) {
-    return new ConversationMemberClient(conversationId, { ...this._options, http: this._http });
+    return new ConversationMemberClient(conversationId, this._options);
   }
 
   async get(params: GetConversationsParams) {

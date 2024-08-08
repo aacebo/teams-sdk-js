@@ -3,8 +3,6 @@ import jwt from 'jsonwebtoken';
 import { CallerIds, CallerType } from './caller';
 
 export class Token {
-  private readonly _payload: jwt.JwtPayload;
-
   get audience() {
     return this._payload.aud;
   }
@@ -59,6 +57,9 @@ export class Token {
     return CallerIds.azure;
   }
 
+  private readonly _value: string;
+  private readonly _payload: jwt.JwtPayload;
+
   constructor(value: string) {
     const decoded = jwt.decode(value, { complete: true, json: true });
 
@@ -66,6 +67,11 @@ export class Token {
       throw new Error('failed to decode token');
     }
 
+    this._value = value;
     this._payload = decoded.payload as jwt.JwtPayload;
+  }
+
+  toString() {
+    return this._value;
   }
 }

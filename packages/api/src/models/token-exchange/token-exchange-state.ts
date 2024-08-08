@@ -17,7 +17,7 @@ export interface TokenExchangeState {
   /**
    * A reference to a related parent conversation conversation.
    */
-  relatesTo: ConversationReference;
+  relatesTo?: ConversationReference;
 
   /**
    * The URL of the bot messaging endpoint.

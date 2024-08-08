@@ -23,24 +23,7 @@ export interface HttpClientOptions {
   requestOptions?: http.RequestOptions;
 }
 
-export interface HttpClient {
-  readonly headers: HttpHeaders;
-  readonly options: HttpClientOptions;
-
-  get<T = any>(url: string, options?: http.RequestOptions): Promise<HttpResponse<T>>;
-  post<T = any>(url: string, data?: any, options?: http.RequestOptions): Promise<HttpResponse<T>>;
-  patch<T = any>(url: string, data?: any, options?: http.RequestOptions): Promise<HttpResponse<T>>;
-  put<T = any>(url: string, data?: any, options?: http.RequestOptions): Promise<HttpResponse<T>>;
-  delete<T = any>(url: string, data?: any, options?: http.RequestOptions): Promise<HttpResponse<T>>;
-  request<T = any>(
-    url: string,
-    data?: any,
-    options?: http.RequestOptions
-  ): Promise<HttpResponse<T>>;
-  on<Event extends keyof HttpClientEvents>(event: Event, cb: HttpClientEventHandler<Event>): void;
-}
-
-export class DefaultHttpClient implements HttpClient {
+export class HttpClient {
   readonly headers: HttpHeaders;
 
   private readonly _events: HttpClientEvents = {};

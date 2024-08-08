@@ -1,4 +1,4 @@
-import { DefaultHttpClient, HttpClient } from '@teams/common/http';
+import { HttpClient } from '@teams/common/http';
 
 import { ClientOptions } from '../../client-options';
 import { Account, Resource } from '../../models';
@@ -17,7 +17,7 @@ export class ConversationActivityClient {
     readonly conversationId: string,
     private readonly _options?: ClientOptions
   ) {
-    this._http = this._options?.http || new DefaultHttpClient();
+    this._http = new HttpClient(this._options);
   }
 
   async create<T extends Activity['type']>(params: CreateActivityParams<T>) {

@@ -1,4 +1,4 @@
-import { DefaultHttpClient, HttpClient } from '@teams/common/http';
+import { HttpClient } from '@teams/common/http';
 import qs from 'qs';
 
 import { ClientOptions } from '../../client-options';
@@ -7,8 +7,8 @@ import { TokenExchangeRequest, TokenResponse, TokenStatus } from '../../models';
 export interface GetUserTokenParams {
   userId: string;
   connectionName: string;
-  channelId: string;
-  magicCode: string;
+  channelId?: string;
+  code?: string;
 }
 
 export interface GetUserAADTokenParams {
@@ -41,7 +41,10 @@ export class UserTokenClient {
   private readonly _http: HttpClient;
 
   constructor(private readonly _options?: ClientOptions) {
-    this._http = new DefaultHttpClient({ baseUrl: 'https://token.botframework.com' });
+    this._http = new HttpClient({
+      ...this._options,
+      baseUrl: 'https://token.botframework.com',
+    });
   }
 
   async get(params: GetUserTokenParams) {
@@ -85,9 +88,15 @@ export class UserTokenClient {
   }
 
   async exchange(params: ExchangeUserTokenParams) {
+    const q = qs.stringify({
+      userId: params.userId,
+      connectionName: params.connectionName,
+      channelId: params.channelId,
+    });
+
     const res = await this._http.post<TokenResponse>(
-      '/api/usertoken/exchange',
-      params,
+      `/api/usertoken/exchange?${q}`,
+      { exchangeRequest: params.exchangeRequest },
       this._options?.requestOptions
     );
 

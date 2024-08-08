@@ -1,4 +1,4 @@
-import { DefaultHttpClient, HttpClient } from '@teams/common/http';
+import { HttpClient } from '@teams/common/http';
 import qs from 'qs';
 
 import { ClientOptions } from '../../client-options';
@@ -17,7 +17,10 @@ export class BotTokenClient {
   private readonly _http: HttpClient;
 
   constructor(private readonly _options?: ClientOptions) {
-    this._http = new DefaultHttpClient({ baseUrl: 'https://login.microsoftonline.com' });
+    this._http = new HttpClient({
+      ...this._options,
+      baseUrl: 'https://login.microsoftonline.com',
+    });
   }
 
   async get(params: GetBotTokenParams) {

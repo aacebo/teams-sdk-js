@@ -6,7 +6,6 @@ import { HandoffActivity } from './handoff';
 import { ConversationActivity } from './conversation';
 import { MessageActivity } from './message';
 import { CommandActivity } from './command';
-import { InvokeResponseActivity } from './invoke-response';
 
 export type Activity<D = any> =
   | MessageActivity<D>
@@ -16,8 +15,7 @@ export type Activity<D = any> =
   | TypingActivity<D>
   | HandoffActivity<D>
   | ConversationActivity<D>
-  | CommandActivity<D>
-  | InvokeResponseActivity<any, D>;
+  | CommandActivity<D>;
 
 export * from './message';
 export * from './event';
@@ -27,4 +25,3 @@ export * from './typing';
 export * from './handoff';
 export * from './conversation';
 export * from './command';
-export * from './invoke-response';
