@@ -247,7 +247,7 @@ export class App {
             },
           });
 
-          this._emit('token', token);
+          this._emit('sign-in', { ...args, tokenResponse: token });
         } catch (err) {
           return {
             status: StatusCodes.PRECONDITION_FAILED,
@@ -276,7 +276,7 @@ export class App {
           });
 
           delete this._exchangeState[key];
-          this._emit('token', token);
+          this._emit('sign-in', { ...args, tokenResponse: token });
         } catch (err) {
           this._emit('error', err);
           return { status: StatusCodes.PRECONDITION_FAILED };

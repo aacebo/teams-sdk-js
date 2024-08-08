@@ -5,7 +5,10 @@
     "node": ">=18"
   },
   "packageManager": "npm@10.8.1",
-  "workspaces": ["packages/*", "samples/*"],
+  "workspaces": [
+    "packages/*",
+    "samples/*"
+  ],
   "scripts": {
     "clean": "turbo clean",
     "build": "turbo build",

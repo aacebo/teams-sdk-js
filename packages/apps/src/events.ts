@@ -37,7 +37,7 @@ export interface Events extends ActivityEvents, InvokeActivityEvents {
   error?: EventHandler<Error>;
   auth?: EventHandler<string>;
   start?: EventHandler<void>;
-  token?: EventHandler<TokenResponse>;
+  'sign-in'?: EventHandler<ActivityEventArgs<Activity> & { readonly tokenResponse: TokenResponse }>;
   activity?: EventHandler<ActivityEventArgs<Activity>>;
 }
 

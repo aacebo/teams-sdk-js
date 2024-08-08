@@ -1,5 +1,7 @@
 import { App } from '@teams/apps';
 import { ConsoleLogger } from '@teams/common/logging';
+import { Client, AuthProviderCallback } from '@microsoft/microsoft-graph-client';
+import { cardAttachment } from '@teams/api';
 
 const app = new App({
   type: 'MultiTenant',
@@ -12,8 +14,79 @@ app.on('activity.message', async ({ signin }) => {
   await signin('graph-connection');
 });
 
-app.on('token', () => {
-  app.log.info('got your token!');
+app.on('sign-in', async ({ say, tokenResponse }) => {
+  const msgraph = graph(tokenResponse.token);
+  const me = await graph(tokenResponse.token).api('/me').get();
+  const [meta, photo] = await Promise.all([
+    msgraph.api('/me/photo').get(),
+    msgraph.api('/me/photo/$value').get() as Promise<Blob>,
+  ]);
+
+  await say({
+    type: 'message',
+    text: `\`${JSON.stringify(me, null, 2)}\``,
+    attachments: [
+      cardAttachment('adaptive', {
+        type: 'AdaptiveCard',
+        version: '1.6',
+        body: [
+          {
+            type: 'ColumnSet',
+            spacing: 'small',
+            columns: [
+              {
+                type: 'Column',
+                items: [
+                  {
+                    type: 'Image',
+                    url: `data:${meta['@odata.mediaContentType']};base64,${Buffer.from(await photo.arrayBuffer()).toString('base64')}`,
+                  },
+                ],
+              },
+              {
+                type: 'Column',
+                width: '65px',
+                items: [
+                  {
+                    type: 'TextBlock',
+                    text: 'Name:',
+                    weight: 'bolder',
+                  },
+                  {
+                    type: 'TextBlock',
+                    text: 'Title:',
+                    weight: 'bolder',
+                  },
+                  {
+                    type: 'TextBlock',
+                    text: 'Email:',
+                    weight: 'bolder',
+                  },
+                ],
+              },
+              {
+                type: 'Column',
+                items: [
+                  {
+                    type: 'TextBlock',
+                    text: me.displayName,
+                  },
+                  {
+                    type: 'TextBlock',
+                    text: me.jobTitle,
+                  },
+                  {
+                    type: 'TextBlock',
+                    text: me.mail,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      }),
+    ],
+  });
 });
 
 app.on('error', (err) => {
@@ -23,3 +96,11 @@ app.on('error', (err) => {
 (async () => {
   await app.start();
 })();
+
+function graph(token: string) {
+  return Client.init({
+    authProvider: (callback: AuthProviderCallback) => {
+      callback(null, token);
+    },
+  });
+}
