@@ -17,13 +17,14 @@ import { Logger, ConsoleLogger } from '@teams/common/logging';
 import pkg from '../package.json';
 
 import { ActivityEventArgs, Events } from './events';
+import { Receiver } from './receiver';
 
 export type AppOptions = Credentials & {
   readonly http?: HttpClientOptions;
   readonly logger?: Logger;
 };
 
-export class App {
+export class App implements Receiver {
   readonly log: Logger;
 
   get token() {
