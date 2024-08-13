@@ -1,8 +1,8 @@
 import { App } from '@teams/apps';
 import { ConsoleLogger } from '@teams/common/logging';
-import { Client, AuthProviderCallback } from '@microsoft/microsoft-graph-client';
 import { cardAttachment } from '@teams/api';
 
+import { graph } from './graph';
 import * as cards from './cards';
 
 const app = new App({
@@ -40,11 +40,3 @@ app.on('error', (err) => {
 (async () => {
   await app.start();
 })();
-
-function graph(token: string) {
-  return Client.init({
-    authProvider: (callback: AuthProviderCallback) => {
-      callback(null, token);
-    },
-  });
-}
