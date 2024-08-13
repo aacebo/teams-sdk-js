@@ -3,6 +3,8 @@ import { ConsoleLogger } from '@teams/common/logging';
 import { Client, AuthProviderCallback } from '@microsoft/microsoft-graph-client';
 import { cardAttachment } from '@teams/api';
 
+import * as cards from './cards';
+
 const app = new App({
   type: 'MultiTenant',
   clientId: process.env.CLIENT_ID || 'b4e3dcad-6c1a-4f21-8a48-dd539afa61bb',
@@ -22,70 +24,12 @@ app.on('sign-in', async ({ say, tokenResponse }) => {
     msgraph.api('/me/photo/$value').get() as Promise<Blob>,
   ]);
 
+  const photoUrl = `data:${meta['@odata.mediaContentType']};base64,${Buffer.from(await photo.arrayBuffer()).toString('base64')}`;
+
   await say({
     type: 'message',
     text: `\`${JSON.stringify(me, null, 2)}\``,
-    attachments: [
-      cardAttachment('adaptive', {
-        type: 'AdaptiveCard',
-        version: '1.6',
-        body: [
-          {
-            type: 'ColumnSet',
-            spacing: 'small',
-            columns: [
-              {
-                type: 'Column',
-                items: [
-                  {
-                    type: 'Image',
-                    url: `data:${meta['@odata.mediaContentType']};base64,${Buffer.from(await photo.arrayBuffer()).toString('base64')}`,
-                  },
-                ],
-              },
-              {
-                type: 'Column',
-                width: '65px',
-                items: [
-                  {
-                    type: 'TextBlock',
-                    text: 'Name:',
-                    weight: 'bolder',
-                  },
-                  {
-                    type: 'TextBlock',
-                    text: 'Title:',
-                    weight: 'bolder',
-                  },
-                  {
-                    type: 'TextBlock',
-                    text: 'Email:',
-                    weight: 'bolder',
-                  },
-                ],
-              },
-              {
-                type: 'Column',
-                items: [
-                  {
-                    type: 'TextBlock',
-                    text: me.displayName,
-                  },
-                  {
-                    type: 'TextBlock',
-                    text: me.jobTitle,
-                  },
-                  {
-                    type: 'TextBlock',
-                    text: me.mail,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      }),
-    ],
+    attachments: [cardAttachment('adaptive', cards.oauth(me, photoUrl))],
   });
 });
 
