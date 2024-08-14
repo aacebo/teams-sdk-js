@@ -53,20 +53,19 @@ export class TeamsAdapter extends BotAdapter implements Receiver {
     });
 
     this._receiver.onActivity(async (args) => {
-      await this.processActivity(args.token.toString(), args.activity as any, async (ctx) => {
-        let res = { status: 200 };
+      let res = { status: 200 };
 
-        if (this._onActivity) {
-          res = await this._onActivity(args);
+      await this.processActivity(
+        `Bearer ${args.token.toString()}`,
+        args.activity as any,
+        async () => {
+          if (this._onActivity) {
+            res = await this._onActivity(args);
+          }
         }
+      );
 
-        await ctx.sendActivity({
-          type: ActivityTypes.InvokeResponse,
-          value: res,
-        });
-      });
-
-      return { status: 200 };
+      return res;
     });
   }
 

@@ -34,7 +34,6 @@ export class HttpReceiver implements Receiver {
       });
 
       this._server.listen(port, undefined, undefined, () => {
-        this.log.info('listening 🚀');
         resolve();
       });
     });
