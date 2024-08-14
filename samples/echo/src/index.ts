@@ -33,10 +33,6 @@ app.on('sign-in', async ({ say, tokenResponse }) => {
   });
 });
 
-app.on('error', (err) => {
-  app.log.debug(err);
-});
-
 (async () => {
   await app.start();
 })();
