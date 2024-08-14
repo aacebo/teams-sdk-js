@@ -5,7 +5,7 @@ import { Activity, InvokeResponse, Token } from '@teams/api';
 import { ConsoleLogger, Logger } from '@teams/common/logging';
 import { HttpRequest, StatusCodes } from '@teams/common/http';
 
-import { Receiver, ReceiverActivityArgs } from './receiver';
+import { Receiver, ReceiverActivityArgs } from '../receiver';
 
 export interface HttpReceiverOptions {
   readonly logger?: Logger;

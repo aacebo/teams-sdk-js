@@ -53,7 +53,7 @@ export type InvokeActivityEvents = Suffixed<
     {
       [K in InvokeActivity['name']]?: EventHandler<
         ActivityEventArgs<Extract<InvokeActivity, { name: K }>>,
-        InvokeResponse<K>['body']
+        InvokeResponse<K>
       >;
     },
     'activity.invoke['

@@ -4,6 +4,7 @@ import {
   MessagingExtensionResponse,
   TabResponse,
   TaskModuleResponse,
+  TokenExchangeInvokeResponse,
 } from '../models';
 
 /**
@@ -43,6 +44,6 @@ interface InvokeResponseBody {
   'tab/submit': TabResponse;
   'message/submitAction': void;
   'handoff/action': void;
-  'signin/tokenExchange': void;
+  'signin/tokenExchange': TokenExchangeInvokeResponse | undefined;
   'signin/verifyState': void;
 }

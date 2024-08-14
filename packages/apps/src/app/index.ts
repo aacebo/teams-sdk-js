@@ -3,20 +3,21 @@ import {
   Activity,
   Token,
   Credentials,
-  TokenExchangeState,
   ConversationReference,
-  cardAttachment,
   TokenExchangeInvokeResponse,
+  SignInTokenExchangeInvokeActivity,
+  SignInVerifyStateInvokeActivity,
 } from '@teams/api';
 
-import { HttpClientOptions, StatusCodes } from '@teams/common/http';
+import { HttpClientOptions, HttpError, StatusCodes } from '@teams/common/http';
 import { Logger, ConsoleLogger } from '@teams/common/logging';
 
-import pkg from '../package.json';
+import pkg from '../../package.json';
+import { ActivityEventArgs, Events } from '../events';
+import { Receiver, ReceiverActivityArgs } from '../receiver';
+import { HttpReceiver } from '../receivers';
 
-import { Events } from './events';
-import { Receiver, ReceiverActivityArgs } from './receiver';
-import { HttpReceiver } from './http-receiver';
+import { signin } from './sign-in';
 
 export type AppOptions = Credentials & {
   readonly http?: HttpClientOptions;
@@ -35,9 +36,7 @@ export class App {
   private readonly _api: Client;
   private readonly _receiver: Receiver;
   private readonly _exchangeState: Record<string, string | undefined> = {};
-  private readonly _events: Events = {
-    error: this._onError.bind(this),
-  };
+  private readonly _events: Events = {};
 
   constructor(readonly options: AppOptions) {
     this.log = this.options.logger || new ConsoleLogger({ name: '@teams/app' });
@@ -59,6 +58,11 @@ export class App {
       });
 
     this._receiver.onActivity(this.onActivity.bind(this));
+
+    // default event handlers
+    this.on('error', this._onError.bind(this));
+    this.on('activity.invoke[signin/tokenExchange]', this._onTokenExchange.bind(this));
+    this.on('activity.invoke[signin/verifyState]', this._onVerifyState.bind(this));
   }
 
   async start(port = 3000) {
@@ -128,44 +132,19 @@ export class App {
       return api.conversations.activities(activity.conversation.id).reply(id, params);
     };
 
-    const signin = async (name: string, text = 'Sign In') => {
-      const tokenExchangeState: TokenExchangeState = {
-        connectionName: name,
-        conversation: conversation,
-        relatesTo: activity.relatesTo,
-        msAppId: this._token?.appId!,
-      };
-
-      const state = Buffer.from(JSON.stringify(tokenExchangeState)).toString('base64');
-      const resource = await api.bots.signIn.getResource({ state });
-
-      return say({
-        type: 'message',
-        inputHint: 'acceptingInput',
-        recipient: activity.from,
-        attachments: [
-          cardAttachment('oauth', {
-            text,
-            connectionName: name,
-            tokenExchangeResource: resource.tokenExchangeResource,
-            tokenPostResource: resource.tokenPostResource,
-            buttons: [
-              {
-                type: 'signin',
-                title: 'Sign In',
-                value: resource.signInLink,
-              },
-            ],
-          }),
-        ],
-      });
-    };
-
     const params = {
       ...args,
+      api,
+      log: this.log,
+      conversation,
       say,
       reply,
-      signin,
+      signin: signin({
+        appId: this._token!.appId,
+        api,
+        activity,
+        conversation,
+      }),
     };
 
     this.log.debug(
@@ -180,58 +159,8 @@ export class App {
     this._emit(`activity.${activity.type}`, params);
 
     if (activity.type === 'invoke') {
-      const key = `${activity.conversation.id}/${activity.from.id}`;
-      const res = this._emit(`activity.${activity.type}[${activity.name}]`, params);
-
-      if (activity.name === 'signin/tokenExchange') {
-        try {
-          this._exchangeState[key] = activity.value.connectionName;
-          const token = await api.users.token.exchange({
-            channelId: activity.channelId,
-            userId: activity.from.id,
-            connectionName: activity.value.connectionName,
-            exchangeRequest: {
-              token: activity.value.token,
-            },
-          });
-
-          this._emit('sign-in', { ...params, tokenResponse: token });
-        } catch (err) {
-          return {
-            status: StatusCodes.PRECONDITION_FAILED,
-            body: {
-              id: activity.value.id,
-              connectionName: activity.value.connectionName,
-              failureDetail: 'unable to exchange token...',
-            } as TokenExchangeInvokeResponse,
-          };
-        }
-      }
-
-      if (activity.name === 'signin/verifyState') {
-        try {
-          const connectionName = this._exchangeState[key];
-
-          if (!connectionName || !activity.value.state) {
-            return { status: StatusCodes.NOT_FOUND, body: 'not found' };
-          }
-
-          const token = await api.users.token.get({
-            channelId: activity.channelId,
-            userId: activity.from.id,
-            connectionName,
-            code: activity.value.state,
-          });
-
-          delete this._exchangeState[key];
-          this._emit('sign-in', { ...params, tokenResponse: token });
-        } catch (err) {
-          this._emit('error', err);
-          return { status: StatusCodes.PRECONDITION_FAILED, body: err };
-        }
-      }
-
-      return { status: 200, body: res };
+      const res = await this._emit(`activity.${activity.type}[${activity.name}]`, params);
+      if (res) return res;
     }
 
     return { status: 200 };
@@ -244,5 +173,72 @@ export class App {
 
   private _onError(err: Error) {
     this.log.error(err);
+  }
+
+  private async _onTokenExchange(args: ActivityEventArgs<SignInTokenExchangeInvokeActivity>) {
+    const { api, activity } = args;
+    const key = `${activity.conversation.id}/${activity.from.id}`;
+
+    try {
+      this._exchangeState[key] = activity.value.connectionName;
+      const token = await api.users.token.exchange({
+        channelId: activity.channelId,
+        userId: activity.from.id,
+        connectionName: activity.value.connectionName,
+        exchangeRequest: {
+          token: activity.value.token,
+        },
+      });
+
+      this._emit('sign-in', { ...args, tokenResponse: token });
+      return { status: StatusCodes.OK };
+    } catch (err) {
+      if (err instanceof HttpError) {
+        if (err.code !== 404) {
+          this._emit('error', err);
+        }
+      }
+
+      return {
+        status: StatusCodes.PRECONDITION_FAILED,
+        body: {
+          id: activity.value.id,
+          connectionName: activity.value.connectionName,
+          failureDetail: 'unable to exchange token...',
+        } as TokenExchangeInvokeResponse,
+      };
+    }
+  }
+
+  private async _onVerifyState(args: ActivityEventArgs<SignInVerifyStateInvokeActivity>) {
+    const { api, activity } = args;
+    const key = `${activity.conversation.id}/${activity.from.id}`;
+
+    try {
+      const connectionName = this._exchangeState[key];
+
+      if (!connectionName || !activity.value.state) {
+        return { status: StatusCodes.NOT_FOUND };
+      }
+
+      const token = await api.users.token.get({
+        channelId: activity.channelId,
+        userId: activity.from.id,
+        connectionName,
+        code: activity.value.state,
+      });
+
+      delete this._exchangeState[key];
+      this._emit('sign-in', { ...args, tokenResponse: token });
+      return { status: StatusCodes.OK };
+    } catch (err) {
+      if (err instanceof HttpError) {
+        if (err.code !== 404) {
+          this._emit('error', err);
+        }
+      }
+
+      return { status: StatusCodes.PRECONDITION_FAILED };
+    }
   }
 }
