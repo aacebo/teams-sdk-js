@@ -95,6 +95,11 @@ export class App {
 
   protected async onActivity(args: ReceiverActivityArgs) {
     const { token, activity } = args;
+
+    this.log.debug(
+      `activity/${activity.type}${activity.type === 'invoke' ? `/${activity.name}` : ''}`
+    );
+
     const api = new Client({
       ...this.options.http,
       baseUrl: token.serviceUrl,
@@ -146,10 +151,6 @@ export class App {
         conversation,
       }),
     };
-
-    this.log.debug(
-      `activity/${activity.type}${activity.type === 'invoke' ? `/${activity.name}` : ''}`
-    );
 
     if (activity.type === 'message') {
       await say({ type: 'typing' });
