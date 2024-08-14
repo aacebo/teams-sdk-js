@@ -7,6 +7,7 @@ export interface ConsoleLoggerOptions {
 }
 
 export class ConsoleLogger implements Logger {
+  private readonly _pattern: RegExp;
   private readonly _name?: string;
   private readonly _level: LogLevel;
   private readonly _levels = {
@@ -26,6 +27,7 @@ export class ConsoleLogger implements Logger {
   constructor(options?: ConsoleLoggerOptions) {
     this._name = options?.name;
     this._level = options?.level || 'info';
+    this._pattern = parseMagicExpr(process.env.LOG || '*');
   }
 
   error(...msg: any[]) {
@@ -49,6 +51,10 @@ export class ConsoleLogger implements Logger {
       return;
     }
 
+    if (this._name && !this._pattern.test(this._name)) {
+      return;
+    }
+
     const prefix = [this._colors[level], ANSI.Bold, `[${level.toUpperCase()}]`];
 
     const name = [this._name || '', ANSI.ForegroundReset, ANSI.BoldReset];
@@ -61,4 +67,19 @@ export class ConsoleLogger implements Logger {
       }
     }
   }
+}
+
+function parseMagicExpr(pattern: string) {
+  let res = '';
+  const parts = pattern.split('*');
+
+  for (let i = 0; i < parts.length; i++) {
+    if (i > 0) {
+      res += '.*';
+    }
+
+    res += parts[i];
+  }
+
+  return new RegExp(res);
 }
