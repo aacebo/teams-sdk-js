@@ -1,6 +1,0 @@
-POST http://localhost:3000/api/messages
-Authorization: Bearer test
-
-{
-	"type": "event"
-}
