@@ -1,0 +1,31 @@
+{
+  "name": "@teams/botbuilder",
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "clean": "npx rimraf ./dist",
+    "build": "npm run clean && tsc -p ."
+  },
+  "dependencies": {
+    "uuid": "^10.0.0"
+  },
+  "peerDependencies": {
+    "@teams/apps": "*",
+    "@teams/common": "*",
+    "@teams/config": "*",
+    "botbuilder-core": "^4.22.0",
+    "botframework-connector": "^4.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.2",
+    "@types/uuid": "^10.0.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.4.5"
+  }
+}

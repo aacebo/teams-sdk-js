@@ -1,6 +1,3 @@
-import http from 'http';
-import url from 'url';
-
 import {
   Client,
   Activity,
@@ -11,20 +8,23 @@ import {
   cardAttachment,
   TokenExchangeInvokeResponse,
 } from '@teams/api';
-import { HttpClientOptions, HttpRequest, StatusCodes } from '@teams/common/http';
+
+import { HttpClientOptions, StatusCodes } from '@teams/common/http';
 import { Logger, ConsoleLogger } from '@teams/common/logging';
 
 import pkg from '../package.json';
 
-import { ActivityEventArgs, Events } from './events';
-import { Receiver } from './receiver';
+import { Events } from './events';
+import { Receiver, ReceiverActivityArgs } from './receiver';
+import { HttpReceiver } from './http-receiver';
 
 export type AppOptions = Credentials & {
   readonly http?: HttpClientOptions;
   readonly logger?: Logger;
+  readonly receiver?: Receiver;
 };
 
-export class App implements Receiver {
+export class App {
   readonly log: Logger;
 
   get token() {
@@ -33,7 +33,7 @@ export class App implements Receiver {
   private _token?: Token;
 
   private readonly _api: Client;
-  private readonly _server: http.Server;
+  private readonly _receiver: Receiver;
   private readonly _exchangeState: Record<string, string | undefined> = {};
   private readonly _events: Events = {
     error: this._onError.bind(this),
@@ -52,7 +52,13 @@ export class App implements Receiver {
       },
     });
 
-    this._server = http.createServer();
+    this._receiver =
+      this.options.receiver ||
+      new HttpReceiver({
+        logger: this.options.logger,
+      });
+
+    this._receiver.onActivity(this.onActivity.bind(this));
   }
 
   async start(port = 3000) {
@@ -66,17 +72,16 @@ export class App implements Receiver {
     }
 
     return await new Promise<void>((resolve, reject) => {
-      this._server.on('request', this._onIncomingRequest.bind(this));
-      this._server.on('error', (err) => {
-        this._emit('error', err);
-        reject(err);
-      });
-
-      this._server.listen(port, undefined, undefined, () => {
-        this.log.info('listening 🚀');
-        this._emit('start');
-        resolve();
-      });
+      this._receiver
+        .start(port)
+        .then(() => {
+          this.log.info('listening 🚀');
+          resolve();
+        })
+        .catch((err) => {
+          this.log.error(err);
+          reject(err);
+        });
     });
   }
 
@@ -84,67 +89,8 @@ export class App implements Receiver {
     this._events[event] = cb;
   }
 
-  private _onIncomingRequest(
-    req: http.IncomingMessage,
-    res: http.ServerResponse<http.IncomingMessage>
-  ) {
-    if (req.method !== 'POST') {
-      res.statusCode = StatusCodes.METHOD_NOT_ALLOWED;
-      return res.end();
-    }
-
-    if (!req.url) {
-      res.statusCode = StatusCodes.NOT_FOUND;
-      return res.end('not found');
-    }
-
-    const uri = url.parse(req.url, true);
-
-    if (uri.path !== '/api/messages') {
-      res.statusCode = StatusCodes.NOT_FOUND;
-      return res.end('not found');
-    }
-
-    try {
-      const chunks: any[] = [];
-
-      req.on('data', (chunk) => {
-        chunks.push(chunk);
-      });
-
-      req.on('end', async () => {
-        const response = await this._onRequest(
-          new HttpRequest({
-            method: req.method!,
-            url: req.url!,
-            headers: req.headers,
-            body: JSON.parse(Buffer.concat(chunks).toString()),
-          }),
-          res
-        );
-
-        res.statusCode = response?.status || 200;
-        res.end(JSON.stringify(response?.body || null));
-      });
-    } catch (err) {
-      res.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
-      res.end('internal server error');
-      this._emit('error', err);
-    }
-  }
-
-  private _onRequest(req: HttpRequest, res: http.ServerResponse<http.IncomingMessage>) {
-    const authorization = req.headers['authorization']?.replace('Bearer ', '');
-
-    if (!authorization) {
-      res.statusCode = StatusCodes.UNAUTHORIZED;
-      res.end('unauthorized');
-      return;
-    }
-
-    const token = new Token(authorization);
-    const log = this.log;
-    const activity: Activity = req.body;
+  protected async onActivity(args: ReceiverActivityArgs) {
+    const { token, activity } = args;
     const api = new Client({
       ...this.options.http,
       baseUrl: token.serviceUrl,
@@ -215,11 +161,12 @@ export class App implements Receiver {
       });
     };
 
-    return this._onActivity({ activity, conversation, req, api, token, log, say, reply, signin });
-  }
-
-  private async _onActivity(args: ActivityEventArgs<Activity>) {
-    const { activity, api, say } = args;
+    const params = {
+      ...args,
+      say,
+      reply,
+      signin,
+    };
 
     this.log.debug(
       `activity/${activity.type}${activity.type === 'invoke' ? `/${activity.name}` : ''}`
@@ -229,12 +176,12 @@ export class App implements Receiver {
       await say({ type: 'typing' });
     }
 
-    this._emit('activity', args);
-    this._emit(`activity.${activity.type}`, args);
+    this._emit('activity', params);
+    this._emit(`activity.${activity.type}`, params);
 
     if (activity.type === 'invoke') {
       const key = `${activity.conversation.id}/${activity.from.id}`;
-      const res = this._emit(`activity.${activity.type}[${activity.name}]`, args);
+      const res = this._emit(`activity.${activity.type}[${activity.name}]`, params);
 
       if (activity.name === 'signin/tokenExchange') {
         try {
@@ -248,7 +195,7 @@ export class App implements Receiver {
             },
           });
 
-          this._emit('sign-in', { ...args, tokenResponse: token });
+          this._emit('sign-in', { ...params, tokenResponse: token });
         } catch (err) {
           return {
             status: StatusCodes.PRECONDITION_FAILED,
@@ -277,15 +224,17 @@ export class App implements Receiver {
           });
 
           delete this._exchangeState[key];
-          this._emit('sign-in', { ...args, tokenResponse: token });
+          this._emit('sign-in', { ...params, tokenResponse: token });
         } catch (err) {
           this._emit('error', err);
-          return { status: StatusCodes.PRECONDITION_FAILED };
+          return { status: StatusCodes.PRECONDITION_FAILED, body: err };
         }
       }
 
       return { status: 200, body: res };
     }
+
+    return { status: 200 };
   }
 
   private _emit<Event extends keyof Events>(event: Event, data?: any) {
