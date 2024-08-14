@@ -1,3 +1,4 @@
+import { ANSI } from './ansi';
 import { Logger, LogLevel } from './logger';
 
 export interface ConsoleLoggerOptions {
@@ -9,10 +10,17 @@ export class ConsoleLogger implements Logger {
   private readonly _name?: string;
   private readonly _level: LogLevel;
   private readonly _levels = {
-    error: 400,
-    warn: 300,
-    info: 200,
-    debug: 100,
+    error: 100,
+    warn: 200,
+    info: 300,
+    debug: 400,
+  };
+
+  private readonly _colors = {
+    error: ANSI.ForegroundRed,
+    warn: ANSI.ForegroundYellow,
+    info: ANSI.ForegroundCyan,
+    debug: ANSI.ForegroundMagenta,
   };
 
   constructor(options?: ConsoleLoggerOptions) {
@@ -41,6 +49,16 @@ export class ConsoleLogger implements Logger {
       return;
     }
 
-    console[level](`[${level.toUpperCase()}]`, this._name || '', ...msg);
+    const prefix = [this._colors[level], ANSI.Bold, `[${level.toUpperCase()}]`];
+
+    const name = [this._name || '', ANSI.ForegroundReset, ANSI.BoldReset];
+
+    for (const m of msg) {
+      const str = new String(m).split('\n');
+
+      for (const line of str) {
+        console[level](prefix.join(''), name.join(''), line);
+      }
+    }
   }
 }

@@ -14,7 +14,7 @@ const app = new App({
   type: 'MultiTenant',
   clientId: process.env.CLIENT_ID || 'b4e3dcad-6c1a-4f21-8a48-dd539afa61bb',
   clientSecret: process.env.CLIENT_SECRET || 'C4y8Q~d_Ip-wdR4pcLByptK2.Z.xg51ialgDtbyb',
-  logger: new ConsoleLogger({ name: '@samples/echo' }),
+  logger: new ConsoleLogger({ name: '@samples/botbuilder' }),
   receiver: new TeamsAdapter({
     auth: new ConfigurationBotFrameworkAuthentication(
       {},
@@ -47,10 +47,6 @@ app.on('sign-in', async ({ say, tokenResponse }) => {
     text: `\`${JSON.stringify(me, null, 2)}\``,
     attachments: [cardAttachment('adaptive', cards.oauth(me, photoUrl))],
   });
-});
-
-app.on('error', (err) => {
-  app.log.debug(err);
 });
 
 (async () => {
