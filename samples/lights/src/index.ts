@@ -48,7 +48,7 @@ app.on('activity.message', async ({ say, activity }) => {
     }),
   })
     .function('get_light_status', 'get the current light status', () => {
-      return storage.get(activity.from.id)?.status || false;
+      return state.status;
     })
     .function('lights_on', 'turn the lights on', () => {
       state.status = true;
