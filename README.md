@@ -35,6 +35,7 @@ $: npm run dev
 ## Packages
 
 -   [`@teams/apps`](./packages/apps/README.md)
+-   [`@teams/ai`](./packages/ai/README.md)
 -   [`@teams/api`](./packages/api/README.md)
 -   [`@teams/botbuilder`](./packages/botbuilder/README.md)
 -   [`@teams/cards`](./packages/cards/README.md)
