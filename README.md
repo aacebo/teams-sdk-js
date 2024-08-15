@@ -48,3 +48,4 @@ $: npm run dev
 -   [`@samples/echo`](./samples/echo/README.md)
 -   [`@samples/botbuilder`](./samples/botbuilder/README.md)
 -   [`@samples/auth`](./samples/auth/README.md)
+-   [`@samples/lights`](./samples/lights/README.md)
