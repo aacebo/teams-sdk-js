@@ -38,7 +38,7 @@ app.on('activity.message', async ({ say, activity }) => {
   }
 
   const prompt = new ChatPrompt({
-    history: storage.get(activity.from.id)?.history,
+    history: state.history,
     instructions: `The following is a conversation with an AI assistant.
   The assistant can turn a light on or off.
   The lights are currently off.`,
