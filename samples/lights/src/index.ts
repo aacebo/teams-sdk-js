@@ -5,8 +5,8 @@ import { OpenAIChatModel } from '@teams/openai';
 import { LocalStorage } from '@teams/common/storage';
 
 const storage = new LocalStorage<{
-  status?: boolean;
-  history?: Message[];
+  status: boolean;
+  history: Message[];
 }>();
 
 const app = new App({
@@ -17,6 +17,26 @@ const app = new App({
 });
 
 app.on('activity.message', async ({ say, activity }) => {
+  let state = storage.get(activity.from.id);
+
+  if (!state) {
+    state = {
+      status: false,
+      history: [],
+    };
+
+    storage.set(activity.from.id, state);
+  }
+
+  if (activity.text === '/history') {
+    await say({
+      type: 'message',
+      text: state.history.map((m) => `- ${m.role}: ${JSON.stringify(m.content)}`).join('\n'),
+    });
+
+    return;
+  }
+
   const prompt = new ChatPrompt({
     history: storage.get(activity.from.id)?.history,
     instructions: `The following is a conversation with an AI assistant.
@@ -31,14 +51,12 @@ app.on('activity.message', async ({ say, activity }) => {
       return storage.get(activity.from.id)?.status || false;
     })
     .function('lights_on', 'turn the lights on', () => {
-      const userState = storage.get(activity.from.id) || {};
-      userState.status = true;
-      storage.set(activity.from.id, userState);
+      state.status = true;
+      storage.set(activity.from.id, state);
     })
     .function('lights_off', 'turn the lights off', () => {
-      const userState = storage.get(activity.from.id) || {};
-      userState.status = false;
-      storage.set(activity.from.id, userState);
+      state.status = false;
+      storage.set(activity.from.id, state);
     });
 
   const text = await prompt.chat(activity.text);
