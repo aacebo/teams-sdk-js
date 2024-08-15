@@ -35,7 +35,7 @@ export class App {
 
   private readonly _api: Client;
   private readonly _receiver: Receiver;
-  private readonly _exchangeState: Record<string, string | undefined> = {};
+  private readonly _exchanges = new Map<string, string>();
   private readonly _events: Events = {};
 
   constructor(readonly options: AppOptions) {
@@ -181,7 +181,7 @@ export class App {
     const key = `${activity.conversation.id}/${activity.from.id}`;
 
     try {
-      this._exchangeState[key] = activity.value.connectionName;
+      this._exchanges.set(key, activity.value.connectionName);
       const token = await api.users.token.exchange({
         channelId: activity.channelId,
         userId: activity.from.id,
@@ -216,7 +216,7 @@ export class App {
     const key = `${activity.conversation.id}/${activity.from.id}`;
 
     try {
-      const connectionName = this._exchangeState[key];
+      const connectionName = this._exchanges.get(key);
 
       if (!connectionName || !activity.value.state) {
         return { status: StatusCodes.NOT_FOUND };
@@ -229,7 +229,7 @@ export class App {
         code: activity.value.state,
       });
 
-      delete this._exchangeState[key];
+      this._exchanges.delete(key);
       this._emit('sign-in', { ...args, tokenResponse: token });
       return { status: StatusCodes.OK };
     } catch (err) {
