@@ -128,7 +128,7 @@ export class OpenAIChatModel implements ChatModel {
         const message = completion.choices[0].message;
 
         if (message.tool_calls) {
-          return this._on_tool(params, messages, message, on_chunk);
+          return this._onTool(params, messages, message, on_chunk);
         }
 
         const res: ModelMessage = {
@@ -149,7 +149,7 @@ export class OpenAIChatModel implements ChatModel {
         const delta = chunk.choices[0].delta;
 
         if (delta.tool_calls && delta.tool_calls.length > 0) {
-          return this._on_tool(params, messages, delta, on_chunk);
+          return this._onTool(params, messages, delta, on_chunk);
         }
 
         if (delta.content) {
@@ -176,7 +176,7 @@ export class OpenAIChatModel implements ChatModel {
     }
   }
 
-  private async _on_tool(
+  private async _onTool(
     params: ChatParams,
     messages: Message[],
     message:
