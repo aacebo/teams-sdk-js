@@ -37,7 +37,7 @@ export class OpenAIChatModel implements ChatModel {
 
   async chat(
     params: ChatParams,
-    on_chunk?: (chunk: ModelMessage) => void | Promise<void>
+    onChunk?: (chunk: ModelMessage) => void | Promise<void>
   ): Promise<ModelMessage> {
     const messages = params.history || [];
     messages.push(params.message);
@@ -128,7 +128,7 @@ export class OpenAIChatModel implements ChatModel {
         const message = completion.choices[0].message;
 
         if (message.tool_calls) {
-          return this._onTool(params, messages, message, on_chunk);
+          return this._onTool(params, messages, message, onChunk);
         }
 
         const res: ModelMessage = {
@@ -149,7 +149,7 @@ export class OpenAIChatModel implements ChatModel {
         const delta = chunk.choices[0].delta;
 
         if (delta.tool_calls && delta.tool_calls.length > 0) {
-          return this._onTool(params, messages, delta, on_chunk);
+          return this._onTool(params, messages, delta, onChunk);
         }
 
         if (delta.content) {
@@ -160,8 +160,8 @@ export class OpenAIChatModel implements ChatModel {
           }
         }
 
-        if (on_chunk) {
-          await on_chunk({
+        if (onChunk) {
+          await onChunk({
             role: 'model',
             content: delta.content || undefined,
           });
