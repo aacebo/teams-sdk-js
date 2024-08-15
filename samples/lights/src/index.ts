@@ -2,14 +2,12 @@ import { App } from '@teams/apps';
 import { ChatPrompt, Message } from '@teams/ai';
 import { ConsoleLogger } from '@teams/common/logging';
 import { OpenAIChatModel } from '@teams/openai';
+import { LocalStorage } from '@teams/common/storage';
 
-const state = new Map<
-  string,
-  {
-    status?: boolean;
-    history?: Message[];
-  }
->();
+const storage = new LocalStorage<{
+  status?: boolean;
+  history?: Message[];
+}>();
 
 const app = new App({
   type: 'MultiTenant',
@@ -20,7 +18,7 @@ const app = new App({
 
 app.on('activity.message', async ({ say, activity }) => {
   const prompt = new ChatPrompt({
-    history: state.get(activity.from.id)?.history,
+    history: storage.get(activity.from.id)?.history,
     instructions: `The following is a conversation with an AI assistant.
   The assistant can turn a light on or off.
   The lights are currently off.`,
@@ -30,17 +28,17 @@ app.on('activity.message', async ({ say, activity }) => {
     }),
   })
     .function('get_light_status', 'get the current light status', () => {
-      return state.get(activity.from.id)?.status || false;
+      return storage.get(activity.from.id)?.status || false;
     })
     .function('lights_on', 'turn the lights on', () => {
-      const userState = state.get(activity.from.id) || {};
+      const userState = storage.get(activity.from.id) || {};
       userState.status = true;
-      state.set(activity.from.id, userState);
+      storage.set(activity.from.id, userState);
     })
     .function('lights_off', 'turn the lights off', () => {
-      const userState = state.get(activity.from.id) || {};
+      const userState = storage.get(activity.from.id) || {};
       userState.status = false;
-      state.set(activity.from.id, userState);
+      storage.set(activity.from.id, userState);
     });
 
   const text = await prompt.chat(activity.text);
