@@ -182,7 +182,7 @@ export class OpenAIChatModel implements ChatModel {
     message:
       | OpenAI.ChatCompletionMessage
       | OpenAI.Chat.Completions.ChatCompletionChunk.Choice.Delta,
-    on_chunk?: (chunk: ModelMessage) => void | Promise<void>
+    onChunk?: (chunk: ModelMessage) => void | Promise<void>
   ) {
     const calls: OpenAI.ChatCompletionMessageToolCall[] = [];
 
@@ -229,7 +229,7 @@ export class OpenAIChatModel implements ChatModel {
           })),
         },
       },
-      on_chunk
+      onChunk
     );
   }
 }
