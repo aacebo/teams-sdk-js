@@ -1,5 +1,5 @@
 {
-  "name": "@samples/github",
+  "name": "@samples/copilot",
   "version": "0.0.0",
   "license": "MIT",
   "private": true,
@@ -16,15 +16,16 @@
     "dev": "npx nodemon -w \"./src/**\" -e ts --exec \"ts-node --transpileOnly ./src\""
   },
   "dependencies": {
+    "@microsoft/microsoft-graph-client": "^3.0.7",
     "@teams/ai": "*",
     "@teams/api": "*",
     "@teams/apps": "*",
     "@teams/common": "*",
     "@teams/config": "*",
-    "@teams/openai": "*",
-    "octokit": "^4.0.0"
+    "@teams/openai": "*"
   },
   "devDependencies": {
+    "@microsoft/microsoft-graph-types": "^2.40.0",
     "nodemon": "^3.1.4",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",

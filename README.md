@@ -50,4 +50,4 @@ $: npm run dev
 -   [`@samples/auth`](./samples/auth/README.md)
 -   **AI**
     -   [`@samples/lights`](./samples/lights/README.md)
-    -   [`@samples/github`](./samples/github/README.md)
+    -   [`@samples/copilot`](./samples/copilot/README.md)

@@ -60,9 +60,13 @@ export class ConsoleLogger implements Logger {
     const name = [this._name || '', ANSI.ForegroundReset, ANSI.BoldReset];
 
     for (const m of msg) {
-      const str = new String(m).split('\n');
+      let text = new String(m);
 
-      for (const line of str) {
+      if (typeof m === 'object') {
+        text = JSON.stringify(m, null, 2);
+      }
+
+      for (const line of text.split('\n')) {
         console[level](prefix.join(''), name.join(''), line);
       }
     }
