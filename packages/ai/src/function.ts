@@ -1,4 +1,4 @@
-export type FunctionHandler = (args: { [key: string]: any }) => any | Promise<any>;
+export type FunctionHandler<T = any> = (args: T) => any | Promise<any>;
 
 export interface Function {
   readonly name: string;

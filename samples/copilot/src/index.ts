@@ -3,8 +3,8 @@ import { ConsoleLogger } from '@teams/common/logging';
 import * as MSGraph from '@microsoft/microsoft-graph-types';
 
 import { storage } from './storage';
-import { prompt } from './prompt';
 import { graph } from './graph';
+import * as prompts from './prompts';
 
 const app = new App({
   type: 'MultiTenant',
@@ -40,7 +40,7 @@ app.on('activity.message', async ({ say, activity, signin }) => {
     return;
   }
 
-  const text = await prompt(state).chat(activity.text);
+  const text = await prompts.root(state).chat(activity.text);
   storage.set(key, state);
   await say({ type: 'message', text });
 });
