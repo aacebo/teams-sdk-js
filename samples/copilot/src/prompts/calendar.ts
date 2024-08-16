@@ -14,6 +14,10 @@ interface CreateCalendarEventArgs {
   readonly end: string;
 }
 
+interface DeleteCalendarEventArgs {
+  readonly eventId: string;
+}
+
 export function calendar(_: Activity, state: State) {
   if (!state.auth?.token) throw new Error('auth token is required');
   if (!state.user) throw new Error('user is required');
@@ -42,6 +46,24 @@ export function calendar(_: Activity, state: State) {
       const res: Record<'value', MSGraph.Event[]> = await msgraph.api('/me/calendar/events').get();
       return res.value;
     })
+    .function(
+      'delete_user_calendar_event',
+      'delete an event from the users calendar',
+      {
+        type: 'object',
+        properties: {
+          eventId: {
+            type: 'string',
+            description: 'the id of the calendar event',
+          },
+        },
+        required: ['eventId'],
+      },
+      async ({ eventId }: DeleteCalendarEventArgs) => {
+        log.debug('delete_user_calendar_event');
+        await msgraph.api(`/me/calendar/events/${eventId}`).delete();
+      }
+    )
     .function(
       'create_user_calendar_event',
       'create a new calendar event for the user',
@@ -88,8 +110,6 @@ export function calendar(_: Activity, state: State) {
           isOnlineMeeting: true,
           onlineMeetingProvider: 'teamsForBusiness',
         });
-
-        return '';
       }
     );
 }
