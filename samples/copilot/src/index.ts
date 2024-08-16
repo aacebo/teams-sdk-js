@@ -13,8 +13,14 @@ const app = new App({
   logger: new ConsoleLogger({ level: 'debug', name: '@samples/github' }),
 });
 
+app.on('activity.conversationUpdate', async ({ activity, signin }) => {
+  if (!activity.membersAdded?.length) return;
+  await signin('graph-connection');
+});
+
 app.on('activity.message', async ({ say, activity, signin }) => {
-  let state = storage.get(activity.from.id);
+  const key = `/${activity.conversation.id}/${activity.from.id}`;
+  let state = storage.get(key);
 
   if (!state) {
     state = { history: [] };
@@ -35,12 +41,13 @@ app.on('activity.message', async ({ say, activity, signin }) => {
   }
 
   const text = await prompt(state).chat(activity.text);
-  storage.set(activity.from.id, state);
+  storage.set(key, state);
   await say({ type: 'message', text });
 });
 
 app.on('sign-in', async ({ say, activity, tokenResponse }) => {
-  let state = storage.get(activity.from.id);
+  const key = `/${activity.conversation.id}/${activity.from.id}`;
+  let state = storage.get(key);
 
   if (!state) {
     state = { history: [] };
@@ -55,8 +62,11 @@ app.on('sign-in', async ({ say, activity, tokenResponse }) => {
     expiration: tokenResponse.expiration,
   };
 
-  storage.set(activity.from.id, state);
-  await say({ type: 'message', text: `Welcome ${me.displayName}` });
+  storage.set(key, state);
+  await say({
+    type: 'message',
+    text: `Welcome ${me.displayName}, how may I assist you?`,
+  });
 });
 
 (async () => {

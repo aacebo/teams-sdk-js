@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.15/MicrosoftTeams.schema.json",
+  "version": "1.0.0",
+  "manifestVersion": "1.15",
+  "id": "b4e3dcad-6c1a-4f21-8a48-dd539afa61bb",
+  "packageName": "com.package.name",
+  "name": {
+    "short": "Copilot",
+    "full": "Copilot"
+  },
+  "developer": {
+    "name": "Microsoft",
+    "mpnId": "",
+    "websiteUrl": "https://microsoft.com",
+    "privacyUrl": "https://privacy.microsoft.com/privacystatement",
+    "termsOfUseUrl": "https://www.microsoft.com/legal/terms-of-use"
+  },
+  "description": {
+    "short": "your personal Teams assistant.",
+    "full": "your personal Teams assistant."
+  },
+  "icons": {
+    "outline": "outline.png",
+    "color": "color.png"
+  },
+  "accentColor": "#FFFFFF",
+  "staticTabs": [
+    {
+      "entityId": "conversations",
+      "scopes": ["personal"]
+    },
+    {
+      "entityId": "about",
+      "scopes": ["personal"]
+    }
+  ],
+  "bots": [
+    {
+      "botId": "ad80c613-30eb-46cf-9433-7d2f8e223e41",
+      "scopes": ["personal", "team", "groupChat"],
+      "isNotificationOnly": false,
+      "supportsCalling": false,
+      "supportsVideo": false,
+      "supportsFiles": false
+    }
+  ],
+  "validDomains": ["*.ngrok.io", "*.botframework.com"],
+  "composeExtensions": [
+    {
+      "botId": "ad80c613-30eb-46cf-9433-7d2f8e223e41",
+      "canUpdateConfiguration": true,
+      "commands": [
+        {
+          "id": "searchCmd",
+          "description": "NPM Search",
+          "title": "Search",
+          "initialRun": false,
+          "parameters": [
+            {
+              "name": "queryText",
+              "description": "Enter your search query",
+              "title": "Query"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "webApplicationInfo": {
+    "id": "ad80c613-30eb-46cf-9433-7d2f8e223e41",
+    "resource": "api://botid-ad80c613-30eb-46cf-9433-7d2f8e223e41"
+  }
+}
