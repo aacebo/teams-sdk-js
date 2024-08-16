@@ -1,13 +1,8 @@
 import { App } from '@teams/apps';
-import { ChatPrompt, Message } from '@teams/ai';
 import { ConsoleLogger } from '@teams/common/logging';
-import { OpenAIChatModel } from '@teams/openai';
-import { LocalStorage } from '@teams/common/storage';
 
-const storage = new LocalStorage<{
-  status: boolean;
-  history: Message[];
-}>();
+import { storage } from './storage';
+import { prompt } from './prompt';
 
 const app = new App({
   type: 'MultiTenant',
@@ -37,29 +32,7 @@ app.on('activity.message', async ({ say, activity }) => {
     return;
   }
 
-  const prompt = new ChatPrompt({
-    history: state.history,
-    instructions: `The following is a conversation with an AI assistant.
-  The assistant can turn a light on or off.
-  The lights are currently off.`,
-    model: new OpenAIChatModel({
-      model: 'gpt-4o',
-      apiKey: process.env.OPENAI_API_KEY,
-    }),
-  })
-    .function('get_light_status', 'get the current light status', () => {
-      return state.status;
-    })
-    .function('lights_on', 'turn the lights on', () => {
-      state.status = true;
-      storage.set(activity.from.id, state);
-    })
-    .function('lights_off', 'turn the lights off', () => {
-      state.status = false;
-      storage.set(activity.from.id, state);
-    });
-
-  const text = await prompt.chat(activity.text);
+  const text = await prompt(activity.from.id).chat(activity.text);
 
   await say({
     type: 'message',
