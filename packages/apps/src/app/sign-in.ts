@@ -1,7 +1,9 @@
+import { Logger } from '@teams/common/logging';
 import {
   Activity,
   cardAttachment,
   Client,
+  ConversationAccount,
   ConversationReference,
   TokenExchangeState,
 } from '@teams/api';
@@ -11,15 +13,31 @@ export interface SignInArgs {
   readonly api: Client;
   readonly activity: Activity;
   readonly conversation: ConversationReference;
+  readonly log: Logger;
 }
 
 export function signin(args: SignInArgs) {
   const { appId, api, activity, conversation } = args;
 
   return async (name: string, text = 'Sign In') => {
+    let convo = { ...conversation };
+
+    // create new 1:1 conversation with user to do SSO
+    // because groupchats don't support it.
+    if (activity.conversation.isGroup) {
+      const res = await api.conversations.create({
+        tenantId: activity.conversation.tenantId,
+        isGroup: false,
+        bot: { id: activity.recipient.id },
+        members: [activity.from],
+      });
+
+      convo.conversation = { id: res.id } as ConversationAccount;
+    }
+
     const tokenExchangeState: TokenExchangeState = {
       connectionName: name,
-      conversation: conversation,
+      conversation: convo,
       relatesTo: activity.relatesTo,
       msAppId: appId,
     };
@@ -27,7 +45,7 @@ export function signin(args: SignInArgs) {
     const state = Buffer.from(JSON.stringify(tokenExchangeState)).toString('base64');
     const resource = await api.bots.signIn.getResource({ state });
 
-    return api.conversations.activities(activity.conversation.id).create({
+    return api.conversations.activities(convo.conversation.id).create({
       type: 'message',
       inputHint: 'acceptingInput',
       recipient: activity.from,

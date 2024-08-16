@@ -1,3 +1,5 @@
+import { HttpRequest } from '@teams/common/http';
+import { Logger } from '@teams/common/logging';
 import {
   Activity,
   InvokeActivity,
@@ -7,9 +9,9 @@ import {
   InvokeResponse,
   ConversationReference,
   TokenResponse,
+  MessageSendActivity,
+  MentionEntity,
 } from '@teams/api';
-import { HttpRequest } from '@teams/common/http';
-import { Logger } from '@teams/common/logging';
 
 type Prefixed<T, P extends string | undefined = undefined> = {
   [K in Extract<keyof T, string> as P extends string ? `${P}${K}` : K]?: T[K];
@@ -38,6 +40,9 @@ export interface Events extends ActivityEvents, InvokeActivityEvents {
   auth?: EventHandler<string>;
   start?: EventHandler<void>;
   'sign-in'?: EventHandler<ActivityEventArgs<Activity> & { readonly tokenResponse: TokenResponse }>;
+  mention?: EventHandler<
+    ActivityEventArgs<MessageSendActivity> & { readonly mention: MentionEntity }
+  >;
   activity?: EventHandler<ActivityEventArgs<Activity>>;
 }
 

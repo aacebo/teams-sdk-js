@@ -6,6 +6,7 @@ export interface State {
   auth?: {
     token?: string;
     expiration?: string;
+    conversationId?: string;
   };
   user?: MSGraph.User & {
     timezone?: string;

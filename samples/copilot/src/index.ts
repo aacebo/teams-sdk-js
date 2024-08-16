@@ -19,14 +19,22 @@ app.on('activity.conversationUpdate', async ({ activity, signin }) => {
 });
 
 app.on('activity.message', async ({ say, activity, signin }) => {
-  const key = `/${activity.conversation.id}/${activity.from.id}`;
+  if (activity.conversation.isGroup) return;
+
+  const key = activity.from.id;
   let state = storage.get(key);
 
   if (!state) {
-    state = { history: [] };
+    state = {
+      auth: {
+        conversationId: activity.conversation.id,
+      },
+      history: [],
+    };
   }
 
   if (!state.auth?.token) {
+    storage.set(key, state);
     await signin('graph-connection');
     return;
   }
@@ -45,14 +53,48 @@ app.on('activity.message', async ({ say, activity, signin }) => {
   await say({ type: 'message', text });
 });
 
-app.on('sign-in', async ({ say, activity, tokenResponse }) => {
-  const key = `/${activity.conversation.id}/${activity.from.id}`;
+app.on('mention', async ({ say, activity, signin }) => {
+  const key = activity.from.id;
   let state = storage.get(key);
 
   if (!state) {
-    state = { history: [] };
+    state = {
+      auth: {
+        conversationId: activity.conversation.id,
+      },
+      history: [],
+    };
   }
 
+  if (!state.auth?.token) {
+    storage.set(key, state);
+    await signin('graph-connection');
+    return;
+  }
+
+  if (activity.text === '/history') {
+    await say({
+      type: 'message',
+      text: state.history.map((m) => `- **${m.role}**: ${JSON.stringify(m.content)}`).join('\n'),
+    });
+
+    return;
+  }
+
+  const text = await prompts.root(activity, state).chat(activity.text);
+  storage.set(key, state);
+  await say({ type: 'message', text });
+});
+
+app.on('sign-in', async ({ api, activity, tokenResponse }) => {
+  const key = activity.from.id;
+  let state = storage.get(key);
+
+  if (!state) {
+    return;
+  }
+
+  const conversationId = state.auth?.conversationId || activity.conversation.id;
   const msgraph = graph(tokenResponse.token);
   const me: MSGraph.User = await msgraph.api('/me').get();
   const tz: { value?: string } = await msgraph.api('/me/mailboxSettings/timeZone').get();
@@ -68,7 +110,7 @@ app.on('sign-in', async ({ say, activity, tokenResponse }) => {
   };
 
   storage.set(key, state);
-  await say({
+  await api.conversations.activities(conversationId).create({
     type: 'message',
     text: `Welcome ${me.displayName}, how may I assist you?`,
   });

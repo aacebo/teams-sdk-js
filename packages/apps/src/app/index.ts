@@ -149,6 +149,7 @@ export class App {
         api,
         activity,
         conversation,
+        log: this.log,
       }),
     };
 
@@ -158,6 +159,16 @@ export class App {
 
     this._emit('activity', params);
     this._emit(`activity.${activity.type}`, params);
+
+    if (activity.type === 'message' && activity.entities?.some((e) => e.type === 'mention')) {
+      const mention = activity.entities?.find(
+        (e) => e.type === 'mention' && e.mentioned.id === activity.recipient.id
+      );
+
+      if (mention) {
+        this._emit('mention', { ...params, mention });
+      }
+    }
 
     if (activity.type === 'invoke') {
       const res = await this._emit(`activity.${activity.type}[${activity.name}]`, params);
