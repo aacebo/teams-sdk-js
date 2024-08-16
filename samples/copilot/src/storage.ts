@@ -7,7 +7,9 @@ export interface State {
     token?: string;
     expiration?: string;
   };
-  user?: MSGraph.User;
+  user?: MSGraph.User & {
+    timezone?: string;
+  };
   history: Message[];
 }
 

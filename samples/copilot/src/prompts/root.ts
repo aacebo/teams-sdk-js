@@ -1,9 +1,11 @@
 import { ChatPrompt } from '@teams/ai';
+import { Activity } from '@teams/api';
 import { OpenAIChatModel } from '@teams/openai';
 import * as MSGraph from '@microsoft/microsoft-graph-types';
 
 import { State } from '../storage';
 import { graph } from '../graph';
+import { ConsoleLogger } from '@teams/common/logging';
 
 interface CreateCalendarEventArgs {
   readonly subject: string;
@@ -12,10 +14,11 @@ interface CreateCalendarEventArgs {
   readonly end: string;
 }
 
-export function root(state: State) {
+export function root(_: Activity, state: State) {
   if (!state.auth?.token) throw new Error('auth token is required');
   if (!state.user) throw new Error('user is required');
 
+  const log = new ConsoleLogger({ level: 'debug', name: '@samples/copilot/prompts/root' });
   const msgraph = graph(state.auth.token);
 
   return new ChatPrompt({
@@ -23,6 +26,7 @@ export function root(state: State) {
     instructions: [
       'You are an ai assistant that runs in Microsoft Teams.',
       'You are great at helping users.',
+      'Use the users local timezone.',
     ].join('\n'),
     model: new OpenAIChatModel({
       model: 'gpt-4o',
@@ -30,9 +34,11 @@ export function root(state: State) {
     }),
   })
     .function('get_user', 'get the user account of the user speaking with you', async () => {
+      log.debug('get_user');
       return state.user;
     })
     .function('get_user_calendar', 'get the users calendar events', async () => {
+      log.debug('get_user_calendar');
       const res: Record<'value', MSGraph.Event[]> = await msgraph.api('/me/calendar/events').get();
       return res.value;
     })
@@ -64,6 +70,7 @@ export function root(state: State) {
         required: ['subject', 'body', 'start', 'end'],
       },
       async (args: CreateCalendarEventArgs) => {
+        log.debug('create_user_calendar_event');
         await msgraph.api('/me/calendar/events').create({
           subject: args.subject,
           body: {
@@ -72,11 +79,11 @@ export function root(state: State) {
           },
           start: {
             dateTime: args.start,
-            timezone: 'Pacific Standard Time',
+            timezone: state.user?.timezone || 'Pacific Standard Time',
           },
           end: {
             dateTime: args.end,
-            timezone: 'Pacific Standard Time',
+            timezone: state.user?.timezone || 'Pacific Standard Time',
           },
           isOnlineMeeting: true,
           onlineMeetingProvider: 'teamsForBusiness',

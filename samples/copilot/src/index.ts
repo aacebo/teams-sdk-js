@@ -10,7 +10,7 @@ const app = new App({
   type: 'MultiTenant',
   clientId: process.env.CLIENT_ID || 'b4e3dcad-6c1a-4f21-8a48-dd539afa61bb',
   clientSecret: process.env.CLIENT_SECRET || 'C4y8Q~d_Ip-wdR4pcLByptK2.Z.xg51ialgDtbyb',
-  logger: new ConsoleLogger({ level: 'debug', name: '@samples/github' }),
+  logger: new ConsoleLogger({ level: 'debug', name: '@samples/copilot' }),
 });
 
 app.on('activity.conversationUpdate', async ({ activity, signin }) => {
@@ -40,7 +40,7 @@ app.on('activity.message', async ({ say, activity, signin }) => {
     return;
   }
 
-  const text = await prompts.root(state).chat(activity.text);
+  const text = await prompts.root(activity, state).chat(activity.text);
   storage.set(key, state);
   await say({ type: 'message', text });
 });
@@ -54,14 +54,20 @@ app.on('sign-in', async ({ say, activity, tokenResponse }) => {
   }
 
   const msgraph = graph(tokenResponse.token);
-  const me = await (msgraph.api('/me').get() as Promise<MSGraph.User>);
+  const me: MSGraph.User = await msgraph.api('/me').get();
+  const tz: { value?: string } = await msgraph.api('/me/mailboxSettings/timeZone').get();
 
-  state.user = me;
+  state.user = {
+    ...me,
+    timezone: tz.value,
+  };
+
   state.auth = {
     token: tokenResponse.token,
     expiration: tokenResponse.expiration,
   };
 
+  app.log.debug(state.user);
   storage.set(key, state);
   await say({
     type: 'message',

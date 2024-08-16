@@ -195,8 +195,12 @@ export class App {
       return { status: StatusCodes.OK };
     } catch (err) {
       if (err instanceof HttpError) {
-        if (err.code !== 404) {
+        if (err.code !== 404 && err.code !== 400) {
           this._emit('error', err);
+        }
+
+        if (err.code === 404) {
+          return { status: StatusCodes.NOT_FOUND };
         }
       }
 
@@ -234,7 +238,7 @@ export class App {
       return { status: StatusCodes.OK };
     } catch (err) {
       if (err instanceof HttpError) {
-        if (err.code !== 404) {
+        if (err.code !== 404 && err.code !== 400) {
           this._emit('error', err);
         }
       }
