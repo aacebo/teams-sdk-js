@@ -31,7 +31,7 @@ app.on('activity.message', async ({ say, activity }) => {
   if (activity.text === '/history') {
     await say({
       type: 'message',
-      text: state.history.map((m) => `- ${m.role}: ${JSON.stringify(m.content)}`).join('\n'),
+      text: state.history.map((m) => `- **${m.role}**: ${JSON.stringify(m.content)}`).join('\n'),
     });
 
     return;
