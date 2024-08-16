@@ -67,7 +67,6 @@ app.on('sign-in', async ({ say, activity, tokenResponse }) => {
     expiration: tokenResponse.expiration,
   };
 
-  app.log.debug(state.user);
   storage.set(key, state);
   await say({
     type: 'message',
