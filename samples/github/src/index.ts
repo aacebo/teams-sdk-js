@@ -3,6 +3,7 @@ import { ConsoleLogger } from '@teams/common/logging';
 
 import { storage } from './storage';
 import { prompt } from './prompt';
+import { github } from './github';
 
 const app = new App({
   type: 'MultiTenant',
@@ -11,35 +12,29 @@ const app = new App({
   logger: new ConsoleLogger({ level: 'debug', name: '@samples/github' }),
 });
 
-app.on('activity.message', async ({ say, activity }) => {
-  let state = storage.get(activity.from.id);
-
-  if (!state) {
-    state = {
-      status: false,
-      history: [],
-    };
-
-    storage.set(activity.from.id, state);
-  }
-
-  if (activity.text === '/history') {
-    await say({
-      type: 'message',
-      text: state.history.map((m) => `- **${m.role}**: ${JSON.stringify(m.content)}`).join('\n'),
-    });
-
-    return;
-  }
-
-  const text = await prompt(activity.from.id).chat(activity.text);
-
-  await say({
-    type: 'message',
-    text,
-  });
-});
-
 (async () => {
+  await github();
+
+  app.on('activity.message', async ({ say, activity }) => {
+    let state = storage.get(activity.from.id);
+
+    if (!state) {
+      state = { status: false, history: [] };
+    }
+
+    if (activity.text === '/history') {
+      await say({
+        type: 'message',
+        text: state.history.map((m) => `- **${m.role}**: ${JSON.stringify(m.content)}`).join('\n'),
+      });
+
+      return;
+    }
+
+    const text = await prompt(state).chat(activity.text);
+    storage.set(activity.from.id, state);
+    await say({ type: 'message', text });
+  });
+
   await app.start();
 })();

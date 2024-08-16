@@ -1,16 +1,9 @@
 import { ChatPrompt } from '@teams/ai';
 import { OpenAIChatModel } from '@teams/openai';
 
-import { storage } from './storage';
+import { State } from './storage';
 
-export function prompt(key: string) {
-  let state = storage.get(key);
-
-  if (!state) {
-    state = { status: false, history: [] };
-    storage.set(key, state);
-  }
-
+export function prompt(state: State) {
   return new ChatPrompt({
     history: state.history,
     instructions: `The following is a conversation with an AI assistant.
@@ -26,10 +19,8 @@ export function prompt(key: string) {
     })
     .function('lights_on', 'turn the lights on', () => {
       state.status = true;
-      storage.set(key, state);
     })
     .function('lights_off', 'turn the lights off', () => {
       state.status = false;
-      storage.set(key, state);
     });
 }

@@ -222,11 +222,19 @@ export class OpenAIChatModel implements ChatModel {
         message: {
           role: 'model',
           content: message.content || undefined,
-          function_calls: calls.map((call) => ({
-            id: call.id,
-            name: call.function.name,
-            arguments: JSON.parse(call.function.arguments),
-          })),
+          function_calls: calls.map((call) => {
+            let args = {};
+
+            try {
+              args = JSON.parse(call.function.arguments);
+            } catch (err) {}
+
+            return {
+              id: call.id,
+              name: call.function.name,
+              arguments: args,
+            };
+          }),
         },
       },
       onChunk
