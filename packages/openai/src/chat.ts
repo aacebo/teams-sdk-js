@@ -51,11 +51,18 @@ export class OpenAIChatModel implements ChatModel {
           throw new Error(`function ${call.name} not found`);
         }
 
-        const output = await fn.handler(call.arguments);
+        let content = '';
+
+        try {
+          const output = await fn.handler(call.arguments);
+          content = JSON.stringify(output);
+        } catch (err) {
+          this._log.error(err);
+        }
 
         messages.push({
           role: 'function',
-          content: JSON.stringify(output),
+          content,
           function_id: call.id,
         });
       }

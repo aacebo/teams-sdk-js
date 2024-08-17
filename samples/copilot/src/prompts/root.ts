@@ -1,47 +1,57 @@
 import { ChatPrompt } from '@teams/ai';
-import { Activity } from '@teams/api';
 import { OpenAIChatModel } from '@teams/openai';
-import { ConsoleLogger } from '@teams/common/logging';
+import { ConsoleLogger, Logger } from '@teams/common/logging';
 
-import { State } from '../storage';
-import { calendar } from './calendar';
+import { State } from '../state';
+import { CalendarPrompt } from './calendar';
 
 interface ChatCalendarAssistantArgs {
   readonly text: string;
 }
 
-export function root(activity: Activity, state: State) {
-  if (!state.auth?.token) throw new Error('auth token is required');
-  if (!state.user) throw new Error('user is required');
+export class RootPrompt extends ChatPrompt {
+  private readonly _state: State;
+  private readonly _calendar: CalendarPrompt;
+  private readonly _log: Logger;
 
-  const log = new ConsoleLogger({ level: 'debug', name: '@samples/copilot/prompts/root' });
-  const calendarPrompt = calendar(activity, {
-    ...state,
-    history: [
-      {
-        role: 'user',
-        content: `my timezone is "${state.user?.timezone || 'Pacific Standard Time'}"`,
-      },
-    ],
-  });
+  constructor(state: State) {
+    super({
+      history: state.history,
+      instructions: [
+        'You are an ai assistant that runs in Microsoft Teams.',
+        'You are great at helping users.',
+        'Use the users local timezone.',
+      ].join('\n'),
+      model: new OpenAIChatModel({
+        model: 'gpt-4o',
+        apiKey: process.env.OPENAI_API_KEY,
+        stream: true,
+      }),
+    });
 
-  return new ChatPrompt({
-    history: state.history,
-    instructions: [
-      'You are an ai assistant that runs in Microsoft Teams.',
-      'You are great at helping users.',
-      'Use the users local timezone.',
-    ].join('\n'),
-    model: new OpenAIChatModel({
-      model: 'gpt-4o',
-      apiKey: process.env.OPENAI_API_KEY,
-    }),
-  })
-    .function('get_user', 'get the user account of the user speaking with you', async () => {
-      log.debug('get_user');
-      return state.user;
-    })
-    .function(
+    this._state = state;
+    this._calendar = new CalendarPrompt({
+      ...state,
+      history: [
+        {
+          role: 'user',
+          content: `my timezone is "${state.user?.timezone || 'Pacific Standard Time'}"`,
+        },
+      ],
+    });
+
+    this._log = new ConsoleLogger({
+      level: 'debug',
+      name: '@samples/copilot/prompts/root',
+    });
+
+    this.function(
+      'get_user',
+      'get the user account of the user speaking with you',
+      this.getUser.bind(this)
+    );
+
+    this.function(
       'chat_calendar_assistant',
       'ask the calendar assistant a question or to perform a task',
       {
@@ -51,9 +61,17 @@ export function root(activity: Activity, state: State) {
         },
         required: ['text'],
       },
-      ({ text }: ChatCalendarAssistantArgs) => {
-        log.debug('chat_calendar_assistant');
-        return calendarPrompt.chat(text);
-      }
+      this.chatCalendarAssistant.bind(this)
     );
+  }
+
+  protected getUser() {
+    this._log.debug('get_user');
+    return this._state.user;
+  }
+
+  protected chatCalendarAssistant({ text }: ChatCalendarAssistantArgs) {
+    this._log.debug('chat_calendar_assistant');
+    return this._calendar.chat(text);
+  }
 }

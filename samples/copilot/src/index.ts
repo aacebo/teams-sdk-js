@@ -1,11 +1,13 @@
 import { App } from '@teams/apps';
 import { ConsoleLogger } from '@teams/common/logging';
+import { LocalStorage } from '@teams/common/storage';
 import * as MSGraph from '@microsoft/microsoft-graph-types';
 
-import { storage } from './storage';
+import { State } from './state';
 import { graph } from './graph';
-import * as prompts from './prompts';
+import { RootPrompt } from './prompts';
 
+const storage = new LocalStorage<State>();
 const app = new App({
   type: 'MultiTenant',
   clientId: process.env.CLIENT_ID || 'b4e3dcad-6c1a-4f21-8a48-dd539afa61bb',
@@ -31,10 +33,11 @@ app.on('activity.message', async ({ say, activity, signin }) => {
       },
       history: [],
     };
+
+    storage.set(key, state);
   }
 
   if (!state.auth?.token) {
-    storage.set(key, state);
     await signin('graph-connection');
     return;
   }
@@ -48,9 +51,23 @@ app.on('activity.message', async ({ say, activity, signin }) => {
     return;
   }
 
-  const text = await prompts.root(activity, state).chat(activity.text);
+  let buffer = '';
+  let id: string | undefined;
+  const prompt = new RootPrompt(state);
+
+  await prompt.chat(activity.text, async (chunk) => {
+    buffer += chunk;
+
+    const res = await say({
+      id,
+      type: 'message',
+      text: buffer,
+    });
+
+    id = res.id;
+  });
+
   storage.set(key, state);
-  await say({ type: 'message', text });
 });
 
 app.on('mention', async ({ say, activity, signin }) => {
@@ -64,10 +81,11 @@ app.on('mention', async ({ say, activity, signin }) => {
       },
       history: [],
     };
+
+    storage.set(key, state);
   }
 
   if (!state.auth?.token) {
-    storage.set(key, state);
     await signin('graph-connection');
     return;
   }
@@ -81,9 +99,23 @@ app.on('mention', async ({ say, activity, signin }) => {
     return;
   }
 
-  const text = await prompts.root(activity, state).chat(activity.text);
+  let buffer = '';
+  let id: string | undefined;
+  const prompt = new RootPrompt(state);
+
+  await prompt.chat(activity.text, async (chunk) => {
+    buffer += chunk;
+
+    const res = await say({
+      id,
+      type: 'message',
+      text: buffer,
+    });
+
+    id = res.id;
+  });
+
   storage.set(key, state);
-  await say({ type: 'message', text });
 });
 
 app.on('sign-in', async ({ api, activity, tokenResponse }) => {

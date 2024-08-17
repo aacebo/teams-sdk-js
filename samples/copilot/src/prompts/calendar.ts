@@ -1,10 +1,10 @@
 import { ChatPrompt } from '@teams/ai';
-import { Activity } from '@teams/api';
 import { OpenAIChatModel } from '@teams/openai';
-import { ConsoleLogger } from '@teams/common/logging';
+import { ConsoleLogger, Logger } from '@teams/common/logging';
+import { Client } from '@microsoft/microsoft-graph-client';
 import * as MSGraph from '@microsoft/microsoft-graph-types';
 
-import { State } from '../storage';
+import { State } from '../state';
 import { graph } from '../graph';
 
 interface CreateCalendarEventArgs {
@@ -18,35 +18,45 @@ interface DeleteCalendarEventArgs {
   readonly eventId: string;
 }
 
-export function calendar(_: Activity, state: State) {
-  if (!state.auth?.token) throw new Error('auth token is required');
-  if (!state.user) throw new Error('user is required');
+export class CalendarPrompt extends ChatPrompt {
+  private readonly _state: State;
+  private readonly _log: Logger;
+  private readonly _graph: Client;
 
-  const log = new ConsoleLogger({ level: 'debug', name: '@samples/copilot/prompts/calendar' });
-  const msgraph = graph(state.auth.token);
+  constructor(state: State) {
+    super({
+      history: state.history,
+      instructions: [
+        'You are an ai assistant that runs in Microsoft Teams.',
+        'You are great at helping users create/update/delete meetings/events in their calendar.',
+        'Use the users local timezone.',
+      ].join('\n'),
+      model: new OpenAIChatModel({
+        model: 'gpt-4o',
+        apiKey: process.env.OPENAI_API_KEY,
+      }),
+    });
 
-  return new ChatPrompt({
-    history: state.history,
-    instructions: [
-      'You are an ai assistant that runs in Microsoft Teams.',
-      'You are great at helping users create/update/delete meetings/events in their calendar.',
-      'Use the users local timezone.',
-    ].join('\n'),
-    model: new OpenAIChatModel({
-      model: 'gpt-4o',
-      apiKey: process.env.OPENAI_API_KEY,
-    }),
-  })
-    .function('get_user', 'get the user account of the user speaking with you', async () => {
-      log.debug('get_user');
-      return state.user;
-    })
-    .function('get_user_calendar', 'get the users calendar events', async () => {
-      log.debug('get_user_calendar');
-      const res: Record<'value', MSGraph.Event[]> = await msgraph.api('/me/calendar/events').get();
-      return res.value;
-    })
-    .function(
+    this._state = state;
+    this._graph = graph(state.auth?.token || '');
+    this._log = new ConsoleLogger({
+      level: 'debug',
+      name: '@samples/copilot/prompts/calendar',
+    });
+
+    this.function(
+      'get_user',
+      'get the user account of the user speaking with you',
+      this.getUser.bind(this)
+    );
+
+    this.function(
+      'get_user_calendar',
+      'get the users calendar events',
+      this.getUserCalendar.bind(this)
+    );
+
+    this.function(
       'delete_user_calendar_event',
       'delete an event from the users calendar',
       {
@@ -59,12 +69,10 @@ export function calendar(_: Activity, state: State) {
         },
         required: ['eventId'],
       },
-      async ({ eventId }: DeleteCalendarEventArgs) => {
-        log.debug('delete_user_calendar_event');
-        await msgraph.api(`/me/calendar/events/${eventId}`).delete();
-      }
-    )
-    .function(
+      this.deleteUserCalendarEvent.bind(this)
+    );
+
+    this.function(
       'create_user_calendar_event',
       'create a new calendar event for the user',
       {
@@ -91,25 +99,47 @@ export function calendar(_: Activity, state: State) {
         },
         required: ['subject', 'body', 'start', 'end'],
       },
-      async (args: CreateCalendarEventArgs) => {
-        log.debug('create_user_calendar_event');
-        await msgraph.api('/me/calendar/events').create({
-          subject: args.subject,
-          body: {
-            contentType: 'HTML',
-            content: args.body,
-          },
-          start: {
-            dateTime: args.start,
-            timezone: state.user?.timezone || 'Pacific Standard Time',
-          },
-          end: {
-            dateTime: args.end,
-            timezone: state.user?.timezone || 'Pacific Standard Time',
-          },
-          isOnlineMeeting: true,
-          onlineMeetingProvider: 'teamsForBusiness',
-        });
-      }
+      this.createUserCalendarEvent.bind(this)
     );
+  }
+
+  protected getUser() {
+    this._log.debug('get_user');
+    return this._state.user;
+  }
+
+  protected async getUserCalendar() {
+    this._log.debug('get_user_calendar');
+    const res: Record<'value', MSGraph.Event[]> = await this._graph
+      .api('/me/calendar/events')
+      .get();
+
+    return res.value;
+  }
+
+  protected async deleteUserCalendarEvent({ eventId }: DeleteCalendarEventArgs) {
+    this._log.debug('delete_user_calendar_event');
+    await this._graph.api(`/me/calendar/events/${eventId}`).delete();
+  }
+
+  protected async createUserCalendarEvent(args: CreateCalendarEventArgs) {
+    this._log.debug('create_user_calendar_event');
+    await this._graph.api('/me/calendar/events').create({
+      subject: args.subject,
+      body: {
+        contentType: 'HTML',
+        content: args.body,
+      },
+      start: {
+        dateTime: args.start,
+        timezone: this._state.user?.timezone || 'Pacific Standard Time',
+      },
+      end: {
+        dateTime: args.end,
+        timezone: this._state.user?.timezone || 'Pacific Standard Time',
+      },
+      isOnlineMeeting: true,
+      onlineMeetingProvider: 'teamsForBusiness',
+    });
+  }
 }
