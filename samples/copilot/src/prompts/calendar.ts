@@ -24,6 +24,11 @@ export class CalendarPrompt extends ChatPrompt {
   private readonly _graph: Client;
 
   constructor(state: State) {
+    const log = new ConsoleLogger({
+      level: 'debug',
+      name: '@samples/copilot/prompts/calendar',
+    });
+
     super({
       history: state.history,
       instructions: [
@@ -33,16 +38,14 @@ export class CalendarPrompt extends ChatPrompt {
       ].join('\n'),
       model: new OpenAIChatModel({
         model: 'gpt-4o',
+        logger: log,
         apiKey: process.env.OPENAI_API_KEY,
       }),
     });
 
     this._state = state;
+    this._log = log;
     this._graph = graph(state.auth?.token || '');
-    this._log = new ConsoleLogger({
-      level: 'debug',
-      name: '@samples/copilot/prompts/calendar',
-    });
 
     this.function(
       'get_user',

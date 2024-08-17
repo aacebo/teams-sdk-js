@@ -15,6 +15,11 @@ export class RootPrompt extends ChatPrompt {
   private readonly _log: Logger;
 
   constructor(state: State) {
+    const log = new ConsoleLogger({
+      level: 'debug',
+      name: '@samples/copilot/prompts/root',
+    });
+
     super({
       history: state.history,
       instructions: [
@@ -25,11 +30,13 @@ export class RootPrompt extends ChatPrompt {
       model: new OpenAIChatModel({
         model: 'gpt-4o',
         apiKey: process.env.OPENAI_API_KEY,
+        logger: log,
         stream: true,
       }),
     });
 
     this._state = state;
+    this._log = log;
     this._calendar = new CalendarPrompt({
       ...state,
       history: [
@@ -38,11 +45,6 @@ export class RootPrompt extends ChatPrompt {
           content: `my timezone is "${state.user?.timezone || 'Pacific Standard Time'}"`,
         },
       ],
-    });
-
-    this._log = new ConsoleLogger({
-      level: 'debug',
-      name: '@samples/copilot/prompts/root',
     });
 
     this.function(

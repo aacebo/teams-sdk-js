@@ -109,6 +109,10 @@ export class OpenAIChatModel implements ChatModel {
           }
 
           if (message.role === 'user') {
+            if (!message.content) {
+              message.content = '';
+            }
+
             return {
               role: 'user',
               content:

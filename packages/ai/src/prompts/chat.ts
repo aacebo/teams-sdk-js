@@ -44,14 +44,14 @@ export class ChatPrompt {
     return this;
   }
 
-  async call<A extends { [key: string]: any }, R = any>(name: string, args?: A) {
+  async call<A extends { [key: string]: any }, R = any>(name: string, args?: A): Promise<R> {
     const fn = this._functions[name];
 
     if (!fn) {
       throw new Error(`function "${name}" not found`);
     }
 
-    return (await fn.handler(args || {})) as R;
+    return await fn.handler(args || {});
   }
 
   async chat(input: string | ContentPart[], onChunk?: (chunk: string) => void | Promise<void>) {
