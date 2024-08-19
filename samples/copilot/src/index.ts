@@ -17,6 +17,7 @@ const app = new App({
 
 app.on('activity.conversationUpdate', async ({ activity, signin }) => {
   if (!activity.membersAdded?.length) return;
+  if (!activity.membersAdded?.some(m => m.id === activity.from.id)) return;
   await signin('graph-connection');
 });
 
@@ -51,22 +52,9 @@ app.on('activity.message', async ({ say, activity, signin }) => {
     return;
   }
 
-  let buffer = '';
-  let id: string | undefined;
   const prompt = new RootPrompt(state);
-
-  await prompt.chat(activity.text, async (chunk) => {
-    buffer += chunk;
-
-    const res = await say({
-      id,
-      type: 'message',
-      text: buffer,
-    });
-
-    id = res.id;
-  });
-
+  const text = await prompt.chat(activity.text);
+  await say({ type: 'message', text });
   storage.set(key, state);
 });
 
@@ -99,26 +87,13 @@ app.on('mention', async ({ say, activity, signin }) => {
     return;
   }
 
-  let buffer = '';
-  let id: string | undefined;
   const prompt = new RootPrompt(state);
-
-  await prompt.chat(activity.text, async (chunk) => {
-    buffer += chunk;
-
-    const res = await say({
-      id,
-      type: 'message',
-      text: buffer,
-    });
-
-    id = res.id;
-  });
-
+  const text = await prompt.chat(activity.text);
+  await say({ type: 'message', text });
   storage.set(key, state);
 });
 
-app.on('sign-in', async ({ api, activity, tokenResponse }) => {
+app.on('signin', async ({ api, activity, tokenResponse }) => {
   const key = activity.from.id;
   let state = storage.get(key);
 

@@ -17,7 +17,7 @@ import { ActivityEventArgs, Events } from '../events';
 import { Receiver, ReceiverActivityArgs } from '../receiver';
 import { HttpReceiver } from '../receivers';
 
-import { signin } from './sign-in';
+import { signin } from './signin';
 
 export type AppOptions = Credentials & {
   readonly http?: HttpClientOptions;
@@ -202,7 +202,7 @@ export class App {
         },
       });
 
-      this._emit('sign-in', { ...args, tokenResponse: token });
+      this._emit('signin', { ...args, tokenResponse: token });
       return { status: StatusCodes.OK };
     } catch (err) {
       if (err instanceof HttpError) {
@@ -245,7 +245,7 @@ export class App {
       });
 
       this._exchanges.delete(key);
-      this._emit('sign-in', { ...args, tokenResponse: token });
+      this._emit('signin', { ...args, tokenResponse: token });
       return { status: StatusCodes.OK };
     } catch (err) {
       if (err instanceof HttpError) {

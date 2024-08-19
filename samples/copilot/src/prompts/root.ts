@@ -31,7 +31,6 @@ export class RootPrompt extends ChatPrompt {
         model: 'gpt-4o',
         apiKey: process.env.OPENAI_API_KEY,
         logger: log,
-        stream: true,
       }),
     });
 
