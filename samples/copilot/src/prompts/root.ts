@@ -21,7 +21,7 @@ export class RootPrompt extends ChatPrompt {
     });
 
     super({
-      history: state.history,
+      history: state.chat.history,
       instructions: [
         'You are an ai assistant that runs in Microsoft Teams.',
         'You are great at helping users.',
@@ -36,15 +36,7 @@ export class RootPrompt extends ChatPrompt {
 
     this._state = state;
     this._log = log;
-    this._calendar = new CalendarPrompt({
-      ...state,
-      history: [
-        {
-          role: 'user',
-          content: `my timezone is "${state.user?.timezone || 'Pacific Standard Time'}"`,
-        },
-      ],
-    });
+    this._calendar = new CalendarPrompt(state);
 
     this.function(
       'get_user',
@@ -68,7 +60,7 @@ export class RootPrompt extends ChatPrompt {
 
   protected getUser() {
     this._log.debug('get_user');
-    return this._state.user;
+    return this._state.user.user;
   }
 
   protected chatCalendarAssistant({ text }: ChatCalendarAssistantArgs) {

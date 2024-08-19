@@ -30,12 +30,17 @@ export class CalendarPrompt extends ChatPrompt {
     });
 
     super({
-      history: state.history,
       instructions: [
         'You are an ai assistant that runs in Microsoft Teams.',
         'You are great at helping users create/update/delete meetings/events in their calendar.',
         'Use the users local timezone.',
       ].join('\n'),
+      history: [
+        {
+          role: 'user',
+          content: `my timezone is "${state.user.user?.timezone || 'Pacific Standard Time'}"`,
+        },
+      ],
       model: new OpenAIChatModel({
         model: 'gpt-4o',
         logger: log,
@@ -45,7 +50,7 @@ export class CalendarPrompt extends ChatPrompt {
 
     this._state = state;
     this._log = log;
-    this._graph = graph(state.auth?.token || '');
+    this._graph = graph(state.user.auth?.token || '');
 
     this.function(
       'get_user',
@@ -135,11 +140,11 @@ export class CalendarPrompt extends ChatPrompt {
       },
       start: {
         dateTime: args.start,
-        timezone: this._state.user?.timezone || 'Pacific Standard Time',
+        timezone: this._state.user.user?.timezone || 'Pacific Standard Time',
       },
       end: {
         dateTime: args.end,
-        timezone: this._state.user?.timezone || 'Pacific Standard Time',
+        timezone: this._state.user.user?.timezone || 'Pacific Standard Time',
       },
       isOnlineMeeting: true,
       onlineMeetingProvider: 'teamsForBusiness',
