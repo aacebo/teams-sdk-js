@@ -35,14 +35,20 @@ export interface ActivityEventArgs<T extends Activity> {
   readonly signin: (name: string, text?: string) => Promise<Resource>;
 }
 
+export type MentionEventArgs = ActivityEventArgs<MessageSendActivity> & {
+  readonly mention: MentionEntity;
+};
+
+export type SignInEventArgs = ActivityEventArgs<Activity> & {
+  readonly tokenResponse: TokenResponse;
+};
+
 export interface Events extends ActivityEvents, InvokeActivityEvents {
   error?: EventHandler<Error>;
   auth?: EventHandler<string>;
   start?: EventHandler<void>;
-  signin?: EventHandler<ActivityEventArgs<Activity> & { readonly tokenResponse: TokenResponse }>;
-  mention?: EventHandler<
-    ActivityEventArgs<MessageSendActivity> & { readonly mention: MentionEntity }
-  >;
+  signin?: EventHandler<SignInEventArgs>;
+  mention?: EventHandler<MentionEventArgs>;
   activity?: EventHandler<ActivityEventArgs<Activity>>;
 }
 
