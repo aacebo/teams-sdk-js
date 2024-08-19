@@ -1,4 +1,4 @@
-# Samples: Copilot
+# Apps: Copilot
 
 an ai powered Teams assistant.
 
