@@ -50,8 +50,8 @@ app.on('activity.message', async ({ say, activity, signin }) => {
 
   const prompt = new RootPrompt(state);
   const text = await prompt.chat(activity.text);
-  await say({ type: 'message', text });
   state.save();
+  await say({ type: 'message', text });
 });
 
 app.on('mention', async ({ say, activity, signin }) => {
@@ -83,8 +83,8 @@ app.on('mention', async ({ say, activity, signin }) => {
 
   const prompt = new RootPrompt(state);
   const text = await prompt.chat(activity.text);
-  await say({ type: 'message', text });
   state.save();
+  await say({ type: 'message', text });
 });
 
 app.on('signin', async ({ api, activity, tokenResponse }) => {
