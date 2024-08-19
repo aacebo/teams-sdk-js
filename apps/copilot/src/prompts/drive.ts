@@ -19,7 +19,7 @@ export class DrivePrompt extends ChatPrompt {
   constructor(state: State) {
     const log = new ConsoleLogger({
       level: 'debug',
-      name: '@samples/copilot/prompts/drive',
+      name: '@apps/copilot/prompts/drive',
     });
 
     super({

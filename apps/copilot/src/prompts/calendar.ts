@@ -31,7 +31,7 @@ export class CalendarPrompt extends ChatPrompt {
   constructor(state: State) {
     const log = new ConsoleLogger({
       level: 'debug',
-      name: '@samples/copilot/prompts/calendar',
+      name: '@apps/copilot/prompts/calendar',
     });
 
     super({

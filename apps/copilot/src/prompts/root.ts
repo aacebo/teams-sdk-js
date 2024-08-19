@@ -23,7 +23,7 @@ export class RootPrompt extends ChatPrompt {
   constructor(state: State) {
     const log = new ConsoleLogger({
       level: 'debug',
-      name: '@samples/copilot/prompts/root',
+      name: '@apps/copilot/prompts/root',
     });
 
     super({
