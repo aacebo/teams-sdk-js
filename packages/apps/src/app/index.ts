@@ -13,11 +13,10 @@ import { HttpClientOptions, HttpError, StatusCodes } from '@teams/common/http';
 import { Logger, ConsoleLogger } from '@teams/common/logging';
 
 import pkg from '../../package.json';
-import { ActivityEventArgs, Events } from '../events';
-import { Receiver, ReceiverActivityArgs } from '../receiver';
-import { HttpReceiver } from '../receivers';
+import { Receiver, ReceiverActivityArgs, HttpReceiver } from '../receiver';
 
 import { signin } from './signin';
+import { ActivityEventArgs, Events } from './events';
 
 export type AppOptions = Credentials & {
   readonly http?: HttpClientOptions;
@@ -57,7 +56,11 @@ export class App {
         logger: this.options.logger,
       });
 
-    this._receiver.onActivity(this.onActivity.bind(this));
+    this._receiver.on('activity', this.onActivity.bind(this));
+    this._receiver.on('error', (err) => {
+      if (!this._events.error) return;
+      this._events.error(err);
+    });
 
     // default event handlers
     this.on('error', this._onError.bind(this));
@@ -258,3 +261,5 @@ export class App {
     }
   }
 }
+
+export * from './events';

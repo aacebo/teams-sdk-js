@@ -1,5 +1,4 @@
-import { InvokeResponse as TeamsInvokeResponse } from '@teams/api';
-import { HttpReceiver, Receiver, ReceiverActivityArgs } from '@teams/apps';
+import { HttpReceiver, HttpReceiverEvents, Receiver, ReceiverEvents } from '@teams/apps';
 import { ConsoleLogger, Logger } from '@teams/common/logging';
 
 import {
@@ -41,9 +40,7 @@ export class TeamsAdapter extends BotAdapter implements Receiver {
   readonly UserTokenClientKey = Symbol('UserTokenClient');
 
   private _receiver: HttpReceiver;
-  private _onActivity?: (
-    args: ReceiverActivityArgs
-  ) => TeamsInvokeResponse | Promise<TeamsInvokeResponse>;
+  private _events: HttpReceiverEvents = {};
 
   constructor(readonly options: TeamsAdapterOptions) {
     super();
@@ -52,15 +49,15 @@ export class TeamsAdapter extends BotAdapter implements Receiver {
       logger: this.options.logger || new ConsoleLogger({ name: '@teams/app/receiver' }),
     });
 
-    this._receiver.onActivity(async (args) => {
+    this._receiver.on('activity', async (args) => {
       let res = { status: 200 };
 
       await this.processActivity(
         `Bearer ${args.token.toString()}`,
         args.activity as any,
         async () => {
-          if (this._onActivity) {
-            res = await this._onActivity(args);
+          if (this._events.activity) {
+            res = await this._events.activity(args);
           }
         }
       );
@@ -73,10 +70,8 @@ export class TeamsAdapter extends BotAdapter implements Receiver {
     return this._receiver.start(port);
   }
 
-  onActivity(
-    cb: (args: ReceiverActivityArgs) => TeamsInvokeResponse | Promise<TeamsInvokeResponse>
-  ) {
-    this._onActivity = cb;
+  on<Event extends keyof ReceiverEvents>(event: Event, cb: HttpReceiverEvents[Event]) {
+    this._events[event] = cb;
   }
 
   /**

@@ -5,7 +5,7 @@ import { Activity, InvokeResponse, Token } from '@teams/api';
 import { ConsoleLogger, Logger } from '@teams/common/logging';
 import { HttpRequest, StatusCodes } from '@teams/common/http';
 
-import { Receiver, ReceiverActivityArgs } from '../receiver';
+import { Receiver, ReceiverActivityArgs, ReceiverEvents } from './receiver';
 
 export interface HttpReceiverOptions {
   readonly logger?: Logger;
@@ -15,15 +15,35 @@ export interface HttpReceiverActivityArgs extends ReceiverActivityArgs {
   readonly req: HttpRequest;
 }
 
+export interface HttpReceiverEventArgs {
+  readonly log: Logger;
+}
+
+export type HttpReceiverEvents = ReceiverEvents & {
+  request?: (
+    args: HttpReceiverEventArgs & {
+      readonly req: HttpRequest;
+    }
+  ) => void | Promise<void>;
+  response?: (
+    args: HttpReceiverEventArgs & {
+      readonly res: InvokeResponse;
+      readonly elapse: number;
+    }
+  ) => void | Promise<void>;
+  activity?: (args: HttpReceiverActivityArgs) => InvokeResponse | Promise<InvokeResponse>;
+};
+
 export class HttpReceiver implements Receiver {
   readonly log: Logger;
 
   private readonly _server: http.Server;
-  private _onActivity?: (args: ReceiverActivityArgs) => InvokeResponse | Promise<InvokeResponse>;
+  private readonly _events: HttpReceiverEvents = {};
 
   constructor(readonly options: HttpReceiverOptions) {
     this.log = this.options.logger || new ConsoleLogger({ name: '@teams/app/receiver' });
     this._server = http.createServer();
+    this.on('error', this.onError.bind(this));
   }
 
   async start(port = 3000) {
@@ -39,14 +59,16 @@ export class HttpReceiver implements Receiver {
     });
   }
 
-  onActivity(cb: (args: ReceiverActivityArgs) => InvokeResponse | Promise<InvokeResponse>) {
-    this._onActivity = cb;
+  on<Event extends keyof ReceiverEvents>(event: Event, cb: HttpReceiverEvents[Event]) {
+    this._events[event] = cb;
   }
 
   protected onIncomingRequest(
     req: http.IncomingMessage,
     res: http.ServerResponse<http.IncomingMessage>
   ) {
+    const start = Date.now();
+
     if (req.method !== 'POST') {
       res.statusCode = StatusCodes.METHOD_NOT_ALLOWED;
       return res.end();
@@ -82,6 +104,12 @@ export class HttpReceiver implements Receiver {
           res
         );
 
+        this.emit('response', {
+          log: this.log,
+          res: response,
+          elapse: Date.now() - start,
+        });
+
         res.statusCode = response?.status || 200;
         res.end(JSON.stringify(response?.body || null));
       });
@@ -92,6 +120,7 @@ export class HttpReceiver implements Receiver {
   }
 
   protected async onRequest(req: HttpRequest, res: http.ServerResponse<http.IncomingMessage>) {
+    this.emit('request', { log: this.log, req });
     const authorization = req.headers['authorization']?.replace('Bearer ', '');
 
     if (!authorization) {
@@ -109,11 +138,20 @@ export class HttpReceiver implements Receiver {
     };
 
     const cb =
-      this._onActivity ||
+      this._events.activity ||
       (() => {
         return { status: 200, body: null };
       });
 
     return await cb(args);
+  }
+
+  protected emit<Event extends keyof HttpReceiverEvents>(event: Event, data?: any) {
+    if (!this._events[event]) return;
+    return this._events[event](data as never);
+  }
+
+  protected onError(err: Error) {
+    this.log.error(err);
   }
 }
