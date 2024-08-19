@@ -40,9 +40,12 @@ app.on('activity.message', async ({ say, activity, signin }) => {
   if (activity.text === '/history') {
     await say({
       type: 'message',
-      text: state.chat.history
-        .map((m) => `- **${m.role}**: ${JSON.stringify(m.content)}`)
-        .join('\n'),
+      text:
+        state.chat.history.length > 0
+          ? state.chat.history
+              .map((m) => `- **${m.role}**: ${JSON.stringify(m.content)}`)
+              .join('\n')
+          : '<empty>',
     });
 
     return;
@@ -73,9 +76,12 @@ app.on('mention', async ({ say, activity, signin }) => {
   if (activity.text === '/history') {
     await say({
       type: 'message',
-      text: state.chat.history
-        .map((m) => `- **${m.role}**: ${JSON.stringify(m.content)}`)
-        .join('\n'),
+      text:
+        state.chat.history.length > 0
+          ? state.chat.history
+              .map((m) => `- **${m.role}**: ${JSON.stringify(m.content)}`)
+              .join('\n')
+          : '<empty>',
     });
 
     return;

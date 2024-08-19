@@ -7,6 +7,11 @@ import * as MSGraph from '@microsoft/microsoft-graph-types';
 import { State } from '../state';
 import { graph } from '../graph';
 
+interface GetCalendarEventsArgs {
+  readonly start: string;
+  readonly end: string;
+}
+
 interface CreateCalendarEventArgs {
   readonly subject: string;
   readonly body: string;
@@ -52,6 +57,8 @@ export class CalendarPrompt extends ChatPrompt {
     this._log = log;
     this._graph = graph(state.user.auth?.token || '');
 
+    this.function('get_date', 'get the current calendar date', this.getDate.bind(this));
+
     this.function(
       'get_user',
       'get the user account of the user speaking with you',
@@ -61,6 +68,20 @@ export class CalendarPrompt extends ChatPrompt {
     this.function(
       'get_user_calendar',
       'get the users calendar events',
+      {
+        type: 'object',
+        properties: {
+          start: {
+            type: 'string',
+            format: 'date-time',
+          },
+          end: {
+            type: 'string',
+            format: 'date-time',
+          },
+        },
+        required: ['start', 'end'],
+      },
       this.getUserCalendar.bind(this)
     );
 
@@ -111,15 +132,26 @@ export class CalendarPrompt extends ChatPrompt {
     );
   }
 
+  protected getDate() {
+    this._log.debug('get_date');
+    return new Date().toLocaleDateString();
+  }
+
   protected getUser() {
     this._log.debug('get_user');
     return this._state.user;
   }
 
-  protected async getUserCalendar() {
+  protected async getUserCalendar({ start, end }: GetCalendarEventsArgs) {
     this._log.debug('get_user_calendar');
+    const startAt = new Date(start);
+    const endAt = new Date(end);
     const res: Record<'value', MSGraph.Event[]> = await this._graph
-      .api('/me/calendar/events')
+      .api('/me/calendar/calendarView')
+      .query({
+        startDateTime: startAt.toISOString(),
+        endDateTime: endAt.toISOString(),
+      })
       .get();
 
     return res.value;
