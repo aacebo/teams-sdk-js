@@ -1,0 +1,90 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.15/MicrosoftTeams.schema.json",
+  "version": "1.0.0",
+  "manifestVersion": "1.15",
+  "id": "7d251066-30b7-4c8f-8f75-9d1ded87bc0c",
+  "packageName": "com.teams.copilot",
+  "name": {
+    "short": "Copilot",
+    "full": "Copilot"
+  },
+  "developer": {
+    "name": "Microsoft",
+    "mpnId": "",
+    "websiteUrl": "https://microsoft.com",
+    "privacyUrl": "https://privacy.microsoft.com/en-us/privacystatement",
+    "termsOfUseUrl": "https://www.microsoft.com/en-us/legal/terms-of-use"
+  },
+  "description": {
+    "short": "Your personal Teams Assistant.",
+    "full": "Your personal Teams Assistant."
+  },
+  "icons": {
+    "outline": "outline.png",
+    "color": "color.png"
+  },
+  "accentColor": "#FFFFFF",
+  "staticTabs": [
+    {
+      "entityId": "conversations",
+      "scopes": ["personal"]
+    },
+    {
+      "entityId": "about",
+      "scopes": ["personal"]
+    }
+  ],
+  "bots": [
+    {
+      "botId": "b4e3dcad-6c1a-4f21-8a48-dd539afa61bb",
+      "scopes": ["personal", "team", "groupChat"],
+      "isNotificationOnly": false,
+      "supportsCalling": false,
+      "supportsVideo": false,
+      "supportsFiles": false
+    }
+  ],
+  "validDomains": ["*.ngrok.io", "*.botframework.com"],
+  "webApplicationInfo": {
+    "id": "b4e3dcad-6c1a-4f21-8a48-dd539afa61bb",
+    "resource": "api://botid-b4e3dcad-6c1a-4f21-8a48-dd539afa61bb"
+  },
+  "authorization": {
+    "permissions": {
+      "resourceSpecific": [
+        {
+          "name": "ChatMessage.Read.Chat",
+          "type": "Application"
+        },
+        {
+          "name": "ChatMember.Read.Chat",
+          "type": "Application"
+        },
+        {
+          "name": "Chat.Manage.Chat",
+          "type": "Application"
+        },
+        {
+          "name": "OnlineMeeting.ReadBasic.Chat",
+          "type": "Application"
+        },
+        {
+          "name": "Calls.AccessMedia.Chat",
+          "type": "Application"
+        },
+        {
+          "name": "Calls.JoinGroupCalls.Chat",
+          "type": "Application"
+        },
+        {
+          "name": "TeamsActivity.Send.Chat",
+          "type": "Application"
+        },
+        {
+          "name": "MeetingStage.Write.Chat",
+          "type": "Delegated"
+        }
+      ]
+    }
+  }
+}

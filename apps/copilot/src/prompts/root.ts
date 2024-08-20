@@ -52,8 +52,8 @@ export class RootPrompt extends ChatPrompt {
     );
 
     this.function(
-      'chat_calendar_assistant',
-      'ask the calendar assistant a question or to perform a task',
+      'calendar_assistant',
+      'ask the calendar assistant a question or to perform a task for anything regarding the users calendar',
       {
         type: 'object',
         properties: {
@@ -61,12 +61,12 @@ export class RootPrompt extends ChatPrompt {
         },
         required: ['text'],
       },
-      this.chatCalendarAssistant.bind(this)
+      this.calendarAssistant.bind(this)
     );
 
     this.function(
-      'chat_drive_assistant',
-      'ask the drive assistant a question or to perform a task',
+      'drive_assistant',
+      'ask the drive assistant a question or to perform a task for anything regarding the users drive files/documents',
       {
         type: 'object',
         properties: {
@@ -74,7 +74,7 @@ export class RootPrompt extends ChatPrompt {
         },
         required: ['text'],
       },
-      this.chatDriveAssistant.bind(this)
+      this.driveAssistant.bind(this)
     );
   }
 
@@ -83,13 +83,13 @@ export class RootPrompt extends ChatPrompt {
     return this._state.user.user;
   }
 
-  protected chatCalendarAssistant({ text }: ChatCalendarAssistantArgs) {
-    this._log.debug('chat_calendar_assistant');
+  protected calendarAssistant({ text }: ChatCalendarAssistantArgs) {
+    this._log.debug('calendar_assistant');
     return this._calendar.chat(text);
   }
 
-  protected chatDriveAssistant({ text }: ChatDriveAssistantArgs) {
-    this._log.debug('chat_drive_assistant');
+  protected driveAssistant({ text }: ChatDriveAssistantArgs) {
+    this._log.debug('drive_assistant');
     return this._drive.chat(text);
   }
 }

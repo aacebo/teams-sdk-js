@@ -32,6 +32,11 @@ export function signin(args: SignInArgs) {
         members: [activity.from],
       });
 
+      await api.conversations.activities(res.id).create({
+        type: 'message',
+        text,
+      });
+
       convo.conversation = { id: res.id } as ConversationAccount;
     }
 
