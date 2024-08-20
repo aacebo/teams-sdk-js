@@ -26,7 +26,7 @@ $: npm run fmt
 
 ### Dev
 
-> for samples only
+> for apps/samples only
 
 ```bash
 $: npm run dev

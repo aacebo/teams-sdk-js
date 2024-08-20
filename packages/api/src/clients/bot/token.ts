@@ -40,4 +40,22 @@ export class BotTokenClient {
 
     return res.json();
   }
+
+  async getGraph(params: GetBotTokenParams) {
+    const res = await this._http.post<GetBotTokenResponse>(
+      `/${params.tenantId || 'botframework.com'}/oauth2/v2.0/token`,
+      qs.stringify({
+        grant_type: 'client_credentials',
+        client_id: params.clientId,
+        client_secret: params.clientSecret,
+        scope: 'https://graph.microsoft.com/.default',
+      }),
+      {
+        ...this._options?.requestOptions,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      }
+    );
+
+    return res.json();
+  }
 }

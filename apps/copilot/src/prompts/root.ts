@@ -1,10 +1,11 @@
 import { ChatPrompt } from '@teams/ai';
+import { AppTokens } from '@teams/apps';
 import { OpenAIChatModel } from '@teams/openai';
 import { ConsoleLogger, Logger } from '@teams/common/logging';
 
 import { State } from '../state';
 import { CalendarPrompt } from './calendar';
-import { DrivePrompt } from './drive';
+import { SearchPrompt } from './search';
 
 interface ChatCalendarAssistantArgs {
   readonly text: string;
@@ -18,9 +19,9 @@ export class RootPrompt extends ChatPrompt {
   private readonly _state: State;
   private readonly _log: Logger;
   private readonly _calendar: CalendarPrompt;
-  private readonly _drive: DrivePrompt;
+  private readonly _search: SearchPrompt;
 
-  constructor(state: State) {
+  constructor(tokens: AppTokens, state: State) {
     const log = new ConsoleLogger({
       level: 'debug',
       name: '@apps/copilot/prompts/root',
@@ -43,7 +44,7 @@ export class RootPrompt extends ChatPrompt {
     this._state = state;
     this._log = log;
     this._calendar = new CalendarPrompt(state);
-    this._drive = new DrivePrompt(state);
+    this._search = new SearchPrompt(tokens, state);
 
     this.function(
       'get_user',
@@ -65,8 +66,8 @@ export class RootPrompt extends ChatPrompt {
     );
 
     this.function(
-      'drive_assistant',
-      'ask the drive assistant a question or to perform a task for anything regarding the users drive files/documents',
+      'search_assistant',
+      'ask the search assistant a question or to perform a task for anything regarding the users m365 data',
       {
         type: 'object',
         properties: {
@@ -74,7 +75,7 @@ export class RootPrompt extends ChatPrompt {
         },
         required: ['text'],
       },
-      this.driveAssistant.bind(this)
+      this.searchAssistant.bind(this)
     );
   }
 
@@ -88,8 +89,8 @@ export class RootPrompt extends ChatPrompt {
     return this._calendar.chat(text);
   }
 
-  protected driveAssistant({ text }: ChatDriveAssistantArgs) {
-    this._log.debug('drive_assistant');
-    return this._drive.chat(text);
+  protected searchAssistant({ text }: ChatDriveAssistantArgs) {
+    this._log.debug('search_assistant');
+    return this._search.chat(text);
   }
 }

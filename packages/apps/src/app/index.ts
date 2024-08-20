@@ -17,6 +17,7 @@ import { Receiver, ReceiverActivityArgs, HttpReceiver } from '../receiver';
 
 import { signin } from './signin';
 import { ActivityEventArgs, Events } from './events';
+import { AppTokens } from './tokens';
 
 export type AppOptions = Credentials & {
   readonly http?: HttpClientOptions;
@@ -27,10 +28,10 @@ export type AppOptions = Credentials & {
 export class App {
   readonly log: Logger;
 
-  get token() {
-    return this._token;
+  get tokens() {
+    return this._tokens;
   }
-  private _token?: Token;
+  private _tokens: AppTokens = {};
 
   private readonly _api: Client;
   private readonly _receiver: Receiver;
@@ -70,9 +71,11 @@ export class App {
 
   async start(port = 3000) {
     try {
-      const res = await this._api.bots.token.get(this.options);
-      this._token = new Token(res.access_token);
-      this._emit('auth', res.access_token);
+      const botToken = await this._api.bots.token.get(this.options);
+      this._tokens.bot = new Token(botToken.access_token);
+
+      const graphToken = await this._api.bots.token.getGraph(this.options);
+      this._tokens.graph = new Token(graphToken.access_token);
     } catch (err) {
       this._emit('error', err);
       throw err;
@@ -111,7 +114,7 @@ export class App {
         headers: {
           ...this.options.http?.requestOptions?.headers,
           'user-agent': `teams[apps]/${pkg.version}`,
-          Authorization: `Bearer ${this.token}`,
+          Authorization: `Bearer ${this.tokens.bot}`,
         },
       },
     });
@@ -144,11 +147,12 @@ export class App {
       ...args,
       api,
       log: this.log,
+      tokens: this.tokens,
       conversation,
       say,
       reply,
       signin: signin({
-        appId: this._token!.appId,
+        appId: this._tokens.bot!.appId,
         api,
         activity,
         conversation,
@@ -263,3 +267,4 @@ export class App {
 }
 
 export * from './events';
+export * from './tokens';

@@ -53,15 +53,15 @@
     "permissions": {
       "resourceSpecific": [
         {
+          "name": "ChannelMessage.Read.Group",
+          "type": "Application"
+        },
+        {
           "name": "ChatMessage.Read.Chat",
           "type": "Application"
         },
         {
           "name": "ChatMember.Read.Chat",
-          "type": "Application"
-        },
-        {
-          "name": "Chat.Manage.Chat",
           "type": "Application"
         },
         {
@@ -81,8 +81,12 @@
           "type": "Application"
         },
         {
-          "name": "MeetingStage.Write.Chat",
-          "type": "Delegated"
+          "name": "TeamsActivity.Send.Group",
+          "type": "Application"
+        },
+        {
+          "name": "TeamsActivity.Send.User",
+          "type": "Application"
         }
       ]
     }

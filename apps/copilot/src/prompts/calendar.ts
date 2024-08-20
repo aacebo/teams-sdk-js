@@ -1,6 +1,7 @@
 import { ChatPrompt } from '@teams/ai';
 import { OpenAIChatModel } from '@teams/openai';
 import { ConsoleLogger, Logger } from '@teams/common/logging';
+
 import { Client } from '@microsoft/microsoft-graph-client';
 import * as MSGraph from '@microsoft/microsoft-graph-types';
 

@@ -4,7 +4,12 @@ import { ActivityEventArgs } from '@teams/apps';
 import { State } from '../state';
 import { RootPrompt } from '../prompts';
 
-export async function message({ activity, signin, say }: ActivityEventArgs<MessageSendActivity>) {
+export async function message({
+  activity,
+  tokens,
+  signin,
+  say,
+}: ActivityEventArgs<MessageSendActivity>) {
   if (activity.conversation.isGroup) return;
 
   const state = new State(activity);
@@ -36,7 +41,7 @@ export async function message({ activity, signin, say }: ActivityEventArgs<Messa
     return;
   }
 
-  const prompt = new RootPrompt(state);
+  const prompt = new RootPrompt(tokens, state);
   const text = await prompt.chat(activity.text);
   state.save();
   await say({ type: 'message', text });
