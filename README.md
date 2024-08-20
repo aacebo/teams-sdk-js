@@ -2,6 +2,8 @@
 
 a suite of packages used to build on the Teams Platform.
 
+## Why?
+
 ## Scripts
 
 > all scripts can be run for a particular workspace by appending `--workspace=${name}`

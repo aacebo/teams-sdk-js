@@ -140,7 +140,7 @@ export class CalendarPrompt extends ChatPrompt {
 
   protected getUser() {
     this._log.debug('get_user');
-    return this._state.user;
+    return this._state.user.user;
   }
 
   protected async getUserCalendar({ start, end }: GetCalendarEventsArgs) {
