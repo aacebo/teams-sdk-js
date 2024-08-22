@@ -1,11 +1,11 @@
-import { ChatPrompt } from '@teams/ai';
-import { AppTokens } from '@teams/apps';
+import { ChatPrompt, ContentPart } from '@teams/ai';
+import { Attachment } from '@teams/api';
 import { OpenAIChatModel } from '@teams/openai';
 import { ConsoleLogger, Logger } from '@teams/common/logging';
 
 import { State } from '../state';
 import { CalendarPrompt } from './calendar';
-import { SearchPrompt } from './search';
+import { DrivePrompt } from './drive';
 
 interface ChatCalendarAssistantArgs {
   readonly text: string;
@@ -15,19 +15,22 @@ interface ChatDriveAssistantArgs {
   readonly text: string;
 }
 
-export class RootPrompt extends ChatPrompt {
+export class RootPrompt {
+  private readonly _prompt: ChatPrompt;
   private readonly _state: State;
   private readonly _log: Logger;
   private readonly _calendar: CalendarPrompt;
-  private readonly _search: SearchPrompt;
+  private readonly _drive: DrivePrompt;
 
-  constructor(tokens: AppTokens, state: State) {
+  private _attachments: Attachment[] = [];
+
+  constructor(state: State) {
     const log = new ConsoleLogger({
       level: 'debug',
       name: '@apps/copilot/prompts/root',
     });
 
-    super({
+    this._prompt = new ChatPrompt({
       history: state.chat.history,
       instructions: [
         'You are an ai assistant that runs in Microsoft Teams.',
@@ -44,15 +47,15 @@ export class RootPrompt extends ChatPrompt {
     this._state = state;
     this._log = log;
     this._calendar = new CalendarPrompt(state);
-    this._search = new SearchPrompt(tokens, state);
+    this._drive = new DrivePrompt(state);
 
-    this.function(
+    this._prompt.function(
       'get_user',
       'get the user account of the user speaking with you',
       this.getUser.bind(this)
     );
 
-    this.function(
+    this._prompt.function(
       'calendar_assistant',
       'ask the calendar assistant a question or to perform a task for anything regarding the users calendar',
       {
@@ -65,9 +68,9 @@ export class RootPrompt extends ChatPrompt {
       this.calendarAssistant.bind(this)
     );
 
-    this.function(
-      'search_assistant',
-      'ask the search assistant a question or to perform a task for anything regarding the users m365 data',
+    this._prompt.function(
+      'drive_assistant',
+      'ask the drive assistant a question or to perform a task',
       {
         type: 'object',
         properties: {
@@ -75,8 +78,14 @@ export class RootPrompt extends ChatPrompt {
         },
         required: ['text'],
       },
-      this.searchAssistant.bind(this)
+      this.driveAssistant.bind(this)
     );
+  }
+
+  async chat(input: string | ContentPart[]) {
+    this._attachments = [];
+    const text = await this._prompt.chat(input);
+    return { text, attachments: this._attachments };
   }
 
   protected getUser() {
@@ -84,13 +93,17 @@ export class RootPrompt extends ChatPrompt {
     return this._state.user.user;
   }
 
-  protected calendarAssistant({ text }: ChatCalendarAssistantArgs) {
+  protected async calendarAssistant({ text }: ChatCalendarAssistantArgs) {
     this._log.debug('calendar_assistant');
-    return this._calendar.chat(text);
+    const res = await this._calendar.chat(text);
+    this._attachments = this._attachments.concat(res.attachments);
+    return res.text;
   }
 
-  protected searchAssistant({ text }: ChatDriveAssistantArgs) {
-    this._log.debug('search_assistant');
-    return this._search.chat(text);
+  protected async driveAssistant({ text }: ChatDriveAssistantArgs) {
+    this._log.debug('drive_assistant');
+    const res = await this._drive.chat(text);
+    this._attachments = this._attachments.concat(res.attachments);
+    return res.text;
   }
 }

@@ -1,4 +1,5 @@
-import { ChatPrompt } from '@teams/ai';
+import { ChatPrompt, ContentPart } from '@teams/ai';
+import { Attachment } from '@teams/api';
 import { OpenAIChatModel } from '@teams/openai';
 import { ConsoleLogger, Logger } from '@teams/common/logging';
 
@@ -24,10 +25,13 @@ interface DeleteCalendarEventArgs {
   readonly eventId: string;
 }
 
-export class CalendarPrompt extends ChatPrompt {
+export class CalendarPrompt {
+  private readonly _prompt: ChatPrompt;
   private readonly _state: State;
   private readonly _log: Logger;
   private readonly _graph: Client;
+
+  private _attachments: Attachment[] = [];
 
   constructor(state: State) {
     const log = new ConsoleLogger({
@@ -35,7 +39,7 @@ export class CalendarPrompt extends ChatPrompt {
       name: '@apps/copilot/prompts/calendar',
     });
 
-    super({
+    this._prompt = new ChatPrompt({
       instructions: [
         'You are an ai assistant that runs in Microsoft Teams.',
         'You are great at helping users create/update/delete meetings/events in their calendar.',
@@ -58,15 +62,15 @@ export class CalendarPrompt extends ChatPrompt {
     this._log = log;
     this._graph = graph(state.user.auth?.token || '');
 
-    this.function('get_date', 'get the current calendar date', this.getDate.bind(this));
+    this._prompt.function('get_date', 'get the current calendar date', this.getDate.bind(this));
 
-    this.function(
+    this._prompt.function(
       'get_user',
       'get the user account of the user speaking with you',
       this.getUser.bind(this)
     );
 
-    this.function(
+    this._prompt.function(
       'get_user_calendar',
       'get the users calendar events',
       {
@@ -86,7 +90,7 @@ export class CalendarPrompt extends ChatPrompt {
       this.getUserCalendar.bind(this)
     );
 
-    this.function(
+    this._prompt.function(
       'delete_user_calendar_event',
       'delete an event from the users calendar',
       {
@@ -102,7 +106,7 @@ export class CalendarPrompt extends ChatPrompt {
       this.deleteUserCalendarEvent.bind(this)
     );
 
-    this.function(
+    this._prompt.function(
       'create_user_calendar_event',
       'create a new calendar event for the user',
       {
@@ -131,6 +135,12 @@ export class CalendarPrompt extends ChatPrompt {
       },
       this.createUserCalendarEvent.bind(this)
     );
+  }
+
+  async chat(input: string | ContentPart[]) {
+    this._attachments = [];
+    const text = await this._prompt.chat(input);
+    return { text, attachments: this._attachments };
   }
 
   protected getDate() {

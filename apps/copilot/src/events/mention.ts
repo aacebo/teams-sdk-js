@@ -3,7 +3,7 @@ import { MentionEventArgs } from '@teams/apps';
 import { State } from '../state';
 import { RootPrompt } from '../prompts';
 
-export async function mention({ activity, tokens, signin, say }: MentionEventArgs) {
+export async function mention({ activity, signin, say }: MentionEventArgs) {
   const state = new State(activity);
 
   // if not authenticated, set the conversation
@@ -33,8 +33,12 @@ export async function mention({ activity, tokens, signin, say }: MentionEventArg
     return;
   }
 
-  const prompt = new RootPrompt(tokens, state);
-  const text = await prompt.chat(activity.text);
+  const prompt = new RootPrompt(state);
+  const { text, attachments } = await prompt.chat(activity.text);
   state.save();
-  await say({ type: 'message', text });
+  await say({
+    type: 'message',
+    text,
+    attachments,
+  });
 }
