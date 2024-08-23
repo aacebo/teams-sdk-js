@@ -22,7 +22,8 @@
     "@teams/apps": "*",
     "@teams/common": "*",
     "@teams/config": "*",
-    "@teams/openai": "*"
+    "@teams/openai": "*",
+    "date-fns": "^3.6.0"
   },
   "devDependencies": {
     "@microsoft/microsoft-graph-types": "^2.40.0",

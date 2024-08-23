@@ -8,6 +8,7 @@ import * as MSGraph from '@microsoft/microsoft-graph-types';
 
 import { State } from '../state';
 import { graph } from '../graph';
+import * as cards from '../cards';
 
 interface SearchDriveItemsArgs {
   readonly query: string;
@@ -31,7 +32,9 @@ export class DrivePrompt {
       instructions: [
         'You are an ai assistant that runs in Microsoft Teams.',
         'You are great at helping users search their drive for files/documents.',
-        'You must use render functions to display files/documents.',
+        'A pdf (PDF) file/document will end in ".pdf"',
+        'A word file/document will end in ".doc" or ".docx"',
+        'An image file/document will end in ".png", ".jpg", or ".jpeg"',
       ].join('\n'),
       model: new OpenAIChatModel({
         model: 'gpt-4o',
@@ -86,55 +89,28 @@ export class DrivePrompt {
       .get();
 
     for (const item of res.value) {
+      const thumbnails: Record<'value', MSGraph.ThumbnailSet[]> = await this._graph
+        .api(`/me/drive/items/${item.id}/thumbnails`)
+        .get();
+      const link: Record<'link', MSGraph.SharingLink> = await this._graph
+        .api(`/me/drive/items/${item.id}/createLink`)
+        .post({
+          type: 'view',
+          scope: 'organization',
+        });
+
       this._attachments.push(
-        cardAttachment('adaptive', {
-          type: 'AdaptiveCard',
-          version: '1.6',
-          body: [
-            {
-              type: 'ColumnSet',
-              columns: [
-                {
-                  type: 'Column',
-                  items: [
-                    {
-                      type: 'Image',
-                      width: '50px',
-                      url: 'https://cdn-icons-png.flaticon.com/512/11180/11180756.png',
-                    },
-                  ],
-                },
-                {
-                  type: 'Column',
-                  items: [
-                    {
-                      type: 'TextBlock',
-                      text: item.name || '<no name>',
-                      style: 'heading',
-                      weight: 'bolder',
-                      horizontalAlignment: 'left',
-                    },
-                    {
-                      type: 'TextBlock',
-                      text: `${item.size || 0} bytes`,
-                      horizontalAlignment: 'left',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-          actions: [
-            {
-              type: 'Action.OpenUrl',
-              title: 'Open',
-              url: item.webUrl || '#',
-            },
-          ],
-        })
+        cardAttachment(
+          'adaptive',
+          cards.driveItem({
+            item,
+            link: link.link,
+            thumbnails: thumbnails.value[0],
+          })
+        )
       );
     }
 
-    return res.value;
+    return `${res.value.length} files/documents have been sent to the user`;
   }
 }

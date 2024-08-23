@@ -90,5 +90,27 @@
         }
       ]
     }
-  }
+  },
+  "composeExtensions": [
+    {
+      "botId": "b4e3dcad-6c1a-4f21-8a48-dd539afa61bb",
+      "canUpdateConfiguration": true,
+      "commands": [
+        {
+          "id": "summarize",
+          "title": "Summarize",
+          "description": "Summarize A File/Document",
+          "context": ["compose", "commandBox", "message"],
+          "initialRun": false,
+          "parameters": [
+            {
+              "name": "id",
+              "title": "ID",
+              "description": "the id of the file/document to summarize"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

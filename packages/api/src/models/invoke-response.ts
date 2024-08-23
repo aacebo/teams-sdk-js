@@ -1,3 +1,5 @@
+import { Card } from '@teams/cards';
+
 import {
   ConfigResponse,
   MessagingExtensionActionResponse,
@@ -46,4 +48,5 @@ interface InvokeResponseBody {
   'handoff/action': void;
   'signin/tokenExchange': TokenExchangeInvokeResponse | undefined;
   'signin/verifyState': void;
+  'adaptiveCard/action': Card;
 }

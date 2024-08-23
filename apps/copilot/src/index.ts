@@ -14,6 +14,7 @@ app.on('activity.conversationUpdate', events.conversationUpdate);
 app.on('activity.message', events.message);
 app.on('mention', events.mention);
 app.on('signin', events.signin);
+app.on('activity.invoke[task/fetch]', events.taskFetch);
 
 (async () => {
   await app.start();

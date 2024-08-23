@@ -1,3 +1,4 @@
+import { AdaptiveCardInvokeActivity } from './adaptive-card';
 import { ComposeExtensionInvokeActivity } from './compose-extension';
 import { ConfigInvokeActivity } from './config';
 import { ExecuteActionInvokeActivity } from './execute-action';
@@ -17,7 +18,8 @@ export type InvokeActivity<D = any> =
   | TaskInvokeActivity<D>
   | MessageInvokeActivity<D>
   | HandoffActionInvokeActivity<D>
-  | SignInInvokeActivity<D>;
+  | SignInInvokeActivity<D>
+  | AdaptiveCardInvokeActivity<D>;
 
 export * from './file-consent';
 export * from './execute-action';
@@ -28,3 +30,4 @@ export * from './task';
 export * from './message';
 export * from './handoff-action';
 export * from './sign-in';
+export * from './adaptive-card';
