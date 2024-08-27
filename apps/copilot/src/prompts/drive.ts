@@ -14,6 +14,10 @@ interface SearchDriveItemsArgs {
   readonly query: string;
 }
 
+interface GetDriveItemContentArgs {
+  readonly id: string;
+}
+
 export class DrivePrompt {
   private readonly _prompt: ChatPrompt;
   private readonly _state: State;
@@ -50,7 +54,23 @@ export class DrivePrompt {
     this._prompt.function(
       'get_user',
       'get the user account of the user speaking with you',
-      this.getUser.bind(this)
+      this._debug('get_user', this.getUser.bind(this))
+    );
+
+    this._prompt.function(
+      'get_drive_item_content',
+      'get a file/documents content by id',
+      {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+            description: 'the id of the file/document',
+          },
+        },
+        required: ['id'],
+      },
+      this._debug('get_drive_item_content', this.getDriveItemContent.bind(this))
     );
 
     this._prompt.function(
@@ -66,7 +86,7 @@ export class DrivePrompt {
         },
         required: ['query'],
       },
-      this.searchUserDrive.bind(this)
+      this._debug('search_user_drive', this.searchUserDrive.bind(this))
     );
   }
 
@@ -77,12 +97,33 @@ export class DrivePrompt {
   }
 
   protected getUser() {
-    this._log.debug('get_user');
     return this._state.user;
   }
 
+  protected async getDriveItemContent({ id }: GetDriveItemContentArgs) {
+    const driveItem: MSGraph.DriveItem & {
+      '@microsoft.graph.downloadUrl': string;
+    } = await this._graph.api(`/me/drive/items/${id}`).get();
+
+    if (driveItem.file?.mimeType?.includes('image')) {
+      return driveItem.webUrl;
+    }
+
+    const stream: ReadableStream<Uint8Array> = await this._graph
+      .api(driveItem['@microsoft.graph.downloadUrl'])
+      .get();
+
+    const chunks: Buffer[] = [];
+
+    for await (const chunk of stream) {
+      chunks.push(Buffer.from(chunk));
+    }
+
+    const content = Buffer.concat(chunks).toString('utf-8');
+    return content;
+  }
+
   protected async searchUserDrive({ query }: SearchDriveItemsArgs) {
-    this._log.debug('search_user_drive');
     const res: Record<'value', MSGraph.DriveItem[]> = await this._graph
       .api('/me/drive/root/search')
       .query({ q: query, $top: 10 })
@@ -92,6 +133,7 @@ export class DrivePrompt {
       const thumbnails: Record<'value', MSGraph.ThumbnailSet[]> = await this._graph
         .api(`/me/drive/items/${item.id}/thumbnails`)
         .get();
+
       const link: Record<'link', MSGraph.SharingLink> = await this._graph
         .api(`/me/drive/items/${item.id}/createLink`)
         .post({
@@ -112,5 +154,15 @@ export class DrivePrompt {
     }
 
     return `${res.value.length} files/documents have been sent to the user`;
+  }
+
+  private _debug(name: string, cb: (args: any) => any | Promise<any>) {
+    return async (args: any) => {
+      const start = new Date();
+      this._log.debug(`${name}...`);
+      const res = await cb(args);
+      this._log.debug(`${name}: ${Date.now() - start.getTime()}ms`);
+      return res;
+    };
   }
 }

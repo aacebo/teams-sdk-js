@@ -119,6 +119,7 @@ export function driveItem({ item, thumbnails, link }: DriveItemCardArgs): Card {
         tooltip: 'summarize the document contents',
         data: {
           id: item.id,
+          name: 'summarize',
           msteams: {
             type: 'task/fetch',
           },

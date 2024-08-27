@@ -62,12 +62,16 @@ export class CalendarPrompt {
     this._log = log;
     this._graph = graph(state.user.auth?.token || '');
 
-    this._prompt.function('get_date', 'get the current calendar date', this.getDate.bind(this));
+    this._prompt.function(
+      'get_date',
+      'get the current calendar date',
+      this._debug('get_date', this.getDate.bind(this))
+    );
 
     this._prompt.function(
       'get_user',
       'get the user account of the user speaking with you',
-      this.getUser.bind(this)
+      this._debug('get_user', this.getUser.bind(this))
     );
 
     this._prompt.function(
@@ -87,7 +91,7 @@ export class CalendarPrompt {
         },
         required: ['start', 'end'],
       },
-      this.getUserCalendar.bind(this)
+      this._debug('get_user_calendar', this.getUserCalendar.bind(this))
     );
 
     this._prompt.function(
@@ -103,7 +107,7 @@ export class CalendarPrompt {
         },
         required: ['eventId'],
       },
-      this.deleteUserCalendarEvent.bind(this)
+      this._debug('delete_user_calendar_event', this.deleteUserCalendarEvent.bind(this))
     );
 
     this._prompt.function(
@@ -133,7 +137,7 @@ export class CalendarPrompt {
         },
         required: ['subject', 'body', 'start', 'end'],
       },
-      this.createUserCalendarEvent.bind(this)
+      this._debug('create_user_calendar_event', this.createUserCalendarEvent.bind(this))
     );
   }
 
@@ -144,17 +148,14 @@ export class CalendarPrompt {
   }
 
   protected getDate() {
-    this._log.debug('get_date');
     return new Date().toLocaleDateString();
   }
 
   protected getUser() {
-    this._log.debug('get_user');
     return this._state.user.user;
   }
 
   protected async getUserCalendar({ start, end }: GetCalendarEventsArgs) {
-    this._log.debug('get_user_calendar');
     const startAt = new Date(start);
     const endAt = new Date(end);
     const res: Record<'value', MSGraph.Event[]> = await this._graph
@@ -169,12 +170,10 @@ export class CalendarPrompt {
   }
 
   protected async deleteUserCalendarEvent({ eventId }: DeleteCalendarEventArgs) {
-    this._log.debug('delete_user_calendar_event');
     await this._graph.api(`/me/calendar/events/${eventId}`).delete();
   }
 
   protected async createUserCalendarEvent(args: CreateCalendarEventArgs) {
-    this._log.debug('create_user_calendar_event');
     await this._graph.api('/me/calendar/events').create({
       subject: args.subject,
       body: {
@@ -192,5 +191,15 @@ export class CalendarPrompt {
       isOnlineMeeting: true,
       onlineMeetingProvider: 'teamsForBusiness',
     });
+  }
+
+  private _debug(name: string, cb: (args: any) => any | Promise<any>) {
+    return async (args: any) => {
+      const start = new Date();
+      this._log.debug(`${name}...`);
+      const res = await cb(args);
+      this._log.debug(`${name}: ${Date.now() - start.getTime()}ms`);
+      return res;
+    };
   }
 }

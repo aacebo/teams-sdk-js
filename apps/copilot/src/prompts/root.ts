@@ -52,7 +52,7 @@ export class RootPrompt {
     this._prompt.function(
       'get_user',
       'get the user account of the user speaking with you',
-      this.getUser.bind(this)
+      this._debug('get_user', this.getUser.bind(this))
     );
 
     this._prompt.function(
@@ -65,7 +65,7 @@ export class RootPrompt {
         },
         required: ['text'],
       },
-      this.calendarAssistant.bind(this)
+      this._debug('calendar_assistant', this.calendarAssistant.bind(this))
     );
 
     this._prompt.function(
@@ -78,7 +78,7 @@ export class RootPrompt {
         },
         required: ['text'],
       },
-      this.driveAssistant.bind(this)
+      this._debug('drive_assistant', this.driveAssistant.bind(this))
     );
   }
 
@@ -89,21 +89,28 @@ export class RootPrompt {
   }
 
   protected getUser() {
-    this._log.debug('get_user');
     return this._state.user.user;
   }
 
   protected async calendarAssistant({ text }: ChatCalendarAssistantArgs) {
-    this._log.debug('calendar_assistant');
     const res = await this._calendar.chat(text);
     this._attachments = this._attachments.concat(res.attachments);
     return res.text;
   }
 
   protected async driveAssistant({ text }: ChatDriveAssistantArgs) {
-    this._log.debug('drive_assistant');
     const res = await this._drive.chat(text);
     this._attachments = this._attachments.concat(res.attachments);
     return res.text;
+  }
+
+  private _debug(name: string, cb: (args: any) => any | Promise<any>) {
+    return async (args: any) => {
+      const start = new Date();
+      this._log.debug(`${name}...`);
+      const res = await cb(args);
+      this._log.debug(`${name}: ${Date.now() - start.getTime()}ms`);
+      return res;
+    };
   }
 }

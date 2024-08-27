@@ -4,9 +4,15 @@ import { ActivityEventArgs } from '@teams/apps';
 import { State } from '../state';
 import { RootPrompt } from '../prompts';
 
-export async function message({ activity, signin, say }: ActivityEventArgs<MessageSendActivity>) {
+export async function message({
+  activity,
+  log,
+  signin,
+  say,
+}: ActivityEventArgs<MessageSendActivity>) {
   if (activity.conversation.isGroup) return;
 
+  const start = new Date();
   const state = new State(activity);
 
   // if not authenticated, set the conversation
@@ -44,4 +50,6 @@ export async function message({ activity, signin, say }: ActivityEventArgs<Messa
     text,
     attachments,
   });
+
+  log.debug(`elapse: ${Date.now() - start.getTime()}ms`);
 }
