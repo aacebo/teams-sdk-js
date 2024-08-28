@@ -7,15 +7,33 @@ import { HttpRequest, StatusCodes } from '@teams/common/http';
 
 import { Receiver, ReceiverActivityArgs, ReceiverEvents } from './receiver';
 
+/**
+ * Http Receiver Options
+ */
 export interface HttpReceiverOptions {
+  /**
+   * logger instance to use
+   */
   readonly logger?: Logger;
 }
 
+/**
+ * Http Receiver Activity Arguments
+ */
 export interface HttpReceiverActivityArgs extends ReceiverActivityArgs {
+  /**
+   * inbound http request
+   */
   readonly req: HttpRequest;
 }
 
+/**
+ * Http Receiver Event Arguments
+ */
 export interface HttpReceiverEventArgs {
+  /**
+   * logger instance to use
+   */
   readonly log: Logger;
 }
 
@@ -34,6 +52,9 @@ export type HttpReceiverEvents = ReceiverEvents & {
   activity?: (args: HttpReceiverActivityArgs) => InvokeResponse | Promise<InvokeResponse>;
 };
 
+/**
+ * Can receive activities via http
+ */
 export class HttpReceiver implements Receiver {
   readonly log: Logger;
 
@@ -46,6 +67,10 @@ export class HttpReceiver implements Receiver {
     this.on('error', this.onError.bind(this));
   }
 
+  /**
+   * start listening
+   * @param port port to listen on
+   */
   async start(port = 3000) {
     return await new Promise<void>((resolve, reject) => {
       this._server.on('request', this.onIncomingRequest.bind(this));
@@ -59,11 +84,21 @@ export class HttpReceiver implements Receiver {
     });
   }
 
+  /**
+   * subscribe to an event
+   * @param event event to subscribe to
+   * @param cb callback to invoke
+   */
   on<Event extends keyof ReceiverEvents>(event: Event, cb: HttpReceiverEvents[Event]) {
     this._events[event] = cb;
     return this;
   }
 
+  /**
+   * validates an incoming http request
+   * @param req the incoming http request
+   * @param res the http response
+   */
   protected onIncomingRequest(
     req: http.IncomingMessage,
     res: http.ServerResponse<http.IncomingMessage>
@@ -120,6 +155,11 @@ export class HttpReceiver implements Receiver {
     }
   }
 
+  /**
+   * request handler called when an inbound http request is received
+   * @param req the inbound http request
+   * @param res the http response
+   */
   protected async onRequest(req: HttpRequest, res: http.ServerResponse<http.IncomingMessage>) {
     this.emit('request', { log: this.log, req });
     const authorization = req.headers['authorization']?.replace('Bearer ', '');

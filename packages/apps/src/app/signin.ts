@@ -16,6 +16,10 @@ export interface SignInArgs {
   readonly log: Logger;
 }
 
+/**
+ * trigger user signin flow for the activity sender
+ * @param args sign in arguments
+ */
 export function signin(args: SignInArgs) {
   const { appId, api, activity, conversation } = args;
 

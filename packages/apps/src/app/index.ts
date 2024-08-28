@@ -19,12 +19,29 @@ import { signin } from './signin';
 import { ActivityEventArgs, Events } from './events';
 import { AppTokens } from './tokens';
 
+/**
+ * App initialization options
+ */
 export type AppOptions = Credentials & {
+  /**
+   * http client options used to make api requests
+   */
   readonly http?: HttpClientOptions;
+
+  /**
+   * logger instance to use
+   */
   readonly logger?: Logger;
+
+  /**
+   * receiver instance to listen for incoming activities
+   */
   readonly receiver?: Receiver;
 };
 
+/**
+ * The orchestrator for receiving/sending activities
+ */
 export class App {
   readonly log: Logger;
 
@@ -70,6 +87,10 @@ export class App {
     this.on('activity.invoke[signin/verifyState]', this._onVerifyState.bind(this));
   }
 
+  /**
+   * start the app
+   * @param port port to listen on
+   */
   async start(port = 3000) {
     try {
       const botToken = await this._api.bots.token.get(this.options);
@@ -96,11 +117,20 @@ export class App {
     });
   }
 
+  /**
+   * subscribe to an event
+   * @param event event to subscribe to
+   * @param cb callback to invoke
+   */
   on<Event extends keyof Events>(event: Event, cb: Events[Event]) {
     this._events[event] = cb;
     return this;
   }
 
+  /**
+   * activity handler called when an inbound activity is received
+   * @param args activity arguments
+   */
   protected async onActivity(args: ReceiverActivityArgs) {
     const { token, activity } = args;
     activity.callerId = token.fromId;
