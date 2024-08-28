@@ -7,3 +7,8 @@ model and client implementations used to send and receive requests from Teams.
 ```bash
 $: npm install @teams/api
 ```
+
+## Dependencies
+
+-   [`jsonwebtoken`](https://www.npmjs.com/package/jsonwebtoken)
+-   [`qs`](https://www.npmjs.com/package/qs)

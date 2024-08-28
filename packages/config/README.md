@@ -7,3 +7,7 @@ shared configuration files used to keep the other packages consistent.
 ```bash
 $: npm install @teams/config
 ```
+
+## Dependencies
+
+N/A

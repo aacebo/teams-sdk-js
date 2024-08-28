@@ -7,3 +7,7 @@ ai tools/utilities.
 ```bash
 $: npm install @teams/ai
 ```
+
+## Dependencies
+
+N/A

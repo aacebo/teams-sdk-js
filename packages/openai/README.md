@@ -7,3 +7,7 @@ OpenAI model implementations to be used with `@teams/ai`.
 ```bash
 $: npm install @teams/openai
 ```
+
+## Dependencies
+
+-   [`openai`](https://www.npmjs.com/package/openai)

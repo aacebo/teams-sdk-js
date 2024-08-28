@@ -7,3 +7,7 @@ adaptive cards implementation [AdaptiveCards.io](https://adaptivecards.io/)
 ```bash
 $: npm install @teams/cards
 ```
+
+## Dependencies
+
+N/A

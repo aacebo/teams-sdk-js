@@ -7,3 +7,7 @@ used to create apps/bots that can send/receive activities.
 ```bash
 $: npm install @teams/apps
 ```
+
+## Dependencies
+
+N/A

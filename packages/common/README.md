@@ -8,3 +8,7 @@ minimizing external dependencies.
 ```bash
 $: npm install @teams/common
 ```
+
+## Dependencies
+
+N/A

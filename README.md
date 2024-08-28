@@ -4,6 +4,8 @@ a suite of packages used to build on the Teams Platform.
 
 ## Why?
 
+Building agents and bots for Microsoft Teams can often involve a lot of boilerplate code and managing numerous dependencies, which can be time-consuming and complex. Our new SDK aims to simplify this process by minimizing the boilerplate and dependencies required, while also providing helpful AI abstractions. This allows developers to focus more on creating intelligent and effective bots, rather than getting bogged down in setup and configuration. By streamlining the development process, we hope to make it easier and faster to build powerful, AI-driven bots for Microsoft Teams.
+
 ## Scripts
 
 > all scripts can be run for a particular workspace by appending `--workspace=${name}`
