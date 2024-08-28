@@ -64,6 +64,7 @@ export class App {
     });
 
     // default event handlers
+    this.on('start', this._onStart.bind(this));
     this.on('error', this._onError.bind(this));
     this.on('activity.invoke[signin/tokenExchange]', this._onTokenExchange.bind(this));
     this.on('activity.invoke[signin/verifyState]', this._onVerifyState.bind(this));
@@ -85,11 +86,11 @@ export class App {
       this._receiver
         .start(port)
         .then(() => {
-          this.log.info('listening 🚀');
+          this._emit('start');
           resolve();
         })
         .catch((err) => {
-          this.log.error(err);
+          this._emit('error', err);
           reject(err);
         });
     });
@@ -102,6 +103,7 @@ export class App {
 
   protected async onActivity(args: ReceiverActivityArgs) {
     const { token, activity } = args;
+    activity.callerId = token.fromId;
 
     this.log.debug(
       `activity/${activity.type}${activity.type === 'invoke' ? `/${activity.name}` : ''}`
@@ -129,8 +131,6 @@ export class App {
       serviceUrl: activity.serviceUrl,
       user: activity.from,
     };
-
-    activity.callerId = token.fromId;
 
     const say = (params: Partial<Activity>) => {
       if (params.id) {
@@ -189,6 +189,10 @@ export class App {
   private _emit<Event extends keyof Events>(event: Event, data?: any) {
     if (!this._events[event]) return;
     return this._events[event](data as never);
+  }
+
+  private _onStart() {
+    this.log.info('listening 🚀');
   }
 
   private _onError(err: Error) {
