@@ -1,4 +1,4 @@
-# Teams SDK: Javascript
+# <img src="./assets/icons/teams.png" width="50px" /> Teams SDK: Javascript
 
 a suite of packages used to build on the Teams Platform.
 
