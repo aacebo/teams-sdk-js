@@ -8,9 +8,8 @@ import {
 
 const clientId = process.env.CLIENT_ID || 'b4e3dcad-6c1a-4f21-8a48-dd539afa61bb';
 const clientSecret = process.env.CLIENT_SECRET || 'C4y8Q~d_Ip-wdR4pcLByptK2.Z.xg51ialgDtbyb';
-const logger = new ConsoleLogger({
+const logger = new ConsoleLogger('@samples/botbuilder', {
   level: 'debug',
-  name: '@samples/botbuilder',
 });
 
 const app = new App({

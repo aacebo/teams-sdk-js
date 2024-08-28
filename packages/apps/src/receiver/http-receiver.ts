@@ -41,7 +41,7 @@ export class HttpReceiver implements Receiver {
   private readonly _events: HttpReceiverEvents = {};
 
   constructor(readonly options: HttpReceiverOptions) {
-    this.log = this.options.logger || new ConsoleLogger({ name: '@teams/app/receiver' });
+    this.log = this.options.logger?.child('receiver') || new ConsoleLogger('@teams/app/receiver');
     this._server = http.createServer();
     this.on('error', this.onError.bind(this));
   }
@@ -61,6 +61,7 @@ export class HttpReceiver implements Receiver {
 
   on<Event extends keyof ReceiverEvents>(event: Event, cb: HttpReceiverEvents[Event]) {
     this._events[event] = cb;
+    return this;
   }
 
   protected onIncomingRequest(

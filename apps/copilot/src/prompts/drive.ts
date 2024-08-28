@@ -27,9 +27,8 @@ export class DrivePrompt {
   private _attachments: Attachment[] = [];
 
   constructor(state: State) {
-    const log = new ConsoleLogger({
+    const log = new ConsoleLogger('@apps/copilot/prompts/drive', {
       level: 'debug',
-      name: '@apps/copilot/prompts/drive',
     });
 
     this._prompt = new ChatPrompt({

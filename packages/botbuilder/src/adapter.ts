@@ -46,7 +46,7 @@ export class TeamsAdapter extends BotAdapter implements Receiver {
     super();
 
     this._receiver = new HttpReceiver({
-      logger: this.options.logger || new ConsoleLogger({ name: '@teams/app/receiver' }),
+      logger: this.options.logger || new ConsoleLogger('@teams/app/receiver'),
     });
 
     this._receiver.on('activity', async (args) => {
@@ -72,6 +72,7 @@ export class TeamsAdapter extends BotAdapter implements Receiver {
 
   on<Event extends keyof ReceiverEvents>(event: Event, cb: HttpReceiverEvents[Event]) {
     this._events[event] = cb;
+    return this;
   }
 
   /**

@@ -1,15 +1,11 @@
 import { ANSI } from './ansi';
-import { Logger, LogLevel } from './logger';
-
-export interface ConsoleLoggerOptions {
-  readonly name?: string;
-  readonly level?: LogLevel;
-}
+import { Logger, LoggerOptions, LogLevel } from './logger';
 
 export class ConsoleLogger implements Logger {
+  protected readonly name: string;
+  protected readonly level: LogLevel;
+
   private readonly _pattern: RegExp;
-  private readonly _name?: string;
-  private readonly _level: LogLevel;
   private readonly _levels = {
     error: 100,
     warn: 200,
@@ -24,9 +20,9 @@ export class ConsoleLogger implements Logger {
     debug: ANSI.ForegroundMagenta,
   };
 
-  constructor(options?: ConsoleLoggerOptions) {
-    this._name = options?.name;
-    this._level = options?.level || 'info';
+  constructor(name: string, options?: LoggerOptions) {
+    this.name = name;
+    this.level = options?.level || 'info';
     this._pattern = parseMagicExpr(process.env.LOG || '*');
   }
 
@@ -47,17 +43,16 @@ export class ConsoleLogger implements Logger {
   }
 
   log(level: LogLevel, ...msg: any[]) {
-    if (this._levels[level] > this._levels[this._level]) {
+    if (this._levels[level] > this._levels[this.level]) {
       return;
     }
 
-    if (this._name && !this._pattern.test(this._name)) {
+    if (!this._pattern.test(this.name)) {
       return;
     }
 
     const prefix = [this._colors[level], ANSI.Bold, `[${level.toUpperCase()}]`];
-
-    const name = [this._name || '', ANSI.ForegroundReset, ANSI.BoldReset];
+    const name = [this.name, ANSI.ForegroundReset, ANSI.BoldReset];
 
     for (const m of msg) {
       let text = new String(m);
@@ -70,6 +65,12 @@ export class ConsoleLogger implements Logger {
         console[level](prefix.join(''), name.join(''), line);
       }
     }
+  }
+
+  child(name: string) {
+    return new ConsoleLogger(`${this.name}/${name}`, {
+      level: this.level,
+    });
   }
 }
 

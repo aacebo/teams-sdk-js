@@ -39,7 +39,7 @@ export class App {
   private readonly _events: Events = {};
 
   constructor(readonly options: AppOptions) {
-    this.log = this.options.logger || new ConsoleLogger({ name: '@teams/app' });
+    this.log = this.options.logger || new ConsoleLogger('@teams/app');
     this._api = new Client({
       ...this.options.http,
       requestOptions: {
@@ -97,6 +97,7 @@ export class App {
 
   on<Event extends keyof Events>(event: Event, cb: Events[Event]) {
     this._events[event] = cb;
+    return this;
   }
 
   protected async onActivity(args: ReceiverActivityArgs) {

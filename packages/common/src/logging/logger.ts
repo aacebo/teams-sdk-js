@@ -1,5 +1,9 @@
 export type LogLevel = 'error' | 'warn' | 'info' | 'debug';
 
+export interface LoggerOptions {
+  readonly level?: LogLevel;
+}
+
 export interface Logger {
   /**
    * Output debug message
@@ -30,4 +34,9 @@ export interface Logger {
    * @param msg any data to log
    */
   log(level: LogLevel, ...msg: any[]): void;
+
+  /**
+   * Create a child logger instance
+   */
+  child(name: string): Logger;
 }

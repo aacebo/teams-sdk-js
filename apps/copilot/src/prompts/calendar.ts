@@ -34,9 +34,8 @@ export class CalendarPrompt {
   private _attachments: Attachment[] = [];
 
   constructor(state: State) {
-    const log = new ConsoleLogger({
+    const log = new ConsoleLogger('@apps/copilot/prompts/calendar', {
       level: 'debug',
-      name: '@apps/copilot/prompts/calendar',
     });
 
     this._prompt = new ChatPrompt({

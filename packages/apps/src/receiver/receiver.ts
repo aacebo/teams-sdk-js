@@ -12,5 +12,5 @@ export interface ReceiverEvents {
 
 export interface Receiver {
   start(port?: number): Promise<void>;
-  on<Event extends keyof ReceiverEvents>(event: Event, cb: ReceiverEvents[Event]): void;
+  on<Event extends keyof ReceiverEvents>(event: Event, cb: ReceiverEvents[Event]): this;
 }

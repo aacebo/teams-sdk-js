@@ -25,9 +25,8 @@ export class RootPrompt {
   private _attachments: Attachment[] = [];
 
   constructor(state: State) {
-    const log = new ConsoleLogger({
+    const log = new ConsoleLogger('@apps/copilot/prompts/root', {
       level: 'debug',
-      name: '@apps/copilot/prompts/root',
     });
 
     this._prompt = new ChatPrompt({
