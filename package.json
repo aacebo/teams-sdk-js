@@ -15,6 +15,7 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
+    "test": "turbo test",
     "fmt": "prettier --write \"**/*.{js,ts,tsx,md,json}\""
   },
   "devDependencies": {

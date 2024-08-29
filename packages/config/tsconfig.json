@@ -17,6 +17,7 @@
     "noUnusedParameters": true,
     "pretty": true,
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "types": ["jest", "node"]
   }
 }
