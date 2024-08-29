@@ -36,6 +36,14 @@ $: npm run fmt
 $: npm run dev
 ```
 
+### Test
+
+> for packages only
+
+```bash
+$: npm run test
+```
+
 ## Packages
 
 -   [`@teams/apps`](./packages/apps/README.md)
