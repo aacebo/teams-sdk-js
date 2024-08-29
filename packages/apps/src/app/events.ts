@@ -25,14 +25,54 @@ type Suffixed<T, S extends string | undefined = undefined> = {
 type EventHandler<In = any, Out = void> = (value: In) => Out | Promise<Out>;
 
 export interface ActivityEventArgs<T extends Activity> {
+  /**
+   * the inbound activity
+   */
   readonly activity: T;
+
+  /**
+   * the inbound activity conversation reference
+   */
   readonly conversation: ConversationReference;
+
+  /**
+   * the inbound request
+   */
   readonly req: HttpRequest;
+
+  /**
+   * the app logger instance
+   */
   readonly log: Logger;
+
+  /**
+   * the bot api client
+   */
   readonly api: Client;
+
+  /**
+   * the apps tokens
+   */
   readonly tokens: AppTokens;
+
+  /**
+   * send an activity to the conversation
+   * @param activity activity to send
+   */
   readonly say: (activity: Partial<Activity>) => Promise<Resource>;
+
+  /**
+   * reply to an activity
+   * @param id the id of the activity to reply to
+   * @param activity activity to send
+   */
   readonly reply: (id: string, activity: Partial<Activity>) => Promise<Resource>;
+
+  /**
+   * trigger user signin flow for the activity sender
+   * @param name auth connection name
+   * @param text card text to display
+   */
   readonly signin: (name: string, text?: string) => Promise<Resource>;
 }
 
