@@ -1,5 +1,5 @@
-import { ChatModel, ChatParams, Message, ModelMessage } from '@teams/ai';
-import { ConsoleLogger, Logger } from '@teams/common/logging';
+import { ChatModel, ChatParams, Message, ModelMessage } from '@teams.sdk/ai';
+import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 import OpenAI from 'openai';
 import { Fetch } from 'openai/core.mjs';
 import { Stream } from 'openai/streaming';
@@ -23,7 +23,7 @@ export class OpenAIChatModel implements ChatModel {
   private readonly _log: Logger;
 
   constructor(readonly options: OpenAIChatModelOptions) {
-    this._log = options.logger || new ConsoleLogger('@teams/openai');
+    this._log = options.logger || new ConsoleLogger('@teams.sdk/openai');
     this._openai = new OpenAI({
       apiKey: options.apiKey,
       baseURL: options.baseUrl,

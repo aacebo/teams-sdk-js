@@ -1,5 +1,5 @@
-import { App } from '@teams/apps';
-import { ConsoleLogger } from '@teams/common/logging';
+import { App } from '@teams.sdk/apps';
+import { ConsoleLogger } from '@teams.sdk/common/logging';
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;

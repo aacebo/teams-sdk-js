@@ -1,6 +1,6 @@
-import { Activity } from '@teams/api';
-import { Message } from '@teams/ai';
-import { LocalStorage } from '@teams/common/storage';
+import { Activity } from '@teams.sdk/api';
+import { Message } from '@teams.sdk/ai';
+import { LocalStorage } from '@teams.sdk/common/storage';
 
 const storage = new LocalStorage<ChatState>();
 

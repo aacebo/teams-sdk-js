@@ -1,5 +1,5 @@
-import { cardAttachment, InvokeResponse, TaskFetchInvokeActivity } from '@teams/api';
-import { ActivityEventArgs } from '@teams/apps';
+import { cardAttachment, InvokeResponse, TaskFetchInvokeActivity } from '@teams.sdk/api';
+import { ActivityEventArgs } from '@teams.sdk/apps';
 
 import { State } from '../state';
 import { DrivePrompt } from '../prompts';

@@ -1,9 +1,9 @@
 import http from 'http';
 import url from 'url';
 
-import { Activity, InvokeResponse, Token } from '@teams/api';
-import { ConsoleLogger, Logger } from '@teams/common/logging';
-import { HttpRequest, StatusCodes } from '@teams/common/http';
+import { Activity, InvokeResponse, Token } from '@teams.sdk/api';
+import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
+import { HttpRequest, StatusCodes } from '@teams.sdk/common/http';
 
 import { Receiver, ReceiverActivityArgs, ReceiverEvents } from './receiver';
 
@@ -62,7 +62,7 @@ export class HttpReceiver implements Receiver {
   private readonly _events: HttpReceiverEvents = {};
 
   constructor(readonly options: HttpReceiverOptions) {
-    this.log = this.options.logger?.child('receiver') || new ConsoleLogger('@teams/app/receiver');
+    this.log = this.options.logger?.child('receiver') || new ConsoleLogger('@teams.sdk/app/receiver');
     this._server = http.createServer();
     this.on('error', this.onError.bind(this));
   }

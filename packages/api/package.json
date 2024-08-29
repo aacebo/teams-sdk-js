@@ -1,5 +1,5 @@
 {
-  "name": "@teams/api",
+  "name": "@teams.sdk/api",
   "version": "0.0.0",
   "license": "MIT",
   "main": "dist/index",
@@ -19,9 +19,9 @@
     "qs": "^6.13.0"
   },
   "peerDependencies": {
-    "@teams/cards": "*",
-    "@teams/common": "*",
-    "@teams/config": "*"
+    "@teams.sdk/cards": "*",
+    "@teams.sdk/common": "*",
+    "@teams.sdk/config": "*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

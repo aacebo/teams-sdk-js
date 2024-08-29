@@ -1,5 +1,5 @@
 {
-  "extends": "@teams/config/tsconfig.json",
+  "extends": "@teams.sdk/config/tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src"

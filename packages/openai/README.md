@@ -1,11 +1,11 @@
 # Teams: OpenAI
 
-OpenAI model implementations to be used with `@teams/ai`.
+OpenAI model implementations to be used with `@teams.sdk/ai`.
 
 ## Install
 
 ```bash
-$: npm install @teams/openai
+$: npm install @teams.sdk/openai
 ```
 
 ## Dependencies

@@ -6,7 +6,7 @@ minimizing external dependencies.
 ## Install
 
 ```bash
-$: npm install @teams/common
+$: npm install @teams.sdk/common
 ```
 
 ## Dependencies

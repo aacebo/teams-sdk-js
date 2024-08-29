@@ -1,5 +1,5 @@
-import { HttpReceiver, HttpReceiverEvents, Receiver, ReceiverEvents } from '@teams/apps';
-import { ConsoleLogger, Logger } from '@teams/common/logging';
+import { HttpReceiver, HttpReceiverEvents, Receiver, ReceiverEvents } from '@teams.sdk/apps';
+import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 
 import {
   TurnContext,
@@ -46,7 +46,7 @@ export class TeamsAdapter extends BotAdapter implements Receiver {
     super();
 
     this._receiver = new HttpReceiver({
-      logger: this.options.logger || new ConsoleLogger('@teams/app/receiver'),
+      logger: this.options.logger || new ConsoleLogger('@teams.sdk/app/receiver'),
     });
 
     this._receiver.on('activity', async (args) => {

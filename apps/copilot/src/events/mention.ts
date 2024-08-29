@@ -1,4 +1,4 @@
-import { MentionEventArgs } from '@teams/apps';
+import { MentionEventArgs } from '@teams.sdk/apps';
 
 import { State } from '../state';
 import { RootPrompt } from '../prompts';

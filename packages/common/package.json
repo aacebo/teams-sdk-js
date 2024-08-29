@@ -1,5 +1,5 @@
 {
-  "name": "@teams/common",
+  "name": "@teams.sdk/common",
   "version": "0.0.0",
   "license": "MIT",
   "main": "dist/index",
@@ -33,7 +33,7 @@
     "test": "npx jest"
   },
   "peerDependencies": {
-    "@teams/config": "*"
+    "@teams.sdk/config": "*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

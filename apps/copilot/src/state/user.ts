@@ -1,5 +1,5 @@
-import { Activity } from '@teams/api';
-import { LocalStorage } from '@teams/common/storage';
+import { Activity } from '@teams.sdk/api';
+import { LocalStorage } from '@teams.sdk/common/storage';
 import * as MSGraph from '@microsoft/microsoft-graph-types';
 
 const storage = new LocalStorage<UserState>();

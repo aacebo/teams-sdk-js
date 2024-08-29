@@ -6,10 +6,10 @@
       "outputs": [".next/**", "!.next/cache/**"],
       "cache": false,
       "dependsOn": [
-        "@teams/api#build",
-        "@teams/apps#build",
-        "@teams/cards#build",
-        "@teams/common#build"
+        "@teams.sdk/api#build",
+        "@teams.sdk/apps#build",
+        "@teams.sdk/cards#build",
+        "@teams.sdk/common#build"
       ]
     }
   }

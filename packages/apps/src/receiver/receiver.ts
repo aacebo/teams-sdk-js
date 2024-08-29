@@ -1,4 +1,4 @@
-import { Activity, InvokeResponse, Token } from '@teams/api';
+import { Activity, InvokeResponse, Token } from '@teams.sdk/api';
 
 export interface ReceiverActivityArgs {
   /**

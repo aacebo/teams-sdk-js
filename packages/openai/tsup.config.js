@@ -1,1 +1,1 @@
-module.exports = require('@teams/config/tsup.config');
+module.exports = require('@teams.sdk/config/tsup.config');

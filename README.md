@@ -46,14 +46,14 @@ $: npm run test
 
 ## Packages
 
--   [`@teams/apps`](./packages/apps/README.md)
--   [`@teams/ai`](./packages/ai/README.md)
--   [`@teams/api`](./packages/api/README.md)
--   [`@teams/botbuilder`](./packages/botbuilder/README.md)
--   [`@teams/cards`](./packages/cards/README.md)
--   [`@teams/common`](./packages/common/README.md)
--   [`@teams/config`](./packages/config/README.md)
--   [`@teams/openai`](./packages/openai/README.md)
+-   [`@teams.sdk/apps`](./packages/apps/README.md)
+-   [`@teams.sdk/ai`](./packages/ai/README.md)
+-   [`@teams.sdk/api`](./packages/api/README.md)
+-   [`@teams.sdk/botbuilder`](./packages/botbuilder/README.md)
+-   [`@teams.sdk/cards`](./packages/cards/README.md)
+-   [`@teams.sdk/common`](./packages/common/README.md)
+-   [`@teams.sdk/config`](./packages/config/README.md)
+-   [`@teams.sdk/openai`](./packages/openai/README.md)
 
 ## Samples
 

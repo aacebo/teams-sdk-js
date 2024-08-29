@@ -1,5 +1,5 @@
-import { HttpRequest } from '@teams/common/http';
-import { Logger } from '@teams/common/logging';
+import { HttpRequest } from '@teams.sdk/common/http';
+import { Logger } from '@teams.sdk/common/logging';
 import {
   Activity,
   InvokeActivity,
@@ -10,7 +10,7 @@ import {
   TokenResponse,
   MessageSendActivity,
   MentionEntity,
-} from '@teams/api';
+} from '@teams.sdk/api';
 
 import { AppTokens } from './tokens';
 

@@ -1,4 +1,4 @@
-import { Logger } from '@teams/common/logging';
+import { Logger } from '@teams.sdk/common/logging';
 import {
   Activity,
   cardAttachment,
@@ -6,7 +6,7 @@ import {
   ConversationAccount,
   ConversationReference,
   TokenExchangeState,
-} from '@teams/api';
+} from '@teams.sdk/api';
 
 export interface SignInArgs {
   readonly appId: string;

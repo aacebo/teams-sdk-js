@@ -7,10 +7,10 @@ import {
   TokenExchangeInvokeResponse,
   SignInTokenExchangeInvokeActivity,
   SignInVerifyStateInvokeActivity,
-} from '@teams/api';
+} from '@teams.sdk/api';
 
-import { HttpClientOptions, HttpError, StatusCodes } from '@teams/common/http';
-import { Logger, ConsoleLogger } from '@teams/common/logging';
+import { HttpClientOptions, HttpError, StatusCodes } from '@teams.sdk/common/http';
+import { Logger, ConsoleLogger } from '@teams.sdk/common/logging';
 
 import pkg from '../../package.json';
 import { Receiver, ReceiverActivityArgs, HttpReceiver } from '../receiver';
@@ -56,7 +56,7 @@ export class App {
   private readonly _events: Events = {};
 
   constructor(readonly options: AppOptions) {
-    this.log = this.options.logger || new ConsoleLogger('@teams/app');
+    this.log = this.options.logger || new ConsoleLogger('@teams.sdk/app');
     this._api = new Client({
       ...this.options.http,
       requestOptions: {

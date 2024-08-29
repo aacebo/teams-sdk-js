@@ -1,4 +1,4 @@
-import { Activity } from '@teams/api';
+import { Activity } from '@teams.sdk/api';
 
 import { ChatStorage } from './chat';
 import { UserStorage } from './user';

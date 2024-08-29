@@ -1,4 +1,4 @@
-import { HttpClient } from '@teams/common/http';
+import { HttpClient } from '@teams.sdk/common/http';
 
 import pkg from '../package.json';
 

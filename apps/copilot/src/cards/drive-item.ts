@@ -1,4 +1,4 @@
-import { Card, Column, Image, Media } from '@teams/cards';
+import { Card, Column, Image, Media } from '@teams.sdk/cards';
 import { formatDistanceToNowStrict } from 'date-fns';
 import * as MSGraph from '@microsoft/microsoft-graph-types';
 

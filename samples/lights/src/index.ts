@@ -1,8 +1,8 @@
-import { App } from '@teams/apps';
-import { ChatPrompt, Message } from '@teams/ai';
-import { ConsoleLogger } from '@teams/common/logging';
-import { OpenAIChatModel } from '@teams/openai';
-import { LocalStorage } from '@teams/common/storage';
+import { App } from '@teams.sdk/apps';
+import { ChatPrompt, Message } from '@teams.sdk/ai';
+import { ConsoleLogger } from '@teams.sdk/common/logging';
+import { OpenAIChatModel } from '@teams.sdk/openai';
+import { LocalStorage } from '@teams.sdk/common/storage';
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;

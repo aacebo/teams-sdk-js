@@ -1,5 +1,5 @@
-import { MessageSendActivity } from '@teams/api';
-import { ActivityEventArgs } from '@teams/apps';
+import { MessageSendActivity } from '@teams.sdk/api';
+import { ActivityEventArgs } from '@teams.sdk/apps';
 
 import { State } from '../state';
 import { RootPrompt } from '../prompts';

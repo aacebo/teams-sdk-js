@@ -1,5 +1,5 @@
 {
-  "name": "@teams/botbuilder",
+  "name": "@teams.sdk/botbuilder",
   "version": "0.0.0",
   "license": "MIT",
   "main": "dist/index",
@@ -18,9 +18,9 @@
     "uuid": "^10.0.0"
   },
   "peerDependencies": {
-    "@teams/apps": "*",
-    "@teams/common": "*",
-    "@teams/config": "*",
+    "@teams.sdk/apps": "*",
+    "@teams.sdk/common": "*",
+    "@teams.sdk/config": "*",
     "botbuilder-core": "^4.14.1",
     "botframework-connector": "^4.14.1"
   },

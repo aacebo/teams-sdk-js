@@ -1,6 +1,6 @@
-import { App } from '@teams/apps';
-import { ConsoleLogger } from '@teams/common/logging';
-import { TeamsAdapter } from '@teams/botbuilder';
+import { App } from '@teams.sdk/apps';
+import { ConsoleLogger } from '@teams.sdk/common/logging';
+import { TeamsAdapter } from '@teams.sdk/botbuilder';
 import {
   ConfigurationBotFrameworkAuthentication,
   ConfigurationServiceClientCredentialFactory,

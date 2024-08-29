@@ -1,6 +1,6 @@
-import { App } from '@teams/apps';
-import { ConsoleLogger } from '@teams/common/logging';
-import { cardAttachment } from '@teams/api';
+import { App } from '@teams.sdk/apps';
+import { ConsoleLogger } from '@teams.sdk/common/logging';
+import { cardAttachment } from '@teams.sdk/api';
 
 import { graph } from './graph';
 import * as cards from './cards';

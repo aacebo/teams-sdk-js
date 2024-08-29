@@ -17,12 +17,12 @@
   },
   "dependencies": {
     "@microsoft/microsoft-graph-client": "^3.0.7",
-    "@teams/ai": "*",
-    "@teams/api": "*",
-    "@teams/apps": "*",
-    "@teams/common": "*",
-    "@teams/config": "*",
-    "@teams/openai": "*",
+    "@teams.sdk/ai": "*",
+    "@teams.sdk/api": "*",
+    "@teams.sdk/apps": "*",
+    "@teams.sdk/common": "*",
+    "@teams.sdk/config": "*",
+    "@teams.sdk/openai": "*",
     "date-fns": "^3.6.0",
     "dotenv": "^16.4.5"
   },

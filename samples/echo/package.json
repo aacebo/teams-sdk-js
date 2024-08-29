@@ -16,10 +16,10 @@
     "dev": "npx nodemon -w \"./src/**\" -e ts --exec \"node -r ts-node/register -r dotenv/config ./src/index.ts\""
   },
   "dependencies": {
-    "@teams/api": "*",
-    "@teams/apps": "*",
-    "@teams/common": "*",
-    "@teams/config": "*",
+    "@teams.sdk/api": "*",
+    "@teams.sdk/apps": "*",
+    "@teams.sdk/common": "*",
+    "@teams.sdk/config": "*",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {

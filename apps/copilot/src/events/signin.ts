@@ -1,4 +1,4 @@
-import { SignInEventArgs } from '@teams/apps';
+import { SignInEventArgs } from '@teams.sdk/apps';
 import * as MSGraph from '@microsoft/microsoft-graph-types';
 
 import { graph } from '../graph';

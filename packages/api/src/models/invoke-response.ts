@@ -1,4 +1,4 @@
-import { Card } from '@teams/cards';
+import { Card } from '@teams.sdk/cards';
 
 import {
   ConfigResponse,

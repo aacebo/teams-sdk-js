@@ -1,5 +1,5 @@
 {
-  "name": "@teams/openai",
+  "name": "@teams.sdk/openai",
   "version": "0.0.0",
   "license": "MIT",
   "main": "dist/index",
@@ -15,9 +15,9 @@
     "test": "npx jest"
   },
   "peerDependencies": {
-    "@teams/ai": "*",
-    "@teams/common": "*",
-    "@teams/config": "*",
+    "@teams.sdk/ai": "*",
+    "@teams.sdk/common": "*",
+    "@teams.sdk/config": "*",
     "openai": "^4.55.0"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
-import { ChatPrompt, ContentPart } from '@teams/ai';
-import { Attachment } from '@teams/api';
-import { OpenAIChatModel } from '@teams/openai';
-import { ConsoleLogger, Logger } from '@teams/common/logging';
+import { ChatPrompt, ContentPart } from '@teams.sdk/ai';
+import { Attachment } from '@teams.sdk/api';
+import { OpenAIChatModel } from '@teams.sdk/openai';
+import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 
 import { Client } from '@microsoft/microsoft-graph-client';
 import * as MSGraph from '@microsoft/microsoft-graph-types';

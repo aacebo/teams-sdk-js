@@ -1,4 +1,4 @@
-import { Token } from '@teams/api';
+import { Token } from '@teams.sdk/api';
 
 /**
  * App tokens used to make authorized api calls

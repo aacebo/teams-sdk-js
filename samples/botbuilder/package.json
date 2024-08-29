@@ -16,11 +16,11 @@
     "dev": "npx nodemon -w \"./src/**\" -e ts --exec \"node -r ts-node/register -r dotenv/config ./src/index.ts\""
   },
   "dependencies": {
-    "@teams/api": "*",
-    "@teams/apps": "*",
-    "@teams/botbuilder": "*",
-    "@teams/common": "*",
-    "@teams/config": "*",
+    "@teams.sdk/api": "*",
+    "@teams.sdk/apps": "*",
+    "@teams.sdk/botbuilder": "*",
+    "@teams.sdk/common": "*",
+    "@teams.sdk/config": "*",
     "botbuilder-core": "^4.14.1",
     "botframework-connector": "^4.14.1",
     "dotenv": "^16.4.5"

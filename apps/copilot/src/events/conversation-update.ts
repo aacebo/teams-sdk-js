@@ -1,5 +1,5 @@
-import { ConversationUpdateActivity } from '@teams/api';
-import { ActivityEventArgs } from '@teams/apps';
+import { ConversationUpdateActivity } from '@teams.sdk/api';
+import { ActivityEventArgs } from '@teams.sdk/apps';
 
 export async function conversationUpdate({
   activity,

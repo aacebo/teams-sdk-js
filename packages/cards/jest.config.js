@@ -1,1 +1,1 @@
-module.exports = require('@teams/config/jest.config');
+module.exports = require('@teams.sdk/config/jest.config');

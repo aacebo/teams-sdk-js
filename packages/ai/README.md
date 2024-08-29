@@ -5,7 +5,7 @@ ai tools/utilities.
 ## Install
 
 ```bash
-$: npm install @teams/ai
+$: npm install @teams.sdk/ai
 ```
 
 ## Dependencies
