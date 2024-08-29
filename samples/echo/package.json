@@ -13,13 +13,14 @@
     "clean": "npx rimraf ./dist",
     "build": "npm run clean && tsc -p .",
     "start": "node .",
-    "dev": "npx nodemon -w \"./src/**\" -e ts --exec \"ts-node --transpileOnly ./src\""
+    "dev": "npx nodemon -w \"./src/**\" -e ts --exec \"node -r ts-node/register -r dotenv/config ./src/index.ts\""
   },
   "dependencies": {
     "@teams/api": "*",
     "@teams/apps": "*",
     "@teams/common": "*",
-    "@teams/config": "*"
+    "@teams/config": "*",
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.4",
