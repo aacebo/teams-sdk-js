@@ -62,7 +62,8 @@ export class HttpReceiver implements Receiver {
   private readonly _events: HttpReceiverEvents = {};
 
   constructor(readonly options: HttpReceiverOptions) {
-    this.log = this.options.logger?.child('receiver') || new ConsoleLogger('@teams.sdk/app/receiver');
+    this.log =
+      this.options.logger?.child('receiver') || new ConsoleLogger('@teams.sdk/app/receiver');
     this._server = http.createServer();
     this.on('error', this.onError.bind(this));
   }
