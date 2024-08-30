@@ -7,10 +7,12 @@ import {
   Resource,
   TokenResponse,
 } from '@teams.sdk/api';
+
 import { HttpRequest } from '@teams.sdk/common/http';
 import { Logger } from '@teams.sdk/common/logging';
 
 import { AppTokens } from './tokens';
+import { AppResponse } from './response';
 
 export interface Context<T extends Activity> {
   /**
@@ -22,11 +24,6 @@ export interface Context<T extends Activity> {
    * the inbound activity conversation reference
    */
   readonly conversation: ConversationReference;
-
-  /**
-   * the inbound request
-   */
-  readonly req: HttpRequest;
 
   /**
    * the app logger instance
@@ -42,6 +39,16 @@ export interface Context<T extends Activity> {
    * the apps tokens
    */
   readonly tokens: AppTokens;
+
+  /**
+   * the inbound http request
+   */
+  readonly req?: HttpRequest;
+
+  /**
+   * the apps response to the activity
+   */
+  res?: AppResponse;
 
   /**
    * send an activity to the conversation

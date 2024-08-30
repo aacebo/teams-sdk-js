@@ -1,11 +1,12 @@
 import http from 'http';
 import url from 'url';
 
-import { Activity, InvokeResponse, Token } from '@teams.sdk/api';
+import { Activity, Token } from '@teams.sdk/api';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 import { HttpRequest, StatusCodes } from '@teams.sdk/common/http';
 
 import { Receiver, ReceiverActivityArgs, ReceiverEvents } from './receiver';
+import { AppResponse } from './response';
 
 /**
  * Http Receiver Options
@@ -45,11 +46,11 @@ export type HttpReceiverEvents = ReceiverEvents & {
   ) => void | Promise<void>;
   response?: (
     args: HttpReceiverEventArgs & {
-      readonly res: InvokeResponse;
+      readonly res: AppResponse;
       readonly elapse: number;
     }
   ) => void | Promise<void>;
-  activity?: (args: HttpReceiverActivityArgs) => InvokeResponse | Promise<InvokeResponse>;
+  activity?: (args: HttpReceiverActivityArgs) => AppResponse | Promise<AppResponse>;
 };
 
 /**

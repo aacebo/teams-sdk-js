@@ -1,4 +1,6 @@
-import { Activity, InvokeResponse, Token } from '@teams.sdk/api';
+import { Activity, Token } from '@teams.sdk/api';
+
+import { AppResponse } from './response';
 
 export interface ReceiverActivityArgs {
   /**
@@ -14,7 +16,7 @@ export interface ReceiverActivityArgs {
 
 export interface ReceiverEvents {
   error?: (err: Error) => void | Promise<void>;
-  activity?: (args: ReceiverActivityArgs) => InvokeResponse | Promise<InvokeResponse>;
+  activity?: (args: ReceiverActivityArgs) => AppResponse | Promise<AppResponse>;
 }
 
 /**

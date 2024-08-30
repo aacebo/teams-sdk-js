@@ -20,6 +20,7 @@ import { signin } from './signin';
 import { Events, INVOKE_ALIASES } from './events';
 import { AppTokens } from './tokens';
 import { Context } from './context';
+import { AppMiddleware, Middleware } from './middleware';
 
 /**
  * App initialization options
@@ -56,6 +57,10 @@ export class App {
   private readonly _receiver: Receiver;
   private readonly _exchanges = new Map<string, string>();
   private readonly _events: Events = {};
+  private readonly _middleware: AppMiddleware = {
+    before: [],
+    after: [],
+  };
 
   constructor(readonly options: AppOptions) {
     this.log = this.options.logger || new ConsoleLogger('@teams.sdk/app');
@@ -124,8 +129,37 @@ export class App {
    * @param event event to subscribe to
    * @param cb callback to invoke
    */
-  on<Event extends keyof Events>(event: Event, cb: Events[Event]) {
+  on<Event extends keyof Events>(event: Event, cb: Exclude<Events[Event], undefined>) {
     this._events[event] = cb;
+    return this;
+  }
+
+  /**
+   * subscribe to a message event for a specific pattern
+   * @param pattern pattern to match against message text
+   * @param cb callback to invoke
+   */
+  message(pattern: string | RegExp, cb: Exclude<Events['message'], undefined>) {
+    this._events.message = (ctx) => {
+      if (!new RegExp(pattern).test(ctx.activity.text)) {
+        return;
+      }
+
+      return cb(ctx);
+    };
+
+    return this;
+  }
+
+  /**
+   * add middleware to run either before or after your event handlers run.
+   * if the callback returns a response, the app will respond and stop
+   * executing handlers/middleware.
+   * @param type when should the middleware be invoked
+   * @param cb callback to invoke
+   */
+  middleware(type: keyof AppMiddleware, cb: Middleware) {
+    this._middleware[type].push(cb);
     return this;
   }
 
@@ -176,7 +210,7 @@ export class App {
       return api.conversations.activities(activity.conversation.id).reply(id, params);
     };
 
-    const params = {
+    const ctx: Context<Activity> = {
       ...args,
       api,
       log: this.log,
@@ -193,12 +227,21 @@ export class App {
       }),
     };
 
+    // run before middleware
+    for (const cb of this._middleware.before) {
+      const res = await cb(ctx);
+
+      if (res) {
+        return res;
+      }
+    }
+
     if (activity.type === 'message') {
       await say({ type: 'typing' });
     }
 
-    this._emit('activity', params);
-    this._emit(activity.type, params);
+    await this._emit('activity', ctx);
+    await this._emit(activity.type, ctx);
 
     if (activity.type === 'message' && activity.entities?.some((e) => e.type === 'mention')) {
       const mention = activity.entities?.find(
@@ -206,16 +249,28 @@ export class App {
       );
 
       if (mention) {
-        this._emit('mention', { ...params, mention });
+        await this._emit('mention', { ...ctx, mention });
       }
     }
 
     if (activity.type === 'invoke') {
-      const res = await this._emit(INVOKE_ALIASES[activity.name], params);
-      if (res) return res;
+      const res = await this._emit(INVOKE_ALIASES[activity.name], ctx);
+
+      if (res) {
+        ctx.res = res;
+      }
     }
 
-    return { status: 200 };
+    // run after middleware
+    for (const cb of this._middleware.after) {
+      const res = await cb(ctx);
+
+      if (res) {
+        return res;
+      }
+    }
+
+    return ctx.res || { status: 200 };
   }
 
   private _emit<Event extends keyof Events>(event: Event, data?: any) {
