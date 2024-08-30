@@ -23,7 +23,7 @@ const app = new App({
   logger: new ConsoleLogger('@samples/lights', { level: 'debug' }),
 });
 
-app.on('activity.message', async ({ say, activity }) => {
+app.on('message', async ({ say, activity }) => {
   let state = storage.get(activity.from.id);
 
   if (!state) {

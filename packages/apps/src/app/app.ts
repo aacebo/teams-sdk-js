@@ -16,7 +16,7 @@ import pkg from '../../package.json';
 import { Receiver, ReceiverActivityArgs, HttpReceiver } from '../receiver';
 
 import { signin } from './signin';
-import { ActivityEventArgs, Events } from './events';
+import { ActivityEventArgs, Events, INVOKE_ALIASES } from './events';
 import { AppTokens } from './tokens';
 
 /**
@@ -83,8 +83,8 @@ export class App {
     // default event handlers
     this.on('start', this._onStart.bind(this));
     this.on('error', this._onError.bind(this));
-    this.on('activity.invoke[signin/tokenExchange]', this._onTokenExchange.bind(this));
-    this.on('activity.invoke[signin/verifyState]', this._onVerifyState.bind(this));
+    this.on('signin.token-exchange', this._onTokenExchange.bind(this));
+    this.on('signin.verify-state', this._onVerifyState.bind(this));
   }
 
   /**
@@ -196,7 +196,7 @@ export class App {
     }
 
     this._emit('activity', params);
-    this._emit(`activity.${activity.type}`, params);
+    this._emit(activity.type, params);
 
     if (activity.type === 'message' && activity.entities?.some((e) => e.type === 'mention')) {
       const mention = activity.entities?.find(
@@ -209,7 +209,7 @@ export class App {
     }
 
     if (activity.type === 'invoke') {
-      const res = await this._emit(`activity.${activity.type}[${activity.name}]`, params);
+      const res = await this._emit(INVOKE_ALIASES[activity.name], params);
       if (res) return res;
     }
 

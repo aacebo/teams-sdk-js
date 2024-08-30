@@ -19,7 +19,7 @@ const app = new App({
   logger: new ConsoleLogger('@samples/auth', { level: 'debug' }),
 });
 
-app.on('activity.message', async ({ signin }) => {
+app.on('message', async ({ signin }) => {
   await signin('graph-connection');
 });
 

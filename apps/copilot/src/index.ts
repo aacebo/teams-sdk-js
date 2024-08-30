@@ -17,11 +17,11 @@ const app = new App({
   logger: new ConsoleLogger('@apps/copilot', { level: 'debug' }),
 });
 
-app.on('activity.conversationUpdate', events.conversationUpdate);
-app.on('activity.message', events.message);
+app.on('conversationUpdate', events.conversationUpdate);
+app.on('message', events.message);
 app.on('mention', events.mention);
 app.on('signin', events.signin);
-app.on('activity.invoke[task/fetch]', events.taskFetch);
+app.on('dialog.open', events.taskFetch);
 
 (async () => {
   await app.start();
