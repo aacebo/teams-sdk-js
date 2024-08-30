@@ -16,8 +16,9 @@ import pkg from '../../package.json';
 import { Receiver, ReceiverActivityArgs, HttpReceiver } from '../receiver';
 
 import { signin } from './signin';
-import { ActivityEventArgs, Events, INVOKE_ALIASES } from './events';
+import { Events, INVOKE_ALIASES } from './events';
 import { AppTokens } from './tokens';
+import { Context } from './context';
 
 /**
  * App initialization options
@@ -229,7 +230,7 @@ export class App {
     this.log.error(err);
   }
 
-  private async _onTokenExchange(args: ActivityEventArgs<SignInTokenExchangeInvokeActivity>) {
+  private async _onTokenExchange(args: Context<SignInTokenExchangeInvokeActivity>) {
     const { api, activity } = args;
     const key = `${activity.conversation.id}/${activity.from.id}`;
 
@@ -268,7 +269,7 @@ export class App {
     }
   }
 
-  private async _onVerifyState(args: ActivityEventArgs<SignInVerifyStateInvokeActivity>) {
+  private async _onVerifyState(args: Context<SignInVerifyStateInvokeActivity>) {
     const { api, activity } = args;
     const key = `${activity.conversation.id}/${activity.from.id}`;
 

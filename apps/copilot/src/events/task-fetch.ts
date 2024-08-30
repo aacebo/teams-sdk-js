@@ -1,12 +1,12 @@
 import { cardAttachment, InvokeResponse, TaskFetchInvokeActivity } from '@teams.sdk/api';
-import { ActivityEventArgs } from '@teams.sdk/apps';
+import { Context } from '@teams.sdk/apps';
 
 import { State } from '../state';
 import { DrivePrompt } from '../prompts';
 
 export async function taskFetch({
   activity,
-}: ActivityEventArgs<TaskFetchInvokeActivity>): Promise<InvokeResponse<'task/fetch'>> {
+}: Context<TaskFetchInvokeActivity>): Promise<InvokeResponse<'task/fetch'>> {
   const id: string = activity.value.data.id;
   const name: string = activity.value.data.name;
   const state = new State(activity);

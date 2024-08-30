@@ -1,10 +1,10 @@
-import { SignInEventArgs } from '@teams.sdk/apps';
+import { SignInContext } from '@teams.sdk/apps';
 import * as MSGraph from '@microsoft/microsoft-graph-types';
 
 import { graph } from '../graph';
 import { State } from '../state';
 
-export async function signin({ activity, api, tokenResponse }: SignInEventArgs) {
+export async function signin({ activity, api, tokenResponse }: SignInContext) {
   const state = new State(activity);
 
   if (!state.user.auth) {

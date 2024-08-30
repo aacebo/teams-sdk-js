@@ -1,18 +1,6 @@
-import { HttpRequest } from '@teams.sdk/common/http';
-import { Logger } from '@teams.sdk/common/logging';
-import {
-  Activity,
-  InvokeActivity,
-  Client,
-  Resource,
-  InvokeResponse,
-  ConversationReference,
-  TokenResponse,
-  MessageSendActivity,
-  MentionEntity,
-} from '@teams.sdk/api';
+import { Activity, InvokeActivity, InvokeResponse } from '@teams.sdk/api';
 
-import { AppTokens } from './tokens';
+import { Context, MentionContext, SignInContext } from './context';
 
 export type Prefixed<T, P extends string | undefined = undefined> = {
   [K in Extract<keyof T, string> as P extends string ? `${P}${K}` : K]?: T[K];
@@ -24,81 +12,21 @@ export type Suffixed<T, S extends string | undefined = undefined> = {
 
 type EventHandler<In = any, Out = void> = (value: In) => Out | Promise<Out>;
 
-export interface ActivityEventArgs<T extends Activity> {
-  /**
-   * the inbound activity
-   */
-  readonly activity: T;
-
-  /**
-   * the inbound activity conversation reference
-   */
-  readonly conversation: ConversationReference;
-
-  /**
-   * the inbound request
-   */
-  readonly req: HttpRequest;
-
-  /**
-   * the app logger instance
-   */
-  readonly log: Logger;
-
-  /**
-   * the bot api client
-   */
-  readonly api: Client;
-
-  /**
-   * the apps tokens
-   */
-  readonly tokens: AppTokens;
-
-  /**
-   * send an activity to the conversation
-   * @param activity activity to send
-   */
-  readonly say: (activity: Partial<Activity>) => Promise<Resource>;
-
-  /**
-   * reply to an activity
-   * @param id the id of the activity to reply to
-   * @param activity activity to send
-   */
-  readonly reply: (id: string, activity: Partial<Activity>) => Promise<Resource>;
-
-  /**
-   * trigger user signin flow for the activity sender
-   * @param name auth connection name
-   * @param text card text to display
-   */
-  readonly signin: (name: string, text?: string) => Promise<Resource>;
-}
-
-export type MentionEventArgs = ActivityEventArgs<MessageSendActivity> & {
-  readonly mention: MentionEntity;
-};
-
-export type SignInEventArgs = ActivityEventArgs<Activity> & {
-  readonly tokenResponse: TokenResponse;
-};
-
 export interface Events extends ActivityEvents, InvokeActivityEvents {
   error?: EventHandler<Error>;
   start?: EventHandler<void>;
-  signin?: EventHandler<SignInEventArgs>;
-  mention?: EventHandler<MentionEventArgs>;
-  activity?: EventHandler<ActivityEventArgs<Activity>>;
+  signin?: EventHandler<SignInContext>;
+  mention?: EventHandler<MentionContext>;
+  activity?: EventHandler<Context<Activity>>;
 }
 
 export type ActivityEvents = {
-  [K in Activity['type']]?: EventHandler<ActivityEventArgs<Extract<Activity, { type: K }>>>;
+  [K in Activity['type']]?: EventHandler<Context<Extract<Activity, { type: K }>>>;
 };
 
 export type InvokeActivityEvents = {
   [K in InvokeActivity['name'] as InvokeAliases[K]]?: EventHandler<
-    ActivityEventArgs<Extract<InvokeActivity, { name: K }>>,
+    Context<Extract<InvokeActivity, { name: K }>>,
     InvokeResponse<K>
   >;
 };

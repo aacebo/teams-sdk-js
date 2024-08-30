@@ -1,9 +1,9 @@
-import { MentionEventArgs } from '@teams.sdk/apps';
+import { MentionContext } from '@teams.sdk/apps';
 
 import { State } from '../state';
 import { RootPrompt } from '../prompts';
 
-export async function mention({ activity, signin, say }: MentionEventArgs) {
+export async function mention({ activity, signin, say }: MentionContext) {
   const state = new State(activity);
 
   // if not authenticated, set the conversation

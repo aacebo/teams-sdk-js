@@ -1,15 +1,10 @@
 import { MessageSendActivity } from '@teams.sdk/api';
-import { ActivityEventArgs } from '@teams.sdk/apps';
+import { Context } from '@teams.sdk/apps';
 
 import { State } from '../state';
 import { RootPrompt } from '../prompts';
 
-export async function message({
-  activity,
-  log,
-  signin,
-  say,
-}: ActivityEventArgs<MessageSendActivity>) {
+export async function message({ activity, log, signin, say }: Context<MessageSendActivity>) {
   if (activity.conversation.isGroup) return;
 
   const start = new Date();
