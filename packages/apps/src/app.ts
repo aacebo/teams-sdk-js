@@ -12,8 +12,9 @@ import {
 import { HttpClientOptions, HttpError, StatusCodes } from '@teams.sdk/common/http';
 import { Logger, ConsoleLogger } from '@teams.sdk/common/logging';
 
-import pkg from '../../package.json';
-import { Receiver, ReceiverActivityArgs, HttpReceiver } from '../receiver';
+import pkg from '../package.json';
+import { Receiver, ReceiverActivityArgs } from './receiver';
+import { HttpReceiver } from './http-receiver';
 
 import { signin } from './signin';
 import { Events, INVOKE_ALIASES } from './events';
