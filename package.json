@@ -11,12 +11,13 @@
     "samples/*"
   ],
   "scripts": {
-    "clean": "turbo clean",
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
-    "test": "turbo test",
-    "fmt": "prettier --write \"**/*.{js,ts,tsx,md,json}\""
+    "clean": "npx turbo clean",
+    "build": "npx turbo build",
+    "dev": "npx turbo dev",
+    "lint": "npx turbo lint",
+    "test": "npx turbo test",
+    "fmt": "npx prettier --write \"**/*.{js,ts,tsx,md,json}\"",
+    "publish-packages": "npm run build && npx changeset version && npx changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "latest",
