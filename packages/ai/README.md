@@ -2,6 +2,8 @@
 
 ai tools/utilities.
 
+> ⚠️ **Warning**: this project is not supported or affiliated with Microsoft in any way!
+
 ## Install
 
 ```bash

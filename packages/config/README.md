@@ -2,6 +2,8 @@
 
 shared configuration files used to keep the other packages consistent.
 
+> ⚠️ **Warning**: this project is not supported or affiliated with Microsoft in any way!
+
 ## Install
 
 ```bash

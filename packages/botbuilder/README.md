@@ -3,6 +3,8 @@
 used to make `@teams.sdk/apps` package backwards compatible with legacy bots built using
 `botbuilder`.
 
+> ⚠️ **Warning**: this project is not supported or affiliated with Microsoft in any way!
+
 ## Install
 
 ```bash
