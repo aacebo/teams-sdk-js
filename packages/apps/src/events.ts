@@ -39,9 +39,9 @@ interface InvokeAliases {
   'composeExtension/queryLink': 'message.ext.query-link';
   'composeExtension/anonymousQueryLink': 'message.ext.anon-query-link';
   'composeExtension/query': 'message.ext.query';
-  'composeExtension/selectItem': 'message.ext.select.item';
+  'composeExtension/selectItem': 'message.ext.select-item';
   'composeExtension/submitAction': 'message.ext.submit';
-  'composeExtension/fetchTask': 'message.ext.fetch-task';
+  'composeExtension/fetchTask': 'message.ext.open';
   'composeExtension/querySettingUrl': 'message.ext.query-settings-url';
   'composeExtension/setting': 'message.ext.setting';
   'composeExtension/onCardButtonClicked': 'message.ext.card-button-clicked';
@@ -64,9 +64,9 @@ export const INVOKE_ALIASES: InvokeAliases = {
   'composeExtension/queryLink': 'message.ext.query-link',
   'composeExtension/anonymousQueryLink': 'message.ext.anon-query-link',
   'composeExtension/query': 'message.ext.query',
-  'composeExtension/selectItem': 'message.ext.select.item',
+  'composeExtension/selectItem': 'message.ext.select-item',
   'composeExtension/submitAction': 'message.ext.submit',
-  'composeExtension/fetchTask': 'message.ext.fetch-task',
+  'composeExtension/fetchTask': 'message.ext.open',
   'composeExtension/querySettingUrl': 'message.ext.query-settings-url',
   'composeExtension/setting': 'message.ext.setting',
   'composeExtension/onCardButtonClicked': 'message.ext.card-button-clicked',
