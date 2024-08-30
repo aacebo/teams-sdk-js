@@ -21,8 +21,8 @@
     "@teams.sdk/botbuilder": "*",
     "@teams.sdk/common": "*",
     "@teams.sdk/config": "*",
-    "botbuilder-core": "^4.14.1",
-    "botframework-connector": "^4.14.1",
+    "botbuilder-core": "4.22.3",
+    "botframework-connector": "4.22.3",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
