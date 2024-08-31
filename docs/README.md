@@ -5,3 +5,4 @@ to create immersive app experiences, below are some of the different features th
 
 -   [Dialogs (Task Modules)](./dialogs.md)
 -   [Message Extensions](./message-extensions.md)
+-   [User Auth](./user-auth.md)
