@@ -5,7 +5,7 @@ import { LocalStorage } from '@teams.sdk/common/storage';
 const storage = new LocalStorage<ChatState>();
 
 export interface ChatState {
-  id: string;
+  id?: string;
   history: Message[];
 }
 
@@ -16,13 +16,14 @@ export class ChatStorage {
 
   constructor(activity: Activity) {
     this._key = `${activity.from.id}/${activity.conversation.id}`;
-    this.value = storage.get(this._key) || {
-      id: activity.conversation.id,
-      history: [],
-    };
+    this.value = storage.get(this._key) || { history: [] };
   }
 
   save() {
     storage.set(this._key, this.value);
+  }
+
+  delete() {
+    storage.delete(this._key);
   }
 }

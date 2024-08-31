@@ -23,7 +23,7 @@ export interface SignInArgs {
 export function signin(args: SignInArgs) {
   const { appId, api, activity, conversation } = args;
 
-  return async (name: string, text = 'Sign In') => {
+  return async (name: string, text = 'Please Sign In...') => {
     let convo = { ...conversation };
 
     // create new 1:1 conversation with user to do SSO

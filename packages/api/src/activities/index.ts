@@ -6,6 +6,7 @@ import { HandoffActivity } from './handoff';
 import { ConversationActivity } from './conversation';
 import { MessageActivity } from './message';
 import { CommandActivity } from './command';
+import { InstallUpdateActivity } from './install-update';
 
 export type Activity<D = any> =
   | MessageActivity<D>
@@ -15,7 +16,8 @@ export type Activity<D = any> =
   | TypingActivity<D>
   | HandoffActivity<D>
   | ConversationActivity<D>
-  | CommandActivity<D>;
+  | CommandActivity<D>
+  | InstallUpdateActivity;
 
 export * from './message';
 export * from './event';
@@ -25,3 +27,4 @@ export * from './typing';
 export * from './handoff';
 export * from './conversation';
 export * from './command';
+export * from './install-update';

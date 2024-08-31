@@ -6,12 +6,9 @@ import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 import { State } from '../state';
 import { CalendarPrompt } from './calendar';
 import { DrivePrompt } from './drive';
+import { ConversationPrompt } from './conversation';
 
-interface ChatCalendarAssistantArgs {
-  readonly text: string;
-}
-
-interface ChatDriveAssistantArgs {
+interface AssistantArgs {
   readonly text: string;
 }
 
@@ -21,6 +18,7 @@ export class RootPrompt {
   private readonly _log: Logger;
   private readonly _calendar: CalendarPrompt;
   private readonly _drive: DrivePrompt;
+  private readonly _conversation: ConversationPrompt;
 
   private _attachments: Attachment[] = [];
 
@@ -47,6 +45,7 @@ export class RootPrompt {
     this._log = log;
     this._calendar = new CalendarPrompt(state);
     this._drive = new DrivePrompt(state);
+    this._conversation = new ConversationPrompt(state);
 
     this._prompt.function(
       'get_user',
@@ -79,6 +78,19 @@ export class RootPrompt {
       },
       this._debug('drive_assistant', this.driveAssistant.bind(this))
     );
+
+    this._prompt.function(
+      'conversation_assistant',
+      'ask the conversation assistant a question or to summarize your conversation messages',
+      {
+        type: 'object',
+        properties: {
+          text: { type: 'string' },
+        },
+        required: ['text'],
+      },
+      this._debug('conversation_assistant', this.conversationAssistant.bind(this))
+    );
   }
 
   async chat(input: string | ContentPart[]) {
@@ -91,14 +103,20 @@ export class RootPrompt {
     return this._state.user.user;
   }
 
-  protected async calendarAssistant({ text }: ChatCalendarAssistantArgs) {
+  protected async calendarAssistant({ text }: AssistantArgs) {
     const res = await this._calendar.chat(text);
     this._attachments = this._attachments.concat(res.attachments);
     return res.text;
   }
 
-  protected async driveAssistant({ text }: ChatDriveAssistantArgs) {
+  protected async driveAssistant({ text }: AssistantArgs) {
     const res = await this._drive.chat(text);
+    this._attachments = this._attachments.concat(res.attachments);
+    return res.text;
+  }
+
+  protected async conversationAssistant({ text }: AssistantArgs) {
+    const res = await this._conversation.chat(text);
     this._attachments = this._attachments.concat(res.attachments);
     return res.text;
   }

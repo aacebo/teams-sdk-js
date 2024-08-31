@@ -23,6 +23,10 @@ export class State {
     this._chatStorage.save();
     this._userStorage.save();
   }
+
+  delete() {
+    this._chatStorage.delete();
+  }
 }
 
 export * from './chat';

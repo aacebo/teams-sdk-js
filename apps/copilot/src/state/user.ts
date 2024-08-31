@@ -28,4 +28,8 @@ export class UserStorage {
   save() {
     storage.set(this._key, this.value);
   }
+
+  delete() {
+    storage.delete(this._key);
+  }
 }
