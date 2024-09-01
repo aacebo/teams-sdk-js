@@ -1,28 +1,8 @@
-import { Activity, InvokeActivity, InvokeResponse } from '@teams.sdk/api';
+import { InvokeActivity, InvokeResponse } from '@teams.sdk/api';
 
-import { Context, MentionContext, SignInContext } from './context';
-
-export type Prefixed<T, P extends string | undefined = undefined> = {
-  [K in Extract<keyof T, string> as P extends string ? `${P}${K}` : K]?: T[K];
-};
-
-export type Suffixed<T, S extends string | undefined = undefined> = {
-  [K in Extract<keyof T, string> as S extends string ? `${K}${S}` : K]?: T[K];
-};
+import { Context } from '../context';
 
 type EventHandler<In = any, Out = void> = (value: In) => Out | Promise<Out>;
-
-export interface Events extends ActivityEvents, InvokeActivityEvents {
-  error?: EventHandler<Error>;
-  start?: EventHandler<void>;
-  signin?: EventHandler<SignInContext>;
-  mention?: EventHandler<MentionContext>;
-  activity?: EventHandler<Context<Activity>>;
-}
-
-export type ActivityEvents = {
-  [K in Activity['type']]?: EventHandler<Context<Extract<Activity, { type: K }>>>;
-};
 
 export type InvokeActivityEvents = {
   [K in InvokeActivity['name'] as InvokeAliases[K]]?: EventHandler<

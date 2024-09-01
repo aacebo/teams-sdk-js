@@ -17,7 +17,7 @@ import pkg from '../package.json';
 import { Receiver, ReceiverActivityArgs } from './receiver';
 import { HttpReceiver } from './http-receiver';
 import { signin } from './signin';
-import { Events, INVOKE_ALIASES } from './events';
+import { Events, INSTALL_ALIASES, INVOKE_ALIASES } from './events';
 import { AppTokens } from './tokens';
 import { Context } from './context';
 import { AppMiddleware, Middleware } from './middleware';
@@ -259,6 +259,10 @@ export class App {
       if (res) {
         ctx.res = res;
       }
+    }
+
+    if (activity.type === 'installationUpdate') {
+      await this._emit(INSTALL_ALIASES[activity.action], ctx);
     }
 
     // run after middleware
