@@ -15,7 +15,7 @@ export class ChatStorage {
   private readonly _key: string;
 
   constructor(activity: Activity) {
-    this._key = `${activity.from.id}/${activity.conversation.id}`;
+    this._key = activity.conversation.id;
     this.value = storage.get(this._key) || { history: [] };
   }
 

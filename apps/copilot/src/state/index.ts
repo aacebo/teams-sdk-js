@@ -5,27 +5,27 @@ import { UserStorage } from './user';
 
 export class State {
   get chat() {
-    return this._chatStorage.value;
+    return this._chat.value;
   }
   get user() {
-    return this._userStorage.value;
+    return this._user.value;
   }
 
-  private readonly _chatStorage: ChatStorage;
-  private readonly _userStorage: UserStorage;
+  private readonly _chat: ChatStorage;
+  private readonly _user: UserStorage;
 
   constructor(activity: Activity) {
-    this._chatStorage = new ChatStorage(activity);
-    this._userStorage = new UserStorage(activity);
+    this._chat = new ChatStorage(activity);
+    this._user = new UserStorage(activity);
   }
 
   save() {
-    this._chatStorage.save();
-    this._userStorage.save();
+    this._chat.save();
+    this._user.save();
   }
 
   delete() {
-    this._chatStorage.delete();
+    this._chat.delete();
   }
 }
 
