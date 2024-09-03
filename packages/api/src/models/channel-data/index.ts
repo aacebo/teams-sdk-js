@@ -5,18 +5,6 @@ import { ChannelDataSettings } from './settings';
 import { TeamInfo } from './team-info';
 import { TenantInfo } from './tenant-info';
 
-export type ChannelDataEventType =
-  | 'channelCreated'
-  | 'channelDeleted'
-  | 'channelRenamed'
-  | 'teamArchived'
-  | 'teamDeleted'
-  | 'teamHardDeleted'
-  | 'channelRestored'
-  | 'teamRenamed'
-  | 'teamRestored'
-  | 'teamUnarchived';
-
 /**
  * @interface
  * An interface representing ChannelData.
@@ -33,7 +21,7 @@ export interface ChannelData {
   /**
    * @member {string} [eventType] Type of event.
    */
-  eventType?: ChannelDataEventType | Omit<string, ChannelDataEventType>;
+  eventType?: unknown;
 
   /**
    * @member {TeamInfo} [team] Information about the team in which the message

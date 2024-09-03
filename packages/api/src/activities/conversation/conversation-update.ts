@@ -1,4 +1,4 @@
-import { Account } from '../../models';
+import { Account, ChannelData } from '../../models';
 
 import { ActivityBase } from '../base';
 
@@ -24,4 +24,18 @@ export interface ConversationUpdateActivity extends ActivityBase {
    * Indicates whether the prior history of the channel is disclosed.
    */
   historyDisclosed?: boolean;
+
+  channelData: ChannelData & {
+    eventType:
+      | 'channelCreated'
+      | 'channelDeleted'
+      | 'channelRenamed'
+      | 'teamArchived'
+      | 'teamDeleted'
+      | 'teamHardDeleted'
+      | 'channelRestored'
+      | 'teamRenamed'
+      | 'teamRestored'
+      | 'teamUnarchived';
+  };
 }

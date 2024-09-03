@@ -276,6 +276,14 @@ export class App {
       await this._emit(`install.${activity.action}`, ctx);
     }
 
+    if (activity.type === 'conversationUpdate') {
+      await this._emit(`conversation.${activity.channelData.eventType}`, ctx);
+    }
+
+    if (activity.type === 'messageUpdate' || activity.type === 'messageDelete') {
+      await this._emit(`message.${activity.channelData.eventType}`);
+    }
+
     // run after middleware
     for (const cb of this._middleware.after) {
       const res = await cb(ctx);

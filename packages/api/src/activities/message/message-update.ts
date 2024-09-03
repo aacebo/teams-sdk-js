@@ -1,3 +1,4 @@
+import { ChannelData } from '../../models';
 import { ActivityBase } from '../base';
 
 export interface MessageUpdateActivity extends ActivityBase {
@@ -37,4 +38,8 @@ export interface MessageUpdateActivity extends ActivityBase {
    * A value that is associated with the activity.
    */
   value?: any;
+
+  channelData: ChannelData & {
+    eventType: 'undeleteMessage' | 'editMessage';
+  };
 }
