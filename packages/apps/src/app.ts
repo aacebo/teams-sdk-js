@@ -17,7 +17,7 @@ import pkg from '../package.json';
 import { Receiver, ReceiverActivityArgs } from './receiver';
 import { HttpReceiver } from './http-receiver';
 import { signin } from './signin';
-import { Events, INVOKE_ALIASES } from './events';
+import { EVENT_ALIASES, Events, INVOKE_ALIASES } from './events';
 import { AppTokens } from './tokens';
 import { Context } from './context';
 import { AppMiddleware, Middleware } from './middleware';
@@ -244,6 +244,18 @@ export class App {
     await this._emit('activity', ctx);
     await this._emit(activity.type, ctx);
 
+    if (activity.type === 'installationUpdate') {
+      await this._emit(`install.${activity.action}`, ctx);
+    }
+
+    if (activity.type === 'conversationUpdate') {
+      await this._emit(`conversation.${activity.channelData.eventType}`, ctx);
+    }
+
+    if (activity.type === 'messageUpdate' || activity.type === 'messageDelete') {
+      await this._emit(`message.${activity.channelData.eventType}`);
+    }
+
     if (activity.type === 'message' && activity.entities?.some((e) => e.type === 'mention')) {
       const mention = activity.entities?.find(
         (e) => e.type === 'mention' && e.mentioned.id === activity.recipient.id
@@ -252,6 +264,10 @@ export class App {
       if (mention) {
         await this._emit('mention', { ...ctx, mention });
       }
+    }
+
+    if (activity.type === 'event') {
+      await this._emit(EVENT_ALIASES[activity.name], ctx);
     }
 
     if (activity.type === 'invoke') {
@@ -270,18 +286,6 @@ export class App {
       if (res) {
         ctx.res = res;
       }
-    }
-
-    if (activity.type === 'installationUpdate') {
-      await this._emit(`install.${activity.action}`, ctx);
-    }
-
-    if (activity.type === 'conversationUpdate') {
-      await this._emit(`conversation.${activity.channelData.eventType}`, ctx);
-    }
-
-    if (activity.type === 'messageUpdate' || activity.type === 'messageDelete') {
-      await this._emit(`message.${activity.channelData.eventType}`);
     }
 
     // run after middleware

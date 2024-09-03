@@ -7,6 +7,7 @@ import { InstallActivityEvents } from './install';
 import { ConversationUpdateActivityEvents } from './conversation-update';
 import { MessageUpdateActivityEvents } from './message-update';
 import { MessageDeleteActivityEvents } from './message-delete';
+import { EventActivityEvents } from './event';
 
 export type Prefixed<T, P extends string | undefined = undefined> = {
   [K in Extract<keyof T, string> as P extends string ? `${P}${K}` : K]?: T[K];
@@ -24,7 +25,8 @@ export interface Events
     InstallActivityEvents,
     ConversationUpdateActivityEvents,
     MessageUpdateActivityEvents,
-    MessageDeleteActivityEvents {
+    MessageDeleteActivityEvents,
+    EventActivityEvents {
   error?: EventHandler<Error>;
   start?: EventHandler<void>;
   signin?: EventHandler<SignInContext>;
@@ -38,3 +40,4 @@ export * from './invoke';
 export * from './conversation-update';
 export * from './message-update';
 export * from './message-delete';
+export * from './event';
