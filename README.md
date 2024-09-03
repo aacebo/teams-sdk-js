@@ -4,13 +4,13 @@ a suite of packages used to build on the Teams Platform.
 
 > ⚠️ **Warning**: this project is not supported or affiliated with Microsoft in any way!
 
-[Documentation](./docs/README.md)  
-[Why?](#why)
-[Design Philosophy](#design-philosophy)  
-[Scripts](#scripts)
-[Packages](#packages)  
-[Samples](#samples)  
-[Apps](#apps)
+-   [Documentation](./docs/README.md)
+-   [Why?](#why)
+-   [Design Philosophy](#design-philosophy)
+-   [Scripts](#scripts)
+-   [Packages](#packages)
+-   [Samples](#samples)
+-   [Apps](#apps)
 
 ## Why?
 
