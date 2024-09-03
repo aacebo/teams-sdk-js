@@ -248,12 +248,12 @@ export class App {
       await this._emit(`install.${activity.action}`, ctx);
     }
 
-    if (activity.type === 'conversationUpdate') {
-      await this._emit(`conversation.${activity.channelData.eventType}`, ctx);
-    }
-
-    if (activity.type === 'messageUpdate' || activity.type === 'messageDelete') {
-      await this._emit(`message.${activity.channelData.eventType}`);
+    if (
+      activity.type === 'conversationUpdate' ||
+      activity.type === 'messageUpdate' ||
+      activity.type === 'messageDelete'
+    ) {
+      await this._emit(activity.channelData.eventType, ctx);
     }
 
     if (activity.type === 'message' && activity.entities?.some((e) => e.type === 'mention')) {
@@ -279,8 +279,7 @@ export class App {
 
       if (activity.name === 'composeExtension/submitAction') {
         res =
-          (await this._emit(`message.ext.submit.${activity.value.botMessagePreviewAction}`, ctx)) ||
-          res;
+          (await this._emit(`message.ext.${activity.value.botMessagePreviewAction}`, ctx)) || res;
       }
 
       if (res) {

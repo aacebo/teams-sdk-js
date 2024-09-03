@@ -6,3 +6,4 @@ export * from './receiver';
 export * from './http-receiver';
 export * from './response';
 export * from './middleware';
+export * from './types';
