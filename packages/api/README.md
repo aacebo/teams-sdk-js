@@ -1,5 +1,9 @@
 # Teams: Api
 
+![npm bundle size](https://img.shields.io/bundlephobia/min/%40teams.sdk%2Fapi)
+
+![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/%40teams.sdk%2Fapi)
+
 model and client implementations used to send and receive requests from Teams.
 
 > ⚠️ **Warning**: this project is not supported or affiliated with Microsoft in any way!

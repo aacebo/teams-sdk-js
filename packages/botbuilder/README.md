@@ -1,5 +1,9 @@
 # Teams: Bot Builder
 
+![npm bundle size](https://img.shields.io/bundlephobia/min/%40teams.sdk%2Fbotbuilder)
+
+![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/%40teams.sdk%2Fbotbuilder)
+
 used to make `@teams.sdk/apps` package backwards compatible with legacy bots built using
 `botbuilder`.
 
