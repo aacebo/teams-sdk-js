@@ -27,3 +27,4 @@ export * from './tab';
 export * from './card';
 export * from './invoke-response';
 export * from './adaptive-card';
+export * from './channel-data';

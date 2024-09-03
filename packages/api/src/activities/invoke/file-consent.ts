@@ -2,7 +2,7 @@ import { ConversationReference, FileConsentCardResponse } from '../../models';
 
 import { ActivityBase } from '../base';
 
-export interface FileConsentInvokeActivity<Data = any> extends ActivityBase<Data> {
+export interface FileConsentInvokeActivity extends ActivityBase {
   readonly type: 'invoke';
 
   /**

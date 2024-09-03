@@ -2,7 +2,7 @@ import { ConversationReference } from '../../../models';
 
 import { ActivityBase } from '../../base';
 
-export interface ConfigFetchInvokeActivity<Data = any> extends ActivityBase<Data> {
+export interface ConfigFetchInvokeActivity extends ActivityBase {
   readonly type: 'invoke';
 
   /**

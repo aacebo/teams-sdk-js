@@ -1,19 +1,19 @@
-import { ConversationReference, MessagingExtensionAction } from '../../../models';
+import { ConversationReference, MessagingExtensionQuery } from '../../../models';
 
 import { ActivityBase } from '../../base';
 
-export interface FetchTaskInvokeActivity<Data = any> extends ActivityBase<Data> {
+export interface MessageExtensionSettingInvokeActivity extends ActivityBase {
   readonly type: 'invoke';
 
   /**
    * The name of the operation associated with an invoke or event activity.
    */
-  name: 'composeExtension/fetchTask';
+  name: 'composeExtension/setting';
 
   /**
    * A value that is associated with the activity.
    */
-  value: MessagingExtensionAction;
+  value: MessagingExtensionQuery;
 
   /**
    * A reference to another conversation or activity.

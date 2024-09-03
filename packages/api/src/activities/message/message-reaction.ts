@@ -2,7 +2,7 @@ import { MessageReaction } from '../../models';
 
 import { ActivityBase } from '../base';
 
-export interface MessageReactionActivity<D = any> extends ActivityBase<D> {
+export interface MessageReactionActivity extends ActivityBase {
   readonly type: 'messageReaction';
 
   /**

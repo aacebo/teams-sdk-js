@@ -1,7 +1,7 @@
 import { AdaptiveCardInvokeValue } from '../../../models';
 import { ActivityBase } from '../../base';
 
-export interface AdaptiveCardActionInvokeActivity<Data = any> extends ActivityBase<Data> {
+export interface AdaptiveCardActionInvokeActivity extends ActivityBase {
   readonly type: 'invoke';
 
   /**

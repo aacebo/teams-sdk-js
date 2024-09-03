@@ -2,13 +2,13 @@ import { AppBasedLinkQuery, ConversationReference } from '../../../models';
 
 import { ActivityBase } from '../../base';
 
-export interface QueryLinkInvokeActivity<Data = any> extends ActivityBase<Data> {
+export interface MessageExtensionAnonQueryLinkInvokeActivity extends ActivityBase {
   readonly type: 'invoke';
 
   /**
    * The name of the operation associated with an invoke or event activity.
    */
-  name: 'composeExtension/queryLink';
+  name: 'composeExtension/anonymousQueryLink';
 
   /**
    * A value that is associated with the activity.

@@ -1,6 +1,12 @@
-import { Account, ConversationAccount, ConversationReference, Entity } from '../models';
+import {
+  Account,
+  ChannelData,
+  ConversationAccount,
+  ConversationReference,
+  Entity,
+} from '../models';
 
-export interface ActivityBase<D = any> {
+export interface ActivityBase {
   /**
    * Contains an ID that uniquely identifies the activity on the channel.
    */
@@ -77,5 +83,5 @@ export interface ActivityBase<D = any> {
   /**
    * Contains channel-specific content.
    */
-  channelData?: D;
+  channelData?: ChannelData;
 }

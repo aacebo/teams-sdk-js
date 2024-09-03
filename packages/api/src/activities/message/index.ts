@@ -3,11 +3,11 @@ import { MessageReactionActivity } from './message-reaction';
 import { MessageSendActivity } from './message-send';
 import { MessageUpdateActivity } from './message-update';
 
-export type MessageActivity<D = any> =
-  | MessageSendActivity<D>
-  | MessageUpdateActivity<D>
-  | MessageDeleteActivity<D>
-  | MessageReactionActivity<D>;
+export type MessageActivity =
+  | MessageSendActivity
+  | MessageUpdateActivity
+  | MessageDeleteActivity
+  | MessageReactionActivity;
 
 export * from './message-delete';
 export * from './message-send';

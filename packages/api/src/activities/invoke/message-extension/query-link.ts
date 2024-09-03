@@ -1,19 +1,19 @@
-import { ConversationReference } from '../../../models';
+import { AppBasedLinkQuery, ConversationReference } from '../../../models';
 
 import { ActivityBase } from '../../base';
 
-export interface SelectItemInvokeActivity<Data = any> extends ActivityBase<Data> {
+export interface MessageExtensionQueryLinkInvokeActivity extends ActivityBase {
   readonly type: 'invoke';
 
   /**
    * The name of the operation associated with an invoke or event activity.
    */
-  name: 'composeExtension/selectItem';
+  name: 'composeExtension/queryLink';
 
   /**
    * A value that is associated with the activity.
    */
-  value: any;
+  value: AppBasedLinkQuery;
 
   /**
    * A reference to another conversation or activity.

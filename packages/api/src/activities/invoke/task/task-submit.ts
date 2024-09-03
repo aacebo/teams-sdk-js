@@ -2,7 +2,7 @@ import { ConversationReference, TaskModuleRequest } from '../../../models';
 
 import { ActivityBase } from '../../base';
 
-export interface TaskSubmitInvokeActivity<Data = any> extends ActivityBase<Data> {
+export interface TaskSubmitInvokeActivity extends ActivityBase {
   readonly type: 'invoke';
 
   /**

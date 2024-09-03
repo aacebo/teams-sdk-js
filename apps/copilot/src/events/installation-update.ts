@@ -7,7 +7,7 @@ export function installationUpdate({ activity }: Context<InstallUpdateActivity>)
   const state = new State(activity);
 
   if (activity.action === 'add') {
-    state.chat.id = activity.channelData?.settings.selectedChannel.id;
+    state.chat.id = activity.channelData?.settings?.selectedChannel.id;
     state.save();
   } else {
     state.delete();

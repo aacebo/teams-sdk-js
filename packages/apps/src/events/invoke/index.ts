@@ -1,15 +1,18 @@
 import { InvokeActivity, InvokeResponse } from '@teams.sdk/api';
 
-import { Context } from '../context';
+import { Context } from '../../context';
+import { EventHandler } from '../../types';
 
-type EventHandler<In = any, Out = void> = (value: In) => Out | Promise<Out>;
+import { FileConsentActivityEvents } from './file-consent';
+import { MessageExtensionSubmitActivityEvents } from './message-extension-submit';
 
 export type InvokeActivityEvents = {
   [K in InvokeActivity['name'] as InvokeAliases[K]]?: EventHandler<
     Context<Extract<InvokeActivity, { name: K }>>,
     InvokeResponse<K>
   >;
-};
+} & FileConsentActivityEvents &
+  MessageExtensionSubmitActivityEvents;
 
 interface InvokeAliases {
   'config/fetch': 'config.open';
@@ -60,3 +63,6 @@ export const INVOKE_ALIASES: InvokeAliases = {
   'signin/verifyState': 'signin.verify-state',
   'adaptiveCard/action': 'card.action',
 };
+
+export * from './file-consent';
+export * from './message-extension-submit';

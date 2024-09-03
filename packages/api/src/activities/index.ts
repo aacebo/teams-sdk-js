@@ -8,15 +8,15 @@ import { MessageActivity } from './message';
 import { CommandActivity } from './command';
 import { InstallUpdateActivity } from './install-update';
 
-export type Activity<D = any> =
-  | MessageActivity<D>
-  | EventActivity<D>
-  | InvokeActivity<D>
-  | TraceActivity<D>
-  | TypingActivity<D>
-  | HandoffActivity<D>
-  | ConversationActivity<D>
-  | CommandActivity<D>
+export type Activity =
+  | MessageActivity
+  | EventActivity
+  | InvokeActivity
+  | TraceActivity
+  | TypingActivity
+  | HandoffActivity
+  | ConversationActivity
+  | CommandActivity
   | InstallUpdateActivity;
 
 export * from './message';

@@ -1,7 +1,7 @@
 import { SignInExchangeToken } from '../../../models';
 import { ActivityBase } from '../../base';
 
-export interface SignInTokenExchangeInvokeActivity<D = any> extends ActivityBase<D> {
+export interface SignInTokenExchangeInvokeActivity extends ActivityBase {
   readonly type: 'invoke';
 
   /**

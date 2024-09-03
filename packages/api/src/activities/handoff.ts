@@ -1,5 +1,5 @@
 import { ActivityBase } from './base';
 
-export interface HandoffActivity<D = any> extends ActivityBase<D> {
+export interface HandoffActivity extends ActivityBase {
   readonly type: 'handoff';
 }

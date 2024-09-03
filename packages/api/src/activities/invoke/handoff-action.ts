@@ -2,7 +2,7 @@ import { ConversationReference } from '../../models';
 
 import { ActivityBase } from '../base';
 
-export interface HandoffActionInvokeActivity<Data = any> extends ActivityBase<Data> {
+export interface HandoffActionInvokeActivity extends ActivityBase {
   readonly type: 'invoke';
 
   /**

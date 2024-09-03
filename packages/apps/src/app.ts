@@ -17,7 +17,7 @@ import pkg from '../package.json';
 import { Receiver, ReceiverActivityArgs } from './receiver';
 import { HttpReceiver } from './http-receiver';
 import { signin } from './signin';
-import { Events, INSTALL_ALIASES, INVOKE_ALIASES } from './events';
+import { Events, INVOKE_ALIASES } from './events';
 import { AppTokens } from './tokens';
 import { Context } from './context';
 import { AppMiddleware, Middleware } from './middleware';
@@ -216,6 +216,7 @@ export class App {
       log: this.log,
       tokens: this.tokens,
       conversation,
+      data: new Map<string, any>(),
       say,
       reply,
       signin: signin({
@@ -254,7 +255,17 @@ export class App {
     }
 
     if (activity.type === 'invoke') {
-      const res = await this._emit(INVOKE_ALIASES[activity.name], ctx);
+      let res = await this._emit(INVOKE_ALIASES[activity.name], ctx);
+
+      if (activity.name === 'fileConsent/invoke') {
+        res = (await this._emit(`file.consent.${activity.value.action}`, ctx)) || res;
+      }
+
+      if (activity.name === 'composeExtension/submitAction') {
+        res =
+          (await this._emit(`message.ext.submit.${activity.value.botMessagePreviewAction}`, ctx)) ||
+          res;
+      }
 
       if (res) {
         ctx.res = res;
@@ -262,7 +273,7 @@ export class App {
     }
 
     if (activity.type === 'installationUpdate') {
-      await this._emit(INSTALL_ALIASES[activity.action], ctx);
+      await this._emit(`install.${activity.action}`, ctx);
     }
 
     // run after middleware

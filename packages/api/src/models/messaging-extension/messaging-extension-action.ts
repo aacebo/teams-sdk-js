@@ -20,13 +20,13 @@ export interface MessagingExtensionAction extends TaskModuleRequest {
    * command originates. Possible values include: 'message', 'compose',
    * 'commandbox'
    */
-  commandContext?: 'message' | 'compose' | 'commandbox';
+  commandContext: 'message' | 'compose' | 'commandbox';
 
   /**
    * @member {BotMessagePreviewActionType} [botMessagePreviewAction] Bot message
    * preview action taken by user. Possible values include: 'edit', 'send'
    */
-  botMessagePreviewAction?: 'edit' | 'send';
+  botMessagePreviewAction: 'edit' | 'send';
 
   /**
    * @member {Activity[]} [botActivityPreview]

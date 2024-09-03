@@ -46,7 +46,7 @@ export interface FileConsentCardResponse {
    * @member {Action} [action] The action the user took. Possible values
    * include: 'accept', 'decline'
    */
-  action?: Action;
+  action: Action;
 
   /**
    * @member {any} [context] The context associated with the action.

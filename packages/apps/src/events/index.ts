@@ -2,8 +2,8 @@ import { Activity } from '@teams.sdk/api';
 
 import { Context, MentionContext, SignInContext } from '../context';
 import { ActivityEvents } from './activity';
-import { InvokeActivityEvents } from './invoke-activity';
-import { InstallActivityEvents } from './install-activity';
+import { InvokeActivityEvents } from './invoke';
+import { InstallActivityEvents } from './install';
 
 export type Prefixed<T, P extends string | undefined = undefined> = {
   [K in Extract<keyof T, string> as P extends string ? `${P}${K}` : K]?: T[K];
@@ -24,5 +24,5 @@ export interface Events extends ActivityEvents, InvokeActivityEvents, InstallAct
 }
 
 export * from './activity';
-export * from './install-activity';
-export * from './invoke-activity';
+export * from './install';
+export * from './invoke';

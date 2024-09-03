@@ -1,19 +1,19 @@
-import { AppBasedLinkQuery, ConversationReference } from '../../../models';
+import { ConversationReference, MessagingExtensionAction } from '../../../models';
 
 import { ActivityBase } from '../../base';
 
-export interface AnonQueryLinkInvokeActivity<Data = any> extends ActivityBase<Data> {
+export interface MessageExtensionFetchTaskInvokeActivity extends ActivityBase {
   readonly type: 'invoke';
 
   /**
    * The name of the operation associated with an invoke or event activity.
    */
-  name: 'composeExtension/anonymousQueryLink';
+  name: 'composeExtension/fetchTask';
 
   /**
    * A value that is associated with the activity.
    */
-  value: AppBasedLinkQuery;
+  value: MessagingExtensionAction;
 
   /**
    * A reference to another conversation or activity.

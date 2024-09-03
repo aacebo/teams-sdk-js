@@ -2,7 +2,7 @@ import { Account } from '../../models';
 
 import { ActivityBase } from '../base';
 
-export interface ConversationUpdateActivity<D = any> extends ActivityBase<D> {
+export interface ConversationUpdateActivity extends ActivityBase {
   readonly type: 'conversationUpdate';
 
   /**

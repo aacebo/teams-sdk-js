@@ -10,7 +10,7 @@ import {
 
 import { ActivityBase } from '../base';
 
-export interface MessageSendActivity<D = any> extends ActivityBase<D> {
+export interface MessageSendActivity extends ActivityBase {
   readonly type: 'message';
 
   /**

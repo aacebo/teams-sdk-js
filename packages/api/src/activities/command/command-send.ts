@@ -1,6 +1,6 @@
 import { ActivityBase } from '../base';
 
-export interface CommandSendActivity<D = any, T = any> extends ActivityBase<D> {
+export interface CommandSendActivity<T = any> extends ActivityBase {
   readonly type: 'command';
 
   /**

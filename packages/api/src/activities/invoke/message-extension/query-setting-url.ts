@@ -2,7 +2,7 @@ import { ConversationReference, MessagingExtensionQuery } from '../../../models'
 
 import { ActivityBase } from '../../base';
 
-export interface QuerySettingUrlInvokeActivity<Data = any> extends ActivityBase<Data> {
+export interface MessageExtensionQuerySettingUrlInvokeActivity extends ActivityBase {
   readonly type: 'invoke';
 
   /**

@@ -2,7 +2,7 @@ import { ConversationReference, O365ConnectorCardActionQuery } from '../../model
 
 import { ActivityBase } from '../base';
 
-export interface ExecuteActionInvokeActivity<Data = any> extends ActivityBase<Data> {
+export interface ExecuteActionInvokeActivity extends ActivityBase {
   readonly type: 'invoke';
 
   /**

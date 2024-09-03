@@ -1,7 +1,7 @@
 import { SigninStateVerifyQuery } from '../../../models';
 import { ActivityBase } from '../../base';
 
-export interface SignInVerifyStateInvokeActivity<D = any> extends ActivityBase<D> {
+export interface SignInVerifyStateInvokeActivity extends ActivityBase {
   readonly type: 'invoke';
 
   /**

@@ -1,5 +1,5 @@
 import { ActivityBase } from '../base';
 
-export interface MessageDeleteActivity<D = any> extends ActivityBase<D> {
+export interface MessageDeleteActivity extends ActivityBase {
   readonly type: 'messageDelete';
 }

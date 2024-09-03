@@ -2,7 +2,7 @@ import { ConversationReference } from '../models';
 
 import { ActivityBase } from './base';
 
-export interface TraceActivity<D = any> extends ActivityBase<D> {
+export interface TraceActivity extends ActivityBase {
   readonly type: 'trace';
 
   /**

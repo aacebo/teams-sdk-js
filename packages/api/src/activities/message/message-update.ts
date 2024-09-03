@@ -1,6 +1,6 @@
 import { ActivityBase } from '../base';
 
-export interface MessageUpdateActivity<D = any> extends ActivityBase<D> {
+export interface MessageUpdateActivity extends ActivityBase {
   readonly type: 'messageUpdate';
 
   /**

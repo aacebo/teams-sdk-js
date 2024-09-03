@@ -1,5 +1,5 @@
 import { AdaptiveCardActionInvokeActivity } from './action';
 
-export type AdaptiveCardInvokeActivity<D = any> = AdaptiveCardActionInvokeActivity<D>;
+export type AdaptiveCardInvokeActivity = AdaptiveCardActionInvokeActivity;
 
 export * from './action';

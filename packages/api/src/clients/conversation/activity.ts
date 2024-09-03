@@ -4,12 +4,6 @@ import { ClientOptions } from '../../client-options';
 import { Account, Resource } from '../../models';
 import { Activity } from '../../activities';
 
-export type CreateActivityParams<T extends Activity['type']> = Partial<Activity<T>>;
-
-export type UpdateActivityParams<T extends Activity['type']> = Partial<Activity<T>>;
-
-export type ReplyActivityParams<T extends Activity['type']> = Partial<Activity<T>>;
-
 export class ConversationActivityClient {
   private readonly _http: HttpClient;
 
@@ -20,7 +14,7 @@ export class ConversationActivityClient {
     this._http = new HttpClient(this._options);
   }
 
-  async create<T extends Activity['type']>(params: CreateActivityParams<T>) {
+  async create(params: Partial<Activity>) {
     const res = await this._http.post<Resource>(
       `/v3/conversations/${this.conversationId}/activities`,
       params
@@ -29,7 +23,7 @@ export class ConversationActivityClient {
     return res.json();
   }
 
-  async update<T extends Activity['type']>(id: string, params: UpdateActivityParams<T>) {
+  async update(id: string, params: Partial<Activity>) {
     const res = await this._http.put<Resource>(
       `/v3/conversations/${this.conversationId}/activities/${id}`,
       params
@@ -38,7 +32,7 @@ export class ConversationActivityClient {
     return res.json();
   }
 
-  async reply<T extends Activity['type']>(id: string, params: ReplyActivityParams<T>) {
+  async reply(id: string, params: Partial<Activity>) {
     params.replyToId = id;
 
     const res = await this._http.post<Resource>(

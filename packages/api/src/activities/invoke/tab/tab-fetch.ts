@@ -2,7 +2,7 @@ import { ConversationReference, TabRequest } from '../../../models';
 
 import { ActivityBase } from '../../base';
 
-export interface TabFetchInvokeActivity<Data = any> extends ActivityBase<Data> {
+export interface TabFetchInvokeActivity extends ActivityBase {
   readonly type: 'invoke';
 
   /**

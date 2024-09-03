@@ -18,32 +18,32 @@ export interface Context<T extends Activity> {
   /**
    * the inbound activity
    */
-  readonly activity: T;
+  activity: T;
 
   /**
    * the inbound activity conversation reference
    */
-  readonly conversation: ConversationReference;
+  conversation: ConversationReference;
 
   /**
    * the app logger instance
    */
-  readonly log: Logger;
+  log: Logger;
 
   /**
    * the bot api client
    */
-  readonly api: Client;
+  api: Client;
 
   /**
    * the apps tokens
    */
-  readonly tokens: AppTokens;
+  tokens: AppTokens;
 
   /**
    * the inbound http request
    */
-  readonly req?: HttpRequest;
+  req?: HttpRequest;
 
   /**
    * the apps response to the activity
@@ -51,30 +51,41 @@ export interface Context<T extends Activity> {
   res?: AppResponse;
 
   /**
+   * any extra context data
+   */
+  data: Map<string, any>;
+
+  /**
    * send an activity to the conversation
    * @param activity activity to send
    */
-  readonly say: (activity: Partial<Activity>) => Promise<Resource>;
+  say: (activity: Partial<Activity>) => Promise<Resource>;
 
   /**
    * reply to an activity
    * @param id the id of the activity to reply to
    * @param activity activity to send
    */
-  readonly reply: (id: string, activity: Partial<Activity>) => Promise<Resource>;
+  reply: (id: string, activity: Partial<Activity>) => Promise<Resource>;
 
   /**
    * trigger user signin flow for the activity sender
    * @param name auth connection name
    * @param text card text to display
    */
-  readonly signin: (name: string, text?: string) => Promise<Resource>;
+  signin: (name: string, text?: string) => Promise<Resource>;
 }
 
 export type MentionContext = Context<MessageSendActivity> & {
-  readonly mention: MentionEntity;
+  /**
+   * the mention entity that references your app
+   */
+  mention: MentionEntity;
 };
 
 export type SignInContext = Context<Activity> & {
-  readonly tokenResponse: TokenResponse;
+  /**
+   * the token response of the signin request
+   */
+  tokenResponse: TokenResponse;
 };

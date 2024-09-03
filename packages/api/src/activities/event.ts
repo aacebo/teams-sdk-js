@@ -2,7 +2,7 @@ import { ConversationReference } from '../models';
 
 import { ActivityBase } from './base';
 
-export interface EventActivity<D = any> extends ActivityBase<D> {
+export interface EventActivity extends ActivityBase {
   readonly type: 'event';
 
   /**

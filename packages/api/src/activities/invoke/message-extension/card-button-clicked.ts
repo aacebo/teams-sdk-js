@@ -2,7 +2,7 @@ import { ConversationReference } from '../../../models';
 
 import { ActivityBase } from '../../base';
 
-export interface CardButtonClickedInvokeActivity<Data = any> extends ActivityBase<Data> {
+export interface MessageExtensionCardButtonClickedInvokeActivity extends ActivityBase {
   readonly type: 'invoke';
 
   /**

@@ -8,7 +8,7 @@ export type EndOfConversationCode =
   | 'botIssuedInvalidMessage'
   | 'channelFailed';
 
-export interface EndOfConversationActivity<D = any> extends ActivityBase<D> {
+export interface EndOfConversationActivity extends ActivityBase {
   readonly type: 'endOfConversation';
 
   /**
