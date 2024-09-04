@@ -2,6 +2,8 @@ import { ExecuteAction, OpenUrlAction, SubmitAction, ToggleVisibilityAction } fr
 import { BaseElement } from '../base';
 import { HorizontalAlignment } from '../common';
 
+export type ImageSize = 'auto' | 'stretch' | 'small' | 'medium' | 'large';
+
 /**
  * Displays an image. Acceptable formats are PNG, JPEG, and GIF
  */
@@ -36,7 +38,7 @@ export interface Image extends BaseElement {
   /**
    * Controls the approximate size of the image. The physical dimensions will vary per host.
    */
-  size?: 'auto' | 'stretch' | 'small' | 'medium' | 'large';
+  size?: ImageSize;
 
   /**
    * Controls how this Image is displayed.
