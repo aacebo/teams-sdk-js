@@ -3,7 +3,8 @@ import { MentionContext } from '@teams.sdk/apps';
 import { State } from '../state';
 import { RootPrompt } from '../prompts';
 
-export async function mention({ activity, signin, say }: MentionContext) {
+export async function mention({ activity, log, signin, say }: MentionContext) {
+  const start = new Date();
   const state = new State(activity);
 
   // if not authenticated, set the conversation
@@ -19,26 +20,15 @@ export async function mention({ activity, signin, say }: MentionContext) {
     return;
   }
 
-  if (activity.text === '/history') {
-    await say({
-      type: 'message',
-      text:
-        state.chat.history.length > 0
-          ? state.chat.history
-              .map((m) => `- **${m.role}**: ${JSON.stringify(m.content)}`)
-              .join('\n')
-          : '<empty>',
-    });
-
-    return;
-  }
-
   const prompt = new RootPrompt(state);
   const { text, attachments } = await prompt.chat(activity.text);
   state.save();
+
   await say({
     type: 'message',
     text,
     attachments,
   });
+
+  log.debug(`elapse: ${Date.now() - start.getTime()}ms`);
 }

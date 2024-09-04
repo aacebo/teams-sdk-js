@@ -78,6 +78,12 @@ export class ConversationPrompt {
       },
       this._debug('get_messages', this.getMessages.bind(this))
     );
+
+    this._prompt.function(
+      'get_members',
+      'get the conversations members/participants',
+      this._debug('get_members', this.getMembers.bind(this))
+    );
   }
 
   async chat(input: string | ContentPart[]) {
@@ -108,6 +114,18 @@ export class ConversationPrompt {
       .filter(`lastModifiedDateTime gt ${start} and lastModifiedDateTime lt ${end}`)
       .orderby('lastModifiedDateTime desc')
       .top(count || 10)
+      .get();
+
+    return res.value;
+  }
+
+  protected async getMembers() {
+    if (!this._state.chat.id) {
+      return 'chat not found';
+    }
+
+    const res: Record<'value', MSGraph.ConversationMember[]> = await this._graph
+      .api(`/me/chats/${this._state.chat.id}/members`)
       .get();
 
     return res.value;

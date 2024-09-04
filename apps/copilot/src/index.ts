@@ -17,8 +17,8 @@ const app = new App({
   logger: new ConsoleLogger('@apps/copilot', { level: 'debug' }),
 });
 
-app.on('installationUpdate', events.installationUpdate);
-app.on('conversationUpdate', events.conversationUpdate);
+app.on('install.add', events.install);
+app.on('install.remove', events.uninstall);
 app.on('message', events.message);
 app.on('mention', events.mention);
 app.on('signin', events.signin);

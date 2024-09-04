@@ -23,23 +23,10 @@ export async function message({ activity, log, signin, say }: Context<MessageSen
     return;
   }
 
-  if (activity.text === '/history') {
-    await say({
-      type: 'message',
-      text:
-        state.chat.history.length > 0
-          ? state.chat.history
-              .map((m) => `- **${m.role}**: ${JSON.stringify(m.content)}`)
-              .join('\n')
-          : '<empty>',
-    });
-
-    return;
-  }
-
   const prompt = new RootPrompt(state);
   const { text, attachments } = await prompt.chat(activity.text);
   state.save();
+
   await say({
     type: 'message',
     text,

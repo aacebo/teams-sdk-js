@@ -29,6 +29,13 @@ export async function signin({ activity, api, tokenResponse }: SignInContext) {
   state.save();
   await api.conversations.activities(conversationId).create({
     type: 'message',
-    text: `Welcome ${me.displayName}, how may I assist you?`,
+    text: `Welcome <at>${activity.from.name}</at>, how may I assist you?`,
+    entities: [
+      {
+        type: 'mention',
+        mentioned: activity.from,
+        text: `<at>${activity.from.name}</at>`,
+      },
+    ],
   });
 }
