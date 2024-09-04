@@ -19,7 +19,7 @@ export interface BaseElement {
   /**
    * Specifies the height of the element.
    */
-  height?: 'stretch' | 'auto';
+  height?: 'auto' | 'stretch' | Omit<string | number, 'auto' | 'stretch'>;
 
   /**
    * When `true`, draw a separating line at the top of the element.

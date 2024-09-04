@@ -1,5 +1,4 @@
 export * from './horizontal-alignment';
-export * from './size';
 export * from './vertical-alignment';
 export * from './spacing';
 export * from './associated-inputs';

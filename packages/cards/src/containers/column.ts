@@ -17,7 +17,7 @@ export interface Column {
   items?: Element[];
 
   /**
-   * Specifies the background image. Acceptable formats are PNG, JPEG, and GIF
+   * Specifies the background image. Acceptable formats are `PNG`, `JPEG`, and `GIF`
    */
   backgroundImage?: BackgroundImage | string;
 
@@ -69,5 +69,5 @@ export interface Column {
   /**
    * `\"auto\"`, `\"stretch\"`, a number representing relative width of the column in the column group, or in version 1.1 and higher, a specific pixel width, like `\"50px\"`.
    */
-  width?: string | number;
+  width?: 'auto' | 'stretch' | Omit<string | number, 'auto' | 'stretch'>;
 }
