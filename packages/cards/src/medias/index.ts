@@ -1,3 +1,13 @@
+import { CodeBlock } from './code-block';
+import { Icon } from './icon';
+import { Image } from './image';
+import { Media } from './media';
+import { RichTextBlock } from './rich-text-block';
+import { TextBlock } from './text-block';
+import { TextRun } from './text-run';
+
+export type MediaElement = CodeBlock | Icon | Image | Media | RichTextBlock | TextBlock | TextRun;
+
 export * from './background-image';
 export * from './text-block';
 export * from './image';

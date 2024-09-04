@@ -1,12 +1,5 @@
-import { ColumnSet, Container } from './containers';
-import { CodeBlock, Icon, Image, Media, RichTextBlock, TextBlock } from './medias';
+import { ChartElement } from './charts';
+import { ContainerElement } from './containers';
+import { MediaElement } from './medias';
 
-export type Element =
-  | ColumnSet
-  | Container
-  | Image
-  | Media
-  | RichTextBlock
-  | TextBlock
-  | CodeBlock
-  | Icon;
+export type Element = ContainerElement | ChartElement | MediaElement;
