@@ -4,7 +4,7 @@ import { Context } from '@teams.sdk/apps';
 import { State } from '../state';
 import { DrivePrompt } from '../prompts';
 
-export async function taskFetch({
+export async function dialogOpen({
   activity,
 }: Context<TaskFetchInvokeActivity>): Promise<InvokeResponse<'task/fetch'>> {
   const id: string = activity.value.data.id;

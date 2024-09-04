@@ -22,7 +22,7 @@ app.on('install.remove', events.uninstall);
 app.on('message', events.message);
 app.on('mention', events.mention);
 app.on('signin', events.signin);
-app.on('dialog.open', events.taskFetch);
+app.on('dialog.open', events.dialogOpen);
 
 (async () => {
   await app.start();
