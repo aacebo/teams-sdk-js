@@ -7,6 +7,7 @@ import { State } from '../state';
 import { CalendarPrompt } from './calendar';
 import { DrivePrompt } from './drive';
 import { ConversationPrompt } from './conversation';
+import { GifPrompt } from './gif';
 
 interface AssistantArgs {
   readonly text: string;
@@ -19,6 +20,7 @@ export class RootPrompt {
   private readonly _calendar: CalendarPrompt;
   private readonly _drive: DrivePrompt;
   private readonly _conversation: ConversationPrompt;
+  private readonly _gif: GifPrompt;
 
   private _attachments: Attachment[] = [];
 
@@ -46,6 +48,7 @@ export class RootPrompt {
     this._calendar = new CalendarPrompt(state);
     this._drive = new DrivePrompt(state);
     this._conversation = new ConversationPrompt(state);
+    this._gif = new GifPrompt();
 
     this._prompt.function(
       'get_user',
@@ -91,6 +94,19 @@ export class RootPrompt {
       },
       this._debug('conversation_assistant', this.conversationAssistant.bind(this))
     );
+
+    this._prompt.function(
+      'gif_assistant',
+      'ask the GIF assistant a question or to search for GIFs',
+      {
+        type: 'object',
+        properties: {
+          text: { type: 'string' },
+        },
+        required: ['text'],
+      },
+      this._debug('gif_assistant', this.gifAssistant.bind(this))
+    );
   }
 
   async chat(input: string | ContentPart[]) {
@@ -117,6 +133,12 @@ export class RootPrompt {
 
   protected async conversationAssistant({ text }: AssistantArgs) {
     const res = await this._conversation.chat(text);
+    this._attachments = this._attachments.concat(res.attachments);
+    return res.text;
+  }
+
+  protected async gifAssistant({ text }: AssistantArgs) {
+    const res = await this._gif.chat(text);
     this._attachments = this._attachments.concat(res.attachments);
     return res.text;
   }
