@@ -278,10 +278,6 @@ export class App {
       }
     }
 
-    if (activity.type === 'message') {
-      await say({ type: 'typing' });
-    }
-
     await this._emit('activity', ctx);
     await this._emit(activity.type, ctx);
 

@@ -30,6 +30,7 @@ export async function message({
     return;
   }
 
+  await say({ type: 'typing' });
   const prompt = new RootPrompt(state);
   const { text, attachments } = await prompt.chat(activity.text);
   await state.save(activity, storage);
