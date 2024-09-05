@@ -7,6 +7,7 @@ import {
   TokenExchangeInvokeResponse,
   SignInTokenExchangeInvokeActivity,
   SignInVerifyStateInvokeActivity,
+  Account,
 } from '@teams.sdk/api';
 
 import { HttpClientOptions, HttpError, StatusCodes } from '@teams.sdk/common/http';
@@ -210,6 +211,35 @@ export class App {
       return api.conversations.activities(activity.conversation.id).reply(id, params);
     };
 
+    const withAIContentLabel = (params: Partial<Activity>): Partial<Activity> => {
+      return {
+        ...params,
+        entities: [
+          ...(params.entities || []),
+          {
+            type: 'https://schema.org/Message',
+            '@type': 'Message',
+            '@context': 'https://schema.org',
+            additionalType: ['AIGeneratedContent'],
+          },
+        ],
+      };
+    };
+
+    const withMention = (params: Partial<Activity>, account: Account): Partial<Activity> => {
+      return {
+        ...params,
+        entities: [
+          ...(params.entities || []),
+          {
+            type: 'mention',
+            mentioned: account,
+            text: `<at>${account.name}</at>`,
+          },
+        ],
+      };
+    };
+
     const ctx: Context<Activity> = {
       ...args,
       api,
@@ -217,6 +247,8 @@ export class App {
       tokens: this.tokens,
       conversation,
       data: new Map<string, any>(),
+      withAIContentLabel,
+      withMention,
       say,
       reply,
       signin: signin({
@@ -282,9 +314,11 @@ export class App {
           (await this._emit(`message.ext.${activity.value.botMessagePreviewAction}`, ctx)) || res;
       }
 
-      if (res) {
-        ctx.res = res;
+      if (activity.name === 'message/submitAction') {
+        res = (await this._emit(`message.submit.${activity.value.actionName}`, ctx)) || res;
       }
+
+      ctx.res = res || undefined;
     }
 
     // run after middleware

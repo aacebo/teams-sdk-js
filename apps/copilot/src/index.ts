@@ -23,6 +23,12 @@ app.on('message', events.message);
 app.on('mention', events.mention);
 app.on('signin', events.signin);
 app.on('dialog.open', events.dialogOpen);
+app.on('message.submit.feedback', () => {
+  return {
+    status: 200,
+    body: {},
+  };
+});
 
 (async () => {
   await app.start();

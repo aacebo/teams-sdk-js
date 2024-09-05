@@ -44,7 +44,7 @@ interface InvokeResponseBody {
   'task/submit': TaskModuleResponse;
   'tab/fetch': TabResponse;
   'tab/submit': TabResponse;
-  'message/submitAction': void;
+  'message/submitAction': {};
   'handoff/action': void;
   'signin/tokenExchange': TokenExchangeInvokeResponse | undefined;
   'signin/verifyState': void;

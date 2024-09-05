@@ -4,5 +4,10 @@ export interface MessageEntity {
   /**
    * additional content type tags
    */
-  additionalTypes: string[];
+  additionalType?: string[];
+
+  /**
+   * other properties
+   */
+  [key: string]: any;
 }

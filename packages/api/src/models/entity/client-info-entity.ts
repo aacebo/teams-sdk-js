@@ -20,4 +20,9 @@ export interface ClientInfoEntity {
    * client timezone (ex America/New_York)
    */
   timezone: string;
+
+  /**
+   * other properties
+   */
+  [key: string]: any;
 }

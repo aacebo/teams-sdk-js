@@ -4,7 +4,7 @@ import * as MSGraph from '@microsoft/microsoft-graph-types';
 import { graph } from '../graph';
 import { State } from '../state';
 
-export async function signin({ activity, api, tokenResponse }: SignInContext) {
+export async function signin({ activity, api, tokenResponse, withMention }: SignInContext) {
   const state = new State(activity);
 
   if (!state.user.auth) {
@@ -27,15 +27,13 @@ export async function signin({ activity, api, tokenResponse }: SignInContext) {
   };
 
   state.save();
-  await api.conversations.activities(conversationId).create({
-    type: 'message',
-    text: `Welcome <at>${activity.from.name}</at>, how may I assist you?`,
-    entities: [
+  await api.conversations.activities(conversationId).create(
+    withMention(
       {
-        type: 'mention',
-        mentioned: activity.from,
-        text: `<at>${activity.from.name}</at>`,
+        type: 'message',
+        text: `Welcome <at>${activity.from.name}</at>, how may I assist you?`,
       },
-    ],
-  });
+      activity.from
+    )
+  );
 }

@@ -14,7 +14,14 @@ export interface MessageSubmitActionInvokeActivity extends ActivityBase {
    * A value that is associated with the activity.
    */
   value: {
+    /**
+     * Action name.
+     */
     actionName: 'feedback';
+
+    /**
+     * Action value.
+     */
     actionValue: {
       /**
        * Reaction triggered.
@@ -26,8 +33,9 @@ export interface MessageSubmitActionInvokeActivity extends ActivityBase {
        */
       feedback: string;
     };
+
     /**
-     * The activity ID taht the feedback was provided on.
+     * The activity ID that the feedback was provided on.
      */
     replyToId: string;
   };

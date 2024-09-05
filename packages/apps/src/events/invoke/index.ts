@@ -5,6 +5,7 @@ import { EventHandler } from '../../types';
 
 import { FileConsentActivityEvents } from './file-consent';
 import { MessageExtensionSubmitActivityEvents } from './message-extension-submit';
+import { MessageSubmitActivityEvents } from './message-submit';
 
 export type InvokeActivityEvents = {
   [K in InvokeActivity['name'] as InvokeAliases[K]]?: EventHandler<
@@ -12,7 +13,8 @@ export type InvokeActivityEvents = {
     InvokeResponse<K>
   >;
 } & FileConsentActivityEvents &
-  MessageExtensionSubmitActivityEvents;
+  MessageExtensionSubmitActivityEvents &
+  MessageSubmitActivityEvents;
 
 interface InvokeAliases {
   'config/fetch': 'config.open';
@@ -66,3 +68,4 @@ export const INVOKE_ALIASES: InvokeAliases = {
 
 export * from './file-consent';
 export * from './message-extension-submit';
+export * from './message-submit';

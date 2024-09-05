@@ -3,7 +3,7 @@ import { MentionContext } from '@teams.sdk/apps';
 import { State } from '../state';
 import { RootPrompt } from '../prompts';
 
-export async function mention({ activity, log, signin, say }: MentionContext) {
+export async function mention({ activity, log, signin, say, withAIContentLabel }: MentionContext) {
   const start = new Date();
   const state = new State(activity);
 
@@ -24,11 +24,16 @@ export async function mention({ activity, log, signin, say }: MentionContext) {
   const { text, attachments } = await prompt.chat(activity.text);
   state.save();
 
-  await say({
-    type: 'message',
-    text,
-    attachments,
-  });
+  await say(
+    withAIContentLabel({
+      type: 'message',
+      text,
+      attachments,
+      channelData: {
+        feedbackLoopEnabled: true,
+      },
+    })
+  );
 
   log.debug(`elapse: ${Date.now() - start.getTime()}ms`);
 }

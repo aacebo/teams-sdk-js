@@ -12,4 +12,9 @@ export interface MentionEntity {
    * text which represents the mention
    */
   text?: string | null;
+
+  /**
+   * other properties
+   */
+  [key: string]: any;
 }

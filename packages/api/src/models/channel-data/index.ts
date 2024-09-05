@@ -52,6 +52,11 @@ export interface ChannelData {
    * message was sent.
    */
   settings?: ChannelDataSettings;
+
+  /**
+   * Whether or not the feedback loop feature is enabled.
+   */
+  feedbackLoopEnabled?: boolean;
 }
 
 export * from './channel-info';
