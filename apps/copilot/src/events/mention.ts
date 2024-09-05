@@ -3,9 +3,16 @@ import { MentionContext } from '@teams.sdk/apps';
 import { State } from '../state';
 import { RootPrompt } from '../prompts';
 
-export async function mention({ activity, log, signin, say, withAIContentLabel }: MentionContext) {
+export async function mention({
+  activity,
+  log,
+  storage,
+  signin,
+  say,
+  withAIContentLabel,
+}: MentionContext) {
   const start = new Date();
-  const state = new State(activity);
+  const state = await State.fromActivity(activity, storage);
 
   // if not authenticated, set the conversation
   // where the auth flow began and prompt user to
@@ -15,14 +22,14 @@ export async function mention({ activity, log, signin, say, withAIContentLabel }
       conversationId: activity.conversation.id,
     };
 
-    state.save();
+    await state.save(activity, storage);
     await signin('graph-connection');
     return;
   }
 
   const prompt = new RootPrompt(state);
   const { text, attachments } = await prompt.chat(activity.text);
-  state.save();
+  await state.save(activity, storage);
 
   await say(
     withAIContentLabel({

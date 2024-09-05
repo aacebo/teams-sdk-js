@@ -25,7 +25,8 @@
     "@teams.sdk/config": "*",
     "@teams.sdk/openai": "*",
     "date-fns": "^3.6.0",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "redis": "^4.7.0"
   },
   "devDependencies": {
     "@microsoft/microsoft-graph-types": "^2.40.0",

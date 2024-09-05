@@ -4,8 +4,14 @@ import * as MSGraph from '@microsoft/microsoft-graph-types';
 import { graph } from '../graph';
 import { State } from '../state';
 
-export async function signin({ activity, api, tokenResponse, withMention }: SignInContext) {
-  const state = new State(activity);
+export async function signin({
+  activity,
+  api,
+  tokenResponse,
+  storage,
+  withMention,
+}: SignInContext) {
+  const state = await State.fromActivity(activity, storage);
 
   if (!state.user.auth) {
     return;
@@ -26,7 +32,7 @@ export async function signin({ activity, api, tokenResponse, withMention }: Sign
     expiration: tokenResponse.expiration,
   };
 
-  state.save();
+  await state.save(activity, storage);
   await api.conversations.activities(conversationId).create(
     withMention(
       {

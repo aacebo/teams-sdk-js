@@ -7,6 +7,7 @@ import { RootPrompt } from '../prompts';
 export async function message({
   activity,
   log,
+  storage,
   signin,
   say,
   withAIContentLabel,
@@ -14,7 +15,7 @@ export async function message({
   if (activity.conversation.isGroup) return;
 
   const start = new Date();
-  const state = new State(activity);
+  const state = await State.fromActivity(activity, storage);
 
   // if not authenticated, set the conversation
   // where the auth flow began and prompt user to
@@ -24,14 +25,14 @@ export async function message({
       conversationId: activity.conversation.id,
     };
 
-    state.save();
+    await state.save(activity, storage);
     await signin('graph-connection');
     return;
   }
 
   const prompt = new RootPrompt(state);
   const { text, attachments } = await prompt.chat(activity.text);
-  state.save();
+  await state.save(activity, storage);
 
   await say(
     withAIContentLabel({

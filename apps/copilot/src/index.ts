@@ -1,6 +1,7 @@
 import { App } from '@teams.sdk/apps';
 import { ConsoleLogger } from '@teams.sdk/common/logging';
 
+import { RedisStorage } from './redis-storage';
 import * as events from './events';
 
 const clientId = process.env.CLIENT_ID;
@@ -14,6 +15,7 @@ const app = new App({
   type: 'MultiTenant',
   clientId,
   clientSecret,
+  storage: new RedisStorage(),
   logger: new ConsoleLogger('@apps/copilot', { level: 'debug' }),
 });
 

@@ -12,6 +12,7 @@ import {
 
 import { HttpClientOptions, HttpError, StatusCodes } from '@teams.sdk/common/http';
 import { Logger, ConsoleLogger } from '@teams.sdk/common/logging';
+import { LocalStorage, Storage } from '@teams.sdk/common/storage';
 
 import pkg from '../package.json';
 
@@ -41,6 +42,11 @@ export type AppOptions = Credentials & {
    * receiver instance to listen for incoming activities
    */
   readonly receiver?: Receiver;
+
+  /**
+   * storage instance to use
+   */
+  readonly storage?: Storage;
 };
 
 /**
@@ -56,6 +62,7 @@ export class App {
 
   private readonly _api: Client;
   private readonly _receiver: Receiver;
+  private readonly _storage: Storage;
   private readonly _exchanges = new Map<string, string>();
   private readonly _events: Events = {};
   private readonly _middleware: AppMiddleware = {
@@ -76,6 +83,7 @@ export class App {
       },
     });
 
+    this._storage = this.options.storage || new LocalStorage();
     this._receiver =
       this.options.receiver ||
       new HttpReceiver({
@@ -247,6 +255,7 @@ export class App {
       tokens: this.tokens,
       conversation,
       data: new Map<string, any>(),
+      storage: this._storage,
       withAIContentLabel,
       withMention,
       say,

@@ -11,6 +11,7 @@ import {
 
 import { HttpRequest } from '@teams.sdk/common/http';
 import { Logger } from '@teams.sdk/common/logging';
+import { Storage } from '@teams.sdk/common/storage';
 
 import { AppTokens } from './tokens';
 import { AppResponse } from './response';
@@ -55,6 +56,11 @@ export interface Context<T extends Activity> {
    * any extra context data
    */
   data: Map<string, any>;
+
+  /**
+   * app storage instance
+   */
+  storage: Storage;
 
   /**
    * send an activity to the conversation

@@ -6,10 +6,11 @@ import { DrivePrompt } from '../prompts';
 
 export async function dialogOpen({
   activity,
+  storage,
 }: Context<TaskFetchInvokeActivity>): Promise<InvokeResponse<'task/fetch'>> {
   const id: string = activity.value.data.id;
   const name: string = activity.value.data.name;
-  const state = new State(activity);
+  const state = await State.fromActivity(activity, storage);
 
   if (!state.user.auth?.token) {
     return { status: 401 };
