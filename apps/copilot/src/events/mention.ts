@@ -10,6 +10,7 @@ export async function mention({
   signin,
   say,
   withAIContentLabel,
+  next,
 }: MentionContext) {
   const start = new Date();
   const state = await State.fromActivity(activity, storage);
@@ -24,11 +25,11 @@ export async function mention({
 
     await state.save(activity, storage);
     await signin('graph-connection');
-    return;
+    return next();
   }
 
   await say({ type: 'typing' });
-  const prompt = new RootPrompt(state);
+  const prompt = new RootPrompt(say, state);
   const { text, attachments } = await prompt.chat(activity.text);
   await state.save(activity, storage);
 
@@ -44,4 +45,5 @@ export async function mention({
   );
 
   log.debug(`elapse: ${Date.now() - start.getTime()}ms`);
+  return next();
 }

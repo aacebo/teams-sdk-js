@@ -23,7 +23,7 @@ app.on('message', async ({ signin }) => {
   await signin('graph-connection');
 });
 
-app.on('signin', async ({ say, tokenResponse }) => {
+app.event('signin', async ({ say, tokenResponse }) => {
   const msgraph = graph(tokenResponse.token);
   const me = await graph(tokenResponse.token).api('/me').get();
   const [meta, photo] = await Promise.all([

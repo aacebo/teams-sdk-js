@@ -44,7 +44,7 @@ export class CalendarPrompt {
         'You are great at helping users create/update/delete meetings/events in their calendar.',
         'Use the users local timezone.',
       ].join('\n'),
-      history: [
+      messages: [
         {
           role: 'user',
           content: `my timezone is "${state.user.user?.timezone || 'Pacific Standard Time'}"`,

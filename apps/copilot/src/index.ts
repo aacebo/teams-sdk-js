@@ -2,6 +2,7 @@ import { App } from '@teams.sdk/apps';
 import { ConsoleLogger } from '@teams.sdk/common/logging';
 
 import { RedisStorage } from './redis-storage';
+import * as cmds from './cmds';
 import * as events from './events';
 
 const clientId = process.env.CLIENT_ID;
@@ -19,11 +20,14 @@ const app = new App({
   logger: new ConsoleLogger('@apps/copilot', { level: 'debug' }),
 });
 
+app.message('/clear', cmds.clear);
+app.message('/history', cmds.history);
+app.event('signin', events.signin);
+
 app.on('install.add', events.install);
 app.on('install.remove', events.uninstall);
 app.on('message', events.message);
 app.on('mention', events.mention);
-app.on('signin', events.signin);
 app.on('dialog.open', events.dialogOpen);
 app.on('message.submit.feedback', () => {
   return {

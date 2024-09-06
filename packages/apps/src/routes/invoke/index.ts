@@ -1,20 +1,20 @@
 import { InvokeActivity, InvokeResponse } from '@teams.sdk/api';
 
+import { RouteHandler } from '../../types';
 import { Context } from '../../context';
-import { EventHandler } from '../../types';
 
-import { FileConsentActivityEvents } from './file-consent';
-import { MessageExtensionSubmitActivityEvents } from './message-extension-submit';
-import { MessageSubmitActivityEvents } from './message-submit';
+import { FileConsentActivityRoutes } from './file-consent';
+import { MessageExtensionSubmitActivityRoutes } from './message-extension-submit';
+import { MessageSubmitActivityRoutes } from './message-submit';
 
-export type InvokeActivityEvents = {
-  [K in InvokeActivity['name'] as InvokeAliases[K]]?: EventHandler<
+export type InvokeActivityRoutes = {
+  [K in InvokeActivity['name'] as InvokeAliases[K]]?: RouteHandler<
     Context<Extract<InvokeActivity, { name: K }>>,
     InvokeResponse<K>
   >;
-} & FileConsentActivityEvents &
-  MessageExtensionSubmitActivityEvents &
-  MessageSubmitActivityEvents;
+} & FileConsentActivityRoutes &
+  MessageExtensionSubmitActivityRoutes &
+  MessageSubmitActivityRoutes;
 
 interface InvokeAliases {
   'config/fetch': 'config.open';

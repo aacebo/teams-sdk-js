@@ -1,35 +1,24 @@
-import { Activity } from '@teams.sdk/api';
+import { Logger } from '@teams.sdk/common/logging';
 
-import { Context, MentionContext, SignInContext } from '../context';
+import { ErrorContext, SignInContext } from '../context';
 import { EventHandler } from '../types';
 
-import { ActivityEvents } from './activity';
-import { InvokeActivityEvents } from './invoke';
-import { InstallActivityEvents } from './install';
-import { ConversationUpdateActivityEvents } from './conversation-update';
-import { MessageUpdateActivityEvents } from './message-update';
-import { MessageDeleteActivityEvents } from './message-delete';
-import { EventActivityEvents } from './event';
+import { error, ErrorEventArgs } from './error';
+import { start } from './start';
+import { signin } from './signin';
 
-export interface Events
-  extends ActivityEvents,
-    InvokeActivityEvents,
-    InstallActivityEvents,
-    ConversationUpdateActivityEvents,
-    MessageUpdateActivityEvents,
-    MessageDeleteActivityEvents,
-    EventActivityEvents {
-  error?: EventHandler<Error>;
-  start?: EventHandler<void>;
-  signin?: EventHandler<SignInContext>;
-  mention?: EventHandler<MentionContext>;
-  activity?: EventHandler<Context<Activity>>;
+export interface Events {
+  start: EventHandler<Logger>;
+  signin: EventHandler<SignInContext>;
+  error: EventHandler<ErrorEventArgs>;
+  'activity.error': EventHandler<ErrorContext>;
 }
 
-export * from './activity';
-export * from './install';
-export * from './invoke';
-export * from './conversation-update';
-export * from './message-update';
-export * from './message-delete';
-export * from './event';
+export const DEFAULT_EVENTS: Events = {
+  start,
+  signin,
+  error,
+  'activity.error': error,
+};
+
+export { ErrorEventArgs };

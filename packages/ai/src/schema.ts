@@ -45,7 +45,7 @@ export interface ObjectSchema extends BaseSchema {
 export interface ArraySchema extends BaseSchema {
   readonly type: 'array';
   readonly items: Schema | Schema[];
-  readonly additionalItems: Schema | Schema[];
+  readonly additionalItems?: Schema | Schema[];
 }
 
 export interface NullSchema extends BaseSchema {

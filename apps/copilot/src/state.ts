@@ -25,7 +25,7 @@ export class State {
   static async fromActivity(activity: Activity, storage: Storage) {
     return new State(
       (await storage.get(activity.from.id)) || {},
-      (await storage.get(activity.conversation.id)) || { history: [] }
+      (await storage.get(activity.conversation.id)) || { messages: [] }
     );
   }
 }
@@ -43,5 +43,5 @@ export interface UserState {
 
 export interface ChatState {
   id?: string;
-  history: Message[];
+  messages?: Message[];
 }

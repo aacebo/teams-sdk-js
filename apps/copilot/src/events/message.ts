@@ -11,8 +11,9 @@ export async function message({
   signin,
   say,
   withAIContentLabel,
+  next,
 }: Context<MessageSendActivity>) {
-  if (activity.conversation.isGroup) return;
+  if (activity.conversation.isGroup) return next();
 
   const start = new Date();
   const state = await State.fromActivity(activity, storage);
@@ -31,7 +32,7 @@ export async function message({
   }
 
   await say({ type: 'typing' });
-  const prompt = new RootPrompt(state);
+  const prompt = new RootPrompt(say, state);
   const { text, attachments } = await prompt.chat(activity.text);
   await state.save(activity, storage);
 
@@ -47,4 +48,5 @@ export async function message({
   );
 
   log.debug(`elapse: ${Date.now() - start.getTime()}ms`);
+  return next();
 }

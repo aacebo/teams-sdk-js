@@ -63,7 +63,7 @@ export class GifPrompt {
     const { GiphyFetch } = await import('@giphy/js-fetch-api');
     const giphy = new GiphyFetch(process.env.GIPHY_API_KEY || '');
     const res = await giphy.search(text, { limit, sort: 'relevant' });
-    return res.data;
+    return res.data[0].images.original.url;
   }
 
   private _debug(name: string, cb: (args: any) => any | Promise<any>) {

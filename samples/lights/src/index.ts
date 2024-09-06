@@ -13,7 +13,7 @@ if (!clientId || !clientSecret) {
 
 const storage = new LocalStorage<{
   status: boolean;
-  history: Message[];
+  messages: Message[];
 }>();
 
 const app = new App({
@@ -29,7 +29,7 @@ app.on('message', async ({ say, activity }) => {
   if (!state) {
     state = {
       status: false,
-      history: [],
+      messages: [],
     };
 
     storage.set(activity.from.id, state);
@@ -38,14 +38,14 @@ app.on('message', async ({ say, activity }) => {
   if (activity.text === '/history') {
     await say({
       type: 'message',
-      text: state.history.map((m) => `- ${m.role}: ${JSON.stringify(m.content)}`).join('\n'),
+      text: state.messages.map((m) => `- ${m.role}: ${JSON.stringify(m.content)}`).join('\n'),
     });
 
     return;
   }
 
   const prompt = new ChatPrompt({
-    history: storage.get(activity.from.id)?.history,
+    messages: storage.get(activity.from.id)?.messages,
     instructions: `The following is a conversation with an AI assistant.
   The assistant can turn a light on or off.
   The lights are currently off.`,

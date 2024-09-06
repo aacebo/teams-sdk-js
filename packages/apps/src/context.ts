@@ -6,6 +6,8 @@ import {
   MentionEntity,
   MessageSendActivity,
   Resource,
+  SignInTokenExchangeInvokeActivity,
+  SignInVerifyStateInvokeActivity,
   TokenResponse,
 } from '@teams.sdk/api';
 
@@ -14,9 +16,8 @@ import { Logger } from '@teams.sdk/common/logging';
 import { Storage } from '@teams.sdk/common/storage';
 
 import { AppTokens } from './tokens';
-import { AppResponse } from './response';
 
-export interface Context<T extends Activity> {
+export interface Context<T extends Activity = Activity> {
   /**
    * the inbound activity
    */
@@ -48,11 +49,6 @@ export interface Context<T extends Activity> {
   req?: HttpRequest;
 
   /**
-   * the apps response to the activity
-   */
-  res?: AppResponse;
-
-  /**
    * any extra context data
    */
   data: Map<string, any>;
@@ -61,6 +57,11 @@ export interface Context<T extends Activity> {
    * app storage instance
    */
   storage: Storage;
+
+  /**
+   * call the next event/middleware handler
+   */
+  next: (ctx?: Context) => any | Promise<any>;
 
   /**
    * send an activity to the conversation
@@ -103,9 +104,18 @@ export type MentionContext = Context<MessageSendActivity> & {
   mention: MentionEntity;
 };
 
-export type SignInContext = Context<Activity> & {
+export type SignInContext = Context<
+  SignInTokenExchangeInvokeActivity | SignInVerifyStateInvokeActivity
+> & {
   /**
    * the token response of the signin request
    */
   tokenResponse: TokenResponse;
+};
+
+export type ErrorContext = Context & {
+  /**
+   * the error
+   */
+  err: Error;
 };

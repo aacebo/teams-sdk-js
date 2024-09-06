@@ -1,5 +1,7 @@
 import { Function, FunctionHandler } from '../function';
-import { ContentPart, Message, UserMessage } from '../message';
+import { LocalMemory } from '../local-memory';
+import { Memory } from '../memory';
+import { ContentPart, Message, SystemMessage } from '../message';
 import { ChatModel } from '../models';
 import { Schema } from '../schema';
 import { Template } from '../template';
@@ -8,18 +10,22 @@ import { StringTemplate } from '../templates';
 export interface ChatPromptOptions {
   readonly model: ChatModel;
   readonly instructions?: string | Template;
-  readonly history?: Message[];
+  readonly messages?: Message[] | Memory;
 }
 
 export class ChatPrompt {
-  readonly history: Message[];
+  readonly messages: Memory;
 
   protected readonly _model: ChatModel;
   protected readonly _template: Template;
   protected readonly _functions: Record<string, Function> = {};
 
   constructor(options: ChatPromptOptions) {
-    this.history = options.history || [];
+    this.messages =
+      typeof options.messages === 'object' && !Array.isArray(options.messages)
+        ? options.messages
+        : new LocalMemory({ messages: options.messages || [] });
+
     this._model = options.model;
     this._template =
       typeof options.instructions !== 'object'
@@ -59,23 +65,25 @@ export class ChatPrompt {
       input = input.trim();
     }
 
-    if (this.history.length === 0) {
-      this.history.push({
+    let buffer = '';
+    let system: SystemMessage | undefined = undefined;
+    const prompt = await this._template.render();
+
+    if (prompt) {
+      system = {
         role: 'system',
-        content: await this._template.render(),
-      });
+        content: prompt,
+      };
     }
 
-    const message: UserMessage = {
-      role: 'user',
-      content: input,
-    };
-
-    let buffer = '';
     const res = await this._model.chat(
       {
-        message,
-        history: this.history,
+        input: {
+          role: 'user',
+          content: input,
+        },
+        system,
+        messages: this.messages,
         functions: this._functions,
       },
       async (chunk) => {

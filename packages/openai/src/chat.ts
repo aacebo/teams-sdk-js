@@ -1,5 +1,6 @@
-import { ChatModel, ChatParams, Message, ModelMessage } from '@teams.sdk/ai';
+import { ChatModel, ChatParams, LocalMemory, Memory, ModelMessage } from '@teams.sdk/ai';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
+
 import OpenAI from 'openai';
 import { Fetch } from 'openai/core.mjs';
 import { Stream } from 'openai/streaming';
@@ -39,12 +40,12 @@ export class OpenAIChatModel implements ChatModel {
     params: ChatParams,
     onChunk?: (chunk: ModelMessage) => void | Promise<void>
   ): Promise<ModelMessage> {
-    const messages = params.history || [];
-    messages.push(params.message);
+    const memory = params.messages || new LocalMemory();
+    await memory.push(params.input);
 
     // call functions
-    if (params.message.role === 'model' && params.message.function_calls?.length) {
-      for (const call of params.message.function_calls) {
+    if (params.input.role === 'model' && params.input.function_calls?.length) {
+      for (const call of params.input.function_calls) {
         const fn = (params.functions || {})[call.name];
 
         if (!fn) {
@@ -60,12 +61,18 @@ export class OpenAIChatModel implements ChatModel {
           this._log.error(err);
         }
 
-        messages.push({
+        await memory.push({
           role: 'function',
           content,
           function_id: call.id,
         });
       }
+    }
+
+    const messages = await memory.values();
+
+    if (params.system) {
+      messages.push(params.system);
     }
 
     try {
@@ -139,7 +146,7 @@ export class OpenAIChatModel implements ChatModel {
         const message = completion.choices[0].message;
 
         if (message.tool_calls) {
-          return this._onTool(params, messages, message, onChunk);
+          return this._onTool(params, memory, message, onChunk);
         }
 
         const res: ModelMessage = {
@@ -147,7 +154,7 @@ export class OpenAIChatModel implements ChatModel {
           content: message.content || undefined,
         };
 
-        messages.push(res);
+        await memory.push(res);
         return res;
       }
 
@@ -160,7 +167,7 @@ export class OpenAIChatModel implements ChatModel {
         const delta = chunk.choices[0].delta;
 
         if (delta.tool_calls && delta.tool_calls.length > 0) {
-          return this._onTool(params, messages, delta, onChunk);
+          return this._onTool(params, memory, delta, onChunk);
         }
 
         if (delta.content) {
@@ -179,7 +186,7 @@ export class OpenAIChatModel implements ChatModel {
         }
       }
 
-      messages.push(message);
+      await memory.push(message);
       return message;
     } catch (err) {
       this._log.error(err);
@@ -189,7 +196,7 @@ export class OpenAIChatModel implements ChatModel {
 
   private async _onTool(
     params: ChatParams,
-    messages: Message[],
+    memory: Memory,
     message:
       | OpenAI.ChatCompletionMessage
       | OpenAI.Chat.Completions.ChatCompletionChunk.Choice.Delta,
@@ -229,8 +236,9 @@ export class OpenAIChatModel implements ChatModel {
     return this.chat(
       {
         functions: params.functions,
-        history: messages,
-        message: {
+        messages: memory,
+        system: params.system,
+        input: {
           role: 'model',
           content: message.content || undefined,
           function_calls: calls.map((call) => {

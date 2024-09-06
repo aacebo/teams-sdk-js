@@ -19,10 +19,12 @@ import pkg from '../package.json';
 import { Receiver, ReceiverActivityArgs } from './receiver';
 import { HttpReceiver } from './http-receiver';
 import { signin } from './signin';
-import { EVENT_ALIASES, Events, INVOKE_ALIASES } from './events';
+import { Routes } from './routes';
 import { AppTokens } from './tokens';
 import { Context } from './context';
-import { AppMiddleware, Middleware } from './middleware';
+import { Router } from './router';
+import { RouteHandler } from './types';
+import { DEFAULT_EVENTS, Events } from './events';
 
 /**
  * App initialization options
@@ -64,11 +66,8 @@ export class App {
   private readonly _receiver: Receiver;
   private readonly _storage: Storage;
   private readonly _exchanges = new Map<string, string>();
-  private readonly _events: Events = {};
-  private readonly _middleware: AppMiddleware = {
-    before: [],
-    after: [],
-  };
+  private readonly _router = new Router();
+  private readonly _events = DEFAULT_EVENTS;
 
   constructor(readonly options: AppOptions) {
     this.log = this.options.logger || new ConsoleLogger('@teams.sdk/app');
@@ -91,14 +90,8 @@ export class App {
       });
 
     this._receiver.on('activity', this.onActivity.bind(this));
-    this._receiver.on('error', (err) => {
-      if (!this._events.error) return;
-      this._events.error(err);
-    });
 
     // default event handlers
-    this.on('start', this._onStart.bind(this));
-    this.on('error', this._onError.bind(this));
     this.on('signin.token-exchange', this._onTokenExchange.bind(this));
     this.on('signin.verify-state', this._onVerifyState.bind(this));
   }
@@ -115,7 +108,7 @@ export class App {
       const graphToken = await this._api.bots.token.getGraph(this.options);
       this._tokens.graph = new Token(graphToken.access_token);
     } catch (err) {
-      this._emit('error', err);
+      this.log.error(err);
       throw err;
     }
 
@@ -123,11 +116,11 @@ export class App {
       this._receiver
         .start(port)
         .then(() => {
-          this._emit('start');
+          this._events.start(this.log);
           resolve();
         })
         .catch((err) => {
-          this._emit('error', err);
+          this.log.error(err);
           reject(err);
         });
     });
@@ -135,11 +128,11 @@ export class App {
 
   /**
    * subscribe to an event
-   * @param event event to subscribe to
+   * @param name event to subscribe to
    * @param cb callback to invoke
    */
-  on<Event extends keyof Events>(event: Event, cb: Exclude<Events[Event], undefined>) {
-    this._events[event] = cb;
+  on<Name extends keyof Routes>(name: Name, cb: Exclude<Routes[Name], undefined>) {
+    this._router.on(name, cb);
     return this;
   }
 
@@ -148,27 +141,37 @@ export class App {
    * @param pattern pattern to match against message text
    * @param cb callback to invoke
    */
-  message(pattern: string | RegExp, cb: Exclude<Events['message'], undefined>) {
-    this._events.message = (ctx) => {
-      if (!new RegExp(pattern).test(ctx.activity.text)) {
-        return;
-      }
+  message(pattern: string | RegExp, cb: Exclude<Routes['message'], undefined>) {
+    this._router.register<'message'>({
+      select: (activity) => {
+        if (activity.type !== 'message') {
+          return false;
+        }
 
-      return cb(ctx);
-    };
+        return new RegExp(pattern).test(activity.text);
+      },
+      callback: cb,
+    });
 
     return this;
   }
 
   /**
-   * add middleware to run either before or after your event handlers run.
-   * if the callback returns a response, the app will respond and stop
-   * executing handlers/middleware.
-   * @param type when should the middleware be invoked
+   * register a middleware
    * @param cb callback to invoke
    */
-  middleware(type: keyof AppMiddleware, cb: Middleware) {
-    this._middleware[type].push(cb);
+  use(cb: RouteHandler<Context>) {
+    this._router.use(cb);
+    return this;
+  }
+
+  /**
+   * subscribe to an event
+   * @param name the event to subscribe to
+   * @param cb the callback to invoke
+   */
+  event<Name extends keyof Events>(name: Name, cb: Events[Name]) {
+    this._events[name] = cb;
     return this;
   }
 
@@ -248,6 +251,13 @@ export class App {
       };
     };
 
+    const routes = this._router.select(activity);
+
+    if (routes.length === 0) {
+      return { status: 200 };
+    }
+
+    let i = 0;
     const ctx: Context<Activity> = {
       ...args,
       api,
@@ -256,6 +266,11 @@ export class App {
       conversation,
       data: new Map<string, any>(),
       storage: this._storage,
+      next: (context) => {
+        if (i === routes.length - 1) return;
+        i++;
+        return routes[i](context || ctx);
+      },
       withAIContentLabel,
       withMention,
       say,
@@ -269,90 +284,12 @@ export class App {
       }),
     };
 
-    // run before middleware
-    for (const cb of this._middleware.before) {
-      const res = await cb(ctx);
-
-      if (res) {
-        return res;
-      }
-    }
-
-    await this._emit('activity', ctx);
-    await this._emit(activity.type, ctx);
-
-    if (activity.type === 'installationUpdate') {
-      await this._emit(`install.${activity.action}`, ctx);
-    }
-
-    if (
-      activity.type === 'conversationUpdate' ||
-      activity.type === 'messageUpdate' ||
-      activity.type === 'messageDelete'
-    ) {
-      await this._emit(activity.channelData.eventType, ctx);
-    }
-
-    if (activity.type === 'message' && activity.entities?.some((e) => e.type === 'mention')) {
-      const mention = activity.entities?.find(
-        (e) => e.type === 'mention' && e.mentioned.id === activity.recipient.id
-      );
-
-      if (mention) {
-        await this._emit('mention', { ...ctx, mention });
-      }
-    }
-
-    if (activity.type === 'event') {
-      await this._emit(EVENT_ALIASES[activity.name], ctx);
-    }
-
-    if (activity.type === 'invoke') {
-      let res = await this._emit(INVOKE_ALIASES[activity.name], ctx);
-
-      if (activity.name === 'fileConsent/invoke') {
-        res = (await this._emit(`file.consent.${activity.value.action}`, ctx)) || res;
-      }
-
-      if (activity.name === 'composeExtension/submitAction') {
-        res =
-          (await this._emit(`message.ext.${activity.value.botMessagePreviewAction}`, ctx)) || res;
-      }
-
-      if (activity.name === 'message/submitAction') {
-        res = (await this._emit(`message.submit.${activity.value.actionName}`, ctx)) || res;
-      }
-
-      ctx.res = res || undefined;
-    }
-
-    // run after middleware
-    for (const cb of this._middleware.after) {
-      const res = await cb(ctx);
-
-      if (res) {
-        return res;
-      }
-    }
-
-    return ctx.res || { status: 200 };
+    const res = await routes[0](ctx);
+    return res || { status: 200 };
   }
 
-  private _emit<Event extends keyof Events>(event: Event, data?: any) {
-    if (!this._events[event]) return;
-    return this._events[event](data as never);
-  }
-
-  private _onStart() {
-    this.log.info('listening 🚀');
-  }
-
-  private _onError(err: Error) {
-    this.log.error(err);
-  }
-
-  private async _onTokenExchange(args: Context<SignInTokenExchangeInvokeActivity>) {
-    const { api, activity } = args;
+  private async _onTokenExchange(ctx: Context<SignInTokenExchangeInvokeActivity>) {
+    const { api, activity } = ctx;
     const key = `${activity.conversation.id}/${activity.from.id}`;
 
     try {
@@ -366,12 +303,12 @@ export class App {
         },
       });
 
-      this._emit('signin', { ...args, tokenResponse: token });
+      this._events.signin({ ...ctx, tokenResponse: token });
       return { status: StatusCodes.OK };
     } catch (err) {
       if (err instanceof HttpError) {
         if (err.code !== 404 && err.code !== 400) {
-          this._emit('error', err);
+          this._events.error({ ...ctx, err });
         }
 
         if (err.code === 404) {
@@ -390,8 +327,8 @@ export class App {
     }
   }
 
-  private async _onVerifyState(args: Context<SignInVerifyStateInvokeActivity>) {
-    const { api, activity } = args;
+  private async _onVerifyState(ctx: Context<SignInVerifyStateInvokeActivity>) {
+    const { api, activity } = ctx;
     const key = `${activity.conversation.id}/${activity.from.id}`;
 
     try {
@@ -409,12 +346,12 @@ export class App {
       });
 
       this._exchanges.delete(key);
-      this._emit('signin', { ...args, tokenResponse: token });
+      this._events.signin({ ...ctx, tokenResponse: token });
       return { status: StatusCodes.OK };
     } catch (err) {
       if (err instanceof HttpError) {
         if (err.code !== 404 && err.code !== 400) {
-          this._emit('error', err);
+          this._events.error({ ...ctx, err });
         }
       }
 
