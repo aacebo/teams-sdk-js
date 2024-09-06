@@ -49,10 +49,6 @@ export class RootPrompt {
       messages: new LocalMemory({
         max: 10,
         messages: state.chat.messages,
-        collapse: {
-          model,
-          strategy: 'half',
-        },
       }),
       instructions: [
         'You are an ai assistant that runs in Microsoft Teams.',

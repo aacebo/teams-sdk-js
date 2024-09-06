@@ -13,7 +13,7 @@ export async function message({
   withAIContentLabel,
   next,
 }: Context<MessageSendActivity>) {
-  if (activity.conversation.isGroup) return next();
+  if (activity.conversation.isGroup) return;
 
   const start = new Date();
   const state = await State.fromActivity(activity, storage);
@@ -21,7 +21,7 @@ export async function message({
   // if not authenticated, set the conversation
   // where the auth flow began and prompt user to
   // to sign in.
-  if (!state.user.auth?.token) {
+  if (state.authenticated) {
     state.user.auth = {
       conversationId: activity.conversation.id,
     };
@@ -32,10 +32,11 @@ export async function message({
   }
 
   await say({ type: 'typing' });
+
   const prompt = new RootPrompt(say, state);
   const { text, attachments } = await prompt.chat(activity.text);
-  await state.save(activity, storage);
 
+  await state.save(activity, storage);
   await say(
     withAIContentLabel({
       type: 'message',

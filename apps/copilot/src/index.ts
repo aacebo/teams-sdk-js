@@ -22,12 +22,13 @@ const app = new App({
 
 app.message('/clear', cmds.clear);
 app.message('/history', cmds.history);
+app.message('/logout', cmds.logout);
 app.event('signin', events.signin);
 
 app.on('install.add', events.install);
 app.on('install.remove', events.uninstall);
-app.on('message', events.message);
 app.on('mention', events.mention);
+app.on('message', events.message);
 app.on('dialog.open', events.dialogOpen);
 app.on('message.submit.feedback', () => {
   return {

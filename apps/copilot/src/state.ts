@@ -1,11 +1,20 @@
 import { Message } from '@teams.sdk/ai';
 import { Activity } from '@teams.sdk/api';
 import { Storage } from '@teams.sdk/common/storage';
+
 import * as MSGraph from '@microsoft/microsoft-graph-types';
+import { isAfter } from 'date-fns';
 
 export class State {
   user: UserState;
   chat: ChatState;
+
+  get authenticated() {
+    return (
+      !!this.user.auth?.token &&
+      (!this.user.auth.expiration || isAfter(new Date(), this.user.auth.expiration))
+    );
+  }
 
   constructor(user: UserState, chat: ChatState) {
     this.user = user;
