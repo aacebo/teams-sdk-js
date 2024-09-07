@@ -1,5 +1,4 @@
 import { ChatPrompt, ContentPart, LocalMemory } from '@teams.sdk/ai';
-import { Context } from '@teams.sdk/apps';
 import { Attachment, cardAttachment } from '@teams.sdk/api';
 import { OpenAIChatModel } from '@teams.sdk/openai';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
@@ -15,13 +14,11 @@ interface AssistantArgs {
   readonly text: string;
 }
 
-interface SendChatMessageArgs {
-  readonly text: string;
-  readonly adaptiveCards?: Card[];
+interface SendAdaptiveCardArgs {
+  readonly card: Card;
 }
 
 export class RootPrompt {
-  private readonly _say: Context['say'];
   private readonly _prompt: ChatPrompt;
   private readonly _state: State;
   private readonly _log: Logger;
@@ -32,7 +29,7 @@ export class RootPrompt {
 
   private _attachments: Attachment[] = [];
 
-  constructor(say: Context['say'], state: State) {
+  constructor(state: State) {
     const log = new ConsoleLogger('@apps/copilot/prompts/root', {
       level: 'debug',
     });
@@ -43,7 +40,6 @@ export class RootPrompt {
       logger: log,
     });
 
-    this._say = say;
     this._prompt = new ChatPrompt({
       model,
       messages: new LocalMemory({
@@ -59,8 +55,8 @@ export class RootPrompt {
         'You are great at helping users.',
         'Use the users local timezone.',
         'When the user references the conversation or chat or messages, assume they are referring to their Teams Chat/Conversation.',
-        'Whenever you want to respond to the user with adaptive cards, you MUST use the `send_chat_message` function.',
-        'When sending adaptive cards DO NOT send them using the `text`',
+        'Whenever you want to respond to the user with adaptive cards, you MUST use the `send_adaptive_card` function.',
+        'Whenever you want to send the user a GIF you MUST use an adaptive card. Do not send the GIF in your message.',
       ].join('\n'),
     });
 
@@ -78,29 +74,20 @@ export class RootPrompt {
     );
 
     this._prompt.function(
-      'send_chat_message',
-      'send a chat message to the user with adaptive cards',
+      'send_adaptive_card',
+      'send the user an adaptive card',
       {
         type: 'object',
         properties: {
-          text: {
-            type: 'string',
-            description: 'the text of the message',
-          },
-          adaptiveCards: {
-            type: 'array',
-            description:
-              'an array of adaptive cards https://adaptivecards.io/schemas/adaptive-card.json',
-            items: {
-              type: 'object',
-              description:
-                'an adaptive card that follows the official adaptive cards JSON schema https://adaptivecards.io/schemas/adaptive-card.json',
-            },
+          card: {
+            $ref: 'https://adaptivecards.io/schemas/adaptive-card.json#',
+            type: 'object',
+            description: 'an adaptive card that follows the official adaptive cards JSON schema',
           },
         },
-        required: ['text', 'adaptiveCards'],
+        required: ['card'],
       },
-      this._debug('send_chat_message', this.sendChatMessage.bind(this))
+      this._debug('send_adaptive_card', this.sendAdaptiveCard.bind(this))
     );
 
     this._prompt.function(
@@ -166,14 +153,8 @@ export class RootPrompt {
     return this._state.user.user;
   }
 
-  protected async sendChatMessage({ text, adaptiveCards }: SendChatMessageArgs) {
-    await this._say({
-      type: 'message',
-      text,
-      attachments: adaptiveCards?.map((c) => cardAttachment('adaptive', c)),
-    });
-
-    return 'the message has been sent.';
+  protected async sendAdaptiveCard({ card }: SendAdaptiveCardArgs) {
+    this._attachments.push(cardAttachment('adaptive', card));
   }
 
   protected async calendarAssistant({ text }: AssistantArgs) {

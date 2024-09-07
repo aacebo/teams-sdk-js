@@ -1,4 +1,6 @@
 interface BaseSchema {
+  readonly $schema?: string;
+  readonly $ref?: string;
   readonly id?: string;
   readonly title?: string;
   readonly description?: string;
