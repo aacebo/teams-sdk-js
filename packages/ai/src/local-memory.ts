@@ -79,7 +79,7 @@ export class LocalMemory implements Memory {
         content: 'summarize this conversation',
       },
       messages: new LocalMemory({
-        messages: this.messages.slice(start, end),
+        messages: this.messages.slice(start, end + 1),
       }),
     });
 

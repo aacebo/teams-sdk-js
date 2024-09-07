@@ -17,7 +17,7 @@ interface AssistantArgs {
 
 interface SendChatMessageArgs {
   readonly text: string;
-  readonly cards?: Card[];
+  readonly adaptiveCards?: Card[];
 }
 
 export class RootPrompt {
@@ -49,13 +49,18 @@ export class RootPrompt {
       messages: new LocalMemory({
         max: 10,
         messages: state.chat.messages,
+        collapse: {
+          model,
+          strategy: 'half',
+        },
       }),
       instructions: [
         'You are an ai assistant that runs in Microsoft Teams.',
         'You are great at helping users.',
         'Use the users local timezone.',
         'When the user references the conversation or chat or messages, assume they are referring to their Teams Chat/Conversation.',
-        'Whenever you want to respond to the user you MUST use the `send_chat_message` function.',
+        'Whenever you want to respond to the user with adaptive cards, you MUST use the `send_chat_message` function.',
+        'When sending adaptive cards DO NOT send them using the `text`',
       ].join('\n'),
     });
 
@@ -74,7 +79,7 @@ export class RootPrompt {
 
     this._prompt.function(
       'send_chat_message',
-      'send a chat message to the user',
+      'send a chat message to the user with adaptive cards',
       {
         type: 'object',
         properties: {
@@ -82,7 +87,7 @@ export class RootPrompt {
             type: 'string',
             description: 'the text of the message',
           },
-          cards: {
+          adaptiveCards: {
             type: 'array',
             description:
               'an array of adaptive cards https://adaptivecards.io/schemas/adaptive-card.json',
@@ -93,7 +98,7 @@ export class RootPrompt {
             },
           },
         },
-        required: ['text'],
+        required: ['text', 'adaptiveCards'],
       },
       this._debug('send_chat_message', this.sendChatMessage.bind(this))
     );
@@ -161,11 +166,11 @@ export class RootPrompt {
     return this._state.user.user;
   }
 
-  protected async sendChatMessage({ text, cards }: SendChatMessageArgs) {
+  protected async sendChatMessage({ text, adaptiveCards }: SendChatMessageArgs) {
     await this._say({
       type: 'message',
       text,
-      attachments: cards?.map((c) => cardAttachment('adaptive', c)),
+      attachments: adaptiveCards?.map((c) => cardAttachment('adaptive', c)),
     });
 
     return 'the message has been sent.';
