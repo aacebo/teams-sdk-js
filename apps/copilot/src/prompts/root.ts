@@ -38,6 +38,7 @@ export class RootPrompt {
       model: 'gpt-4o',
       apiKey: process.env.OPENAI_API_KEY,
       logger: log,
+      temperature: 0,
     });
 
     this._prompt = new ChatPrompt({

@@ -38,6 +38,7 @@ export class ConversationPrompt {
         model: 'gpt-4o',
         logger: log,
         apiKey: process.env.OPENAI_API_KEY,
+        temperature: 0,
       }),
     });
 
