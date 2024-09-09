@@ -4,4 +4,4 @@
 
 ### Patch Changes
 
-- add package metadata and update readme
+-   add package metadata and update readme
