@@ -4,7 +4,7 @@
 ![npm bundle size](https://img.shields.io/bundlephobia/min/%40teams.sdk%2Fcards)
 ![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/%40teams.sdk%2Fcards)
 
-adaptive cards implementation [AdaptiveCards.io](https://adaptivecards.io/)
+an adaptive cards implementation with support for Teams specific adaptive card elements.
 
 > ⚠️ **Warning**: this project is not supported or affiliated with Microsoft in any way!
 
@@ -13,6 +13,12 @@ adaptive cards implementation [AdaptiveCards.io](https://adaptivecards.io/)
 ```bash
 $: npm install @teams.sdk/cards
 ```
+
+## Links
+
+-   [AdaptiveCards.io](https://adaptivecards.io/)
+-   [Teams Adaptive Cards Designer](https://aka.ms/acdesignerbeta)
+-   [Teams Adaptive Cards Schema Explorer](https://aka.ms/acexplorer)
 
 ## Dependencies
 
