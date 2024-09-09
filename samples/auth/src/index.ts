@@ -23,7 +23,7 @@ app.on('message', async ({ signin }) => {
   await signin('graph-connection');
 });
 
-app.event('signin', async ({ say, tokenResponse }) => {
+app.event('signin', async ({ send, tokenResponse }) => {
   const msgraph = graph(tokenResponse.token);
   const me = await graph(tokenResponse.token).api('/me').get();
   const [meta, photo] = await Promise.all([
@@ -33,7 +33,7 @@ app.event('signin', async ({ say, tokenResponse }) => {
 
   const photoUrl = `data:${meta['@odata.mediaContentType']};base64,${Buffer.from(await photo.arrayBuffer()).toString('base64')}`;
 
-  await say({
+  await send({
     type: 'message',
     text: `\`${JSON.stringify(me, null, 2)}\``,
     attachments: [cardAttachment('adaptive', cards.oauth(me, photoUrl))],

@@ -67,7 +67,7 @@ export interface Context<T extends Activity = Activity> {
    * send an activity to the conversation
    * @param activity activity to send
    */
-  say: (activity: Partial<Activity>) => Promise<Resource>;
+  send: (activity: Partial<Activity>) => Promise<Resource>;
 
   /**
    * reply to an activity

@@ -35,8 +35,8 @@ const app = new App({
   }),
 });
 
-app.on('message', async ({ say, activity }) => {
-  await say({
+app.on('message', async ({ send, activity }) => {
+  await send({
     type: 'message',
     text: `you said "${activity.text}"`,
   });

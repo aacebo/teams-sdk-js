@@ -9,7 +9,7 @@ export async function message({
   log,
   storage,
   signin,
-  say,
+  send,
   withAIContentLabel,
   next,
 }: Context<MessageSendActivity>) {
@@ -31,13 +31,13 @@ export async function message({
     return;
   }
 
-  await say({ type: 'typing' });
+  await send({ type: 'typing' });
 
   const prompt = new RootPrompt(state);
   const { text, attachments } = await prompt.chat(activity.text);
 
   await state.save(activity, storage);
-  await say(
+  await send(
     withAIContentLabel({
       type: 'message',
       text,

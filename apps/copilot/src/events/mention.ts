@@ -8,7 +8,7 @@ export async function mention({
   log,
   storage,
   signin,
-  say,
+  send,
   withAIContentLabel,
   next,
 }: MentionContext) {
@@ -28,13 +28,13 @@ export async function mention({
     return next();
   }
 
-  await say({ type: 'typing' });
+  await send({ type: 'typing' });
 
   const prompt = new RootPrompt(state);
   const { text, attachments } = await prompt.chat(activity.text);
 
   await state.save(activity, storage);
-  await say(
+  await send(
     withAIContentLabel({
       type: 'message',
       text,

@@ -23,7 +23,7 @@ const app = new App({
   logger: new ConsoleLogger('@samples/lights', { level: 'debug' }),
 });
 
-app.on('message', async ({ say, activity }) => {
+app.on('message', async ({ send, activity }) => {
   let state = storage.get(activity.from.id);
 
   if (!state) {
@@ -36,7 +36,7 @@ app.on('message', async ({ say, activity }) => {
   }
 
   if (activity.text === '/history') {
-    await say({
+    await send({
       type: 'message',
       text: state.messages.map((m) => `- ${m.role}: ${JSON.stringify(m.content)}`).join('\n'),
     });
@@ -68,7 +68,7 @@ app.on('message', async ({ say, activity }) => {
 
   const text = await prompt.chat(activity.text);
 
-  await say({
+  await send({
     type: 'message',
     text,
   });

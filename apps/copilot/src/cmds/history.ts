@@ -3,10 +3,10 @@ import { Context } from '@teams.sdk/apps';
 
 import { State } from '../state';
 
-export async function history({ activity, storage, say }: Context<MessageSendActivity>) {
+export async function history({ activity, storage, send }: Context<MessageSendActivity>) {
   const state = await State.fromActivity(activity, storage);
 
-  await say({
+  await send({
     type: 'message',
     attachments: [
       cardAttachment('adaptive', {

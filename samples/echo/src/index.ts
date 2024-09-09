@@ -15,8 +15,8 @@ const app = new App({
   logger: new ConsoleLogger('@samples/echo', { level: 'debug' }),
 });
 
-app.on('message', async ({ say, activity }) => {
-  await say({
+app.on('message', async ({ send, activity }) => {
+  await send({
     type: 'message',
     text: `you said "${activity.text}"`,
   });

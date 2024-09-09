@@ -210,7 +210,7 @@ export class App {
       user: activity.from,
     };
 
-    const say = (params: Partial<Activity>) => {
+    const send = (params: Partial<Activity>) => {
       if (params.id) {
         return api.conversations.activities(activity.conversation.id).update(params.id, params);
       }
@@ -273,7 +273,7 @@ export class App {
       },
       withAIContentLabel,
       withMention,
-      say,
+      send,
       reply,
       signin: signin({
         appId: this._tokens.bot!.appId,
