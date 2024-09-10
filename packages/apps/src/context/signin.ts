@@ -1,4 +1,3 @@
-import { Logger } from '@teams.sdk/common/logging';
 import {
   Activity,
   cardAttachment,
@@ -13,7 +12,6 @@ export interface SignInArgs {
   readonly api: Client;
   readonly activity: Activity;
   readonly conversation: ConversationReference;
-  readonly log: Logger;
 }
 
 /**

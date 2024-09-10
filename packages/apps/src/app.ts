@@ -22,7 +22,15 @@ import { AppTokens } from './tokens';
 import { Router } from './router';
 import { RouteHandler } from './types';
 import { DEFAULT_EVENTS, Events } from './events';
-import { Context, signin, send, reply, withAIContentLabel, withMention } from './context';
+import {
+  Context,
+  signin,
+  send,
+  reply,
+  withAIContentLabel,
+  withMention,
+  ActivityStream,
+} from './context';
 
 /**
  * App initialization options
@@ -223,6 +231,7 @@ export class App {
       conversation,
       data: new Map<string, any>(),
       storage: this._storage,
+      stream: new ActivityStream(api.conversations.activities(activity.conversation.id)),
       next: (context) => {
         if (i === routes.length - 1) return;
         i++;
@@ -237,7 +246,6 @@ export class App {
         api,
         activity,
         conversation,
-        log: this.log,
       }),
     };
 

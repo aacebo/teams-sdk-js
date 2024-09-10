@@ -16,6 +16,7 @@ import { Logger } from '@teams.sdk/common/logging';
 import { Storage } from '@teams.sdk/common/storage';
 
 import { AppTokens } from '../tokens';
+import { ActivityStream } from './activity-stream';
 
 export interface Context<T extends Activity = Activity> {
   /**
@@ -57,6 +58,11 @@ export interface Context<T extends Activity = Activity> {
    * app storage instance
    */
   storage: Storage;
+
+  /**
+   * activity stream
+   */
+  stream: ActivityStream;
 
   /**
    * call the next event/middleware handler

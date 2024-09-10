@@ -4,4 +4,5 @@ export * from './receiver';
 export * from './http-receiver';
 export * from './response';
 export * from './types';
-export { Context, ErrorContext, MentionContext, SignInContext } from './context';
+
+export { Context, ErrorContext, MentionContext, SignInContext, ActivityStream } from './context';
