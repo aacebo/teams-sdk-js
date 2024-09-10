@@ -4,10 +4,10 @@
 
 ### Patch Changes
 
-- add input cards and stream activity
+-   add input cards and stream activity
 
 ## 0.1.1
 
 ### Patch Changes
 
-- add package metadata and update readme
+-   add package metadata and update readme
