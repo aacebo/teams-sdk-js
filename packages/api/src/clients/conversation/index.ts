@@ -60,3 +60,6 @@ export class ConversationClient {
     return res.json();
   }
 }
+
+export * from './activity';
+export * from './member';

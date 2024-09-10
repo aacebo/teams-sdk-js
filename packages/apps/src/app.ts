@@ -7,7 +7,6 @@ import {
   TokenExchangeInvokeResponse,
   SignInTokenExchangeInvokeActivity,
   SignInVerifyStateInvokeActivity,
-  Account,
 } from '@teams.sdk/api';
 
 import { HttpClientOptions, HttpError, StatusCodes } from '@teams.sdk/common/http';
@@ -18,13 +17,12 @@ import pkg from '../package.json';
 
 import { Receiver, ReceiverActivityArgs } from './receiver';
 import { HttpReceiver } from './http-receiver';
-import { signin } from './signin';
 import { Routes } from './routes';
 import { AppTokens } from './tokens';
-import { Context } from './context';
 import { Router } from './router';
 import { RouteHandler } from './types';
 import { DEFAULT_EVENTS, Events } from './events';
+import { Context, signin, send, reply, withAIContentLabel, withMention } from './context';
 
 /**
  * App initialization options
@@ -210,47 +208,6 @@ export class App {
       user: activity.from,
     };
 
-    const send = (params: Partial<Activity>) => {
-      if (params.id) {
-        return api.conversations.activities(activity.conversation.id).update(params.id, params);
-      }
-
-      return api.conversations.activities(activity.conversation.id).create(params);
-    };
-
-    const reply = (id: string, params: Partial<Activity>) => {
-      return api.conversations.activities(activity.conversation.id).reply(id, params);
-    };
-
-    const withAIContentLabel = (params: Partial<Activity>): Partial<Activity> => {
-      return {
-        ...params,
-        entities: [
-          ...(params.entities || []),
-          {
-            type: 'https://schema.org/Message',
-            '@type': 'Message',
-            '@context': 'https://schema.org',
-            additionalType: ['AIGeneratedContent'],
-          },
-        ],
-      };
-    };
-
-    const withMention = (params: Partial<Activity>, account: Account): Partial<Activity> => {
-      return {
-        ...params,
-        entities: [
-          ...(params.entities || []),
-          {
-            type: 'mention',
-            mentioned: account,
-            text: `<at>${account.name}</at>`,
-          },
-        ],
-      };
-    };
-
     const routes = this._router.select(activity);
 
     if (routes.length === 0) {
@@ -273,8 +230,8 @@ export class App {
       },
       withAIContentLabel,
       withMention,
-      send,
-      reply,
+      send: send(api.conversations.activities(activity.conversation.id)),
+      reply: reply(api.conversations.activities(activity.conversation.id)),
       signin: signin({
         appId: this._tokens.bot!.appId,
         api,

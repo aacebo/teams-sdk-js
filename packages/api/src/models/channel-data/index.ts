@@ -59,6 +59,13 @@ export interface ChannelData {
   feedbackLoopEnabled?: boolean;
 
   /**
+   * ID of the stream.
+   * @remarks
+   * Assigned after the initial update is sent.
+   */
+  streamId?: string;
+
+  /**
    * The type of message being sent.
    * @remarks
    * `informative` - An informative update.
@@ -73,13 +80,6 @@ export interface ChannelData {
    * Starts at 1 for the first message and increments from there.
    */
   streamSequence?: number;
-
-  /**
-   * ID of the stream.
-   * @remarks
-   * Assigned after the initial update is sent.
-   */
-  streamId?: string;
 }
 
 export * from './channel-info';

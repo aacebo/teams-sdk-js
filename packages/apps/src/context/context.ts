@@ -15,7 +15,7 @@ import { HttpRequest } from '@teams.sdk/common/http';
 import { Logger } from '@teams.sdk/common/logging';
 import { Storage } from '@teams.sdk/common/storage';
 
-import { AppTokens } from './tokens';
+import { AppTokens } from '../tokens';
 
 export interface Context<T extends Activity = Activity> {
   /**
