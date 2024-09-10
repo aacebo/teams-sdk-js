@@ -57,6 +57,29 @@ export interface ChannelData {
    * Whether or not the feedback loop feature is enabled.
    */
   feedbackLoopEnabled?: boolean;
+
+  /**
+   * The type of message being sent.
+   * @remarks
+   * `informative` - An informative update.
+   * `streaming` - A chunk of partial message text.
+   * `final` - The final message.
+   */
+  streamType?: 'informative' | 'streaming' | 'final';
+
+  /**
+   * Sequence number of the message in the stream.
+   * @remarks
+   * Starts at 1 for the first message and increments from there.
+   */
+  streamSequence?: number;
+
+  /**
+   * ID of the stream.
+   * @remarks
+   * Assigned after the initial update is sent.
+   */
+  streamId?: string;
 }
 
 export * from './channel-info';
