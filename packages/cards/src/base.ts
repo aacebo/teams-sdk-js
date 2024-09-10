@@ -34,5 +34,5 @@ export interface BaseElement {
   /**
    * Describes what to do when an unknown item is encountered or the requires of this or any children can't be met.
    */
-  fallback?: Element | string;
+  fallback?: Element | 'drop' | Omit<string, 'drop'>;
 }
