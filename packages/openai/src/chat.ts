@@ -24,7 +24,7 @@ export class OpenAIChatModel implements ChatModel {
   private readonly _log: Logger;
 
   constructor(readonly options: OpenAIChatModelOptions) {
-    this._log = options.logger || new ConsoleLogger('@teams.sdk/openai');
+    this._log = options.logger || new ConsoleLogger(`@teams.sdk/openai/${this.options.model}`);
     this._openai = new OpenAI({
       apiKey: options.apiKey,
       baseURL: options.baseUrl,
