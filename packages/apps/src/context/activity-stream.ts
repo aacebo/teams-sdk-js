@@ -1,18 +1,11 @@
-import {
-  Activity,
-  Attachment,
-  ConversationActivityClient,
-  MessageSendActivity,
-} from '@teams.sdk/api';
+import { Activity, ConversationActivityClient, MessageSendActivity } from '@teams.sdk/api';
 
 /**
  * send an activity as a stream to the client
  */
 export class ActivityStream {
-  protected id?: string;
   protected seq: number = 1;
-  protected text?: string;
-  protected attachments: Attachment[] = [];
+  protected activity?: Partial<MessageSendActivity>;
   protected chunks: Partial<Activity>[] = [];
   protected api: ConversationActivityClient;
   protected emit: () => void;
@@ -21,7 +14,7 @@ export class ActivityStream {
    * the status of the stream
    */
   get status(): 'open' | 'closed' {
-    return !!this.id ? 'open' : 'closed';
+    return !!this.activity ? 'open' : 'closed';
   }
 
   constructor(api: ConversationActivityClient) {
@@ -34,10 +27,7 @@ export class ActivityStream {
    * @param chunk the chunk to send
    */
   send(chunk: Partial<MessageSendActivity>) {
-    if (chunk.text) {
-      this.text = this.text ? this.text + chunk.text : chunk.text;
-    }
-
+    this._merge(this.activity, chunk);
     this.chunks.push({
       ...chunk,
       id: undefined,
@@ -45,52 +35,71 @@ export class ActivityStream {
       channelData: {
         ...(chunk.channelData || {}),
         streamId: undefined,
-        streamType: !!this.id ? 'streaming' : 'informative',
+        streamType: !!this.activity ? 'streaming' : 'informative',
         streamSequence: this.seq++,
       },
     } as Partial<Activity>);
+
     this.emit();
   }
 
   close(chunk?: Partial<MessageSendActivity>) {
-    if (chunk?.text) {
-      this.text = this.text ? this.text + chunk.text : chunk.text;
-    }
-
+    this._merge(this.activity, chunk);
     this.chunks.push({
       ...(chunk || {}),
       id: undefined,
       type: 'message',
-      text: this.text,
+      text: this.activity?.text,
       channelData: {
         ...(chunk?.channelData || {}),
         streamId: undefined,
         streamType: 'final',
       },
     } as Partial<Activity>);
+
     this.emit();
+  }
+
+  private _merge(a: any, b: any) {
+    if (typeof a !== typeof b) return;
+    if (!b) return;
+    if (!a) {
+      a = b;
+    }
+
+    if (typeof a !== 'object') {
+      a += b;
+    }
+
+    if (Array.isArray(a) && Array.isArray(b)) {
+      a = a.concat(b);
+    }
+
+    for (const key in a) {
+      this._merge(a[key], b[key]);
+    }
   }
 
   private async _flush() {
     while (this.chunks.length) {
       const chunk = this.chunks.shift();
 
-      if (!chunk) break;
+      if (!chunk || !this.activity) break;
 
-      chunk.id = this.id;
+      chunk.id = this.activity?.id;
       chunk.channelData = {
         ...(chunk.channelData || {}),
-        streamId: this.id,
+        streamId: this.activity.id,
       };
 
       const { id } = await this.api.create(chunk);
 
-      if (!this.id) {
-        this.id = id;
+      if (!this.activity.id) {
+        this.activity.id = id;
       }
 
       if (chunk.channelData.streamType === 'final') {
-        this.id = undefined;
+        this.activity = undefined;
       }
     }
   }
