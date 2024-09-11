@@ -191,9 +191,15 @@ export class App {
       `activity/${activity.type}${activity.type === 'invoke' ? `/${activity.name}` : ''}`
     );
 
+    let serviceUrl = activity.serviceUrl || token.serviceUrl;
+
+    if (serviceUrl.endsWith('/')) {
+      serviceUrl = serviceUrl.slice(0, serviceUrl.length - 1);
+    }
+
     const api = new Client({
       ...this.options.http,
-      baseUrl: token.serviceUrl,
+      baseUrl: serviceUrl,
       requestOptions: {
         ...this.options.http?.requestOptions,
         headers: {
