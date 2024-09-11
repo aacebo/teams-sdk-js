@@ -21,7 +21,7 @@ export async function message({
   // if not authenticated, set the conversation
   // where the auth flow began and prompt user to
   // to sign in.
-  if (state.authenticated) {
+  if (!state.authenticated) {
     state.user.auth = {
       conversationId: activity.conversation.id,
     };

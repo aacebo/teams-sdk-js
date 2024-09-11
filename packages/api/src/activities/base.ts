@@ -48,7 +48,7 @@ export interface ActivityBase {
   /**
    * Contains an ID that uniquely identifies the channel. Set by the channel.
    */
-  channelId: string;
+  channelId: 'webchat' | 'msteams' | Omit<string, 'webchat' | 'msteams'>;
 
   /**
    * Identifies the sender of the message.
