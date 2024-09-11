@@ -1,3 +1,5 @@
+import { ChannelID } from '../channel-id';
+
 /**
  * A response that includes a user token
  */
@@ -5,7 +7,7 @@ export interface TokenResponse {
   /**
    * @member {string} [channelId]
    */
-  channelId?: string;
+  channelId?: ChannelID;
 
   /**
    * The connection name

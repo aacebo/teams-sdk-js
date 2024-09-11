@@ -1,4 +1,5 @@
 import { Account, ConversationAccount } from '../account';
+import { ChannelID } from '../channel-id';
 
 /**
  * An object relating to a particular point in a conversation
@@ -36,7 +37,7 @@ export interface ConversationReference {
   /**
    * Channel ID
    */
-  channelId: string;
+  channelId: ChannelID;
 
   /**
    * Service endpoint where operations concerning the referenced conversation may be performed

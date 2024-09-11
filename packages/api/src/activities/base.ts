@@ -1,6 +1,7 @@
 import {
   Account,
   ChannelData,
+  ChannelID,
   ConversationAccount,
   ConversationReference,
   Entity,
@@ -48,7 +49,7 @@ export interface ActivityBase {
   /**
    * Contains an ID that uniquely identifies the channel. Set by the channel.
    */
-  channelId: 'webchat' | 'msteams' | Omit<string, 'webchat' | 'msteams'>;
+  channelId: ChannelID;
 
   /**
    * Identifies the sender of the message.

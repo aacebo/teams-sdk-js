@@ -65,11 +65,17 @@ export class HttpClient {
     options = await this._emit('request', options);
 
     return await new Promise<HttpResponse<T>>((resolve, reject) => {
+      let client: typeof https | typeof http = https;
+
       if (this.options.baseUrl) {
         url = this.options.baseUrl + url;
       }
 
-      const req = https.request(url, options, (res) => {
+      if (url.includes('http://')) {
+        client = http;
+      }
+
+      const req = client.request(url, options, (res) => {
         let body = '';
 
         res.on('error', reject);

@@ -30,3 +30,4 @@ export * from './adaptive-card';
 export * from './channel-data';
 export * from './team-details';
 export * from './meeting';
+export * from './channel-id';

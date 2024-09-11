@@ -2,12 +2,12 @@ import { HttpClient } from '@teams.sdk/common/http';
 import qs from 'qs';
 
 import { ClientOptions } from '../../client-options';
-import { TokenExchangeRequest, TokenResponse, TokenStatus } from '../../models';
+import { ChannelID, TokenExchangeRequest, TokenResponse, TokenStatus } from '../../models';
 
 export interface GetUserTokenParams {
   userId: string;
   connectionName: string;
-  channelId?: string;
+  channelId?: ChannelID;
   code?: string;
 }
 
@@ -15,25 +15,25 @@ export interface GetUserAADTokenParams {
   userId: string;
   connectionName: string;
   resourceUrls: string[];
-  channelId: string;
+  channelId: ChannelID;
 }
 
 export interface GetUserTokenStatusParams {
   userId: string;
-  channelId: string;
+  channelId: ChannelID;
   includeFilter: string;
 }
 
 export interface SignOutUserParams {
   userId: string;
   connectionName: string;
-  channelId: string;
+  channelId: ChannelID;
 }
 
 export interface ExchangeUserTokenParams {
   userId: string;
   connectionName: string;
-  channelId: string;
+  channelId: ChannelID;
   exchangeRequest: TokenExchangeRequest;
 }
 
