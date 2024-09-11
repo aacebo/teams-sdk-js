@@ -70,7 +70,6 @@ export class App {
   private readonly _api: Client;
   private readonly _receiver: Receiver;
   private readonly _storage: Storage;
-  private readonly _exchanges = new Map<string, string>();
   private readonly _router = new Router();
   private readonly _events = DEFAULT_EVENTS;
 
@@ -253,11 +252,11 @@ export class App {
   }
 
   private async _onTokenExchange(ctx: Context<SignInTokenExchangeInvokeActivity>) {
-    const { api, activity } = ctx;
-    const key = `${activity.conversation.id}/${activity.from.id}`;
+    const { api, activity, storage } = ctx;
+    const key = `auth/${activity.conversation.id}/${activity.from.id}`;
 
     try {
-      this._exchanges.set(key, activity.value.connectionName);
+      await storage.set(key, activity.value.connectionName);
       const token = await api.users.token.exchange({
         channelId: activity.channelId,
         userId: activity.from.id,
@@ -292,11 +291,11 @@ export class App {
   }
 
   private async _onVerifyState(ctx: Context<SignInVerifyStateInvokeActivity>) {
-    const { api, activity } = ctx;
-    const key = `${activity.conversation.id}/${activity.from.id}`;
+    const { api, activity, storage } = ctx;
+    const key = `auth/${activity.conversation.id}/${activity.from.id}`;
 
     try {
-      const connectionName = this._exchanges.get(key);
+      const connectionName: string | undefined = await storage.get(key);
 
       if (!connectionName || !activity.value.state) {
         return { status: StatusCodes.NOT_FOUND };
@@ -309,7 +308,7 @@ export class App {
         code: activity.value.state,
       });
 
-      this._exchanges.delete(key);
+      await storage.delete(key);
       this._events.signin({ ...ctx, tokenResponse: token });
       return { status: StatusCodes.OK };
     } catch (err) {

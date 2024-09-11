@@ -1,5 +1,6 @@
+import { MeetingInfo } from '../meeting';
+
 import { ChannelInfo } from './channel-info';
-import { MeetingInfo } from './meeting-info';
 import { NotificationInfo } from './notification-info';
 import { ChannelDataSettings } from './settings';
 import { TeamInfo } from './team-info';
@@ -83,7 +84,6 @@ export interface ChannelData {
 }
 
 export * from './channel-info';
-export * from './meeting-info';
 export * from './notification-info';
 export * from './settings';
 export * from './team-info';
