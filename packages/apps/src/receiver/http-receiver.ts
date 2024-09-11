@@ -5,8 +5,8 @@ import { Activity, Token } from '@teams.sdk/api';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 import { HttpRequest, StatusCodes } from '@teams.sdk/common/http';
 
+import { AppResponse } from '../response';
 import { Receiver, ReceiverActivityArgs, ReceiverEvents } from './receiver';
-import { AppResponse } from './response';
 
 /**
  * Http Receiver Options

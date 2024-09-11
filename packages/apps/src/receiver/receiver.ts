@@ -1,6 +1,6 @@
 import { Activity, Token } from '@teams.sdk/api';
 
-import { AppResponse } from './response';
+import { AppResponse } from '../response';
 
 export interface ReceiverActivityArgs {
   /**

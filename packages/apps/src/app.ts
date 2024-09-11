@@ -15,8 +15,7 @@ import { LocalStorage, Storage } from '@teams.sdk/common/storage';
 
 import pkg from '../package.json';
 
-import { Receiver, ReceiverActivityArgs } from './receiver';
-import { HttpReceiver } from './http-receiver';
+import { HttpReceiver, Receiver, ReceiverActivityArgs } from './receiver';
 import { Routes } from './routes';
 import { AppTokens } from './tokens';
 import { Router } from './router';
