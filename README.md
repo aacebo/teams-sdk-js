@@ -93,3 +93,7 @@ $: npm run test
 ## Apps
 
 -   [`@apps/copilot`](./apps/copilot/README.md)
+
+## Links
+
+-   [Teams Developer Portal: Apps](https://dev.teams.microsoft.com/apps)
