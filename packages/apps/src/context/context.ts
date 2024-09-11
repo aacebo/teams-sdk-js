@@ -76,11 +76,10 @@ export interface Context<T extends Activity = Activity> {
   send: (activity: Partial<Activity>) => Promise<Resource>;
 
   /**
-   * reply to an activity
-   * @param id the id of the activity to reply to
+   * reply to the inbound activity
    * @param activity activity to send
    */
-  reply: (id: string, activity: Partial<Activity>) => Promise<Resource>;
+  reply: (activity: Partial<Activity>) => Promise<Resource>;
 
   /**
    * trigger user signin flow for the activity sender

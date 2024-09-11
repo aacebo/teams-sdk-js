@@ -63,7 +63,7 @@ export class Router {
         }
 
         if (activity.type === 'conversationUpdate') {
-          return event === activity.channelData.eventType;
+          return event === activity.channelData?.eventType;
         }
 
         if (activity.type === 'installationUpdate') {
@@ -71,11 +71,11 @@ export class Router {
         }
 
         if (activity.type === 'messageDelete') {
-          return event === activity.channelData.eventType;
+          return event === activity.channelData?.eventType;
         }
 
         if (activity.type === 'messageUpdate') {
-          return event === activity.channelData.eventType;
+          return event === activity.channelData?.eventType;
         }
 
         if (activity.type === 'event') {

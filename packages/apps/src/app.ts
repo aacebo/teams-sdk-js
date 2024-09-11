@@ -238,7 +238,7 @@ export class App {
       withAIContentLabel,
       withMention,
       send: send(api.conversations.activities(activity.conversation.id)),
-      reply: reply(api.conversations.activities(activity.conversation.id)),
+      reply: reply(activity.id, api.conversations.activities(activity.conversation.id)),
       signin: signin({
         appId: this._tokens.bot!.appId,
         api,
