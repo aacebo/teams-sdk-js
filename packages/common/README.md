@@ -1,8 +1,16 @@
 # Teams: Common
 
-![NPM Version](https://img.shields.io/npm/v/%40teams.sdk%2Fcommon)
-![npm bundle size](https://img.shields.io/bundlephobia/min/%40teams.sdk%2Fcommon)
-![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/%40teams.sdk%2Fcommon)
+<p>
+    <a href="https://www.npmjs.com/package/@teams.sdk/common" target="_blank">
+        <img src="https://img.shields.io/npm/v/@teams.sdk/common" />
+    </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/common?activeTab=code" target="_blank">
+        <img src="https://img.shields.io/bundlephobia/min/@teams.sdk/common" />
+    </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/common?activeTab=dependencies" target="_blank">
+        <img src="https://img.shields.io/librariesio/release/npm/@teams.sdk/common" />
+    </a>
+</p>
 
 common modules used to provide utility functionality to the other packages while
 minimizing external dependencies.

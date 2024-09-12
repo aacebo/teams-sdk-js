@@ -1,8 +1,16 @@
 # Teams: OpenAI
 
-![NPM Version](https://img.shields.io/npm/v/%40teams.sdk%2Fopenai)
-![npm bundle size](https://img.shields.io/bundlephobia/min/%40teams.sdk%2Fopenai)
-![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/%40teams.sdk%2Fopenai)
+<p>
+    <a href="https://www.npmjs.com/package/@teams.sdk/openai" target="_blank">
+        <img src="https://img.shields.io/npm/v/@teams.sdk/openai" />
+    </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/openai?activeTab=code" target="_blank">
+        <img src="https://img.shields.io/bundlephobia/min/@teams.sdk/openai" />
+    </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/openai?activeTab=dependencies" target="_blank">
+        <img src="https://img.shields.io/librariesio/release/npm/@teams.sdk/openai" />
+    </a>
+</p>
 
 OpenAI model implementations to be used with `@teams.sdk/ai`.
 

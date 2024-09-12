@@ -1,8 +1,16 @@
 # Teams: Bot Builder
 
-![NPM Version](https://img.shields.io/npm/v/%40teams.sdk%2Fbotbuilder)
-![npm bundle size](https://img.shields.io/bundlephobia/min/%40teams.sdk%2Fbotbuilder)
-![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/%40teams.sdk%2Fbotbuilder)
+<p>
+    <a href="https://www.npmjs.com/package/@teams.sdk/botbuilder" target="_blank">
+        <img src="https://img.shields.io/npm/v/@teams.sdk/botbuilder" />
+    </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/botbuilder?activeTab=code" target="_blank">
+        <img src="https://img.shields.io/bundlephobia/min/@teams.sdk/botbuilder" />
+    </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/botbuilder?activeTab=dependencies" target="_blank">
+        <img src="https://img.shields.io/librariesio/release/npm/@teams.sdk/botbuilder" />
+    </a>
+</p>
 
 used to make `@teams.sdk/apps` package backwards compatible with legacy bots built using
 `botbuilder`.

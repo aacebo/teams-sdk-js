@@ -1,8 +1,16 @@
 # Teams: Apps
 
-![NPM Version](https://img.shields.io/npm/v/%40teams.sdk%2Fapps)
-![npm bundle size](https://img.shields.io/bundlephobia/min/%40teams.sdk%2Fapps)
-![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/%40teams.sdk%2Fapps)
+<p>
+    <a href="https://www.npmjs.com/package/@teams.sdk/apps" target="_blank">
+        <img src="https://img.shields.io/npm/v/@teams.sdk/apps" />
+    </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/apps?activeTab=code" target="_blank">
+        <img src="https://img.shields.io/bundlephobia/min/@teams.sdk/apps" />
+    </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/apps?activeTab=dependencies" target="_blank">
+        <img src="https://img.shields.io/librariesio/release/npm/@teams.sdk/apps" />
+    </a>
+</p>
 
 used to create apps/bots that can send/receive activities.
 

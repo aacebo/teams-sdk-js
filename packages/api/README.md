@@ -1,8 +1,16 @@
 # Teams: Api
 
-![NPM Version](https://img.shields.io/npm/v/%40teams.sdk%2Fapi)
-![npm bundle size](https://img.shields.io/bundlephobia/min/%40teams.sdk%2Fapi)
-![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/%40teams.sdk%2Fapi)
+<p>
+    <a href="https://www.npmjs.com/package/@teams.sdk/api" target="_blank">
+        <img src="https://img.shields.io/npm/v/@teams.sdk/api" />
+    </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/api?activeTab=code" target="_blank">
+        <img src="https://img.shields.io/bundlephobia/min/@teams.sdk/api" />
+    </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/api?activeTab=dependencies" target="_blank">
+        <img src="https://img.shields.io/librariesio/release/npm/@teams.sdk/api" />
+    </a>
+</p>
 
 model and client implementations used to send and receive requests from Teams.
 
