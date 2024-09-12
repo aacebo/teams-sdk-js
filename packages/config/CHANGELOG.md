@@ -1,5 +1,11 @@
 # @teams.sdk/config
 
+## 0.1.4
+
+### Patch Changes
+
+-   update package.json files
+
 ## 0.1.3
 
 ### Patch Changes
