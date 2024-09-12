@@ -17,6 +17,16 @@
     "packages/*",
     "samples/*"
   ],
+  "keywords": [
+    "microsoft",
+    "teams",
+    "msteams",
+    "copilot",
+    "ai",
+    "adaptive-cards",
+    "apps",
+    "bots"
+  ],
   "scripts": {
     "clean": "npx turbo clean",
     "build": "npx turbo build",

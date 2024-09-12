@@ -16,6 +16,17 @@
     "url": "https://github.com/aacebo/teams-sdk-js.git",
     "directory": "packages/botbuilder"
   },
+  "keywords": [
+    "microsoft",
+    "teams",
+    "msteams",
+    "copilot",
+    "ai",
+    "adaptive-cards",
+    "apps",
+    "bots",
+    "botbuilder"
+  ],
   "scripts": {
     "clean": "npx rimraf ./dist",
     "build": "npx tsup",

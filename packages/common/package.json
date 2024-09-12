@@ -16,6 +16,14 @@
     "url": "https://github.com/aacebo/teams-sdk-js.git",
     "directory": "packages/common"
   },
+  "keywords": [
+    "microsoft",
+    "teams",
+    "msteams",
+    "copilot",
+    "ai",
+    "common"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

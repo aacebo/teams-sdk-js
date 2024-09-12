@@ -16,6 +16,14 @@
     "url": "https://github.com/aacebo/teams-sdk-js.git",
     "directory": "packages/openai"
   },
+  "keywords": [
+    "microsoft",
+    "teams",
+    "msteams",
+    "copilot",
+    "ai",
+    "openai"
+  ],
   "scripts": {
     "clean": "npx rimraf ./dist",
     "build": "npx tsup",
