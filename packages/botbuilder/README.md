@@ -10,6 +10,9 @@
     <a href="https://www.npmjs.com/package/@teams.sdk/botbuilder?activeTab=dependencies" target="_blank">
         <img src="https://img.shields.io/librariesio/release/npm/@teams.sdk/botbuilder" />
     </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/botbuilder" target="_blank">
+        <img src="https://img.shields.io/npm/dw/@teams.sdk/botbuilder" />
+    </a>
 </p>
 
 used to make `@teams.sdk/apps` package backwards compatible with legacy bots built using

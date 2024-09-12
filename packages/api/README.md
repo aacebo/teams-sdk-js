@@ -10,6 +10,9 @@
     <a href="https://www.npmjs.com/package/@teams.sdk/api?activeTab=dependencies" target="_blank">
         <img src="https://img.shields.io/librariesio/release/npm/@teams.sdk/api" />
     </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/api" target="_blank">
+        <img src="https://img.shields.io/npm/dw/@teams.sdk/api" />
+    </a>
 </p>
 
 model and client implementations used to send and receive requests from Teams.

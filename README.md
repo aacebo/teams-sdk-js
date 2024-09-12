@@ -1,5 +1,7 @@
 # <img src="./assets/icons/teams.png" width="50px" /> Teams SDK: Javascript
 
+![Github Project Version](https://img.shields.io/github/package-json/v/aacebo/teams-sdk-js?label=packages)
+
 a suite of packages used to build on the Teams Platform.
 
 > ⚠️ **Warning**: this project is not supported or affiliated with Microsoft in any way!

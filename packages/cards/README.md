@@ -10,6 +10,9 @@
     <a href="https://www.npmjs.com/package/@teams.sdk/cards?activeTab=dependencies" target="_blank">
         <img src="https://img.shields.io/librariesio/release/npm/@teams.sdk/cards" />
     </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/cards" target="_blank">
+        <img src="https://img.shields.io/npm/dw/@teams.sdk/cards" />
+    </a>
 </p>
 
 an adaptive cards implementation with support for Teams specific adaptive card elements.

@@ -10,6 +10,9 @@
     <a href="https://www.npmjs.com/package/@teams.sdk/ai?activeTab=dependencies" target="_blank">
         <img src="https://img.shields.io/librariesio/release/npm/@teams.sdk/ai" />
     </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/ai" target="_blank">
+        <img src="https://img.shields.io/npm/dw/@teams.sdk/ai" />
+    </a>
 </p>
 
 ai tools/utilities.
