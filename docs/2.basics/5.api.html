@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Listening To Events - Teams SDK</title>
+        <title>Using The API Client - Teams SDK</title>
 
 
         <!-- Custom HTML head -->
@@ -87,7 +87,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../1.welcome.html"><strong aria-hidden="true">1.</strong> Welcome</a></li><li class="chapter-item expanded "><a href="../2.basics/index.html"><strong aria-hidden="true">2.</strong> Basics</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../2.basics/1.on-activity.html"><strong aria-hidden="true">2.1.</strong> Listening To Activities</a></li><li class="chapter-item "><a href="../2.basics/2.sending-activities.html"><strong aria-hidden="true">2.2.</strong> Sending Activities</a></li><li class="chapter-item expanded "><a href="../2.basics/3.on-event.html" class="active"><strong aria-hidden="true">2.3.</strong> Listening To Events</a></li><li class="chapter-item "><a href="../2.basics/4.api.html"><strong aria-hidden="true">2.4.</strong> Using The API Client</a></li></ol></li><li class="chapter-item expanded "><a href="../3.dialogs.html"><strong aria-hidden="true">3.</strong> Dialogs (Task Modules)</a></li><li class="chapter-item expanded "><a href="../4.message-extensions.html"><strong aria-hidden="true">4.</strong> Message Extensions</a></li><li class="chapter-item expanded "><a href="../5.user-auth.html"><strong aria-hidden="true">5.</strong> User Auth</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../1.welcome.html"><strong aria-hidden="true">1.</strong> Welcome</a></li><li class="chapter-item expanded "><a href="../2.basics/index.html"><strong aria-hidden="true">2.</strong> Basics</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../2.basics/1.on-activity.html"><strong aria-hidden="true">2.1.</strong> Listening To Activities</a></li><li class="chapter-item "><a href="../2.basics/2.on-message.html"><strong aria-hidden="true">2.2.</strong> Listening To Messages</a></li><li class="chapter-item "><a href="../2.basics/3.sending-activities.html"><strong aria-hidden="true">2.3.</strong> Sending Activities</a></li><li class="chapter-item "><a href="../2.basics/4.on-event.html"><strong aria-hidden="true">2.4.</strong> Listening To Events</a></li><li class="chapter-item expanded "><a href="../2.basics/5.api.html" class="active"><strong aria-hidden="true">2.5.</strong> Using The API Client</a></li><li class="chapter-item "><a href="../2.basics/6.auth.html"><strong aria-hidden="true">2.6.</strong> User Authentication</a></li></ol></li><li class="chapter-item expanded "><a href="../3.dialogs.html"><strong aria-hidden="true">3.</strong> Dialogs (Task Modules)</a></li><li class="chapter-item expanded "><a href="../4.message-extensions.html"><strong aria-hidden="true">4.</strong> Message Extensions</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -172,21 +172,14 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="-listening-to-events"><a class="header" href="#-listening-to-events">👂 Listening To Events</a></h1>
-<p>To listen/subscribe to different event types, you can use the <code>event()</code> method.
-Handlers will be called in the order they are added.</p>
+                        <h1 id="using-the-api-client"><a class="header" href="#using-the-api-client">Using the API Client</a></h1>
+<p>an instance of the web api client is passed to handlers that can be used
+to fetch team/meeting/conversation/etc... details.</p>
 <blockquote>
-<p>Example: When a user signs in using <code>OAuth</code> or <code>SSO</code>, use the graph api to
-fetch their profile and say hello.</p>
+<p>Example: we use the api client to fetch the conversations array of members.</p>
 </blockquote>
-<pre><code class="language-typescript">app.event('signin', async ({ activity, tokenResponse, send }) =&gt; {
-    const msgraph = graph(tokenResponse.token);
-    const me: MSGraph.User = await msgraph.api('/me').get();
-
-    await send({
-        type: 'message',
-        text: `👋 Hello ${me.name}`,
-    });
+<pre><code class="language-typescript">app.on('message', async ({ activity, api }) =&gt; {
+    const members = await api.conversations.members(activity.conversation.id).get();
 });
 </code></pre>
 
@@ -194,11 +187,11 @@ fetch their profile and say hello.</p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../2.basics/2.sending-activities.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../2.basics/4.on-event.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../2.basics/4.api.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../2.basics/6.auth.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -208,11 +201,11 @@ fetch their profile and say hello.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../2.basics/2.sending-activities.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../2.basics/4.on-event.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../2.basics/4.api.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../2.basics/6.auth.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
