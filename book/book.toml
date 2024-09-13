@@ -5,6 +5,9 @@ multilingual = false
 src = "src"
 title = "Teams SDK"
 
+[build]
+build-dir = "../docs"
+
 [preprocessor.theme]
 pagetoc = false
 sidebar-width = "250px"
