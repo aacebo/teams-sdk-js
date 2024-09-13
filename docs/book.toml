@@ -1,0 +1,24 @@
+[book]
+authors = ["aacebo <aacebowork@gmail.com>"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Teams SDK"
+
+[preprocessor.theme]
+pagetoc = false
+sidebar-width = "250px"
+
+[output.html]
+default-theme = "ayu"
+git-repository-url = "http://github.com/aacebo/teams-sdk-js"
+
+[output.html.fold]
+enable = true
+level = 1
+
+[output.html.playground]
+editable = false
+
+[output.html.print]
+enable = false
