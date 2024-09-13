@@ -1,6 +1,6 @@
 {
   "name": "@teams.sdk/openai",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

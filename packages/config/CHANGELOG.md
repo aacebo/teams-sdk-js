@@ -1,5 +1,11 @@
 # @teams.sdk/config
 
+## 0.1.6
+
+### Patch Changes
+
+-   add getting started docs link to packages
+
 ## 0.1.5
 
 ### Patch Changes
