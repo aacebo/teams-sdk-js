@@ -34,7 +34,9 @@
     "lint": "npx turbo lint",
     "test": "npx turbo test",
     "fmt": "npx prettier --write \"**/*.{js,ts,tsx,md,json}\"",
-    "publish-packages": "npm run build && npx changeset version && npx changeset publish"
+    "publish-packages": "npm run build && npx changeset version && npx changeset publish",
+    "docs:build": "mdbook build book",
+    "docs:serve": "mdbook serve book"
   },
   "devDependencies": {
     "@changesets/cli": "latest",

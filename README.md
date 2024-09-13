@@ -6,7 +6,7 @@ a suite of packages used to build on the Teams Platform.
 
 > ⚠️ **Warning**: this project is not supported or affiliated with Microsoft in any way!
 
--   [Documentation](./docs/README.md)
+-   [Documentation](https://aacebo.github.io/teams-sdk-js)
 -   [Why?](#why)
 -   [Design Philosophy](#design-philosophy)
 -   [Scripts](#scripts)
