@@ -13,6 +13,9 @@
     <a href="https://www.npmjs.com/package/@teams.sdk/cards" target="_blank">
         <img src="https://img.shields.io/npm/dw/@teams.sdk/cards" />
     </a>
+    <a href="https://aacebo.github.io/teams-sdk-js" target="_blank">
+        <img src="https://img.shields.io/badge/📖 docs-open-blue" />
+    </a>
 </p>
 
 an adaptive cards implementation with support for Teams specific adaptive card elements.

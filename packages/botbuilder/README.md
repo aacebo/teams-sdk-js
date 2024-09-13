@@ -13,6 +13,9 @@
     <a href="https://www.npmjs.com/package/@teams.sdk/botbuilder" target="_blank">
         <img src="https://img.shields.io/npm/dw/@teams.sdk/botbuilder" />
     </a>
+    <a href="https://aacebo.github.io/teams-sdk-js" target="_blank">
+        <img src="https://img.shields.io/badge/📖 docs-open-blue" />
+    </a>
 </p>
 
 used to make `@teams.sdk/apps` package backwards compatible with legacy bots built using

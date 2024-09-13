@@ -13,6 +13,9 @@
     <a href="https://www.npmjs.com/package/@teams.sdk/ai" target="_blank">
         <img src="https://img.shields.io/npm/dw/@teams.sdk/ai" />
     </a>
+    <a href="https://aacebo.github.io/teams-sdk-js" target="_blank">
+        <img src="https://img.shields.io/badge/📖 docs-open-blue" />
+    </a>
 </p>
 
 ai tools/utilities.
