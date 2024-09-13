@@ -1,5 +1,13 @@
 # @teams.sdk/cards
 
+## 0.1.5
+
+### Patch Changes
+
+-   add documentation
+-   Updated dependencies
+    -   @teams.sdk/config@0.1.5
+
 ## 0.1.4
 
 ### Patch Changes

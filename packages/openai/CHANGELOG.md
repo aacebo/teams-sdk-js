@@ -1,5 +1,15 @@
 # @teams.sdk/openai
 
+## 0.1.5
+
+### Patch Changes
+
+-   add documentation
+-   Updated dependencies
+    -   @teams.sdk/ai@0.1.5
+    -   @teams.sdk/common@0.1.5
+    -   @teams.sdk/config@0.1.5
+
 ## 0.1.4
 
 ### Patch Changes
