@@ -2,7 +2,7 @@
 
 Modal dialogs in Teams for rich interaction.
 
-## [`@teams.sdk/cards`](../packages/cards/README.md)
+## [`@teams.sdk/cards`](https://www.npmjs.com/package/@teams.sdk/cards)
 
 dialogs can be opened from teams by using an [Adaptive Card `Action.Submit`](https://adaptivecards.io/explorer/Action.Submit.html).
 
