@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Welcome - Teams SDK</title>
+        <title>User Auth - Teams SDK</title>
 
 
         <!-- Custom HTML head -->
@@ -87,7 +87,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="welcome.html" class="active"><strong aria-hidden="true">1.</strong> Welcome</a></li><li class="chapter-item expanded "><a href="dialogs.html"><strong aria-hidden="true">2.</strong> Dialogs (Task Modules)</a></li><li class="chapter-item expanded "><a href="message-extensions.html"><strong aria-hidden="true">3.</strong> Message Extensions</a></li><li class="chapter-item expanded "><a href="user-auth.html"><strong aria-hidden="true">4.</strong> User Auth</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="1.welcome.html"><strong aria-hidden="true">1.</strong> Welcome</a></li><li class="chapter-item expanded "><a href="2.basics/index.html"><strong aria-hidden="true">2.</strong> Basics</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="2.basics/1.on-activity.html"><strong aria-hidden="true">2.1.</strong> Listening To Activities</a></li><li class="chapter-item "><a href="2.basics/2.sending-activities.html"><strong aria-hidden="true">2.2.</strong> Sending Activities</a></li><li class="chapter-item "><a href="2.basics/3.on-event.html"><strong aria-hidden="true">2.3.</strong> Listening To Events</a></li><li class="chapter-item "><a href="2.basics/4.api.html"><strong aria-hidden="true">2.4.</strong> Using The API Client</a></li></ol></li><li class="chapter-item expanded "><a href="3.dialogs.html"><strong aria-hidden="true">3.</strong> Dialogs (Task Modules)</a></li><li class="chapter-item expanded "><a href="4.message-extensions.html"><strong aria-hidden="true">4.</strong> Message Extensions</a></li><li class="chapter-item expanded "><a href="5.user-auth.html" class="active"><strong aria-hidden="true">5.</strong> User Auth</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -172,18 +172,24 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="-teams-sdk-documentation"><a class="header" href="#-teams-sdk-documentation">📖 Teams SDK: Documentation</a></h1>
-<p>Microsoft Teams is a feature rich messaging platform. It provides features that developers can use
-to create immersive app experiences, below are some of the different features that can be used with this SDK.</p>
+                        <h1 id="-user-auth"><a class="header" href="#-user-auth">📖 <a href="https://learn.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/add-authentication">User Auth</a></a></h1>
+<p>You can create bots in Microsoft Teams that access resources on behalf of the user, such as the graph api.</p>
+<blockquote>
+<p>Example: when an activity is received, prompt the user to sign in.</p>
+</blockquote>
+<pre><code class="language-typescript">app.on('activity', async ({ signin }) =&gt; {
+    await signin('connectionName');
+});
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-
-                            <a rel="next prefetch" href="dialogs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
+                            <a rel="prev" href="4.message-extensions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
                             </a>
+
 
                         <div style="clear: both"></div>
                     </nav>
@@ -191,10 +197,10 @@ to create immersive app experiences, below are some of the different features th
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-
-                    <a rel="next prefetch" href="dialogs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
+                    <a rel="prev" href="4.message-extensions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
                     </a>
+
             </nav>
 
         </div>
