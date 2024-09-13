@@ -182,17 +182,17 @@ const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 
 if (!clientId || !clientSecret) {
-  throw new Error('missing environment variables');
+    throw new Error('missing environment variables');
 }
 
 const app = new App({
-  type: 'MultiTenant',
-  clientId,
-  clientSecret,
+    type: 'MultiTenant',
+    clientId,
+    clientSecret,
 });
 
 (async () =&gt; {
-  await app.start();
+    await app.start();
 })();
 </code></pre>
 
