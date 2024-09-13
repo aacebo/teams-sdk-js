@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Listening To Dialogs - Teams SDK</title>
+        <title>Dialogs (Task Modules) - Teams SDK</title>
 
 
         <!-- Custom HTML head -->
@@ -87,7 +87,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../1.welcome.html"><strong aria-hidden="true">1.</strong> Welcome</a></li><li class="chapter-item expanded "><a href="../2.basics/index.html"><strong aria-hidden="true">2.</strong> Basics</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../2.basics/1.on-activity.html"><strong aria-hidden="true">2.1.</strong> Listening To Activities</a></li><li class="chapter-item "><a href="../2.basics/2.on-message.html"><strong aria-hidden="true">2.2.</strong> Listening To Messages</a></li><li class="chapter-item "><a href="../2.basics/3.sending-activities.html"><strong aria-hidden="true">2.3.</strong> Sending Activities</a></li><li class="chapter-item "><a href="../2.basics/4.on-event.html"><strong aria-hidden="true">2.4.</strong> Listening To Events</a></li><li class="chapter-item "><a href="../2.basics/5.api.html"><strong aria-hidden="true">2.5.</strong> Using The API Client</a></li><li class="chapter-item "><a href="../2.basics/6.auth.html"><strong aria-hidden="true">2.6.</strong> User Authentication</a></li></ol></li><li class="chapter-item expanded "><a href="../3.dialogs/index.html"><strong aria-hidden="true">3.</strong> Dialogs (Task Modules)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../3.dialogs/1.on-dialog.html" class="active"><strong aria-hidden="true">3.1.</strong> Listening To Dialogs</a></li><li class="chapter-item "><a href="../3.dialogs/2.on-dialog-submit.html"><strong aria-hidden="true">3.2.</strong> Dialog Submit</a></li></ol></li><li class="chapter-item expanded "><a href="../4.message-extensions/index.html"><strong aria-hidden="true">4.</strong> Message Extensions</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../1.welcome.html"><strong aria-hidden="true">1.</strong> Welcome</a></li><li class="chapter-item expanded "><a href="../2.getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="../3.basics/index.html"><strong aria-hidden="true">3.</strong> Basics</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../3.basics/1.on-activity.html"><strong aria-hidden="true">3.1.</strong> Listening To Activities</a></li><li class="chapter-item "><a href="../3.basics/2.on-message.html"><strong aria-hidden="true">3.2.</strong> Listening To Messages</a></li><li class="chapter-item "><a href="../3.basics/3.sending-activities.html"><strong aria-hidden="true">3.3.</strong> Sending Activities</a></li><li class="chapter-item "><a href="../3.basics/4.on-event.html"><strong aria-hidden="true">3.4.</strong> Listening To Events</a></li><li class="chapter-item "><a href="../3.basics/5.api.html"><strong aria-hidden="true">3.5.</strong> Using The API Client</a></li><li class="chapter-item "><a href="../3.basics/6.auth.html"><strong aria-hidden="true">3.6.</strong> User Authentication</a></li></ol></li><li class="chapter-item expanded "><a href="../4.dialogs/index.html" class="active"><strong aria-hidden="true">4.</strong> Dialogs (Task Modules)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../4.dialogs/1.on-dialog.html"><strong aria-hidden="true">4.1.</strong> Listening To Dialogs</a></li><li class="chapter-item "><a href="../4.dialogs/2.on-dialog-submit.html"><strong aria-hidden="true">4.2.</strong> Dialog Submit</a></li></ol></li><li class="chapter-item expanded "><a href="../5.message-extensions/index.html"><strong aria-hidden="true">5.</strong> Message Extensions</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -172,43 +172,18 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="-listening-to-dialogs"><a class="header" href="#-listening-to-dialogs">👂 Listening To Dialogs</a></h1>
-<p>You can listen on the <code>dialog.open</code> activity and respond with adaptive cards or url to
-be rendered as the dialogs content.</p>
-<h2 id="dialogopen-taskfetch"><a class="header" href="#dialogopen-taskfetch"><a href="https://learn.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/task-modules/task-modules-bots?tabs=nodejs#invoke-a-dialog-using-taskfetch"><code>dialog.open</code> (task/fetch)</a></a></h2>
-<p>triggered when a dialog is opened, used to render dialog contents.</p>
-<blockquote>
-<p>Example: when a dialog is opened, render an <a href="https://adaptivecards.io/">Adaptive Card</a> as the body.</p>
-</blockquote>
-<pre><code class="language-typescript">app.on('dialog.open', ({ }) =&gt; {
-    return {
-        status: 200,
-        body: {
-            task: {
-                type: 'continue',
-                value: {
-                    width: 'large',
-                    card: cardAttachment('adaptive', {
-                        type: 'AdaptiveCard',
-                        version: '1.6',
-                        body: [...]
-                    })
-                }
-            }
-        }
-    };
-});
-</code></pre>
+                        <h1 id="-dialogs-task-modules"><a class="header" href="#-dialogs-task-modules">📖 <a href="https://learn.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/task-modules/task-modules-bots?tabs=nodejs">Dialogs (Task Modules)</a></a></h1>
+<p><a href="https://learn.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/task-modules/invoking-task-modules">Invoking Task Modules</a></p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../3.dialogs/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../3.basics/6.auth.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../3.dialogs/2.on-dialog-submit.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../4.dialogs/1.on-dialog.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -218,11 +193,11 @@ be rendered as the dialogs content.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../3.dialogs/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../3.basics/6.auth.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../3.dialogs/2.on-dialog-submit.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../4.dialogs/1.on-dialog.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
