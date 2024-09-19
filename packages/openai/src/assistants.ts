@@ -50,13 +50,7 @@ export class OpenAIAssistantModel implements ChatModel {
         const message = await this._createMessage(threadId, input)
 
         // Create run
-        let run = await this._createRun(threadId, assistantId)
-        
-        // Wait for run status to reach a final state
-        while (run.status == 'in_progress' || run.status == 'queued') {
-            await this._delay(1000)
-            run = await this._pollRun(threadId, run.id);
-        }
+        let run = await this._createRunAndPoll(threadId, assistantId)
 
         // Process terminal run state
         if (run.status == "completed") {
@@ -136,18 +130,9 @@ export class OpenAIAssistantModel implements ChatModel {
         })
     }
 
-    private async _createRun(threadId: string, assistantId: string) {
-        return await this._openai.beta.threads.runs.create(threadId, {
+    private async _createRunAndPoll(threadId: string, assistantId: string) {
+        return await this._openai.beta.threads.runs.createAndPoll(threadId, {
             assistant_id: assistantId,
         })
-    }
-
-    private async _pollRun(threadId: string, runId: string) {
-        return await this._openai.beta.threads.runs.poll(threadId, runId);
-    }
-
-    // TODO: Move it somewhere else
-    private async _delay(ms: number) {
-        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }
