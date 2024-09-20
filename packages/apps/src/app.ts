@@ -17,19 +17,13 @@ import pkg from '../package.json';
 
 import { HttpReceiver, Receiver, ReceiverActivityArgs } from './receiver';
 import { Routes } from './routes';
-import { AppTokens } from './tokens';
 import { Router } from './router';
 import { RouteHandler } from './types';
 import { DEFAULT_EVENTS, Events } from './events';
-import {
-  Context,
-  signin,
-  send,
-  reply,
-  withAIContentLabel,
-  withMention,
-  ActivityStream,
-} from './context';
+import { Sender, HttpSender, SenderContext } from './sender';
+import { ActivityContext } from './activity-context';
+import { MiddlewareContext } from './middleware-context';
+import { withAIContentLabel, withMention } from './utils';
 
 /**
  * App initialization options
@@ -51,6 +45,11 @@ export type AppOptions = Credentials & {
   readonly receiver?: Receiver;
 
   /**
+   * sender factory to send outgoing acitivies
+   */
+  readonly sender?: (ctx: SenderContext) => Sender | Promise<Sender>;
+
+  /**
    * storage instance to use
    */
   readonly storage?: Storage;
@@ -65,10 +64,21 @@ export class App {
   get tokens() {
     return this._tokens;
   }
-  private _tokens: AppTokens = {};
+  private _tokens: {
+    /**
+     * bot token used to send activities
+     */
+    bot?: Token;
+
+    /**
+     * graph token used to query the graph api
+     */
+    graph?: Token;
+  } = {};
 
   private readonly _api: Client;
   private readonly _receiver: Receiver;
+  private readonly _sender?: (ctx: SenderContext) => Sender | Promise<Sender>;
   private readonly _storage: Storage;
   private readonly _router = new Router();
   private readonly _events = DEFAULT_EVENTS;
@@ -87,13 +97,24 @@ export class App {
     });
 
     this._storage = this.options.storage || new LocalStorage();
+    this._sender = this.options.sender;
     this._receiver =
       this.options.receiver ||
       new HttpReceiver({
+        ...options,
         logger: this.options.logger,
+        api: this._api,
       });
 
     this._receiver.on('activity', this.onActivity.bind(this));
+    this._receiver.on('error', (err) => {
+      this._events.error({ err, log: this.log });
+    });
+
+    this._receiver.on('start', ({ tokens }) => {
+      this.tokens.bot = tokens.bot;
+      this.tokens.graph = tokens.graph;
+    });
 
     // default event handlers
     this.on('signin.token-exchange', this._onTokenExchange.bind(this));
@@ -105,17 +126,6 @@ export class App {
    * @param port port to listen on
    */
   async start(port = 3000) {
-    try {
-      const botToken = await this._api.bots.token.get(this.options);
-      this._tokens.bot = new Token(botToken.access_token);
-
-      const graphToken = await this._api.bots.token.getGraph(this.options);
-      this._tokens.graph = new Token(graphToken.access_token);
-    } catch (err) {
-      this.log.error(err);
-      throw err;
-    }
-
     return await new Promise<void>((resolve, reject) => {
       this._receiver
         .start(port)
@@ -164,7 +174,7 @@ export class App {
    * register a middleware
    * @param cb callback to invoke
    */
-  use(cb: RouteHandler<Context>) {
+  use(cb: RouteHandler<MiddlewareContext>) {
     this._router.use(cb);
     return this;
   }
@@ -226,38 +236,55 @@ export class App {
       return { status: 200 };
     }
 
-    let i = 0;
-    const ctx: Context<Activity> = {
+    let tenantId = 'common';
+
+    if (this.options.type === 'SingleTenant') {
+      tenantId = this.options.tenantId;
+    }
+
+    const creds = {
+      type: this.options.type,
+      clientId: this.options.clientId,
+      clientSecret: this.options.clientSecret,
+      tenantId: tenantId,
+    } as Credentials;
+
+    const ctx: ActivityContext<Activity> & Credentials = {
       ...args,
+      ...creds,
+      appId: this._tokens.bot?.appId || '',
       api,
       log: this.log,
       tokens: this.tokens,
       conversation,
-      data: new Map<string, any>(),
       storage: this._storage,
-      stream: new ActivityStream(api.conversations.activities(activity.conversation.id)),
+    };
+
+    let i = 0;
+    const sender = this._sender ? await this._sender(ctx) : new HttpSender(ctx);
+    const routeCtx: MiddlewareContext<Activity> = {
+      ...ctx,
+      api,
+      log: this.log,
+      conversation,
+      storage: this._storage,
       next: (context) => {
         if (i === routes.length - 1) return;
         i++;
-        return routes[i](context || ctx);
+        return routes[i](context || routeCtx);
       },
       withAIContentLabel,
       withMention,
-      send: send(api.conversations.activities(activity.conversation.id)),
-      reply: reply(activity.id, api.conversations.activities(activity.conversation.id)),
-      signin: signin({
-        appId: this._tokens.bot!.appId,
-        api,
-        activity,
-        conversation,
-      }),
+      send: sender.send.bind(sender),
+      reply: sender.reply.bind(sender),
+      signin: sender.signin.bind(sender),
     };
 
-    const res = await routes[0](ctx);
+    const res = await routes[0](routeCtx);
     return res || { status: 200 };
   }
 
-  private async _onTokenExchange(ctx: Context<SignInTokenExchangeInvokeActivity>) {
+  private async _onTokenExchange(ctx: MiddlewareContext<SignInTokenExchangeInvokeActivity>) {
     const { api, activity, storage } = ctx;
     const key = `auth/${activity.conversation.id}/${activity.from.id}`;
 
@@ -272,7 +299,7 @@ export class App {
         },
       });
 
-      this._events.signin({ ...ctx, tokenResponse: token });
+      this._events.signin({ ...ctx, token });
       return { status: StatusCodes.OK };
     } catch (err) {
       if (err instanceof HttpError) {
@@ -296,7 +323,7 @@ export class App {
     }
   }
 
-  private async _onVerifyState(ctx: Context<SignInVerifyStateInvokeActivity>) {
+  private async _onVerifyState(ctx: MiddlewareContext<SignInVerifyStateInvokeActivity>) {
     const { api, activity, storage } = ctx;
     const key = `auth/${activity.conversation.id}/${activity.from.id}`;
 
@@ -315,7 +342,7 @@ export class App {
       });
 
       await storage.delete(key);
-      this._events.signin({ ...ctx, tokenResponse: token });
+      this._events.signin({ ...ctx, token });
       return { status: StatusCodes.OK };
     } catch (err) {
       if (err instanceof HttpError) {

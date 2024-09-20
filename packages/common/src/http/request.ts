@@ -1,4 +1,5 @@
 import http from 'http';
+import { URL } from 'url';
 
 export interface HttpRequestOptions<Body = any> {
   readonly method: string;
@@ -19,4 +20,10 @@ export class HttpRequest<Body = any> {
     this.headers = options.headers;
     this.body = options.body;
   }
+}
+
+export interface Request<Body = any, Query = any> extends http.IncomingMessage {
+  uri?: URL;
+  query?: Query;
+  body?: Body;
 }

@@ -1,4 +1,4 @@
-import { SignInContext } from '@teams.sdk/apps';
+import { SignInMiddlewareContext } from '@teams.sdk/apps';
 import * as MSGraph from '@microsoft/microsoft-graph-types';
 
 import { graph } from '../graph';
@@ -10,7 +10,7 @@ export async function signin({
   tokenResponse,
   storage,
   withMention,
-}: SignInContext) {
+}: SignInMiddlewareContext) {
   const state = await State.fromActivity(activity, storage);
 
   if (!state.user.auth) {

@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken';
 
-import { Token } from './token';
+import { JsonWebToken } from './json-web-token';
 import { CallerIds } from './caller';
 
-describe('Token', () => {
+describe('JsonWebToken', () => {
   it('should be from bot', () => {
-    const token = new Token(
+    const token = new JsonWebToken(
       jwt.sign(
         {
           appid: 'test',
@@ -23,7 +23,7 @@ describe('Token', () => {
   });
 
   it('should be from azure', () => {
-    const token = new Token(
+    const token = new JsonWebToken(
       jwt.sign(
         {
           serviceurl: 'https://smba.test.com',
@@ -40,7 +40,7 @@ describe('Token', () => {
   });
 
   it('should have default serviceUrl', () => {
-    const token = new Token(jwt.sign({}, 'test'));
+    const token = new JsonWebToken(jwt.sign({}, 'test'));
 
     expect(token).toBeDefined();
     expect(token.appId).toBeUndefined();

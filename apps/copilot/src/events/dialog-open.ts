@@ -1,5 +1,5 @@
 import { cardAttachment, InvokeResponse, TaskFetchInvokeActivity } from '@teams.sdk/api';
-import { Context } from '@teams.sdk/apps';
+import { MiddlewareContext } from '@teams.sdk/apps';
 
 import { State } from '../state';
 import { DrivePrompt } from '../prompts';
@@ -7,7 +7,7 @@ import { DrivePrompt } from '../prompts';
 export async function dialogOpen({
   activity,
   storage,
-}: Context<TaskFetchInvokeActivity>): Promise<InvokeResponse<'task/fetch'>> {
+}: MiddlewareContext<TaskFetchInvokeActivity>): Promise<InvokeResponse<'task/fetch'>> {
   const id: string = activity.value.data.id;
   const name: string = activity.value.data.name;
   const state = await State.fromActivity(activity, storage);

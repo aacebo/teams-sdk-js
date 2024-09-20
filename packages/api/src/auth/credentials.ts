@@ -11,5 +11,4 @@ export interface MultiTenantCredentials {
   readonly type: 'MultiTenant';
   readonly clientId: string;
   readonly clientSecret: string;
-  readonly tenantId?: undefined;
 }

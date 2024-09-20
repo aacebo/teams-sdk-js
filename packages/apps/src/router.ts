@@ -2,7 +2,7 @@ import { Activity } from '@teams.sdk/api';
 
 import { EVENT_ALIASES, Routes, INVOKE_ALIASES } from './routes';
 import { RouteHandler } from './types';
-import { Context } from './context';
+import { MiddlewareContext } from './middleware-context';
 
 interface Route<Name extends keyof Routes = keyof Routes> {
   readonly name?: Name;
@@ -20,7 +20,7 @@ export class Router {
   select(activity: Activity) {
     return this.routes
       .filter((r) => r.select(activity))
-      .map((r) => r.callback as RouteHandler<Context, any>);
+      .map((r) => r.callback as RouteHandler<MiddlewareContext, any>);
   }
 
   /**
@@ -36,7 +36,7 @@ export class Router {
    * register a middleware
    * @param callback the callback to invoke
    */
-  use(callback: RouteHandler<Context>) {
+  use(callback: RouteHandler<MiddlewareContext>) {
     this.register({
       select: () => true,
       callback,

@@ -24,8 +24,14 @@ export class BotTokenClient {
   }
 
   async get(params: GetBotTokenParams) {
+    let tenantId = 'botframework.com';
+
+    if (params.type === 'SingleTenant') {
+      tenantId = params.tenantId;
+    }
+
     const res = await this._http.post<GetBotTokenResponse>(
-      `/${params.tenantId || 'botframework.com'}/oauth2/v2.0/token`,
+      `/${tenantId}/oauth2/v2.0/token`,
       qs.stringify({
         grant_type: 'client_credentials',
         client_id: params.clientId,
@@ -42,8 +48,14 @@ export class BotTokenClient {
   }
 
   async getGraph(params: GetBotTokenParams) {
+    let tenantId = 'botframework.com';
+
+    if (params.type === 'SingleTenant') {
+      tenantId = params.tenantId;
+    }
+
     const res = await this._http.post<GetBotTokenResponse>(
-      `/${params.tenantId || 'botframework.com'}/oauth2/v2.0/token`,
+      `/${tenantId}/oauth2/v2.0/token`,
       qs.stringify({
         grant_type: 'client_credentials',
         client_id: params.clientId,

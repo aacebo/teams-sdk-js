@@ -1,10 +1,6 @@
 import { App } from '@teams.sdk/apps';
 import { ConsoleLogger } from '@teams.sdk/common/logging';
 import { TeamsAdapter } from '@teams.sdk/botbuilder';
-import {
-  ConfigurationBotFrameworkAuthentication,
-  ConfigurationServiceClientCredentialFactory,
-} from 'botbuilder-core';
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
@@ -23,15 +19,10 @@ const app = new App({
   clientSecret,
   logger,
   receiver: new TeamsAdapter({
+    type: 'MultiTenant',
+    clientId,
+    clientSecret,
     logger,
-    auth: new ConfigurationBotFrameworkAuthentication(
-      {},
-      new ConfigurationServiceClientCredentialFactory({
-        MicrosoftAppType: 'MultiTenant',
-        MicrosoftAppId: clientId,
-        MicrosoftAppPassword: clientSecret,
-      })
-    ),
   }),
 });
 

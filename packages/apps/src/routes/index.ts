@@ -1,4 +1,4 @@
-import { Context, MentionContext } from '../context';
+import { MentionMiddlewareContext, MiddlewareContext } from '../middleware-context';
 import { RouteHandler } from '../types';
 
 import { ActivityRoutes } from './activity';
@@ -17,8 +17,8 @@ export interface Routes
     MessageUpdateActivityRoutes,
     MessageDeleteActivityRoutes,
     EventActivityRoutes {
-  mention?: RouteHandler<MentionContext>;
-  activity?: RouteHandler<Context>;
+  mention?: RouteHandler<MentionMiddlewareContext>;
+  activity?: RouteHandler<MiddlewareContext>;
 }
 
 export * from './activity';

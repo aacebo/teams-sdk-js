@@ -1,11 +1,11 @@
 import { EventActivity } from '@teams.sdk/api';
 
 import { RouteHandler } from '../types';
-import { Context } from '../context';
+import { MiddlewareContext } from '../middleware-context';
 
 export type EventActivityRoutes = {
   [K in EventActivity['name'] as EventAliases[K]]?: RouteHandler<
-    Context<Extract<EventActivity, { name: K }>>,
+    MiddlewareContext<Extract<EventActivity, { name: K }>>,
     void
   >;
 };

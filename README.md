@@ -92,6 +92,7 @@ $: npm run test
 -   [`@teams.sdk/cards`](./packages/cards/README.md)
 -   [`@teams.sdk/common`](./packages/common/README.md)
 -   [`@teams.sdk/config`](./packages/config/README.md)
+-   [`@teams.sdk/dev`](./packages/dev/README.md)
 -   [`@teams.sdk/openai`](./packages/openai/README.md)
 
 ## Samples

@@ -1,7 +1,7 @@
 import { InvokeActivity, InvokeResponse } from '@teams.sdk/api';
 
 import { RouteHandler } from '../../types';
-import { Context } from '../../context';
+import { MiddlewareContext } from '../../middleware-context';
 
 import { FileConsentActivityRoutes } from './file-consent';
 import { MessageExtensionSubmitActivityRoutes } from './message-extension-submit';
@@ -9,7 +9,7 @@ import { MessageSubmitActivityRoutes } from './message-submit';
 
 export type InvokeActivityRoutes = {
   [K in InvokeActivity['name'] as InvokeAliases[K]]?: RouteHandler<
-    Context<Extract<InvokeActivity, { name: K }>>,
+    MiddlewareContext<Extract<InvokeActivity, { name: K }>>,
     InvokeResponse<K>
   >;
 } & FileConsentActivityRoutes &

@@ -1,3 +1,4 @@
+import { Credentials } from '@teams.sdk/api';
 import { HttpReceiver, HttpReceiverEvents, Receiver, ReceiverEvents } from '@teams.sdk/apps';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 
@@ -16,6 +17,8 @@ import {
   StatusCodes,
   ActivityTypes,
   INVOKE_RESPONSE_KEY,
+  ConfigurationBotFrameworkAuthentication,
+  ConfigurationServiceClientCredentialFactory,
 } from 'botbuilder-core';
 
 import {
@@ -30,23 +33,37 @@ import {
 
 import * as uuid from 'uuid';
 
-export interface TeamsAdapterOptions {
-  readonly auth: BotFrameworkAuthentication;
+export type TeamsAdapterOptions = Credentials & {
   readonly logger?: Logger;
-}
+};
 
 export class TeamsAdapter extends BotAdapter implements Receiver {
   readonly ConnectorFactoryKey = Symbol('ConnectorFactory');
   readonly UserTokenClientKey = Symbol('UserTokenClient');
 
   private _receiver: HttpReceiver;
+  private _auth: BotFrameworkAuthentication;
   private _events: HttpReceiverEvents = {};
 
   constructor(readonly options: TeamsAdapterOptions) {
     super();
 
+    this._auth = new ConfigurationBotFrameworkAuthentication(
+      {},
+      new ConfigurationServiceClientCredentialFactory({
+        MicrosoftAppType: options.type,
+        MicrosoftAppId: options.clientId,
+        MicrosoftAppPassword: options.clientSecret,
+      })
+    );
+
     this._receiver = new HttpReceiver({
+      ...options,
       logger: this.options.logger || new ConsoleLogger('@teams.sdk/app/receiver'),
+    });
+
+    this._receiver.on('error', (err) => {
+      this.onTurnError(new TurnContext(this, {}), err);
     });
 
     this._receiver.on('activity', async (args) => {
@@ -245,7 +262,7 @@ export class TeamsAdapter extends BotAdapter implements Receiver {
     });
 
     // Create the connector factory.
-    const connectorFactory = this.options.auth.createConnectorFactory(claimsIdentity);
+    const connectorFactory = this._auth.createConnectorFactory(claimsIdentity);
 
     // Create the connector client to use for outbound requests.
     const connectorClient = await connectorFactory.create(serviceUrl, audience);
@@ -263,7 +280,7 @@ export class TeamsAdapter extends BotAdapter implements Receiver {
     );
 
     // Create a UserTokenClient instance for the application to use. (For example, in the OAuthPrompt.)
-    const userTokenClient = await this.options.auth.createUserTokenClient(claimsIdentity);
+    const userTokenClient = await this._auth.createUserTokenClient(claimsIdentity);
 
     // Create a turn context and run the pipeline.
     const context = this.createTurnContext(
@@ -321,7 +338,7 @@ export class TeamsAdapter extends BotAdapter implements Receiver {
     logic: (context: TurnContext) => Promise<void>
   ): Promise<void> {
     // Create the connector factory and  the inbound request, extracting parameters and then create a connector for outbound requests.
-    const connectorFactory = this.options.auth.createConnectorFactory(claimsIdentity);
+    const connectorFactory = this._auth.createConnectorFactory(claimsIdentity);
 
     // Create the connector client to use for outbound requests.
     const connectorClient = await connectorFactory.create(
@@ -330,7 +347,7 @@ export class TeamsAdapter extends BotAdapter implements Receiver {
     );
 
     // Create a UserTokenClient instance for the application to use. (For example, in the OAuthPrompt.)
-    const userTokenClient = await this.options.auth.createUserTokenClient(claimsIdentity);
+    const userTokenClient = await this._auth.createUserTokenClient(claimsIdentity);
 
     // Create a turn context and run the pipeline.
     const context = this.createTurnContext(
@@ -386,10 +403,7 @@ export class TeamsAdapter extends BotAdapter implements Receiver {
     // Authenticate the inbound request, extracting parameters and create a ConnectorFactory for creating a Connector for outbound requests.
     const authenticateRequestResult =
       typeof authHeaderOrAuthenticateRequestResult === 'string'
-        ? await this.options.auth.authenticateRequest(
-            activity,
-            authHeaderOrAuthenticateRequestResult
-          )
+        ? await this._auth.authenticateRequest(activity, authHeaderOrAuthenticateRequestResult)
         : authHeaderOrAuthenticateRequestResult;
 
     // Set the callerId on the activity.
@@ -406,7 +420,7 @@ export class TeamsAdapter extends BotAdapter implements Receiver {
     }
 
     // Create a UserTokenClient instance for the application to use. (For example, it would be used in a sign-in prompt.)
-    const userTokenClient = await this.options.auth.createUserTokenClient(
+    const userTokenClient = await this._auth.createUserTokenClient(
       authenticateRequestResult.claimsIdentity
     );
 

@@ -1,5 +1,5 @@
 import { MessageSendActivity } from '@teams.sdk/api';
-import { Context } from '@teams.sdk/apps';
+import { MiddlewareContext } from '@teams.sdk/apps';
 
 import { State } from '../state';
 import { RootPrompt } from '../prompts';
@@ -12,7 +12,7 @@ export async function message({
   send,
   withAIContentLabel,
   next,
-}: Context<MessageSendActivity>) {
+}: MiddlewareContext<MessageSendActivity>) {
   if (activity.conversation.isGroup) return;
 
   const start = new Date();
