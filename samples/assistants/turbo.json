@@ -5,7 +5,13 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"],
       "cache": false,
-      "dependsOn": ["@teams.sdk/ai#build", "@teams.sdk/openai#build", "@teams.sdk/api#build", "@teams.sdk/apps#build", "@teams.sdk/common#build"]
+      "dependsOn": [
+        "@teams.sdk/ai#build",
+        "@teams.sdk/openai#build",
+        "@teams.sdk/api#build",
+        "@teams.sdk/apps#build",
+        "@teams.sdk/common#build"
+      ]
     }
   }
 }

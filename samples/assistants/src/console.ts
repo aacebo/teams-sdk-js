@@ -4,7 +4,6 @@ import { Activity, MessageSendActivity, Resource, Token } from '@teams.sdk/api';
 import * as readline from 'node:readline/promises';
 import { stdin, stdout } from 'node:process';
 
-
 /**
  * Creates an instance of App with a ConsoleReceiver.
  *
@@ -30,7 +29,6 @@ export const ConsoleApp = (appOptions: AppOptions): App => {
 
   return app;
 };
-
 
 /**
  * Can receive messages via the console

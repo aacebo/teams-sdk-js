@@ -31,10 +31,23 @@ app.on('message', async ({ send, activity }) => {
   const model = new OpenAIAssistantModel({
     apiKey: openaiKey,
     assistantId: assistantId,
-    threadId: threadId
+    threadId: threadId,
+    logger: new ConsoleLogger(`openai-assistant-model`, { level: 'debug' }),
   });
-  
-  const prompt = new ChatPrompt({ model });
+
+  const prompt = new ChatPrompt({ model }).function(
+    'get_weather',
+    'Determines weather in my location',
+    (params) => {
+      // parse JSON string
+      const data: {
+        location: string;
+        weather: string;
+      } = JSON.parse(params);
+
+      return `The weather in ${data.location} is ${data.weather}.`;
+    }
+  );
   const response = await prompt.chat(activity.text);
 
   await send({

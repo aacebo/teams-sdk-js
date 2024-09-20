@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "clean": "npx rimraf ./dist",
-    "create-assistant": "node ./dist/assistant.js",
+    "create-assistant": "node ./dist/create-assistant.js",
     "build": "npm run clean && tsc -p .",
     "start": "node .",
     "dev": "npx nodemon -w \"./src/**\" -e ts --exec \"node -r ts-node/register -r dotenv/config ./src/index.ts\""
