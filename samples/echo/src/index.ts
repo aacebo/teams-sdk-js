@@ -1,5 +1,9 @@
-import { App } from '@teams.sdk/apps';
 import { ConsoleLogger } from '@teams.sdk/common/logging';
+import { config } from 'dotenv';
+import { ConsoleApp } from './console-app';
+
+// load environment variables from '.env' file
+config();
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
@@ -8,7 +12,7 @@ if (!clientId || !clientSecret) {
   throw new Error('missing environment variables');
 }
 
-const app = new App({
+const app = ConsoleApp({
   type: 'MultiTenant',
   clientId,
   clientSecret,

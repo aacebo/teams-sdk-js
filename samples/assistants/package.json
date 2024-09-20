@@ -1,0 +1,36 @@
+{
+  "name": "@samples/assistants",
+  "version": "0.0.0",
+  "license": "MIT",
+  "private": true,
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "clean": "npx rimraf ./dist",
+    "create-assistant": "node ./dist/create-assistant.js",
+    "build": "npm run clean && tsc -p .",
+    "start": "node .",
+    "dev": "npx nodemon -w \"./src/**\" -e ts --exec \"node -r ts-node/register -r dotenv/config ./src/index.ts\""
+  },
+  "dependencies": {
+    "@teams.sdk/api": "*",
+    "@teams.sdk/apps": "*",
+    "@teams.sdk/common": "*",
+    "@teams.sdk/config": "*",
+    "@teams.sdk/ai": "*",
+    "@teans.sdk/openai": "*",
+    "dotenv": "^16.4.5",
+    "openai": "^4.62.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "nodemon": "^3.1.4",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
