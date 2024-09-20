@@ -32,7 +32,8 @@ app.on('message', async ({ send, activity }) => {
     apiKey: openaiKey,
     assistantId: assistantId,
     threadId: threadId,
-    logger: new ConsoleLogger(`openai-assistant-model`, { level: 'debug' }),
+    stream: true,
+    logger: new ConsoleLogger('openai-assistant-model', { level: 'debug' }),
   });
 
   const prompt = new ChatPrompt({ model }).function(
@@ -48,11 +49,9 @@ app.on('message', async ({ send, activity }) => {
       return `The weather in ${data.location} is ${data.weather}.`;
     }
   );
-  const response = await prompt.chat(activity.text);
 
-  await send({
-    type: 'message',
-    text: response,
+  await prompt.chat(activity.text, (chunk) => {
+    send({ type: 'message', text: chunk });
   });
 });
 
