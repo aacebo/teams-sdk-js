@@ -29,7 +29,7 @@ developer tools for making debugging/development of Teams apps easier.
 ## Install
 
 ```bash
-$: npm install @teams.sdk/api
+$: npm install @teams.sdk/dev
 ```
 
 ## Dependencies
