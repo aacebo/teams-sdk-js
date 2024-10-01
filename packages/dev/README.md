@@ -34,4 +34,5 @@ $: npm install @teams.sdk/api
 
 ## Dependencies
 
+-   [`express`](https://www.npmjs.com/package/express)
 -   [`open`](https://www.npmjs.com/package/open)

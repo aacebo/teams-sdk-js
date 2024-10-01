@@ -1,7 +1,6 @@
-import http from 'node:http';
 import readline from 'node:readline';
+import express from 'express';
 
-import { HttpServer, NextFunction, Request } from '@teams.sdk/common/http';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 import { Receiver, ReceiverEvents } from '@teams.sdk/apps';
 import { MessageSendActivity, Token } from '@teams.sdk/api';
@@ -29,11 +28,11 @@ export class ConsoleReceiver implements Receiver {
   private readonly _log: Logger;
   private readonly _events: ReceiverEvents = {};
   private readonly _reader: readline.Interface;
-  private readonly _server: HttpServer;
+  private readonly _server: express.Application;
 
   constructor(protected options: ConsoleReceiverOptions) {
     this._log = options.logger?.child('receiver') || new ConsoleLogger('@teams.sdk/app/receiver');
-    this._server = new HttpServer();
+    this._server = express();
     this._reader = readline.createInterface({
       input: this.options.stream || process.stdin,
       terminal: false,
@@ -43,7 +42,7 @@ export class ConsoleReceiver implements Receiver {
   }
 
   async start(port?: number) {
-    this._server.listen(port, undefined, undefined, () => {
+    this._server.listen(port, () => {
       this.emit('start', { tokens: {} });
       this._reader.on('line', async (text) => {
         const activity: MessageSendActivity = {
@@ -104,11 +103,14 @@ export class ConsoleReceiver implements Receiver {
     return this;
   }
 
-  protected onAuthRedirect(req: Request, res: http.ServerResponse, _next: NextFunction) {
+  protected onAuthRedirect(
+    req: express.Request,
+    res: express.Response,
+    _next: express.NextFunction
+  ) {
     console.log(req.url);
     console.log(req.query);
-    res.statusCode = 200;
-    res.end();
+    res.status(200).send();
   }
 
   protected emit<Event extends keyof ReceiverEvents>(event: Event, data?: any) {

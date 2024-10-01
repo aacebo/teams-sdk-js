@@ -7,7 +7,7 @@ import { State } from '../state';
 export async function signin({
   activity,
   api,
-  tokenResponse,
+  token,
   storage,
   withMention,
 }: SignInMiddlewareContext) {
@@ -18,7 +18,7 @@ export async function signin({
   }
 
   const conversationId = state.user.auth.conversationId || activity.conversation.id;
-  const msgraph = graph(tokenResponse.token);
+  const msgraph = graph(token.token);
   const me: MSGraph.User = await msgraph.api('/me').get();
   const tz: { value?: string } = await msgraph.api('/me/mailboxSettings/timeZone').get();
 
@@ -28,8 +28,8 @@ export async function signin({
   };
 
   state.user.auth = {
-    token: tokenResponse.token,
-    expiration: tokenResponse.expiration,
+    token: token.token,
+    expiration: token.expiration,
   };
 
   await state.save(activity, storage);

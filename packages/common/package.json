@@ -29,10 +29,6 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./http": {
-      "types": "./dist/http/index.d.ts",
-      "default": "./dist/http/index.js"
-    },
     "./logging": {
       "types": "./dist/logging/index.d.ts",
       "default": "./dist/logging/index.js"

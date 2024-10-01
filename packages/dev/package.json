@@ -31,6 +31,7 @@
     "test": "npx jest"
   },
   "dependencies": {
+    "express": "^4.21.0",
     "open": "^10.1.0"
   },
   "peerDependencies": {
@@ -40,6 +41,7 @@
     "@teams.sdk/config": "*"
   },
   "devDependencies": {
+    "@types/express": "^5.0.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^22.5.5",
     "jest": "^29.7.0",

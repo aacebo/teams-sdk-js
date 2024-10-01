@@ -1,4 +1,4 @@
-import { ClientOptions } from '../../client-options';
+import axios from 'axios';
 
 import { BotSignInClient } from './sign-in';
 import { BotTokenClient } from './token';
@@ -7,9 +7,9 @@ export class BotClient {
   readonly token: BotTokenClient;
   readonly signIn: BotSignInClient;
 
-  constructor(private readonly _options?: ClientOptions) {
-    this.token = new BotTokenClient(this._options);
-    this.signIn = new BotSignInClient(this._options);
+  constructor(options?: axios.CreateAxiosDefaults) {
+    this.token = new BotTokenClient(options);
+    this.signIn = new BotSignInClient(options);
   }
 }
 

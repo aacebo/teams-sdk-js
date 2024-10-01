@@ -1,22 +1,21 @@
-import { HttpClient } from '@teams.sdk/common/http';
+import axios from 'axios';
 
-import { ClientOptions } from '../client-options';
 import { ChannelInfo, TeamDetails } from '../models';
 
 export class TeamClient {
-  private readonly _http: HttpClient;
+  private readonly _http: axios.AxiosInstance;
 
-  constructor(private readonly _options?: ClientOptions) {
-    this._http = new HttpClient(this._options);
+  constructor(options?: axios.CreateAxiosDefaults) {
+    this._http = axios.create(options);
   }
 
   async getById(id: string) {
     const res = await this._http.get<TeamDetails>(`/v3/teams/${id}`);
-    return res.json();
+    return res.data;
   }
 
   async getConversations(id: string) {
     const res = await this._http.get<ChannelInfo[]>(`/v3/teams/${id}/conversations`);
-    return res.json();
+    return res.data;
   }
 }

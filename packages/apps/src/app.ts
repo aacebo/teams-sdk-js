@@ -1,3 +1,7 @@
+import axios, { HttpStatusCode, AxiosError } from 'axios';
+
+import { Logger, ConsoleLogger } from '@teams.sdk/common/logging';
+import { LocalStorage, Storage } from '@teams.sdk/common/storage';
 import {
   Client,
   Activity,
@@ -8,10 +12,6 @@ import {
   SignInTokenExchangeInvokeActivity,
   SignInVerifyStateInvokeActivity,
 } from '@teams.sdk/api';
-
-import { HttpClientOptions, HttpError, StatusCodes } from '@teams.sdk/common/http';
-import { Logger, ConsoleLogger } from '@teams.sdk/common/logging';
-import { LocalStorage, Storage } from '@teams.sdk/common/storage';
 
 import pkg from '../package.json';
 
@@ -32,7 +32,7 @@ export type AppOptions = Credentials & {
   /**
    * http client options used to make api requests
    */
-  readonly http?: HttpClientOptions;
+  readonly http?: axios.CreateAxiosDefaults;
 
   /**
    * logger instance to use
@@ -87,12 +87,9 @@ export class App {
     this.log = this.options.logger || new ConsoleLogger('@teams.sdk/app');
     this._api = new Client({
       ...this.options.http,
-      requestOptions: {
-        ...this.options.http?.requestOptions,
-        headers: {
-          ...this.options.http?.requestOptions?.headers,
-          'user-agent': `teams[apps]/${pkg.version}`,
-        },
+      headers: {
+        ...this.options.http?.headers,
+        'User-Agent': `teams[apps]/${pkg.version}`,
       },
     });
 
@@ -209,14 +206,11 @@ export class App {
 
     const api = new Client({
       ...this.options.http,
-      baseUrl: serviceUrl,
-      requestOptions: {
-        ...this.options.http?.requestOptions,
-        headers: {
-          ...this.options.http?.requestOptions?.headers,
-          'user-agent': `teams[apps]/${pkg.version}`,
-          Authorization: `Bearer ${this.tokens.bot}`,
-        },
+      baseURL: serviceUrl,
+      headers: {
+        ...this.options.http?.headers,
+        'User-Agent': `teams[apps]/${pkg.version}`,
+        Authorization: `Bearer ${this.tokens.bot}`,
       },
     });
 
@@ -300,20 +294,20 @@ export class App {
       });
 
       this._events.signin({ ...ctx, token });
-      return { status: StatusCodes.OK };
+      return { status: HttpStatusCode.Ok };
     } catch (err) {
-      if (err instanceof HttpError) {
-        if (err.code !== 404 && err.code !== 400) {
+      if (err instanceof AxiosError) {
+        if (err.status !== 404 && err.status !== 400) {
           this._events.error({ ...ctx, err });
         }
 
-        if (err.code === 404) {
-          return { status: StatusCodes.NOT_FOUND };
+        if (err.status === 404) {
+          return { status: HttpStatusCode.NotFound };
         }
       }
 
       return {
-        status: StatusCodes.PRECONDITION_FAILED,
+        status: HttpStatusCode.PreconditionFailed,
         body: {
           id: activity.value.id,
           connectionName: activity.value.connectionName,
@@ -331,7 +325,7 @@ export class App {
       const connectionName: string | undefined = await storage.get(key);
 
       if (!connectionName || !activity.value.state) {
-        return { status: StatusCodes.NOT_FOUND };
+        return { status: HttpStatusCode.NotFound };
       }
 
       const token = await api.users.token.get({
@@ -343,15 +337,15 @@ export class App {
 
       await storage.delete(key);
       this._events.signin({ ...ctx, token });
-      return { status: StatusCodes.OK };
+      return { status: HttpStatusCode.Ok };
     } catch (err) {
-      if (err instanceof HttpError) {
-        if (err.code !== 404 && err.code !== 400) {
+      if (err instanceof AxiosError) {
+        if (err.status !== 404 && err.status !== 400) {
           this._events.error({ ...ctx, err });
         }
       }
 
-      return { status: StatusCodes.PRECONDITION_FAILED };
+      return { status: HttpStatusCode.PreconditionFailed };
     }
   }
 }
