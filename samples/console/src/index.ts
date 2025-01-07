@@ -12,8 +12,7 @@ const app = new App({
   sender: (ctx) => new ConsoleSender(ctx),
 });
 
-app.on('message', async ({ send, signin, activity }) => {
-  await signin('graph-connection');
+app.on('message', async ({ send, activity }) => {
   await send({
     type: 'message',
     text: `you said "${activity.text}"`,
