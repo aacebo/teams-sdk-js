@@ -1,9 +1,9 @@
 import { cardAttachment, MessageSendActivity } from '@teams.sdk/api';
-import { Context } from '@teams.sdk/apps';
+import { MiddlewareContext } from '@teams.sdk/apps';
 
 import { State } from '../state';
 
-export async function history({ activity, storage, send }: Context<MessageSendActivity>) {
+export async function history({ activity, storage, send }: MiddlewareContext<MessageSendActivity>) {
   const state = await State.fromActivity(activity, storage);
 
   await send({

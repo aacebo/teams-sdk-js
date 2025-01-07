@@ -34,5 +34,6 @@ $: npm install @teams.sdk/api
 
 ## Dependencies
 
+-   [`axios`](https://www.npmjs.com/package/axios)
 -   [`jsonwebtoken`](https://www.npmjs.com/package/jsonwebtoken)
 -   [`qs`](https://www.npmjs.com/package/qs)

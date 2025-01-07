@@ -1,11 +1,11 @@
 import { ConversationUpdateActivity } from '@teams.sdk/api';
 
 import { RouteHandler } from '../types';
-import { Context } from '../context';
+import { MiddlewareContext } from '../middleware-context';
 
 export type ConversationUpdateActivityRoutes = {
   [K in ConversationUpdateActivity['channelData']['eventType'] as K]?: RouteHandler<
-    Context<ConversationUpdateActivity>,
+    MiddlewareContext<ConversationUpdateActivity>,
     void
   >;
 };

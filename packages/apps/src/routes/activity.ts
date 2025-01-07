@@ -1,8 +1,8 @@
 import { Activity } from '@teams.sdk/api';
 
 import { RouteHandler } from '../types';
-import { Context } from '../context';
+import { MiddlewareContext } from '../middleware-context';
 
 export type ActivityRoutes = {
-  [K in Activity['type']]?: RouteHandler<Context<Extract<Activity, { type: K }>>>;
+  [K in Activity['type']]?: RouteHandler<MiddlewareContext<Extract<Activity, { type: K }>>>;
 };

@@ -1,4 +1,4 @@
-import { MentionContext } from '@teams.sdk/apps';
+import { MentionMiddlewareContext } from '@teams.sdk/apps';
 
 import { State } from '../state';
 import { RootPrompt } from '../prompts';
@@ -11,7 +11,7 @@ export async function mention({
   send,
   withAIContentLabel,
   next,
-}: MentionContext) {
+}: MentionMiddlewareContext) {
   const start = new Date();
   const state = await State.fromActivity(activity, storage);
 

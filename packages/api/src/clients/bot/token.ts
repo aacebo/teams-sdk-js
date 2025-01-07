@@ -1,7 +1,6 @@
-import { HttpClient } from '@teams.sdk/common/http';
+import axios from 'axios';
 import qs from 'qs';
 
-import { ClientOptions } from '../../client-options';
 import { Credentials } from '../../auth';
 
 export type GetBotTokenParams = Credentials;
@@ -14,18 +13,24 @@ export interface GetBotTokenResponse {
 }
 
 export class BotTokenClient {
-  private readonly _http: HttpClient;
+  private readonly _http: axios.AxiosInstance;
 
-  constructor(private readonly _options?: ClientOptions) {
-    this._http = new HttpClient({
-      ...this._options,
-      baseUrl: 'https://login.microsoftonline.com',
+  constructor(options?: axios.CreateAxiosDefaults) {
+    this._http = axios.create({
+      ...options,
+      baseURL: 'https://login.microsoftonline.com',
     });
   }
 
   async get(params: GetBotTokenParams) {
+    let tenantId = 'botframework.com';
+
+    if (params.type === 'SingleTenant') {
+      tenantId = params.tenantId;
+    }
+
     const res = await this._http.post<GetBotTokenResponse>(
-      `/${params.tenantId || 'botframework.com'}/oauth2/v2.0/token`,
+      `/${tenantId}/oauth2/v2.0/token`,
       qs.stringify({
         grant_type: 'client_credentials',
         client_id: params.clientId,
@@ -33,17 +38,22 @@ export class BotTokenClient {
         scope: 'https://api.botframework.com/.default',
       }),
       {
-        ...this._options?.requestOptions,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       }
     );
 
-    return res.json();
+    return res.data;
   }
 
   async getGraph(params: GetBotTokenParams) {
+    let tenantId = 'botframework.com';
+
+    if (params.type === 'SingleTenant') {
+      tenantId = params.tenantId;
+    }
+
     const res = await this._http.post<GetBotTokenResponse>(
-      `/${params.tenantId || 'botframework.com'}/oauth2/v2.0/token`,
+      `/${tenantId}/oauth2/v2.0/token`,
       qs.stringify({
         grant_type: 'client_credentials',
         client_id: params.clientId,
@@ -51,11 +61,10 @@ export class BotTokenClient {
         scope: 'https://graph.microsoft.com/.default',
       }),
       {
-        ...this._options?.requestOptions,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       }
     );
 
-    return res.json();
+    return res.data;
   }
 }

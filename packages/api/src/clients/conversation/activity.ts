@@ -1,63 +1,48 @@
-import { HttpClient } from '@teams.sdk/common/http';
+import axios from 'axios';
 
-import { ClientOptions } from '../../client-options';
 import { Account, Resource } from '../../models';
 import { Activity } from '../../activities';
 
 export class ConversationActivityClient {
-  private readonly _http: HttpClient;
+  private readonly _http: axios.AxiosInstance;
 
-  constructor(
-    readonly conversationId: string,
-    private readonly _options?: ClientOptions
-  ) {
-    this._http = new HttpClient(this._options);
+  constructor(conversationId: string, options?: axios.CreateAxiosDefaults) {
+    this._http = axios.create({
+      ...options,
+      baseURL: `${options?.baseURL || ''}/v3/conversations/${conversationId}`,
+    });
   }
 
   async create(params: Partial<Activity>) {
-    const res = await this._http.post<Resource>(
-      `/v3/conversations/${this.conversationId}/activities`,
-      params
-    );
+    const res = await this._http.post<Resource>('/activities', params);
 
-    return res.json();
+    return res.data;
   }
 
   async update(id: string, params: Partial<Activity>) {
-    const res = await this._http.put<Resource>(
-      `/v3/conversations/${this.conversationId}/activities/${id}`,
-      params
-    );
+    const res = await this._http.put<Resource>(`/activities/${id}`, params);
 
-    return res.json();
+    return res.data;
   }
 
   async reply(id: string, params: Partial<Activity>) {
     params.replyToId = id;
 
-    const res = await this._http.post<Resource>(
-      `/v3/conversations/${this.conversationId}/activities/${id}`,
-      params
-    );
+    const res = await this._http.post<Resource>(`/activities/${id}`, params);
 
-    return res.json();
+    return res.data;
   }
 
   async delete(id: string) {
-    const res = await this._http.delete<void>(
-      `/v3/conversations/${this.conversationId}/activities/${id}`
-    );
-    return res.json();
+    const res = await this._http.delete<void>(`/activities/${id}`);
+    return res.data;
   }
 
   members(activityId: string) {
     return {
       get: async () => {
-        const res = await this._http.get<Account[]>(
-          `/v3/conversations/${this.conversationId}/activities/${activityId}/members`
-        );
-
-        return res.json();
+        const res = await this._http.get<Account[]>(`/activities/${activityId}/members`);
+        return res.data;
       },
     };
   }
