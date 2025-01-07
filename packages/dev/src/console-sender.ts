@@ -36,7 +36,7 @@ export class ConsoleSender implements Sender {
       state: '12345',
     });
 
-    open(`https://login.microsoftonline.com/${this.ctx.tenantId}/oauth2/v2.0/authorize?${q}`);
+    await open(`https://login.microsoftonline.com/${this.ctx.tenantId}/oauth2/v2.0/authorize?${q}`);
     return { id: '1' };
   }
 }
