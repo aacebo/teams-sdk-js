@@ -1,7 +1,6 @@
-import { HttpClient } from '@teams.sdk/common/http';
+import axios from 'axios';
 import qs from 'qs';
 
-import { ClientOptions } from '../../client-options';
 import { Account, Conversation, ConversationResource } from '../../models';
 import { Activity } from '../../activities';
 
@@ -35,10 +34,12 @@ export interface GetConversationsResponse {
 }
 
 export class ConversationClient {
-  private readonly _http: HttpClient;
+  private readonly _http: axios.AxiosInstance;
+  private readonly _options?: axios.CreateAxiosDefaults;
 
-  constructor(private readonly _options?: ClientOptions) {
-    this._http = new HttpClient(this._options);
+  constructor(options?: axios.CreateAxiosDefaults) {
+    this._http = axios.create(options);
+    this._options = options;
   }
 
   activities(conversationId: string) {
@@ -52,12 +53,12 @@ export class ConversationClient {
   async get(params: GetConversationsParams) {
     const q = qs.stringify(params, { addQueryPrefix: true });
     const res = await this._http.get<GetConversationsResponse>(`/v3/conversations${q}`);
-    return res.json();
+    return res.data;
   }
 
   async create(params: CreateConversationParams) {
     const res = await this._http.post<ConversationResource>('/v3/conversations', params);
-    return res.json();
+    return res.data;
   }
 }
 

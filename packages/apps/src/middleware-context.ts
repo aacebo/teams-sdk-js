@@ -1,8 +1,6 @@
 import {
   Account,
   Activity,
-  Client,
-  ConversationReference,
   MentionEntity,
   MessageSendActivity,
   Resource,
@@ -11,63 +9,13 @@ import {
   TokenResponse,
 } from '@teams.sdk/api';
 
-import { HttpRequest } from '@teams.sdk/common/http';
-import { Logger } from '@teams.sdk/common/logging';
-import { Storage } from '@teams.sdk/common/storage';
+import { ActivityContext } from './activity-context';
 
-import { AppTokens } from '../tokens';
-import { ActivityStream } from './activity-stream';
-
-export interface Context<T extends Activity = Activity> {
-  /**
-   * the inbound activity
-   */
-  activity: T;
-
-  /**
-   * the inbound activity conversation reference
-   */
-  conversation: ConversationReference;
-
-  /**
-   * the app logger instance
-   */
-  log: Logger;
-
-  /**
-   * the bot api client
-   */
-  api: Client;
-
-  /**
-   * the apps tokens
-   */
-  tokens: AppTokens;
-
-  /**
-   * the inbound http request
-   */
-  req?: HttpRequest;
-
-  /**
-   * any extra context data
-   */
-  data: Map<string, any>;
-
-  /**
-   * app storage instance
-   */
-  storage: Storage;
-
-  /**
-   * activity stream
-   */
-  stream: ActivityStream;
-
+export interface MiddlewareContext<T extends Activity = Activity> extends ActivityContext<T> {
   /**
    * call the next event/middleware handler
    */
-  next: (ctx?: Context) => any | Promise<any>;
+  next: (ctx?: MiddlewareContext) => any | Promise<any>;
 
   /**
    * send an activity to the conversation
@@ -102,25 +50,25 @@ export interface Context<T extends Activity = Activity> {
   withAIContentLabel: (activity: Partial<Activity>) => Partial<Activity>;
 }
 
-export type MentionContext = Context<MessageSendActivity> & {
+export interface MentionMiddlewareContext extends MiddlewareContext<MessageSendActivity> {
   /**
    * the mention entity that references your app
    */
   mention: MentionEntity;
-};
+}
 
-export type SignInContext = Context<
-  SignInTokenExchangeInvokeActivity | SignInVerifyStateInvokeActivity
-> & {
+export interface SignInMiddlewareContext
+  extends MiddlewareContext<SignInTokenExchangeInvokeActivity | SignInVerifyStateInvokeActivity> {
   /**
    * the token response of the signin request
    */
-  tokenResponse: TokenResponse;
-};
+  token: TokenResponse;
+}
 
-export type ErrorContext = Context & {
+export interface ErrorMiddlewareContext<T extends Activity = Activity>
+  extends MiddlewareContext<T> {
   /**
    * the error
    */
   err: Error;
-};
+}

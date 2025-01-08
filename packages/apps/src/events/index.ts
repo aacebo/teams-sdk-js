@@ -1,6 +1,6 @@
 import { Logger } from '@teams.sdk/common/logging';
 
-import { ErrorContext, SignInContext } from '../context';
+import { ErrorMiddlewareContext, SignInMiddlewareContext } from '../middleware-context';
 import { EventHandler } from '../types';
 
 import { error, ErrorEventArgs } from './error';
@@ -9,9 +9,9 @@ import { signin } from './signin';
 
 export interface Events {
   start: EventHandler<Logger>;
-  signin: EventHandler<SignInContext>;
+  signin: EventHandler<SignInMiddlewareContext>;
   error: EventHandler<ErrorEventArgs>;
-  'activity.error': EventHandler<ErrorContext>;
+  'activity.error': EventHandler<ErrorMiddlewareContext>;
 }
 
 export const DEFAULT_EVENTS: Events = {

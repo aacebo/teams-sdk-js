@@ -1,7 +1,6 @@
-import { HttpClient } from '@teams.sdk/common/http';
+import axios from 'axios';
 import qs from 'qs';
 
-import { ClientOptions } from '../../client-options';
 import { SignInUrlResponse } from '../../models';
 
 export interface GetBotSignInUrlParams {
@@ -19,32 +18,26 @@ export interface GetBotSignInResourceParams {
 }
 
 export class BotSignInClient {
-  private readonly _http: HttpClient;
+  private readonly _http: axios.AxiosInstance;
 
-  constructor(private readonly _options?: ClientOptions) {
-    this._http = new HttpClient({
-      ...this._options,
-      baseUrl: 'https://token.botframework.com',
+  constructor(options?: axios.CreateAxiosDefaults) {
+    this._http = axios.create({
+      ...options,
+      baseURL: 'https://token.botframework.com',
     });
   }
 
   async getUrl(params: GetBotSignInUrlParams) {
     const q = qs.stringify(params);
-    const res = await this._http.get<string>(
-      `/api/botsignin/GetSignInUrl?${q}`,
-      this._options?.requestOptions
-    );
+    const res = await this._http.get<string>(`/api/botsignin/GetSignInUrl?${q}`);
 
-    return res.json();
+    return res.data;
   }
 
   async getResource(params: GetBotSignInResourceParams) {
     const q = qs.stringify(params);
-    const res = await this._http.get<SignInUrlResponse>(
-      `/api/botsignin/GetSignInResource?${q}`,
-      this._options?.requestOptions
-    );
+    const res = await this._http.get<SignInUrlResponse>(`/api/botsignin/GetSignInResource?${q}`);
 
-    return res.json();
+    return res.data;
   }
 }

@@ -1,12 +1,12 @@
-import { ClientOptions } from '../../client-options';
+import axios from 'axios';
 
 import { UserTokenClient } from './token';
 
 export class UserClient {
   readonly token: UserTokenClient;
 
-  constructor(private readonly _options?: ClientOptions) {
-    this.token = new UserTokenClient(this._options);
+  constructor(options?: axios.CreateAxiosDefaults) {
+    this.token = new UserTokenClient(options);
   }
 }
 

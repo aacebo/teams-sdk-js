@@ -36,6 +36,7 @@
     "uuid": "^10.0.0"
   },
   "peerDependencies": {
+    "@teams.sdk/api": "*",
     "@teams.sdk/apps": "*",
     "@teams.sdk/common": "*",
     "@teams.sdk/config": "*",

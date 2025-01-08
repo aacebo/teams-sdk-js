@@ -1,11 +1,11 @@
 import { FileConsentInvokeActivity, InvokeResponse } from '@teams.sdk/api';
 
 import { RouteHandler } from '../../types';
-import { Context } from '../../context';
+import { MiddlewareContext } from '../../middleware-context';
 
 export type FileConsentActivityRoutes = {
   [K in FileConsentInvokeActivity['value']['action'] as `file.consent.${K}`]?: RouteHandler<
-    Context<FileConsentInvokeActivity>,
+    MiddlewareContext<FileConsentInvokeActivity>,
     InvokeResponse<'fileConsent/invoke'>
   >;
 };

@@ -1,9 +1,7 @@
-import http from 'http';
-import url from 'url';
+import express from 'express';
 
-import { Activity, Token } from '@teams.sdk/api';
+import { Activity, Client, Credentials, JsonWebToken } from '@teams.sdk/api';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
-import { HttpRequest, StatusCodes } from '@teams.sdk/common/http';
 
 import { AppResponse } from '../response';
 import { Receiver, ReceiverActivityArgs, ReceiverEvents } from './receiver';
@@ -11,12 +9,17 @@ import { Receiver, ReceiverActivityArgs, ReceiverEvents } from './receiver';
 /**
  * Http Receiver Options
  */
-export interface HttpReceiverOptions {
+export type HttpReceiverOptions = Credentials & {
   /**
    * logger instance to use
    */
   readonly logger?: Logger;
-}
+
+  /**
+   * the api client
+   */
+  readonly api?: Client;
+};
 
 /**
  * Http Receiver Activity Arguments
@@ -25,7 +28,7 @@ export interface HttpReceiverActivityArgs extends ReceiverActivityArgs {
   /**
    * inbound http request
    */
-  readonly req: HttpRequest;
+  readonly req: express.Request;
 }
 
 /**
@@ -41,7 +44,7 @@ export interface HttpReceiverEventArgs {
 export type HttpReceiverEvents = ReceiverEvents & {
   request?: (
     args: HttpReceiverEventArgs & {
-      readonly req: HttpRequest;
+      readonly req: express.Request;
     }
   ) => void | Promise<void>;
   response?: (
@@ -57,16 +60,29 @@ export type HttpReceiverEvents = ReceiverEvents & {
  * Can receive activities via http
  */
 export class HttpReceiver implements Receiver {
-  readonly log: Logger;
+  readonly get: express.Application['get'];
+  readonly post: express.Application['post'];
+  readonly patch: express.Application['patch'];
+  readonly put: express.Application['put'];
+  readonly delete: express.Application['delete'];
+  readonly route: express.Application['route'];
 
-  private readonly _server: http.Server;
+  private readonly _log: Logger;
+  private readonly _server: express.Application;
+  private readonly _api?: Client;
   private readonly _events: HttpReceiverEvents = {};
 
-  constructor(readonly options: HttpReceiverOptions) {
-    this.log =
-      this.options.logger?.child('receiver') || new ConsoleLogger('@teams.sdk/app/receiver');
-    this._server = http.createServer();
+  constructor(protected options: HttpReceiverOptions) {
+    this._log = options.logger?.child('receiver') || new ConsoleLogger('@teams.sdk/app/receiver');
+    this._api = options.api;
+    this._server = express().use(express.json());
     this.on('error', this.onError.bind(this));
+    this.get = this._server.get;
+    this.post = this._server.post;
+    this.patch = this._server.patch;
+    this.put = this._server.put;
+    this.delete = this._server.delete;
+    this.route = this._server.route;
   }
 
   /**
@@ -75,12 +91,28 @@ export class HttpReceiver implements Receiver {
    */
   async start(port = 3000) {
     return await new Promise<void>((resolve, reject) => {
-      this._server.on('request', this.onIncomingRequest.bind(this));
+      this._server.post('/api/messages', this.onIncomingRequest.bind(this));
       this._server.on('error', (err) => {
+        this.emit('error', err);
         reject(err);
       });
 
-      this._server.listen(port, undefined, undefined, () => {
+      this._server.listen(port, async () => {
+        try {
+          const bot = await this._api?.bots.token.get(this.options);
+          const graph = await this._api?.bots.token.getGraph(this.options);
+
+          this.emit('start', {
+            tokens: {
+              bot: bot && new JsonWebToken(bot.access_token),
+              graph: graph && new JsonWebToken(graph.access_token),
+            },
+          });
+        } catch (err) {
+          this._log.error(err);
+          throw err;
+        }
+
         resolve();
       });
     });
@@ -101,59 +133,27 @@ export class HttpReceiver implements Receiver {
    * @param req the incoming http request
    * @param res the http response
    */
-  protected onIncomingRequest(
-    req: http.IncomingMessage,
-    res: http.ServerResponse<http.IncomingMessage>
+  protected async onIncomingRequest(
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
   ) {
     const start = Date.now();
 
-    if (req.method !== 'POST') {
-      res.statusCode = StatusCodes.METHOD_NOT_ALLOWED;
-      return res.end();
-    }
-
-    if (!req.url) {
-      res.statusCode = StatusCodes.NOT_FOUND;
-      return res.end('not found');
-    }
-
-    const uri = url.parse(req.url, true);
-
-    if (uri.path !== '/api/messages') {
-      res.statusCode = StatusCodes.NOT_FOUND;
-      return res.end('not found');
-    }
-
     try {
-      const chunks: any[] = [];
+      const response = await this.onRequest(req, res);
 
-      req.on('data', (chunk) => {
-        chunks.push(chunk);
+      this.emit('response', {
+        log: this._log,
+        res: response,
+        elapse: Date.now() - start,
       });
 
-      req.on('end', async () => {
-        const response = await this.onRequest(
-          new HttpRequest({
-            method: req.method!,
-            url: req.url!,
-            headers: req.headers,
-            body: JSON.parse(Buffer.concat(chunks).toString()),
-          }),
-          res
-        );
-
-        this.emit('response', {
-          log: this.log,
-          res: response,
-          elapse: Date.now() - start,
-        });
-
-        res.statusCode = response?.status || 200;
-        res.end(JSON.stringify(response?.body || null));
-      });
+      res.status(response?.status || 200).send(JSON.stringify(response?.body || null));
+      return next();
     } catch (err) {
-      res.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
-      res.end('internal server error');
+      this._log.error(err);
+      res.status(500).send('internal server error');
     }
   }
 
@@ -162,17 +162,16 @@ export class HttpReceiver implements Receiver {
    * @param req the inbound http request
    * @param res the http response
    */
-  protected async onRequest(req: HttpRequest, res: http.ServerResponse<http.IncomingMessage>) {
-    this.emit('request', { log: this.log, req });
-    const authorization = req.headers['authorization']?.replace('Bearer ', '');
+  protected async onRequest(req: express.Request, res: express.Response) {
+    this.emit('request', { log: this._log, req });
+    const authorization = req.headers.authorization?.replace('Bearer ', '');
 
     if (!authorization) {
-      res.statusCode = StatusCodes.UNAUTHORIZED;
-      res.end('unauthorized');
+      res.status(401).send('unauthorized');
       return;
     }
 
-    const token = new Token(authorization);
+    const token = new JsonWebToken(authorization);
     const activity: Activity = req.body;
     const args: HttpReceiverActivityArgs = {
       req,
@@ -195,6 +194,6 @@ export class HttpReceiver implements Receiver {
   }
 
   protected onError(err: Error) {
-    this.log.error(err);
+    this._log.error(err);
   }
 }

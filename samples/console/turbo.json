@@ -1,0 +1,16 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**"],
+      "cache": false,
+      "dependsOn": [
+        "@teams.sdk/api#build",
+        "@teams.sdk/apps#build",
+        "@teams.sdk/common#build",
+        "@teams.sdk/dev#build"
+      ]
+    }
+  }
+}

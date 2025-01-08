@@ -23,9 +23,9 @@ app.on('message', async ({ signin }) => {
   await signin('graph-connection');
 });
 
-app.event('signin', async ({ send, tokenResponse }) => {
-  const msgraph = graph(tokenResponse.token);
-  const me = await graph(tokenResponse.token).api('/me').get();
+app.event('signin', async ({ send, token }) => {
+  const msgraph = graph(token.token);
+  const me = await graph(token.token).api('/me').get();
   const [meta, photo] = await Promise.all([
     msgraph.api('/me/photo').get(),
     msgraph.api('/me/photo/$value').get() as Promise<Blob>,
