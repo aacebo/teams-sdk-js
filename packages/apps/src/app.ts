@@ -1,4 +1,7 @@
+import path from 'node:path';
+
 import axios, { HttpStatusCode, AxiosError } from 'axios';
+import express from 'express';
 
 import { Logger, ConsoleLogger } from '@teams.sdk/common/logging';
 import { LocalStorage, Storage } from '@teams.sdk/common/storage';
@@ -53,6 +56,12 @@ export type AppOptions = Credentials & {
    * storage instance to use
    */
   readonly storage?: Storage;
+
+  /**
+   * enable/disable devtools
+   * > **Note**: devtools are only available when using `HttpReceiver`
+   */
+  readonly devtools?: boolean;
 };
 
 /**
@@ -112,6 +121,17 @@ export class App {
       this.tokens.bot = tokens.bot;
       this.tokens.graph = tokens.graph;
     });
+
+    if (this._receiver instanceof HttpReceiver && options.devtools) {
+      try {
+        const dist = path.join(__dirname, '..', '..', 'devtools', 'dist');
+        this.log.info(dist);
+        this._receiver.use(express.static(dist));
+      } catch (err) {
+        this.log.warn('failed to load devtools, please ensure you have installed `@teams.sdk/devtools`');
+        this.log.warn(err);
+      }
+    }
 
     // default event handlers
     this.on('signin.token-exchange', this._onTokenExchange.bind(this));

@@ -66,6 +66,7 @@ export class HttpReceiver implements Receiver {
   readonly put: express.Application['put'];
   readonly delete: express.Application['delete'];
   readonly route: express.Application['route'];
+  readonly use: express.Application['use'];
 
   private readonly _log: Logger;
   private readonly _server: express.Application;
@@ -75,14 +76,15 @@ export class HttpReceiver implements Receiver {
   constructor(protected options: HttpReceiverOptions) {
     this._log = options.logger?.child('receiver') || new ConsoleLogger('@teams.sdk/app/receiver');
     this._api = options.api;
-    this._server = express().use(express.json());
+    this._server = express();
     this.on('error', this.onError.bind(this));
-    this.get = this._server.get;
-    this.post = this._server.post;
-    this.patch = this._server.patch;
-    this.put = this._server.put;
-    this.delete = this._server.delete;
-    this.route = this._server.route;
+    this.get = this._server.get.bind(this._server);
+    this.post = this._server.post.bind(this._server);
+    this.patch = this._server.patch.bind(this._server);
+    this.put = this._server.put.bind(this._server);
+    this.delete = this._server.delete.bind(this._server);
+    this.route = this._server.route.bind(this._server);
+    this.use = this._server.use.bind(this._server);
   }
 
   /**
@@ -91,6 +93,7 @@ export class HttpReceiver implements Receiver {
    */
   async start(port = 3000) {
     return await new Promise<void>((resolve, reject) => {
+      this._server.use(express.json());
       this._server.post('/api/messages', this.onIncomingRequest.bind(this));
       this._server.on('error', (err) => {
         this.emit('error', err);

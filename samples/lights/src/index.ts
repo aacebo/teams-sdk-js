@@ -20,6 +20,7 @@ const app = new App({
   type: 'MultiTenant',
   clientId,
   clientSecret,
+  devtools: true,
   logger: new ConsoleLogger('@samples/lights', { level: 'debug' }),
 });
 

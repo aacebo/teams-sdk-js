@@ -22,6 +22,7 @@
     "@teams.sdk/common": "*",
     "@teams.sdk/config": "*",
     "@teams.sdk/openai": "*",
+    "@teams.sdk/devtools": "*",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
