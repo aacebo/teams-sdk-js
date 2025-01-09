@@ -126,7 +126,10 @@ export class App {
       try {
         const dist = path.join(__dirname, '..', '..', 'devtools', 'dist');
         this.log.info(dist);
-        this._receiver.use(express.static(dist));
+        this._receiver.use('/devtools', express.static(dist));
+        this._receiver.get('/devtools/*', (_, res) => {
+          res.sendFile(path.join(dist, 'index.html'));
+        });
       } catch (err) {
         this.log.warn('failed to load devtools, please ensure you have installed `@teams.sdk/devtools`');
         this.log.warn(err);
