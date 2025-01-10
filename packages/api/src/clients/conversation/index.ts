@@ -1,8 +1,8 @@
-import axios from 'axios';
 import qs from 'qs';
 
 import { Account, Conversation, ConversationResource } from '../../models';
 import { Activity } from '../../activities';
+import { ClientBase } from '../client-base';
 
 import { ConversationMemberClient } from './member';
 import { ConversationActivityClient } from './activity';
@@ -33,31 +33,23 @@ export interface GetConversationsResponse {
   conversations: Conversation[];
 }
 
-export class ConversationClient {
-  private readonly _http: axios.AxiosInstance;
-  private readonly _options?: axios.CreateAxiosDefaults;
-
-  constructor(options?: axios.CreateAxiosDefaults) {
-    this._http = axios.create(options);
-    this._options = options;
-  }
-
+export class ConversationClient extends ClientBase {
   activities(conversationId: string) {
-    return new ConversationActivityClient(conversationId, this._options);
+    return new ConversationActivityClient(conversationId, this.options);
   }
 
   members(conversationId: string) {
-    return new ConversationMemberClient(conversationId, this._options);
+    return new ConversationMemberClient(conversationId, this.options);
   }
 
   async get(params: GetConversationsParams) {
     const q = qs.stringify(params, { addQueryPrefix: true });
-    const res = await this._http.get<GetConversationsResponse>(`/v3/conversations${q}`);
+    const res = await this.http.get<GetConversationsResponse>(`/v3/conversations${q}`);
     return res.data;
   }
 
   async create(params: CreateConversationParams) {
-    const res = await this._http.post<ConversationResource>('/v3/conversations', params);
+    const res = await this.http.post<ConversationResource>('/v3/conversations', params);
     return res.data;
   }
 }

@@ -1,12 +1,18 @@
-import axios from 'axios';
-
 import { UserTokenClient } from './token';
+import { ClientBase, ClientOptions } from '../client-base';
 
-export class UserClient {
+export class UserClient extends ClientBase {
   readonly token: UserTokenClient;
 
-  constructor(options?: axios.CreateAxiosDefaults) {
-    this.token = new UserTokenClient(options);
+  constructor(options?: ClientOptions) {
+    const token = new UserTokenClient(options);
+
+    super({
+      ...options,
+      children: [token],
+    });
+
+    this.token = token;
   }
 }
 

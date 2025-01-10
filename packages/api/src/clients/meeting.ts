@@ -1,21 +1,21 @@
-import axios from 'axios';
-
 import { MeetingInfo, MeetingParticipant } from '../models';
+import { ClientBase, ClientOptions } from './client-base';
 
-export class MeetingClient {
-  private readonly _http: axios.AxiosInstance;
-
-  constructor(options?: axios.CreateAxiosDefaults) {
-    this._http = axios.create(options);
+export class MeetingClient extends ClientBase {
+  constructor(options?: ClientOptions) {
+    super({
+      ...options,
+      children: [],
+    });
   }
 
   async getById(id: string) {
-    const res = await this._http.get<MeetingInfo>(`/v1/meetings/${id}`);
+    const res = await this.http.get<MeetingInfo>(`/v1/meetings/${id}`);
     return res.data;
   }
 
   async getParticipant(meetingId: string, id: string) {
-    const res = await this._http.get<MeetingParticipant>(
+    const res = await this.http.get<MeetingParticipant>(
       `/v1/meetings/${meetingId}/participants/${id}`
     );
     return res.data;
