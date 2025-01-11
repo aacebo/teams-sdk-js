@@ -1,3 +1,7 @@
+import http from 'node:http';
+import path from 'node:path';
+
+import io from 'socket.io';
 import express from 'express';
 
 import { Activity, Client, Credentials, JsonWebToken } from '@teams.sdk/api';
@@ -19,6 +23,11 @@ export type HttpReceiverOptions = Credentials & {
    * the api client
    */
   readonly api?: Client;
+
+  /**
+   * enable/disable devtools
+   */
+  readonly devtools?: boolean;
 };
 
 /**
@@ -69,22 +78,64 @@ export class HttpReceiver implements Receiver {
   readonly use: express.Application['use'];
 
   private readonly _log: Logger;
-  private readonly _server: express.Application;
+  private readonly _express: express.Application;
+  private readonly _socket?: io.Server;
+  private readonly _server: http.Server;
   private readonly _api?: Client;
   private readonly _events: HttpReceiverEvents = {};
+  private readonly _sockets: Record<string, io.Socket> = { };
 
   constructor(protected options: HttpReceiverOptions) {
     this._log = options.logger?.child('receiver') || new ConsoleLogger('@teams.sdk/app/receiver');
     this._api = options.api;
-    this._server = express();
+    this._express = express();
+    this._server = http.createServer(this._express);
+
     this.on('error', this.onError.bind(this));
-    this.get = this._server.get.bind(this._server);
-    this.post = this._server.post.bind(this._server);
-    this.patch = this._server.patch.bind(this._server);
-    this.put = this._server.put.bind(this._server);
-    this.delete = this._server.delete.bind(this._server);
-    this.route = this._server.route.bind(this._server);
-    this.use = this._server.use.bind(this._server);
+    this.get = this._express.get.bind(this._server);
+    this.post = this._express.post.bind(this._server);
+    this.patch = this._express.patch.bind(this._server);
+    this.put = this._express.put.bind(this._server);
+    this.delete = this._express.delete.bind(this._server);
+    this.route = this._express.route.bind(this._server);
+    this.use = this._express.use.bind(this._server);
+
+    if (options.devtools) {
+      this._socket = new io.Server(this._server, { path: '/devtools/sockets' });
+      this._socket.on('connection', this.onDevtools.bind(this));
+
+      if (this._api) {
+        this._api = new Client({
+          ...this._api.options,
+          interceptors: {
+            request: [{
+              onSuccess: (config) => {
+                this.emitToSockets('request', {
+                  type: 'outbound',
+                  url: config.url,
+                  method: config.method,
+                  headers: config.headers,
+                  body: config.data
+                });
+
+                return config;
+              }
+            }]
+          }
+        });
+      }
+
+      try {
+        const dist = path.join(__dirname, '..', '..', 'devtools', 'dist');
+        this._express.use('/devtools', express.static(dist));
+        this._express.get('/devtools/*', (_, res) => {
+          res.sendFile(path.join(dist, 'index.html'));
+        });
+      } catch (err) {
+        this._log.warn('failed to load devtools, please ensure you have installed `@teams.sdk/devtools`');
+        this._log.warn(err);
+      }
+    }
   }
 
   /**
@@ -93,9 +144,9 @@ export class HttpReceiver implements Receiver {
    */
   async start(port = 3000) {
     return await new Promise<void>((resolve, reject) => {
-      this._server.use(express.json());
-      this._server.post('/api/messages', this.onIncomingRequest.bind(this));
-      this._server.on('error', (err) => {
+      this._express.use(express.json());
+      this._express.post('/api/messages', this.onIncomingRequest.bind(this));
+      this._express.on('error', (err) => {
         this.emit('error', err);
         reject(err);
       });
@@ -152,11 +203,18 @@ export class HttpReceiver implements Receiver {
         elapse: Date.now() - start,
       });
 
+      this.emitToSockets('response', {
+        ...response,
+        type: 'inbound',
+        elapse: Date.now() - start,
+      });
+
       res.status(response?.status || 200).send(JSON.stringify(response?.body || null));
       return next();
     } catch (err) {
       this._log.error(err);
       res.status(500).send('internal server error');
+      this.emitToSockets('error', err);
     }
   }
 
@@ -167,6 +225,14 @@ export class HttpReceiver implements Receiver {
    */
   protected async onRequest(req: express.Request, res: express.Response) {
     this.emit('request', { log: this._log, req });
+    this.emitToSockets('request', {
+      type: 'inbound',
+      url: req.url,
+      method: req.method,
+      headers: req.headers,
+      body: req.body
+    });
+
     const authorization = req.headers.authorization?.replace('Bearer ', '');
 
     if (!authorization) {
@@ -196,7 +262,23 @@ export class HttpReceiver implements Receiver {
     return this._events[event](data as never);
   }
 
+  protected emitToSockets(event: string, data: any) {
+    for (const id in this._sockets) {
+      const socket = this._sockets[id];
+      if (!socket || socket.disconnected) continue;
+      socket.emit(event, data);
+    }
+  }
+
   protected onError(err: Error) {
     this._log.error(err);
+  }
+
+  protected onDevtools(socket: io.Socket) {
+    this._sockets[socket.id] = socket;
+
+    socket.on('disconnect', () => {
+      delete this._sockets[socket.id];
+    });
   }
 }

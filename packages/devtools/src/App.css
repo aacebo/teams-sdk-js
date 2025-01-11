@@ -3,7 +3,7 @@
   @apply flex-col;
   @apply h-full;
   @apply w-full;
-  @apply dark:bg-slate-800;
+  @apply dark:bg-stone-900;
   @apply dark:text-white;
 
   .App__route {
@@ -16,6 +16,10 @@
     }
 
     &:hover {
+      @apply opacity-100;
+    }
+
+    &.active {
       @apply opacity-100;
     }
   }
