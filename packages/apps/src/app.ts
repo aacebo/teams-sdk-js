@@ -19,7 +19,7 @@ import pkg from '../package.json';
 
 import { Routes } from './routes';
 import { Router } from './router';
-import { Plugin, ReceiverPlugin, RouteHandler, SenderPlugin } from './types';
+import { Plugin, RouteHandler } from './types';
 import { DEFAULT_EVENTS, Events } from './events';
 import { ActivityContext } from './activity-context';
 import { MiddlewareContext } from './middleware-context';
@@ -90,8 +90,7 @@ export class App {
   } = {};
 
   protected plugins: Array<Plugin>;
-  protected receiver: ReceiverPlugin;
-  protected sender: SenderPlugin;
+  protected sender: Plugin;
   protected storage: Storage;
   protected api: Client;
   protected router = new Router();
@@ -112,15 +111,7 @@ export class App {
     this.plugins = this.options.plugins || [];
 
     const http = new HttpPlugin();
-    let receiver = this.plugins.find((p) => 'start' in p) as ReceiverPlugin | undefined;
-
-    if (!receiver) {
-      receiver = http;
-      this.plugin(http);
-    }
-
-    this.receiver = receiver;
-    let sender = this.plugins.find((p) => 'create' in p) as SenderPlugin | undefined;
+    let sender = this.plugins.find((p) => !!p.sender);
 
     if (!sender) {
       sender = http;
@@ -128,14 +119,6 @@ export class App {
     }
 
     this.sender = sender;
-
-    this.receiver.on('error', (err) => {
-      this._events.error({ err, log: this.log });
-    });
-
-    this.receiver.on('start', () => {
-      this._events.start(this.log);
-    });
 
     // default event handlers
     this.on('signin.token-exchange', this.onTokenExchange.bind(this));
@@ -155,8 +138,20 @@ export class App {
         graph: new JsonWebToken(graph.access_token),
       };
 
-      await Promise.all(this.plugins.map((p) => p.register(this)));
-      await this.receiver.start(port);
+      for (const plugin of this.plugins) {
+        await plugin.register(this);
+
+        plugin.on('error', (err) => this._events.error({
+          err: err,
+          log: this.log,
+        }));
+
+        if (plugin.start) {
+          await plugin.start(port);
+        }
+      }
+
+      this._events.start(this.log);
     } catch (err: any) {
       this._events.error({ err, log: this.log });
     }
@@ -293,7 +288,7 @@ export class App {
     };
 
     let i = 0;
-    const sender = this.sender.create(ctx);
+    const sender = this.sender.sender!(ctx);
     const routeCtx: MiddlewareContext<Activity> = {
       ...ctx,
       api,

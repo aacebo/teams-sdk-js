@@ -4,12 +4,12 @@ import { Activity, InvokeResponse, JsonWebToken } from '@teams.sdk/api';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 import { EventEmitter } from '@teams.sdk/common/events';
 
-import { ReceiverPlugin, ReceiverEvents, SenderPlugin } from '../../types';
+import { Plugin, PluginEvents } from '../../types';
 import { App } from '../../app';
 import { ActivityContext } from '../../activity-context';
 import { HttpSender } from './sender';
 
-export interface HttpEvents extends ReceiverEvents {
+export interface HttpEvents extends PluginEvents {
   request: express.Request;
   response: {
     res: express.Response;
@@ -21,7 +21,7 @@ export interface HttpEvents extends ReceiverEvents {
 /**
  * Can receive activities via http
  */
-export class HttpPlugin extends EventEmitter<HttpEvents> implements ReceiverPlugin, SenderPlugin {
+export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
   readonly name = 'http';
   readonly version = '0.0.0';
 
@@ -35,12 +35,12 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements ReceiverPlug
 
   protected app?: App;
   protected log: Logger;
-  protected readonly express: express.Application;
+  protected express: express.Application;
 
   constructor() {
     super();
     this.express = express();
-    this.log = new ConsoleLogger('@teams.sdk/app/receiver');
+    this.log = new ConsoleLogger('@teams.sdk/app/http');
     this.get = this.express.get.bind(this.express);
     this.post = this.express.post.bind(this.express);
     this.patch = this.express.patch.bind(this.express);
@@ -52,10 +52,10 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements ReceiverPlug
 
   register(app: App) {
     this.app = app;
-    this.log = app.log.child('receiver');
+    this.log = app.log.child('http');
   }
 
-  create(ctx: ActivityContext) {
+  sender(ctx: ActivityContext) {
     return new HttpSender(ctx);
   }
 
@@ -77,7 +77,6 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements ReceiverPlug
       });
 
       this.express.listen(port, async () => {
-        this.emit('start', null);
         resolve();
       });
     });
@@ -116,7 +115,6 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements ReceiverPlug
 
       const token = new JsonWebToken(authorization);
       const activity: Activity = req.body;
-      this.emit('activity', activity);
       const response = await this.app.process({
         req,
         token,

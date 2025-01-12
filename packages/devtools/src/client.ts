@@ -18,6 +18,10 @@ export class Client {
   connect() {
     this._socket.connect();
   }
+
+  on(event: string, handler: (value: any) => void | Promise<void>) {
+    this._socket.on(event, handler);
+  }
 }
 
 export const ClientContext = createContext(new Client());

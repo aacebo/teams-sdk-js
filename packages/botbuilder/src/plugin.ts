@@ -61,7 +61,6 @@ export class BotBuilderPlugin extends HttpPlugin {
       }
 
       await this.adapter.process(req, res, async (context) => {
-        this.emit('activity', context.activity as Activity);
         const response = await this.app!.process({
           token: new JsonWebToken(authorization),
           activity: context.activity as Activity,

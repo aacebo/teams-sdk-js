@@ -20,6 +20,8 @@
     "@teams.sdk/apps": "*",
     "@teams.sdk/common": "*",
     "@teams.sdk/config": "*",
+    "@teams.sdk/dev": "*",
+    "@teams.sdk/devtools": "*",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {

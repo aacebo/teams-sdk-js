@@ -23,7 +23,7 @@ export interface ClientOptions<D = any> extends axios.CreateAxiosDefaults<D> {
 
 export abstract class ClientBase {
   readonly http: axios.AxiosInstance;
-  readonly options?: ClientOptions;
+  readonly options: ClientOptions;
 
   protected children: Array<ClientBase>;
   protected interceptors: Record<
@@ -36,7 +36,7 @@ export abstract class ClientBase {
 
   constructor(options?: ClientOptions) {
     this.http = axios.create(options);
-    this.options = options;
+    this.options = options || { };
     this.children = options?.children || [];
 
     for (const interceptor of options?.interceptors?.request || []) {

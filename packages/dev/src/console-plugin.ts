@@ -2,13 +2,7 @@ import readline from 'node:readline';
 import express from 'express';
 
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
-import {
-  ReceiverPlugin,
-  ReceiverEvents,
-  App,
-  SenderPlugin,
-  ActivityContext,
-} from '@teams.sdk/apps';
+import { App, ActivityContext, PluginEvents, Plugin } from '@teams.sdk/apps';
 import { MessageSendActivity, Token } from '@teams.sdk/api';
 import { EventEmitter } from '@teams.sdk/common/events';
 
@@ -28,10 +22,7 @@ export interface ConsoleOptions {
 /**
  * Can receive activities via the console
  */
-export class ConsolePlugin
-  extends EventEmitter<ReceiverEvents>
-  implements ReceiverPlugin, SenderPlugin
-{
+export class ConsolePlugin extends EventEmitter<PluginEvents> implements Plugin {
   readonly name = 'console';
   readonly version = '0.0.0';
 
@@ -42,7 +33,7 @@ export class ConsolePlugin
 
   constructor(protected options: ConsoleOptions = {}) {
     super();
-    this.log = new ConsoleLogger('@teams.sdk/app/receiver');
+    this.log = new ConsoleLogger('@teams.sdk/app/http');
     this.express = express();
     this.reader = readline.createInterface({
       input: this.options.stream || process.stdin,
@@ -54,10 +45,10 @@ export class ConsolePlugin
 
   register(app: App) {
     this.app = app;
-    this.log = app.log.child('receiver');
+    this.log = app.log.child('console');
   }
 
-  create(ctx: ActivityContext) {
+  sender(ctx: ActivityContext) {
     return new ConsoleSender(ctx);
   }
 
@@ -67,7 +58,6 @@ export class ConsolePlugin
     }
 
     this.express.listen(port, () => {
-      this.emit('start', null);
       this.reader.on('line', async (text) => {
         const activity: MessageSendActivity = {
           id: '1',

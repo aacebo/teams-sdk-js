@@ -1,6 +1,5 @@
 export * from './plugin';
-export * from './receiver-plugin';
-export * from './sender-plugin';
+export * from './sender';
 export * from './event-handler';
 export * from './route-handler';
 export * from './prefixed';
