@@ -17,7 +17,7 @@ import { ConsoleSender } from './console-sender';
 /**
  * Console Receiver Options
  */
-export interface ConsoleReceiverOptions {
+export interface ConsoleOptions {
   /**
    * input stream
    * defaults to `process.stdin`
@@ -40,7 +40,7 @@ export class ConsolePlugin
   protected reader: readline.Interface;
   protected express: express.Application;
 
-  constructor(protected options: ConsoleReceiverOptions = {}) {
+  constructor(protected options: ConsoleOptions = {}) {
     super();
     this.log = new ConsoleLogger('@teams.sdk/app/receiver');
     this.express = express();
