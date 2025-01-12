@@ -22,6 +22,10 @@ export class Client {
   on(event: string, handler: (value: any) => void | Promise<void>) {
     this._socket.on(event, handler);
   }
+
+  off(event: string) {
+    this._socket.off(event);
+  }
 }
 
 export const ClientContext = createContext(new Client());
