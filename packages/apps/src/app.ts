@@ -120,6 +120,14 @@ export class App {
 
     this.sender = sender;
 
+    for (const plugin of this.plugins) {
+      plugin.register(this);
+      plugin.on('error', (err) => this._events.error({
+        err: err,
+        log: this.log,
+      }));
+    }
+
     // default event handlers
     this.on('signin.token-exchange', this.onTokenExchange.bind(this));
     this.on('signin.verify-state', this.onVerifyState.bind(this));
@@ -139,13 +147,6 @@ export class App {
       };
 
       for (const plugin of this.plugins) {
-        await plugin.register(this);
-
-        plugin.on('error', (err) => this._events.error({
-          err: err,
-          log: this.log,
-        }));
-
         if (plugin.start) {
           await plugin.start(port);
         }

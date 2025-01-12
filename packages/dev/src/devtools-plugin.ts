@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import express from 'express';
 import io from 'socket.io';
+import * as uuid from 'uuid';
 
 import { ActivityContext, App, HttpSender, Plugin, PluginEvents } from '@teams.sdk/apps';
 import { EventEmitter } from '@teams.sdk/common/events';
@@ -11,6 +12,13 @@ import { Activity } from '@teams.sdk/api';
 
 export interface DevtoolsOptions {
   readonly port?: number;
+}
+
+interface DevtoolsSocketEvent<T = any> {
+  readonly id: string;
+  readonly type: string;
+  readonly body?: T;
+  readonly sentAt: Date;
 }
 
 export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin {
@@ -47,64 +55,64 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
   register(app: App) {
     this.log = app.log.child('devtools');
 
-    app.on('activity', ctx => {
-      this.emitToSockets('activity.receive', ctx.activity);
-      ctx.next();
+    app.on('activity', ({ activity, next }) => {
+      this.emitToSockets('activity', {
+        id: uuid.v4(),
+        type: 'received',
+        body: activity,
+        sentAt: new Date(),
+      });
+
+      next();
     });
   }
 
   sender(ctx: ActivityContext) {
     const sender = new HttpSender(ctx);
-    ctx.api.use('request', {
-      onSuccess: (config) => {
-        this.emitToSockets('request.send', {
-          url: config.url,
-          method: config.method,
-          headers: config.headers,
-          body: config.data,
-        });
-
-        return config;
-      },
-      onError: (err) => {
-        this.emitToSockets('request.error', err);
-      },
-    });
-
-    ctx.api.use('response', {
-      onSuccess: (res) => {
-        this.emitToSockets('response.receive', {
-          request: {
-            url: res.config.url,
-            method: res.config.method,
-          },
-          status: res.status,
-          headers: res.headers,
-          body: res.data,
-        });
-
-        return res;
-      },
-      onError: (err) => {
-        this.emitToSockets('response.error', err);
-      },
-    });
 
     return {
       send: async (activity: Partial<Activity>) => {
+        const id = uuid.v4();
+        this.emitToSockets('activity', {
+          id,
+          type: 'sending',
+          body: activity,
+          sentAt: new Date(),
+        });
+
         const res = await sender.send(activity);
-        this.emitToSockets('activity.send', {
-          ...activity,
-          id: res.id,
+
+        this.emitToSockets('activity', {
+          id,
+          type: 'sent',
+          body: {
+            ...activity,
+            id: res.id,
+          },
+          sentAt: new Date(),
         });
 
         return res;
       },
       reply: async (activity: Partial<Activity>) => {
+        const id = uuid.v4();
+        this.emitToSockets('activity', {
+          id,
+          type: 'sending',
+          body: activity,
+          sentAt: new Date(),
+        });
+
         const res = await sender.reply(activity);
-        this.emitToSockets('activity.send', {
-          ...activity,
-          id: res.id,
+
+        this.emitToSockets('activity', {
+          id,
+          type: 'sent',
+          body: {
+            ...activity,
+            id: res.id,
+          },
+          sentAt: new Date(),
         });
 
         return res;
@@ -140,9 +148,9 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
     });
   }
 
-  protected emitToSockets(event: string, value: any) {
+  protected emitToSockets(name: string, event: DevtoolsSocketEvent) {
     for (const socket of this.sockets.values()) {
-      socket.emit(event, value);
+      socket.emit(name, event);
     }
   }
 }

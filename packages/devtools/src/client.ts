@@ -1,5 +1,20 @@
+import { Activity } from '@teams.sdk/api';
 import { createContext } from 'react';
 import io, { Socket } from 'socket.io-client';
+
+export interface SocketEvent<T = any> {
+  readonly id: string;
+  readonly body: T;
+  readonly sentAt: Date;
+}
+
+export interface ActivitySocketEvent extends SocketEvent<Activity> {
+  readonly type: 'received' | 'sending' | 'sent';
+}
+
+interface SocketEventTypes {
+  readonly activity: ActivitySocketEvent;
+}
 
 export class Client {
   private readonly _socket: Socket;
@@ -19,11 +34,11 @@ export class Client {
     this._socket.connect();
   }
 
-  on(event: string, handler: (value: any) => void | Promise<void>) {
-    this._socket.on(event, handler);
+  on<Event extends keyof SocketEventTypes>(event: Event, handler: (value: SocketEventTypes[Event]) => void | Promise<void>) {
+    this._socket.on(event as string, handler);
   }
 
-  off(event: string) {
+  off<Event extends keyof SocketEventTypes>(event: Event) {
     this._socket.off(event);
   }
 }
