@@ -32,8 +32,7 @@
     "test": "npx jest"
   },
   "dependencies": {
-    "express": "^4.21.0",
-    "socket.io": "^4.8.1"
+    "express": "^4.21.0"
   },
   "peerDependencies": {
     "@teams.sdk/api": "*",
