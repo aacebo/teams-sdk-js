@@ -2,18 +2,22 @@ import readline from 'node:readline';
 import express from 'express';
 
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
-import { Receiver, ReceiverEvents } from '@teams.sdk/apps';
+import {
+  ReceiverPlugin,
+  ReceiverEvents,
+  App,
+  SenderPlugin,
+  ActivityContext,
+} from '@teams.sdk/apps';
 import { MessageSendActivity, Token } from '@teams.sdk/api';
+import { EventEmitter } from '@teams.sdk/common/events';
+
+import { ConsoleSender } from './console-sender';
 
 /**
  * Console Receiver Options
  */
 export interface ConsoleReceiverOptions {
-  /**
-   * logger instance to use
-   */
-  readonly logger?: Logger;
-
   /**
    * input stream
    * defaults to `process.stdin`
@@ -24,27 +28,47 @@ export interface ConsoleReceiverOptions {
 /**
  * Can receive activities via the console
  */
-export class ConsoleReceiver implements Receiver {
-  private readonly _log: Logger;
-  private readonly _events: ReceiverEvents = {};
-  private readonly _reader: readline.Interface;
-  private readonly _server: express.Application;
+export class ConsolePlugin
+  extends EventEmitter<ReceiverEvents>
+  implements ReceiverPlugin, SenderPlugin
+{
+  readonly name = 'console';
+  readonly version = '0.0.0';
 
-  constructor(protected options: ConsoleReceiverOptions) {
-    this._log = options.logger?.child('receiver') || new ConsoleLogger('@teams.sdk/app/receiver');
-    this._server = express();
-    this._reader = readline.createInterface({
+  protected app?: App;
+  protected log: Logger;
+  protected reader: readline.Interface;
+  protected express: express.Application;
+
+  constructor(protected options: ConsoleReceiverOptions = {}) {
+    super();
+    this.log = new ConsoleLogger('@teams.sdk/app/receiver');
+    this.express = express();
+    this.reader = readline.createInterface({
       input: this.options.stream || process.stdin,
       terminal: false,
     });
 
-    this._server.get('/auth/redirect', this.onAuthRedirect.bind(this));
+    this.express.get('/auth/redirect', this.onAuthRedirect.bind(this));
+  }
+
+  register(app: App) {
+    this.app = app;
+    this.log = app.log.child('receiver');
+  }
+
+  create(ctx: ActivityContext) {
+    return new ConsoleSender(ctx);
   }
 
   async start(port?: number) {
-    this._server.listen(port, () => {
-      this.emit('start', { tokens: {} });
-      this._reader.on('line', async (text) => {
+    if (!this.app) {
+      throw new Error('plugin not registered');
+    }
+
+    this.express.listen(port, () => {
+      this.emit('start', null);
+      this.reader.on('line', async (text) => {
         const activity: MessageSendActivity = {
           id: '1',
           type: 'message',
@@ -78,29 +102,18 @@ export class ConsoleReceiver implements Receiver {
           serviceUrl: '',
         };
 
-        const cb =
-          this._events.activity ||
-          (() => {
-            return { status: 200, body: null };
-          });
-
         try {
-          const res = await cb({ token, activity });
+          const res = await this.app!.process({ token, activity });
 
           if (res.body) {
-            this._log.debug(res);
+            this.log.debug(res);
           }
         } catch (err) {
-          this._log.error(err);
+          this.log.error(err);
           this.emit('error', err);
         }
       });
     });
-  }
-
-  on<Event extends keyof ReceiverEvents>(event: Event, cb: ReceiverEvents[Event]) {
-    this._events[event] = cb;
-    return this;
   }
 
   protected onAuthRedirect(
@@ -111,10 +124,5 @@ export class ConsoleReceiver implements Receiver {
     console.log(req.url);
     console.log(req.query);
     res.status(200).send();
-  }
-
-  protected emit<Event extends keyof ReceiverEvents>(event: Event, data?: any) {
-    if (!this._events[event]) return;
-    return this._events[event](data as never);
   }
 }

@@ -1,15 +1,16 @@
 import { Activity, cardAttachment, ConversationAccount, TokenExchangeState } from '@teams.sdk/api';
 
-import { Sender, SenderContext } from './sender';
+import { Sender } from '../../types';
+import { ActivityContext } from '../../activity-context';
 
 /**
  * the default `Sender` implementation that
  * sends activities to `Teams` via HTTP
  */
 export class HttpSender implements Sender {
-  protected readonly ctx: SenderContext;
+  protected readonly ctx: ActivityContext;
 
-  constructor(ctx: SenderContext) {
+  constructor(ctx: ActivityContext) {
     this.ctx = ctx;
   }
 

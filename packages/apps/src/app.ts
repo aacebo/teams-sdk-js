@@ -1,4 +1,4 @@
-import axios, { HttpStatusCode, AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import { Logger, ConsoleLogger } from '@teams.sdk/common/logging';
 import { LocalStorage, Storage } from '@teams.sdk/common/storage';
@@ -11,19 +11,20 @@ import {
   TokenExchangeInvokeResponse,
   SignInTokenExchangeInvokeActivity,
   SignInVerifyStateInvokeActivity,
+  InvokeResponse,
+  JsonWebToken,
 } from '@teams.sdk/api';
 
 import pkg from '../package.json';
 
-import { HttpReceiver, Receiver, ReceiverActivityArgs } from './receiver';
 import { Routes } from './routes';
 import { Router } from './router';
-import { RouteHandler } from './types';
+import { Plugin, ReceiverPlugin, RouteHandler, SenderPlugin } from './types';
 import { DEFAULT_EVENTS, Events } from './events';
-import { Sender, HttpSender, SenderContext } from './sender';
 import { ActivityContext } from './activity-context';
 import { MiddlewareContext } from './middleware-context';
 import { withAIContentLabel, withMention } from './utils';
+import { HttpPlugin } from './plugins';
 
 /**
  * App initialization options
@@ -40,26 +41,32 @@ export type AppOptions = Credentials & {
   readonly logger?: Logger;
 
   /**
-   * receiver instance to listen for incoming activities
-   */
-  readonly receiver?: Receiver;
-
-  /**
-   * sender factory to send outgoing acitivies
-   */
-  readonly sender?: (ctx: SenderContext) => Sender | Promise<Sender>;
-
-  /**
    * storage instance to use
    */
   readonly storage?: Storage;
 
   /**
-   * enable/disable devtools
-   * > **Note**: devtools are only available when using `HttpReceiver`
+   * plugins to extend the apps functionality
    */
-  readonly devtools?: boolean;
+  readonly plugins?: Array<Plugin>;
 };
+
+export interface ProcessActivityArgs {
+  /**
+   * inbound request token
+   */
+  readonly token: Token;
+
+  /**
+   * inbound request activity payload
+   */
+  readonly activity: Activity;
+
+  /**
+   * other
+   */
+  [key: string]: any;
+}
 
 /**
  * The orchestrator for receiving/sending activities
@@ -82,16 +89,18 @@ export class App {
     graph?: Token;
   } = {};
 
-  private readonly _api: Client;
-  private readonly _receiver: Receiver;
-  private readonly _sender?: (ctx: SenderContext) => Sender | Promise<Sender>;
-  private readonly _storage: Storage;
-  private readonly _router = new Router();
+  protected plugins: Array<Plugin>;
+  protected receiver: ReceiverPlugin;
+  protected sender: SenderPlugin;
+  protected storage: Storage;
+  protected api: Client;
+  protected router = new Router();
+
   private readonly _events = DEFAULT_EVENTS;
 
   constructor(readonly options: AppOptions) {
     this.log = this.options.logger || new ConsoleLogger('@teams.sdk/app');
-    this._api = new Client({
+    this.api = new Client({
       ...this.options.http,
       headers: {
         ...this.options.http?.headers,
@@ -99,29 +108,38 @@ export class App {
       },
     });
 
-    this._storage = this.options.storage || new LocalStorage();
-    this._sender = this.options.sender;
-    this._receiver =
-      this.options.receiver ||
-      new HttpReceiver({
-        ...options,
-        logger: this.options.logger,
-        api: this._api,
-      });
+    this.storage = this.options.storage || new LocalStorage();
+    this.plugins = this.options.plugins || [];
 
-    this._receiver.on('activity', this.onActivity.bind(this));
-    this._receiver.on('error', (err) => {
+    const http = new HttpPlugin();
+    let receiver = this.plugins.find((p) => 'start' in p) as ReceiverPlugin | undefined;
+
+    if (!receiver) {
+      receiver = http;
+      this.plugin(http);
+    }
+
+    this.receiver = receiver;
+    let sender = this.plugins.find((p) => 'create' in p) as SenderPlugin | undefined;
+
+    if (!sender) {
+      sender = http;
+      this.plugin(http);
+    }
+
+    this.sender = sender;
+
+    this.receiver.on('error', (err) => {
       this._events.error({ err, log: this.log });
     });
 
-    this._receiver.on('start', ({ tokens }) => {
-      this.tokens.bot = tokens.bot;
-      this.tokens.graph = tokens.graph;
+    this.receiver.on('start', () => {
+      this._events.start(this.log);
     });
 
     // default event handlers
-    this.on('signin.token-exchange', this._onTokenExchange.bind(this));
-    this.on('signin.verify-state', this._onVerifyState.bind(this));
+    this.on('signin.token-exchange', this.onTokenExchange.bind(this));
+    this.on('signin.verify-state', this.onVerifyState.bind(this));
   }
 
   /**
@@ -129,18 +147,19 @@ export class App {
    * @param port port to listen on
    */
   async start(port = 3000) {
-    return await new Promise<void>((resolve, reject) => {
-      this._receiver
-        .start(port)
-        .then(() => {
-          this._events.start(this.log);
-          resolve();
-        })
-        .catch((err) => {
-          this.log.error(err);
-          reject(err);
-        });
-    });
+    try {
+      const bot = await this.api.bots.token.get(this.options);
+      const graph = await this.api.bots.token.getGraph(this.options);
+      this._tokens = {
+        bot: new JsonWebToken(bot.access_token),
+        graph: new JsonWebToken(graph.access_token),
+      };
+
+      await Promise.all(this.plugins.map((p) => p.register(this)));
+      await this.receiver.start(port);
+    } catch (err: any) {
+      this._events.error({ err, log: this.log });
+    }
   }
 
   /**
@@ -149,7 +168,7 @@ export class App {
    * @param cb callback to invoke
    */
   on<Name extends keyof Routes>(name: Name, cb: Exclude<Routes[Name], undefined>) {
-    this._router.on(name, cb);
+    this.router.on(name, cb);
     return this;
   }
 
@@ -159,7 +178,7 @@ export class App {
    * @param cb callback to invoke
    */
   message(pattern: string | RegExp, cb: Exclude<Routes['message'], undefined>) {
-    this._router.register<'message'>({
+    this.router.register<'message'>({
       select: (activity) => {
         if (activity.type !== 'message') {
           return false;
@@ -178,7 +197,7 @@ export class App {
    * @param cb callback to invoke
    */
   use(cb: RouteHandler<MiddlewareContext>) {
-    this._router.use(cb);
+    this.router.use(cb);
     return this;
   }
 
@@ -193,10 +212,23 @@ export class App {
   }
 
   /**
+   * add a plugin
+   * @param plugin plugin to add
+   */
+  plugin(plugin: Plugin) {
+    if (this.plugins.some((p) => p.name === plugin.name)) {
+      return;
+    }
+
+    this.plugins.push(plugin);
+    return this;
+  }
+
+  /**
    * activity handler called when an inbound activity is received
    * @param args activity arguments
    */
-  protected async onActivity(args: ReceiverActivityArgs) {
+  async process(args: ProcessActivityArgs): Promise<InvokeResponse> {
     const { token, activity } = args;
     activity.callerId = token.fromId;
 
@@ -230,7 +262,7 @@ export class App {
       user: activity.from,
     };
 
-    const routes = this._router.select(activity);
+    const routes = this.router.select(activity);
 
     if (routes.length === 0) {
       return { status: 200 };
@@ -257,17 +289,17 @@ export class App {
       log: this.log,
       tokens: this.tokens,
       conversation,
-      storage: this._storage,
+      storage: this.storage,
     };
 
     let i = 0;
-    const sender = this._sender ? await this._sender(ctx) : new HttpSender(ctx);
+    const sender = this.sender.create(ctx);
     const routeCtx: MiddlewareContext<Activity> = {
       ...ctx,
       api,
       log: this.log,
       conversation,
-      storage: this._storage,
+      storage: this.storage,
       next: (context) => {
         if (i === routes.length - 1) return;
         i++;
@@ -284,7 +316,7 @@ export class App {
     return res || { status: 200 };
   }
 
-  private async _onTokenExchange(ctx: MiddlewareContext<SignInTokenExchangeInvokeActivity>) {
+  protected async onTokenExchange(ctx: MiddlewareContext<SignInTokenExchangeInvokeActivity>) {
     const { api, activity, storage } = ctx;
     const key = `auth/${activity.conversation.id}/${activity.from.id}`;
 
@@ -300,7 +332,7 @@ export class App {
       });
 
       this._events.signin({ ...ctx, token });
-      return { status: HttpStatusCode.Ok };
+      return { status: 200 };
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err.status !== 404 && err.status !== 400) {
@@ -308,12 +340,12 @@ export class App {
         }
 
         if (err.status === 404) {
-          return { status: HttpStatusCode.NotFound };
+          return { status: 404 };
         }
       }
 
       return {
-        status: HttpStatusCode.PreconditionFailed,
+        status: 412,
         body: {
           id: activity.value.id,
           connectionName: activity.value.connectionName,
@@ -323,7 +355,7 @@ export class App {
     }
   }
 
-  private async _onVerifyState(ctx: MiddlewareContext<SignInVerifyStateInvokeActivity>) {
+  protected async onVerifyState(ctx: MiddlewareContext<SignInVerifyStateInvokeActivity>) {
     const { api, activity, storage } = ctx;
     const key = `auth/${activity.conversation.id}/${activity.from.id}`;
 
@@ -331,7 +363,7 @@ export class App {
       const connectionName: string | undefined = await storage.get(key);
 
       if (!connectionName || !activity.value.state) {
-        return { status: HttpStatusCode.NotFound };
+        return { status: 404 };
       }
 
       const token = await api.users.token.get({
@@ -343,7 +375,7 @@ export class App {
 
       await storage.delete(key);
       this._events.signin({ ...ctx, token });
-      return { status: HttpStatusCode.Ok };
+      return { status: 200 };
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err.status !== 404 && err.status !== 400) {
@@ -351,7 +383,7 @@ export class App {
         }
       }
 
-      return { status: HttpStatusCode.PreconditionFailed };
+      return { status: 412 };
     }
   }
 }

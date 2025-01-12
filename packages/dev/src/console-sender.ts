@@ -1,5 +1,5 @@
 import { Activity } from '@teams.sdk/api';
-import { Sender, SenderContext } from '@teams.sdk/apps';
+import { ActivityContext, Sender } from '@teams.sdk/apps';
 import qs from 'qs';
 
 /**
@@ -7,9 +7,9 @@ import qs from 'qs';
  * to chat with your app in the console
  */
 export class ConsoleSender implements Sender {
-  protected readonly ctx: SenderContext;
+  protected readonly ctx: ActivityContext;
 
-  constructor(ctx: SenderContext) {
+  constructor(ctx: ActivityContext) {
     this.ctx = ctx;
   }
 

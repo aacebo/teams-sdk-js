@@ -21,17 +21,26 @@ export default function App() {
         <div className="flex px-5 py-2">
           <span className="font-semibold">Teams Devtools</span>
           <div className="flex flex-1 justify-end">
-            <NavLink to="/logs" className={({ isActive }) => isActive ? 'App__route active' : 'App__route'}>
+            <NavLink
+              to="/logs"
+              className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
+            >
               <DocumentTextIcon className="size-5 my-auto mr-1" />
               Logs
             </NavLink>
 
-            <NavLink to="/activities" className={({ isActive }) => isActive ? 'App__route active' : 'App__route'}>
+            <NavLink
+              to="/activities"
+              className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
+            >
               <BoltIcon className="size-5 my-auto mr-1" />
               Activities
             </NavLink>
 
-            <NavLink to="/network" className={({ isActive }) => isActive ? 'App__route active' : 'App__route'}>
+            <NavLink
+              to="/network"
+              className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
+            >
               <WifiIcon className="size-5 my-auto mr-1" />
               Network
             </NavLink>

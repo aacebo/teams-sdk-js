@@ -1,6 +1,6 @@
 import { App } from '@teams.sdk/apps';
 import { ConsoleLogger } from '@teams.sdk/common/logging';
-import { ConsoleSender, ConsoleReceiver } from '@teams.sdk/dev';
+import { ConsolePlugin } from '@teams.sdk/dev';
 
 const logger = new ConsoleLogger('@samples/console', { level: 'debug' });
 const app = new App({
@@ -8,8 +8,7 @@ const app = new App({
   clientId: process.env.CLIENT_ID || '',
   clientSecret: process.env.CLIENT_SECRET || '',
   logger,
-  receiver: new ConsoleReceiver({ logger }),
-  sender: (ctx) => new ConsoleSender(ctx),
+  plugins: [new ConsolePlugin()],
 });
 
 app.on('message', async ({ send, activity }) => {

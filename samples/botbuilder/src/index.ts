@@ -1,6 +1,6 @@
 import { App } from '@teams.sdk/apps';
 import { ConsoleLogger } from '@teams.sdk/common/logging';
-import { TeamsAdapter } from '@teams.sdk/botbuilder';
+import { BotBuilderPlugin } from '@teams.sdk/botbuilder';
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
@@ -18,12 +18,7 @@ const app = new App({
   clientId,
   clientSecret,
   logger,
-  receiver: new TeamsAdapter({
-    type: 'MultiTenant',
-    clientId,
-    clientSecret,
-    logger,
-  }),
+  plugins: [new BotBuilderPlugin()],
 });
 
 app.on('message', async ({ send, activity }) => {

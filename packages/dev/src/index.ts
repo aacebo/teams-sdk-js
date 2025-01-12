@@ -1,2 +1,2 @@
-export * from './console-receiver';
+export * from './console-plugin';
 export * from './console-sender';

@@ -7,7 +7,7 @@ export class Client {
   constructor() {
     this._socket = io({
       autoConnect: false,
-      path: '/devtools/sockets'
+      path: '/devtools/sockets',
     });
 
     this._socket.on('connect', () => {

@@ -13,5 +13,5 @@ export interface ErrorEventArgs {
 }
 
 export function error({ err, log }: ErrorEventArgs) {
-  log.error(err);
+  log.error(err.message);
 }

@@ -7,7 +7,9 @@ export interface ClientInterceptorParams {
 
 export interface ClientInterceptor<T extends keyof ClientInterceptorParams> {
   readonly options?: axios.AxiosInterceptorOptions;
-  readonly onSuccess?: (value: ClientInterceptorParams[T]) => ClientInterceptorParams[T] | Promise<ClientInterceptorParams[T]>;
+  readonly onSuccess?: (
+    value: ClientInterceptorParams[T]
+  ) => ClientInterceptorParams[T] | Promise<ClientInterceptorParams[T]>;
   readonly onError?: (error: any) => any;
 }
 
@@ -24,10 +26,13 @@ export abstract class ClientBase {
   readonly options?: ClientOptions;
 
   protected children: Array<ClientBase>;
-  protected interceptors: Record<number, Array<{
-    readonly index: number;
-    readonly id: number;
-  }>> = { };
+  protected interceptors: Record<
+    number,
+    Array<{
+      readonly index: number;
+      readonly id: number;
+    }>
+  > = {};
 
   constructor(options?: ClientOptions) {
     this.http = axios.create(options);
@@ -43,14 +48,11 @@ export abstract class ClientBase {
     }
   }
 
-  use<T extends keyof ClientInterceptorParams>(
-    type: T,
-    interceptor: ClientInterceptor<T>,
-  ) {
+  use<T extends keyof ClientInterceptorParams>(type: T, interceptor: ClientInterceptor<T>) {
     const id = this.http.interceptors[type].use(
       interceptor.onSuccess as any,
       interceptor.onError,
-      interceptor.options,
+      interceptor.options
     );
 
     this.interceptors[id] = [];
@@ -83,6 +85,6 @@ export abstract class ClientBase {
       child.clear(type);
     }
 
-    this.interceptors = { };
+    this.interceptors = {};
   }
 }

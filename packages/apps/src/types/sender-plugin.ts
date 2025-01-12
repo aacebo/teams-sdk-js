@@ -1,11 +1,21 @@
-import { Activity, Credentials, Resource } from '@teams.sdk/api';
+import { Activity, Resource } from '@teams.sdk/api';
 
 import { ActivityContext } from '../activity-context';
-
-export type SenderContext = Credentials & ActivityContext;
+import { Plugin, PluginEvents } from './plugin';
 
 /**
- * anything that can send activities
+ * plugin that can send activities
+ */
+export interface SenderPlugin extends Plugin<PluginEvents> {
+  /**
+   * create a sender instance
+   * @param ctx the activity context
+   */
+  create(ctx: ActivityContext): Sender;
+}
+
+/**
+ * component that can send an activity
  */
 export interface Sender {
   /**

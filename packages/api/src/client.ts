@@ -28,13 +28,7 @@ export class Client extends ClientBase {
 
     super({
       ...options,
-      children: [
-        bots,
-        users,
-        conversations,
-        teams,
-        meetings,
-      ]
+      children: [bots, users, conversations, teams, meetings],
     });
 
     this.bots = bots;

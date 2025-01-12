@@ -1,11 +1,27 @@
 export type EventHandler<T = any> = (data: T) => void | Promise<void>;
 
+export interface EventEmitter<EventTypes = Record<string, any>> {
+  on<Event extends keyof EventTypes>(
+    event: Event,
+    handler: EventHandler<EventTypes[Event]>
+  ): number;
+  once<Event extends keyof EventTypes>(
+    event: Event,
+    handler: EventHandler<EventTypes[Event]>
+  ): number;
+  off(id: number): void;
+  emit<Event extends keyof EventTypes>(event: Event, value: EventTypes[Event]): void;
+}
+
 export class EventEmitter<EventTypes = Record<string, any>> {
   protected index = -1;
-  protected subscriptions = new Map<keyof EventTypes, Array<{
-    readonly id: number;
-    readonly handler: EventHandler;
-  }>>();
+  protected subscriptions = new Map<
+    keyof EventTypes,
+    Array<{
+      readonly id: number;
+      readonly handler: EventHandler;
+    }>
+  >();
 
   on<Event extends keyof EventTypes>(event: Event, handler: EventHandler<EventTypes[Event]>) {
     const id = ++this.index;
@@ -16,7 +32,7 @@ export class EventEmitter<EventTypes = Record<string, any>> {
   }
 
   once<Event extends keyof EventTypes>(event: Event, handler: EventHandler<EventTypes[Event]>) {
-    const id = this.on(event, value => {
+    const id = this.on(event, (value) => {
       this.off(id);
       handler(value);
     });
@@ -26,7 +42,7 @@ export class EventEmitter<EventTypes = Record<string, any>> {
 
   off(id: number) {
     for (const [_, subs] of this.subscriptions.entries()) {
-      const i = subs.findIndex(s => s.id === id);
+      const i = subs.findIndex((s) => s.id === id);
 
       if (i === -1) continue;
 
