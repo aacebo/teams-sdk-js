@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "axios": "^1.7.7",
-    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "qs": "^6.13.0"
   },
   "peerDependencies": {
@@ -40,9 +40,10 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
-    "@types/jsonwebtoken": "^9.0.6",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/qs": "^6.9.15",
     "jest": "^29.7.0",
+    "jsonwebtoken": "^9.0.2",
     "rimraf": "^6.0.1",
     "ts-jest": "^29.2.5",
     "tsup": "^8.2.4",

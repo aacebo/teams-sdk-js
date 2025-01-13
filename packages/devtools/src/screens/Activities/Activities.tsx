@@ -1,13 +1,13 @@
 import { useContext, useState } from 'react';
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/16/solid';
 
-import { StateContext } from '../../state';
-import { ActivitySocketEvent } from '../../client';
+import { ActivitiesContext } from '../../state';
+import { ActivitySocketEvent } from '../../socket-client';
 import Json from '../../components/Json';
 import './Activities.css';
 
 export default function Activities() {
-  const state = useContext(StateContext);
+  const { activities } = useContext(ActivitiesContext);
   const [selected, setSelected] = useState<ActivitySocketEvent>();
   const [view, setView] = useState<'preview' | 'json'>('preview');
 
@@ -28,7 +28,7 @@ export default function Activities() {
             </thead>
             <tbody>
               {
-                state.activities.slice().reverse().map(event => {
+                activities.slice().reverse().map(event => {
                   const classes = [
                     'group',
                     'odd:bg-white',

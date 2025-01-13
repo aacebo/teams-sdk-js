@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, NavLink, Navigate, Route, Routes } from 'react-router';
+import { Activity } from '@teams.sdk/api';
 import * as solids from '@heroicons/react/24/solid';
 import * as outlines from '@heroicons/react/24/outline';
 
@@ -7,34 +8,42 @@ import './App.css';
 import Logs from './screens/Logs';
 import Activities from './screens/Activities';
 import Chat from './screens/Chat';
-import { Client, ClientContext } from './client';
-import { State, StateContext } from './state';
+import { SocketClient } from './socket-client';
+import { ActivitiesContext, ChatState, ChatContext, ActivitiesState, DEFAULT_CHAT } from './state';
 
-const client = new Client();
+const socket = new SocketClient();
 
 export default function App() {
-  const [state, setState] = useState<State>({
-    activities: [],
-  });
+  const [events, setEvents] = useState<ActivitiesState['activities']>([]);
+  const [chats, setChats] = useState<ChatState['chats']>([DEFAULT_CHAT]);
+  const [chat, setChat] = useState<ChatState['chat']>(DEFAULT_CHAT);
+  const [activities, setActivities] = useState<Record<string, Array<Activity>>>({ });
 
   useEffect(() => {
-    client.connect();
-    client.on('activity', (event) => {
-      const i = state.activities.findIndex(e => e.id === event.id);
+    socket.connect();
+    socket.on('activity', (event) => {
+      const i = events.findIndex(e => e.id === event.id);
 
       if (i > -1) {
-        state.activities[i] = {
-          ...state.activities[i],
+        events[i] = {
+          ...events[i],
           type: event.type,
           body: event.body,
-          sentAt: state.activities[i].sentAt,
+          sentAt: events[i].sentAt,
           updatedAt: event.sentAt,
         };
       } else {
-        state.activities.push(event);
+        events.push(event);
       }
 
-      setState({ ...state });
+      setEvents([ ...events ]);
+
+      if (event.type === 'received' || event.type === 'sent') {
+        const chatActivities = activities[event.body.conversation.id] || [];
+        chatActivities.push(event.body);
+        activities[event.body.conversation.id] = chatActivities;
+        setActivities({ ...activities });
+      }
     });
   }, []);
 
@@ -45,7 +54,7 @@ export default function App() {
           <div className="flex font-semibold my-auto">
             <img src="/devtools/teams.png" className="w-10 my-auto" />
             <div className="my-auto">
-              Devtools
+              DevTools
             </div>
           </div>
 
@@ -109,16 +118,16 @@ export default function App() {
           </div>
         </div>
 
-        <StateContext.Provider value={state}>
-          <ClientContext.Provider value={client}>
+        <ActivitiesContext.Provider value={{ activities: events, setActivities: setEvents }}>
+          <ChatContext.Provider value={{ chats, setChats, chat, setChat, activities, setActivities }}>
             <Routes>
               <Route path="" element={<Chat />} />
               <Route path="logs" element={<Logs />} />
               <Route path="activities" element={<Activities />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-          </ClientContext.Provider>
-        </StateContext.Provider>
+          </ChatContext.Provider>
+        </ActivitiesContext.Provider>
       </BrowserRouter>
     </div>
   );

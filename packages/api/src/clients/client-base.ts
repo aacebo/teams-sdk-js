@@ -1,19 +1,25 @@
-import axios from 'axios';
+import axios, {
+  AxiosInstance,
+  AxiosInterceptorOptions,
+  CreateAxiosDefaults,
+  InternalAxiosRequestConfig,
+  AxiosResponse,
+} from 'axios';
 
 export interface ClientInterceptorParams {
-  readonly request: axios.InternalAxiosRequestConfig;
-  readonly response: axios.AxiosResponse;
+  readonly request: InternalAxiosRequestConfig;
+  readonly response: AxiosResponse;
 }
 
 export interface ClientInterceptor<T extends keyof ClientInterceptorParams> {
-  readonly options?: axios.AxiosInterceptorOptions;
+  readonly options?: AxiosInterceptorOptions;
   readonly onSuccess?: (
     value: ClientInterceptorParams[T]
   ) => ClientInterceptorParams[T] | Promise<ClientInterceptorParams[T]>;
   readonly onError?: (error: any) => any;
 }
 
-export interface ClientOptions<D = any> extends axios.CreateAxiosDefaults<D> {
+export interface ClientOptions<D = any> extends CreateAxiosDefaults<D> {
   readonly children?: Array<ClientBase>;
   readonly interceptors?: {
     readonly request?: Array<ClientInterceptor<'request'>>;
@@ -22,7 +28,7 @@ export interface ClientOptions<D = any> extends axios.CreateAxiosDefaults<D> {
 }
 
 export abstract class ClientBase {
-  readonly http: axios.AxiosInstance;
+  readonly http: AxiosInstance;
   readonly options: ClientOptions;
 
   protected children: Array<ClientBase>;

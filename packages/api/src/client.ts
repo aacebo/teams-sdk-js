@@ -1,5 +1,3 @@
-import pkg from '../package.json';
-
 import { BotClient, ConversationClient, MeetingClient, TeamClient, UserClient } from './clients';
 import { ClientBase, ClientOptions } from './clients/client-base';
 
@@ -15,7 +13,6 @@ export class Client extends ClientBase {
       ...options,
       headers: {
         ...options?.headers,
-        'User-Agent': `teams[api]/${pkg.version}`,
         'Content-Type': 'application/json',
       },
     };

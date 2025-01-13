@@ -6,7 +6,7 @@ import { App, ActivityContext, PluginEvents, Plugin } from '@teams.sdk/apps';
 import { MessageSendActivity, Token } from '@teams.sdk/api';
 import { EventEmitter } from '@teams.sdk/common/events';
 
-import { ConsoleSender } from './console-sender';
+import { ConsoleSender } from './sender';
 
 /**
  * Console Receiver Options

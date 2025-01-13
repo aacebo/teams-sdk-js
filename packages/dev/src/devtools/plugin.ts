@@ -10,11 +10,13 @@ import { EventEmitter } from '@teams.sdk/common/events';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 import { Activity } from '@teams.sdk/api';
 
+import { router } from './routes';
+
 export interface DevtoolsOptions {
   readonly port?: number;
 }
 
-interface DevtoolsSocketEvent<T = any> {
+export interface DevtoolsSocketEvent<T = any> {
   readonly id: string;
   readonly type: string;
   readonly body?: T;
@@ -54,6 +56,12 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
 
   register(app: App) {
     this.log = app.log.child('devtools');
+    this.express.use(router({
+      port: this.options.port || 3001,
+      log: this.log,
+      process: app.process.bind(app),
+      emit: this.emitToSockets.bind(this),
+    }));
 
     app.on('activity', ({ activity, next }) => {
       this.emitToSockets('activity', {
@@ -76,7 +84,10 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
         this.emitToSockets('activity', {
           id,
           type: 'sending',
-          body: activity,
+          body: {
+            ...activity,
+            conversation: ctx.activity.conversation,
+          },
           sentAt: new Date(),
         });
 
@@ -88,6 +99,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
           body: {
             ...activity,
             id: res.id,
+            conversation: ctx.activity.conversation,
           },
           sentAt: new Date(),
         });
@@ -99,7 +111,10 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
         this.emitToSockets('activity', {
           id,
           type: 'sending',
-          body: activity,
+          body: {
+            ...activity,
+            conversation: ctx.activity.conversation,
+          },
           sentAt: new Date(),
         });
 
@@ -111,6 +126,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
           body: {
             ...activity,
             id: res.id,
+            conversation: ctx.activity.conversation,
           },
           sentAt: new Date(),
         });

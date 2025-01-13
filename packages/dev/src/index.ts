@@ -1,3 +1,2 @@
-export * from './console-plugin';
-export * from './console-sender';
-export * from './devtools-plugin';
+export * from './console';
+export * from './devtools';

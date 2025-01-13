@@ -1,5 +1,4 @@
 import { Activity } from '@teams.sdk/api';
-import { createContext } from 'react';
 import io, { Socket } from 'socket.io-client';
 
 export interface SocketEvent<T = any> {
@@ -16,7 +15,7 @@ interface SocketEventTypes {
   readonly activity: ActivitySocketEvent;
 }
 
-export class Client {
+export class SocketClient {
   private readonly _socket: Socket;
 
   constructor() {
@@ -43,4 +42,3 @@ export class Client {
   }
 }
 
-export const ClientContext = createContext(new Client());
