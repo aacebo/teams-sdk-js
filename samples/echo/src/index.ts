@@ -21,6 +21,7 @@ const app = new App({
 });
 
 app.on('message', async ({ send, activity, next }) => {
+  await send({ type: 'typing' });
   await send({
     type: 'message',
     text: `you said "${activity.text}"`,

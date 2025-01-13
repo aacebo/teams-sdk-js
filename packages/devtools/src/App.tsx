@@ -40,7 +40,12 @@ export default function App() {
 
       if (event.type === 'received' || event.type === 'sent') {
         const chatActivities = activities[event.body.conversation.id] || [];
-        chatActivities.push(event.body);
+
+        chatActivities.push({
+          ...event.body,
+          timestamp: event.body.timestamp || new Date(),
+        });
+
         activities[event.body.conversation.id] = chatActivities;
         setActivities({ ...activities });
       }

@@ -144,13 +144,16 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
    * @param port port to listen on
    */
   async start() {
+    const port = this.options.port || 3001;
+
     return await new Promise<void>((resolve, reject) => {
       this.http.on('error', (err) => {
         this.emit('error', err);
         reject(err);
       });
 
-      this.http.listen(this.options.port || 3001, async () => {
+      this.http.listen(port, async () => {
+        this.log.info(`available at http://localhost:${port}/devtools`);
         resolve();
       });
     });

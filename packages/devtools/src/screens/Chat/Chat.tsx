@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { formatDistanceToNow } from 'date-fns';
 import { Client } from '@teams.sdk/api';
 import * as outlines from '@heroicons/react/24/outline';
 
@@ -38,22 +39,30 @@ export default function Chat() {
 
               return (
                 <div className={['flex', dir === 'sent' ? 'flex-row-reverse' : 'flex-row'].join(' ')}>
-                  <div className={[
-                    'flex',
-                    'md:max-w-[80%]',
-                    'gap-1',
-                    'transition-all',
-                    'px-4',
-                    'py-2',
-                    'rounded-lg',
-                    'text-sm',
-                    'border',
-                    'border-transparent',
-                    'group/item',
-                    dir === 'received' ? 'bg-stone-400' : 'bg-indigo-800',
-                    dir === 'received' ? 'dark:bg-stone-800' : 'dark:bg-indigo-800',
-                  ].join(' ')}>
-                    {activity.text}
+                  <div className={`flex flex-col items-${dir === 'received' ? 'start' : 'end'}`}>
+                    <div className="flex mb-1">
+                      {
+                        activity.timestamp && (
+                          <div className="text-xs text-stone-400">
+                            {formatDistanceToNow(activity.timestamp)}
+                          </div>
+                        )
+                      }
+                    </div>
+                    <div className={[
+                      'flex',
+                      'transition-all',
+                      'px-4',
+                      'py-2',
+                      'rounded-lg',
+                      'text-sm',
+                      'border',
+                      'border-transparent',
+                      dir === 'received' ? 'bg-stone-400' : 'bg-indigo-800',
+                      dir === 'received' ? 'dark:bg-stone-800' : 'dark:bg-indigo-800',
+                    ].join(' ')}>
+                      {activity.text}
+                    </div>
                   </div>
                 </div>
               );
@@ -65,13 +74,13 @@ export default function Chat() {
           className="flex flex-col relative transition-all mx-5 mb-5 rounded-xl shadow-lg border border-transparent hover:border-zinc-800"
           style={{ backgroundColor: '#121212' }}
         >
-          <input
+          <textarea
             value={text}
-            className="p-5 rounded-xl bg-transparent"
+            className="p-5 rounded-xl bg-transparent resize-none"
             placeholder="Enter message..."
             onChange={(event) => setText(event.target.value)}
             onKeyDown={(event) => {
-              if (event.key.toLowerCase() === 'enter') {
+              if (event.key.toLowerCase() === 'enter' && event.ctrlKey) {
                 send();
               }
             }}
