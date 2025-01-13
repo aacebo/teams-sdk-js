@@ -28,7 +28,7 @@ export default function Activities() {
             </thead>
             <tbody>
               {
-                state.activities.map(event => {
+                state.activities.slice().reverse().map(event => {
                   const classes = [
                     'group',
                     'odd:bg-white',
@@ -43,24 +43,48 @@ export default function Activities() {
                     classes.push('active');
                   }
 
+                  const path: Array<string> = [event.body.type];
+
+                  if (
+                    event.body.type === 'invoke' ||
+                    event.body.type === 'event' ||
+                    event.body.type === 'command'
+                  ) {
+                    path.push(event.body.name);
+                  }
+
+                  if (event.body.type === 'installationUpdate') {
+                    path.push(event.body.action);
+                  }
+
+                  if (
+                    event.body.type === 'messageDelete' ||
+                    event.body.type === 'messageUpdate' ||
+                    event.body.type === 'conversationUpdate'
+                  ) {
+                    path.push(event.body.channelData.eventType);
+                  }
+
                   return (
                     <tr
                       className={classes.join(' ')}
                       onClick={() => setSelected(event)}
                     >
-                      <td className="px-3 py-2 flex border-b border-l dark:border-stone-700 dark:group-hover:bg-stone-700">
+                      <td className="px-3 py-2 flex border-b border-l dark:border-stone-700 dark:group-hover:bg-stone-700 text-nowrap">
                         {
                           event.type === 'received' ?
                             <ArrowDownIcon className="h-4 w-4 my-auto" /> :
                             <ArrowUpIcon className="h-4 w-4 my-auto" />
                         }
                         <div className="my-auto ml-2 font-semibold">
-                          {event.body.type}
+                          {path.join('/')}
                         </div>
                       </td>
                       <td className="px-3 py-2 border-b border-l border-r dark:border-stone-700 dark:group-hover:bg-stone-700">
                         <div className="flex">
-                          <div className="flex-1">{new Date(event.updatedAt || event.sentAt).toLocaleString()}</div>
+                          <div className="flex-1 text-nowrap">
+                            {new Date(event.updatedAt || event.sentAt).toLocaleString()}
+                          </div>
                           {
                             event.type === 'sending' && (
                               <div className="animate-spin my-auto inline-block size-4 border-[3px] border-current border-t-transparent text-indigo-500 rounded-full dark:text-indigo-500" />
