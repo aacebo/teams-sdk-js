@@ -6,6 +6,7 @@ import * as outlines from '@heroicons/react/24/outline';
 import './App.css';
 import Logs from './screens/Logs';
 import Activities from './screens/Activities';
+import Chat from './screens/Chat';
 import { Client, ClientContext } from './client';
 import { State, StateContext } from './state';
 
@@ -111,9 +112,10 @@ export default function App() {
         <StateContext.Provider value={state}>
           <ClientContext.Provider value={client}>
             <Routes>
+              <Route path="" element={<Chat />} />
               <Route path="logs" element={<Logs />} />
               <Route path="activities" element={<Activities />} />
-              <Route path="*" element={<Navigate to="/logs" replace />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </ClientContext.Provider>
         </StateContext.Provider>
