@@ -81,14 +81,12 @@ export default function Chat() {
             <span className="flex-1" />
             <div className="flex">
               <button
-                className="flex px-2 py-1.5 transition rounded text-sm my-auto opacity-70 bg-emerald-600 hover:opacity-100 disabled:opacity-50"
+                className="flex px-2 py-1.5 transition-all rounded text-sm my-auto opacity-80 bg-indigo-800 hover:opacity-100 disabled:opacity-50 disabled:bg-stone-700"
                 disabled={!text}
                 onClick={send}
               >
-                <span className="m-auto mr-2">Send</span>
-                <div className="flex gap-0.5 px-1 py-1 m-auto border border-gray-300 rounded">
-                  <outlines.PaperAirplaneIcon className="size-3" />
-                </div>
+                <span className="my-auto mr-2">Send</span>
+                <outlines.PaperAirplaneIcon className="my-auto size-4" />
               </button>
             </div>
           </div>
