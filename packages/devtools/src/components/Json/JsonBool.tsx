@@ -12,10 +12,10 @@ export default function JsonBool(props: JsonBoolProps) {
       {...props}
       className={[
         ...classes,
-        'text-violet-600',
+        'text-violet-400',
       ].join(' ')}
     >
-      {props.value}
+      {props.value === true ? 'true' : 'false'}
     </div>
   );
 }

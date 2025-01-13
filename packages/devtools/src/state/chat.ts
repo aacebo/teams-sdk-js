@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 import * as uuid from 'uuid';
-import { Activity } from '@teams.sdk/api';
+import { Message } from '@teams.sdk/api';
 
 import { Chat } from '../types';
 
@@ -11,8 +11,8 @@ export interface ChatState {
   readonly chat: Chat;
   readonly setChat: (value: Chat) => void;
 
-  readonly activities: Record<string, Array<Activity>>;
-  readonly setActivities: (value: Record<string, Array<Activity>>) => void;
+  readonly messages: Record<string, Array<Message>>;
+  readonly setMessages: (value: Record<string, Array<Message>>) => void;
 }
 
 export const DEFAULT_CHAT = {
@@ -29,6 +29,6 @@ export const ChatContext = createContext<ChatState>({
   chat: DEFAULT_CHAT,
   setChat: () => {},
 
-  activities: { },
-  setActivities: () => {},
+  messages: { },
+  setMessages: () => {},
 });

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, NavLink, Navigate, Route, Routes } from 'react-router';
-import { Activity } from '@teams.sdk/api';
+import { Message } from '@teams.sdk/api';
 import * as solids from '@heroicons/react/24/solid';
 import * as outlines from '@heroicons/react/24/outline';
 
@@ -17,7 +17,7 @@ export default function App() {
   const [events, setEvents] = useState<ActivitiesState['activities']>([]);
   const [chats, setChats] = useState<ChatState['chats']>([DEFAULT_CHAT]);
   const [chat, setChat] = useState<ChatState['chat']>(DEFAULT_CHAT);
-  const [activities, setActivities] = useState<Record<string, Array<Activity>>>({ });
+  const [messages, setMessages] = useState<Record<string, Array<Message>>>({ });
 
   useEffect(() => {
     socket.connect();
@@ -39,15 +39,78 @@ export default function App() {
       setEvents([ ...events ]);
 
       if (event.type === 'received' || event.type === 'sent') {
-        const chatActivities = activities[event.body.conversation.id] || [];
+        const chatMessages = messages[event.body.conversation.id] || [];
 
-        chatActivities.push({
-          ...event.body,
-          timestamp: event.body.timestamp || new Date(),
-        });
+        if (event.body.type === 'message') {
+          chatMessages.push({
+            id: event.body.id,
+            replyToId: event.body.replyToId,
+            messageType: 'message',
+            attachments: event.body.attachments,
+            attachmentLayout: event.body.attachmentLayout,
+            reactions: [],
+            body: {
+              content: event.body.text,
+              contentType: 'text',
+              textContent: event.body.text,
+            },
+            from: {
+              conversation: {
+                id: event.body.conversation.id,
+                displayName: event.body.conversation.name,
+              },
+              user: event.body.from ? {
+                id: event.body.from.id,
+                displayName: event.body.from.name,
+              } : undefined,
+            },
+            createdDateTime: (event.body.timestamp || new Date()).toUTCString(),
+          });
+        } else if (event.body.type === 'messageUpdate') {
+          const i = chatMessages.findIndex(m => m.id === event.body.id);
 
-        activities[event.body.conversation.id] = chatActivities;
-        setActivities({ ...activities });
+          if (i === -1) return;
+
+          if (event.body.text) {
+            if (!chatMessages[i].body) {
+              chatMessages[i].body = { };
+            }
+
+            chatMessages[i].body.content = event.body.text;
+            chatMessages[i].body.textContent = event.body.text;
+          }
+
+          chatMessages[i].lastModifiedDateTime = (event.body.timestamp || new Date()).toUTCString();
+        } else if (event.body.type === 'messageDelete') {
+          const i = chatMessages.findIndex(m => m.id === event.body.id);
+
+          if (i === -1) return;
+
+          chatMessages[i].deleted = true;
+        } else if (event.body.type === 'messageReaction') {
+          const i = chatMessages.findIndex(m => m.id === event.body.id);
+
+          if (i === -1) return;
+
+          const reactions = chatMessages[i].reactions || [];
+
+          for (const removed of event.body.reactionsRemoved || []) {
+            const j = reactions.findIndex(r => r.type === removed.type && r.user?.id === 'devtools');
+
+            if (j === -1) continue;
+
+            reactions.splice(j, 1);
+          }
+
+          for (const added of event.body.reactionsAdded || []) {
+            reactions.push(added);
+          }
+
+          chatMessages[i].reactions = reactions;
+        }
+
+        messages[event.body.conversation.id] = chatMessages;
+        setMessages({ ...messages });
       }
     });
   }, []);
@@ -124,7 +187,7 @@ export default function App() {
         </div>
 
         <ActivitiesContext.Provider value={{ activities: events, setActivities: setEvents }}>
-          <ChatContext.Provider value={{ chats, setChats, chat, setChat, activities, setActivities }}>
+          <ChatContext.Provider value={{ chats, setChats, chat, setChat, messages, setMessages }}>
             <Routes>
               <Route path="" element={<Chat />} />
               <Route path="logs" element={<Logs />} />
