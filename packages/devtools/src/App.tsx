@@ -6,8 +6,9 @@ import * as solids from '@heroicons/react/24/solid';
 import * as outlines from '@heroicons/react/24/outline';
 
 import './App.css';
-import Logs from './screens/Logs';
+import Cards from './screens/Cards';
 import Activities from './screens/Activities';
+import Logs from './screens/Logs';
 import Chat from './screens/Chat';
 import { SocketClient } from './socket-client';
 import { ActivitiesContext, ChatState, ChatContext, ActivitiesState, DEFAULT_CHAT } from './state';
@@ -225,6 +226,7 @@ export default function App() {
           <ChatContext.Provider value={{ chats, setChats, chat, setChat, messages, setMessages }}>
             <Routes>
               <Route path="" element={<Chat />} />
+              <Route path="cards" element={<Cards />} />
               <Route path="activities" element={<Activities />} />
               <Route path="logs" element={<Logs />} />
               <Route path="*" element={<Navigate to="/" replace />} />
