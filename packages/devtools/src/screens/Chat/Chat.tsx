@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { Client, MessageReaction, MessageReactionType } from '@teams.sdk/api';
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
 import * as icons from '@fluentui/react-icons';
 
 import { ChatContext } from '../../state';
@@ -181,9 +182,21 @@ export default function Chat() {
 
           <div className="flex p-5">
             <span className="flex-1" />
-            <div className="flex">
+            <div className="flex gap-1">
+              <Popover className="relative">
+                <PopoverButton className="flex px-2 py-1.5 transition-all rounded text-sm my-auto bg-stone-700 hover:bg-stone-600 active:bg-stone-700">
+                  <icons.AttachFilled className="my-auto size-5" />
+                </PopoverButton>
+                <PopoverPanel anchor="bottom" className="flex flex-col">
+                  <a href="/analytics">Analytics</a>
+                  <a href="/engagement">Engagement</a>
+                  <a href="/security">Security</a>
+                  <a href="/integrations">Integrations</a>
+                </PopoverPanel>
+              </Popover>
+
               <button
-                className="flex px-2 py-1.5 transition-all rounded text-sm my-auto bg-indigo-800 hover:bg-indigo-700 disabled:opacity-50 disabled:bg-stone-700"
+                className="flex px-2 py-1.5 transition-all rounded text-sm my-auto bg-indigo-800 hover:bg-indigo-700 disabled:opacity-50 disabled:bg-stone-700 active:bg-indigo-600"
                 disabled={!text}
                 onClick={send}
               >

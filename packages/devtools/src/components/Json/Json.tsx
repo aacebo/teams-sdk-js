@@ -17,7 +17,7 @@ export interface JsonProps extends ComponentProps<'div'> {
 }
 
 export default function Json(props: JsonProps) {
-  if (!!props.stringify) {
+  if (props.stringify) {
     const html = hljs.highlight(JSON.stringify(props.value, null, 2), { language: 'json' }).value;
 
     return <pre className="text-xs" dangerouslySetInnerHTML={{ __html: html }} />;
