@@ -1,8 +1,6 @@
-import { ExecuteAction, OpenUrlAction, SubmitAction, ToggleVisibilityAction } from '../actions';
-import { BaseElement } from '../base';
 import { VerticalAlignment } from '../common';
 import { Element } from '../element';
-import { BackgroundImage } from '../medias';
+import { BaseContainerElement } from './base';
 
 /**
  * Style hint for `Container`.
@@ -12,28 +10,13 @@ export type ContainerStyle = 'default' | 'emphasis' | 'good' | 'attention' | 'wa
 /**
  * Containers group items together.
  */
-export interface Container extends BaseElement {
+export interface Container extends BaseContainerElement {
   type: 'Container';
 
   /**
    * The card elements to render inside the `Container`.
    */
   items: Element[];
-
-  /**
-   * Specifies the background image. Acceptable formats are PNG, JPEG, and GIF
-   */
-  backgroundImage?: BackgroundImage | string;
-
-  /**
-   * Determines whether the column should bleed through its parent's padding.
-   */
-  bleed?: boolean;
-
-  /**
-   * An Action that will be invoked when the `Container` is tapped or selected. `Action.ShowCard` is not supported.
-   */
-  selectAction?: ExecuteAction | OpenUrlAction | SubmitAction | ToggleVisibilityAction;
 
   /**
    * Style hint for `Container`.
@@ -49,9 +32,4 @@ export interface Container extends BaseElement {
    * Specifies the minimum height of the container in pixels, like `\"80px\"`.
    */
   minHeight?: string;
-
-  /**
-   * When `true` content in this container should be presented right to left. When 'false' content in this container should be presented left to right. When unset layout direction will inherit from parent container or column. If unset in all ancestors, the default platform behavior will apply.
-   */
-  rtl?: boolean | null;
 }

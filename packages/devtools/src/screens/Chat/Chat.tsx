@@ -1,13 +1,13 @@
 import { useContext, useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { Client, MessageReaction, MessageReactionType } from '@teams.sdk/api';
-import * as outlines from '@heroicons/react/24/outline';
+import * as icons from '@fluentui/react-icons';
 
 import { ChatContext } from '../../state';
 import './Chat.css';
 
 const api = new Client({
-  headers: { 'X-Teams-Devtools': true }
+  headers: { 'X-Teams-Devtools': true },
 });
 
 export default function Chat() {
@@ -28,13 +28,15 @@ export default function Chat() {
   };
 
   const react = async (id: string, type: MessageReactionType) => {
-    const message = messages[chat.id].find(m => m.id === id);
+    const message = messages[chat.id].find((m) => m.id === id);
 
     if (!message) return;
 
     const added: Array<MessageReaction> = [];
     const removed: Array<MessageReaction> = [];
-    const reaction = (message.reactions || []).find(r => r.type === type && r.user?.id === 'devtools');
+    const reaction = (message.reactions || []).find(
+      (r) => r.type === type && r.user?.id === 'devtools'
+    );
 
     if (reaction) {
       removed.push(reaction);
@@ -62,27 +64,27 @@ export default function Chat() {
     <div className="Chat">
       <div className="flex flex-col flex-1 overflow-y-auto">
         <div className="flex flex-col flex-1 mx-5 my-2 gap-2 overflow-y-auto pt-1">
-          {
-            (messages[chat.id] || []).map(message => {
-              const dir = message.from?.user?.id === 'devtools' ? 'sent' : 'received';
+          {(messages[chat.id] || []).map((message) => {
+            const dir = message.from?.user?.id === 'devtools' ? 'sent' : 'received';
 
-              return (
-                <div className={['flex', dir === 'sent' ? 'flex-row-reverse' : 'flex-row'].join(' ')}>
-                  <div className={[
+            return (
+              <div className={['flex', dir === 'sent' ? 'flex-row-reverse' : 'flex-row'].join(' ')}>
+                <div
+                  className={[
                     'flex',
                     'flex-col',
                     `items-${dir === 'received' ? 'start' : 'end'}`,
-                  ].join(' ')}>
-                    <div className={`flex mb-1 ${dir === 'received' ? 'ml-2' : 'mr-2'}`}>
-                      {
-                        message.createdDateTime && (
-                          <div className="text-xs text-stone-400">
-                            {formatDistanceToNow(message.createdDateTime)}
-                          </div>
-                        )
-                      }
-                    </div>
-                    <div className={[
+                  ].join(' ')}
+                >
+                  <div className={`flex mb-1 ${dir === 'received' ? 'ml-2' : 'mr-2'}`}>
+                    {message.createdDateTime && (
+                      <div className="text-xs text-stone-400">
+                        {formatDistanceToNow(message.createdDateTime)}
+                      </div>
+                    )}
+                  </div>
+                  <div
+                    className={[
                       'flex',
                       'relative',
                       'transition-all',
@@ -95,55 +97,70 @@ export default function Chat() {
                       'group',
                       dir === 'received' ? 'bg-stone-400' : 'bg-indigo-800',
                       dir === 'received' ? 'dark:bg-stone-800' : 'dark:bg-indigo-800',
-                    ].join(' ')}>
-                      <div className={`hidden absolute group-hover:flex transition-all text-lg rounded px-3 py-1 shadow-2xl dark:bg-stone-800 -top-6 ${dir === 'received' ? 'left' : 'right'}-1`}>
-                        <button className="mr-1 transition hover:scale-125" onClick={() => react(message.id, 'like')}>
-                          👍
-                        </button>
-                        <button className="mr-1 transition hover:scale-125" onClick={() => react(message.id, 'heart')}>
-                          ❤️
-                        </button>
-                        <button className="mr-1 transition hover:scale-125" onClick={() => react(message.id, 'laugh')}>
-                          😆
-                        </button>
-                        <button className="transition hover:scale-125" onClick={() => react(message.id, 'surprised')}>
-                          😮
-                        </button>
-                      </div>
-
-                      {message.body?.content}
-
-                      {
-                        (message.reactions?.length || 0) > 0 && (
-                          <div className={`absolute flex transition-all text-lg rounded -bottom-6 ${dir === 'received' ? 'left' : 'right'}-1`}>
-                            {
-                              message.reactions!.map(r => {
-                                return (
-                                  <button
-                                    className="flex justify-center px-1 py-px my-auto dark:bg-stone-800 rounded-full shadow-lg [&:not(:last-child)]:mr-1"
-                                    onClick={() => react(message.id, r.type)}
-                                  >
-                                    <div className="flex my-auto flex-1">
-                                      {
-                                        r.type === 'like' ? '👍':
-                                          r.type === 'heart' ? '❤️' :
-                                          r.type === 'laugh' ? '😆' :
-                                          r.type === 'surprised' ? '😮' : '??'
-                                      }
-                                    </div>
-                                  </button>
-                                );
-                              })
-                            }
-                          </div>
-                        )
-                      }
+                    ].join(' ')}
+                  >
+                    <div
+                      className={`hidden absolute group-hover:flex transition-all text-lg rounded px-3 py-1 shadow-2xl dark:bg-stone-800 -top-6 ${dir === 'received' ? 'left' : 'right'}-1`}
+                    >
+                      <button
+                        className="mr-1 transition hover:scale-125"
+                        onClick={() => react(message.id, 'like')}
+                      >
+                        👍
+                      </button>
+                      <button
+                        className="mr-1 transition hover:scale-125"
+                        onClick={() => react(message.id, 'heart')}
+                      >
+                        ❤️
+                      </button>
+                      <button
+                        className="mr-1 transition hover:scale-125"
+                        onClick={() => react(message.id, 'laugh')}
+                      >
+                        😆
+                      </button>
+                      <button
+                        className="transition hover:scale-125"
+                        onClick={() => react(message.id, 'surprised')}
+                      >
+                        😮
+                      </button>
                     </div>
+
+                    {message.body?.content}
+
+                    {(message.reactions?.length || 0) > 0 && (
+                      <div
+                        className={`absolute flex transition-all text-lg rounded -bottom-6 ${dir === 'received' ? 'left' : 'right'}-1`}
+                      >
+                        {message.reactions!.map((r) => {
+                          return (
+                            <button
+                              className="flex justify-center px-1 py-px my-auto dark:bg-stone-800 rounded-full shadow-lg [&:not(:last-child)]:mr-1"
+                              onClick={() => react(message.id, r.type)}
+                            >
+                              <div className="flex my-auto flex-1">
+                                {r.type === 'like'
+                                  ? '👍'
+                                  : r.type === 'heart'
+                                    ? '❤️'
+                                    : r.type === 'laugh'
+                                      ? '😆'
+                                      : r.type === 'surprised'
+                                        ? '😮'
+                                        : '??'}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 </div>
-              );
-            })
-          }
+              </div>
+            );
+          })}
         </div>
 
         <div
@@ -171,7 +188,11 @@ export default function Chat() {
                 onClick={send}
               >
                 <span className="my-auto mr-2">Send</span>
-                <outlines.PaperAirplaneIcon className="my-auto size-4" />
+                {!text ? (
+                  <icons.SendRegular className="my-auto size-4" />
+                ) : (
+                  <icons.SendFilled className="my-auto size-4" />
+                )}
               </button>
             </div>
           </div>

@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, NavLink, Navigate, Route, Routes } from 'react-router';
 import { Message } from '@teams.sdk/api';
 import { ConsoleLogger } from '@teams.sdk/common/logging';
-import * as solids from '@heroicons/react/24/solid';
-import * as outlines from '@heroicons/react/24/outline';
+import * as icons from '@fluentui/react-icons';
 
 import './App.css';
 import Cards from './screens/Cards';
@@ -21,7 +20,7 @@ export default function App() {
   const [events, setEvents] = useState<ActivitiesState['activities']>([]);
   const [chats, setChats] = useState<ChatState['chats']>([DEFAULT_CHAT]);
   const [chat, setChat] = useState<ChatState['chat']>(DEFAULT_CHAT);
-  const [messages, setMessages] = useState<Record<string, Array<Message>>>({ });
+  const [messages, setMessages] = useState<Record<string, Array<Message>>>({});
 
   useEffect(() => {
     socket.connect(() => {
@@ -35,7 +34,7 @@ export default function App() {
     });
 
     socket.on('activity', (event) => {
-      const i = events.findIndex(e => e.id === event.id);
+      const i = events.findIndex((e) => e.id === event.id);
 
       if (i > -1) {
         events[i] = {
@@ -49,7 +48,7 @@ export default function App() {
         events.push(event);
       }
 
-      setEvents([ ...events ]);
+      setEvents([...events]);
 
       if (event.type === 'received' || event.type === 'sent') {
         const chatMessages = messages[event.body.conversation.id] || [];
@@ -72,21 +71,23 @@ export default function App() {
                 id: event.body.conversation.id,
                 displayName: event.body.conversation.name,
               },
-              user: event.body.from ? {
-                id: event.body.from.id,
-                displayName: event.body.from.name,
-              } : undefined,
+              user: event.body.from
+                ? {
+                    id: event.body.from.id,
+                    displayName: event.body.from.name,
+                  }
+                : undefined,
             },
             createdDateTime: (event.body.timestamp || new Date()).toUTCString(),
           });
         } else if (event.body.type === 'messageUpdate') {
-          const i = chatMessages.findIndex(m => m.id === event.body.id);
+          const i = chatMessages.findIndex((m) => m.id === event.body.id);
 
           if (i === -1) return;
 
           if (event.body.text) {
             if (!chatMessages[i].body) {
-              chatMessages[i].body = { };
+              chatMessages[i].body = {};
             }
 
             chatMessages[i].body.content = event.body.text;
@@ -95,20 +96,22 @@ export default function App() {
 
           chatMessages[i].lastModifiedDateTime = (event.body.timestamp || new Date()).toUTCString();
         } else if (event.body.type === 'messageDelete') {
-          const i = chatMessages.findIndex(m => m.id === event.body.id);
+          const i = chatMessages.findIndex((m) => m.id === event.body.id);
 
           if (i === -1) return;
 
           chatMessages[i].deleted = true;
         } else if (event.body.type === 'messageReaction') {
-          const i = chatMessages.findIndex(m => m.id === event.body.id);
+          const i = chatMessages.findIndex((m) => m.id === event.body.id);
 
           if (i === -1) return;
 
           const reactions = chatMessages[i].reactions || [];
 
           for (const removed of event.body.reactionsRemoved || []) {
-            const j = reactions.findIndex(r => r.type === removed.type && r.user?.id === 'devtools');
+            const j = reactions.findIndex(
+              (r) => r.type === removed.type && r.user?.id === 'devtools'
+            );
 
             if (j === -1) continue;
 
@@ -137,8 +140,12 @@ export default function App() {
             <div className="flex my-auto">
               DevTools
               <span className="relative flex h-3 w-3">
-                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${connected ? 'bg-green-400' : 'bg-red-400'}`} />
-                <span className={`relative inline-flex rounded-full h-3 w-3 ${connected ? 'bg-green-500' : 'bg-red-500'}`} />
+                <span
+                  className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${connected ? 'bg-green-400' : 'bg-red-400'}`}
+                />
+                <span
+                  className={`relative inline-flex rounded-full h-3 w-3 ${connected ? 'bg-green-500' : 'bg-red-500'}`}
+                />
               </span>
             </div>
           </div>
@@ -148,10 +155,10 @@ export default function App() {
               to="/"
               className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
               children={({ isActive }) => {
-                let Icon: JSX.Element = <outlines.ChatBubbleOvalLeftIcon className="size-5 my-auto mr-1" />;
+                let Icon: JSX.Element = <icons.ChatRegular className="size-5 my-auto mr-1" />;
 
                 if (isActive) {
-                  Icon = <solids.ChatBubbleOvalLeftIcon className="size-5 my-auto mr-1" />;
+                  Icon = <icons.ChatFilled className="size-5 my-auto mr-1" />;
                 }
 
                 return (
@@ -167,10 +174,10 @@ export default function App() {
               to="/cards"
               className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
               children={({ isActive }) => {
-                let Icon: JSX.Element = <outlines.ComputerDesktopIcon className="size-5 my-auto mr-1" />;
+                let Icon: JSX.Element = <icons.CardUiRegular className="size-5 my-auto mr-1" />;
 
                 if (isActive) {
-                  Icon = <solids.ComputerDesktopIcon className="size-5 my-auto mr-1" />;
+                  Icon = <icons.CardUiFilled className="size-5 my-auto mr-1" />;
                 }
 
                 return (
@@ -186,10 +193,10 @@ export default function App() {
               to="/activities"
               className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
               children={({ isActive }) => {
-                let Icon: JSX.Element = <outlines.BoltIcon className="size-5 my-auto mr-1" />;
+                let Icon: JSX.Element = <icons.SearchRegular className="size-5 my-auto mr-1" />;
 
                 if (isActive) {
-                  Icon = <solids.BoltIcon className="size-5 my-auto mr-1" />;
+                  Icon = <icons.SearchFilled className="size-5 my-auto mr-1" />;
                 }
 
                 return (
@@ -205,10 +212,12 @@ export default function App() {
               to="/logs"
               className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
               children={({ isActive }) => {
-                let Icon: JSX.Element = <outlines.DocumentTextIcon className="size-5 my-auto mr-1" />;
+                let Icon: JSX.Element = (
+                  <icons.DocumentBulletListRegular className="size-5 my-auto mr-1" />
+                );
 
                 if (isActive) {
-                  Icon = <solids.DocumentTextIcon className="size-5 my-auto mr-1" />;
+                  Icon = <icons.DocumentBulletListFilled className="size-5 my-auto mr-1" />;
                 }
 
                 return (

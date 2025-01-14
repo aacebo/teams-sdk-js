@@ -21,6 +21,11 @@ export interface Image extends BaseElement {
   altText?: string;
 
   /**
+   * Controls if the image can be expanded to full screen.
+   */
+  allowExpand?: boolean;
+
+  /**
    * Applies a background to a transparent image. This property will respect the image style.
    */
   backgroundColor?: string;

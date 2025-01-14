@@ -42,7 +42,7 @@ export abstract class ClientBase {
 
   constructor(options?: ClientOptions) {
     this.http = axios.create(options);
-    this.options = options || { };
+    this.options = options || {};
     this.children = options?.children || [];
 
     for (const interceptor of options?.interceptors?.request || []) {

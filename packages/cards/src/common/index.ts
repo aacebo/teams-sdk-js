@@ -7,3 +7,4 @@ export * from './color';
 export * from './font';
 export * from './refresh';
 export * from './auth';
+export * from './target-width';

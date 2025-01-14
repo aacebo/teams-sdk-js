@@ -1,12 +1,12 @@
 import { Icon } from '@teams.sdk/cards';
-import { fluentuiSystemFilled as filled, fluentuiSystemRegular as regular } from 'styled-icons';
+import * as icons from '@fluentui/react-icons';
 
 export interface IconCardProps {
   readonly value: Icon;
 }
 
 export default function IconCard({ value }: IconCardProps) {
-  const Icons = value.style === 'Filled' ? filled : regular;
-  const Icon = Icons[value.name as keyof typeof Icons];
+  const name = `${value.name}${value.style || 'Regular'}`;
+  const Icon = (icons as any as Record<string, icons.FluentIcon>)[name as string];
   return <Icon />;
 }
