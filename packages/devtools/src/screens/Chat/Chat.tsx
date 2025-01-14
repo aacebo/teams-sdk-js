@@ -1,10 +1,11 @@
 import { useContext, useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { Client, MessageReaction, MessageReactionType } from '@teams.sdk/api';
-import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
+import { Dialog, DialogBackdrop, DialogPanel, Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
 import * as icons from '@fluentui/react-icons';
 
 import { ChatContext } from '../../state';
+import ACBuilder from '../../components/ACBuilder.tsx';
 import './Chat.css';
 
 const api = new Client({
@@ -14,6 +15,7 @@ const api = new Client({
 export default function Chat() {
   const { chat, messages } = useContext(ChatContext);
   const [text, setText] = useState('');
+  const [cardBuilderOpen, setCardBuilderOpen] = useState(false);
 
   const send = async () => {
     try {
@@ -187,11 +189,18 @@ export default function Chat() {
                 <PopoverButton className="flex px-2 py-1.5 transition-all rounded text-sm my-auto bg-stone-700 hover:bg-stone-600 active:bg-stone-700">
                   <icons.AttachFilled className="my-auto size-5" />
                 </PopoverButton>
-                <PopoverPanel anchor="bottom" className="flex flex-col">
-                  <a href="/analytics">Analytics</a>
-                  <a href="/engagement">Engagement</a>
-                  <a href="/security">Security</a>
-                  <a href="/integrations">Integrations</a>
+                <PopoverPanel anchor="bottom end" className="flex flex-col gap-1 px-2 py-2 bg-white dark:bg-stone-800 rounded-lg shadow-2xl [--anchor-gap:4px] sm:[--anchor-gap:8px]">
+                  <button
+                    className="flex px-3 py-1 transition rounded dark:text-stone-400 dark:hover:text-white dark:hover:bg-stone-700 dark:active:bg-stone-600"
+                    onClick={() => setCardBuilderOpen(true)}
+                  >
+                    <icons.CardUiFilled className="size-5 my-auto" />
+                    <span className="my-auto ml-2">Card</span>
+                  </button>
+                  <button className="flex px-3 py-1 transition rounded dark:text-stone-400 dark:hover:text-white dark:hover:bg-stone-700 dark:active:bg-stone-600">
+                    <icons.DocumentFilled className="size-5 my-auto" />
+                    <span className="my-auto ml-2">File</span>
+                  </button>
                 </PopoverPanel>
               </Popover>
 
@@ -210,6 +219,15 @@ export default function Chat() {
             </div>
           </div>
         </div>
+
+        <Dialog open={cardBuilderOpen} onClose={setCardBuilderOpen} className="relative z-50">
+        <DialogBackdrop className="fixed inset-0 bg-black/30" />
+          <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+            <DialogPanel className="max-w-lg space-y-4 p-12 rounded-lg shadow-2xl dark:text-white dark:bg-stone-800">
+                <ACBuilder />
+            </DialogPanel>
+          </div>
+        </Dialog>
       </div>
     </div>
   );
