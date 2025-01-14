@@ -5,9 +5,5 @@ export interface BadgeCardProps {
 }
 
 export default function BadgeCard({ value }: BadgeCardProps) {
-  return (
-    <div className="flex">
-      {value.text}
-    </div>
-  );
+  return <div className="flex">{value.text}</div>;
 }

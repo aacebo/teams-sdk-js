@@ -9,11 +9,9 @@ export interface ImageSetCardProps {
 export default function ImageSetCard({ value }: ImageSetCardProps) {
   return (
     <div className="flex">
-      {
-        value.images.map(image => {
-          return <ImageCard value={image} />;
-        })
-      }
+      {value.images.map((image) => {
+        return <ImageCard value={image} />;
+      })}
     </div>
   );
 }

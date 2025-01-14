@@ -37,7 +37,10 @@ export class SocketClient {
     this._socket.on('disconnect', callback);
   }
 
-  on<Event extends keyof SocketEventTypes>(event: Event, handler: (value: SocketEventTypes[Event]) => void | Promise<void>) {
+  on<Event extends keyof SocketEventTypes>(
+    event: Event,
+    handler: (value: SocketEventTypes[Event]) => void | Promise<void>
+  ) {
     this._socket.on(event as string, handler);
   }
 
@@ -45,4 +48,3 @@ export class SocketClient {
     this._socket.off(event);
   }
 }
-

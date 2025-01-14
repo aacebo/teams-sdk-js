@@ -9,11 +9,9 @@ export interface ColumnSetCardProps {
 export default function ColumnSetCard({ value }: ColumnSetCardProps) {
   return (
     <div className="flex">
-      {
-        value.columns?.map(column => {
-          return <ColumnCard value={column} />;
-        })
-      }
+      {value.columns?.map((column) => {
+        return <ColumnCard value={column} />;
+      })}
     </div>
   );
 }

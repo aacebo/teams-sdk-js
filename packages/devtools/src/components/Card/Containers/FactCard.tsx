@@ -7,9 +7,7 @@ export interface FactCardProps {
 export default function FactCard({ value }: FactCardProps) {
   return (
     <div className="flex">
-      <div className="text-bold mr-2">
-        {value.title}
-      </div>
+      <div className="text-bold mr-2">{value.title}</div>
 
       {value.value}
     </div>

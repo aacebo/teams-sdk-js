@@ -33,7 +33,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
   protected io: io.Server;
   protected sockets = new Map<string, io.Socket>();
 
-  constructor(readonly options: DevtoolsOptions = { }) {
+  constructor(readonly options: DevtoolsOptions = {}) {
     super();
     this.log = new ConsoleLogger('@teams.sdk/app/devtools');
     this.express = express();
@@ -48,7 +48,9 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
         res.sendFile(path.join(dist, 'index.html'));
       });
     } catch (err) {
-      this.log.warn('failed to load devtools, please ensure you have installed `@teams.sdk/devtools`');
+      this.log.warn(
+        'failed to load devtools, please ensure you have installed `@teams.sdk/devtools`'
+      );
       this.log.warn(err);
       this.emit('error', err);
     }
@@ -56,12 +58,14 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
 
   register(app: App) {
     this.log = app.log.child('devtools');
-    this.express.use(router({
-      port: this.options.port || 3001,
-      log: this.log,
-      process: app.process.bind(app),
-      emit: this.emitToSockets.bind(this),
-    }));
+    this.express.use(
+      router({
+        port: this.options.port || 3001,
+        log: this.log,
+        process: app.process.bind(app),
+        emit: this.emitToSockets.bind(this),
+      })
+    );
 
     app.on('activity', ({ activity, next }) => {
       this.emitToSockets('activity', {

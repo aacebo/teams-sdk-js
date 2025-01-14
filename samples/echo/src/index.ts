@@ -14,10 +14,7 @@ const app = new App({
   clientId,
   clientSecret,
   logger: new ConsoleLogger('@samples/echo', { level: 'debug' }),
-  plugins: [
-    new DevtoolsPlugin(),
-    new HttpPlugin(),
-  ]
+  plugins: [new DevtoolsPlugin(), new HttpPlugin()],
 });
 
 app.on('message', async ({ send, activity, next }) => {

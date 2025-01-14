@@ -9,11 +9,9 @@ export interface FactSetCardProps {
 export default function FactSetCard({ value }: FactSetCardProps) {
   return (
     <div className="flex flex-col">
-      {
-        value.facts?.map(fact => {
-          return <FactCard value={fact} />;
-        })
-      }
+      {value.facts?.map((fact) => {
+        return <FactCard value={fact} />;
+      })}
     </div>
   );
 }

@@ -9,22 +9,22 @@ export interface CardProps {
 
 export default function Card({ value }: CardProps) {
   switch (value.type) {
-  case 'Container':
-    return <ContainerCard value={value} />;
-  case 'ColumnSet':
-    return <ColumnSetCard value={value} />;
-  case 'FactSet':
-    return <FactSetCard value={value} />;
-  case 'ImageSet':
-    return <ImageSetCard value={value} />;
-  case 'Badge':
-    return <BadgeCard value={value} />;
-  case 'CodeBlock':
-    return <CodeBlockCard value={value} />;
-  case 'Icon':
-    return <IconCard value={value} />;
-  case 'Image':
-    return <ImageCard value={value} />;
+    case 'Container':
+      return <ContainerCard value={value} />;
+    case 'ColumnSet':
+      return <ColumnSetCard value={value} />;
+    case 'FactSet':
+      return <FactSetCard value={value} />;
+    case 'ImageSet':
+      return <ImageSetCard value={value} />;
+    case 'Badge':
+      return <BadgeCard value={value} />;
+    case 'CodeBlock':
+      return <CodeBlockCard value={value} />;
+    case 'Icon':
+      return <IconCard value={value} />;
+    case 'Image':
+      return <ImageCard value={value} />;
   }
 
   return <>not found</>;

@@ -11,7 +11,10 @@ interface CreateActivityParams {
 }
 
 export function create({ port, log, process }: RouteContext) {
-  return async (req: express.Request<CreateActivityParams, any, Activity>, res: express.Response) => {
+  return async (
+    req: express.Request<CreateActivityParams, any, Activity>,
+    res: express.Response
+  ) => {
     const isClient = req.headers['x-teams-devtools'] === 'true';
 
     if (!isClient) {
@@ -21,9 +24,14 @@ export function create({ port, log, process }: RouteContext) {
 
     try {
       const response = await process({
-        token: new JsonWebToken(jwt.sign({
-          serviceurl: `http://localhost:${port}`,
-        }, 'secret')),
+        token: new JsonWebToken(
+          jwt.sign(
+            {
+              serviceurl: `http://localhost:${port}`,
+            },
+            'secret'
+          )
+        ),
         activity: {
           ...req.body,
           id: req.body.id || uuid.v4(),

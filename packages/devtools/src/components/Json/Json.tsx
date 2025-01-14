@@ -18,15 +18,9 @@ export interface JsonProps extends ComponentProps<'div'> {
 
 export default function Json(props: JsonProps) {
   if (!!props.stringify) {
-    const html = hljs.highlight(
-      JSON.stringify(props.value, null, 2),
-      { language: 'json' },
-    ).value;
+    const html = hljs.highlight(JSON.stringify(props.value, null, 2), { language: 'json' }).value;
 
-    return <pre
-      className="text-xs"
-      dangerouslySetInnerHTML={{ __html: html }}
-    />;
+    return <pre className="text-xs" dangerouslySetInnerHTML={{ __html: html }} />;
   }
 
   if (props.value === null) {
@@ -57,7 +51,5 @@ export default function Json(props: JsonProps) {
     return <JsonObject {...props} />;
   }
 
-  return (
-    <>type "{typeof props.value}" not supported</>
-  );
+  return <>type "{typeof props.value}" not supported</>;
 }

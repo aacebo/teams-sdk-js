@@ -9,11 +9,9 @@ export interface AdaptiveCardProps {
 export default function AdaptiveCard({ value }: AdaptiveCardProps) {
   return (
     <>
-      {
-        value.body?.map(item => {
-          return <Card value={item} />;
-        })
-      }
+      {value.body?.map((item) => {
+        return <Card value={item} />;
+      })}
     </>
   );
 }

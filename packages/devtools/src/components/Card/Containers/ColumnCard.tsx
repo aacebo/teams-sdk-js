@@ -9,11 +9,9 @@ export interface ColumnCardProps {
 export default function ColumnCard({ value }: ColumnCardProps) {
   return (
     <div className="flex flex-col">
-      {
-        value.items?.map(item => {
-          return <Card value={item} />;
-        })
-      }
+      {value.items?.map((item) => {
+        return <Card value={item} />;
+      })}
     </div>
   );
 }

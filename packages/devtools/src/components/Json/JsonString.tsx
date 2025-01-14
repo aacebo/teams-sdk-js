@@ -8,13 +8,7 @@ export default function JsonString(props: JsonStringProps) {
   const classes = props.className?.split(' ') || [];
 
   return (
-    <div
-      {...props}
-      className={[
-        ...classes,
-        'text-sky-300',
-      ].join(' ')}
-    >
+    <div {...props} className={[...classes, 'text-sky-300'].join(' ')}>
       "{props.value}"
     </div>
   );

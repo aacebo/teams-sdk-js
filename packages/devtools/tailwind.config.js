@@ -6,10 +6,5 @@ export default {
     extend: {},
   },
   plugins: [],
-  safelist: [
-    'left-1',
-    'right-1',
-    'items-start',
-    'items-end'
-  ]
+  safelist: ['left-1', 'right-1', 'items-start', 'items-end'],
 };

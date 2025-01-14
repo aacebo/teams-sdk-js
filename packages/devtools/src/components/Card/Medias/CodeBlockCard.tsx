@@ -7,13 +7,9 @@ export interface CodeBlockCardProps {
 }
 
 export default function CodeBlockCard({ value }: CodeBlockCardProps) {
-  const html = hljs.highlight(
-    value.codeSnippet || '',
-    { language: value.language || 'auto' },
-  ).value;
+  const html = hljs.highlight(value.codeSnippet || '', {
+    language: value.language || 'auto',
+  }).value;
 
-  return <pre
-    className="text-xs"
-    dangerouslySetInnerHTML={{ __html: html }}
-  />;
+  return <pre className="text-xs" dangerouslySetInnerHTML={{ __html: html }} />;
 }

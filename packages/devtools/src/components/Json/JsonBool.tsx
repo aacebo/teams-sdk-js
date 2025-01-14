@@ -8,13 +8,7 @@ export default function JsonBool(props: JsonBoolProps) {
   const classes = props.className?.split(' ') || [];
 
   return (
-    <div
-      {...props}
-      className={[
-        ...classes,
-        'text-violet-400',
-      ].join(' ')}
-    >
+    <div {...props} className={[...classes, 'text-violet-400'].join(' ')}>
       {props.value === true ? 'true' : 'false'}
     </div>
   );

@@ -122,10 +122,12 @@ export class App {
 
     for (const plugin of this.plugins) {
       plugin.register(this);
-      plugin.on('error', (err) => this._events.error({
-        err: err,
-        log: this.log,
-      }));
+      plugin.on('error', (err) =>
+        this._events.error({
+          err: err,
+          log: this.log,
+        })
+      );
     }
 
     // default event handlers

@@ -29,6 +29,6 @@ export const ChatContext = createContext<ChatState>({
   chat: DEFAULT_CHAT,
   setChat: () => {},
 
-  messages: { },
+  messages: {},
   setMessages: () => {},
 });
