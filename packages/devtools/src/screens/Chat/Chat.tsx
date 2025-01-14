@@ -48,6 +48,7 @@ export default function Chat() {
 
     try {
       await api.conversations.activities(chat.id).create({
+        id,
         type: 'messageReaction',
         reactionsAdded: added,
         reactionsRemoved: removed,

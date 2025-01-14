@@ -26,7 +26,7 @@ export function create({ port, log, process }: RouteContext) {
         }, 'secret')),
         activity: {
           ...req.body,
-          id: uuid.v4(),
+          id: req.body.id || uuid.v4(),
           channelId: 'msteams',
           from: {
             id: 'devtools',
