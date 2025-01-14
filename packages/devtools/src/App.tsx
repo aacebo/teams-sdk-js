@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, NavLink, Navigate, Route, Routes } from 'react-router';
 import { Message } from '@teams.sdk/api';
+import { ConsoleLogger } from '@teams.sdk/common/logging';
 import * as solids from '@heroicons/react/24/solid';
 import * as outlines from '@heroicons/react/24/outline';
 
@@ -12,15 +13,26 @@ import { SocketClient } from './socket-client';
 import { ActivitiesContext, ChatState, ChatContext, ActivitiesState, DEFAULT_CHAT } from './state';
 
 const socket = new SocketClient();
+const log = new ConsoleLogger('devtools');
 
 export default function App() {
+  const [connected, setConnected] = useState(false);
   const [events, setEvents] = useState<ActivitiesState['activities']>([]);
   const [chats, setChats] = useState<ChatState['chats']>([DEFAULT_CHAT]);
   const [chat, setChat] = useState<ChatState['chat']>(DEFAULT_CHAT);
   const [messages, setMessages] = useState<Record<string, Array<Message>>>({ });
 
   useEffect(() => {
-    socket.connect();
+    socket.connect(() => {
+      log.info('connected...');
+      setConnected(true);
+
+      socket.disconnect(() => {
+        log.info('disconnected...');
+        setConnected(false);
+      });
+    });
+
     socket.on('activity', (event) => {
       const i = events.findIndex(e => e.id === event.id);
 
@@ -121,8 +133,12 @@ export default function App() {
         <div className="flex px-5 py-2">
           <div className="flex font-semibold my-auto">
             <img src="/devtools/teams.png" className="w-10 my-auto" />
-            <div className="my-auto">
+            <div className="flex my-auto">
               DevTools
+              <span className="relative flex h-3 w-3">
+                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${connected ? 'bg-green-400' : 'bg-red-400'}`} />
+                <span className={`relative inline-flex rounded-full h-3 w-3 ${connected ? 'bg-green-500' : 'bg-red-500'}`} />
+              </span>
             </div>
           </div>
 
@@ -147,19 +163,19 @@ export default function App() {
             />
 
             <NavLink
-              to="/logs"
+              to="/cards"
               className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
               children={({ isActive }) => {
-                let Icon: JSX.Element = <outlines.DocumentTextIcon className="size-5 my-auto mr-1" />;
+                let Icon: JSX.Element = <outlines.ComputerDesktopIcon className="size-5 my-auto mr-1" />;
 
                 if (isActive) {
-                  Icon = <solids.DocumentTextIcon className="size-5 my-auto mr-1" />;
+                  Icon = <solids.ComputerDesktopIcon className="size-5 my-auto mr-1" />;
                 }
 
                 return (
                   <div className="flex">
                     {Icon}
-                    Logs
+                    Cards
                   </div>
                 );
               }}
@@ -183,6 +199,25 @@ export default function App() {
                 );
               }}
             />
+
+            <NavLink
+              to="/logs"
+              className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
+              children={({ isActive }) => {
+                let Icon: JSX.Element = <outlines.DocumentTextIcon className="size-5 my-auto mr-1" />;
+
+                if (isActive) {
+                  Icon = <solids.DocumentTextIcon className="size-5 my-auto mr-1" />;
+                }
+
+                return (
+                  <div className="flex">
+                    {Icon}
+                    Logs
+                  </div>
+                );
+              }}
+            />
           </div>
         </div>
 
@@ -190,8 +225,8 @@ export default function App() {
           <ChatContext.Provider value={{ chats, setChats, chat, setChat, messages, setMessages }}>
             <Routes>
               <Route path="" element={<Chat />} />
-              <Route path="logs" element={<Logs />} />
               <Route path="activities" element={<Activities />} />
+              <Route path="logs" element={<Logs />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </ChatContext.Provider>

@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
-import { Client, MessageReaction } from '@teams.sdk/api';
+import { Client, MessageReaction, MessageReactionType } from '@teams.sdk/api';
 import * as outlines from '@heroicons/react/24/outline';
 
 import { ChatContext } from '../../state';
@@ -27,7 +27,7 @@ export default function Chat() {
     }
   };
 
-  const react = async (id: string, type: 'like' | 'heart' | 'laugh' | 'surprised') => {
+  const react = async (id: string, type: MessageReactionType) => {
     const message = messages[chat.id].find(m => m.id === id);
 
     if (!message) return;
@@ -112,6 +112,32 @@ export default function Chat() {
                       </div>
 
                       {message.body?.content}
+
+                      {
+                        (message.reactions?.length || 0) > 0 && (
+                          <div className={`absolute flex transition-all text-lg rounded -bottom-6 ${dir === 'received' ? 'left' : 'right'}-1`}>
+                            {
+                              message.reactions!.map(r => {
+                                return (
+                                  <button
+                                    className="flex justify-center px-1 py-px my-auto dark:bg-stone-800 rounded-full shadow-lg [&:not(:last-child)]:mr-1"
+                                    onClick={() => react(message.id, r.type)}
+                                  >
+                                    <div className="flex my-auto flex-1">
+                                      {
+                                        r.type === 'like' ? '👍':
+                                          r.type === 'heart' ? '❤️' :
+                                          r.type === 'laugh' ? '😆' :
+                                          r.type === 'surprised' ? '😮' : '??'
+                                      }
+                                    </div>
+                                  </button>
+                                );
+                              })
+                            }
+                          </div>
+                        )
+                      }
                     </div>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-/** @type {import('tsup').Config} */
+/** @type {import('tsup').Options} */
 module.exports = {
   dts: true,
   minify: true,

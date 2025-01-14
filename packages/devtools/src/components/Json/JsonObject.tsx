@@ -48,7 +48,7 @@ export default function JsonObject(props: JsonObjectProps) {
                 <span className="mr-2">:</span>
                 {
                   (!isExpanded && isObject) && (
-                    <div className="text-sm truncate opacity-50 italic hover:underline">
+                    <div className="text-sm ny-auto truncate opacity-50 italic hover:underline">
                       {JSON.stringify(value, null, 2)}
                     </div>
                   )

@@ -23,14 +23,18 @@ export class SocketClient {
       autoConnect: false,
       path: '/devtools/sockets',
     });
-
-    this._socket.on('connect', () => {
-      console.log('connected...');
-    });
   }
 
-  connect() {
+  connect(callback?: (...args: any[]) => void | Promise<void>) {
+    if (callback) {
+      this._socket.on('connect', callback);
+    }
+
     this._socket.connect();
+  }
+
+  disconnect(callback: (...args: any[]) => void | Promise<void>) {
+    this._socket.on('disconnect', callback);
   }
 
   on<Event extends keyof SocketEventTypes>(event: Event, handler: (value: SocketEventTypes[Event]) => void | Promise<void>) {

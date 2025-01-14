@@ -27,19 +27,23 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
     },
     "./events": {
       "types": "./dist/events/index.d.ts",
-      "default": "./dist/events/index.js"
+      "import": "./dist/events/index.mjs",
+      "require": "./dist/events/index.js"
     },
     "./logging": {
       "types": "./dist/logging/index.d.ts",
-      "default": "./dist/logging/index.js"
+      "import": "./dist/logging/index.mjs",
+      "require": "./dist/logging/index.js"
     },
     "./storage": {
       "types": "./dist/storage/index.d.ts",
-      "default": "./dist/storage/index.js"
+      "import": "./dist/storage/index.mjs",
+      "require": "./dist/storage/index.js"
     }
   },
   "scripts": {
