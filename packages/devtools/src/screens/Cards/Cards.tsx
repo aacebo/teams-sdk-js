@@ -45,6 +45,11 @@ export default function Cards() {
                     ]
                   },
                   {
+                    type: 'Icon',
+                    name: 'Album',
+                    size: 'Medium'
+                  },
+                  {
                     type: 'CodeBlock',
                     language: 'TypeScript',
                     codeSnippet: 'const test = (i: number) => {};'
