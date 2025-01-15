@@ -11,5 +11,8 @@ export default function CodeBlockCard({ value }: CodeBlockCardProps) {
     language: value.language || 'auto',
   }).value;
 
-  return <pre className="text-xs" dangerouslySetInnerHTML={{ __html: html }} />;
+  return <pre
+    className="text-xs bg-black p-2 rounded"
+    dangerouslySetInnerHTML={{ __html: html }}
+  />;
 }

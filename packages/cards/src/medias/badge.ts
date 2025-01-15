@@ -3,15 +3,15 @@ import { HorizontalAlignment } from '../common';
 
 import { IconName } from './icon';
 
-export type BadgeAppearance = 'Filled' | 'Tint';
+export type BadgeAppearance = 'filled' | 'tint';
 export type BadgeStyle =
-  | 'Default'
-  | 'Subtle'
-  | 'Informative'
-  | 'Accent'
-  | 'Good'
-  | 'Attention'
-  | 'Warning';
+  | 'default'
+  | 'subtle'
+  | 'informative'
+  | 'accent'
+  | 'good'
+  | 'attention'
+  | 'warning';
 
 /**
  * A badge element to show an icon and/or text in a compact form over a colored background.
@@ -37,17 +37,17 @@ export interface Badge extends BaseElement {
   /**
    * Controls the position of the icon.
    */
-  iconPosition?: 'Before' | 'After';
+  iconPosition?: 'before' | 'after';
 
   /**
    * Controls the shape of the badge.
    */
-  shape?: 'Square' | 'Rounded' | 'Circular';
+  shape?: 'square' | 'rounded' | 'circular';
 
   /**
    * The size of the badge.
    */
-  size?: 'Medium' | 'Large' | 'ExtraLarge';
+  size?: 'medium' | 'large' | 'extraLarge';
 
   /**
    * The style of the badge.

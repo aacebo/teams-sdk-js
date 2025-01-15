@@ -6,7 +6,9 @@ export default function Cards() {
   return (
     <div className="Cards">
       <div className="flex flex-1">
-        <div className="flex">sidebar...</div>
+        <div className="flex flex-col gap-1">
+
+        </div>
         <div className="flex flex-col flex-1">
           <div className="flex justify-center">
             <AdaptiveCard value={{
@@ -53,6 +55,25 @@ export default function Cards() {
                     type: 'CodeBlock',
                     language: 'TypeScript',
                     codeSnippet: 'const test = (i: number) => {};'
+                  },
+                  {
+                    type: 'ColumnSet',
+                    columns: [
+                      {
+                        type: 'Column',
+                        items: [
+                          {
+                            type: 'Badge',
+                            icon: 'Add',
+                            text: 'Add',
+                            tooltip: 'hello world!',
+                            style: 'attention',
+                            shape: 'rounded',
+                            appearance: 'tint'
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
             }} />
