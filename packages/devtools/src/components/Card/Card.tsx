@@ -1,6 +1,6 @@
 import { Element } from '@teams.sdk/cards';
 
-import { ContainerCard, ColumnSetCard, FactSetCard, ImageSetCard } from './Containers';
+import { ContainerCard, ColumnSetCard, FactSetCard, ImageSetCard, ActionSetCard } from './Containers';
 import { BadgeCard, CodeBlockCard, IconCard, ImageCard, TextBlockCard } from './Medias';
 
 export interface CardProps {
@@ -9,6 +9,8 @@ export interface CardProps {
 
 export default function Card({ value }: CardProps) {
   switch (value.type) {
+    case 'ActionSet':
+      return <ActionSetCard value={value} />;
     case 'Container':
       return <ContainerCard value={value} />;
     case 'ColumnSet':

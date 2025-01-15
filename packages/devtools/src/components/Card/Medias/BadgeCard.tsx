@@ -1,8 +1,8 @@
 import { Badge } from '@teams.sdk/cards';
 import classNames from 'classnames';
 
-import IconCard from './IconCard';
 import Tooltip from '../../Tooltip';
+import IconCard from './IconCard';
 
 export interface BadgeCardProps {
   readonly value: Badge;

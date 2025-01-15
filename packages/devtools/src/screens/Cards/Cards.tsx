@@ -75,6 +75,19 @@ export default function Cards() {
                       }
                     ]
                   }
+                ],
+                actions: [
+                  {
+                    type: 'Action.Execute',
+                    title: 'Cancel'
+                  },
+                  {
+                    type: 'Action.OpenUrl',
+                    title: 'Submit',
+                    style: 'positive',
+                    url: 'https://www.google.com',
+                    tooltip: 'Go To Google'
+                  }
                 ]
             }} />
           </div>
