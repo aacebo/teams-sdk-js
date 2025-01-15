@@ -86,7 +86,7 @@ export interface Card {
   verticalContentAlignment?: VerticalAlignment;
 }
 
-export type CardParams = Omit<Card, 'body'>;
+export type CardParams = Omit<Partial<Card>, 'body' | 'type'>;
 
 /**
  * An Adaptive Card, containing a free-form body of card elements, and an optional set of actions.
