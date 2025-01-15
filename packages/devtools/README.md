@@ -1,50 +1,42 @@
-# Teams: Devtools
+# Teams: DevTools
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p>
+    <a href="https://www.npmjs.com/package/@teams.sdk/devtools" target="_blank">
+        <img src="https://img.shields.io/npm/v/@teams.sdk/devtools" />
+    </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/devtools?activeTab=code" target="_blank">
+        <img src="https://img.shields.io/bundlephobia/min/@teams.sdk/devtools" />
+    </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/devtools?activeTab=dependencies" target="_blank">
+        <img src="https://img.shields.io/librariesio/release/npm/@teams.sdk/devtools" />
+    </a>
+    <a href="https://www.npmjs.com/package/@teams.sdk/devtools" target="_blank">
+        <img src="https://img.shields.io/npm/dw/@teams.sdk/devtools" />
+    </a>
+    <a href="https://aacebo.github.io/teams-sdk-js" target="_blank">
+        <img src="https://img.shields.io/badge/📖 docs-open-blue" />
+    </a>
+</p>
 
-Currently, two official plugins are available:
+a web frontend for the `DevToolsPlugin` in the package `@teams.sdk/dev`.  
+The devtools allow help you:
+- chat with your app locally without needing to publish your app or interact with teams directly💬
+- inspect incoming and outgoing activities live🛜⚡
+- inspect logs from your app live🗃️⚡
+- build/debug/send cards🪪
 
--   [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
--   [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<a href="https://aacebo.github.io/teams-sdk-js/2.getting-started.html" target="_blank">
+    <img src="https://img.shields.io/badge/📖 Getting Started-blue?style=for-the-badge" />
+</a>
 
-## Expanding the ESLint configuration
+> ⚠️ **Warning**: this project is not supported or affiliated with Microsoft in any way!
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Install
 
--   Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-    languageOptions: {
-        // other options...
-        parserOptions: {
-            project: ['./tsconfig.node.json', './tsconfig.app.json'],
-            tsconfigRootDir: import.meta.dirname,
-        },
-    },
-});
+```bash
+$: npm install @teams.sdk/devtools
 ```
 
--   Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
--   Optionally add `...tseslint.configs.stylisticTypeChecked`
--   Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Dependencies
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react';
-
-export default tseslint.config({
-    // Set the react version
-    settings: { react: { version: '18.3' } },
-    plugins: {
-        // Add the react plugin
-        react,
-    },
-    rules: {
-        // other rules...
-        // Enable its recommended rules
-        ...react.configs.recommended.rules,
-        ...react.configs['jsx-runtime'].rules,
-    },
-});
-```
+too many...
