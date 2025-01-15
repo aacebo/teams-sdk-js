@@ -13,3 +13,7 @@ implement a react implementation of an adaptive card renderer.
 - implement a card designer
 - implement card renderer
 - implement teams simulator client
+
+## @teams.sdk/graph
+
+- convert [graph OpenAPI spec](https://github.com/microsoftgraph/msgraph-metadata/blob/master/openapi/v1.0/openapi.yaml) to typescript and wrap client.
