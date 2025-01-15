@@ -1,0 +1,44 @@
+.Activities {
+  @apply flex;
+  @apply flex-col;
+  @apply flex-1;
+  @apply overflow-y-auto;
+
+  table {
+    thead {
+      tr {
+        th {
+          &:first-child {
+            border-top-left-radius: 10px;
+          }
+
+          &:last-child {
+            border-top-right-radius: 10px;
+          }
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        &:last-child {
+          td {
+            &:first-child {
+              border-bottom-left-radius: 10px;
+            }
+
+            &:last-child {
+              border-bottom-right-radius: 10px;
+            }
+          }
+        }
+
+        &.active {
+          td {
+            @apply bg-stone-700;
+          }
+        }
+      }
+    }
+  }
+}

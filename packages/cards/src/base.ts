@@ -1,4 +1,5 @@
-import { Spacing } from './common';
+import { HorizontalAlignment, Spacing, TargetWidth } from './common';
+import { Element } from './element';
 
 export interface BaseElement {
   /**
@@ -30,6 +31,26 @@ export interface BaseElement {
    * Controls the amount of spacing between this element and the preceding element.
    */
   spacing?: Spacing;
+
+  /**
+   * the area of a `Layout.AreaGrid` layout in which an element should be displayed.
+   */
+  'grid.area'?: string;
+
+  /**
+   * controls how the element should be horizontally aligned.
+   */
+  horizontalAlignment?: HorizontalAlignment | null;
+
+  /**
+   * Controls for which card width the element should be displayed. If targetWidth isn't specified, the element is rendered at all card widths. Using targetWidth makes it possible to author responsive cards that adapt their layout to the available horizontal space.
+   */
+  targetWidth?: TargetWidth;
+
+  /**
+   * The locale associated with the element.
+   */
+  lang?: string;
 
   /**
    * Describes what to do when an unknown item is encountered or the requires of this or any children can't be met.

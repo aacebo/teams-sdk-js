@@ -13,3 +13,16 @@ export interface ToggleVisibilityAction extends BaseAction {
    */
   targetElements: (string | TargetElement)[];
 }
+
+export type ToggleVisibilityActionParams = Omit<ToggleVisibilityAction, 'type' | 'targetElements'>;
+
+/**
+ * An action that toggles the visibility of associated card elements.
+ */
+export function ToggleVisibilityAction(targetElements: (string | TargetElement)[], params: ToggleVisibilityActionParams): ToggleVisibilityAction {
+  return {
+    type: 'Action.ToggleVisibility',
+    targetElements,
+    ...params,
+  };
+}

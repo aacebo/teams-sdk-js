@@ -30,6 +30,18 @@ export interface SubmitAction extends BaseAction {
       };
 }
 
+export type SubmitActionParams = Omit<SubmitAction, 'type'>;
+
+/**
+ * Gathers input fields, merges with optional data field, and sends an event to the client. It is up to the client to determine how this data is processed. For example: With BotFramework bots, the client would send an activity through the messaging medium to the bot. The inputs that are gathered are those on the current card, and in the case of a show card those on any parent cards. See https://docs.microsoft.com/en-us/adaptive-cards/authoring-cards/input-validation for more details.
+ */
+export function SubmitAction(params?: SubmitActionParams): SubmitAction {
+  return {
+    type: 'Action.Submit',
+    ...params,
+  };
+}
+
 export interface MessageBackActionData {
   type: 'messageBack';
 
@@ -51,6 +63,17 @@ export interface MessageBackActionData {
   value: string;
 }
 
+export type MessageBackActionDataParams = Omit<MessageBackActionData, 'type' | 'text' | 'value'>;
+
+export function MessageBackActionData(text: string, value: string, params?: MessageBackActionDataParams): MessageBackActionData {
+  return {
+    type: 'messageBack',
+    text,
+    value,
+    ...params,
+  };
+}
+
 export interface IMBackActionData {
   type: 'imBack';
 
@@ -58,6 +81,16 @@ export interface IMBackActionData {
    * String that needs to be echoed back in the chat.
    */
   value: string;
+}
+
+export type IMBackActionDataParams = Omit<IMBackActionData, 'type' | 'value'>;
+
+export function IMBackActionData(value: string, params?: IMBackActionDataParams): IMBackActionData {
+  return {
+    type: 'imBack',
+    value,
+    ...params,
+  };
 }
 
 export interface SignInActionData {
@@ -69,6 +102,16 @@ export interface SignInActionData {
   value: string;
 }
 
+export type SignInActionDataParams = Omit<SignInActionData, 'type' | 'value'>;
+
+export function SignInActionData(value: string, params?: SignInActionDataParams): SignInActionData {
+  return {
+    type: 'signin',
+    value,
+    ...params,
+  };
+}
+
 export interface TaskFetchActionData {
   type: 'task/fetch';
 
@@ -78,6 +121,15 @@ export interface TaskFetchActionData {
   data?: any;
 }
 
+export type TaskFetchActionDataParams = Omit<TaskFetchActionData, 'type'>;
+
+export function TaskFetchActionData(params?: TaskFetchActionDataParams): TaskFetchActionData {
+  return {
+    type: 'task/fetch',
+    ...params,
+  };
+}
+
 export interface InvokeActionData {
   type: 'invoke';
 
@@ -85,4 +137,13 @@ export interface InvokeActionData {
    * Set the value to send with the invoke
    */
   value?: any;
+}
+
+export type InvokeActionDataParams = Omit<InvokeActionData, 'type'>;
+
+export function InvokeActionData(params?: InvokeActionDataParams): InvokeActionData {
+  return {
+    type: 'invoke',
+    ...params,
+  };
 }

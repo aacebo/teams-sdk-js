@@ -21,6 +21,11 @@ export interface Image extends BaseElement {
   altText?: string;
 
   /**
+   * Controls if the image can be expanded to full screen.
+   */
+  allowExpand?: boolean;
+
+  /**
    * Applies a background to a transparent image. This property will respect the image style.
    */
   backgroundColor?: string;
@@ -49,4 +54,17 @@ export interface Image extends BaseElement {
    * The desired on-screen width of the image, ending in ‘px’. E.g., 50px. This overrides the size property.
    */
   width?: string;
+}
+
+export type ImageParams = Omit<Image, 'type'>;
+
+/**
+ * Displays an image. Acceptable formats are PNG, JPEG, and GIF
+ */
+export function Image(url: string, params?: ImageParams): Image {
+  return {
+    type: 'Image',
+    url,
+    ...params,
+  };
 }

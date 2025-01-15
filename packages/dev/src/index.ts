@@ -1,2 +1,2 @@
-export * from './console-receiver';
-export * from './console-sender';
+export * from './console';
+export * from './devtools';

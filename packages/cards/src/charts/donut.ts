@@ -31,6 +31,16 @@ export interface DonutChart extends BaseElement {
   horizontalAlignment?: HorizontalAlignment;
 }
 
+export type DonutChartParams = Omit<DonutChart, 'type' | 'data'>;
+
+export function DonutChart(data: DonutChartData[] = [], params?: DonutChartParams): DonutChart {
+  return {
+    type: 'Chart.Donut',
+    data,
+    ...params,
+  };
+}
+
 export interface DonutChartData {
   /**
    * the color to use for the data point.
@@ -46,4 +56,13 @@ export interface DonutChartData {
    * the value associated with the data point.
    */
   value: number;
+}
+
+export type DonutChartDataParams = Omit<DonutChartData, 'value'>;
+
+export function DonutChartData(value: number = 0, params?: DonutChartDataParams): DonutChartData {
+  return {
+    value,
+    ...params,
+  };
 }

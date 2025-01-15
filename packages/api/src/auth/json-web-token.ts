@@ -1,7 +1,11 @@
-import jwt from 'jsonwebtoken';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 import { CallerIds, CallerType } from './caller';
 import { Token } from './token';
+
+export interface JsonWebTokenPayload extends JwtPayload {
+  readonly [key: string]: any;
+}
 
 export class JsonWebToken implements Token {
   get audience() {
@@ -59,12 +63,11 @@ export class JsonWebToken implements Token {
   }
 
   private readonly _value: string;
-  private readonly _payload: jwt.JwtPayload;
+  private readonly _payload: JsonWebTokenPayload;
 
   constructor(value: string) {
-    const decoded = jwt.decode(value, { complete: true, json: true });
     this._value = value;
-    this._payload = (decoded?.payload as jwt.JwtPayload) || {};
+    this._payload = jwtDecode(value);
   }
 
   toString() {

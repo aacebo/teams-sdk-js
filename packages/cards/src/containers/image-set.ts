@@ -24,3 +24,16 @@ export interface ImageSet extends BaseElement {
    */
   images: Image[];
 }
+
+export type ImageSetParams = Omit<ImageSet, 'type' | 'images'>;
+
+/**
+ * The `ImageSet` element displays a collection of `Image`'s similar to a gallery. Acceptable formats are `PNG`, `JPEG`, and `GIF`.
+ */
+export function ImageSet(images: Image[] = [], params?: ImageSetParams): ImageSet {
+  return {
+    type: 'ImageSet',
+    images,
+    ...params,
+  };
+}

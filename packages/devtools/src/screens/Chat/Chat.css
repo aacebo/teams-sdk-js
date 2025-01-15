@@ -1,0 +1,5 @@
+.Chat {
+  @apply flex;
+  @apply flex-row;
+  @apply flex-1;
+}

@@ -17,3 +17,14 @@ export interface TokenExchangeResource {
    */
   providerId: string;
 }
+
+/**
+ * Defines information required to enable on-behalf-of single sign-on user authentication. Maps to the TokenExchangeResource type defined by the Bot Framework (https://docs.microsoft.com/dotnet/api/microsoft.bot.schema.tokenexchangeresource)
+ */
+export function TokenExchangeResource(id: string, uri: string, providerId: string): TokenExchangeResource {
+  return {
+    id,
+    uri,
+    providerId,
+  };
+}

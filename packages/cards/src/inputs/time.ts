@@ -26,3 +26,15 @@ export interface TimeInput extends BaseInputElement {
    */
   value?: string;
 }
+
+export type TimeInputParams = Omit<TimeInput, 'type'>;
+
+/**
+ * Lets a user select a time.
+ */
+export function TimeInput(params?: TimeInputParams): TimeInput {
+  return {
+    type: 'Input.Time',
+    ...params,
+  };
+}

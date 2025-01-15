@@ -6,3 +6,4 @@ export * from './medias';
 export * from './card';
 export * from './element';
 export * from './inputs';
+export * from './layouts';

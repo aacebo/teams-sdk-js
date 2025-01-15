@@ -2,6 +2,7 @@ import axios from 'axios';
 import qs from 'qs';
 
 import { Credentials } from '../../auth';
+import { ClientBase } from '../client-base';
 
 export type GetBotTokenParams = Credentials;
 
@@ -12,13 +13,12 @@ export interface GetBotTokenResponse {
   readonly access_token: string;
 }
 
-export class BotTokenClient {
-  private readonly _http: axios.AxiosInstance;
-
+export class BotTokenClient extends ClientBase {
   constructor(options?: axios.CreateAxiosDefaults) {
-    this._http = axios.create({
+    super({
       ...options,
       baseURL: 'https://login.microsoftonline.com',
+      children: [],
     });
   }
 
@@ -29,7 +29,7 @@ export class BotTokenClient {
       tenantId = params.tenantId;
     }
 
-    const res = await this._http.post<GetBotTokenResponse>(
+    const res = await this.http.post<GetBotTokenResponse>(
       `/${tenantId}/oauth2/v2.0/token`,
       qs.stringify({
         grant_type: 'client_credentials',
@@ -52,7 +52,7 @@ export class BotTokenClient {
       tenantId = params.tenantId;
     }
 
-    const res = await this._http.post<GetBotTokenResponse>(
+    const res = await this.http.post<GetBotTokenResponse>(
       `/${tenantId}/oauth2/v2.0/token`,
       qs.stringify({
         grant_type: 'client_credentials',

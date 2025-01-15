@@ -27,6 +27,19 @@ export interface Media extends BaseElement {
   captionSources?: CaptionSource[];
 }
 
+export type MediaParams = Omit<Media, 'type' | 'sources'>;
+
+/**
+ * Displays a media player for audio or video content.
+ */
+export function Media(sources: MediaSource[] = [], params?: MediaParams): Media {
+  return {
+    type: 'Media',
+    sources,
+    ...params,
+  };
+}
+
 /**
  * Defines a source for a Media element
  */
@@ -40,6 +53,18 @@ export interface MediaSource {
    * Mime type of associated media (e.g. "video/mp4"). For YouTube and other Web video URLs, mimeType can be omitted.
    */
   mimeType?: string;
+}
+
+export type MediaSourceParams = Omit<MediaSource, 'url'>;
+
+/**
+ * Defines a source for a Media element
+ */
+export function MediaSource(url: string, params?: MediaSourceParams): MediaSource {
+  return {
+    url,
+    ...params,
+  };
 }
 
 /**
@@ -60,4 +85,15 @@ export interface CaptionSource {
    * Mime type of associated caption file (e.g. "vtt"). For rendering in JavaScript, only "vtt" is supported, for rendering in UWP, "vtt" and "srt" are supported.
    */
   mimeType: string;
+}
+
+/**
+ * Defines a source for captions
+ */
+export function CaptionSource(label: string, url: string, mimeType: string): CaptionSource {
+  return {
+    label,
+    url,
+    mimeType,
+  };
 }

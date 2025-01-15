@@ -1,0 +1,24 @@
+.App {
+  @apply flex;
+  @apply flex-col;
+  @apply h-full;
+  @apply w-full;
+
+  .App__route {
+    @apply flex;
+    @apply opacity-50;
+    @apply transition-all;
+
+    &:not(:last-child) {
+      @apply mr-3;
+    }
+
+    &:hover {
+      @apply opacity-100;
+    }
+
+    &.active {
+      @apply opacity-100;
+    }
+  }
+}
