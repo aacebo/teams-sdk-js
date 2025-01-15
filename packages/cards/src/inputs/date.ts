@@ -32,7 +32,7 @@ export type DateInputParams = Omit<DateInput, 'type'>;
 /**
  * Lets a user choose a date.
  */
-export function DateInput(params: DateInputParams): DateInput {
+export function DateInput(params?: DateInputParams): DateInput {
   return {
     type: 'Input.Date',
     ...params,

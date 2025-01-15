@@ -53,7 +53,7 @@ export type CodeBlockParams = Omit<CodeBlock, 'type'>;
 /**
  * Displays a block of code with syntax highlighting
  */
-export function CodeBlock(params: CodeBlockParams): CodeBlock {
+export function CodeBlock(params?: CodeBlockParams): CodeBlock {
   return {
     type: 'CodeBlock',
     ...params,

@@ -86,11 +86,17 @@ export interface Card {
   verticalContentAlignment?: VerticalAlignment;
 }
 
-export function Card(params: Partial<Card>): Card {
+export type CardParams = Omit<Card, 'body'>;
+
+/**
+ * An Adaptive Card, containing a free-form body of card elements, and an optional set of actions.
+ */
+export function Card(body: Element[] = [], params?: CardParams): Card {
   return {
     $schema: 'http://adaptivecards.io/schemas/adaptive-card.json',
     type: 'AdaptiveCard',
     version: '1.6',
+    body,
     ...params,
   };
 }

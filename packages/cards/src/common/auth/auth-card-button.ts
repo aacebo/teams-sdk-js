@@ -23,11 +23,15 @@ export interface AuthCardButton {
   image?: string;
 }
 
-export type AuthCardButtonParams = AuthCardButton;
+export type AuthCardButtonParams = Omit<AuthCardButton, 'type' | 'value'>;
 
 /**
  * Defines a button as displayed when prompting a user to authenticate. This maps to the cardAction type defined by the Bot Framework (https://docs.microsoft.com/dotnet/api/microsoft.bot.schema.cardaction).
  */
-export function AuthCardButton(params: AuthCardButtonParams): AuthCardButton {
-  return params;
+export function AuthCardButton(type: string, value: string, params: AuthCardButtonParams): AuthCardButton {
+  return {
+    type,
+    value,
+    ...params,
+  };
 }

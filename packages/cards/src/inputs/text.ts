@@ -53,7 +53,7 @@ export type TextInputParams = Omit<TextInput, 'type'>;
 /**
  * Lets a user enter text.
  */
-export function TextInput(params: TextInputParams): TextInput {
+export function TextInput(params?: TextInputParams): TextInput {
   return {
     type: 'Input.Text',
     ...params,

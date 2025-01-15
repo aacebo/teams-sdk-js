@@ -32,17 +32,18 @@ export interface Carousel extends BaseElement {
   /**
    * The pages in the carousel.
    */
-  pages: Array<CarouselPage>;
+  pages: CarouselPage[];
 }
 
-export type CarouselParams = Omit<Carousel, 'type'>;
+export type CarouselParams = Omit<Carousel, 'type' | 'pages'>;
 
 /**
  * A carousel with sliding pages.
  */
-export function Carousel(params: CarouselParams): Carousel {
+export function Carousel(pages: CarouselPage[] = [], params?: CarouselParams): Carousel {
   return {
     type: 'Carousel',
+    pages,
     ...params,
   };
 }
@@ -56,7 +57,7 @@ export interface CarouselPage extends BaseElement {
   /**
    * The card elements to render inside the `CarouselPage`.
    */
-  items?: Element[];
+  items: Element[];
 
   /**
    * Specifies the background image. Acceptable formats are `PNG`, `JPEG`, and `GIF`
@@ -113,14 +114,15 @@ export interface CarouselPage extends BaseElement {
   selectAction?: Action;
 }
 
-export type CarouselPageParams = Omit<CarouselPage, 'type'>;
+export type CarouselPageParams = Omit<CarouselPage, 'type' | 'items'>;
 
 /**
  * A page inside a Carousel element.
  */
-export function CarouselPage(params: CarouselPageParams): CarouselPage {
+export function CarouselPage(items: Element[] = [], params?: CarouselPageParams): CarouselPage {
   return {
     type: 'CarouselPage',
+    items,
     ...params,
   };
 }

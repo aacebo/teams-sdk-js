@@ -34,14 +34,15 @@ export interface Container extends BaseContainerElement {
   minHeight?: string;
 }
 
-export type ContainerParams = Omit<Container, 'type'>;
+export type ContainerParams = Omit<Container, 'type' | 'items'>;
 
 /**
  * Containers group items together.
  */
-export function Container(params: ContainerParams): Container {
+export function Container(items: Element[] = [], params?: ContainerParams): Container {
   return {
     type: 'Container',
+    items,
     ...params,
   };
 }

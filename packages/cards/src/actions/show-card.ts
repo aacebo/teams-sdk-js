@@ -7,17 +7,22 @@ import { BaseAction } from './base';
  */
 export interface ShowCardAction extends BaseAction {
   type: 'Action.ShowCard';
-  card?: Card;
+
+  /**
+   * the card to display
+   */
+  card: Card;
 }
 
-export type ShowCardActionParams = Omit<ShowCardAction, 'type'>;
+export type ShowCardActionParams = Omit<ShowCardAction, 'type' | 'card'>;
 
 /**
  * Defines an AdaptiveCard which is shown to the user when the button or link is clicked.
  */
-export function ShowCardAction(params: ShowCardActionParams): ShowCardAction {
+export function ShowCardAction(card: Card, params?: ShowCardActionParams): ShowCardAction {
   return {
     type: 'Action.ShowCard',
+    card,
     ...params,
   };
 }

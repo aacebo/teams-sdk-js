@@ -27,14 +27,15 @@ export interface Media extends BaseElement {
   captionSources?: CaptionSource[];
 }
 
-export type MediaParams = Omit<Media, 'type'>;
+export type MediaParams = Omit<Media, 'type' | 'sources'>;
 
 /**
  * Displays a media player for audio or video content.
  */
-export function Media(params: MediaParams): Media {
+export function Media(sources: MediaSource[] = [], params?: MediaParams): Media {
   return {
     type: 'Media',
+    sources,
     ...params,
   };
 }
@@ -54,13 +55,16 @@ export interface MediaSource {
   mimeType?: string;
 }
 
-export type MediaSourceParams = MediaSource;
+export type MediaSourceParams = Omit<MediaSource, 'url'>;
 
 /**
  * Defines a source for a Media element
  */
-export function MediaSource(params: MediaSourceParams): MediaSource {
-  return params;
+export function MediaSource(url: string, params?: MediaSourceParams): MediaSource {
+  return {
+    url,
+    ...params,
+  };
 }
 
 /**
@@ -83,11 +87,13 @@ export interface CaptionSource {
   mimeType: string;
 }
 
-export type CaptionSourceParams = CaptionSource;
-
 /**
  * Defines a source for captions
  */
-export function CaptionSource(params: CaptionSourceParams): CaptionSource {
-  return params;
+export function CaptionSource(label: string, url: string, mimeType: string): CaptionSource {
+  return {
+    label,
+    url,
+    mimeType,
+  };
 }

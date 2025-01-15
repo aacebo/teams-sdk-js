@@ -9,12 +9,12 @@ export interface AreaGridLayout {
   /**
    * The areas in the grid layout.
    */
-  areas: Array<GridArea>;
+  areas: GridArea[];
 
   /**
    * The columns in the grid layout, defined as a percentage of the available width or in pixels using the <number>px format.
    */
-  columns: Array<number | string>;
+  columns: (number | string)[];
 
   /**
    * The space between columns.
@@ -34,14 +34,16 @@ export interface AreaGridLayout {
   targetWidth?: TargetWidth;
 }
 
-export type AreaGridLayoutParams = Omit<AreaGridLayout, 'type'>;
+export type AreaGridLayoutParams = Omit<AreaGridLayout, 'type' | 'areas' | 'columns'>;
 
 /**
  * A layout that divides a container into named areas into which elements can be placed.
  */
-export function AreaGridLayout(params: AreaGridLayoutParams): AreaGridLayout {
+export function AreaGridLayout(areas: GridArea[] = [], columns: (number | string)[] = [], params?: AreaGridLayoutParams): AreaGridLayout {
   return {
     type: 'Layout.AreaGrid',
+    areas,
+    columns,
     ...params,
   };
 }

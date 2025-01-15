@@ -36,11 +36,12 @@ export interface LineChart extends BaseElement {
   horizontalAlignment?: HorizontalAlignment;
 }
 
-export type LineChartParams = Omit<LineChart, 'type'>;
+export type LineChartParams = Omit<LineChart, 'type' | 'data'>;
 
-export function LineChart(params: LineChartParams): LineChart {
+export function LineChart(data: LineChartData[] = [], params?: LineChartParams): LineChart {
   return {
     type: 'Chart.Line',
+    data,
     ...params,
   };
 }
@@ -59,21 +60,30 @@ export interface LineChartData {
   /**
    * the data points in the series.
    */
-  values: {
-    /**
-     * the x axis value of the data point.
-     */
-    x: number | string;
-
-    /**
-     * the y axis value of the data point.
-     */
-    y: number;
-  }[];
+  values: LineChartDataPoint[];
 }
 
-export type LineChartDataParams = LineChartData;
+export type LineChartDataParams = Omit<LineChartData, 'values'>;
 
-export function LineChartData(params: LineChartDataParams): LineChartData {
-  return params;
+export function LineChartData(values: LineChartDataPoint[] = [], params?: LineChartDataParams): LineChartData {
+  return {
+    values,
+    ...params,
+  };
+}
+
+export interface LineChartDataPoint {
+  /**
+   * the x axis value of the data point.
+   */
+  x: number | string;
+
+  /**
+   * the y axis value of the data point.
+   */
+  y: number;
+}
+
+export function LineChartDataPoint(x: number | string, y: number): LineChartDataPoint {
+  return { x, y };
 }

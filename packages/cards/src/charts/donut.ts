@@ -31,11 +31,12 @@ export interface DonutChart extends BaseElement {
   horizontalAlignment?: HorizontalAlignment;
 }
 
-export type DonutChartParams = Omit<DonutChart, 'type'>;
+export type DonutChartParams = Omit<DonutChart, 'type' | 'data'>;
 
-export function DonutChart(params: DonutChartParams): DonutChart {
+export function DonutChart(data: DonutChartData[] = [], params?: DonutChartParams): DonutChart {
   return {
     type: 'Chart.Donut',
+    data,
     ...params,
   };
 }
@@ -57,8 +58,11 @@ export interface DonutChartData {
   value: number;
 }
 
-export type DonutChartDataParams = DonutChartData;
+export type DonutChartDataParams = Omit<DonutChartData, 'value'>;
 
-export function DonutChartData(params: DonutChartDataParams): DonutChartData {
-  return params;
+export function DonutChartData(value: number = 0, params?: DonutChartDataParams): DonutChartData {
+  return {
+    value,
+    ...params,
+  };
 }

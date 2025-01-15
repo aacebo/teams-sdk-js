@@ -32,7 +32,7 @@ export type NumberInputParams = Omit<NumberInput, 'type'>;
 /**
  * Allows a user to enter a number.
  */
-export function NumberInput(params: NumberInputParams): NumberInput {
+export function NumberInput(params?: NumberInputParams): NumberInput {
   return {
     type: 'Input.Number',
     ...params,

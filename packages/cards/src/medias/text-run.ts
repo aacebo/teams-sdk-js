@@ -63,14 +63,15 @@ export interface TextRun {
   weight?: FontWeight;
 }
 
-export type TextRunParams = Omit<TextRun, 'type'>;
+export type TextRunParams = Omit<TextRun, 'type' | 'text'>;
 
 /**
  * Defines a single run of formatted text. A TextRun with no properties set can be represented in the json as string containing the text as a shorthand for the json object. These two representations are equivalent.
  */
-export function TextRun(params: TextRunParams): TextRun {
+export function TextRun(text: string, params?: TextRunParams): TextRun {
   return {
     type: 'TextRun',
+    text,
     ...params,
   };
 }

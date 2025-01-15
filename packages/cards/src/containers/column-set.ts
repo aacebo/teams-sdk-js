@@ -36,9 +36,10 @@ export type ColumnSetParams = Omit<ColumnSet, 'type'>;
 /**
  * ColumnSet divides a region into Columns, allowing elements to sit side-by-side.
  */
-export function ColumnSet(params: ColumnSetParams): ColumnSet {
+export function ColumnSet(columns: Column[] = [], params?: ColumnSetParams): ColumnSet {
   return {
     type: 'ColumnSet',
+    columns,
     ...params,
   };
 }

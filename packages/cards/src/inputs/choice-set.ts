@@ -44,14 +44,15 @@ export interface ChoiceSetInput extends BaseInputElement {
   wrap?: boolean;
 }
 
-export type ChoiceSetInputParams = Omit<ChoiceSetInput, 'type'>;
+export type ChoiceSetInputParams = Omit<ChoiceSetInput, 'type' | 'choices'>;
 
 /**
  * Allows a user to input a Choice.
  */
-export function ChoiceSetInput(params: ChoiceSetInputParams): ChoiceSetInput {
+export function ChoiceSetInput(choices: Choice[] = [], params?: ChoiceSetInputParams): ChoiceSetInput {
   return {
     type: 'Input.ChoiceSet',
+    choices,
     ...params,
   };
 }
@@ -72,6 +73,13 @@ export interface Choice {
 }
 
 /**
+ * Describes a choice for use in a ChoiceSet.
+ */
+export function Choice(title: string, value: string): Choice {
+  return { title, value };
+}
+
+/**
  * The data populated in the event payload for fetching dynamic choices, sent to the card-author to help identify the dataset from which choices might be fetched to be displayed in the dropdown. It might contain auxillary data to limit the maximum number of choices that can be sent and to support pagination.
  */
 export interface ChoiceDataQuery {
@@ -89,4 +97,16 @@ export interface ChoiceDataQuery {
    * The number of choices to be skipped in the list of choices returned by the query. It can be ignored if the card-author does not want pagination.
    */
   skip?: number;
+}
+
+export type ChoiceDataQueryParams = Omit<ChoiceDataQuery, 'dataset'>;
+
+/**
+ * The data populated in the event payload for fetching dynamic choices, sent to the card-author to help identify the dataset from which choices might be fetched to be displayed in the dropdown. It might contain auxillary data to limit the maximum number of choices that can be sent and to support pagination.
+ */
+export function ChoiceDataQuery(dataset: string, params?: ChoiceDataQueryParams): ChoiceDataQuery {
+  return {
+    dataset,
+    ...params,
+  };
 }

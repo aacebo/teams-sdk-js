@@ -61,9 +61,10 @@ export type ImageParams = Omit<Image, 'type'>;
 /**
  * Displays an image. Acceptable formats are PNG, JPEG, and GIF
  */
-export function Image(params: ImageParams): Image {
+export function Image(url: string, params?: ImageParams): Image {
   return {
     type: 'Image',
+    url,
     ...params,
   };
 }

@@ -27,14 +27,15 @@ export interface BackgroundImage {
   verticalAlignment?: VerticalAlignment;
 }
 
-export type BackgroundImageParams = Omit<BackgroundImage, 'type'>;
+export type BackgroundImageParams = Omit<BackgroundImage, 'type' | 'url'>;
 
 /**
  * Specifies a background image. Acceptable formats are PNG, JPEG, and GIF
  */
-export function BackgroundImage(params: BackgroundImageParams): BackgroundImage {
+export function BackgroundImage(url: string, params?: BackgroundImageParams): BackgroundImage {
   return {
     type: 'BackgroundImage',
+    url,
     ...params,
   };
 }

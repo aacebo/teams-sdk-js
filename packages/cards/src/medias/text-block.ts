@@ -58,14 +58,15 @@ export interface TextBlock extends BaseElement {
   wrap?: boolean;
 }
 
-export type TextBlockParams = Omit<TextBlock, 'type'>;
+export type TextBlockParams = Omit<TextBlock, 'type' | 'text'>;
 
 /**
  * Displays text, allowing control over font sizes, weight, and color.
  */
-export function TextBlock(params: TextBlockParams): TextBlock {
+export function TextBlock(text: string, params?: TextBlockParams): TextBlock {
   return {
     type: 'TextBlock',
+    text,
     ...params,
   };
 }
