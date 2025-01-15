@@ -25,7 +25,7 @@ function ExecuteActionCardContent({ value }: ExecuteActionCardProps) {
       className={classNames(
         'inline-flex px-3 py-1 gap-1 font-semibold border rounded text-sm',
         {
-          'bg-stone-950 border-neutral-600 text-neutral-400': !value.style || value.style === 'default',
+          'bg-stone-950 border-neutral-600 text-neutral-400 hover:bg-': !value.style || value.style === 'default',
           'bg-sky-800 border-sky-700': value.style === 'positive',
           'bg-red-800 border-red-700': value.style === 'destructive',
         },
