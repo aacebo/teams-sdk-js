@@ -5,5 +5,5 @@ export interface ImageCardProps {
 }
 
 export default function ImageCard({ value }: ImageCardProps) {
-  return <img src={value.url} />;
+  return <img src={value.url} draggable={false} />;
 }

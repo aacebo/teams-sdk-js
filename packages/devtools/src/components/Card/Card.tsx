@@ -1,7 +1,7 @@
 import { Element } from '@teams.sdk/cards';
 
 import { ContainerCard, ColumnSetCard, FactSetCard, ImageSetCard } from './Containers';
-import { BadgeCard, CodeBlockCard, IconCard, ImageCard } from './Medias';
+import { BadgeCard, CodeBlockCard, IconCard, ImageCard, TextBlockCard } from './Medias';
 
 export interface CardProps {
   readonly value: Element;
@@ -25,6 +25,8 @@ export default function Card({ value }: CardProps) {
       return <IconCard value={value} />;
     case 'Image':
       return <ImageCard value={value} />;
+    case 'TextBlock':
+      return <TextBlockCard value={value} />;
   }
 
   return <>not found</>;

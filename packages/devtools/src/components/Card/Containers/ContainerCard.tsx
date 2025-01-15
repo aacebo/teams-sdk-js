@@ -8,7 +8,7 @@ export interface ContainerCardProps {
 
 export default function ContainerCard({ value }: ContainerCardProps) {
   return (
-    <div className="flex">
+    <div className="flex flex-col">
       {value.items.map((item) => {
         return <Card value={item} />;
       })}

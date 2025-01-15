@@ -5,7 +5,6 @@ import { Dialog, DialogBackdrop, DialogPanel, Popover, PopoverButton, PopoverPan
 import * as icons from '@fluentui/react-icons';
 
 import { ChatContext } from '../../state';
-import ACBuilder from '../../components/ACBuilder.tsx';
 import './Chat.css';
 
 const api = new Client({
@@ -224,7 +223,7 @@ export default function Chat() {
         <DialogBackdrop className="fixed inset-0 bg-black/30" />
           <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
             <DialogPanel className="max-w-lg space-y-4 p-12 rounded-lg shadow-2xl dark:text-white dark:bg-stone-800">
-                <ACBuilder />
+              hi
             </DialogPanel>
           </div>
         </Dialog>
