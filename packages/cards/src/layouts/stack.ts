@@ -11,3 +11,15 @@ export interface StackLayout {
    */
   targetWidth?: TargetWidth;
 }
+
+export type StackLayoutParams = Omit<StackLayout, 'type'>;
+
+/**
+ * A layout that stacks elements on top of each other. Layout.Stack is the default layout used by AdaptiveCard and all containers.
+ */
+export function StackLayout(params: StackLayoutParams): StackLayout {
+  return {
+    type: 'Layout.Stack',
+    ...params,
+  };
+}

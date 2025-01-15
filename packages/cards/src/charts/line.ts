@@ -36,6 +36,15 @@ export interface LineChart extends BaseElement {
   horizontalAlignment?: HorizontalAlignment;
 }
 
+export type LineChartParams = Omit<LineChart, 'type'>;
+
+export function LineChart(params: LineChartParams): LineChart {
+  return {
+    type: 'Chart.Line',
+    ...params,
+  };
+}
+
 export interface LineChartData {
   /**
    * the color to use for the data point.
@@ -61,4 +70,10 @@ export interface LineChartData {
      */
     y: number;
   }[];
+}
+
+export type LineChartDataParams = LineChartData;
+
+export function LineChartData(params: LineChartDataParams): LineChartData {
+  return params;
 }

@@ -23,3 +23,15 @@ export interface ProgressRing extends BaseElement {
    */
   size?: 'tiny' | 'small' | 'medium' | 'large';
 }
+
+export type ProgressRingParams = Omit<ProgressRing, 'type'>;
+
+/**
+ * A spinning ring element, to indicate progress.
+ */
+export function ProgressRing(params: ProgressRingParams): ProgressRing {
+  return {
+    type: 'ProgressRing',
+    ...params,
+  };
+}

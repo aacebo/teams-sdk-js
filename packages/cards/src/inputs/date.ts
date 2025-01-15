@@ -26,3 +26,15 @@ export interface DateInput extends BaseInputElement {
    */
   value?: string;
 }
+
+export type DateInputParams = Omit<DateInput, 'type'>;
+
+/**
+ * Lets a user choose a date.
+ */
+export function DateInput(params: DateInputParams): DateInput {
+  return {
+    type: 'Input.Date',
+    ...params,
+  };
+}

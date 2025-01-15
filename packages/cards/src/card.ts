@@ -86,7 +86,7 @@ export interface Card {
   verticalContentAlignment?: VerticalAlignment;
 }
 
-export function card(params: Partial<Card>): Card {
+export function Card(params: Partial<Card>): Card {
   return {
     $schema: 'http://adaptivecards.io/schemas/adaptive-card.json',
     type: 'AdaptiveCard',

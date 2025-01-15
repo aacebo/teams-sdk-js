@@ -30,3 +30,15 @@ export interface ColumnSet extends BaseContainerElement {
    */
   horizontalAlignment?: HorizontalAlignment | null;
 }
+
+export type ColumnSetParams = Omit<ColumnSet, 'type'>;
+
+/**
+ * ColumnSet divides a region into Columns, allowing elements to sit side-by-side.
+ */
+export function ColumnSet(params: ColumnSetParams): ColumnSet {
+  return {
+    type: 'ColumnSet',
+    ...params,
+  };
+}

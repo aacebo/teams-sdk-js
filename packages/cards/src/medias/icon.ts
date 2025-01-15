@@ -30,6 +30,15 @@ export interface Icon {
   selectAction?: Action;
 }
 
+export type IconParams = Omit<Icon, 'type'>;
+
+export function Icon(params: IconParams): Icon {
+  return {
+    type: 'Icon',
+    ...params,
+  };
+}
+
 export type IconName =
   | 'AccessTime'
   | 'Accessibility'

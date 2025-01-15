@@ -35,6 +35,18 @@ export interface Carousel extends BaseElement {
   pages: Array<CarouselPage>;
 }
 
+export type CarouselParams = Omit<Carousel, 'type'>;
+
+/**
+ * A carousel with sliding pages.
+ */
+export function Carousel(params: CarouselParams): Carousel {
+  return {
+    type: 'Carousel',
+    ...params,
+  };
+}
+
 /**
  * A page inside a Carousel element.
  */
@@ -99,4 +111,16 @@ export interface CarouselPage extends BaseElement {
    * An Action that will be invoked when the element is tapped or clicked. Action.ShowCard is not supported.
    */
   selectAction?: Action;
+}
+
+export type CarouselPageParams = Omit<CarouselPage, 'type'>;
+
+/**
+ * A page inside a Carousel element.
+ */
+export function CarouselPage(params: CarouselPageParams): CarouselPage {
+  return {
+    type: 'CarouselPage',
+    ...params,
+  };
 }

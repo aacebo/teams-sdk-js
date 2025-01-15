@@ -64,3 +64,15 @@ export interface Badge extends BaseElement {
    */
   tooltip?: string;
 }
+
+export type BadgeParams = Omit<Badge, 'type'>;
+
+/**
+ * A badge element to show an icon and/or text in a compact form over a colored background.
+ */
+export function Badge(params: BadgeParams): Badge {
+  return {
+    type: 'Badge',
+    ...params,
+  };
+}

@@ -25,3 +25,12 @@ export interface Auth {
    */
   buttons?: AuthCardButton[];
 }
+
+export type AuthParams = Auth;
+
+/**
+ * Defines authentication information associated with a card. This maps to the OAuthCard type defined by the Bot Framework (https://docs.microsoft.com/dotnet/api/microsoft.bot.schema.oauthcard)
+ */
+export function Auth(params: AuthParams): Auth {
+  return params;
+}

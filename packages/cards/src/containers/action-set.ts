@@ -12,3 +12,15 @@ export interface ActionSet extends BaseElement {
    */
   actions: Action[];
 }
+
+export type ActionSetParams = Omit<ActionSet, 'type'>;
+
+/**
+ * Displays a set of actions.
+ */
+export function ActionSet(params: ActionSetParams): ActionSet {
+  return {
+    type: 'ActionSet',
+    ...params,
+  };
+}

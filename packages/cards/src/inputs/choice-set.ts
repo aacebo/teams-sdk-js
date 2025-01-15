@@ -44,6 +44,18 @@ export interface ChoiceSetInput extends BaseInputElement {
   wrap?: boolean;
 }
 
+export type ChoiceSetInputParams = Omit<ChoiceSetInput, 'type'>;
+
+/**
+ * Allows a user to input a Choice.
+ */
+export function ChoiceSetInput(params: ChoiceSetInputParams): ChoiceSetInput {
+  return {
+    type: 'Input.ChoiceSet',
+    ...params,
+  };
+}
+
 /**
  * Describes a choice for use in a ChoiceSet.
  */

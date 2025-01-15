@@ -22,3 +22,15 @@ export interface ProgressBar extends BaseElement {
    */
   max?: number;
 }
+
+export type ProgressBarParams = Omit<ProgressBar, 'type'>;
+
+/**
+ * A progress bar element, to represent a value within a range.
+ */
+export function ProgressBar(params: ProgressBarParams): ProgressBar {
+  return {
+    type: 'ProgressBar',
+    ...params,
+  };
+}

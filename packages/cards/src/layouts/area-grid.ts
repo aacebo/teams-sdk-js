@@ -34,6 +34,18 @@ export interface AreaGridLayout {
   targetWidth?: TargetWidth;
 }
 
+export type AreaGridLayoutParams = Omit<AreaGridLayout, 'type'>;
+
+/**
+ * A layout that divides a container into named areas into which elements can be placed.
+ */
+export function AreaGridLayout(params: AreaGridLayoutParams): AreaGridLayout {
+  return {
+    type: 'Layout.AreaGrid',
+    ...params,
+  };
+}
+
 /**
  * Defines an area in a Layout.AreaGrid layout.
  */

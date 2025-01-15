@@ -35,3 +35,15 @@ export interface Column extends BaseContainerElement {
    */
   width?: 'auto' | 'stretch' | Omit<string | number, 'auto' | 'stretch'>;
 }
+
+export type ColumnParams = Omit<Column, 'type'>;
+
+/**
+ * Defines a container that is part of a ColumnSet.
+ */
+export function Column(params: ColumnParams): Column {
+  return {
+    type: 'Column',
+    ...params,
+  };
+}

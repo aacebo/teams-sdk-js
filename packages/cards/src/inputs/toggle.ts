@@ -31,3 +31,15 @@ export interface ToggleInput extends BaseInputElement {
    */
   wrap?: boolean;
 }
+
+export type ToggleInputParams = Omit<ToggleInput, 'type'>;
+
+/**
+ * Lets a user choose between two options.
+ */
+export function ToggleInput(params: ToggleInputParams): ToggleInput {
+  return {
+    type: 'Input.Toggle',
+    ...params,
+  };
+}

@@ -59,3 +59,15 @@ export interface FlowLayout {
    */
   verticalItemsAlignment?: VerticalAlignment;
 }
+
+export type FlowLayoutParams = Omit<FlowLayout, 'type'>;
+
+/**
+ * A layout that spreads elements horizontally and wraps them across multiple rows, as needed.
+ */
+export function FlowLayout(params: FlowLayoutParams): FlowLayout {
+  return {
+    type: 'Layout.Flow',
+    ...params,
+  };
+}

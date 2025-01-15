@@ -19,3 +19,15 @@ export interface RichTextBlock extends BaseElement {
    */
   horizontalAlignment?: HorizontalAlignment;
 }
+
+export type RichTextBlockParams = Omit<RichTextBlock, 'type'>;
+
+/**
+ * Defines an array of inlines, allowing for inline text formatting.
+ */
+export function RichTextBlock(params: RichTextBlockParams): RichTextBlock {
+  return {
+    type: 'RichTextBlock',
+    ...params,
+  };
+}

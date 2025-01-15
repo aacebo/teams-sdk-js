@@ -12,6 +12,18 @@ export interface FactSet extends BaseElement {
   facts: Fact[];
 }
 
+export type FactSetParams = Omit<FactSet, 'type'>;
+
+/**
+ * The `FactSet` element displays a series of facts (i.e. name/value pairs) in a tabular form.
+ */
+export function FactSet(params: FactSetParams): FactSet {
+  return {
+    type: 'FactSet',
+    ...params,
+  };
+}
+
 /**
  * Describes a `Fact` in a `FactSet` as a key/value pair.
  */

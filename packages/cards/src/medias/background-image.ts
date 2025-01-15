@@ -26,3 +26,15 @@ export interface BackgroundImage {
    */
   verticalAlignment?: VerticalAlignment;
 }
+
+export type BackgroundImageParams = Omit<BackgroundImage, 'type'>;
+
+/**
+ * Specifies a background image. Acceptable formats are PNG, JPEG, and GIF
+ */
+export function BackgroundImage(params: BackgroundImageParams): BackgroundImage {
+  return {
+    type: 'BackgroundImage',
+    ...params,
+  };
+}

@@ -55,3 +55,15 @@ export interface Image extends BaseElement {
    */
   width?: string;
 }
+
+export type ImageParams = Omit<Image, 'type'>;
+
+/**
+ * Displays an image. Acceptable formats are PNG, JPEG, and GIF
+ */
+export function Image(params: ImageParams): Image {
+  return {
+    type: 'Image',
+    ...params,
+  };
+}
