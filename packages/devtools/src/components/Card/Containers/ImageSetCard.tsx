@@ -10,7 +10,7 @@ export interface ImageSetCardProps {
 export default function ImageSetCard({ value }: ImageSetCardProps) {
   return (
     <div className={classNames(
-      'flex', 'flex-wrap',
+      'flex', 'flex-wrap', 'flex-1',
       {
         'gap-px': value.spacing === 'small',
         'gap-1': value.spacing === 'default',

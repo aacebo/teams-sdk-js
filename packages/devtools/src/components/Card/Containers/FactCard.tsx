@@ -6,7 +6,7 @@ export interface FactCardProps {
 
 export default function FactCard({ value }: FactCardProps) {
   return (
-    <div className="flex text-black dark:text-stone-300">
+    <div className="flex flex-1 text-black dark:text-stone-300">
       <div className="font-semibold mr-2">{value.title}</div>
 
       {value.value}

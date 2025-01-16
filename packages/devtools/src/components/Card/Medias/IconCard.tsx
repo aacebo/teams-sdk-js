@@ -12,6 +12,10 @@ export default function IconCard(props: IconCardProps) {
   const name = `${value.name}${value.style || 'Regular'}`;
   const Icon = (icons as any as Record<string, icons.FluentIcon>)[name as string];
 
+  if (!Icon) {
+    return <>icon "{name}" not found</>;
+  }
+
   return <Icon
     className={classNames(className, {
       'text-lg': value.size === 'xxSmall',

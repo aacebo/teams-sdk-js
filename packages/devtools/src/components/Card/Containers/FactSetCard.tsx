@@ -10,7 +10,7 @@ export interface FactSetCardProps {
 export default function FactSetCard({ value }: FactSetCardProps) {
   return (
     <div className={classNames(
-      'flex', 'flex-col',
+      'flex', 'flex-col', 'flex-1',
       {
         'gap-px': value.spacing === 'small',
         'gap-1': value.spacing === 'default',

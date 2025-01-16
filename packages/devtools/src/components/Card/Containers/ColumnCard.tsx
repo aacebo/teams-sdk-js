@@ -10,7 +10,7 @@ export interface ColumnCardProps {
 export default function ColumnCard({ value }: ColumnCardProps) {
   return (
     <div className={classNames(
-      'flex', 'flex-col',
+      'flex', 'flex-col', 'flex-1',
       {
         'gap-px': value.spacing === 'small',
         'gap-1': value.spacing === 'default',

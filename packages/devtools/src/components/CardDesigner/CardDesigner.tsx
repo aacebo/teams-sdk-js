@@ -27,11 +27,15 @@ export default function CardDesigner({ value, onChange }: CardDesignerProps) {
     setCard({ ...card });
   };
 
+  const onEditorUpdate = (value: Card) => {
+    setCard({ ...value });
+  };
+
   return (
     <div className="flex flex-1">
       <CardDesignerSidebar onSelect={onSelect} />
       <CardDesignerContent value={card} />
-      <CardDesignerEditor value={card} />
+      <CardDesignerEditor value={card} onChange={onEditorUpdate} />
     </div>
   );
 }
