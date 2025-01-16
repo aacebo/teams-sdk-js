@@ -1,13 +1,13 @@
 import { Card } from '@teams.sdk/cards';
 import { json } from '@codemirror/lang-json';
 import { EditorState } from '@codemirror/state';
+import { ViewUpdate } from '@codemirror/view';
 import { atomone } from '@uiw/codemirror-themes-all';
 import { EditorView, basicSetup } from 'codemirror';
-import { jsonSchema } from 'codemirror-json-schema';
 import { useEffect, useRef, useState } from 'react';
 import isEqual from 'lodash.isequal';
 
-import $schema from './json-schema.draft-6.json';
+import { debounce } from '../../utils';
 import './CardDesignerEditor.css';
 
 export interface CardDesignerEditorProps {
@@ -28,17 +28,16 @@ export default function CardDesignerEditor({ value, onChange }: CardDesignerEdit
         doc: value ? JSON.stringify(value, null, 2) : undefined,
         extensions: [
           basicSetup,
-          json(),
-          jsonSchema($schema as any),
           atomone,
-          EditorView.updateListener.of((update) => {
+          json(),
+          EditorView.updateListener.of(debounce((update: ViewUpdate) => {
             if (!update.docChanged || !onChange) return;
 
             try {
               const card = JSON.parse(update.state.doc.toString());
               onChange(card);
             } catch (err) { }
-          }),
+          })),
         ],
       }),
     }));
