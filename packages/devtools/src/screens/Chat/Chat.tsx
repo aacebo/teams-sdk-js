@@ -1,11 +1,13 @@
 import { useContext, useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
-import { Client, MessageReaction, MessageReactionType } from '@teams.sdk/api';
-import { Dialog, DialogBackdrop, DialogPanel, Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
+import { Card } from '@teams.sdk/cards';
+import { Attachment, cardAttachment, CardAttachmentTypes, Client, MessageReaction, MessageReactionType } from '@teams.sdk/api';
+import { Dialog, DialogBackdrop, DialogPanel, Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import * as icons from '@fluentui/react-icons';
 
 import { ChatContext } from '../../state';
 import CardDesigner from '../../components/CardDesigner';
+import AdaptiveCard from '../../components/Card';
 import './Chat.css';
 
 const api = new Client({
@@ -15,6 +17,8 @@ const api = new Client({
 export default function Chat() {
   const { chat, messages } = useContext(ChatContext);
   const [text, setText] = useState('');
+  const [attachments, setAttachments] = useState<Attachment[]>([ ]);
+  const [card, setCard] = useState<Card>();
   const [cardBuilderOpen, setCardBuilderOpen] = useState(false);
 
   const send = async () => {
@@ -182,6 +186,12 @@ export default function Chat() {
             }}
           />
 
+          {attachments.length > 0 && (
+            <div className="flex gap-1 px-2 py-px">
+              {attachments.map(a => <AdaptiveCard value={(a as CardAttachmentTypes['adaptive']).content} />)}
+            </div>
+          )}
+
           <div className="flex p-5">
             <span className="flex-1" />
             <div className="flex gap-1">
@@ -221,10 +231,27 @@ export default function Chat() {
         </div>
 
         <Dialog open={cardBuilderOpen} onClose={setCardBuilderOpen} className="relative z-50">
-          <DialogBackdrop className="fixed inset-0 bg-black/30" />
+          <DialogBackdrop className="fixed inset-0 bg-black/50" />
           <div className="fixed inset-0 flex w-screen items-center justify-center p-12">
-            <DialogPanel className="w-full h-full flex flex-col space-y-4 rounded-lg shadow-2xl dark:text-white overflow-hidden dark:bg-stone-800">
-              <CardDesigner />
+            <DialogPanel className="w-full h-full relative flex flex-col space-y-4 rounded-lg shadow-2xl dark:text-white overflow-hidden dark:bg-stone-900">
+              <CardDesigner value={card} onChange={setCard} />
+
+              <button
+                className="absolute right-5 bottom-5 flex p-3 rounded-full shadow-md bg-indigo-800 hover:bg-indigo-700 disabled:opacity-50 disabled:bg-stone-700 active:bg-indigo-600"
+                disabled={!card}
+                onClick={() => {
+                  if (!card) return;
+                  setAttachments([
+                    ...attachments,
+                    cardAttachment('adaptive', card),
+                  ]);
+
+                  setCardBuilderOpen(false);
+                  setCard(undefined);
+                }}
+              >
+                {<icons.CheckmarkFilled className="size-6 my-auto" />}
+              </button>
             </DialogPanel>
           </div>
         </Dialog>
