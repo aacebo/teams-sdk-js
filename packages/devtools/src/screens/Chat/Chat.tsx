@@ -5,6 +5,7 @@ import { Dialog, DialogBackdrop, DialogPanel, Popover, PopoverButton, PopoverPan
 import * as icons from '@fluentui/react-icons';
 
 import { ChatContext } from '../../state';
+import CardDesigner from '../../components/CardDesigner';
 import './Chat.css';
 
 const api = new Client({
@@ -220,10 +221,10 @@ export default function Chat() {
         </div>
 
         <Dialog open={cardBuilderOpen} onClose={setCardBuilderOpen} className="relative z-50">
-        <DialogBackdrop className="fixed inset-0 bg-black/30" />
-          <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-            <DialogPanel className="max-w-lg space-y-4 p-12 rounded-lg shadow-2xl dark:text-white dark:bg-stone-800">
-              hi
+          <DialogBackdrop className="fixed inset-0 bg-black/30" />
+          <div className="fixed inset-0 flex w-screen items-center justify-center p-12">
+            <DialogPanel className="w-full h-full flex flex-col space-y-4 rounded-lg shadow-2xl dark:text-white overflow-hidden dark:bg-stone-800">
+              <CardDesigner />
             </DialogPanel>
           </div>
         </Dialog>
