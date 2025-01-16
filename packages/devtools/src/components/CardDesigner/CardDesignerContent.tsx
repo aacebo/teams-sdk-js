@@ -1,4 +1,5 @@
 import { Card } from '@teams.sdk/cards';
+
 import AdaptiveCard from '../Card/AdaptiveCard';
 
 export interface CardDesignerContentProps {
