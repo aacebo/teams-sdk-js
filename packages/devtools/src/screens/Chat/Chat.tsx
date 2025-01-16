@@ -26,9 +26,11 @@ export default function Chat() {
       await api.conversations.activities(chat.id).create({
         type: 'message',
         text,
+        attachments,
       });
 
       setText('');
+      setAttachments([]);
     } catch (err) {
       console.error(err);
     }
@@ -136,6 +138,13 @@ export default function Chat() {
                     </div>
 
                     {message.body?.content}
+                    {message.attachments && (
+                      <div className="flex gap-1 px-2 py-px">
+                        {message.attachments.map(a => {
+                          return <AdaptiveCard value={(a as CardAttachmentTypes['adaptive']).content} />;
+                        })}
+                      </div>
+                    )}
 
                     {(message.reactions?.length || 0) > 0 && (
                       <div
