@@ -11,7 +11,7 @@ export interface AdaptiveCardProps extends ComponentProps<'div'> {
 
 export default function AdaptiveCard({ value, className }: AdaptiveCardProps) {
   return (
-    <div className={classNames(className, 'flex flex-col p-3 bg-white dark:bg-stone-800')}>
+    <div className={classNames(className, 'flex flex-col rounded p-3 bg-white dark:bg-stone-800')}>
       {
         value.body && value.body.length > 0 && (
           <div className="flex flex-col">
