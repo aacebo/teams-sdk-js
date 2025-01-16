@@ -141,12 +141,14 @@ export class App {
    */
   async start(port = 3000) {
     try {
-      const bot = await this.api.bots.token.get(this.options);
-      const graph = await this.api.bots.token.getGraph(this.options);
-      this._tokens = {
-        bot: new JsonWebToken(bot.access_token),
-        graph: new JsonWebToken(graph.access_token),
-      };
+      if (this.options.clientId && this.options.clientSecret) {
+        const bot = await this.api.bots.token.get(this.options);
+        const graph = await this.api.bots.token.getGraph(this.options);
+        this._tokens = {
+          bot: new JsonWebToken(bot.access_token),
+          graph: new JsonWebToken(graph.access_token),
+        };
+      }
 
       for (const plugin of this.plugins) {
         if (plugin.start) {

@@ -2,12 +2,8 @@ import { App, HttpPlugin } from '@teams.sdk/apps';
 import { ConsoleLogger } from '@teams.sdk/common/logging';
 import { DevtoolsPlugin } from '@teams.sdk/dev';
 
-const clientId = process.env.CLIENT_ID;
-const clientSecret = process.env.CLIENT_SECRET;
-
-if (!clientId || !clientSecret) {
-  throw new Error('missing environment variables');
-}
+const clientId = process.env.CLIENT_ID || '';
+const clientSecret = process.env.CLIENT_SECRET || '';
 
 const app = new App({
   type: 'MultiTenant',
