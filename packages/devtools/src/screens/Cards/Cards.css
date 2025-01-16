@@ -2,4 +2,5 @@
   @apply flex;
   @apply flex-col;
   @apply flex-1;
+  @apply min-h-0;
 }

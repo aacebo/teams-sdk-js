@@ -32,7 +32,7 @@ export default function CardDesigner({ value, onChange }: CardDesignerProps) {
   };
 
   return (
-    <div className="flex flex-1">
+    <div className="flex flex-1 min-h-0">
       <CardDesignerSidebar onSelect={onSelect} />
       <CardDesignerContent value={card} />
       <CardDesignerEditor value={card} onChange={onEditorUpdate} />

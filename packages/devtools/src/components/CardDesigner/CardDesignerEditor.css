@@ -1,12 +1,14 @@
 .CardDesignerEditor {
   @apply flex;
-  @apply flex-col;
   @apply max-w-[50%];
   @apply border-l;
   @apply dark:border-stone-800;
   @apply shadow-md;
+  @apply min-h-0;
 
   .cm-editor {
-    flex: 1;
+    @apply flex-1;
+    @apply min-w-0;
+    @apply min-h-0;
   }
 }

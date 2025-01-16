@@ -61,7 +61,10 @@ const groups: CardGroup[] = [
       {
         icon: CodeRegular,
         label: 'CodeBlock',
-        value: CodeBlock(),
+        value: CodeBlock({
+          codeSnippet: 'const helloWorld = () => console.log("hello, world!");',
+          language: 'TypeScript',
+        }),
       },
       {
         icon: InfoRegular,
