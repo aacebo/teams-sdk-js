@@ -10,7 +10,6 @@ import { ViewUpdate } from '@codemirror/view';
 import { atomone } from '@uiw/codemirror-themes-all';
 import { EditorView, basicSetup } from 'codemirror';
 
-import { debounce } from '../../utils';
 import './CardDesignerEditor.css';
 
 export interface CardDesignerEditorProps {
@@ -68,14 +67,14 @@ export function CardDesignerJsonEditor({ value, onChange }: CardDesignerJsonEdit
           basicSetup,
           atomone,
           json(),
-          EditorView.updateListener.of(debounce((update: ViewUpdate) => {
+          EditorView.updateListener.of((update: ViewUpdate) => {
             if (!update.docChanged || !onChange) return;
 
             try {
               const card = JSON.parse(update.state.doc.toString());
               onChange(card);
             } catch (err) { }
-          })),
+          }),
         ],
       }),
     }));
