@@ -61,7 +61,7 @@ function BadgeCardContent({ value }: BadgeCardProps) {
           />
         )
       }
-      {value.text}
+      <span className="ml-1 my-auto">{value.text}</span>
     </div>
   );
 }

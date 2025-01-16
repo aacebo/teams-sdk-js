@@ -56,7 +56,13 @@ const groups: CardGroup[] = [
       {
         icon: BadgeRegular,
         label: 'Badge',
-        value: Badge(),
+        value: Badge({
+          style: 'attention',
+          icon: 'Warning',
+          text: 'an error badge example...',
+          shape: 'rounded',
+          size: 'extraLarge'
+        }),
       },
       {
         icon: CodeRegular,

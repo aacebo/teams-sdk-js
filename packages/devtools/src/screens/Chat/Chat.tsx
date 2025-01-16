@@ -95,6 +95,7 @@ export default function Chat() {
                   <div
                     className={[
                       'flex',
+                      'flex-col',
                       'relative',
                       'transition-all',
                       'px-4',
@@ -139,7 +140,7 @@ export default function Chat() {
 
                     {message.body?.content}
                     {message.attachments && (
-                      <div className="flex gap-1 px-2 py-px">
+                      <div className="flex gap-1 py-px">
                         {message.attachments.map(a => {
                           return <AdaptiveCard value={(a as CardAttachmentTypes['adaptive']).content} />;
                         })}
