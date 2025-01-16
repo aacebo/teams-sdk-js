@@ -1,37 +1,43 @@
 # @teams.sdk/config
 
+## 0.1.7
+
+### Patch Changes
+
+- add devtools
+
 ## 0.1.6
 
 ### Patch Changes
 
--   add getting started docs link to packages
+- add getting started docs link to packages
 
 ## 0.1.5
 
 ### Patch Changes
 
--   add documentation
+- add documentation
 
 ## 0.1.4
 
 ### Patch Changes
 
--   update package.json files
+- update package.json files
 
 ## 0.1.3
 
 ### Patch Changes
 
--   add more cards
+- add more cards
 
 ## 0.1.2
 
 ### Patch Changes
 
--   add input cards and stream activity
+- add input cards and stream activity
 
 ## 0.1.1
 
 ### Patch Changes
 
--   add package metadata and update readme
+- add package metadata and update readme
