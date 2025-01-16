@@ -1,9 +1,9 @@
 import { Card, Element } from '@teams.sdk/cards';
+import { useEffect, useState } from 'react';
 
 import CardDesignerContent from './CardDesignerContent';
 import CardDesignerEditor from './CardDesignerEditor';
 import CardDesignerSidebar from './CardDesignerSidebar';
-import { useEffect, useState } from 'react';
 
 export interface CardDesignerProps {
   readonly value?: Card;
@@ -31,7 +31,7 @@ export default function CardDesigner({ value, onChange }: CardDesignerProps) {
     <div className="flex flex-1">
       <CardDesignerSidebar onSelect={onSelect} />
       <CardDesignerContent value={card} />
-      <CardDesignerEditor />
+      <CardDesignerEditor value={card} />
     </div>
   );
 }
