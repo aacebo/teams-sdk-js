@@ -1,6 +1,6 @@
 .CardDesignerEditor {
   @apply flex;
-  @apply max-w-[50%];
+  @apply flex-1;
   @apply border-l;
   @apply dark:border-stone-800;
   @apply shadow-md;
