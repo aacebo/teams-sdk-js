@@ -41,7 +41,10 @@ const groups: CardGroup[] = [
       {
         icon: TableImageRegular,
         label: 'ImageSet',
-        value: ImageSet(),
+        value: ImageSet([
+          Image('https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true'),
+          Image('https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true'),
+        ]),
       },
       {
         icon: TableRegular,
