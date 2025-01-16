@@ -134,7 +134,7 @@ export default function App() {
   return (
     <div className="App">
       <BrowserRouter basename="/devtools">
-        <div className="flex px-5 py-2">
+        <div className="flex px-5 py-2 border-b dark:border-stone-800 shadow-md">
           <div className="flex font-semibold my-auto">
             <img src="/devtools/teams.png" className="w-10 my-auto" />
             <div className="flex my-auto">
