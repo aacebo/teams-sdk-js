@@ -32,10 +32,10 @@
   "peerDependencies": {
     "@teams.sdk/ai": "*",
     "@teams.sdk/common": "*",
-    "@teams.sdk/config": "*",
     "openai": "^4.55.0"
   },
   "devDependencies": {
+    "@teams.sdk/config": "*",
     "@types/jest": "^29.5.12",
     "@types/node": "^22.0.2",
     "jest": "^29.7.0",

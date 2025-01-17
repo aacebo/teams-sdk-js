@@ -40,10 +40,10 @@
   "peerDependencies": {
     "@teams.sdk/api": "*",
     "@teams.sdk/apps": "*",
-    "@teams.sdk/common": "*",
-    "@teams.sdk/config": "*"
+    "@teams.sdk/common": "*"
   },
   "devDependencies": {
+    "@teams.sdk/config": "*",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.7",

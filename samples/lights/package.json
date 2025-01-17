@@ -20,13 +20,13 @@
     "@teams.sdk/api": "*",
     "@teams.sdk/apps": "*",
     "@teams.sdk/common": "*",
-    "@teams.sdk/config": "*",
     "@teams.sdk/openai": "*",
-    "@teams.sdk/devtools": "*",
-    "dotenv": "^16.4.5"
+    "@teams.sdk/devtools": "*"
   },
   "devDependencies": {
+    "@teams.sdk/config": "*",
     "@types/node": "^22.5.4",
+    "dotenv": "^16.4.5",
     "nodemon": "^3.1.4",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",

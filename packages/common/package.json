@@ -51,10 +51,8 @@
     "build": "npx tsup",
     "test": "npx jest"
   },
-  "peerDependencies": {
-    "@teams.sdk/config": "*"
-  },
   "devDependencies": {
+    "@teams.sdk/config": "*",
     "@types/jest": "^29.5.12",
     "jest": "^29.7.0",
     "rimraf": "^6.0.1",

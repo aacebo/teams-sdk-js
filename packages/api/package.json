@@ -35,10 +35,10 @@
     "qs": "^6.13.0"
   },
   "peerDependencies": {
-    "@teams.sdk/cards": "*",
-    "@teams.sdk/config": "*"
+    "@teams.sdk/cards": "*"
   },
   "devDependencies": {
+    "@teams.sdk/config": "*",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/qs": "^6.9.15",
