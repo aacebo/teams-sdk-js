@@ -1,5 +1,13 @@
 # @teams.sdk/ai
 
+## 0.1.9
+
+### Patch Changes
+
+- remove @teams.sdk/config peer dep
+- Updated dependencies
+  - @teams.sdk/common@0.1.9
+
 ## 0.1.8
 
 ### Patch Changes

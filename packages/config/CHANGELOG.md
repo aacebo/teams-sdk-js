@@ -1,5 +1,11 @@
 # @teams.sdk/config
 
+## 0.1.9
+
+### Patch Changes
+
+- remove @teams.sdk/config peer dep
+
 ## 0.1.8
 
 ### Patch Changes

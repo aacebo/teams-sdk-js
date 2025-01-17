@@ -1,5 +1,14 @@
 # @teams.sdk/devtools
 
+## 0.1.9
+
+### Patch Changes
+
+- remove @teams.sdk/config peer dep
+- Updated dependencies
+  - @teams.sdk/api@0.1.9
+  - @teams.sdk/cards@0.1.9
+
 ## 0.1.8
 
 ### Patch Changes
