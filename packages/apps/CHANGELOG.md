@@ -1,5 +1,14 @@
 # @teams.sdk/apps
 
+## 0.1.10
+
+### Patch Changes
+
+- add cli package
+- Updated dependencies
+  - @teams.sdk/api@0.1.10
+  - @teams.sdk/common@0.1.10
+
 ## 0.1.9
 
 ### Patch Changes
