@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import url from 'node:url';
-import cp from 'node:child_process'
+import cp from 'node:child_process';
 
 import { CommandModule } from 'yargs';
 
