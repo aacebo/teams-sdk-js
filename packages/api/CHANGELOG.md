@@ -1,5 +1,14 @@
 # @teams.sdk/api
 
+## 0.1.8
+
+### Patch Changes
+
+- make credentials optional
+- Updated dependencies
+  - @teams.sdk/cards@0.1.8
+  - @teams.sdk/config@0.1.8
+
 ## 0.1.7
 
 ### Patch Changes
