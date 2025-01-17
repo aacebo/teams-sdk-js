@@ -23,12 +23,7 @@ export class BotTokenClient extends ClientBase {
   }
 
   async get(params: GetBotTokenParams) {
-    let tenantId = 'botframework.com';
-
-    if (params.type === 'SingleTenant') {
-      tenantId = params.tenantId;
-    }
-
+    const tenantId = params.tenantId || 'botframework.com';
     const res = await this.http.post<GetBotTokenResponse>(
       `/${tenantId}/oauth2/v2.0/token`,
       qs.stringify({
@@ -46,12 +41,7 @@ export class BotTokenClient extends ClientBase {
   }
 
   async getGraph(params: GetBotTokenParams) {
-    let tenantId = 'botframework.com';
-
-    if (params.type === 'SingleTenant') {
-      tenantId = params.tenantId;
-    }
-
+    const tenantId = params.tenantId || 'botframework.com';
     const res = await this.http.post<GetBotTokenResponse>(
       `/${tenantId}/oauth2/v2.0/token`,
       qs.stringify({

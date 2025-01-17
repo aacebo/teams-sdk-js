@@ -26,9 +26,10 @@ export class BotBuilderPlugin extends HttpPlugin {
       new ConfigurationBotFrameworkAuthentication(
         {},
         new ConfigurationServiceClientCredentialFactory({
-          MicrosoftAppType: app.options.type,
+          MicrosoftAppType: app.options.tenantId ? 'SingleTenant' : 'MultiTenant',
           MicrosoftAppId: app.options.clientId,
           MicrosoftAppPassword: app.options.clientSecret,
+          MicrosoftAppTenantId: app.options.tenantId,
         })
       )
     );

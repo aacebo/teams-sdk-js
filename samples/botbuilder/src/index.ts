@@ -2,22 +2,8 @@ import { App } from '@teams.sdk/apps';
 import { ConsoleLogger } from '@teams.sdk/common/logging';
 import { BotBuilderPlugin } from '@teams.sdk/botbuilder';
 
-const clientId = process.env.CLIENT_ID;
-const clientSecret = process.env.CLIENT_SECRET;
-
-if (!clientId || !clientSecret) {
-  throw new Error('missing environment variables');
-}
-
-const logger = new ConsoleLogger('@samples/botbuilder', {
-  level: 'debug',
-});
-
 const app = new App({
-  type: 'MultiTenant',
-  clientId,
-  clientSecret,
-  logger,
+  logger: new ConsoleLogger('@samples/botbuilder', { level: 'debug' }),
   plugins: [new BotBuilderPlugin()],
 });
 

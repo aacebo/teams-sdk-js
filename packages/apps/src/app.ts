@@ -29,7 +29,7 @@ import { HttpPlugin } from './plugins';
 /**
  * App initialization options
  */
-export type AppOptions = Credentials & {
+export type AppOptions = Partial<Credentials> & {
   /**
    * http client options used to make api requests
    */
@@ -94,6 +94,7 @@ export class App {
   protected storage: Storage;
   protected api: Client;
   protected router = new Router();
+  protected credentials?: Credentials;
 
   private readonly _events = DEFAULT_EVENTS;
 
@@ -109,6 +110,18 @@ export class App {
 
     this.storage = this.options.storage || new LocalStorage();
     this.plugins = this.options.plugins || [];
+
+    const clientId = this.options.clientId || process.env.CLIENT_ID;
+    const clientSecret = this.options.clientSecret || process.env.CLIENT_SECRET;
+    const tenantId = this.options.tenantId || process.env.TENANT_ID;
+
+    if (clientId && clientSecret) {
+      this.credentials = {
+        clientId: clientId,
+        clientSecret: clientSecret,
+        tenantId: tenantId,
+      };
+    }
 
     const http = new HttpPlugin();
     let sender = this.plugins.find((p) => !!p.sender);
@@ -141,9 +154,9 @@ export class App {
    */
   async start(port = 3000) {
     try {
-      if (this.options.clientId && this.options.clientSecret) {
-        const bot = await this.api.bots.token.get(this.options);
-        const graph = await this.api.bots.token.getGraph(this.options);
+      if (this.credentials) {
+        const bot = await this.api.bots.token.get(this.credentials);
+        const graph = await this.api.bots.token.getGraph(this.credentials);
         this._tokens = {
           bot: new JsonWebToken(bot.access_token),
           graph: new JsonWebToken(graph.access_token),
@@ -268,16 +281,9 @@ export class App {
       return { status: 200 };
     }
 
-    let tenantId = 'common';
-
-    if (this.options.type === 'SingleTenant') {
-      tenantId = this.options.tenantId;
-    }
-
+    const tenantId = this.options.tenantId || 'common';
     const creds = {
-      type: this.options.type,
-      clientId: this.options.clientId,
-      clientSecret: this.options.clientSecret,
+      ...this.credentials,
       tenantId: tenantId,
     } as Credentials;
 

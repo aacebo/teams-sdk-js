@@ -4,22 +4,12 @@ import { ConsoleLogger } from '@teams.sdk/common/logging';
 import { OpenAIChatModel } from '@teams.sdk/openai';
 import { LocalStorage } from '@teams.sdk/common/storage';
 
-const clientId = process.env.CLIENT_ID;
-const clientSecret = process.env.CLIENT_SECRET;
-
-if (!clientId || !clientSecret) {
-  throw new Error('missing environment variables');
-}
-
 const storage = new LocalStorage<{
   status: boolean;
   messages: Message[];
 }>();
 
 const app = new App({
-  type: 'MultiTenant',
-  clientId,
-  clientSecret,
   logger: new ConsoleLogger('@samples/lights', { level: 'debug' }),
 });
 

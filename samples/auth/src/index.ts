@@ -5,17 +5,7 @@ import { cardAttachment } from '@teams.sdk/api';
 import { graph } from './graph';
 import * as cards from './cards';
 
-const clientId = process.env.CLIENT_ID;
-const clientSecret = process.env.CLIENT_SECRET;
-
-if (!clientId || !clientSecret) {
-  throw new Error('missing environment variables');
-}
-
 const app = new App({
-  type: 'MultiTenant',
-  clientId,
-  clientSecret,
   logger: new ConsoleLogger('@samples/auth', { level: 'debug' }),
 });
 

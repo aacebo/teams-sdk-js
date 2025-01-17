@@ -5,17 +5,7 @@ import { RedisStorage } from './redis-storage';
 import * as cmds from './cmds';
 import * as events from './events';
 
-const clientId = process.env.CLIENT_ID;
-const clientSecret = process.env.CLIENT_SECRET;
-
-if (!clientId || !clientSecret) {
-  throw new Error('missing environment variables');
-}
-
 const app = new App({
-  type: 'MultiTenant',
-  clientId,
-  clientSecret,
   storage: new RedisStorage(),
   logger: new ConsoleLogger('@apps/copilot', { level: 'debug' }),
 });
