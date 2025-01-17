@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Listening To Events - Teams SDK</title>
+        <title>Cards - Teams SDK</title>
 
 
         <!-- Custom HTML head -->
@@ -151,40 +151,58 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="-listening-to-events"><a class="header" href="#-listening-to-events">👂 Listening To Events</a></h1>
-<p>To listen/subscribe to different event types, you can use the <code>event()</code> method.
-Handlers will be called in the order they are added.</p>
-<blockquote>
-<p>Example: We subscribe to errors that occur in the app.</p>
-</blockquote>
-<pre><code class="language-typescript">app.event('error', ({ err, log }) =&gt; {
-    log.error(err);
-});
-</code></pre>
-<blockquote>
-<p>Example: When a user signs in using <code>OAuth</code> or <code>SSO</code>, use the graph api to
-fetch their profile and say hello.</p>
-</blockquote>
-<pre><code class="language-typescript">app.event('signin', async ({ activity, token, send }) =&gt; {
-    const msgraph = graph(token.token);
-    const me: MSGraph.User = await msgraph.api('/me').get();
+                        <h1 id="-cards"><a class="header" href="#-cards">📖 <a href="https://learn.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/cards/design-effective-cards">Cards</a></a></h1>
+<p>An Adaptive Card contains a freeform body of card elements and optional set of actions. Adaptive Cards are actionable snippets of content that you can add to a conversation through a bot or message extension. Using text, graphics, and buttons, these cards provide rich communication to your audience.</p>
+<p>The Adaptive Card framework is used across many Microsoft products, including Teams. You can send cards inside messages to users via bots or message extensions. Users can also take actions on cards when present.</p>
+<h2 id="typescriptjavascript"><a class="header" href="#typescriptjavascript">Typescript/Javascript</a></h2>
+<pre><code class="language-typescript">import { Card, ColumnSet, Column, Image, CodeBlock } from '@teams.sdk/cards';
 
-    await send({
-        type: 'message',
-        text: `👋 Hello ${me.name}`,
-    });
-});
+Card([
+    ColumnSet([
+        Column([Image('...')]),
+        Column([CodeBlock({ codeSnippet: '...' })])
+    ])
+]);
 </code></pre>
+<h2 id="json"><a class="header" href="#json">Json</a></h2>
+<pre><code class="language-json">{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.6",
+    "body": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "items": [{
+                        "type": "Image",
+                        "url": "..."
+                    }]
+                },
+                {
+                    "type": "Column",
+                    "items": [{
+                        "type": "CodeBlock",
+                        "codeSnippet": "..."
+                    }]
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+<p><a href="https://adaptivecards.io/">AdaptiveCards.io</a></p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../3.basics/3.sending-activities.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../5.message-extensions/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../3.basics/5.api.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../7.devtools/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -194,11 +212,11 @@ fetch their profile and say hello.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../3.basics/3.sending-activities.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../5.message-extensions/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../3.basics/5.api.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../7.devtools/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

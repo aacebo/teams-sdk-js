@@ -13,3 +13,8 @@
     -   [Listening To Dialogs](./4.dialogs/1.on-dialog.md)
     -   [Dialog Submit](./4.dialogs/2.on-dialog-submit.md)
 -   [Message Extensions](./5.message-extensions/README.md)
+-   [Cards](./6.cards/README.md)
+-   [DevTools](./7.devtools/README.md)
+    -   [Chat](./7.devtools/1.chat.md)
+    -   [Inspect](./7.devtools/2.inspect.md)
+    -   [Cards](./7.devtools/3.cards.md)
