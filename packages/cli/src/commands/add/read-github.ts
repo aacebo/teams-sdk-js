@@ -39,6 +39,10 @@ export async function readGithub(path: string, recursive = false): Promise<Value
     }
 
     if (data.type === 'file') {
+      if (data.encoding === 'base64') {
+        return Buffer.from(data.content, 'base64').toString('utf-8');
+      }
+
       return data.content;
     }
   } catch (err) {

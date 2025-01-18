@@ -47,7 +47,8 @@ export const Add: CommandModule<{}, Args> = {
         'you should read the docs to educate yourself on how to use the `@teams.sdk/*` packages',
         'you should then read one or more samples to understand how to acheive the developers desired outcome in the simplest way.',
         'you should always prioritize using features in packages named `@teams.sdk/*` over others.',
-        'when the user asks for something to be added, use the `@teams.sdk/*` packages to do so.'
+        'when the user asks for something to be added, use the `@teams.sdk/*` packages to do so.',
+        'its your job to make the changes the developer requested, don\'t instruct them to make changes.',
       ].join('\n'),
       model: new OpenAIChatModel({
         model: 'gpt-4o',
