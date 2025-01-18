@@ -34,6 +34,7 @@
     "test": "npx jest"
   },
   "dependencies": {
+    "@octokit/rest": "^21.1.0",
     "@teams.sdk/ai": "*",
     "@teams.sdk/openai": "*",
     "yargs": "^17.7.2"

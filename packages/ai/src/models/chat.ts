@@ -1,9 +1,9 @@
 import { Function } from '../function';
 import { Memory } from '../memory';
-import { Message, ModelMessage, SystemMessage } from '../message';
+import { Message, ModelMessage, SystemMessage, UserMessage } from '../message';
 
 export interface ChatParams {
-  readonly system?: SystemMessage;
+  readonly system?: SystemMessage | UserMessage;
   readonly input: Message;
   readonly messages?: Memory;
   readonly functions?: Record<string, Function>;

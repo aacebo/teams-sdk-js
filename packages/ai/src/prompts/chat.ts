@@ -1,7 +1,7 @@
 import { Function, FunctionHandler } from '../function';
 import { LocalMemory } from '../local-memory';
 import { Memory } from '../memory';
-import { ContentPart, Message, SystemMessage } from '../message';
+import { ContentPart, Message, SystemMessage, UserMessage } from '../message';
 import { ChatModel } from '../models';
 import { Schema } from '../schema';
 import { Template } from '../template';
@@ -10,17 +10,20 @@ import { StringTemplate } from '../templates';
 export interface ChatPromptOptions {
   readonly model: ChatModel;
   readonly instructions?: string | Template;
+  readonly role?: 'system' | 'user';
   readonly messages?: Message[] | Memory;
 }
 
 export class ChatPrompt {
   readonly messages: Memory;
 
+  protected readonly _role: 'system' | 'user';
   protected readonly _model: ChatModel;
   protected readonly _template: Template;
   protected readonly _functions: Record<string, Function> = {};
 
   constructor(options: ChatPromptOptions) {
+    this._role = options.role || 'system';
     this.messages =
       typeof options.messages === 'object' && !Array.isArray(options.messages)
         ? options.messages
@@ -66,12 +69,12 @@ export class ChatPrompt {
     }
 
     let buffer = '';
-    let system: SystemMessage | undefined = undefined;
+    let system: SystemMessage | UserMessage | undefined = undefined;
     const prompt = await this._template.render();
 
     if (prompt) {
       system = {
-        role: 'system',
+        role: this._role,
         content: prompt,
       };
     }
