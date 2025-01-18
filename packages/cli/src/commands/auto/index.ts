@@ -13,15 +13,15 @@ interface Args {
   readonly apiKey: string;
 }
 
-export const Add: CommandModule<{}, Args> = {
-  command: 'add <prompt>',
+export const Auto: CommandModule<{}, Args> = {
+  command: 'auto <prompt>',
   aliases: 'a',
-  describe: 'add features do you app',
+  describe: 'ask the teams agent to make changes to your project',
   builder: (b) => {
     return b.positional('prompt', {
       alias: 'p',
       type: 'string',
-      describe: 'add features to your project',
+      describe: 'changes you want the agent to make',
       demandOption: true
     }).option('apiKey', {
       alias: 'k',
