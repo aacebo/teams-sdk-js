@@ -5,7 +5,6 @@ import { CommandModule } from 'yargs';
 import * as writeProjectFile from './write-project-file';
 import * as readProjectFile from './read-project-file';
 import * as readProjectDirectory from './read-project-directory';
-import * as readSample from './read-sample';
 import * as readDocs from './read-docs';
 
 interface Args {
@@ -39,13 +38,11 @@ export const Auto: CommandModule<{}, Args> = {
 
         'use `read-project-file` to read a project files content.',
         'use `read-project-directory` to list the files and directories in a projects directory or sub directory.',
-        'use `read-sample` to read code for @teams.sdk packages to understand how to use them.',
         'use `read-docs` to read the documentation for `@teams.sdk/*` packages to better understand how to use them.',
         'use `write-project-file` to create or update a project files content',
 
         'you should first read all the projects code so you can understand how it can be updated.',
         'you should read the docs to educate yourself on how to use the `@teams.sdk/*` packages',
-        'you should then read one or more samples to understand how to acheive the developers desired outcome in the simplest way.',
         'you should always prioritize using features in packages named `@teams.sdk/*` over others.',
         'when the user asks for something to be added, use the `@teams.sdk/*` packages to do so.',
         'its your job to make the changes the developer requested, don\'t instruct them to make changes.',
@@ -70,11 +67,6 @@ export const Auto: CommandModule<{}, Args> = {
       'create or update a project file',
       writeProjectFile.schema,
       writeProjectFile.handler
-    ).function(
-      'read-sample',
-      'read sample code for @teams.sdk packages to understand how to use them',
-      readSample.schema,
-      readSample.handler
     ).function(
       'read-docs',
       'read the documentation for `@teams.sdk/*` packages to better understand how to use them',
