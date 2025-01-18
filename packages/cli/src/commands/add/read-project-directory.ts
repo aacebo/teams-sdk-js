@@ -3,13 +3,11 @@ import path from 'node:path';
 
 import { ObjectSchema } from '@teams.sdk/ai';
 
+import { ValueOrObject } from './read-github';
+
 interface Args {
   readonly path: string;
 }
-
-type ValueOrObject<T> = T | {
-  [key: string]: ValueOrObject<T>;
-};
 
 export const schema: ObjectSchema = {
   type: 'object',
