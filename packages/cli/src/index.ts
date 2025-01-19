@@ -12,7 +12,7 @@ import * as commands from './commands';
 (async () => {
   const storage = await Storage.create();
   const ctx: Context = {
-    log: new ConsoleLogger('@teams.sdk/cli', { level: 'debug' }),
+    log: new ConsoleLogger('@teams.sdk/cli'),
     stores: storage,
   };
 

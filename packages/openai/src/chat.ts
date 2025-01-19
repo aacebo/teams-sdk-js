@@ -46,6 +46,7 @@ export class OpenAIChatModel implements ChatModel {
     // call functions
     if (params.input.role === 'model' && params.input.function_calls?.length) {
       for (const call of params.input.function_calls) {
+        const log = this._log.child(`tools/${call.name}`);
         const fn = (params.functions || {})[call.name];
 
         if (!fn) {
@@ -55,11 +56,12 @@ export class OpenAIChatModel implements ChatModel {
         let content = '';
 
         try {
-          this._log.debug(`calling tool "${call.name}"`, call.arguments);
+          log.debug(call.arguments);
           const output = await fn.handler(call.arguments);
           content = JSON.stringify(output);
+          log.debug(content);
         } catch (err) {
-          this._log.error(err);
+          log.error(err);
         }
 
         await memory.push({
