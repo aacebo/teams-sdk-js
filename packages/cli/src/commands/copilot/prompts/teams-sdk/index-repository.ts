@@ -6,11 +6,11 @@ export type ValueOrObject<T> = T | { [key: string]: ValueOrObject<T> };
 const octokit = new Octokit();
 
 export function indexRepository(ctx: CopilotContext) {
-  const { stores, openai } = ctx;
+  const { stores, openai, log } = ctx;
   const index = indexRepository(ctx);
 
   return async (owner: string, name: string, path: string) => {
-    console.log('index', `${owner} => ${name} => ${path}`);
+    log.debug('index', `${owner} => ${name} => ${path}`);
 
     try {
       const { data } = await octokit.repos.getContent({
@@ -62,7 +62,7 @@ export function indexRepository(ctx: CopilotContext) {
         file = await stores.file.update(file);
       }
     } catch (err) {
-      console.error(err);
+      log.error(err);
     }
   };
 }

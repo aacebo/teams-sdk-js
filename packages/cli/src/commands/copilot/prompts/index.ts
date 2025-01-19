@@ -1,4 +1,4 @@
-import { ChatPrompt, Message } from '@teams.sdk/ai';
+import { ChatPrompt } from '@teams.sdk/ai';
 import { OpenAIChatModel } from '@teams.sdk/openai';
 
 import { CopilotContext } from '../context';
@@ -8,13 +8,18 @@ import { TeamsSDK } from './teams-sdk';
 
 export function Root(ctx: CopilotContext) {
   const { log } = ctx;
-  const projectPrompt = Project(ctx);
-  const teamsSdkPrompt = TeamsSDK(ctx);
-  const messages: Array<Message> = [];
+  const projectPrompt = Project({
+    ...ctx,
+    log: log.child('project'),
+  });
+
+  const teamsSdkPrompt = TeamsSDK({
+    ...ctx,
+    log: log.child('teams-sdk'),
+  });
 
   return new ChatPrompt({
     role: 'system',
-    messages,
     instructions: [
       'you are an assistant that helps developers build bots for Microsoft Teams.',
       'you help developers build using the `@teams.sdk` packages https://github.com/aacebo/teams-sdk-js.',
@@ -30,7 +35,7 @@ export function Root(ctx: CopilotContext) {
       apiKey: ctx.apiKey,
       temperature: 0,
       stream: true,
-      logger: ctx.log.child('openai'),
+      logger: log.child('openai'),
     })
   }).function(
     'project-assistant',

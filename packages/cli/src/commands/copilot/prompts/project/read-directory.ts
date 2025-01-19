@@ -3,6 +3,8 @@ import path from 'node:path';
 
 import { ObjectSchema } from '@teams.sdk/ai';
 
+import { CopilotContext } from '../../context';
+
 interface Args {
   readonly path: string;
 }
@@ -19,44 +21,46 @@ export const schema: ObjectSchema = {
   required: ['path']
 };
 
-export function handler(args: Args) {
-  console.log('read-directory', args.path);
+export function handler({ log }: CopilotContext) {
+  return (args: Args) => {
+    log.debug(args.path);
 
-  if (!fs.existsSync(path.join(process.cwd(), args.path))) {
-    console.log('path not found');
-    return 'error: path not found';
-  }
+    if (!fs.existsSync(path.join(process.cwd(), args.path))) {
+      log.error('path not found');
+      return 'error: path not found';
+    }
 
-  const stat = fs.statSync(path.join(process.cwd(), args.path));
+    const stat = fs.statSync(path.join(process.cwd(), args.path));
 
-  if (!stat.isDirectory()) {
-    console.log('cannot use "read-directory" on a file');
-    return 'error: cannot use "read-directory" on a file';
-  }
+    if (!stat.isDirectory()) {
+      log.error('cannot use "read-directory" on a file');
+      return 'error: cannot use "read-directory" on a file';
+    }
 
-  const items = fs.readdirSync(
-    path.join(process.cwd(), args.path),
-    { recursive: true }
-  );
+    const items = fs.readdirSync(
+      path.join(process.cwd(), args.path),
+      { recursive: true }
+    );
 
-  const contents: { [key: string]: string } = { };
+    const contents: { [key: string]: string } = { };
 
-  for (const item of items) {
-    const subPath = item.toString();
+    for (const item of items) {
+      const subPath = item.toString();
 
-    if (
-      subPath.includes('node_modules') ||
-      subPath.includes('-lock.json')
-    ) continue;
+      if (
+        subPath.includes('node_modules') ||
+        subPath.includes('-lock.json')
+      ) continue;
 
-    const stat = fs.statSync(path.join(
-      process.cwd(),
-      args.path,
-      subPath
-    ));
+      const stat = fs.statSync(path.join(
+        process.cwd(),
+        args.path,
+        subPath
+      ));
 
-    contents[subPath] = stat.isFile() ? 'file' : 'directory';
-  }
+      contents[subPath] = stat.isFile() ? 'file' : 'directory';
+    }
 
-  return contents;
+    return contents;
+  };
 }

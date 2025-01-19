@@ -16,12 +16,16 @@ export function TeamsSDK(ctx: CopilotContext) {
     model: new OpenAIChatModel({
       model: 'gpt-4o',
       apiKey: ctx.apiKey,
+      logger: ctx.log.child('openai'),
       temperature: 0
     })
   }).function(
     'search-documentation',
     'search the Teams SDK documentation',
     searchDocumentation.schema,
-    searchDocumentation.handler(ctx)
+    searchDocumentation.handler({
+      ...ctx,
+      log: ctx.log.child('search-documentation'),
+    })
   );
 }

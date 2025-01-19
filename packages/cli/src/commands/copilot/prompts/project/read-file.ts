@@ -3,6 +3,8 @@ import path from 'node:path';
 
 import { ObjectSchema } from '@teams.sdk/ai';
 
+import { CopilotContext } from '../../context';
+
 interface Args {
   readonly path: string;
 }
@@ -19,21 +21,23 @@ export const schema: ObjectSchema = {
   required: ['path']
 };
 
-export function handler(args: Args) {
-  console.log('read-file', args.path);
+export function handler({ log }: CopilotContext) {
+  return (args: Args) => {
+    log.debug(args.path);
 
-  if (!fs.existsSync(path.join(process.cwd(), args.path))) {
-    console.log('path not found');
-    return 'error: path not found';
-  }
+    if (!fs.existsSync(path.join(process.cwd(), args.path))) {
+      log.error('path not found');
+      return 'error: path not found';
+    }
 
-  const stat = fs.statSync(path.join(process.cwd(), args.path));
+    const stat = fs.statSync(path.join(process.cwd(), args.path));
 
-  if (stat.isDirectory()) {
-    console.log('cannot use "read-file" on a directory');
-    return 'error: cannot use "read-file" on a directory';
-  }
+    if (stat.isDirectory()) {
+      log.error('cannot use "read-file" on a directory');
+      return 'error: cannot use "read-file" on a directory';
+    }
 
-  const data = fs.readFileSync(path.join(process.cwd(), args.path));
-  return data.toString();
+    const data = fs.readFileSync(path.join(process.cwd(), args.path));
+    return data.toString();
+  };
 }

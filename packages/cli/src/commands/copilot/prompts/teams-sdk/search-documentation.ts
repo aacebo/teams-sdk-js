@@ -20,10 +20,10 @@ export const schema: ObjectSchema = {
 };
 
 export function handler(ctx: CopilotContext) {
-  const { stores, openai } = ctx;
+  const { stores, openai, log } = ctx;
 
   return async ({ text }: Args) => {
-    console.log('search-documentation', text);
+    log.debug(text);
 
     try {
       const embedding = await openai.embeddings.create({
@@ -54,7 +54,7 @@ export function handler(ctx: CopilotContext) {
 
       return files.map(file => file.content || '').join('\n');
     } catch (err) {
-      console.error(err);
+      log.error(err);
 
       if (err instanceof Error) {
         return err.message;

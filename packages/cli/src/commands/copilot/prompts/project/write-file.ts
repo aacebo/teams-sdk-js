@@ -3,6 +3,8 @@ import path from 'node:path';
 
 import { ObjectSchema } from '@teams.sdk/ai';
 
+import { CopilotContext } from '../../context';
+
 interface Args {
   readonly path: string;
   readonly content: string;
@@ -25,8 +27,10 @@ export const schema: ObjectSchema = {
   required: ['path', 'content']
 };
 
-export function handler(args: Args) {
-  console.log('write-file', args.path);
-  fs.writeFileSync(path.join(process.cwd(), args.path), args.content);
-  return 'file created';
+export function handler({ log }: CopilotContext) {
+  return (args: Args) => {
+    log.debug(args.path);
+    fs.writeFileSync(path.join(process.cwd(), args.path), args.content);
+    return 'file created';
+  };
 }

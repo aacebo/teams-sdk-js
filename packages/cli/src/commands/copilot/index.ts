@@ -38,6 +38,7 @@ export function Copilot(ctx: Context): CommandModule<{}, Args> {
       const root = Root({
         ...ctx,
         apiKey,
+        log: ctx.log.child('copilot'),
         openai: new OpenAI({ apiKey }),
       });
 
@@ -46,7 +47,7 @@ export function Copilot(ctx: Context): CommandModule<{}, Args> {
           lines.write(chunk);
         });
 
-        return;
+        return process.exit(0);
       }
 
       await root.chat('hello', chunk => {
