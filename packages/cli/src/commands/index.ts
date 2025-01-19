@@ -1,2 +1,2 @@
-export * from './auto';
+export * from './copilot';
 export * from './new';

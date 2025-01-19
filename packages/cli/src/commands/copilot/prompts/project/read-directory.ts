@@ -3,8 +3,6 @@ import path from 'node:path';
 
 import { ObjectSchema } from '@teams.sdk/ai';
 
-import { ValueOrObject } from './read-github';
-
 interface Args {
   readonly path: string;
 }
@@ -22,7 +20,7 @@ export const schema: ObjectSchema = {
 };
 
 export function handler(args: Args) {
-  console.log('read-project-directory', args.path);
+  console.log('read-directory', args.path);
 
   if (!fs.existsSync(path.join(process.cwd(), args.path))) {
     console.log('path not found');
@@ -32,8 +30,8 @@ export function handler(args: Args) {
   const stat = fs.statSync(path.join(process.cwd(), args.path));
 
   if (!stat.isDirectory()) {
-    console.log('cannot use "read-project-directory" on a file');
-    return 'error: cannot use "read-project-directory" on a file';
+    console.log('cannot use "read-directory" on a file');
+    return 'error: cannot use "read-directory" on a file';
   }
 
   const items = fs.readdirSync(
@@ -41,7 +39,7 @@ export function handler(args: Args) {
     { recursive: true }
   );
 
-  const contents: { [key: string]: ValueOrObject<string> } = { };
+  const contents: { [key: string]: string } = { };
 
   for (const item of items) {
     const subPath = item.toString();

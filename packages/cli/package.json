@@ -37,6 +37,10 @@
     "@octokit/rest": "^21.1.0",
     "@teams.sdk/ai": "*",
     "@teams.sdk/openai": "*",
+    "knex": "^3.1.0",
+    "openai": "^4.79.1",
+    "sqlite-vec": "^0.1.7-alpha.2",
+    "sqlite3": "^5.1.7",
     "yargs": "^17.7.2"
   },
   "devDependencies": {

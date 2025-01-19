@@ -20,7 +20,7 @@ export const schema: ObjectSchema = {
 };
 
 export function handler(args: Args) {
-  console.log('read-project-file', args.path);
+  console.log('read-file', args.path);
 
   if (!fs.existsSync(path.join(process.cwd(), args.path))) {
     console.log('path not found');
@@ -30,8 +30,8 @@ export function handler(args: Args) {
   const stat = fs.statSync(path.join(process.cwd(), args.path));
 
   if (stat.isDirectory()) {
-    console.log('cannot use "read-project-file" on a directory');
-    return 'error: cannot use "read-project-file" on a directory';
+    console.log('cannot use "read-file" on a directory');
+    return 'error: cannot use "read-file" on a directory';
   }
 
   const data = fs.readFileSync(path.join(process.cwd(), args.path));

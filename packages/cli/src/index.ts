@@ -8,6 +8,6 @@ import * as commands from './commands';
 (async () => {
   await yargs(hideBin(process.argv))
     .command(commands.New)
-    .command(commands.Auto)
+    .command(commands.Copilot)
     .parse();
 })();

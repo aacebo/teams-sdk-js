@@ -26,7 +26,7 @@ export const schema: ObjectSchema = {
 };
 
 export function handler(args: Args) {
-  console.log('write-project-file', args.path);
+  console.log('write-file', args.path);
   fs.writeFileSync(path.join(process.cwd(), args.path), args.content);
   return 'file created';
 }
