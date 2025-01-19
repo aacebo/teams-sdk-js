@@ -1,11 +1,13 @@
 import { ChatPrompt } from '@teams.sdk/ai';
 import { OpenAIChatModel } from '@teams.sdk/openai';
 
+import { CopilotContext } from '../../context';
+
 import * as readDirectory from './read-directory';
 import * as readFile from './read-file';
 import * as writeFile from './write-file';
 
-export function project(apiKey: string) {
+export function Project(ctx: CopilotContext) {
   return new ChatPrompt({
     role: 'user',
     instructions: [
@@ -19,7 +21,7 @@ export function project(apiKey: string) {
     ].join('\n'),
     model: new OpenAIChatModel({
       model: 'gpt-4o',
-      apiKey,
+      apiKey: ctx.apiKey,
       temperature: 0
     })
   }).function(

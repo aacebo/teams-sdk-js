@@ -3,10 +3,16 @@ import { Knex } from 'knex';
 import { Repository } from './models';
 
 export class RepositoryStorage {
-  constructor(private readonly _db: Knex) {
-    this._db.schema.createTableIfNotExists('repos', (table) => {
-      table.string('owner').notNullable();
-      table.string('name').notNullable();
+  constructor(private readonly _db: Knex) { }
+
+  async migrate() {
+    const exists = await this._db.schema.hasTable('repos');
+
+    if (exists) return;
+
+    return this._db.schema.createTable('repos', (table) => {
+      table.text('owner').notNullable();
+      table.text('name').notNullable();
       table.timestamp('created_at').notNullable();
       table.timestamp('updated_at').notNullable();
 

@@ -1,12 +1,14 @@
 import { ChatPrompt } from '@teams.sdk/ai';
 import { OpenAIChatModel } from '@teams.sdk/openai';
 
-import { project } from './project';
-import { teamsSdk } from './teams-sdk';
+import { CopilotContext } from '../context';
 
-export function root(apiKey: string) {
-  const projectPrompt = project(apiKey);
-  const teamsSdkPrompt = teamsSdk(apiKey);
+import { Project } from './project';
+import { TeamsSDK } from './teams-sdk';
+
+export function Root(ctx: CopilotContext) {
+  const projectPrompt = Project(ctx);
+  const teamsSdkPrompt = TeamsSDK(ctx);
 
   return new ChatPrompt({
     role: 'user',
@@ -22,7 +24,7 @@ export function root(apiKey: string) {
     ].join('\n'),
     model: new OpenAIChatModel({
       model: 'gpt-4o',
-      apiKey,
+      apiKey: ctx.apiKey,
       temperature: 0
     })
   }).function(

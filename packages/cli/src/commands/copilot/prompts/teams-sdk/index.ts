@@ -1,12 +1,11 @@
 import { ChatPrompt } from '@teams.sdk/ai';
 import { OpenAIChatModel } from '@teams.sdk/openai';
-import OpenAI from 'openai';
+
+import { CopilotContext } from '../../context';
 
 import * as searchDocumentation from './search-documentation';
 
-export function teamsSdk(apiKey: string) {
-  const openai = new OpenAI({ apiKey });
-
+export function TeamsSDK(ctx: CopilotContext) {
   return new ChatPrompt({
     role: 'user',
     instructions: [
@@ -16,13 +15,13 @@ export function teamsSdk(apiKey: string) {
     ].join('\n'),
     model: new OpenAIChatModel({
       model: 'gpt-4o',
-      apiKey,
+      apiKey: ctx.apiKey,
       temperature: 0
     })
   }).function(
     'search-documentation',
     'search the Teams SDK documentation',
     searchDocumentation.schema,
-    searchDocumentation.handler(openai)
+    searchDocumentation.handler(ctx)
   );
 }

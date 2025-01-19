@@ -3,11 +3,20 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
+import { Context } from './context';
+import { Storage } from './storage';
 import * as commands from './commands';
 
 (async () => {
+  const storage = await Storage.create();
+  const ctx: Context = {
+    stores: storage,
+  };
+
   await yargs(hideBin(process.argv))
-    .command(commands.New)
-    .command(commands.Copilot)
+    .command(commands.New(ctx))
+    .command(commands.Copilot(ctx))
     .parse();
+
+  storage.destroy();
 })();
