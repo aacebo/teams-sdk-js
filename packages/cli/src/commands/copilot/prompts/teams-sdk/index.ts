@@ -16,7 +16,6 @@ export function TeamsSDK(ctx: CopilotContext) {
     model: new OpenAIChatModel({
       model: 'gpt-4o',
       apiKey: ctx.apiKey,
-      logger: ctx.log.child('openai'),
       temperature: 0
     })
   }).function(

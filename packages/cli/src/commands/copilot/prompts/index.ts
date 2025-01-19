@@ -35,7 +35,6 @@ export function Root(ctx: CopilotContext) {
       apiKey: ctx.apiKey,
       temperature: 0,
       stream: true,
-      logger: log.child('openai'),
     })
   }).function(
     'project-assistant',
