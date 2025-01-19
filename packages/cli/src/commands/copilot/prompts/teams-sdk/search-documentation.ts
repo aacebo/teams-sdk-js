@@ -21,7 +21,6 @@ export const schema: ObjectSchema = {
 
 export function handler(ctx: CopilotContext) {
   const { stores, openai } = ctx;
-  const index = indexRepository(ctx);
 
   return async ({ text }: Args) => {
     console.log('search-documentation', text);
@@ -43,7 +42,7 @@ export function handler(ctx: CopilotContext) {
           updated_at: new Date(),
         });
 
-        await index('aacebo', 'teams-sdk-js', '/book/src');
+        await indexRepository(ctx)('aacebo', 'teams-sdk-js', '/book/src');
         repository = await stores.repository.update(repository);
       }
 
