@@ -7,7 +7,7 @@ import * as searchDocumentation from './search-documentation';
 
 export function TeamsSDK(ctx: CopilotContext) {
   return new ChatPrompt({
-    role: 'user',
+    role: 'system',
     instructions: [
       'you are an assistant that helps developers learn and understand how to use the Teams SDK.',
       'the Teams SDK are a suite of packages in the namespace `@teams.sdk/*`.',

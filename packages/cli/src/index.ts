@@ -3,6 +3,8 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
+import { ConsoleLogger } from '@teams.sdk/common';
+
 import { Context } from './context';
 import { Storage } from './storage';
 import * as commands from './commands';
@@ -10,6 +12,7 @@ import * as commands from './commands';
 (async () => {
   const storage = await Storage.create();
   const ctx: Context = {
+    log: new ConsoleLogger('@teams.sdk/cli', { level: 'debug' }),
     stores: storage,
   };
 

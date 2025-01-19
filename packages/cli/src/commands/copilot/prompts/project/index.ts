@@ -9,7 +9,7 @@ import * as writeFile from './write-file';
 
 export function Project(ctx: CopilotContext) {
   return new ChatPrompt({
-    role: 'user',
+    role: 'system',
     instructions: [
       'you are an assistant that helps developers read/write files and directories to their project.',
       'upon request, you should read files and directories in the project for the developer.',

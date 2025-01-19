@@ -26,24 +26,44 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
     },
     "./events": {
-      "types": "./dist/events/index.d.ts",
-      "import": "./dist/events/index.mjs",
-      "require": "./dist/events/index.js"
+      "import": {
+        "types": "./dist/events/index.d.mts",
+        "default": "./dist/events/index.mjs"
+      },
+      "require": {
+        "types": "./dist/events/index.d.ts",
+        "default": "./dist/events/index.js"
+      }
     },
     "./logging": {
-      "types": "./dist/logging/index.d.ts",
-      "import": "./dist/logging/index.mjs",
-      "require": "./dist/logging/index.js"
+      "import": {
+        "types": "./dist/logging/index.d.mts",
+        "default": "./dist/logging/index.mjs"
+      },
+      "require": {
+        "types": "./dist/logging/index.d.ts",
+        "default": "./dist/logging/index.js"
+      }
     },
     "./storage": {
-      "types": "./dist/storage/index.d.ts",
-      "import": "./dist/storage/index.mjs",
-      "require": "./dist/storage/index.js"
+      "import": {
+        "types": "./dist/storage/index.d.mts",
+        "default": "./dist/storage/index.mjs"
+      },
+      "require": {
+        "types": "./dist/storage/index.d.ts",
+        "default": "./dist/storage/index.js"
+      }
     }
   },
   "scripts": {

@@ -1,3 +1,15 @@
 {
-  "extends": ["//"]
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**"],
+      "cache": false,
+      "dependsOn": [
+        "@teams.sdk/ai#build",
+        "@teams.sdk/common#build",
+        "@teams.sdk/openai#build"
+      ]
+    }
+  }
 }

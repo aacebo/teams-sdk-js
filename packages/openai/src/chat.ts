@@ -1,4 +1,4 @@
-import { ChatModel, ChatParams, LocalMemory, Memory, ModelMessage } from '@teams.sdk/ai';
+import { ChatModel, ChatParams, LocalMemory, ModelMessage } from '@teams.sdk/ai';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 
 import OpenAI from 'openai';
@@ -55,6 +55,7 @@ export class OpenAIChatModel implements ChatModel {
         let content = '';
 
         try {
+          this._log.debug(`calling tool "${call.name}"`, call.arguments);
           const output = await fn.handler(call.arguments);
           content = JSON.stringify(output);
         } catch (err) {
@@ -142,121 +143,93 @@ export class OpenAIChatModel implements ChatModel {
         }),
       });
 
-      if (!(completion instanceof Stream)) {
-        const message = completion.choices[0].message;
-
-        if (message.tool_calls) {
-          return this._onTool(params, memory, message, onChunk);
-        }
-
-        const res: ModelMessage = {
-          role: 'model',
-          content: message.content || undefined,
-        };
-
-        await memory.push(res);
-        return res;
-      }
-
-      const message: ModelMessage = {
-        role: 'model',
+      let message: OpenAI.Chat.ChatCompletionMessage = {
+        role: 'assistant',
         content: '',
+        refusal: null,
       };
 
-      for await (const chunk of completion) {
-        const delta = chunk.choices[0].delta;
+      if (!(completion instanceof Stream)) {
+        message = completion.choices[0].message;
+      } else {
+        for await (const chunk of completion) {
+          const delta = chunk.choices[0].delta;
 
-        if (delta.tool_calls && delta.tool_calls.length > 0) {
-          return this._onTool(params, memory, delta, onChunk);
-        }
+          if (delta.tool_calls) {
+            if (!message.tool_calls) {
+              message.tool_calls = [];
+            }
 
-        if (delta.content) {
-          if (message.content) {
-            message.content += delta.content;
-          } else {
-            message.content = delta.content;
+            for (const call of delta.tool_calls) {
+              if ('index' in call) {
+                if (call.index === message.tool_calls.length) {
+                  message.tool_calls.push({
+                    id: '',
+                    type: 'function',
+                    function: {
+                      name: '',
+                      arguments: '',
+                    },
+                  });
+                }
+
+                if (call.id) {
+                  message.tool_calls[call.index].id += call.id;
+                }
+
+                if (call.function?.name) {
+                  message.tool_calls[call.index].function.name += call.function.name;
+                }
+
+                if (call.function?.arguments) {
+                  message.tool_calls[call.index].function.arguments += call.function.arguments;
+                }
+              } else {
+                message.tool_calls.push(call);
+              }
+            }
           }
-        }
 
-        if (onChunk) {
-          await onChunk({
-            role: 'model',
-            content: delta.content || undefined,
-          });
+          if (delta.content) {
+            if (message.content) {
+              message.content += delta.content;
+            } else {
+              message.content = delta.content;
+            }
+
+            if (onChunk) {
+              await onChunk({
+                role: 'model',
+                content: delta.content,
+              });
+            }
+          }
         }
       }
 
-      await memory.push(message);
-      return message;
+      const modelMessage: ModelMessage = {
+        role: 'model',
+        content: message.content || undefined,
+        function_calls: message.tool_calls?.map(call => ({
+          id: call.id,
+          name: call.function.name,
+          arguments: JSON.parse(call.function.arguments || '{}'),
+        }))
+      };
+
+      if (message.tool_calls && message.tool_calls.length > 0) {
+        return this.chat({
+          ...params,
+          input: modelMessage,
+          messages: memory,
+        }, onChunk);
+      }
+
+      await memory.push(modelMessage);
+      return modelMessage;
     } catch (err) {
       this._log.error(err);
       throw err;
     }
-  }
-
-  private async _onTool(
-    params: ChatParams,
-    memory: Memory,
-    message:
-      | OpenAI.ChatCompletionMessage
-      | OpenAI.Chat.Completions.ChatCompletionChunk.Choice.Delta,
-    onChunk?: (chunk: ModelMessage) => void | Promise<void>
-  ) {
-    const calls: OpenAI.ChatCompletionMessageToolCall[] = [];
-
-    for (const call of message.tool_calls || []) {
-      if ('index' in call) {
-        if (call.index === calls.length) {
-          calls.push({
-            id: '',
-            type: 'function',
-            function: {
-              name: '',
-              arguments: '{}',
-            },
-          });
-        }
-
-        if (call.id) {
-          calls[call.index].id = call.id;
-        }
-
-        if (call.function?.name) {
-          calls[call.index].function.name = call.function.name;
-        }
-
-        if (call.function?.arguments) {
-          calls[call.index].function.arguments = call.function.arguments;
-        }
-      } else {
-        calls.push(call);
-      }
-    }
-
-    return this.chat(
-      {
-        functions: params.functions,
-        messages: memory,
-        system: params.system,
-        input: {
-          role: 'model',
-          content: message.content || undefined,
-          function_calls: calls.map((call) => {
-            let args = {};
-
-            try {
-              args = JSON.parse(call.function.arguments);
-            } catch (err) {}
-
-            return {
-              id: call.id,
-              name: call.function.name,
-              arguments: args,
-            };
-          }),
-        },
-      },
-      onChunk
-    );
   }
 }

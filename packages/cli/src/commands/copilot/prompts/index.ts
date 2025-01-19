@@ -1,4 +1,4 @@
-import { ChatPrompt } from '@teams.sdk/ai';
+import { ChatPrompt, Message } from '@teams.sdk/ai';
 import { OpenAIChatModel } from '@teams.sdk/openai';
 
 import { CopilotContext } from '../context';
@@ -7,11 +7,14 @@ import { Project } from './project';
 import { TeamsSDK } from './teams-sdk';
 
 export function Root(ctx: CopilotContext) {
+  const { log } = ctx;
   const projectPrompt = Project(ctx);
   const teamsSdkPrompt = TeamsSDK(ctx);
+  const messages: Array<Message> = [];
 
   return new ChatPrompt({
-    role: 'user',
+    role: 'system',
+    messages,
     instructions: [
       'you are an assistant that helps developers build bots for Microsoft Teams.',
       'you help developers build using the `@teams.sdk` packages https://github.com/aacebo/teams-sdk-js.',
@@ -25,7 +28,9 @@ export function Root(ctx: CopilotContext) {
     model: new OpenAIChatModel({
       model: 'gpt-4o',
       apiKey: ctx.apiKey,
-      temperature: 0
+      temperature: 0,
+      stream: true,
+      logger: ctx.log.child('openai'),
     })
   }).function(
     'project-assistant',
@@ -46,9 +51,11 @@ export function Root(ctx: CopilotContext) {
         return await projectPrompt.chat(text);
       } catch (err) {
         if (err instanceof Error) {
+          log.error(err.message);
           return err.message;
         }
 
+        log.error(err);
         return 'an error occurred';
       }
     }
@@ -71,9 +78,11 @@ export function Root(ctx: CopilotContext) {
         return await teamsSdkPrompt.chat(text);
       } catch (err) {
         if (err instanceof Error) {
+          log.error(err.message);
           return err.message;
         }
 
+        log.error(err);
         return 'an error occurred';
       }
     }
