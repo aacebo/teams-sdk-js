@@ -49,10 +49,7 @@ export function handler(ctx: CopilotContext) {
         ), ctx);
       }
 
-      const files = await stores.file.search(
-        res.data[0].embedding,
-      );
-
+      const files = await stores.file.search(res.data[0].embedding);
       return files.map(file => file.content || '').join('\n');
     } catch (err) {
       if (err instanceof Error) {

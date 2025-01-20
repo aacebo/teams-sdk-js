@@ -21,6 +21,7 @@ export function Root(ctx: CopilotContext) {
   return new ChatPrompt({
     role: 'system',
     instructions: [
+      'your name is Teams Copilot.',
       'you are an assistant that helps developers build bots for Microsoft Teams.',
       'you help developers build using the `@teams.sdk` packages https://github.com/aacebo/teams-sdk-js.',
       'you know everything about the Teams SDK, and you excel at answer questions about it.',

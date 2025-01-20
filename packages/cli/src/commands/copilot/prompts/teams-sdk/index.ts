@@ -11,7 +11,8 @@ export function TeamsSDK(ctx: CopilotContext) {
     instructions: [
       'you are an assistant that helps developers learn and understand how to use the Teams SDK.',
       'the Teams SDK are a suite of packages in the namespace `@teams.sdk/*`.',
-      'the Teams SDK packages exist to make bot/app/ai development simple, easy, and fun.'
+      'the Teams SDK packages exist to make bot/app/ai development simple, easy, and fun.',
+      'search using short and concise keywords.',
     ].join('\n'),
     model: new OpenAIChatModel({
       model: 'gpt-4o',
