@@ -34,10 +34,10 @@
     "test": "npx jest"
   },
   "dependencies": {
-    "@octokit/rest": "^21.1.0",
     "@teams.sdk/ai": "*",
     "@teams.sdk/common": "*",
     "@teams.sdk/openai": "*",
+    "axios": "^1.7.9",
     "knex": "^3.1.0",
     "openai": "^4.79.1",
     "sqlite-vec": "^0.1.7-alpha.2",

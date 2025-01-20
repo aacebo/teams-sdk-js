@@ -1,7 +1,11 @@
+import os from 'node:os';
+import path from 'node:path';
+
 import { ObjectSchema } from '@teams.sdk/ai';
 
 import { CopilotContext } from '../../context';
-import { indexRepository } from './index-repository';
+import { indexSource } from './index-source';
+import { downloadSource } from './download-source';
 
 interface Args {
   readonly text: string;
@@ -20,46 +24,43 @@ export const schema: ObjectSchema = {
 };
 
 export function handler(ctx: CopilotContext) {
-  const { stores, openai, log } = ctx;
+  const { log, config, openai, stores } = ctx;
 
   return async ({ text }: Args) => {
     log.debug(text);
 
     try {
-      const embedding = await openai.embeddings.create({
+      const res = await openai.embeddings.create({
         input: text,
         model: 'text-embedding-3-small',
         encoding_format: 'float'
       });
 
-      let repository = await stores.repository.getOne('aacebo', 'teams-sdk-js');
+      // 50min
+      if (!config.syncedAt || (new Date().getTime() - config.syncedAt.getTime()) > 3000000) {
+        config.syncedAt = new Date();
+        config.save();
 
-      if (!repository) {
-        repository = await stores.repository.create({
-          owner: 'aacebo',
-          name: 'teams-sdk-js',
-          created_at: new Date(),
-          updated_at: new Date(),
-        });
-
-        await indexRepository(ctx)('aacebo', 'teams-sdk-js', '/book/src');
-        repository = await stores.repository.update(repository);
+        await downloadSource();
+        await indexSource(path.join(
+          os.homedir(),
+          'teams-sdk',
+          'teams-sdk-js-main',
+        ), ctx);
       }
 
       const files = await stores.file.search(
-        'aacebo',
-        'teams-sdk-js',
-        embedding.data[0].embedding,
+        res.data[0].embedding,
       );
 
       return files.map(file => file.content || '').join('\n');
     } catch (err) {
-      log.error(err);
-
       if (err instanceof Error) {
+        log.error(err.message);
         return err.message;
       }
 
+      log.error(err);
       return 'an error occurred';
     }
   };

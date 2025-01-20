@@ -3,7 +3,7 @@ import { OpenAIChatModel } from '@teams.sdk/openai';
 
 import { CopilotContext } from '../../context';
 
-import * as searchDocumentation from './search-documentation';
+import * as search from './search';
 
 export function TeamsSDK(ctx: CopilotContext) {
   return new ChatPrompt({
@@ -19,12 +19,12 @@ export function TeamsSDK(ctx: CopilotContext) {
       temperature: 0
     })
   }).function(
-    'search-documentation',
-    'search the Teams SDK documentation',
-    searchDocumentation.schema,
-    searchDocumentation.handler({
+    'search',
+    'search the Teams SDK documentation and codebase',
+    search.schema,
+    search.handler({
       ...ctx,
-      log: ctx.log.child('search-documentation'),
+      log: ctx.log.child('search'),
     })
   );
 }

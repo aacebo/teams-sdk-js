@@ -6,15 +6,12 @@ import Knex from 'knex';
 import sqlite from 'sqlite3';
 import * as sqliteVec from 'sqlite-vec';
 
-import { RepositoryStorage } from './repository';
 import { FileStorage } from './file';
 
 export class Storage {
-  readonly repository: RepositoryStorage;
   readonly file: FileStorage;
 
   constructor(private readonly db: Knex.Knex) {
-    this.repository = new RepositoryStorage(db);
     this.file = new FileStorage(db);
   }
 
@@ -23,7 +20,6 @@ export class Storage {
   }
 
   private async migrate() {
-    await this.repository.migrate();
     await this.file.migrate();
   }
 

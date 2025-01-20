@@ -1,11 +1,12 @@
 import { Logger } from '@teams.sdk/common';
 
-import { FileStorage, RepositoryStorage } from './storage';
+import { FileStorage } from './storage';
+import { Config } from './config';
 
 export interface Context {
   readonly log: Logger;
+  readonly config: Config;
   readonly stores: {
-    readonly repository: RepositoryStorage;
     readonly file: FileStorage;
   };
 }
