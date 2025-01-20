@@ -10,6 +10,7 @@
     -   [Middleware](./3.basics/5.middleware.md)
     -   [Using The API Client](./3.basics/6.api.md)
     -   [User Authentication](./3.basics/7.auth.md)
+    -   [Custom Logger](./3.basics/8.custom-logger.md)
 -   [Dialogs (Task Modules)](./4.dialogs/README.md)
     -   [Listening To Dialogs](./4.dialogs/1.on-dialog.md)
     -   [Dialog Submit](./4.dialogs/2.on-dialog-submit.md)
