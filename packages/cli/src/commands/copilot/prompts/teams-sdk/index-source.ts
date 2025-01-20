@@ -22,10 +22,7 @@ export async function indexSource(path: string, ctx: CopilotContext) {
 }
 
 async function indexDir(path: string, ctx: CopilotContext) {
-  const items = fs.readdirSync(
-    path,
-    { recursive: true }
-  );
+  const items = fs.readdirSync(path);
 
   for (const item of items) {
     const subPath = item.toString();
@@ -37,10 +34,10 @@ async function indexDir(path: string, ctx: CopilotContext) {
     await indexSource(npath.join(path, subPath), ctx);
   }
 
-  // fs.rmSync(path, {
-  //   recursive: true,
-  //   force: true
-  // });
+  fs.rmSync(path, {
+    recursive: true,
+    force: true
+  });
 }
 
 async function indexFile(path: string, { log, stores, openai }: CopilotContext) {
@@ -63,14 +60,19 @@ async function indexFile(path: string, { log, stores, openai }: CopilotContext) 
 
     file.content = fs.readFileSync(path, { encoding: 'utf8' }).toString();
 
-    const res = await openai.embeddings.create({
-      input: file.content,
-      model: 'text-embedding-3-small',
-      encoding_format: 'float',
-    });
+    try {
+      const res = await openai.embeddings.create({
+        input: file.content,
+        model: 'text-embedding-3-small',
+        encoding_format: 'float',
+      });
 
-    file.embedding = res.data[0].embedding;
-    file = await stores.file.update(file);
+      file.embedding = res.data[0].embedding;
+      file = await stores.file.update(file);
+    } catch (err) {
+      await stores.file.delete(path);
+      throw err;
+    }
   } catch (err) {
     log.error(err);
   }
