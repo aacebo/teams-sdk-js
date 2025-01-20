@@ -5,7 +5,7 @@ import { CopilotContext } from '../../context';
 
 export async function indexSource(path: string, ctx: CopilotContext) {
   const log = ctx.log.child('index');
-  ctx.log.debug(path);
+  log.debug(path);
 
   if (!fs.existsSync(path)) {
     log.warn(`"${path}" not found`);
