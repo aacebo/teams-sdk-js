@@ -9,6 +9,7 @@ import { Context } from './context';
 import { Storage } from './storage';
 import { Config } from './config';
 import * as commands from './commands';
+import { banner } from './banner';
 
 (async () => {
   const storage = await Storage.create();
@@ -18,6 +19,7 @@ import * as commands from './commands';
     stores: storage,
   };
 
+  process.stdout.write(banner);
   await yargs(hideBin(process.argv))
     .command(commands.New(ctx))
     .command(commands.Copilot(ctx))
