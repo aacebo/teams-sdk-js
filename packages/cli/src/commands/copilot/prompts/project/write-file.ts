@@ -30,7 +30,11 @@ export const schema: ObjectSchema = {
 export function handler({ log }: CopilotContext) {
   return (args: Args) => {
     log.debug(args.path);
-    fs.writeFileSync(path.join(process.cwd(), args.path), args.content);
+
+    fs.writeFileSync(path.join(process.cwd(), args.path), args.content, {
+      encoding: 'utf8'
+    });
+
     return 'file created';
   };
 }

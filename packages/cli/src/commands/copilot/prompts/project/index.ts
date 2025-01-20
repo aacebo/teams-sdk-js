@@ -6,6 +6,7 @@ import { CopilotContext } from '../../context';
 import * as readDirectory from './read-directory';
 import * as readFile from './read-file';
 import * as writeFile from './write-file';
+import * as build from './build';
 
 export function Project(ctx: CopilotContext) {
   return new ChatPrompt({
@@ -17,7 +18,8 @@ export function Project(ctx: CopilotContext) {
 
       'use `read-file` to read a project files content.',
       'use `read-directory` to list the files and directories in a projects directory or sub directory.',
-      'use `write-file` to create or update a project files content',
+      'use `write-file` to create or update a project files content.',
+      'use `build` to build the project to ensure your changes work, with no errors.',
     ].join('\n'),
     model: new OpenAIChatModel({
       model: 'gpt-4o',
@@ -47,6 +49,13 @@ export function Project(ctx: CopilotContext) {
     writeFile.handler({
       ...ctx,
       log: ctx.log.child('write-file'),
+    }),
+  ).function(
+    'build',
+    'build the project and return the output',
+    build.handler({
+      ...ctx,
+      log: ctx.log.child('build'),
     }),
   );
 }

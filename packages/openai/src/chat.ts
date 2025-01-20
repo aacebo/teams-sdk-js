@@ -62,6 +62,10 @@ export class OpenAIChatModel implements ChatModel {
           log.debug(content);
         } catch (err) {
           log.error(err);
+
+          if (err instanceof Error) {
+            content = `Error: ${err.name} => ${err.message}`;
+          }
         }
 
         await memory.push({
