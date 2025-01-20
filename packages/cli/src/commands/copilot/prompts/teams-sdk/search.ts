@@ -17,7 +17,7 @@ export const schema: ObjectSchema = {
     text: {
       type: 'string',
       title: 'text',
-      description: 'the topic or thing to search for'
+      description: 'the topic or subject to search for'
     }
   },
   required: ['text']
@@ -50,7 +50,10 @@ export function handler(ctx: CopilotContext) {
       }
 
       const files = await stores.file.search(res.data[0].embedding);
-      return files.map(file => file.content || '').join('\n');
+      return files.map(file => [
+        `# File (${file.path})`,
+        file.content,
+      ].join('\n')).join('\n');
     } catch (err) {
       if (err instanceof Error) {
         log.error(err.message);

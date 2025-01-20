@@ -4,17 +4,17 @@ import { CopilotContext } from '../../context';
 
 export function handler({ log }: CopilotContext) {
   return () => {
-    log.debug('...');
+    return new Promise<string>((resolve) => {
+      log.debug('...');
 
-    try {
-      cp.execSync('npm run build');
-      return 'success';
-    } catch (err) {
-      if (err instanceof Buffer) {
-        return err.toString();
-      }
+      cp.exec('npm run build', (err, _, stderr) => {
+        if (err) {
+          log.debug(stderr);
+          return resolve(stderr);
+        }
 
-      return 'failed';
-    }
+        resolve('success');
+      });
+    });
   };
 }

@@ -5,17 +5,23 @@ import { CopilotContext } from '../context';
 
 import { Project } from './project';
 import { TeamsSDK } from './teams-sdk';
+import { Typescript } from './typescript';
 
 export function Root(ctx: CopilotContext) {
   const { log } = ctx;
-  const projectPrompt = Project({
+  const project = Project({
     ...ctx,
     log: log.child('project'),
   });
 
-  const teamsSdkPrompt = TeamsSDK({
+  const teams = TeamsSDK({
     ...ctx,
-    log: log.child('teams-sdk'),
+    log: log.child('teams'),
+  });
+
+  const typescript = Typescript({
+    ...ctx,
+    log: log.child('typescript'),
   });
 
   return new ChatPrompt({
@@ -27,7 +33,10 @@ export function Root(ctx: CopilotContext) {
       'you know everything about the Teams SDK, and you excel at answer questions about it.',
 
       'you should first read all the projects code so you can understand how it can be updated.',
+      'you should ask the `typescript-assistant` about any questions you have on typescript syntax/documentation/errors/best-practices.',
+      'the `typescript-assistant` is your expert on Typescript coding, always refer to them when making code changes.',
       'you should ask the `teams-sdk-assistant` about the `@teams.sdk/*` packages so you can write efficient and correct code.',
+
       'you should always prioritize using features in packages named `@teams.sdk/*` over others.',
       'when the user asks for something to be added, use the `@teams.sdk/*` packages to do so.',
       'its your job to make the changes the developer requested, don\'t instruct them to make changes.',
@@ -54,7 +63,7 @@ export function Root(ctx: CopilotContext) {
     },
     async ({ text }: { text: string }) => {
       try {
-        return await projectPrompt.chat(text);
+        return await project.chat(text);
       } catch (err) {
         if (err instanceof Error) {
           log.error(err.message);
@@ -81,7 +90,34 @@ export function Root(ctx: CopilotContext) {
     },
     async ({ text }: { text: string }) => {
       try {
-        return await teamsSdkPrompt.chat(text);
+        return await teams.chat(text);
+      } catch (err) {
+        if (err instanceof Error) {
+          log.error(err.message);
+          return err.message;
+        }
+
+        log.error(err);
+        return 'an error occurred';
+      }
+    }
+  ).function(
+    'typescript-assistant',
+    'ask the typescript assistant anything about Typescript, including questions/errors/documentation and more',
+    {
+      type: 'object',
+      properties: {
+        text: {
+          type: 'string',
+          title: 'text',
+          description: 'the question you want to ask'
+        }
+      },
+      required: ['text']
+    },
+    async ({ text }: { text: string }) => {
+      try {
+        return await typescript.chat(text);
       } catch (err) {
         if (err instanceof Error) {
           log.error(err.message);

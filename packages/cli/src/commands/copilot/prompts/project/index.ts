@@ -7,6 +7,7 @@ import * as readDirectory from './read-directory';
 import * as readFile from './read-file';
 import * as writeFile from './write-file';
 import * as build from './build';
+import * as typescript from './typescript';
 
 export function Project(ctx: CopilotContext) {
   return new ChatPrompt({
@@ -22,7 +23,9 @@ export function Project(ctx: CopilotContext) {
       'whenever you are done making changes, you MUST run a build to ensure it works.',
       'when a build error occurs, you should learn from the error and iteratively solve the problems.',
       'building repeatedly without making changes will not solve your problems.',
-      'break down complex tasks into smaller chunks, give relevant context, and always verify and refine the generated code by reviewing it carefully and providing feedback to improve its accuracy',
+      'break down complex tasks into smaller chunks, give relevant context, and always verify and refine the generated code by reviewing it carefully and providing feedback to improve its accuracy.',
+      'whenever you need to write or reason about Typescript code, ask the `typescript-assistant` for help.',
+      'whenever you encounter a build error, consult the `typescript-assistant` about its meaning and a solution, making sure to send the error to the assistant for context.',
 
       'use `read-file` to read a project files content.',
       'use `read-directory` to list the files and directories in a projects directory or sub directory.',
@@ -64,6 +67,14 @@ export function Project(ctx: CopilotContext) {
     build.handler({
       ...ctx,
       log: ctx.log.child('build'),
+    }),
+  ).function(
+    'typescript-assistant',
+    'ask the typescript assistant a question about Typescript or to generate Typescript code for you',
+    typescript.schema,
+    typescript.handler({
+      ...ctx,
+      log: ctx.log.child('typescript-assistant'),
     }),
   );
 }
