@@ -26,14 +26,14 @@ export function handler({ log }: CopilotContext) {
     log.debug(args.path);
 
     if (!fs.existsSync(path.join(process.cwd(), args.path))) {
-      log.error('path not found');
+      log.debug('path not found');
       return 'error: path not found';
     }
 
     const stat = fs.statSync(path.join(process.cwd(), args.path));
 
     if (stat.isDirectory()) {
-      log.error('cannot use "read-file" on a directory');
+      log.debug('cannot use "read-file" on a directory');
       return 'error: cannot use "read-file" on a directory';
     }
 

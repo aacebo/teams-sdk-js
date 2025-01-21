@@ -22,9 +22,11 @@ export class Crawler {
 
   async start() {
     await this._downloadSource();
-    await this._index(npath.join(os.homedir(), 'teams-sdk', 'teams-sdk-js-main/book/src'));
-    await this._index(npath.join(os.homedir(), 'teams-sdk', 'teams-sdk-js-main/apps'));
-    await this._index(npath.join(os.homedir(), 'teams-sdk', 'teams-sdk-js-main/samples'));
+    await Promise.all([
+      this._index(npath.join(os.homedir(), 'teams-sdk', 'teams-sdk-js-main/book/src')),
+      this._index(npath.join(os.homedir(), 'teams-sdk', 'teams-sdk-js-main/apps')),
+      this._index(npath.join(os.homedir(), 'teams-sdk', 'teams-sdk-js-main/samples')),
+    ]);
   }
 
   private _downloadSource() {

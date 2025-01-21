@@ -15,7 +15,7 @@ import * as commands from './commands';
   const storage = await Storage.create();
   const config = Config.load();
   const ctx: Context = {
-    log: new ConsoleLogger('@teams.sdk/cli', { level: 'debug' }),
+    log: new ConsoleLogger('@teams.sdk/cli'),
     stores: storage,
     config,
   };

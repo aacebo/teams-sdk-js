@@ -48,11 +48,11 @@ export function handler(ctx: CopilotContext) {
       ].join('\n')).join('\n');
     } catch (err) {
       if (err instanceof Error) {
-        log.error(err.message);
+        log.debug(err.message);
         return err.message;
       }
 
-      log.error(err);
+      log.debug(err);
       return 'an error occurred';
     }
   };

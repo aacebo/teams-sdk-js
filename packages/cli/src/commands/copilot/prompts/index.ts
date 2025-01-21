@@ -34,6 +34,8 @@ export function Root(ctx: CopilotContext) {
 
       '**IMPORTANT!**',
       '- before attempting to write changes, show a draft to the user and ask for consent',
+      '- when showing code to the developer, ensure you color it using ANSI green code',
+      '- keep the developer updated on what your working on via the `say` function.',
     ].join('\n'),
     model: new OpenAIChatModel({
       model: 'gpt-4o',
@@ -42,6 +44,23 @@ export function Root(ctx: CopilotContext) {
       stream: true,
     })
   }).function(
+    'say',
+    'say something to the user',
+    {
+      type: 'object',
+      properties: {
+        text: {
+          type: 'string',
+          title: 'text',
+          description: 'what to say to the user'
+        }
+      },
+      required: ['text']
+    },
+    ({ text }: { text: string }) => {
+      process.stdout.write(text);
+    }
+  ).function(
     'project-assistant',
     'ask the project assistant to read and write files and directories to the project source code',
     {
