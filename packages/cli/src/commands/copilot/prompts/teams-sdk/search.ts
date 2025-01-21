@@ -1,11 +1,7 @@
-import os from 'node:os';
-import path from 'node:path';
-
 import { ObjectSchema } from '@teams.sdk/ai';
 
 import { CopilotContext } from '../../context';
-import { indexSource } from './index-source';
-import { downloadSource } from './download-source';
+import { Crawler } from '../../../../crawler';
 
 interface Args {
   readonly text: string;
@@ -24,30 +20,26 @@ export const schema: ObjectSchema = {
 };
 
 export function handler(ctx: CopilotContext) {
-  const { log, config, openai, stores } = ctx;
+  const { log, openai, stores, config } = ctx;
+  const crawler = new Crawler(log, openai, stores);
 
   return async ({ text }: Args) => {
     log.debug(text);
 
     try {
+      // 50min
+      if (!config.syncedAt || (new Date().getTime() - config.syncedAt.getTime()) > 3000000) {
+        console.log('please wait while I refresh my memory...');
+        config.syncedAt = new Date();
+        config.save();
+        await crawler.start();
+      }
+
       const res = await openai.embeddings.create({
         input: text,
         model: 'text-embedding-3-small',
         encoding_format: 'float'
       });
-
-      // 50min
-      if (!config.syncedAt || (new Date().getTime() - config.syncedAt.getTime()) > 3000000) {
-        config.syncedAt = new Date();
-        config.save();
-
-        await downloadSource();
-        await indexSource(path.join(
-          os.homedir(),
-          'teams-sdk',
-          'teams-sdk-js-main',
-        ), ctx);
-      }
 
       const files = await stores.file.search(res.data[0].embedding);
       return files.map(file => [

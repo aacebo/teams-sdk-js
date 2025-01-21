@@ -18,6 +18,6 @@
     "pretty": true,
     "outDir": "dist",
     "rootDir": "src",
-    "types": ["jest", "node"]
+    "types": ["node"]
   }
 }

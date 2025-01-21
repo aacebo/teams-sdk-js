@@ -7,12 +7,15 @@ import sqlite from 'sqlite3';
 import * as sqliteVec from 'sqlite-vec';
 
 import { FileStorage } from './file';
+import { MemoryStorage } from './memory';
 
 export class Storage {
   readonly file: FileStorage;
+  readonly memory: MemoryStorage;
 
   constructor(private readonly db: Knex.Knex) {
     this.file = new FileStorage(db);
+    this.memory = new MemoryStorage(db);
   }
 
   destroy() {
@@ -21,6 +24,7 @@ export class Storage {
 
   private async migrate() {
     await this.file.migrate();
+    await this.memory.migrate();
   }
 
   static async create() {

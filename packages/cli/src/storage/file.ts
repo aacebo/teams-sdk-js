@@ -8,28 +8,26 @@ export class FileStorage {
   async migrate() {
     const exists = await this._db.schema.hasTable('files');
 
-    if (exists) return;
-
-    return this._db.schema.createTable('files', (table) => {
-      table.text('path').primary();
-      table.text('content');
-      table.specificType('embedding', 'float[1536]');
-      table.timestamp('created_at').notNullable();
-      table.timestamp('updated_at').notNullable();
-    });
+    if (!exists) {
+      return this._db.schema.createTable('files', (table) => {
+        table.text('path').primary();
+        table.text('content');
+        table.specificType('embedding', 'float[1536]');
+        table.timestamp('created_at').notNullable();
+        table.timestamp('updated_at').notNullable();
+      });
+    }
   }
 
   async get() {
-    const rows = await this._db.table<File>('files')
-      .select('*');
-
+    const rows = await this._db.table<File>('files').select('*');
     return rows;
   }
 
   async getOne(path: string) {
     const res = await this._db.table<File>('files')
       .select('*')
-      .andWhere('path', '=', path)
+      .where('path', '=', path)
       .first();
 
     return res;
@@ -68,7 +66,7 @@ export class FileStorage {
           this._db.raw(`vec_f32('${JSON.stringify(value.embedding)}')`) :
           undefined,
       })
-      .andWhere('path', '=', value.path);
+      .where('path', '=', value.path);
 
     return { ...value };
   }
@@ -76,6 +74,6 @@ export class FileStorage {
   async delete(path: string) {
     await this._db.table<File>('files')
       .delete()
-      .andWhere('path', '=', path);
+      .where('path', '=', path);
   }
 }

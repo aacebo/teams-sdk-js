@@ -86,3 +86,6 @@
             -   [Documentation](./8.ai/4.chaining/1.assistants/3.documentation.md)
             -   [Typescript](./8.ai/4.chaining/1.assistants/4.typescript.md)
         -   [💬 🔈 📷 Multi Media](./8.ai/4.chaining/2.multi-media.md)
+    -   [🧠 Memory](./8.ai/5.memory/README.md)
+        -   [📓 Short Term](./8.ai/5.memory/1.short-term.md)
+        -   [📚 Long Term](./8.ai/5.memory/2.long-term.md)
