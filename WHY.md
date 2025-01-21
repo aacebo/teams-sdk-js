@@ -9,8 +9,9 @@ It also added ai tooling an an improved auth flow, but there are many things we 
 
 1. Authentication is still really hard
 2. Developer experience still isn't there
-3. Developers want to debug their apps locally
-4. Less opinions, less rigid structure of ai system
+3. Testing debugging is still really hard
+4. Developers want to debug their apps locally
+5. Less opinions, less rigid structure of ai system
 
 ## Consolidate
 
