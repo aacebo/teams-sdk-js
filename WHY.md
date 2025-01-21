@@ -1,0 +1,66 @@
+# Why?
+
+Building agents and bots for Microsoft Teams can often involve a lot of boilerplate code and managing numerous dependencies, which can be time-consuming and complex. Our new SDK aims to simplify this process by minimizing the boilerplate and dependencies required, while also providing helpful AI/Teams native abstractions. This allows developers to focus more on creating intelligent and effective bots, rather than getting bogged down in setup and configuration. By streamlining the development process, we hope to make it easier and faster to build powerful, AI-driven bots for Microsoft Teams.
+
+## Consolidate
+
+![Consolidate](./assets/consolidate.jpg)
+
+Much of the difficulty in our development flow comes from fragmentation of tooling/documentation,
+causing information to be hard to find and tools to not feel cohesive with one another.
+
+Today to build a teams app, you may need to use:
+- Teams Toolkit as your developer toolchain
+- `teams-js` as your package for tab implementation
+- `botbuilder-*` or `teams-ai` for package bot implementation
+- `teamsfx` for teams utilities
+- `adaptivecards` for cards
+
+By combining these tools into one comprehensive suite of tools, we ensure
+they all have a similar interface with a cohesive feel.
+
+## Documentation
+
+Today if you try to find the docs on activities or code samples, you will be
+guided to our learn docs.
+
+Most of the time they have the information you want, but its difficult to track down due
+to their verbosity.
+
+Much of our activity protocol is undocument or not documented enough, leading customers to
+not understand what is in the payloads when.
+
+Keeping a clean and concise version of the documentation with easy to use code snippets
+is key to a smooth development workflow when onboarding new devs.
+
+## Low Barrier To Entry
+
+Today the process of getting an app up and running minimally has come a long way,
+but its still much more difficult than competitors.
+
+With the `@teams.sdk/cli`/`@teams.sdk/dev`, the new codebase which is more concise in its syntax,
+apps can now be scaffolded and started with one command, and developed locally.
+
+## Developer Tooling
+
+With the Teams Toolkit our developer experience has increased significantly, but it still requires
+a lot of configuration boilerplate and doesn't naturally integration with the SDKs it hosts.
+
+With the devtool packages we can integrate our devtooling with the SDK itself, allowing us to create
+an easy to use local development flow that requires no boilerplate, just a plugin.
+
+## AI
+
+Going back to the fragmentation, we offer many AI utilities at Microsoft including Semantic Kernel,
+AutoGen, and Teams AI. These are great offerings but they are fragmented and don't work well together.
+Our customers get confused by which to use and when, which is why we created the `@teams.sdk/ai` package.
+
+This package integrates well with the other app/bot packages and provides a low opinion interface to work
+with LLM's.
+
+## Adaptive Cards
+
+Today we have many adaptive cards designers and libraries. They are once again fragmented which causes confusion.
+The new `@teams.sdk/cards` package provides up to date typings and function implementations for cards to be used
+easily, and the `@teams.sdk/devtools` package provides a designer and testing frontend for developers to easily
+build their apps/cards.
