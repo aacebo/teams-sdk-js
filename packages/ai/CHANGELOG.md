@@ -1,5 +1,13 @@
 # @teams.sdk/ai
 
+## 0.1.11
+
+### Patch Changes
+
+- latest changes to cli and common
+- Updated dependencies
+  - @teams.sdk/common@0.1.11
+
 ## 0.1.10
 
 ### Patch Changes
