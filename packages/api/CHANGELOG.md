@@ -1,5 +1,13 @@
 # @teams.sdk/api
 
+## 0.1.12
+
+### Patch Changes
+
+- updates to cli
+- Updated dependencies
+  - @teams.sdk/cards@0.1.12
+
 ## 0.1.11
 
 ### Patch Changes
