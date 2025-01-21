@@ -26,6 +26,7 @@ export class Crawler {
       this._index(npath.join(os.homedir(), 'teams-sdk', 'teams-sdk-js-main/book/src')),
       this._index(npath.join(os.homedir(), 'teams-sdk', 'teams-sdk-js-main/apps')),
       this._index(npath.join(os.homedir(), 'teams-sdk', 'teams-sdk-js-main/samples')),
+      this._index(npath.join(os.homedir(), 'teams-sdk', 'teams-sdk-js-main/packages/cards')),
     ]);
   }
 
