@@ -74,3 +74,8 @@ using legacy packages like botbuilder, but that want all the benefits of the new
 This "integration through abstraction" method gives us more flexibility than we have with Teams AI,
 and allows us to own our own core typings and activity handling logic, all while still being compatible
 with the legacy api.
+
+## Pro Code vs No Code
+
+Both! with the `@teams.sdk/cli` copilot command, you can use an intelligent agent to help automate
+adding/managing features you want to add to your bot.
