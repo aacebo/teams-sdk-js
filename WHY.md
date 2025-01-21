@@ -2,6 +2,16 @@
 
 Building agents and bots for Microsoft Teams can often involve a lot of boilerplate code and managing numerous dependencies, which can be time-consuming and complex. Our new SDK aims to simplify this process by minimizing the boilerplate and dependencies required, while also providing helpful AI/Teams native abstractions. This allows developers to focus more on creating intelligent and effective bots, rather than getting bogged down in setup and configuration. By streamlining the development process, we hope to make it easier and faster to build powerful, AI-driven bots for Microsoft Teams.
 
+## Teams AI
+
+A step forward in many ways, teams ai reduces boilerplate and adds an improved activity handler syntax over the botbuilder.
+It also added ai tooling an an improved auth flow, but there are many things we can learn from and iterate on.
+
+1. Authentication is still really hard
+2. Developer experience still isn't there
+3. Developers want to debug their apps locally
+4. Less opinions, less rigid structure of ai system
+
 ## Consolidate
 
 ![Consolidate](./assets/consolidate.jpg)
