@@ -64,3 +64,13 @@ Today we have many adaptive cards designers and libraries. They are once again f
 The new `@teams.sdk/cards` package provides up to date typings and function implementations for cards to be used
 easily, and the `@teams.sdk/devtools` package provides a designer and testing frontend for developers to easily
 build their apps/cards.
+
+## BotBuilder/M365 Agents SDK
+
+This new SDK works with the botbuilder via a plugin in `@teams.sdk/botbuilder` and it will work with the
+M365 Agents SDK when it is released as well. Its important that we provide migration paths for customers
+using legacy packages like botbuilder, but that want all the benefits of the new SDK.
+
+This "integration through abstraction" method gives us more flexibility than we have with Teams AI,
+and allows us to own our own core typings and activity handling logic, all while still being compatible
+with the legacy api.
