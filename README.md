@@ -91,6 +91,7 @@ $: npm run test
 -   [`@teams.sdk/botbuilder`](./packages/botbuilder/README.md)
 -   [`@teams.sdk/cards`](./packages/cards/README.md)
 -   [`@teams.sdk/cli`](./packages/cli/README.md)
+-   [`@teams.sdk/client`](./packages/client/README.md)
 -   [`@teams.sdk/common`](./packages/common/README.md)
 -   [`@teams.sdk/config`](./packages/config/README.md)
 -   [`@teams.sdk/dev`](./packages/dev/README.md)
