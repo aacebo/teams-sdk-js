@@ -10,3 +10,4 @@
 | Sensitivity Label                     |         ❌        |
 | OAuth                                 |         ❌        |
 | Proactive Messaging                   |         ❌        |
+| WebChat                               |         ✅        |

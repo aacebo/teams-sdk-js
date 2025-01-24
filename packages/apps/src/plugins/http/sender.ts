@@ -18,18 +18,27 @@ export class HttpSender implements Sender {
     if (activity.id) {
       return this.ctx.api.conversations
         .activities(this.ctx.activity.conversation.id)
-        .update(activity.id, activity);
+        .update(activity.id, {
+          ...activity,
+          from: this.ctx.activity.recipient,
+        });
     }
 
     return this.ctx.api.conversations
       .activities(this.ctx.activity.conversation.id)
-      .create(activity);
+      .create({
+        ...activity,
+        from: this.ctx.activity.recipient,
+      });
   }
 
   reply(activity: Partial<Activity>) {
     return this.ctx.api.conversations
       .activities(this.ctx.activity.conversation.id)
-      .reply(this.ctx.activity.id, activity);
+      .reply(this.ctx.activity.id, {
+        ...activity,
+        from: this.ctx.activity.recipient,
+      });
   }
 
   async signin(name: string, text = 'Please Sign In...') {
