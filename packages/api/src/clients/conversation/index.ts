@@ -2,7 +2,7 @@ import qs from 'qs';
 
 import { Account, Conversation, ConversationResource } from '../../models';
 import { Activity } from '../../activities';
-import { ClientBase } from '../client-base';
+import { ClientBase, ClientOptions } from '../client-base';
 
 import { ConversationMemberClient } from './member';
 import { ConversationActivityClient } from './activity';
@@ -34,8 +34,27 @@ export interface GetConversationsResponse {
 }
 
 export class ConversationClient extends ClientBase {
+  protected readonly _activities: ConversationActivityClient;
+
+  constructor(options?: ClientOptions) {
+    const activities = new ConversationActivityClient(options);
+
+    super({
+      ...options,
+      children: [activities]
+    });
+
+    this._activities = activities;
+  }
+
   activities(conversationId: string) {
-    return new ConversationActivityClient(conversationId, this.options);
+    return {
+      create: (params: Partial<Activity>) => this._activities.create(conversationId, params),
+      update: (id: string, params: Partial<Activity>) => this._activities.update(conversationId, id, params),
+      reply: (id: string, params: Partial<Activity>) => this._activities.reply(conversationId, id, params),
+      delete: (id: string) => this._activities.delete(conversationId, id),
+      members: (activityId: string) => this._activities.members(conversationId, activityId),
+    };
   }
 
   members(conversationId: string) {

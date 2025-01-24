@@ -40,8 +40,9 @@ export default function App() {
         events[i] = {
           ...events[i],
           type: event.type,
-          body: event.body,
+          body: event.body || events[i].body,
           sentAt: events[i].sentAt,
+          error: event.error,
           updatedAt: event.sentAt,
         };
       } else {
@@ -50,6 +51,7 @@ export default function App() {
 
       setEvents([...events]);
 
+      if (event.error) return;
       if (event.type === 'received' || event.type === 'sent') {
         const chatMessages = messages[event.body.conversation.id] || [];
 

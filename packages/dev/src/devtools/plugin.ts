@@ -4,11 +4,11 @@ import path from 'node:path';
 import express from 'express';
 import io from 'socket.io';
 import * as uuid from 'uuid';
+import { AxiosError } from 'axios';
 
 import { ActivityContext, App, HttpSender, Plugin, PluginEvents } from '@teams.sdk/apps';
 import { EventEmitter } from '@teams.sdk/common/events';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
-import { Activity } from '@teams.sdk/api';
 
 import { router } from './routes';
 
@@ -20,6 +20,7 @@ export interface DevtoolsSocketEvent<T = any> {
   readonly id: string;
   readonly type: string;
   readonly body?: T;
+  readonly error?: any;
   readonly sentAt: Date;
 }
 
@@ -80,67 +81,65 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
   }
 
   sender(ctx: ActivityContext) {
-    const sender = new HttpSender(ctx);
-
-    return {
-      send: async (activity: Partial<Activity>) => {
+    ctx.api.use('request', {
+      onSuccess: (config) => {
         const id = uuid.v4();
+        const sentAt = new Date();
+
+        config.headers.set('x-devtools-request-id', id);
+        config.headers.set('x-devtools-sent-at', sentAt.toISOString());
+
         this.emitToSockets('activity', {
           id,
           type: 'sending',
-          body: {
-            ...activity,
-            conversation: ctx.activity.conversation,
-          },
-          sentAt: new Date(),
+          body: config.data,
+          sentAt,
         });
 
-        const res = await sender.send(activity);
+        return config;
+      },
+    });
 
-        this.emitToSockets('activity', {
-          id,
-          type: 'sent',
-          body: {
-            ...activity,
-            id: res.id,
-            conversation: ctx.activity.conversation,
-          },
-          sentAt: new Date(),
-        });
+    ctx.api.use('response', {
+      onSuccess: (res) => {
+        const id = res.config.headers.get('x-devtools-request-id')?.toString();
+        const sentAt = res.config.headers.get('x-devtools-sent-at')?.toString();
+
+        if (id && sentAt) {
+          this.emitToSockets('activity', {
+            id,
+            type: 'sent',
+            body: {
+              ...JSON.parse(res.config.data),
+              ...res.data
+            },
+            sentAt: new Date(sentAt),
+          });
+        }
 
         return res;
       },
-      reply: async (activity: Partial<Activity>) => {
-        const id = uuid.v4();
-        this.emitToSockets('activity', {
-          id,
-          type: 'sending',
-          body: {
-            ...activity,
-            conversation: ctx.activity.conversation,
-          },
-          sentAt: new Date(),
-        });
+      onError: (err) => {
+        if (!(err instanceof AxiosError)) return;
 
-        const res = await sender.reply(activity);
+        const id = err.config?.headers.get('x-devtools-request-id')?.toString();
+        const sentAt = err.config?.headers.get('x-devtools-sent-at')?.toString();
 
-        this.emitToSockets('activity', {
-          id,
-          type: 'sent',
-          body: {
-            ...activity,
-            id: res.id,
-            conversation: ctx.activity.conversation,
-          },
-          sentAt: new Date(),
-        });
+        if (id && sentAt) {
+          this.emitToSockets('activity', {
+            id,
+            type: 'sent',
+            body: null,
+            error: err.response?.data,
+            sentAt: new Date(sentAt),
+          });
+        }
 
-        return res;
-      },
-      signin: async (name: string, text?: string) => {
-        return sender.signin(name, text);
-      },
-    };
+        return Promise.reject(err);
+      }
+    });
+
+    return new HttpSender(ctx);
   }
 
   /**

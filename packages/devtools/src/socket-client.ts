@@ -4,6 +4,7 @@ import io, { Socket } from 'socket.io-client';
 export interface SocketEvent<T = any> {
   readonly id: string;
   readonly body: T;
+  readonly error?: any;
   readonly sentAt: Date;
 }
 

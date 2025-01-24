@@ -10,8 +10,14 @@ import {
 } from '@teams.sdk/api';
 
 import { ActivityContext } from './activity-context';
+import { Streamer } from './types';
 
 export interface MiddlewareContext<T extends Activity = Activity> extends ActivityContext<T> {
+  /**
+   * a stream that can emit activity chunks
+   */
+  stream: Streamer;
+
   /**
    * call the next event/middleware handler
    */

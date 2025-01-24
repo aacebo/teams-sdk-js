@@ -21,6 +21,7 @@
     "@teams.sdk/apps": "*",
     "@teams.sdk/common": "*",
     "@teams.sdk/openai": "*",
+    "@teams.sdk/dev": "*",
     "@teams.sdk/devtools": "*"
   },
   "devDependencies": {

@@ -1,41 +1,33 @@
 import { Account, Resource } from '../../models';
 import { Activity } from '../../activities';
-import { ClientBase, ClientOptions } from '../client-base';
+import { ClientBase } from '../client-base';
 
 export class ConversationActivityClient extends ClientBase {
-  constructor(conversationId: string, options?: ClientOptions) {
-    super({
-      ...options,
-      baseURL: `${options?.baseURL || ''}/v3/conversations/${conversationId}`,
-      children: [],
-    });
-  }
-
-  async create(params: Partial<Activity>) {
-    const res = await this.http.post<Resource>('/activities', params);
+  async create(conversationId: string, params: Partial<Activity>) {
+    const res = await this.http.post<Resource>(`/v3/conversations/${conversationId}/activities`, params);
     return res.data;
   }
 
-  async update(id: string, params: Partial<Activity>) {
-    const res = await this.http.put<Resource>(`/activities/${id}`, params);
+  async update(conversationId: string, id: string, params: Partial<Activity>) {
+    const res = await this.http.put<Resource>(`/v3/conversations/${conversationId}/activities/${id}`, params);
     return res.data;
   }
 
-  async reply(id: string, params: Partial<Activity>) {
+  async reply(conversationId: string, id: string, params: Partial<Activity>) {
     params.replyToId = id;
-    const res = await this.http.post<Resource>(`/activities/${id}`, params);
+    const res = await this.http.post<Resource>(`/v3/conversations/${conversationId}/activities/${id}`, params);
     return res.data;
   }
 
-  async delete(id: string) {
-    const res = await this.http.delete<void>(`/activities/${id}`);
+  async delete(conversationId: string, id: string) {
+    const res = await this.http.delete<void>(`/v3/conversations/${conversationId}/activities/${id}`);
     return res.data;
   }
 
-  members(activityId: string) {
+  members(conversationId: string, activityId: string) {
     return {
       get: async () => {
-        const res = await this.http.get<Account[]>(`/activities/${activityId}/members`);
+        const res = await this.http.get<Account[]>(`/v3/conversations/${conversationId}/activities/${activityId}/members`);
         return res.data;
       },
     };

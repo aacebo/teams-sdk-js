@@ -1,8 +1,9 @@
-import { App } from '@teams.sdk/apps';
+import { App, HttpPlugin } from '@teams.sdk/apps';
 import { ChatPrompt, Message } from '@teams.sdk/ai';
 import { ConsoleLogger } from '@teams.sdk/common/logging';
 import { OpenAIChatModel } from '@teams.sdk/openai';
 import { LocalStorage } from '@teams.sdk/common/storage';
+import { DevtoolsPlugin } from '@teams.sdk/dev';
 
 const storage = new LocalStorage<{
   status: boolean;
@@ -11,9 +12,10 @@ const storage = new LocalStorage<{
 
 const app = new App({
   logger: new ConsoleLogger('@samples/lights', { level: 'debug' }),
+  plugins: [new DevtoolsPlugin(), new HttpPlugin()]
 });
 
-app.on('message', async ({ send, activity }) => {
+app.on('message', async ({ send, stream, activity }) => {
   let state = storage.get(activity.from.id);
 
   if (!state) {
@@ -42,6 +44,7 @@ app.on('message', async ({ send, activity }) => {
     model: new OpenAIChatModel({
       model: 'gpt-4o',
       apiKey: process.env.OPENAI_API_KEY,
+      stream: true,
     }),
   })
     .function('get_light_status', 'get the current light status', () => {
@@ -56,11 +59,14 @@ app.on('message', async ({ send, activity }) => {
       storage.set(activity.from.id, state);
     });
 
-  const text = await prompt.chat(activity.text);
-
-  await send({
-    type: 'message',
-    text,
+  await prompt.chat(activity.text, (chunk) => {
+    stream.emit({
+      type: 'message',
+      text: chunk,
+      channelData: {
+        feedbackLoopEnabled: true
+      }
+    });
   });
 });
 

@@ -300,12 +300,18 @@ export class App {
 
     let i = 0;
     const sender = this.sender.sender!(ctx);
+    const stream = sender.stream || {
+      emit: () => {},
+      close: () => {},
+    };
+
     const routeCtx: MiddlewareContext<Activity> = {
       ...ctx,
       api,
       log: this.log,
       conversation,
       storage: this.storage,
+      stream: stream,
       next: (context) => {
         if (i === routes.length - 1) return;
         i++;
@@ -319,6 +325,7 @@ export class App {
     };
 
     const res = await routes[0](routeCtx);
+    await stream.close();
     return res || { status: 200 };
   }
 

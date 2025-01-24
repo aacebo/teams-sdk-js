@@ -130,7 +130,6 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
       res.status(response?.status || 200).send(JSON.stringify(response?.body || null));
       return next();
     } catch (err) {
-      this.log.error(err);
       this.emit('error', err);
       this.emit('response', {
         res,

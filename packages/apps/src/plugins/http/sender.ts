@@ -2,16 +2,20 @@ import { Activity, cardAttachment, ConversationAccount, TokenExchangeState } fro
 
 import { Sender } from '../../types';
 import { ActivityContext } from '../../activity-context';
+import { HttpStream } from './stream';
 
 /**
  * the default `Sender` implementation that
  * sends activities to `Teams` via HTTP
  */
 export class HttpSender implements Sender {
+  readonly stream: HttpStream;
+
   protected readonly ctx: ActivityContext;
 
   constructor(ctx: ActivityContext) {
     this.ctx = ctx;
+    this.stream = new HttpStream(this.ctx);
   }
 
   send(activity: Partial<Activity>) {
@@ -21,6 +25,7 @@ export class HttpSender implements Sender {
         .update(activity.id, {
           ...activity,
           from: this.ctx.activity.recipient,
+          conversation: this.ctx.activity.conversation
         });
     }
 
@@ -29,6 +34,7 @@ export class HttpSender implements Sender {
       .create({
         ...activity,
         from: this.ctx.activity.recipient,
+        conversation: this.ctx.activity.conversation
       });
   }
 
@@ -38,6 +44,7 @@ export class HttpSender implements Sender {
       .reply(this.ctx.activity.id, {
         ...activity,
         from: this.ctx.activity.recipient,
+        conversation: this.ctx.activity.conversation
       });
   }
 

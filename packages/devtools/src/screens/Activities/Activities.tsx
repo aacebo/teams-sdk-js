@@ -48,6 +48,10 @@ export default function Activities() {
                     classes.push('active');
                   }
 
+                  if (event.error) {
+                    classes.push('text-red-500');
+                  }
+
                   const path: Array<string> = [event.body.type];
 
                   if (
@@ -120,7 +124,7 @@ export default function Activities() {
             </div>
 
             <div className="flex flec-col flex-1 overflow-y-auto">
-              <Json value={selected.body} stringify={view === 'json'} />
+              <Json value={selected.error || selected.body} stringify={view === 'json'} />
             </div>
           </div>
         )}

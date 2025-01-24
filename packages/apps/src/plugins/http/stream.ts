@@ -1,0 +1,138 @@
+import { Attachment, ChannelData, Entity, MessageSendActivity } from '@teams.sdk/api';
+
+import { Streamer } from '../../types';
+import { ActivityContext } from '../../activity-context';
+
+export class HttpStream implements Streamer {
+  protected index = 0;
+  protected id?: string;
+  protected text: string = '';
+  protected attachments: Attachment[] = [];
+  protected channelData: ChannelData = { };
+  protected entities: Entity[] = [];
+  protected queue: Array<Partial<MessageSendActivity>> = [];
+
+  private _timeout?: NodeJS.Timeout;
+  private _failures: number = 0;
+
+  constructor(protected ctx: ActivityContext) { }
+
+  emit(activity: Partial<MessageSendActivity>) {
+    if (this._timeout) {
+      clearTimeout(this._timeout);
+      this._timeout = undefined;
+    }
+
+    this.queue.push(activity);
+    this._timeout = setTimeout(this.flush.bind(this), 200);
+  }
+
+  async close() {
+    while (!this.id || this.queue.length) {
+      await new Promise((resolve) => setTimeout(resolve, 200));
+    }
+
+    await this.ctx.api.conversations
+      .activities(this.ctx.activity.conversation.id)
+      .create({
+        id: this.id,
+        type: 'message',
+        text: this.text,
+        attachments: this.attachments,
+        entities: [
+          ...this.entities,
+          {
+            type: 'streaminfo',
+            streamId: this.id,
+            streamType: 'final',
+          }
+        ],
+        channelData: {
+          streamId: this.id,
+          streamType: 'final',
+        },
+      });
+
+    this.index = 0;
+    this.id = undefined;
+    this.text = '';
+    this.attachments = [];
+    this.channelData = { };
+    this.entities = [ ];
+  }
+
+  protected async flush() {
+    try {
+      if (!this.queue.length) return;
+      if (this._timeout) {
+        clearTimeout(this._timeout);
+        this._timeout = undefined;
+      }
+
+      const size = Math.round(this.queue.length / 10);
+      let i = 0;
+
+      while (this.queue.length && i <= size) {
+        const activity = this.queue.shift();
+
+        if (!activity) continue;
+
+        if (activity.text) {
+          this.text += activity.text;
+        }
+
+        if (activity.attachments) {
+          this.attachments = [
+            ...(this.attachments || []),
+            ...activity.attachments,
+          ];
+        }
+
+        if (activity.entities) {
+          this.entities = [
+            ...(this.entities || []),
+            ...activity.entities,
+          ];
+        }
+
+        i++;
+      }
+
+      this.index++;
+      const { id } = await this.ctx.api.conversations
+        .activities(this.ctx.activity.conversation.id)
+        .create({
+          id: this.id,
+          type: 'typing',
+          text: this.text,
+          channelData: {
+            streamId: this.id,
+            streamType: 'streaming',
+            streamSequence: this.index,
+          },
+          entities: [{
+            type: 'streaminfo',
+            streamId: this.id,
+            streamType: 'streaming',
+            streamSequence: this.index,
+          }]
+        });
+
+      if (!this.id) {
+        this.id = id;
+      }
+
+      this._failures = 0;
+
+      if (this.queue.length) {
+        this._timeout = setTimeout(this.flush.bind(this), 500);
+      }
+    } catch (err) {
+      this._failures+=2;
+
+      if (this.queue.length) {
+        this._timeout = setTimeout(this.flush.bind(this), (this._failures + 1) * 500);
+      }
+    }
+  }
+}

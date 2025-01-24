@@ -1,4 +1,5 @@
 import { Logger } from '@teams.sdk/common/logging';
+import { AxiosError } from 'axios';
 
 export interface ErrorEventArgs {
   /**
@@ -14,4 +15,8 @@ export interface ErrorEventArgs {
 
 export function error({ err, log }: ErrorEventArgs) {
   log.error(err.message);
+
+  if (err instanceof AxiosError) {
+    log.error(err.response?.data);
+  }
 }

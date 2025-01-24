@@ -1,9 +1,14 @@
-import { Activity, Resource } from '@teams.sdk/api';
+import { Activity, MessageSendActivity, Resource, TypingActivity } from '@teams.sdk/api';
 
 /**
  * component that can send an activity
  */
 export interface Sender {
+  /**
+   * a stream, used to send activity chunks
+   */
+  stream?: Streamer;
+
   /**
    * send an activity
    * @param activity the activity to send
@@ -22,4 +27,20 @@ export interface Sender {
    * @param text card text to display
    */
   signin(name: string, text?: string): Promise<Resource>;
+}
+
+/**
+ * component that can send streamed chunks of an activity
+ */
+export interface Streamer {
+  /**
+   * emit an activity chunk
+   * @param activity the activity to send
+   */
+  emit(activity: Partial<MessageSendActivity | TypingActivity>): void;
+
+  /**
+   * close the stream
+   */
+  close(): void | Promise<void>;
 }
