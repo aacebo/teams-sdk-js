@@ -48,6 +48,7 @@ export class HttpStream implements Streamer {
           }
         ],
         channelData: {
+          ...this.channelData,
           streamId: this.id,
           streamType: 'final',
         },
@@ -86,6 +87,13 @@ export class HttpStream implements Streamer {
             ...(this.attachments || []),
             ...activity.attachments,
           ];
+        }
+
+        if (activity.channelData) {
+          this.channelData = {
+            ...this.channelData,
+            ...activity.channelData,
+          };
         }
 
         if (activity.entities) {
