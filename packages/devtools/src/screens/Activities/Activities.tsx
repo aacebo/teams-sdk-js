@@ -13,8 +13,8 @@ export default function Activities() {
 
   return (
     <div className="Activities">
-      <div className="flex flex-col sm:flex-row overflow-y-auto">
-        <div className="flex flex-col md:flex-1 overflow-y-auto">
+      <div className="flex flex-col sm:flex-row flex-1 overflow-y-auto">
+        <div className="flex flex-col flex-1 overflow-y-auto">
           <table className="table-auto border-separate border-spacing-0 m-3 text-sm text-left rtl:text-right text-stone-500 dark:text-stone-400">
             <thead className="text-xs text-stone-700 uppercase bg-stone-50 dark:bg-stone-900 dark:text-stone-400">
               <tr>
@@ -102,7 +102,7 @@ export default function Activities() {
         </div>
 
         {selected && (
-          <div className="flex flex-col flex-1 sm:max-w-[50%]">
+          <div className="flex flex-col flex-1 dark:border-stone-800 sm:max-w-[50%] sm:border-l">
             <div className="flex px-5 py-2">
               <div className="flex-1" />
               <div className="flex">
@@ -125,6 +125,7 @@ export default function Activities() {
 
             <div className="flex flec-col flex-1 overflow-y-auto">
               <Json
+                className="mx-1"
                 value={selected.type === 'activity.error' ? selected.error : selected.body}
                 stringify={view === 'json'}
               />
