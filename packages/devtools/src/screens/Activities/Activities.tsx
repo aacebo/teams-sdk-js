@@ -105,6 +105,18 @@ export default function Activities() {
           <div className="flex flex-col flex-1 dark:border-stone-800 sm:max-w-[50%] sm:border-l">
             <div className="flex px-5 py-2">
               <div className="flex-1" />
+
+              <div className="mr-2">
+                <button
+                  className="flex px-1.5 py-1 transition text-stone-400 hover:text-white hover:bg-stone-700 active:bg-stone-600 rounded-full"
+                  onClick={() => {
+                    navigator.clipboard.writeText(JSON.stringify(selected));
+                  }}
+                >
+                  <icons.CopyRegular className="size-5 m-auto" />
+                </button>
+              </div>
+
               <div className="flex">
                 <label className="inline-flex items-center cursor-pointer">
                   <input
