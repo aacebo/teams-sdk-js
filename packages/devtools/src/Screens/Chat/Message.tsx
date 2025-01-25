@@ -13,6 +13,16 @@ export interface MessageProps {
   readonly react?: (id: string, type: api.MessageReactionType) => void | Promise<void>;
 }
 
+const Reactions: Array<{
+  readonly label: string;
+  readonly reaction: api.MessageReactionType;
+}> = [
+  { label: '👍', reaction: 'like' },
+  { label: '❤️', reaction: 'heart' },
+  { label: '😆', reaction: 'laugh' },
+  { label: '😮', reaction: 'surprised' }
+]
+
 export default function Message({
   value,
   streaming = false,
@@ -23,7 +33,7 @@ export default function Message({
 
   useEffect(() => {
     if (value.body?.contentType === 'text') {
-      setHtml(marked.parse(
+      setHtml(marked.parseInline(
         value.body?.content || '',
         { async: false, gfm: true }
       ));
@@ -31,13 +41,16 @@ export default function Message({
   }, [value]);
 
   return (
-    <div className={classNames(
-      'Message',
-      {
-        'flex-row': dir === 'received',
-        'flex-row-reverse': dir === 'sent'
-      }
-    )}>
+    <div
+      key={value.id}
+      className={classNames(
+        'Message',
+        {
+          'flex-row': dir === 'received',
+          'flex-row-reverse': dir === 'sent'
+        }
+      )}
+    >
       <div
         className={classNames(
           'flex', 'flex-col', 'max-w-[80%]',
@@ -85,41 +98,32 @@ export default function Message({
               }
             )}
           >
-            <button
-              className="mr-1 transition hover:scale-125"
-              onClick={() => react(value.id, 'like')}
-            >
-              👍
-            </button>
-            <button
-              className="mr-1 transition hover:scale-125"
-              onClick={() => react(value.id, 'heart')}
-            >
-              ❤️
-            </button>
-            <button
-              className="mr-1 transition hover:scale-125"
-              onClick={() => react(value.id, 'laugh')}
-            >
-              😆
-            </button>
-            <button
-              className="transition hover:scale-125"
-              onClick={() => react(value.id, 'surprised')}
-            >
-              😮
-            </button>
+            {Reactions.map(({ label, reaction }) => (
+              <button
+                className={classNames(
+                  'transition', 'hover:scale-125',
+                  '[&:not(:last-child)]:mr-2'
+                )}
+                onClick={() => react(value.id, reaction)}
+              >
+                {label}
+              </button>
+            ))}
           </div>
 
           <div className="flex flex-col aboslute z-10">
-            {value.body?.content && <div className="inline break-all">
-              {
-                html ?
-                <span className="inline break-all" dangerouslySetInnerHTML={{ __html: html }} /> :
-                value.body?.content
-              }
-              {streaming && <div className="inline-flex bg-white w-[5px] h-[13px] ml-1 animate-pulse" />}
-            </div>}
+            {value.body?.content && (
+              <div className="inline break-all">
+                {
+                  html ?
+                  <span
+                    className="inline break-all"
+                    dangerouslySetInnerHTML={{ __html: html }}
+                  /> : value.body?.content
+                }
+                {streaming && <div className="inline-flex bg-white w-[5px] h-[13px] ml-1 animate-pulse" />}
+              </div>
+            )}
             {value.attachments && (
               <div className="flex gap-1 py-px">
                 {value.attachments.map(a => {
