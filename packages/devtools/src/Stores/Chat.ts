@@ -52,7 +52,7 @@ export const useChatStore = create<ChatStore>()(devtools((set) => ({
     const i = messages.findIndex(m => m.id === message.id);
 
     if (i === -1) {
-      messages.push(message);
+      messages.unshift(message);
     } else {
       messages[i] = {
         ...messages[i],

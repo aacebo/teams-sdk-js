@@ -91,7 +91,7 @@ export default function Chat() {
       </div>
 
       <div className="flex flex-col flex-1 overflow-y-auto">
-        <div className="flex flex-col flex-1 mx-5 my-2 gap-2 overflow-y-auto pt-1 pb-5">
+        <div className="flex flex-col-reverse flex-1 my-2 gap-2 overflow-y-auto pt-1 pb-5">
           {(messages[chat.id] || []).map((message) => {
             const dir = message.from?.user?.id === 'devtools' ? 'sent' : 'received';
             const isStreaming = streaming[message.id];
@@ -105,7 +105,7 @@ export default function Chat() {
             }
 
             return (
-              <div className={['flex', dir === 'sent' ? 'flex-row-reverse' : 'flex-row'].join(' ')}>
+              <div className={['flex', 'mx-5', dir === 'sent' ? 'flex-row-reverse' : 'flex-row'].join(' ')}>
                 <div
                   className={[
                     'flex',
