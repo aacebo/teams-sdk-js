@@ -15,7 +15,7 @@ const api = new Client({
 });
 
 export default function Chat() {
-  const { chat, messages, typing } = useContext(ChatContext);
+  const { chat, messages, typing, streaming } = useContext(ChatContext);
   const [text, setText] = useState('');
   const [attachments, setAttachments] = useState<Attachment[]>([ ]);
   const [card, setCard] = useState<Card>();
@@ -93,6 +93,7 @@ export default function Chat() {
         <div className="flex flex-col flex-1 mx-5 my-2 gap-2 overflow-y-auto pt-1">
           {(messages[chat.id] || []).map((message) => {
             const dir = message.from?.user?.id === 'devtools' ? 'sent' : 'received';
+            const isStreaming = streaming[message.id];
 
             return (
               <div className={['flex', dir === 'sent' ? 'flex-row-reverse' : 'flex-row'].join(' ')}>
@@ -126,10 +127,11 @@ export default function Chat() {
                       'group',
                       dir === 'received' ? 'bg-stone-400' : 'bg-indigo-800',
                       dir === 'received' ? 'dark:bg-stone-800' : 'dark:bg-indigo-800',
+                      isStreaming ? 'fancy' : ''
                     ].join(' ')}
                   >
                     <div
-                      className={`hidden absolute group-hover:flex transition-all text-lg rounded px-3 py-1 shadow-2xl dark:bg-stone-800 -top-6 ${dir === 'received' ? 'left' : 'right'}-1`}
+                      className={`hidden absolute z-10 group-hover:flex transition-all text-lg rounded px-3 py-1 shadow-2xl dark:bg-stone-800 -top-6 ${dir === 'received' ? 'left' : 'right'}-1`}
                     >
                       <button
                         className="mr-1 transition hover:scale-125"
@@ -157,18 +159,23 @@ export default function Chat() {
                       </button>
                     </div>
 
-                    {message.body?.content}
-                    {message.attachments && (
-                      <div className="flex gap-1 py-px">
-                        {message.attachments.map(a => {
-                          return <AdaptiveCard value={(a as CardAttachmentTypes['adaptive']).content} />;
-                        })}
-                      </div>
-                    )}
+                    <div className="flex flex-col aboslute z-10">
+                      {message.body?.content && <div className="inline break-all">
+                        {message.body?.content}
+                        {isStreaming && <div className="inline-flex bg-white w-[5px] h-[13px] ml-1 animate-pulse" />}
+                      </div>}
+                      {message.attachments && (
+                        <div className="flex gap-1 py-px">
+                          {message.attachments.map(a => {
+                            return <AdaptiveCard value={(a as CardAttachmentTypes['adaptive']).content} />;
+                          })}
+                        </div>
+                      )}
+                    </div>
 
                     {(message.reactions?.length || 0) > 0 && (
                       <div
-                        className={`absolute flex transition-all text-lg rounded -bottom-6 ${dir === 'received' ? 'left' : 'right'}-1`}
+                        className={`absolute z-10 flex transition-all text-lg rounded -bottom-6 ${dir === 'received' ? 'left' : 'right'}-1`}
                       >
                         {message.reactions!.map((r) => {
                           return (

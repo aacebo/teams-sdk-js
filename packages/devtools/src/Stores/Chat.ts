@@ -14,11 +14,13 @@ import {
 import { ActivityEvent, Chat } from '../Types';
 
 const typingTimers: Record<string, NodeJS.Timeout> = { };
+const streamingTimers: Record<string, NodeJS.Timeout> = { };
 
 export interface ChatStore {
   readonly chat: Chat;
   readonly messages: Record<string, Array<Message>>;
   readonly typing: Record<string, boolean>;
+  readonly streaming: Record<string, boolean>;
 
   readonly put: (chatId: string, message: Message) => void;
 
@@ -44,6 +46,7 @@ export const useChatStore = create<ChatStore>()(devtools((set) => ({
   },
   messages: { },
   typing: { },
+  streaming: { },
   put: (chatId: string, message: Message) => set((state) => {
     const messages = state.messages[chatId] || [];
     const i = messages.findIndex(m => m.id === message.id);
@@ -95,10 +98,10 @@ export const useChatStore = create<ChatStore>()(devtools((set) => ({
 
       state.typing[event.chat.id] = false;
 
-      set({
+      set((state) => ({
         ...state,
         typing: { ...state.typing }
-      });
+      }));
     }, 3000);
 
     state.typing[event.chat.id] = true;
@@ -226,6 +229,26 @@ export const useChatStore = create<ChatStore>()(devtools((set) => ({
     };
   },
   onStreamChunkActivity: (event, state) => {
+    if (streamingTimers[event.body.id]) {
+      clearInterval(streamingTimers[event.body.id]);
+      delete streamingTimers[event.body.id];
+    }
+
+    streamingTimers[event.body.id] = setTimeout(() => {
+      if (streamingTimers[event.body.id]) {
+        clearInterval(streamingTimers[event.body.id]);
+        delete streamingTimers[event.body.id];
+      }
+
+      set((state) => ({
+        ...state,
+        streaming: {
+          ...state.streaming,
+          [event.body.id]: false
+        }
+      }));
+    }, 3000);
+
     state.put(event.chat.id, {
       id: event.body.id,
       replyToId: event.body.replyToId,
@@ -250,9 +273,20 @@ export const useChatStore = create<ChatStore>()(devtools((set) => ({
       createdDateTime: (event.body.timestamp || new Date()).toUTCString(),
     });
 
-    return state;
+    return {
+      ...state,
+      streaming: {
+        ...state.streaming,
+        [event.body.id]: true
+      }
+    };
   },
   onStreamMessageActivity: (event, state) => {
+    if (streamingTimers[event.body.id]) {
+      clearInterval(streamingTimers[event.body.id]);
+      delete streamingTimers[event.body.id];
+    }
+
     state.put(event.chat.id, {
       id: event.body.id,
       replyToId: event.body.replyToId,
@@ -279,7 +313,13 @@ export const useChatStore = create<ChatStore>()(devtools((set) => ({
       createdDateTime: (event.body.timestamp || new Date()).toUTCString(),
     });
 
-    return state;
+    return {
+      ...state,
+      streaming: {
+        ...state.streaming,
+        [event.body.id]: false
+      }
+    };
   },
 })));
 
