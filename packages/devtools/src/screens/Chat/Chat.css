@@ -2,6 +2,7 @@
   @apply flex;
   @apply flex-row;
   @apply flex-1;
+  @apply overflow-y-auto;
 
   .animate-bounce {
     animation-name: bounce;

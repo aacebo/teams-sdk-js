@@ -9,6 +9,7 @@ export interface TextBlockCardProps {
 
 export default function ImageCard({ value }: TextBlockCardProps) {
   const [html, setHtml] = useState<string>();
+
   useEffect(() => {
     setHtml(marked.parse(value.text, { async: false, gfm: true }));
   }, [value]);

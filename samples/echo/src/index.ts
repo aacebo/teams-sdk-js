@@ -12,6 +12,9 @@ app.on('message', async ({ stream, activity, next }) => {
   stream.emit({
     type: 'message',
     text: `you said "${activity.text}"`,
+    channelData: {
+      feedbackLoopEnabled: true
+    }
   });
 
   return next();

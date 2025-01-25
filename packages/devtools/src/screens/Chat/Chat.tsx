@@ -4,6 +4,7 @@ import { Card } from '@teams.sdk/cards';
 import { Attachment, cardAttachment, CardAttachmentTypes, Client, MessageReaction, MessageReactionType } from '@teams.sdk/api';
 import { Dialog, DialogBackdrop, DialogPanel, Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import * as icons from '@fluentui/react-icons';
+import * as marked from 'marked';
 
 import { ChatContext } from '../../Stores';
 import CardDesigner from '../../Components/CardDesigner';
@@ -71,7 +72,7 @@ export default function Chat() {
 
   return (
     <div className="Chat">
-      <div className="flex flex-col overflow-y-auto border-r dark:border-stone-800 shadow-md">
+      <div className="flex-col overflow-y-auto border-r dark:border-stone-800 shadow-md hidden md:flex">
         <div className="flex flex-col flex-1 mt-3 overflow-y-auto">
           <div className="flex px-3 py-1 mx-3 my-1 rounded border border-stone-800 bg-stone-700">
             <div className="flex flex-col justify-center mx-auto px-3 py-1 rounded-full bg-stone-900 overflow-hidden mr-2">
@@ -90,10 +91,18 @@ export default function Chat() {
       </div>
 
       <div className="flex flex-col flex-1 overflow-y-auto">
-        <div className="flex flex-col flex-1 mx-5 my-2 gap-2 overflow-y-auto pt-1">
+        <div className="flex flex-col flex-1 mx-5 my-2 gap-2 overflow-y-auto pt-1 pb-5">
           {(messages[chat.id] || []).map((message) => {
             const dir = message.from?.user?.id === 'devtools' ? 'sent' : 'received';
             const isStreaming = streaming[message.id];
+            let html: string | undefined;
+
+            if (message.body?.contentType === 'text') {
+              html = marked.parse(
+                message.body?.content || '',
+                { async: false, gfm: true }
+              );
+            }
 
             return (
               <div className={['flex', dir === 'sent' ? 'flex-row-reverse' : 'flex-row'].join(' ')}>
@@ -161,7 +170,11 @@ export default function Chat() {
 
                     <div className="flex flex-col aboslute z-10">
                       {message.body?.content && <div className="inline break-all">
-                        {message.body?.content}
+                        {
+                          html ?
+                          <span className="inline break-all" dangerouslySetInnerHTML={{ __html: html }} /> :
+                          message.body?.content
+                        }
                         {isStreaming && <div className="inline-flex bg-white w-[5px] h-[13px] ml-1 animate-pulse" />}
                       </div>}
                       {message.attachments && (
