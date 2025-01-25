@@ -1,6 +1,8 @@
 import * as marked from 'marked';
 import * as api from '@teams.sdk/api';
+import * as icons from '@fluentui/react-icons';
 import classNames from 'classnames';
+import { useNavigate } from 'react-router';
 import { formatDistanceToNow } from 'date-fns';
 import { useEffect, useState } from 'react';
 
@@ -30,6 +32,7 @@ export default function Message({
 }: MessageProps) {
   const dir = value.from?.user?.id === 'devtools' ? 'sent' : 'received';
   const [html, setHtml] = useState<string>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (value.body?.contentType === 'text') {
@@ -98,6 +101,22 @@ export default function Message({
               }
             )}
           >
+            <button
+              className={classNames(
+                'text-stone-400', 'hover:text-white',
+                'my-auto', 'transition', 'hover:scale-125',
+                '[&:not(:last-child)]:mr-2'
+              )}
+              onClick={() => {
+                navigate({
+                  pathname: '/activities',
+                  search: `body.id=${value.id}`
+                });
+              }}
+            >
+             <icons.SearchFilled className="size-5 m-auto mb-1" />
+            </button>
+
             {Reactions.map(({ label, reaction }) => (
               <button
                 className={classNames(

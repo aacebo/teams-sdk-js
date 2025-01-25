@@ -1,8 +1,12 @@
 import { useContext, useState } from 'react';
+import { useSearchParams } from 'react-router';
+import { Activity } from '@teams.sdk/api';
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import * as icons from '@fluentui/react-icons';
 
 import { ActivityContext } from '../../Stores';
 import { ActivityEvent } from '../../Types';
+import { getPath } from '../../Utils';
 import Json from '../../Components/Json';
 import './Activities.css';
 
@@ -10,6 +14,8 @@ export default function Activities() {
   const { list } = useContext(ActivityContext);
   const [selected, setSelected] = useState<ActivityEvent>();
   const [view, setView] = useState<'preview' | 'json'>('preview');
+  const [params, setParams] = useSearchParams();
+  const activityPaths = [...new Set(list.map(event => getActivityPath(event.body)))].sort();
 
   return (
     <div className="Activities">
@@ -22,9 +28,46 @@ export default function Activities() {
                   scope="col"
                   className="px-3 py-2 w-14 border-t border-b border-l dark:border-stone-700"
                 >
-                  Type
+                  <Menu>
+                    <MenuButton className="flex w-full text-left">
+                      <span className="flex-1 uppercase font-bold">Type</span>
+                      {activityPaths.length > 0 && <icons.FilterRegular className="ml-2 size-4" />}
+                    </MenuButton>
+
+                    <MenuItems
+                      transition
+                      anchor="bottom end"
+                      className="origin-top-right p-1 dark:bg-stone-800 rounded shadow-2xl text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+                    >
+                      {activityPaths.map(path => (
+                        <MenuItem>
+                          <button
+                            key={path}
+                            className="group flex w-full items-center gap-2 rounded py-px px-3 data-[focus]:bg-white/10"
+                            onClick={() => {
+                              if (params.get('path') === path) {
+                                params.delete('path');
+                                return setParams(params);
+                              }
+
+                              params.set('path', path);
+                              setParams(params);
+                            }}
+                          >
+                            <span className="flex-1 text-left">{path}</span>
+                            {params.has('path', path) && (
+                              <icons.CheckmarkFilled className="ml-1 size-3" />
+                            )}
+                          </button>
+                        </MenuItem>
+                      ))}
+                    </MenuItems>
+                  </Menu>
                 </th>
-                <th scope="col" className="px-3 py-2 border dark:border-stone-700">
+                <th
+                  scope="col"
+                  className="px-3 py-2 border dark:border-stone-700 text-right"
+                >
                   Timestamp
                 </th>
               </tr>
@@ -33,6 +76,20 @@ export default function Activities() {
               {list
                 .slice()
                 .reverse()
+                .filter((event) => {
+                  for (const [key, filter] of params.entries()) {
+                    const value = getPath({
+                      ...event,
+                      path: getActivityPath(event.body)
+                    }, key);
+
+                    if (value != filter) {
+                      return false;
+                    }
+                  }
+
+                  return true;
+                })
                 .map((event) => {
                   const classes = [
                     'group',
@@ -52,27 +109,7 @@ export default function Activities() {
                     classes.push('text-red-500');
                   }
 
-                  const path: Array<string> = [event.body.type];
-
-                  if (
-                    event.body.type === 'invoke' ||
-                    event.body.type === 'event' ||
-                    event.body.type === 'command'
-                  ) {
-                    path.push(event.body.name);
-                  }
-
-                  if (event.body.type === 'installationUpdate') {
-                    path.push(event.body.action);
-                  }
-
-                  if (
-                    event.body.type === 'messageDelete' ||
-                    event.body.type === 'messageUpdate' ||
-                    event.body.type === 'conversationUpdate'
-                  ) {
-                    path.push(event.body.channelData.eventType);
-                  }
+                  const path = getActivityPath(event.body);
 
                   return (
                     <tr
@@ -91,11 +128,11 @@ export default function Activities() {
                         ) : (
                           <icons.ArrowUpFilled className="h-4 w-4 my-auto" />
                         )}
-                        <div className="my-auto ml-2 font-semibold">{path.join('/')}</div>
+                        <div className="my-auto ml-2 font-semibold">{path}</div>
                       </td>
                       <td className="px-3 py-2 border-b border-l border-r dark:border-stone-700 dark:group-hover:bg-stone-700">
                         <div className="flex">
-                          <div className="flex-1 text-nowrap">
+                          <div className="flex-1 text-nowrap text-right">
                             {new Date(event.sentAt).toLocaleString()}
                           </div>
                           {event.type === 'activity.sending' && (
@@ -156,4 +193,30 @@ export default function Activities() {
       </div>
     </div>
   );
+}
+
+function getActivityPath(activity: Activity) {
+  const path: Array<string> = [activity.type];
+
+  if (
+    activity.type === 'invoke' ||
+    activity.type === 'event' ||
+    activity.type === 'command'
+  ) {
+    path.push(activity.name);
+  }
+
+  if (activity.type === 'installationUpdate') {
+    path.push(activity.action);
+  }
+
+  if (
+    activity.type === 'messageDelete' ||
+    activity.type === 'messageUpdate' ||
+    activity.type === 'conversationUpdate'
+  ) {
+    path.push(activity.channelData.eventType);
+  }
+
+  return path.join('/');
 }
