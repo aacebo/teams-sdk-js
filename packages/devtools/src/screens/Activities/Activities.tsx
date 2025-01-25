@@ -75,7 +75,16 @@ export default function Activities() {
                   }
 
                   return (
-                    <tr className={classes.join(' ')} onClick={() => setSelected(event)}>
+                    <tr
+                      className={classes.join(' ')}
+                      onClick={() => {
+                        if (selected && selected.id === event.id) {
+                          return setSelected(undefined);
+                        }
+
+                        setSelected(event);
+                      }}
+                    >
                       <td className="px-3 py-2 flex border-b border-l dark:border-stone-700 dark:group-hover:bg-stone-700 text-nowrap">
                         {event.type === 'activity.received' ? (
                           <icons.ArrowDownFilled className="h-4 w-4 my-auto" />
