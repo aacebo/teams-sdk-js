@@ -1,19 +1,19 @@
-import { Activity } from '@teams.sdk/api';
 import io, { Socket } from 'socket.io-client';
 
-export interface SocketEvent<T = any> {
-  readonly id: string;
-  readonly body: T;
-  readonly error?: any;
-  readonly sentAt: Date;
-}
-
-export interface ActivitySocketEvent extends SocketEvent<Activity> {
-  readonly type: 'received' | 'sending' | 'sent';
-}
+import {
+  ActivityErrorEvent,
+  ActivityEvent,
+  ActivityReceivedEvent,
+  ActivitySendingEvent,
+  ActivitySentEvent,
+} from './Types';
 
 interface SocketEventTypes {
-  readonly activity: ActivitySocketEvent;
+  readonly 'activity': ActivityEvent;
+  readonly 'activity.received': ActivityReceivedEvent;
+  readonly 'activity.sending': ActivitySendingEvent;
+  readonly 'activity.sent': ActivitySentEvent;
+  readonly 'activity.error': ActivityErrorEvent;
 }
 
 export class SocketClient {

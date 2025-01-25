@@ -1,14 +1,14 @@
 import { useContext, useState } from 'react';
 import * as icons from '@fluentui/react-icons';
 
-import { ActivitiesContext } from '../../state';
-import { ActivitySocketEvent } from '../../socket-client';
-import Json from '../../components/Json';
+import { ActivityContext } from '../../Stores';
+import { ActivityEvent } from '../../Types';
+import Json from '../../Components/Json';
 import './Activities.css';
 
 export default function Activities() {
-  const { activities } = useContext(ActivitiesContext);
-  const [selected, setSelected] = useState<ActivitySocketEvent>();
+  const { list } = useContext(ActivityContext);
+  const [selected, setSelected] = useState<ActivityEvent>();
   const [view, setView] = useState<'preview' | 'json'>('preview');
 
   return (
@@ -30,7 +30,7 @@ export default function Activities() {
               </tr>
             </thead>
             <tbody>
-              {activities
+              {list
                 .slice()
                 .reverse()
                 .map((event) => {
@@ -48,7 +48,7 @@ export default function Activities() {
                     classes.push('active');
                   }
 
-                  if (event.error) {
+                  if (event.type === 'activity.error') {
                     classes.push('text-red-500');
                   }
 
@@ -77,7 +77,7 @@ export default function Activities() {
                   return (
                     <tr className={classes.join(' ')} onClick={() => setSelected(event)}>
                       <td className="px-3 py-2 flex border-b border-l dark:border-stone-700 dark:group-hover:bg-stone-700 text-nowrap">
-                        {event.type === 'received' ? (
+                        {event.type === 'activity.received' ? (
                           <icons.ArrowDownFilled className="h-4 w-4 my-auto" />
                         ) : (
                           <icons.ArrowUpFilled className="h-4 w-4 my-auto" />
@@ -87,9 +87,9 @@ export default function Activities() {
                       <td className="px-3 py-2 border-b border-l border-r dark:border-stone-700 dark:group-hover:bg-stone-700">
                         <div className="flex">
                           <div className="flex-1 text-nowrap">
-                            {new Date(event.updatedAt || event.sentAt).toLocaleString()}
+                            {new Date(event.sentAt).toLocaleString()}
                           </div>
-                          {event.type === 'sending' && (
+                          {event.type === 'activity.sending' && (
                             <div className="animate-spin my-auto inline-block size-4 border-[3px] border-current border-t-transparent text-indigo-500 rounded-full dark:text-indigo-500" />
                           )}
                         </div>
@@ -124,7 +124,10 @@ export default function Activities() {
             </div>
 
             <div className="flex flec-col flex-1 overflow-y-auto">
-              <Json value={selected.error || selected.body} stringify={view === 'json'} />
+              <Json
+                value={selected.type === 'activity.error' ? selected.error : selected.body}
+                stringify={view === 'json'}
+              />
             </div>
           </div>
         )}

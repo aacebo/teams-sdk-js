@@ -1,26 +1,30 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, NavLink, Navigate, Route, Routes } from 'react-router';
-import { Message } from '@teams.sdk/api';
+
 import { ConsoleLogger } from '@teams.sdk/common/logging';
 import * as icons from '@fluentui/react-icons';
 
-import './App.css';
-import Cards from './screens/Cards';
-import Activities from './screens/Activities';
-import Logs from './screens/Logs';
-import Chat from './screens/Chat';
 import { SocketClient } from './socket-client';
-import { ActivitiesContext, ChatState, ChatContext, ActivitiesState, DEFAULT_CHAT } from './state';
+import {
+  ActivityContext,
+  ChatContext,
+  useActivityStore,
+  useChatStore,
+} from './Stores';
+
+import Cards from './Screens/Cards';
+import Activities from './Screens/Activities';
+import Logs from './Screens/Logs';
+import Chat from './Screens/Chat';
+import './App.css';
 
 const socket = new SocketClient();
 const log = new ConsoleLogger('devtools');
 
 export default function App() {
   const [connected, setConnected] = useState(false);
-  const [events, setEvents] = useState<ActivitiesState['activities']>([]);
-  const [chats, setChats] = useState<ChatState['chats']>([DEFAULT_CHAT]);
-  const [chat, setChat] = useState<ChatState['chat']>(DEFAULT_CHAT);
-  const [messages, setMessages] = useState<Record<string, Array<Message>>>({});
+  const activityStore = useActivityStore();
+  const chatStore = useChatStore();
 
   useEffect(() => {
     socket.connect(() => {
@@ -34,102 +38,8 @@ export default function App() {
     });
 
     socket.on('activity', (event) => {
-      const i = events.findIndex((e) => e.id === event.id);
-
-      if (i > -1) {
-        events[i] = {
-          ...events[i],
-          type: event.type,
-          body: event.body || events[i].body,
-          sentAt: events[i].sentAt,
-          error: event.error,
-          updatedAt: event.sentAt,
-        };
-      } else {
-        events.push(event);
-      }
-
-      setEvents([...events]);
-
-      if (event.error) return;
-      if (event.type === 'received' || event.type === 'sent') {
-        const chatMessages = messages[event.body.conversation.id] || [];
-
-        if (event.body.type === 'message') {
-          chatMessages.push({
-            id: event.body.id,
-            replyToId: event.body.replyToId,
-            messageType: 'message',
-            attachments: event.body.attachments,
-            attachmentLayout: event.body.attachmentLayout,
-            reactions: [],
-            body: {
-              content: event.body.text,
-              contentType: 'text',
-              textContent: event.body.text,
-            },
-            from: {
-              conversation: {
-                id: event.body.conversation.id,
-                displayName: event.body.conversation.name,
-              },
-              user: event.body.from
-                ? {
-                    id: event.body.from.id,
-                    displayName: event.body.from.name,
-                  }
-                : undefined,
-            },
-            createdDateTime: (event.body.timestamp || new Date()).toUTCString(),
-          });
-        } else if (event.body.type === 'messageUpdate') {
-          const i = chatMessages.findIndex((m) => m.id === event.body.id);
-
-          if (i === -1) return;
-
-          if (event.body.text) {
-            if (!chatMessages[i].body) {
-              chatMessages[i].body = {};
-            }
-
-            chatMessages[i].body.content = event.body.text;
-            chatMessages[i].body.textContent = event.body.text;
-          }
-
-          chatMessages[i].lastModifiedDateTime = (event.body.timestamp || new Date()).toUTCString();
-        } else if (event.body.type === 'messageDelete') {
-          const i = chatMessages.findIndex((m) => m.id === event.body.id);
-
-          if (i === -1) return;
-
-          chatMessages[i].deleted = true;
-        } else if (event.body.type === 'messageReaction') {
-          const i = chatMessages.findIndex((m) => m.id === event.body.id);
-
-          if (i === -1) return;
-
-          const reactions = chatMessages[i].reactions || [];
-
-          for (const removed of event.body.reactionsRemoved || []) {
-            const j = reactions.findIndex(
-              (r) => r.type === removed.type && r.user?.id === 'devtools'
-            );
-
-            if (j === -1) continue;
-
-            reactions.splice(j, 1);
-          }
-
-          for (const added of event.body.reactionsAdded || []) {
-            reactions.push(added);
-          }
-
-          chatMessages[i].reactions = reactions;
-        }
-
-        messages[event.body.conversation.id] = chatMessages;
-        setMessages({ ...messages });
-      }
+      activityStore.put(event);
+      chatStore.onActivity(event);
     });
   }, []);
 
@@ -233,8 +143,8 @@ export default function App() {
           </div>
         </div>
 
-        <ActivitiesContext.Provider value={{ activities: events, setActivities: setEvents }}>
-          <ChatContext.Provider value={{ chats, setChats, chat, setChat, messages, setMessages }}>
+        <ActivityContext.Provider value={activityStore}>
+          <ChatContext.Provider value={chatStore}>
             <Routes>
               <Route path="" element={<Chat />} />
               <Route path="cards" element={<Cards />} />
@@ -243,7 +153,7 @@ export default function App() {
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </ChatContext.Provider>
-        </ActivitiesContext.Provider>
+        </ActivityContext.Provider>
       </BrowserRouter>
     </div>
   );

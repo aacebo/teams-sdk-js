@@ -28,6 +28,8 @@ export class HttpStream implements Streamer {
   }
 
   async close() {
+    if (!this.queue.length) return;
+
     while (!this.id || this.queue.length) {
       await new Promise((resolve) => setTimeout(resolve, 200));
     }
@@ -39,6 +41,8 @@ export class HttpStream implements Streamer {
         type: 'message',
         text: this.text,
         attachments: this.attachments,
+        from: this.ctx.activity.recipient,
+        conversation: this.ctx.activity.conversation,
         entities: [
           ...this.entities,
           {
@@ -113,6 +117,8 @@ export class HttpStream implements Streamer {
           id: this.id,
           type: 'typing',
           text: this.text,
+          from: this.ctx.activity.recipient,
+          conversation: this.ctx.activity.conversation,
           channelData: {
             streamId: this.id,
             streamType: 'streaming',

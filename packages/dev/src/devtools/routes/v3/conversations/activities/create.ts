@@ -16,14 +16,15 @@ export function create({ port, log, process }: RouteContext) {
     res: express.Response
   ) => {
     const isClient = req.headers['x-teams-devtools'] === 'true';
+    const id = req.body.channelData?.streamId || uuid.v4();
 
     if (!isClient) {
-      res.status(201).send({ id: uuid.v4() });
+      res.status(201).send({ id });
       return;
     }
 
     try {
-      const response = await process({
+      process({
         token: new JsonWebToken(
           jwt.sign(
             {
@@ -51,7 +52,7 @@ export function create({ port, log, process }: RouteContext) {
         },
       });
 
-      res.status(201).send(response);
+      res.status(201).send({ id });
     } catch (err: any) {
       if (err instanceof Error) {
         log.error(err.message, err.stack);

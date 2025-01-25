@@ -5,17 +5,17 @@ import { Attachment, cardAttachment, CardAttachmentTypes, Client, MessageReactio
 import { Dialog, DialogBackdrop, DialogPanel, Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import * as icons from '@fluentui/react-icons';
 
-import { ChatContext } from '../../state';
-import CardDesigner from '../../components/CardDesigner';
-import AdaptiveCard from '../../components/Card';
+import { ChatContext } from '../../Stores';
+import CardDesigner from '../../Components/CardDesigner';
+import AdaptiveCard from '../../Components/Card';
 import './Chat.css';
 
 const api = new Client({
-  headers: { 'X-Teams-Devtools': true },
+  headers: { 'x-teams-devtools': true },
 });
 
 export default function Chat() {
-  const { chat, messages } = useContext(ChatContext);
+  const { chat, messages, typing } = useContext(ChatContext);
   const [text, setText] = useState('');
   const [attachments, setAttachments] = useState<Attachment[]>([ ]);
   const [card, setCard] = useState<Card>();
@@ -71,6 +71,24 @@ export default function Chat() {
 
   return (
     <div className="Chat">
+      <div className="flex flex-col overflow-y-auto border-r dark:border-stone-800 shadow-md">
+        <div className="flex flex-col flex-1 mt-3 overflow-y-auto">
+          <div className="flex px-3 py-1 mx-3 my-1 rounded border border-stone-800 bg-stone-700">
+            <div className="flex flex-col justify-center mx-auto px-3 py-1 rounded-full bg-stone-900 overflow-hidden mr-2">
+              <span className="font-semibold mx-auto">
+                {chat.name[0].toUpperCase()}
+              </span>
+            </div>
+
+            <div className="flex flex-col justify-center mx-auto">
+              <span className="text-sm mx-auto">
+                {chat.name}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="flex flex-col flex-1 overflow-y-auto">
         <div className="flex flex-col flex-1 mx-5 my-2 gap-2 overflow-y-auto pt-1">
           {(messages[chat.id] || []).map((message) => {
@@ -82,6 +100,7 @@ export default function Chat() {
                   className={[
                     'flex',
                     'flex-col',
+                    'max-w-[80%]',
                     `items-${dir === 'received' ? 'start' : 'end'}`,
                   ].join(' ')}
                 >
@@ -184,6 +203,12 @@ export default function Chat() {
           className="flex flex-col relative transition-all mx-5 mb-5 rounded-xl shadow-lg border border-transparent hover:border-zinc-800"
           style={{ backgroundColor: '#121212' }}
         >
+          {typing[chat.id] && <div className="flex absolute z-10 -top-5 left-1/2 transform -translate-x-1/2 -translate-y-1/2 space-x-2 justify-center items-center bg-white dark:invert">
+            <div className="h-2 w-2 bg-black rounded-full animate-bounce [animation-delay:-0.3s]" />
+            <div className="h-2 w-2 bg-black rounded-full animate-bounce [animation-delay:-0.15s]" />
+            <div className="h-2 w-2 bg-black rounded-full animate-bounce" />
+          </div>}
+
           <textarea
             value={text}
             className="p-5 rounded-xl bg-transparent resize-none"

@@ -7,9 +7,9 @@ const app = new App({
   plugins: [new DevtoolsPlugin(), new HttpPlugin()],
 });
 
-app.on('message', async ({ send, activity, next }) => {
-  await send({ type: 'typing' });
-  await send({
+app.on('message', async ({ stream, activity, next }) => {
+  // await send({ type: 'typing' });
+  stream.emit({
     type: 'message',
     text: `you said "${activity.text}"`,
   });

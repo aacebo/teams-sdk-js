@@ -11,17 +11,10 @@ import { EventEmitter } from '@teams.sdk/common/events';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 
 import { router } from './routes';
+import { ActivityEvent, Event } from './event';
 
 export interface DevtoolsOptions {
   readonly port?: number;
-}
-
-export interface DevtoolsSocketEvent<T = any> {
-  readonly id: string;
-  readonly type: string;
-  readonly body?: T;
-  readonly error?: any;
-  readonly sentAt: Date;
 }
 
 export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin {
@@ -64,19 +57,19 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
         port: this.options.port || 3001,
         log: this.log,
         process: app.process.bind(app),
-        emit: this.emitToSockets.bind(this),
       })
     );
 
     app.on('activity', ({ activity, next }) => {
-      this.emitToSockets('activity', {
+      this.sendActivity({
         id: uuid.v4(),
-        type: 'received',
+        type: 'activity.received',
+        chat: activity.conversation,
         body: activity,
         sentAt: new Date(),
       });
 
-      next();
+      return next();
     });
   }
 
@@ -89,9 +82,10 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
         config.headers.set('x-devtools-request-id', id);
         config.headers.set('x-devtools-sent-at', sentAt.toISOString());
 
-        this.emitToSockets('activity', {
+        this.sendActivity({
           id,
-          type: 'sending',
+          type: 'activity.sending',
+          chat: ctx.activity.conversation,
           body: config.data,
           sentAt,
         });
@@ -106,9 +100,10 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
         const sentAt = res.config.headers.get('x-devtools-sent-at')?.toString();
 
         if (id && sentAt) {
-          this.emitToSockets('activity', {
+          this.sendActivity({
             id,
-            type: 'sent',
+            type: 'activity.sent',
+            chat: ctx.activity.conversation,
             body: {
               ...JSON.parse(res.config.data),
               ...res.data
@@ -120,16 +115,17 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
         return res;
       },
       onError: (err) => {
-        if (!(err instanceof AxiosError)) return;
+        if (!(err instanceof AxiosError)) return Promise.reject(err);
 
         const id = err.config?.headers.get('x-devtools-request-id')?.toString();
         const sentAt = err.config?.headers.get('x-devtools-sent-at')?.toString();
 
         if (id && sentAt) {
-          this.emitToSockets('activity', {
+          this.sendActivity({
             id,
-            type: 'sent',
-            body: null,
+            type: 'activity.error',
+            chat: ctx.activity.conversation,
+            body: err.config?.data,
             error: err.response?.data,
             sentAt: new Date(sentAt),
           });
@@ -170,9 +166,16 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
     });
   }
 
-  protected emitToSockets(name: string, event: DevtoolsSocketEvent) {
+  protected send(event: Event) {
     for (const socket of this.sockets.values()) {
-      socket.emit(name, event);
+      socket.emit(event.type, event);
+    }
+  }
+
+  protected sendActivity(event: ActivityEvent) {
+    for (const socket of this.sockets.values()) {
+      socket.emit('activity', event);
+      socket.emit(event.type, event);
     }
   }
 }
