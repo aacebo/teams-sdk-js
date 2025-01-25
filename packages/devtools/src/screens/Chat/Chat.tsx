@@ -1,14 +1,14 @@
 import { useContext, useState } from 'react';
-import { formatDistanceToNow } from 'date-fns';
 import { Card } from '@teams.sdk/cards';
 import { Attachment, cardAttachment, CardAttachmentTypes, Client, MessageReaction, MessageReactionType } from '@teams.sdk/api';
 import { Dialog, DialogBackdrop, DialogPanel, Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import * as icons from '@fluentui/react-icons';
-import * as marked from 'marked';
 
 import { ChatContext } from '../../Stores';
 import CardDesigner from '../../Components/CardDesigner';
 import AdaptiveCard from '../../Components/Card';
+
+import Message from './Message';
 import './Chat.css';
 
 const api = new Client({
@@ -92,131 +92,11 @@ export default function Chat() {
 
       <div className="flex flex-col flex-1 overflow-y-auto">
         <div className="flex flex-col-reverse flex-1 my-2 gap-2 overflow-y-auto pt-1 pb-5">
-          {(messages[chat.id] || []).map((message) => {
-            const dir = message.from?.user?.id === 'devtools' ? 'sent' : 'received';
-            const isStreaming = streaming[message.id];
-            let html: string | undefined;
-
-            if (message.body?.contentType === 'text') {
-              html = marked.parse(
-                message.body?.content || '',
-                { async: false, gfm: true }
-              );
-            }
-
-            return (
-              <div className={['flex', 'mx-5', dir === 'sent' ? 'flex-row-reverse' : 'flex-row'].join(' ')}>
-                <div
-                  className={[
-                    'flex',
-                    'flex-col',
-                    'max-w-[80%]',
-                    `items-${dir === 'received' ? 'start' : 'end'}`,
-                  ].join(' ')}
-                >
-                  <div className={`flex mb-1 ${dir === 'received' ? 'ml-2' : 'mr-2'}`}>
-                    {message.createdDateTime && (
-                      <div className="text-xs text-stone-400">
-                        {formatDistanceToNow(message.createdDateTime)}
-                      </div>
-                    )}
-                  </div>
-                  <div
-                    className={[
-                      'flex',
-                      'flex-col',
-                      'relative',
-                      'transition-all',
-                      'px-4',
-                      'py-2',
-                      'rounded-lg',
-                      'text-sm',
-                      'border',
-                      'border-transparent',
-                      'group',
-                      dir === 'received' ? 'bg-stone-400' : 'bg-indigo-800',
-                      dir === 'received' ? 'dark:bg-stone-800' : 'dark:bg-indigo-800',
-                      isStreaming ? 'fancy' : ''
-                    ].join(' ')}
-                  >
-                    <div
-                      className={`hidden absolute z-10 group-hover:flex transition-all text-lg rounded px-3 py-1 shadow-2xl dark:bg-stone-800 -top-6 ${dir === 'received' ? 'left' : 'right'}-1`}
-                    >
-                      <button
-                        className="mr-1 transition hover:scale-125"
-                        onClick={() => react(message.id, 'like')}
-                      >
-                        👍
-                      </button>
-                      <button
-                        className="mr-1 transition hover:scale-125"
-                        onClick={() => react(message.id, 'heart')}
-                      >
-                        ❤️
-                      </button>
-                      <button
-                        className="mr-1 transition hover:scale-125"
-                        onClick={() => react(message.id, 'laugh')}
-                      >
-                        😆
-                      </button>
-                      <button
-                        className="transition hover:scale-125"
-                        onClick={() => react(message.id, 'surprised')}
-                      >
-                        😮
-                      </button>
-                    </div>
-
-                    <div className="flex flex-col aboslute z-10">
-                      {message.body?.content && <div className="inline break-all">
-                        {
-                          html ?
-                          <span className="inline break-all" dangerouslySetInnerHTML={{ __html: html }} /> :
-                          message.body?.content
-                        }
-                        {isStreaming && <div className="inline-flex bg-white w-[5px] h-[13px] ml-1 animate-pulse" />}
-                      </div>}
-                      {message.attachments && (
-                        <div className="flex gap-1 py-px">
-                          {message.attachments.map(a => {
-                            return <AdaptiveCard value={(a as CardAttachmentTypes['adaptive']).content} />;
-                          })}
-                        </div>
-                      )}
-                    </div>
-
-                    {(message.reactions?.length || 0) > 0 && (
-                      <div
-                        className={`absolute z-10 flex transition-all text-lg rounded -bottom-6 ${dir === 'received' ? 'left' : 'right'}-1`}
-                      >
-                        {message.reactions!.map((r) => {
-                          return (
-                            <button
-                              className="flex justify-center px-1 py-px my-auto dark:bg-stone-800 rounded-full shadow-lg [&:not(:last-child)]:mr-1"
-                              onClick={() => react(message.id, r.type)}
-                            >
-                              <div className="flex my-auto flex-1">
-                                {r.type === 'like'
-                                  ? '👍'
-                                  : r.type === 'heart'
-                                    ? '❤️'
-                                    : r.type === 'laugh'
-                                      ? '😆'
-                                      : r.type === 'surprised'
-                                        ? '😮'
-                                        : '??'}
-                              </div>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          {(messages[chat.id] || []).map((message) => <Message
+            value={message}
+            streaming={streaming[message.id]}
+            react={react}
+          />)}
         </div>
 
         <div
