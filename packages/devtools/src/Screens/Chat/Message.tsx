@@ -87,7 +87,7 @@ export default function Message({
             }
           )}
         >
-          <div
+          {!streaming && <div
             className={classNames(
               'hidden', 'absolute', 'z-10', 'group-hover:flex', 'translate-all',
               'text-lg', 'rounded', 'px-3', 'py-1', 'shadow-2xl', 'dark:bg-stone-800',
@@ -109,15 +109,15 @@ export default function Message({
                 {label}
               </button>
             ))}
-          </div>
+          </div>}
 
           <div className="flex flex-col aboslute z-10">
             {value.body?.content && (
-              <div className="inline break-all">
+              <div className="inline break-word">
                 {
                   html ?
                   <span
-                    className="inline break-all"
+                    className="inline break-word"
                     dangerouslySetInnerHTML={{ __html: html }}
                   /> : value.body?.content
                 }
@@ -126,14 +126,16 @@ export default function Message({
             )}
             {value.attachments && (
               <div className="flex gap-1 py-px">
-                {value.attachments.map(a => {
-                  return <AdaptiveCard value={(a as api.CardAttachmentTypes['adaptive']).content} />;
-                })}
+                {value.attachments.map(a => (
+                  <AdaptiveCard
+                    value={(a as api.CardAttachmentTypes['adaptive']).content}
+                  />
+                ))}
               </div>
             )}
           </div>
 
-          {(value.reactions?.length || 0) > 0 && (
+          {!!value.reactions?.length && (
             <div
               className={classNames(
                 'absolute', 'z-10', 'flex', 'translate-all', 'text-lg',
@@ -144,7 +146,7 @@ export default function Message({
                 }
               )}
             >
-              {value.reactions!.map((r) => {
+              {value.reactions.map((r) => {
                 return (
                   <button
                     className="flex justify-center px-1 py-px my-auto dark:bg-stone-800 rounded-full shadow-lg [&:not(:last-child)]:mr-1"
