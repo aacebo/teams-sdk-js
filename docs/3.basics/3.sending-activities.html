@@ -193,6 +193,16 @@
     await reply({ type: 'message', text: `you said: "${activity.text}"` });
 });
 </code></pre>
+<h2 id="streaming"><a class="header" href="#streaming">Streaming</a></h2>
+<pre><code class="language-typescript">app.on('message', async ({ activity, stream }) =&gt; {
+    stream.emit({ type: 'message', text: 'hello' });
+    stream.emit({ type: 'message', text: ', ' });
+    stream.emit({ type: 'message', text: 'world!' });
+
+    // result message: "hello, world!"
+});
+</code></pre>
+<p><img src="https://github.com/aacebo/teams-sdk-js/blob/main/assets/screenshots/send_stream_activity.png?raw=true" alt="Streaming Activity" /></p>
 
                     </main>
 
