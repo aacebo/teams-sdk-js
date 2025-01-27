@@ -228,7 +228,10 @@ export default function Chat() {
         <FeedbackDialog
           type={feedbackType || 'like'}
           open={!!feedbackType}
-          onClose={() => setFeedbackType(undefined)}
+          onClose={() => {
+            setReplyToId(undefined);
+            setFeedbackType(undefined);
+          }}
           onSubmit={sendFeedback}
         />
       </div>
