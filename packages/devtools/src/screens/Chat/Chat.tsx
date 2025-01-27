@@ -7,6 +7,7 @@ import * as icons from '@fluentui/react-icons';
 import { ChatContext } from '../../Stores';
 import CardDesigner from '../../Components/CardDesigner';
 import AdaptiveCard from '../../Components/Card';
+import FeedbackDialog from '../../Components/FeedbackDialog';
 
 import Message from './Message';
 import './Chat.css';
@@ -21,6 +22,7 @@ export default function Chat() {
   const [attachments, setAttachments] = useState<Attachment[]>([ ]);
   const [card, setCard] = useState<Card>();
   const [cardBuilderOpen, setCardBuilderOpen] = useState(false);
+  const [feedbackType, setFeedbackType] = useState<'like' | 'dislike'>();
 
   const send = async () => {
     try {
@@ -97,6 +99,7 @@ export default function Chat() {
             streaming={streaming[message.id]}
             feedback={feedback[message.id]}
             react={react}
+            setFeedback={(type) => setFeedbackType(type)}
           />)}
         </div>
 
@@ -191,6 +194,16 @@ export default function Chat() {
             </DialogPanel>
           </div>
         </Dialog>
+
+        <FeedbackDialog
+          type={feedbackType || 'like'}
+          open={!!feedbackType}
+          onClose={() => setFeedbackType(undefined)}
+          onSubmit={(value) => {
+            console.log(value);
+            setFeedbackType(undefined);
+          }}
+        />
       </div>
     </div>
   );
