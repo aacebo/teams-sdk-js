@@ -66,6 +66,18 @@ export default function Activities() {
                 </th>
                 <th
                   scope="col"
+                  className="px-3 py-2 w-64 text-nowrap border dark:border-stone-700"
+                >
+                  Chat
+                </th>
+                <th
+                  scope="col"
+                  className="px-3 py-2 w-64 text-nowrap border dark:border-stone-700"
+                >
+                  From
+                </th>
+                <th
+                  scope="col"
                   className="px-3 py-2 border dark:border-stone-700 text-right"
                 >
                   Timestamp
@@ -129,6 +141,16 @@ export default function Activities() {
                           <icons.ArrowUpFilled className="h-4 w-4 my-auto" />
                         )}
                         <div className="my-auto ml-2 font-semibold">{path}</div>
+                      </td>
+                      <td className="px-3 py-2 text-nowrap border-b border-l border-r dark:border-stone-700 dark:group-hover:bg-stone-700">
+                        <div className="my-auto">
+                          {event.body.conversation.name} ({event.body.conversation.conversationType})
+                        </div>
+                      </td>
+                      <td className="px-3 py-2 text-nowrap border-b border-l border-r dark:border-stone-700 dark:group-hover:bg-stone-700">
+                        {!!event.body.from && <div className="my-auto">
+                          {event.body.from.name}
+                        </div>}
                       </td>
                       <td className="px-3 py-2 border-b border-l border-r dark:border-stone-700 dark:group-hover:bg-stone-700">
                         <div className="flex">

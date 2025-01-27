@@ -12,7 +12,9 @@ import './Message.css';
 export interface MessageProps {
   readonly value: api.Message;
   readonly streaming?: boolean;
+  readonly feedback?: boolean;
   readonly react?: (id: string, type: api.MessageReactionType) => void | Promise<void>;
+  readonly setFeedback?: (type: 'like' | 'dislike') => void | Promise<void>;
 }
 
 const Reactions: Array<{
@@ -28,7 +30,9 @@ const Reactions: Array<{
 export default function Message({
   value,
   streaming = false,
-  react = () => {}
+  feedback = false,
+  react = () => {},
+  setFeedback = () => {}
 }: MessageProps) {
   const dir = value.from?.user?.id === 'devtools' ? 'sent' : 'received';
   const [html, setHtml] = useState<string>();
@@ -150,6 +154,27 @@ export default function Message({
                     value={(a as api.CardAttachmentTypes['adaptive']).content}
                   />
                 ))}
+              </div>
+            )}
+            {feedback && (
+              <div className="flex gap-1 py-px mt-1">
+                <button
+                  className="flex px-1.5 py-1 transition text-stone-400 hover:text-white hover:bg-stone-700 active:bg-stone-600 rounded-full"
+                  onClick={() => {
+                    setFeedback('like')
+                  }}
+                >
+                  <icons.ThumbLikeRegular className="size-5 m-auto" />
+                </button>
+
+                <button
+                  className="flex px-1.5 py-1 transition text-stone-400 hover:text-white hover:bg-stone-700 active:bg-stone-600 rounded-full"
+                  onClick={() => {
+                    setFeedback('dislike')
+                  }}
+                >
+                  <icons.ThumbDislikeRegular className="size-5 m-auto" />
+                </button>
               </div>
             )}
           </div>

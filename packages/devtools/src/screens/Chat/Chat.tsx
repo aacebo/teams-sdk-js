@@ -16,7 +16,7 @@ const api = new Client({
 });
 
 export default function Chat() {
-  const { chat, messages, typing, streaming } = useContext(ChatContext);
+  const { chat, messages, typing, streaming, feedback } = useContext(ChatContext);
   const [text, setText] = useState('');
   const [attachments, setAttachments] = useState<Attachment[]>([ ]);
   const [card, setCard] = useState<Card>();
@@ -95,6 +95,7 @@ export default function Chat() {
           {(messages[chat.id] || []).map((message) => <Message
             value={message}
             streaming={streaming[message.id]}
+            feedback={feedback[message.id]}
             react={react}
           />)}
         </div>

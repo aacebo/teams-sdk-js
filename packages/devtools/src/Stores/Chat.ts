@@ -21,6 +21,7 @@ export interface ChatStore {
   readonly messages: Record<string, Array<Message>>;
   readonly typing: Record<string, boolean>;
   readonly streaming: Record<string, boolean>;
+  readonly feedback: Record<string, boolean>;
 
   readonly put: (chatId: string, message: Message) => void;
 
@@ -47,6 +48,7 @@ export const useChatStore = create<ChatStore>()(devtools((set) => ({
   messages: { },
   typing: { },
   streaming: { },
+  feedback: { },
   put: (chatId: string, message: Message) => set((state) => {
     const messages = state.messages[chatId] || [];
     const i = messages.findIndex(m => m.id === message.id);
@@ -71,6 +73,12 @@ export const useChatStore = create<ChatStore>()(devtools((set) => ({
       event.type !== 'activity.received' &&
       event.type !== 'activity.sent'
     ) return state;
+
+    if (event.body.channelData?.streamType) {
+      state.feedback[event.body.id] = true;
+    } else {
+      state.feedback[event.body.id] = false;
+    }
 
     switch (event.body.type) {
       case 'typing':
