@@ -33,11 +33,6 @@ export interface MessageSubmitActionInvokeActivity extends ActivityBase {
        */
       feedback: string;
     };
-
-    /**
-     * The activity ID that the feedback was provided on.
-     */
-    replyToId: string;
   };
 
   /**

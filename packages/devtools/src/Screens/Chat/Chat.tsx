@@ -22,6 +22,7 @@ export default function Chat() {
   const [attachments, setAttachments] = useState<Attachment[]>([ ]);
   const [card, setCard] = useState<Card>();
   const [cardBuilderOpen, setCardBuilderOpen] = useState(false);
+  const [replyToId, setReplyToId] = useState<string>();
   const [feedbackType, setFeedbackType] = useState<'like' | 'dislike'>();
 
   const send = async () => {
@@ -72,6 +73,32 @@ export default function Chat() {
     }
   };
 
+  const sendFeedback = async (text?: string) => {
+    if (!replyToId || !feedbackType) return;
+
+    try {
+      await api.conversations.activities(chat.id).create({
+        type: 'invoke',
+        name: 'message/submitAction',
+        replyToId,
+        value: {
+          actionName: 'feedback',
+          actionValue: {
+            reaction: feedbackType,
+            feedback: JSON.stringify({
+              feedbackText: text
+            })
+          }
+        }
+      });
+
+      setReplyToId(undefined);
+      setFeedbackType(undefined);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="Chat">
       <div className="flex-col overflow-y-auto border-r dark:border-stone-800 shadow-md hidden md:flex">
@@ -99,7 +126,10 @@ export default function Chat() {
             streaming={streaming[message.id]}
             feedback={feedback[message.id]}
             react={react}
-            setFeedback={(type) => setFeedbackType(type)}
+            setFeedback={(type) => {
+              setReplyToId(message.id);
+              setFeedbackType(type);
+            }}
           />)}
         </div>
 
@@ -199,10 +229,7 @@ export default function Chat() {
           type={feedbackType || 'like'}
           open={!!feedbackType}
           onClose={() => setFeedbackType(undefined)}
-          onSubmit={(value) => {
-            console.log(value);
-            setFeedbackType(undefined);
-          }}
+          onSubmit={sendFeedback}
         />
       </div>
     </div>
