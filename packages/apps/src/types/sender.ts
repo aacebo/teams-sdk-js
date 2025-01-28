@@ -13,13 +13,13 @@ export interface Sender {
    * send an activity
    * @param activity the activity to send
    */
-  send(activity: Partial<Activity>): Promise<Resource>;
+  send(activity: Partial<Activity> | string): Promise<Resource>;
 
   /**
    * reploy to an activity
    * @param activity the activity to send
    */
-  reply(activity: Partial<Activity>): Promise<Resource>;
+  reply(activity: Partial<Activity> | string): Promise<Resource>;
 
   /**
    * trigger user signin flow for the activity sender
@@ -37,7 +37,7 @@ export interface Streamer {
    * emit an activity chunk
    * @param activity the activity to send
    */
-  emit(activity: Partial<MessageSendActivity | TypingActivity>): void;
+  emit(activity: Partial<MessageSendActivity | TypingActivity> | string): void;
 
   /**
    * close the stream

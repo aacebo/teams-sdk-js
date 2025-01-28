@@ -17,10 +17,17 @@ export class HttpStream implements Streamer {
 
   constructor(protected ctx: ActivityContext) { }
 
-  emit(activity: Partial<MessageSendActivity>) {
+  emit(activity: Partial<MessageSendActivity> | string) {
     if (this._timeout) {
       clearTimeout(this._timeout);
       this._timeout = undefined;
+    }
+
+    if (typeof activity === 'string') {
+      activity = {
+        type: 'message',
+        text: activity
+      };
     }
 
     this.queue.push(activity);
