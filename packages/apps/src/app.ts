@@ -243,7 +243,6 @@ export class App {
    */
   async process(args: ProcessActivityArgs): Promise<InvokeResponse> {
     const { token, activity } = args;
-    activity.callerId = token.fromId;
 
     this.log.debug(
       `activity/${activity.type}${activity.type === 'invoke' ? `/${activity.name}` : ''}`
@@ -266,12 +265,12 @@ export class App {
     });
 
     const conversation: ConversationReference = {
+      serviceUrl,
       activityId: activity.id,
       bot: activity.recipient,
       channelId: activity.channelId,
       conversation: activity.conversation,
       locale: activity.locale,
-      serviceUrl: activity.serviceUrl,
       user: activity.from,
     };
 

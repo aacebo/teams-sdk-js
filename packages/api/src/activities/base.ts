@@ -16,7 +16,7 @@ export interface ActivityBase {
   /**
    * Contains the URL that specifies the channel's service endpoint. Set by the channel.
    */
-  serviceUrl: string;
+  serviceUrl?: string;
 
   /**
    * Contains the date and time that the message was sent, in UTC, expressed in ISO-8601 format.
@@ -38,13 +38,6 @@ export interface ActivityBase {
    * For example, 2016-09-23T13:07:49.4714686-07:00.
    */
   localTimestamp?: Date;
-
-  /**
-   * A string containing a URI identifying the caller of a bot. This field is not intended to be transmitted over
-   * the wire, but is instead populated by bots and clients based on cryptographically verifiable data that asserts
-   * the identity of the callers (e.g. tokens).
-   */
-  callerId: string;
 
   /**
    * Contains an ID that uniquely identifies the channel. Set by the channel.

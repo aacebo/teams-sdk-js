@@ -63,8 +63,6 @@ export class ConsolePlugin extends EventEmitter<PluginEvents> implements Plugin 
           id: '1',
           type: 'message',
           text,
-          callerId: '',
-          serviceUrl: '',
           channelId: 'msteams',
           conversation: {
             id: '1',

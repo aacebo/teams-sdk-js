@@ -10,7 +10,9 @@
         "@teams.sdk/api#build",
         "@teams.sdk/apps#build",
         "@teams.sdk/common#build",
-        "@teams.sdk/openai#build"
+        "@teams.sdk/openai#build",
+        "@teams.sdk/dev#build",
+        "@teams.sdk/devtools#build"
       ]
     }
   }
