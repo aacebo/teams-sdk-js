@@ -23,6 +23,10 @@ export class MessageDeleteActivityBuilder extends ActivityBuilder {
       }
     };
   }
+
+  build() {
+    return this.activity;
+  }
 }
 
 export function MessageDeleteActivity(options?: Omit<Partial<MessageDeleteActivity>, 'type'>) {

@@ -27,6 +27,10 @@ export class TypingActivityBuilder extends ActivityBuilder {
     this.activity.text = value;
     return this;
   }
+
+  build() {
+    return this.activity;
+  }
 }
 
 export function TypingActivity(options?: Omit<Partial<TypingActivity>, 'type'>) {

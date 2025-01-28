@@ -215,6 +215,10 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
       content
     ));
   }
+
+  build() {
+    return this.activity;
+  }
 }
 
 export function MessageSendActivity(text: string, options?: Omit<Partial<MessageSendActivity>, 'type'>) {
