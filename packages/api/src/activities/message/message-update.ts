@@ -1,17 +1,8 @@
 import { ChannelData } from '../../models';
-import { ActivityBase } from '../base';
+import { ActivityBase, ActivityBuilder } from '../base';
 
 export interface MessageUpdateActivity extends ActivityBase {
   readonly type: 'messageUpdate';
-
-  /**
-   * A locale name for the contents of the text field.
-   * The locale name is a combination of an ISO 639 two- or three-letter culture code associated
-   * with a language
-   * and an ISO 3166 two-letter subculture code associated with a country or region.
-   * The locale name can also correspond to a valid BCP-47 language tag.
-   */
-  locale?: string;
 
   /**
    * The text content of the message.
@@ -42,4 +33,63 @@ export interface MessageUpdateActivity extends ActivityBase {
   channelData: ChannelData & {
     eventType: 'undeleteMessage' | 'editMessage';
   };
+}
+
+export class MessageUpdateActivityBuilder extends ActivityBuilder {
+  value: Pick<MessageUpdateActivity, 'type'> & Partial<MessageUpdateActivity>;
+
+  constructor(
+    eventType: 'undeleteMessage' | 'editMessage',
+    options?: Omit<Partial<MessageUpdateActivity>, 'type'>
+  ) {
+    super();
+    this.value = {
+      ...options,
+      type: 'messageUpdate',
+      channelData: {
+        ...options?.channelData,
+        eventType
+      }
+    };
+  }
+
+  /**
+   * The text content of the message.
+   */
+  text(value: string) {
+    this.value.text = value;
+    return this;
+  }
+
+  /**
+   * The text to speak.
+   */
+  speak(value: string) {
+    this.value.speak = value;
+    return this;
+  }
+
+  /**
+   * The text to display if the channel cannot render cards.
+   */
+  summary(value: string) {
+    this.value.summary = value;
+    return this;
+  }
+
+  /**
+   * The time at which the activity should be considered to be "expired" and should not be
+   * presented to the recipient.
+   */
+  expiration(value: Date) {
+    this.value.expiration = value;
+    return this;
+  }
+}
+
+export function MessageUpdateActivity(
+  eventType: 'undeleteMessage' | 'editMessage',
+  options?: Omit<Partial<MessageUpdateActivity>, 'type'>
+) {
+  return new MessageUpdateActivityBuilder(eventType, options);
 }
