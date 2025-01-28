@@ -1,4 +1,4 @@
-import { Activity, cardAttachment, ConversationAccount, TokenExchangeState } from '@teams.sdk/api';
+import { ActivityParams, cardAttachment, ConversationAccount, TokenExchangeState } from '@teams.sdk/api';
 
 import { Sender } from '../../types';
 import { ActivityContext } from '../../activity-context';
@@ -18,7 +18,7 @@ export class HttpSender implements Sender {
     this.stream = new HttpStream(this.ctx);
   }
 
-  send(activity: Partial<Activity> | string) {
+  send(activity: ActivityParams | string) {
     if (typeof activity === 'string') {
       activity = {
         type: 'message',
@@ -45,7 +45,7 @@ export class HttpSender implements Sender {
       });
   }
 
-  reply(activity: Partial<Activity> | string) {
+  reply(activity: ActivityParams | string) {
     if (typeof activity === 'string') {
       activity = {
         type: 'message',

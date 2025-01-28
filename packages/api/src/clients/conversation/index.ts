@@ -5,7 +5,7 @@ import { Activity } from '../../activities';
 import { ClientBase, ClientOptions } from '../client-base';
 
 import { ConversationMemberClient } from './member';
-import { ConversationActivityClient } from './activity';
+import { ActivityParams, ConversationActivityClient } from './activity';
 
 export interface GetConversationsParams {
   readonly continuationToken?: string;
@@ -49,9 +49,9 @@ export class ConversationClient extends ClientBase {
 
   activities(conversationId: string) {
     return {
-      create: (params: Partial<Activity>) => this._activities.create(conversationId, params),
-      update: (id: string, params: Partial<Activity>) => this._activities.update(conversationId, id, params),
-      reply: (id: string, params: Partial<Activity>) => this._activities.reply(conversationId, id, params),
+      create: (params: ActivityParams) => this._activities.create(conversationId, params),
+      update: (id: string, params: ActivityParams) => this._activities.update(conversationId, id, params),
+      reply: (id: string, params: ActivityParams) => this._activities.reply(conversationId, id, params),
       delete: (id: string) => this._activities.delete(conversationId, id),
       members: (activityId: string) => this._activities.members(conversationId, activityId),
     };

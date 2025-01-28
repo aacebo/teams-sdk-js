@@ -1,4 +1,4 @@
-import { Activity } from '@teams.sdk/api';
+import { ActivityParams } from '@teams.sdk/api';
 import { ActivityContext, Sender } from '@teams.sdk/apps';
 import qs from 'qs';
 
@@ -13,7 +13,14 @@ export class ConsoleSender implements Sender {
     this.ctx = ctx;
   }
 
-  async send(activity: Partial<Activity>) {
+  async send(activity: ActivityParams | string) {
+    if (typeof activity === 'string') {
+      activity = {
+        type: 'message',
+        text: activity
+      };
+    }
+
     if (activity.type === 'message' && activity.text) {
       this.ctx.log.info(activity.text);
     }
@@ -21,7 +28,7 @@ export class ConsoleSender implements Sender {
     return { id: '1' };
   }
 
-  async reply(activity: Partial<Activity>) {
+  async reply(activity: ActivityParams | string) {
     return this.send(activity);
   }
 

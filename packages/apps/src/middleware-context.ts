@@ -1,5 +1,6 @@
 import {
   Activity,
+  ActivityParams,
   MentionEntity,
   MessageSendActivity,
   Resource,
@@ -26,13 +27,13 @@ export interface MiddlewareContext<T extends Activity = Activity> extends Activi
    * send an activity to the conversation
    * @param activity activity to send
    */
-  send: (activity: Partial<Activity> | string) => Promise<Resource>;
+  send: (activity: ActivityParams | string) => Promise<Resource>;
 
   /**
    * reply to the inbound activity
    * @param activity activity to send
    */
-  reply: (activity: Partial<Activity>) => Promise<Resource>;
+  reply: (activity: ActivityParams | string) => Promise<Resource>;
 
   /**
    * trigger user signin flow for the activity sender
