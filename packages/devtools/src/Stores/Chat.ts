@@ -166,7 +166,7 @@ export const useChatStore = create<ChatStore>()(devtools((set) => ({
             }
           : undefined,
       },
-      createdDateTime: (event.body.timestamp || new Date()).toUTCString(),
+      createdDateTime: (event.body.timestamp ? new Date(event.body.timestamp) : new Date()).toUTCString(),
     });
 
     return state;

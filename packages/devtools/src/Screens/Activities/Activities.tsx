@@ -144,7 +144,7 @@ export default function Activities() {
                       </td>
                       <td className="px-3 py-2 text-nowrap border-b border-l border-r dark:border-stone-700 dark:group-hover:bg-stone-700">
                         <div className="my-auto">
-                          {event.body.conversation.name} ({event.body.conversation.conversationType})
+                          {event.body.conversation?.conversationType || '??'}
                         </div>
                       </td>
                       <td className="px-3 py-2 text-nowrap border-b border-l border-r dark:border-stone-700 dark:group-hover:bg-stone-700">

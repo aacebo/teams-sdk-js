@@ -8,8 +8,10 @@ export interface Account<P = any> {
   readonly properties?: P;
 }
 
-export interface ConversationAccount<P = any> extends Account<P> {
+export interface ConversationAccount {
+  readonly id: string;
   readonly tenantId?: string;
-  readonly conversationType: string;
-  readonly isGroup: boolean;
+  readonly conversationType: 'personal' | 'groupChat' | Omit<string, 'personal' | 'groupChat'>;
+  readonly name?: string;
+  readonly isGroup?: boolean;
 }
