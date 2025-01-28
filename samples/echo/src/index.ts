@@ -7,17 +7,15 @@ const app = new App({
   plugins: [new DevtoolsPlugin(), new HttpPlugin()],
 });
 
-app.on('message', async ({ stream, activity, next }) => {
-  // await send({ type: 'typing' });
-  stream.emit({
+app.on('message', async ({ send, activity }) => {
+  await send({ type: 'typing' });
+  await send({
     type: 'message',
     text: `you said "${activity.text}"`,
     channelData: {
       feedbackLoopEnabled: true
     }
   });
-
-  return next();
 });
 
 (async () => {
