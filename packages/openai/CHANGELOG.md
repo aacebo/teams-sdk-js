@@ -1,5 +1,14 @@
 # @teams.sdk/openai
 
+## 0.1.14
+
+### Patch Changes
+
+- add activity builder
+- Updated dependencies
+  - @teams.sdk/ai@0.1.14
+  - @teams.sdk/common@0.1.14
+
 ## 0.1.13
 
 ### Patch Changes
