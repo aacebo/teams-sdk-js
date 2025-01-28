@@ -83,7 +83,7 @@ export interface MessageSendActivity extends ActivityBase {
   value?: any;
 }
 
-export class MessageActivityBuilder extends ActivityBuilder {
+export class MessageSendActivityBuilder extends ActivityBuilder {
   activity: Pick<MessageSendActivity, 'type'> & Partial<MessageSendActivity>;
 
   constructor(text: string, options?: Omit<Partial<MessageSendActivity>, 'type'>) {
@@ -217,6 +217,6 @@ export class MessageActivityBuilder extends ActivityBuilder {
   }
 }
 
-export function MessageActivity(text: string, options?: Omit<Partial<MessageSendActivity>, 'type'>) {
-  return new MessageActivityBuilder(text, options);
+export function MessageSendActivity(text: string, options?: Omit<Partial<MessageSendActivity>, 'type'>) {
+  return new MessageSendActivityBuilder(text, options);
 }
