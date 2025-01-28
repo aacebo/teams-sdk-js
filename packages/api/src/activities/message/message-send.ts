@@ -83,12 +83,12 @@ export interface MessageSendActivity extends ActivityBase {
   value?: any;
 }
 
-export class MessageSendActivityBuilder extends ActivityBuilder {
-  value: Pick<MessageSendActivity, 'type'> & Partial<MessageSendActivity>;
+export class MessageActivityBuilder extends ActivityBuilder {
+  activity: Pick<MessageSendActivity, 'type'> & Partial<MessageSendActivity>;
 
   constructor(text: string, options?: Omit<Partial<MessageSendActivity>, 'type'>) {
     super();
-    this.value = {
+    this.activity = {
       ...options,
       type: 'message',
       text
@@ -99,7 +99,7 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
    * The text content of the message.
    */
   text(value: string) {
-    this.value.text = value;
+    this.activity.text = value;
     return this;
   }
 
@@ -107,7 +107,7 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
    * The text to speak.
    */
   speak(value: string) {
-    this.value.speak = value;
+    this.activity.speak = value;
     return this;
   }
 
@@ -117,7 +117,7 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
    * values include: 'acceptingInput', 'ignoringInput', 'expectingInput'
    */
   inputHint(value: InputHint) {
-    this.value.inputHint = value;
+    this.activity.inputHint = value;
     return this;
   }
 
@@ -125,7 +125,7 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
    * The text to display if the channel cannot render cards.
    */
   summary(value: string) {
-    this.value.summary = value;
+    this.activity.summary = value;
     return this;
   }
 
@@ -133,7 +133,7 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
    * Format of text fields Default:markdown. Possible values include: 'markdown', 'plain', 'xml'
    */
   textFormat(value: TextFormat) {
-    this.value.textFormat = value;
+    this.activity.textFormat = value;
     return this;
   }
 
@@ -142,7 +142,7 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
    * 'carousel'
    */
   attachmentLayout(value: AttachmentLayout) {
-    this.value.attachmentLayout = value;
+    this.activity.attachmentLayout = value;
     return this;
   }
 
@@ -150,11 +150,11 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
    * Attachments
    */
   attachment(value: Attachment) {
-    if (!this.value.attachments) {
-      this.value.attachments = [];
+    if (!this.activity.attachments) {
+      this.activity.attachments = [];
     }
 
-    this.value.attachments.push(value);
+    this.activity.attachments.push(value);
     return this;
   }
 
@@ -162,7 +162,7 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
    * The suggested actions for the activity.
    */
   suggestedActions(value: SuggestedActions) {
-    this.value.suggestedActions = value;
+    this.activity.suggestedActions = value;
     return this;
   }
 
@@ -170,7 +170,7 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
    * The importance of the activity. Possible values include: 'low', 'normal', 'high'
    */
   importance(value: Importance) {
-    this.value.importance = value;
+    this.activity.importance = value;
     return this;
   }
 
@@ -179,7 +179,7 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
    * The default delivery mode is "default". Possible values include: 'normal', 'notification'
    */
   deliveryMode(value: DeliveryMode) {
-    this.value.deliveryMode = value;
+    this.activity.deliveryMode = value;
     return this;
   }
 
@@ -188,7 +188,7 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
    * presented to the recipient.
    */
   expiration(value: Date) {
-    this.value.expiration = value;
+    this.activity.expiration = value;
     return this;
   }
 
@@ -218,5 +218,5 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
 }
 
 export function MessageActivity(text: string, options?: Omit<Partial<MessageSendActivity>, 'type'>) {
-  return new MessageSendActivityBuilder(text, options);
+  return new MessageActivityBuilder(text, options);
 }

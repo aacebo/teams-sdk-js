@@ -10,11 +10,11 @@ export interface MessageDeleteActivity extends ActivityBase {
 }
 
 export class MessageDeleteActivityBuilder extends ActivityBuilder {
-  value: Pick<MessageDeleteActivity, 'type'> & Partial<MessageDeleteActivity>;
+  activity: Pick<MessageDeleteActivity, 'type'> & Partial<MessageDeleteActivity>;
 
   constructor(options?: Omit<Partial<MessageDeleteActivity>, 'type'>) {
     super();
-    this.value = {
+    this.activity = {
       ...options,
       type: 'messageDelete',
       channelData: {

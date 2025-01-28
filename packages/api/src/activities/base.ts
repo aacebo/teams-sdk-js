@@ -81,17 +81,17 @@ export interface ActivityBase {
 }
 
 export class ActivityBuilder {
-  value: Partial<ActivityBase>;
+  activity: Partial<ActivityBase>;
 
   constructor(value?: Partial<ActivityBase>) {
-    this.value = value || { };
+    this.activity = value || { };
   }
 
   /**
    * Contains an ID that uniquely identifies the activity on the channel.
    */
   id(value: string) {
-    this.value.id = value;
+    this.activity.id = value;
     return this;
   }
 
@@ -103,7 +103,7 @@ export class ActivityBuilder {
    * The locale name can also correspond to a valid BCP-47 language tag.
    */
   locale(value: string) {
-    this.value.locale = value;
+    this.activity.locale = value;
     return this;
   }
 
@@ -111,7 +111,7 @@ export class ActivityBuilder {
    * Identifies the sender of the message.
    */
   from(value: Account) {
-    this.value.from = value;
+    this.activity.from = value;
     return this;
   }
 
@@ -119,7 +119,7 @@ export class ActivityBuilder {
    * Identifies the conversation to which the activity belongs.
    */
   conversation(value: ConversationAccount) {
-    this.value.conversation = value;
+    this.activity.conversation = value;
     return this;
   }
 
@@ -127,7 +127,7 @@ export class ActivityBuilder {
    * A reference to another conversation or activity.
    */
   relatesTo(value: ConversationReference) {
-    this.value.relatesTo = value;
+    this.activity.relatesTo = value;
     return this;
   }
 
@@ -135,7 +135,7 @@ export class ActivityBuilder {
    * Identifies the recipient of the message.
    */
   recipient(value: Account) {
-    this.value.recipient = value;
+    this.activity.recipient = value;
     return this;
   }
 
@@ -143,7 +143,7 @@ export class ActivityBuilder {
    * Contains the ID of the message to which this message is a reply.
    */
   replyToId(value: string) {
-    this.value.replyToId = value;
+    this.activity.replyToId = value;
     return this;
   }
 
@@ -151,11 +151,11 @@ export class ActivityBuilder {
    * Add an entity.
    */
   entity(value: Entity) {
-    if (!this.value.entities) {
-      this.value.entities = [];
+    if (!this.activity.entities) {
+      this.activity.entities = [];
     }
 
-    this.value.entities.push(value);
+    this.activity.entities.push(value);
     return this;
   }
 
@@ -169,5 +169,9 @@ export class ActivityBuilder {
       '@context': 'https://schema.org',
       additionalType: ['AIGeneratedContent'],
     });
+  }
+
+  build() {
+    return this.activity;
   }
 }

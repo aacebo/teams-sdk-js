@@ -16,7 +16,7 @@ export interface ActivityContext<T extends Activity = Activity> {
   /**
    * the inbound activity conversation reference
    */
-  conversation: ConversationReference;
+  ref: ConversationReference;
 
   /**
    * the app logger instance

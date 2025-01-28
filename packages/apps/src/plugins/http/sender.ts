@@ -18,7 +18,14 @@ export class HttpSender implements Sender {
     this.stream = new HttpStream(this.ctx);
   }
 
-  send(activity: Partial<Activity>) {
+  send(activity: Partial<Activity> | string) {
+    if (typeof activity === 'string') {
+      activity = {
+        type: 'message',
+        text: activity
+      };
+    }
+
     if (activity.id) {
       return this.ctx.api.conversations
         .activities(this.ctx.activity.conversation.id)
@@ -38,7 +45,14 @@ export class HttpSender implements Sender {
       });
   }
 
-  reply(activity: Partial<Activity>) {
+  reply(activity: Partial<Activity> | string) {
+    if (typeof activity === 'string') {
+      activity = {
+        type: 'message',
+        text: activity
+      };
+    }
+
     return this.ctx.api.conversations
       .activities(this.ctx.activity.conversation.id)
       .reply(this.ctx.activity.id, {

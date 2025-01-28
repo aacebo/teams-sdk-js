@@ -16,11 +16,11 @@ export interface MessageReactionActivity extends ActivityBase {
 }
 
 export class MessageReactionActivityBuilder extends ActivityBuilder {
-  value: Pick<MessageReactionActivity, 'type'> & Partial<MessageReactionActivity>;
+  activity: Pick<MessageReactionActivity, 'type'> & Partial<MessageReactionActivity>;
 
   constructor(options?: Omit<Partial<MessageReactionActivity>, 'type'>) {
     super();
-    this.value = {
+    this.activity = {
       ...options,
       type: 'messageReaction'
     };
@@ -30,11 +30,11 @@ export class MessageReactionActivityBuilder extends ActivityBuilder {
    * Add a message reaction.
    */
   addReaction(reaction: MessageReaction) {
-    if (!this.value.reactionsAdded) {
-      this.value.reactionsAdded = [];
+    if (!this.activity.reactionsAdded) {
+      this.activity.reactionsAdded = [];
     }
 
-    this.value.reactionsAdded.push(reaction);
+    this.activity.reactionsAdded.push(reaction);
     return this;
   }
 
@@ -42,11 +42,11 @@ export class MessageReactionActivityBuilder extends ActivityBuilder {
    * Remove a message reaction.
    */
   removeReaction(reaction: MessageReaction) {
-    if (!this.value.reactionsRemoved) {
-      this.value.reactionsRemoved = [];
+    if (!this.activity.reactionsRemoved) {
+      this.activity.reactionsRemoved = [];
     }
 
-    this.value.reactionsRemoved.push(reaction);
+    this.activity.reactionsRemoved.push(reaction);
     return this;
   }
 }

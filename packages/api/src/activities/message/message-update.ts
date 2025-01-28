@@ -36,14 +36,14 @@ export interface MessageUpdateActivity extends ActivityBase {
 }
 
 export class MessageUpdateActivityBuilder extends ActivityBuilder {
-  value: Pick<MessageUpdateActivity, 'type'> & Partial<MessageUpdateActivity>;
+  activity: Pick<MessageUpdateActivity, 'type'> & Partial<MessageUpdateActivity>;
 
   constructor(
     eventType: 'undeleteMessage' | 'editMessage',
     options?: Omit<Partial<MessageUpdateActivity>, 'type'>
   ) {
     super();
-    this.value = {
+    this.activity = {
       ...options,
       type: 'messageUpdate',
       channelData: {
@@ -57,7 +57,7 @@ export class MessageUpdateActivityBuilder extends ActivityBuilder {
    * The text content of the message.
    */
   text(value: string) {
-    this.value.text = value;
+    this.activity.text = value;
     return this;
   }
 
@@ -65,7 +65,7 @@ export class MessageUpdateActivityBuilder extends ActivityBuilder {
    * The text to speak.
    */
   speak(value: string) {
-    this.value.speak = value;
+    this.activity.speak = value;
     return this;
   }
 
@@ -73,7 +73,7 @@ export class MessageUpdateActivityBuilder extends ActivityBuilder {
    * The text to display if the channel cannot render cards.
    */
   summary(value: string) {
-    this.value.summary = value;
+    this.activity.summary = value;
     return this;
   }
 
@@ -82,7 +82,7 @@ export class MessageUpdateActivityBuilder extends ActivityBuilder {
    * presented to the recipient.
    */
   expiration(value: Date) {
-    this.value.expiration = value;
+    this.activity.expiration = value;
     return this;
   }
 }

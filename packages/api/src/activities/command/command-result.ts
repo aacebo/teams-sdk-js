@@ -6,7 +6,14 @@ import { ActivityBase } from '../base';
 export interface CommandResultActivity<T = any> extends ActivityBase {
   readonly type: 'commandResult';
 
+  /**
+   * The name of the event.
+   */
   name: string;
+
+  /**
+   * The value for this command.
+   */
   value?: CommandResultValue<T>;
 }
 

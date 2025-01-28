@@ -23,7 +23,6 @@ import { Plugin, RouteHandler } from './types';
 import { DEFAULT_EVENTS, Events } from './events';
 import { ActivityContext } from './activity-context';
 import { MiddlewareContext } from './middleware-context';
-import { withAIContentLabel, withMention } from './utils';
 import { HttpPlugin } from './plugins';
 
 /**
@@ -293,7 +292,7 @@ export class App {
       api,
       log: this.log,
       tokens: this.tokens,
-      conversation,
+      ref: conversation,
       storage: this.storage,
     };
 
@@ -307,17 +306,15 @@ export class App {
     const routeCtx: MiddlewareContext<Activity> = {
       ...ctx,
       api,
+      stream,
       log: this.log,
       conversation,
       storage: this.storage,
-      stream: stream,
       next: (context) => {
         if (i === routes.length - 1) return;
         i++;
         return routes[i](context || routeCtx);
       },
-      withAIContentLabel,
-      withMention,
       send: sender.send.bind(sender),
       reply: sender.reply.bind(sender),
       signin: sender.signin.bind(sender),
