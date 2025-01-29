@@ -5,14 +5,9 @@ const app = new App({
   plugins: [new DevtoolsPlugin(), new HttpPlugin()],
 });
 
-app.on('message', async ({ send, activity, next }) => {
+app.on('message', async ({ send, activity }) => {
   await send({ type: 'typing' });
-  await send({
-    type: 'message',
-    text: `you said "${activity.text}"`,
-  });
-
-  return next();
+  await send(`you said "${activity.text}"`);
 });
 
 (async () => {
