@@ -171,6 +171,18 @@ export class ActivityBuilder {
     });
   }
 
+  /**
+   * Enable message feedback
+   */
+  feedback() {
+    if (!this.activity.channelData) {
+      this.activity.channelData = { };
+    }
+
+    this.activity.channelData.feedbackLoopEnabled = true;
+    return this;
+  }
+
   build() {
     return this.activity;
   }
