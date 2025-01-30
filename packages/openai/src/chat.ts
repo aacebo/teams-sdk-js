@@ -17,6 +17,7 @@ export interface OpenAIChatModelOptions {
   readonly stream?: boolean;
   readonly temperature?: number;
   readonly logger?: Logger;
+  readonly dangerouslyAllowBrowser?: boolean;
 }
 
 export class OpenAIChatModel implements ChatModel {
@@ -33,6 +34,7 @@ export class OpenAIChatModel implements ChatModel {
       defaultHeaders: options.headers,
       fetch: options.fetch,
       timeout: options.timeout,
+      dangerouslyAllowBrowser: options.dangerouslyAllowBrowser,
     });
   }
 
@@ -216,19 +218,22 @@ export class OpenAIChatModel implements ChatModel {
       const modelMessage: ModelMessage = {
         role: 'model',
         content: message.content || undefined,
-        function_calls: message.tool_calls?.map(call => ({
+        function_calls: message.tool_calls?.map((call) => ({
           id: call.id,
           name: call.function.name,
           arguments: JSON.parse(call.function.arguments || '{}'),
-        }))
+        })),
       };
 
       if (message.tool_calls && message.tool_calls.length > 0) {
-        return this.chat({
-          ...params,
-          input: modelMessage,
-          messages: memory,
-        }, onChunk);
+        return this.chat(
+          {
+            ...params,
+            input: modelMessage,
+            messages: memory,
+          },
+          onChunk
+        );
       }
 
       await memory.push(modelMessage);

@@ -1,22 +1,18 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, NavLink, Navigate, Route, Routes } from 'react-router';
 
-import { ConsoleLogger } from '@teams.sdk/common/logging';
 import * as icons from '@fluentui/react-icons';
+import { ConsoleLogger } from '@teams.sdk/common/logging';
 
 import { SocketClient } from './socket-client';
-import {
-  ActivityContext,
-  ChatContext,
-  useActivityStore,
-  useChatStore,
-} from './Stores';
+import { ActivityContext, ChatContext, useActivityStore, useChatStore } from './Stores';
 
-import Cards from './Screens/Cards';
-import Activities from './Screens/Activities';
-import Logs from './Screens/Logs';
-import Chat from './Screens/Chat';
 import './App.css';
+import Activities from './Screens/Activities';
+import AutoChat from './Screens/AutoChat';
+import Cards from './Screens/Cards';
+import Chat from './Screens/Chat';
+import Logs from './Screens/Logs';
 
 const socket = new SocketClient();
 const log = new ConsoleLogger('devtools');
@@ -140,6 +136,20 @@ export default function App() {
                 );
               }}
             />
+
+            <NavLink
+              to="/autochat"
+              className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
+              children={({ isActive }) => {
+                let Icon: JSX.Element = <icons.ChatRegular className="size-5 my-auto mr-1" />;
+
+                if (isActive) {
+                  Icon = <icons.ChatFilled className="size-5 my-auto mr-1" />;
+                }
+
+                return <div className="flex">{Icon} AutoChat</div>;
+              }}
+            />
           </div>
         </div>
 
@@ -150,6 +160,7 @@ export default function App() {
               <Route path="cards" element={<Cards />} />
               <Route path="activities" element={<Activities />} />
               <Route path="logs" element={<Logs />} />
+              <Route path="autochat" element={<AutoChat />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </ChatContext.Provider>
