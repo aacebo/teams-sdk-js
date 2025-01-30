@@ -1,13 +1,13 @@
+import * as icons from '@fluentui/react-icons';
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
+import { Activity } from '@teams.sdk/api';
 import { useContext, useState } from 'react';
 import { useSearchParams } from 'react-router';
-import { Activity } from '@teams.sdk/api';
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
-import * as icons from '@fluentui/react-icons';
 
+import Json from '../../Components/Json';
 import { ActivityContext } from '../../Stores';
 import { ActivityEvent } from '../../Types';
 import { getPath } from '../../Utils';
-import Json from '../../Components/Json';
 import './Activities.css';
 
 export default function Activities() {
@@ -15,7 +15,7 @@ export default function Activities() {
   const [selected, setSelected] = useState<ActivityEvent>();
   const [view, setView] = useState<'preview' | 'json'>('preview');
   const [params, setParams] = useSearchParams();
-  const activityPaths = [...new Set(list.map(event => getActivityPath(event.body)))].sort();
+  const activityPaths = [...new Set(list.map((event) => getActivityPath(event.body)))].sort();
 
   return (
     <div className="Activities">
@@ -39,7 +39,7 @@ export default function Activities() {
                       anchor="bottom end"
                       className="origin-top-right p-1 dark:bg-stone-800 rounded shadow-2xl text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
                     >
-                      {activityPaths.map(path => (
+                      {activityPaths.map((path) => (
                         <MenuItem>
                           <button
                             key={path}
@@ -64,22 +64,13 @@ export default function Activities() {
                     </MenuItems>
                   </Menu>
                 </th>
-                <th
-                  scope="col"
-                  className="px-3 py-2 w-64 text-nowrap border dark:border-stone-700"
-                >
+                <th scope="col" className="px-3 py-2 w-64 text-nowrap border dark:border-stone-700">
                   Chat
                 </th>
-                <th
-                  scope="col"
-                  className="px-3 py-2 w-64 text-nowrap border dark:border-stone-700"
-                >
+                <th scope="col" className="px-3 py-2 w-64 text-nowrap border dark:border-stone-700">
                   From
                 </th>
-                <th
-                  scope="col"
-                  className="px-3 py-2 border dark:border-stone-700 text-right"
-                >
+                <th scope="col" className="px-3 py-2 border dark:border-stone-700 text-right">
                   Timestamp
                 </th>
               </tr>
@@ -90,10 +81,13 @@ export default function Activities() {
                 .reverse()
                 .filter((event) => {
                   for (const [key, filter] of params.entries()) {
-                    const value = getPath({
-                      ...event,
-                      path: getActivityPath(event.body)
-                    }, key);
+                    const value = getPath(
+                      {
+                        ...event,
+                        path: getActivityPath(event.body),
+                      },
+                      key
+                    );
 
                     if (value != filter) {
                       return false;
@@ -148,9 +142,7 @@ export default function Activities() {
                         </div>
                       </td>
                       <td className="px-3 py-2 text-nowrap border-b border-l border-r dark:border-stone-700 dark:group-hover:bg-stone-700">
-                        {!!event.body.from && <div className="my-auto">
-                          {event.body.from.name}
-                        </div>}
+                        {!!event.body.from && <div className="my-auto">{event.body.from.name}</div>}
                       </td>
                       <td className="px-3 py-2 border-b border-l border-r dark:border-stone-700 dark:group-hover:bg-stone-700">
                         <div className="flex">
@@ -220,11 +212,7 @@ export default function Activities() {
 function getActivityPath(activity: Activity) {
   const path: Array<string> = [activity.type];
 
-  if (
-    activity.type === 'invoke' ||
-    activity.type === 'event' ||
-    activity.type === 'command'
-  ) {
+  if (activity.type === 'invoke' || activity.type === 'event' || activity.type === 'command') {
     path.push(activity.name);
   }
 
