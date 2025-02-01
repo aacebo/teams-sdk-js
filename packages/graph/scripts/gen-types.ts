@@ -6,11 +6,11 @@ import openapits, { astToString } from 'openapi-typescript';
 
 (async () => {
   const schema = fs.readFileSync(path.join(__dirname, '..', 'openapi.yaml'), {
-    encoding: 'utf8'
+    encoding: 'utf8',
   });
 
   const res = await openapits(schema, {
-    dedupeEnums: true
+    dedupeEnums: true,
   });
 
   const code = await prettier.format(astToString(res), { parser: 'typescript' });

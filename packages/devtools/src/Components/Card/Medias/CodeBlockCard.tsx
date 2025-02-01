@@ -13,10 +13,7 @@ export default function CodeBlockCard({ value }: CodeBlockCardProps) {
   useEffect(() => {
     if (value.language) {
       try {
-        setHtml(hljs.highlight(
-          value.codeSnippet || 'null',
-          { language: value.language }
-        ).value);
+        setHtml(hljs.highlight(value.codeSnippet || 'null', { language: value.language }).value);
         return;
       } catch {}
     }
@@ -25,13 +22,10 @@ export default function CodeBlockCard({ value }: CodeBlockCardProps) {
   }, [value]);
 
   if (!html) {
-    return <pre className="text-xs bg-black p-2 rounded" />
+    return <pre className="text-xs bg-black p-2 rounded" />;
   }
 
   return (
-    <pre
-      className="text-xs bg-black p-2 rounded"
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
+    <pre className="text-xs bg-black p-2 rounded" dangerouslySetInnerHTML={{ __html: html }} />
   );
 }

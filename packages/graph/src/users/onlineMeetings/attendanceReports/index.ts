@@ -1,9 +1,9 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { AttendanceRecordsClient } from "./attendanceRecords";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { AttendanceRecordsClient } from './attendanceRecords';
+import { CountClient } from './count';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -12,13 +12,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -30,31 +26,30 @@ function getInjectedUrl(
  * Provides operations to manage the attendanceReports property of the microsoft.graph.onlineMeetingBase entity.
  */
 export class AttendanceReportsClient {
-  protected baseUrl =
-    "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports";
+  protected baseUrl = '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly onlineMeetingId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -84,28 +79,28 @@ export class AttendanceReportsClient {
    *
    */
   async delete(
-    body: Endpoints["DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}"]["body"],
-    params?: Endpoints["DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}"]["parameters"],
+    body: Endpoints['DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}']['body'],
+    params?: Endpoints['DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}",
+      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "user-id", in: "path" },
-        { name: "onlineMeeting-id", in: "path" },
-        { name: "meetingAttendanceReport-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'user-id', in: 'path' },
+        { name: 'onlineMeeting-id', in: 'path' },
+        { name: 'meetingAttendanceReport-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "onlineMeeting-id": this.onlineMeetingId,
-      },
+        'onlineMeeting-id': this.onlineMeetingId,
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}"]["response"],
+          res.data as Endpoints['DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}']['response']
       );
   }
 
@@ -115,28 +110,28 @@ export class AttendanceReportsClient {
    * The attendance reports of an online meeting. Read-only.
    */
   async list(
-    params?: Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports"]["parameters"],
+    params?: Endpoints['GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports",
+      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "user-id", in: "path" },
-        { name: "onlineMeeting-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'user-id', in: 'path' },
+        { name: 'onlineMeeting-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "onlineMeeting-id": this.onlineMeetingId,
-      },
+        'onlineMeeting-id': this.onlineMeetingId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports"]["response"],
+          res.data as Endpoints['GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports']['response']
       );
   }
 
@@ -146,28 +141,28 @@ export class AttendanceReportsClient {
    * The attendance reports of an online meeting. Read-only.
    */
   async get(
-    params?: Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}"]["parameters"],
+    params?: Endpoints['GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}",
+      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "user-id", in: "path" },
-        { name: "onlineMeeting-id", in: "path" },
-        { name: "meetingAttendanceReport-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'user-id', in: 'path' },
+        { name: 'onlineMeeting-id', in: 'path' },
+        { name: 'meetingAttendanceReport-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "onlineMeeting-id": this.onlineMeetingId,
-      },
+        'onlineMeeting-id': this.onlineMeetingId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}"]["response"],
+          res.data as Endpoints['GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}']['response']
       );
   }
 
@@ -176,27 +171,27 @@ export class AttendanceReportsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}"]["body"],
-    params?: Endpoints["PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}"]["parameters"],
+    body: Endpoints['PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}']['body'],
+    params?: Endpoints['PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}",
+      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}',
       [
-        { name: "user-id", in: "path" },
-        { name: "onlineMeeting-id", in: "path" },
-        { name: "meetingAttendanceReport-id", in: "path" },
+        { name: 'user-id', in: 'path' },
+        { name: 'onlineMeeting-id', in: 'path' },
+        { name: 'meetingAttendanceReport-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "onlineMeeting-id": this.onlineMeetingId,
-      },
+        'onlineMeeting-id': this.onlineMeetingId,
+      }
     );
 
     return this.http
       .patch(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}"]["response"],
+          res.data as Endpoints['PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}']['response']
       );
   }
 
@@ -205,26 +200,26 @@ export class AttendanceReportsClient {
    *
    */
   async create(
-    body: Endpoints["POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports"]["body"],
-    params?: Endpoints["POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports"]["parameters"],
+    body: Endpoints['POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports']['body'],
+    params?: Endpoints['POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports",
+      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports',
       [
-        { name: "user-id", in: "path" },
-        { name: "onlineMeeting-id", in: "path" },
+        { name: 'user-id', in: 'path' },
+        { name: 'onlineMeeting-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "onlineMeeting-id": this.onlineMeetingId,
-      },
+        'onlineMeeting-id': this.onlineMeetingId,
+      }
     );
 
     return this.http
       .post(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports"]["response"],
+          res.data as Endpoints['POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/attendanceReports']['response']
       );
   }
 }

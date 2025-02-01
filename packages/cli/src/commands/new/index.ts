@@ -18,39 +18,41 @@ export function New(_: Context): CommandModule<{}, Args> {
     aliases: 'n',
     describe: 'create a new app project',
     builder: (b) => {
-      return b.positional('name', {
-        alias: 'n',
-        type: 'string',
-        describe: 'the apps name',
-        demandOption: true,
-        coerce: (name: string) => {
-          return name.trim()
-            .toLowerCase()
-            .replace(/\s+/g, '-')
-            .replace(/^[._]/, '')
-            .replace(/[^a-z\d\-~]+/g, '-');
-        }
-      }).check(({ name }) => {
-        if (fs.existsSync(path.join(process.cwd(), name))) {
-          throw new Error(`"${name}" already exists!`);
-        }
+      return b
+        .positional('name', {
+          alias: 'n',
+          type: 'string',
+          describe: 'the apps name',
+          demandOption: true,
+          coerce: (name: string) => {
+            return name
+              .trim()
+              .toLowerCase()
+              .replace(/\s+/g, '-')
+              .replace(/^[._]/, '')
+              .replace(/[^a-z\d\-~]+/g, '-');
+          },
+        })
+        .check(({ name }) => {
+          if (fs.existsSync(path.join(process.cwd(), name))) {
+            throw new Error(`"${name}" already exists!`);
+          }
 
-        if (!(/^(?:@[a-z\d\-*~][a-z\d\-*._~]*\/)?[a-z\d\-~][a-z\d\-._~]*$/.test(name))) {
-          throw new Error(`"${name}" is not a valid package name`);
-        }
+          if (!/^(?:@[a-z\d\-*~][a-z\d\-*._~]*\/)?[a-z\d\-~][a-z\d\-._~]*$/.test(name)) {
+            throw new Error(`"${name}" is not a valid package name`);
+          }
 
-        return true;
-      }).option('template', {
-        alias: 't',
-        type: 'string',
-        describe: 'the app template to use',
-        default: 'echo-ts',
-        choices: fs.readdirSync(path.resolve(
-          url.fileURLToPath(import.meta.url),
-          '../..',
-          'templates'
-        ))
-      });
+          return true;
+        })
+        .option('template', {
+          alias: 't',
+          type: 'string',
+          describe: 'the app template to use',
+          default: 'echo-ts',
+          choices: fs.readdirSync(
+            path.resolve(url.fileURLToPath(import.meta.url), '../..', 'templates')
+          ),
+        });
     },
     handler: async ({ name, template }) => {
       const projectDir = path.join(process.cwd(), name);
@@ -58,7 +60,7 @@ export function New(_: Context): CommandModule<{}, Args> {
         url.fileURLToPath(import.meta.url),
         '../..',
         'templates',
-        template,
+        template
       );
 
       const write = (file: string, content?: string) => {
@@ -77,9 +79,7 @@ export function New(_: Context): CommandModule<{}, Args> {
         write(file);
       }
 
-      const pkg = JSON.parse(
-        fs.readFileSync(path.join(templateDir, `package.json`), 'utf-8'),
-      );
+      const pkg = JSON.parse(fs.readFileSync(path.join(templateDir, `package.json`), 'utf-8'));
 
       pkg.name = name;
       write('package.json', JSON.stringify(pkg, null, 2) + '\n');
@@ -89,7 +89,7 @@ export function New(_: Context): CommandModule<{}, Args> {
         stdio: 'inherit',
         shell: true,
       });
-    }
+    },
   };
 }
 

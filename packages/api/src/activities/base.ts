@@ -84,7 +84,7 @@ export class ActivityBuilder {
   activity: Partial<ActivityBase>;
 
   constructor(value?: Partial<ActivityBase>) {
-    this.activity = value || { };
+    this.activity = value || {};
   }
 
   /**
@@ -176,7 +176,7 @@ export class ActivityBuilder {
    */
   feedback() {
     if (!this.activity.channelData) {
-      this.activity.channelData = { };
+      this.activity.channelData = {};
     }
 
     this.activity.channelData.feedbackLoopEnabled = true;

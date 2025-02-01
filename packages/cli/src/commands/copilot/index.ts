@@ -18,21 +18,23 @@ export function Copilot(ctx: Context): CommandModule<{}, Args> {
     aliases: 'c',
     describe: 'ask teams copilot to make changes to your project',
     builder: (b) => {
-      return b.option('prompt', {
-        alias: 'p',
-        type: 'string',
-        describe: 'changes you want copilot to make'
-      }).option('apiKey', {
-        alias: 'k',
-        type: 'string',
-        demandOption: !process.env.OPENAI_API_KEY,
-        default: process.env.OPENAI_API_KEY || 's'
-      });
+      return b
+        .option('prompt', {
+          alias: 'p',
+          type: 'string',
+          describe: 'changes you want copilot to make',
+        })
+        .option('apiKey', {
+          alias: 'k',
+          type: 'string',
+          demandOption: !process.env.OPENAI_API_KEY,
+          default: process.env.OPENAI_API_KEY || 's',
+        });
     },
     handler: async ({ prompt, apiKey }) => {
       const lines = readline.createInterface({
         input: process.stdin,
-        output: process.stdout
+        output: process.stdout,
       });
 
       const root = Root({
@@ -43,14 +45,14 @@ export function Copilot(ctx: Context): CommandModule<{}, Args> {
       });
 
       if (prompt) {
-        await root.chat(prompt, chunk => {
+        await root.chat(prompt, (chunk) => {
           lines.write(chunk);
         });
 
         return process.exit(0);
       }
 
-      await root.chat('hello', chunk => {
+      await root.chat('hello', (chunk) => {
         process.stdout.write(chunk);
       });
 
@@ -69,12 +71,12 @@ export function Copilot(ctx: Context): CommandModule<{}, Args> {
           continue;
         }
 
-        await root.chat(text, chunk => {
+        await root.chat(text, (chunk) => {
           process.stdout.write(chunk);
         });
 
         process.stdout.write('\n$: ');
       }
-    }
+    },
   };
 }

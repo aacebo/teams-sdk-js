@@ -12,7 +12,7 @@ export default function FeedbackDialog({
   type,
   open = false,
   onClose = () => {},
-  onSubmit = () => {}
+  onSubmit = () => {},
 }: FeedbackDialogProps) {
   const [value, setValue] = useState('');
 
@@ -21,14 +21,9 @@ export default function FeedbackDialog({
       <DialogBackdrop className="fixed inset-0 bg-black/50" />
       <div className="fixed inset-0 flex w-screen items-center justify-center p-12">
         <DialogPanel className="max-w-lg relative flex flex-col text-sm px-10 py-6 space-y-4 rounded-lg shadow-2xl dark:text-white overflow-hidden dark:bg-stone-900">
-          <DialogTitle className="font-semibold text-base">
-            Submit Feedback
-          </DialogTitle>
+          <DialogTitle className="font-semibold text-base">Submit Feedback</DialogTitle>
 
-          <label
-            htmlFor="description"
-            className="font-semibold text-stone-400"
-          >
+          <label htmlFor="description" className="font-semibold text-stone-400">
             {type === 'like' ? 'What did you like?' : 'What went wrong?'}
           </label>
 
@@ -42,7 +37,8 @@ export default function FeedbackDialog({
           />
 
           <p className="font-semibold mb-2 text-stone-400">
-            We'll also share the content you're providing feedback on to help improve future responses.
+            We'll also share the content you're providing feedback on to help improve future
+            responses.
           </p>
 
           <div className="flex">

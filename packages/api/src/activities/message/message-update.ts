@@ -48,8 +48,8 @@ export class MessageUpdateActivityBuilder extends ActivityBuilder {
       type: 'messageUpdate',
       channelData: {
         ...options?.channelData,
-        eventType
-      }
+        eventType,
+      },
     };
   }
 

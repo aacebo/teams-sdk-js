@@ -1,21 +1,21 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { AppCatalogsClient } from "./appCatalogs";
-import { AppRoleAssignmentsClient } from "./appRoleAssignments";
-import { ApplicationTemplatesClient } from "./applicationTemplates";
-import { ApplicationsClient } from "./applications";
-import { ApplicationsuniqueNameuniqueNameClient } from "./applicationsuniqueNameuniqueName";
-import { ChatsClient } from "./chats";
-import { CommunicationsClient } from "./communications";
-import { EmployeeExperienceClient } from "./employeeExperience";
-import { MeClient } from "./me";
-import { SolutionsClient } from "./solutions";
-import { TeamsClient } from "./teams";
-import { TeamsTemplatesClient } from "./teamsTemplates";
-import { TeamworkClient } from "./teamwork";
-import { UsersClient } from "./users";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { AppCatalogsClient } from './appCatalogs';
+import { AppRoleAssignmentsClient } from './appRoleAssignments';
+import { ApplicationTemplatesClient } from './applicationTemplates';
+import { ApplicationsClient } from './applications';
+import { ApplicationsuniqueNameuniqueNameClient } from './applicationsuniqueNameuniqueName';
+import { ChatsClient } from './chats';
+import { CommunicationsClient } from './communications';
+import { EmployeeExperienceClient } from './employeeExperience';
+import { MeClient } from './me';
+import { SolutionsClient } from './solutions';
+import { TeamsClient } from './teams';
+import { TeamsTemplatesClient } from './teamsTemplates';
+import { TeamworkClient } from './teamwork';
+import { UsersClient } from './users';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -24,13 +24,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -42,27 +38,27 @@ function getInjectedUrl(
  * Provides operations to manage the collection of application entities.
  */
 export class Client {
-  protected baseUrl = "/";
+  protected baseUrl = '/';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -199,25 +195,25 @@ export class Client {
    * Delete an application object. When deleted, apps are moved to a temporary container and can be restored within 30 days. After that time, they are permanently deleted.
    */
   async delete(
-    body: Endpoints["DELETE /applications(appId&#x3D;&#x27;{appId}&#x27;)"]["body"],
-    params?: Endpoints["DELETE /applications(appId&#x3D;&#x27;{appId}&#x27;)"]["parameters"],
+    body: Endpoints['DELETE /applications(appId&#x3D;&#x27;{appId}&#x27;)']['body'],
+    params?: Endpoints['DELETE /applications(appId&#x3D;&#x27;{appId}&#x27;)']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications(appId&#x3D;&#x27;{appId}&#x27;)",
+      '/applications(appId&#x3D;&#x27;{appId}&#x27;)',
       [
-        { name: "If-Match", in: "header" },
-        { name: "appId", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'appId', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /applications(appId&#x3D;&#x27;{appId}&#x27;)"]["response"],
+          res.data as Endpoints['DELETE /applications(appId&#x3D;&#x27;{appId}&#x27;)']['response']
       );
   }
 
@@ -226,26 +222,24 @@ export class Client {
    *
    * Get the properties and relationships of an application object.
    */
-  async get(
-    params?: Endpoints["GET /applications(appId&#x3D;&#x27;{appId}&#x27;)"]["parameters"],
-  ) {
+  async get(params?: Endpoints['GET /applications(appId&#x3D;&#x27;{appId}&#x27;)']['parameters']) {
     const url = getInjectedUrl(
-      "/applications(appId&#x3D;&#x27;{appId}&#x27;)",
+      '/applications(appId&#x3D;&#x27;{appId}&#x27;)',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "appId", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'appId', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications(appId&#x3D;&#x27;{appId}&#x27;)"]["response"],
+          res.data as Endpoints['GET /applications(appId&#x3D;&#x27;{appId}&#x27;)']['response']
       );
   }
 
@@ -255,22 +249,22 @@ export class Client {
    * Create a new application object if it doesn&#x27;t exist, or update the properties of an existing application object.
    */
   async update(
-    body: Endpoints["PATCH /applications(appId&#x3D;&#x27;{appId}&#x27;)"]["body"],
-    params?: Endpoints["PATCH /applications(appId&#x3D;&#x27;{appId}&#x27;)"]["parameters"],
+    body: Endpoints['PATCH /applications(appId&#x3D;&#x27;{appId}&#x27;)']['body'],
+    params?: Endpoints['PATCH /applications(appId&#x3D;&#x27;{appId}&#x27;)']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications(appId&#x3D;&#x27;{appId}&#x27;)",
-      [{ name: "appId", in: "path" }],
+      '/applications(appId&#x3D;&#x27;{appId}&#x27;)',
+      [{ name: 'appId', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /applications(appId&#x3D;&#x27;{appId}&#x27;)"]["response"],
+          res.data as Endpoints['PATCH /applications(appId&#x3D;&#x27;{appId}&#x27;)']['response']
       );
   }
 }

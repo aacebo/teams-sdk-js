@@ -13,8 +13,8 @@ app.on('message', async ({ send, activity }) => {
     type: 'message',
     text: `you said "${activity.text}"`,
     channelData: {
-      feedbackLoopEnabled: true
-    }
+      feedbackLoopEnabled: true,
+    },
   });
 });
 

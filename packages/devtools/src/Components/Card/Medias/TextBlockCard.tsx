@@ -19,9 +19,6 @@ export default function ImageCard({ value }: TextBlockCardProps) {
   }
 
   return (
-    <div
-      className="text-black dark:text-stone-200"
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
+    <div className="text-black dark:text-stone-200" dangerouslySetInnerHTML={{ __html: html }} />
   );
 }

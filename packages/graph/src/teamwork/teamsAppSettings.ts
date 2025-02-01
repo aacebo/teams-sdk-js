@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./teamsAppSettings-types.d.ts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './teamsAppSettings-types.d.ts';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -10,13 +10,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -28,27 +24,27 @@ function getInjectedUrl(
  * Provides operations to manage the teamsAppSettings property of the microsoft.graph.teamwork entity.
  */
 export class TeamsAppSettingsClient {
-  protected baseUrl = "/teamwork/teamsAppSettings";
+  protected baseUrl = '/teamwork/teamsAppSettings';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -60,23 +56,16 @@ export class TeamsAppSettingsClient {
    *
    */
   async delete(
-    body: Endpoints["DELETE /teamwork/teamsAppSettings"]["body"],
-    params?: Endpoints["DELETE /teamwork/teamsAppSettings"]["parameters"],
+    body: Endpoints['DELETE /teamwork/teamsAppSettings']['body'],
+    params?: Endpoints['DELETE /teamwork/teamsAppSettings']['parameters']
   ) {
-    const url = getInjectedUrl(
-      "/teamwork/teamsAppSettings",
-      [{ name: "If-Match", in: "header" }],
-      {
-        ...(params || {}),
-      },
-    );
+    const url = getInjectedUrl('/teamwork/teamsAppSettings', [{ name: 'If-Match', in: 'header' }], {
+      ...(params || {}),
+    });
 
     return this.http
       .delete(url, body)
-      .then(
-        (res) =>
-          res.data as Endpoints["DELETE /teamwork/teamsAppSettings"]["response"],
-      );
+      .then((res) => res.data as Endpoints['DELETE /teamwork/teamsAppSettings']['response']);
   }
 
   /**
@@ -84,26 +73,21 @@ export class TeamsAppSettingsClient {
    *
    * Get the tenant-wide teamsAppSettings for all Teams apps in the tenant.
    */
-  async list(
-    params?: Endpoints["GET /teamwork/teamsAppSettings"]["parameters"],
-  ) {
+  async list(params?: Endpoints['GET /teamwork/teamsAppSettings']['parameters']) {
     const url = getInjectedUrl(
-      "/teamwork/teamsAppSettings",
+      '/teamwork/teamsAppSettings',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /teamwork/teamsAppSettings"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /teamwork/teamsAppSettings']['response']);
   }
 
   /**
@@ -112,18 +96,15 @@ export class TeamsAppSettingsClient {
    * Update the tenant-wide teamsAppSettings for all Teams apps in the tenant.
    */
   async update(
-    body: Endpoints["PATCH /teamwork/teamsAppSettings"]["body"],
-    params?: Endpoints["PATCH /teamwork/teamsAppSettings"]["parameters"],
+    body: Endpoints['PATCH /teamwork/teamsAppSettings']['body'],
+    params?: Endpoints['PATCH /teamwork/teamsAppSettings']['parameters']
   ) {
-    const url = getInjectedUrl("/teamwork/teamsAppSettings", [], {
+    const url = getInjectedUrl('/teamwork/teamsAppSettings', [], {
       ...(params || {}),
     });
 
     return this.http
       .patch(url, body)
-      .then(
-        (res) =>
-          res.data as Endpoints["PATCH /teamwork/teamsAppSettings"]["response"],
-      );
+      .then((res) => res.data as Endpoints['PATCH /teamwork/teamsAppSettings']['response']);
   }
 }

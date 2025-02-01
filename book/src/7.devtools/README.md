@@ -12,6 +12,6 @@ import { DevtoolsPlugin } from '@teams.sdk/dev';
 // initialize our app with the HttpPlugin (allowing us to send/receive activities over http)
 // and the DevtoolsPlugin (allowing us to emulate teams localhost and inspect traffic)
 const app = new App({
-  plugins: [new DevtoolsPlugin(), new HttpPlugin()],
+    plugins: [new DevtoolsPlugin(), new HttpPlugin()],
 });
 ```

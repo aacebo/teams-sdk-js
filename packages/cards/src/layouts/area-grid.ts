@@ -39,7 +39,11 @@ export type AreaGridLayoutParams = Omit<AreaGridLayout, 'type' | 'areas' | 'colu
 /**
  * A layout that divides a container into named areas into which elements can be placed.
  */
-export function AreaGridLayout(areas: GridArea[] = [], columns: (number | string)[] = [], params?: AreaGridLayoutParams): AreaGridLayout {
+export function AreaGridLayout(
+  areas: GridArea[] = [],
+  columns: (number | string)[] = [],
+  params?: AreaGridLayoutParams
+): AreaGridLayout {
   return {
     type: 'Layout.AreaGrid',
     areas,

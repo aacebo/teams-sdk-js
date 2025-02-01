@@ -8,14 +8,14 @@ export class HttpStream implements Streamer {
   protected id?: string;
   protected text: string = '';
   protected attachments: Attachment[] = [];
-  protected channelData: ChannelData = { };
+  protected channelData: ChannelData = {};
   protected entities: Entity[] = [];
   protected queue: Array<Partial<MessageSendActivity>> = [];
 
   private _timeout?: NodeJS.Timeout;
   private _failures: number = 0;
 
-  constructor(protected ctx: ActivityContext) { }
+  constructor(protected ctx: ActivityContext) {}
 
   emit(activity: Partial<MessageSendActivity> | string) {
     if (this._timeout) {
@@ -26,7 +26,7 @@ export class HttpStream implements Streamer {
     if (typeof activity === 'string') {
       activity = {
         type: 'message',
-        text: activity
+        text: activity,
       };
     }
 
@@ -41,36 +41,34 @@ export class HttpStream implements Streamer {
       await new Promise((resolve) => setTimeout(resolve, 200));
     }
 
-    await this.ctx.api.conversations
-      .activities(this.ctx.activity.conversation.id)
-      .create({
-        id: this.id,
-        type: 'message',
-        text: this.text,
-        attachments: this.attachments,
-        from: this.ctx.activity.recipient,
-        conversation: this.ctx.activity.conversation,
-        entities: [
-          ...this.entities,
-          {
-            type: 'streaminfo',
-            streamId: this.id,
-            streamType: 'final',
-          }
-        ],
-        channelData: {
-          ...this.channelData,
+    await this.ctx.api.conversations.activities(this.ctx.activity.conversation.id).create({
+      id: this.id,
+      type: 'message',
+      text: this.text,
+      attachments: this.attachments,
+      from: this.ctx.activity.recipient,
+      conversation: this.ctx.activity.conversation,
+      entities: [
+        ...this.entities,
+        {
+          type: 'streaminfo',
           streamId: this.id,
           streamType: 'final',
         },
-      });
+      ],
+      channelData: {
+        ...this.channelData,
+        streamId: this.id,
+        streamType: 'final',
+      },
+    });
 
     this.index = 0;
     this.id = undefined;
     this.text = '';
     this.attachments = [];
-    this.channelData = { };
-    this.entities = [ ];
+    this.channelData = {};
+    this.entities = [];
   }
 
   protected async flush() {
@@ -94,10 +92,7 @@ export class HttpStream implements Streamer {
         }
 
         if (activity.attachments) {
-          this.attachments = [
-            ...(this.attachments || []),
-            ...activity.attachments,
-          ];
+          this.attachments = [...(this.attachments || []), ...activity.attachments];
         }
 
         if (activity.channelData) {
@@ -108,10 +103,7 @@ export class HttpStream implements Streamer {
         }
 
         if (activity.entities) {
-          this.entities = [
-            ...(this.entities || []),
-            ...activity.entities,
-          ];
+          this.entities = [...(this.entities || []), ...activity.entities];
         }
 
         i++;
@@ -131,12 +123,14 @@ export class HttpStream implements Streamer {
             streamType: 'streaming',
             streamSequence: this.index,
           },
-          entities: [{
-            type: 'streaminfo',
-            streamId: this.id,
-            streamType: 'streaming',
-            streamSequence: this.index,
-          }]
+          entities: [
+            {
+              type: 'streaminfo',
+              streamId: this.id,
+              streamType: 'streaming',
+              streamSequence: this.index,
+            },
+          ],
         });
 
       if (!this.id) {
@@ -149,7 +143,7 @@ export class HttpStream implements Streamer {
         this._timeout = setTimeout(this.flush.bind(this), 500);
       }
     } catch (err) {
-      this._failures+=2;
+      this._failures += 2;
 
       if (this.queue.length) {
         this._timeout = setTimeout(this.flush.bind(this), (this._failures + 1) * 500);

@@ -22,7 +22,7 @@ export class MessageReactionActivityBuilder extends ActivityBuilder {
     super();
     this.activity = {
       ...options,
-      type: 'messageReaction'
+      type: 'messageReaction',
     };
   }
 

@@ -49,7 +49,10 @@ export type ChoiceSetInputParams = Omit<ChoiceSetInput, 'type' | 'choices'>;
 /**
  * Allows a user to input a Choice.
  */
-export function ChoiceSetInput(choices: Choice[] = [], params?: ChoiceSetInputParams): ChoiceSetInput {
+export function ChoiceSetInput(
+  choices: Choice[] = [],
+  params?: ChoiceSetInputParams
+): ChoiceSetInput {
   return {
     type: 'Input.ChoiceSet',
     choices,

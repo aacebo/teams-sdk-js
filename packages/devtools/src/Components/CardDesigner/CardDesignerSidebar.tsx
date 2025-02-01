@@ -1,5 +1,36 @@
-import { ActionSet, Badge, CodeBlock, ColumnSet, Container, Element, Fact, FactSet, Icon, Image, ImageSet, Media, RichTextBlock, TextBlock } from '@teams.sdk/cards';
-import { FluentIcon, AddFilled, TableRegular, TextFontSizeRegular, TextWordCountRegular, TableLightningRegular, BadgeRegular, CodeRegular, ColumnTripleRegular, CheckboxUncheckedRegular, DocumentOnePageColumnsRegular, InfoRegular, ImageRegular, TableImageRegular, FilmstripPlayRegular } from '@fluentui/react-icons';
+import {
+  ActionSet,
+  Badge,
+  CodeBlock,
+  ColumnSet,
+  Container,
+  Element,
+  Fact,
+  FactSet,
+  Icon,
+  Image,
+  ImageSet,
+  Media,
+  RichTextBlock,
+  TextBlock,
+} from '@teams.sdk/cards';
+import {
+  FluentIcon,
+  AddFilled,
+  TableRegular,
+  TextFontSizeRegular,
+  TextWordCountRegular,
+  TableLightningRegular,
+  BadgeRegular,
+  CodeRegular,
+  ColumnTripleRegular,
+  CheckboxUncheckedRegular,
+  DocumentOnePageColumnsRegular,
+  InfoRegular,
+  ImageRegular,
+  TableImageRegular,
+  FilmstripPlayRegular,
+} from '@fluentui/react-icons';
 
 export interface CardDesignerSidebarProps {
   readonly onSelect?: (el: Element, ts: string) => void;
@@ -23,25 +54,25 @@ const groups: CardGroup[] = [
         icon: TableLightningRegular,
         label: 'ActionSet',
         value: ActionSet(),
-        typescript: 'ActionSet()'
+        typescript: 'ActionSet()',
       },
       {
         icon: ColumnTripleRegular,
         label: 'ColumnSet',
         value: ColumnSet(),
-        typescript: 'ColumnSet()'
+        typescript: 'ColumnSet()',
       },
       {
         icon: CheckboxUncheckedRegular,
         label: 'Container',
         value: Container(),
-        typescript: 'Container()'
+        typescript: 'Container()',
       },
       {
         icon: DocumentOnePageColumnsRegular,
         label: 'FactSet',
         value: FactSet([Fact('hello', 'world')]),
-        typescript: 'FactSet([Fact("hello", "world")])'
+        typescript: 'FactSet([Fact("hello", "world")])',
       },
       {
         icon: TableImageRegular,
@@ -54,16 +85,16 @@ const groups: CardGroup[] = [
           'ImageSet([',
           '\tImage("https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true"),',
           '\tImage("https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true"),',
-          '])'
-        ].join('\n')
+          '])',
+        ].join('\n'),
       },
       {
         icon: TableRegular,
         label: 'Table',
         value: ImageSet(),
-        typescript: 'ImageSet()'
-      }
-    ]
+        typescript: 'ImageSet()',
+      },
+    ],
   },
   {
     label: 'Media',
@@ -76,7 +107,7 @@ const groups: CardGroup[] = [
           icon: 'Warning',
           text: 'an error badge example...',
           shape: 'rounded',
-          size: 'extraLarge'
+          size: 'extraLarge',
         }),
         typescript: [
           'Badge({',
@@ -85,8 +116,8 @@ const groups: CardGroup[] = [
           '\ttext: "an error badge example...",',
           '\tshape: "rounded",',
           '\tsize: "extraLarge"',
-          '})'
-        ].join('\n')
+          '})',
+        ].join('\n'),
       },
       {
         icon: CodeRegular,
@@ -99,53 +130,56 @@ const groups: CardGroup[] = [
           'CodeBlock({',
           '\tcodeSnippet: "const helloWorld = () => console.log(\'hello, world!\');",',
           '\tlanguage: "TypeScript"',
-          '})'
-        ].join('\n')
+          '})',
+        ].join('\n'),
       },
       {
         icon: InfoRegular,
         label: 'Icon',
         value: Icon('Info'),
-        typescript: 'Icon("Info")'
+        typescript: 'Icon("Info")',
       },
       {
         icon: ImageRegular,
         label: 'Image',
-        value: Image('https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true'),
-        typescript: 'Image("https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true")'
+        value: Image(
+          'https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true'
+        ),
+        typescript:
+          'Image("https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true")',
       },
       {
         icon: FilmstripPlayRegular,
         label: 'Media',
         value: Media(),
-        typescript: 'Media()'
+        typescript: 'Media()',
       },
       {
         icon: TextWordCountRegular,
         label: 'RichTextBlock',
         value: RichTextBlock(),
-        typescript: 'RichTextBlock()'
+        typescript: 'RichTextBlock()',
       },
       {
         icon: TextFontSizeRegular,
         label: 'TextBlock',
         value: TextBlock('hello world!'),
-        typescript: 'TextBlock("hello world!")'
-      }
-    ]
-  }
+        typescript: 'TextBlock("hello world!")',
+      },
+    ],
+  },
 ];
 
 export default function CardDesignerSidebar({ onSelect }: CardDesignerSidebarProps) {
   return (
     <div className="flex flex-col bg-white dark:bg-stone-900 gap-1 border-r dark:border-stone-800 shadow-md">
-      {groups.map(group => (
+      {groups.map((group) => (
         <div className="flex flex-col gap-1">
           <h2 className="text-large font-semibold bg-white dark:bg-stone-700 px-4 py-1">
             {group.label}
           </h2>
 
-          {group.cards.map(card => (
+          {group.cards.map((card) => (
             <button
               className="flex gap-1 px-4 py-1 transition duration-100 group dark:hover:bg-stone-800 dark:active:bg-stone-700"
               onClick={() => onSelect && onSelect(card.value, card.typescript)}

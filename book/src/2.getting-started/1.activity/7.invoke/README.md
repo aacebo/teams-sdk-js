@@ -5,9 +5,7 @@ Invoke activities communicate programmatic information from a client or channel 
 Invoke activities are the synchronous counterpart to [event activities](#event-activity). Event activities are designed to be extensible. Invoke activities differ only in their ability to return response payloads back to the channel; because the channel must decide where and how to process these response payloads, Invoke is useful only in cases where explicit support for each invoke name has been added to the channel. Thus, Invoke is not designed to be a generic application extensibility mechanism.
 
 ```typescript
-app.on('invoke', async ({ activity }) => {
-
-});
+app.on('invoke', async ({ activity }) => {});
 ```
 
 ## Schema

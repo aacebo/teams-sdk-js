@@ -1,9 +1,9 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { AppDefinitionsClient } from "./appDefinitions";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { AppDefinitionsClient } from './appDefinitions';
+import { CountClient } from './count';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -12,13 +12,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -30,27 +26,27 @@ function getInjectedUrl(
  * Provides operations to manage the teamsApps property of the microsoft.graph.appCatalogs entity.
  */
 export class TeamsAppsClient {
-  protected baseUrl = "/appCatalogs/teamsApps";
+  protected baseUrl = '/appCatalogs/teamsApps';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -81,25 +77,24 @@ export class TeamsAppsClient {
    * Delete an app from an organization&#x27;s app catalog (the tenant app catalog). To delete an app, the distributionMethod property for the app must be set to organization. You can also use this API to remove a submitted app from the review process.
    */
   async delete(
-    body: Endpoints["DELETE /appCatalogs/teamsApps/{teamsApp-id}"]["body"],
-    params?: Endpoints["DELETE /appCatalogs/teamsApps/{teamsApp-id}"]["parameters"],
+    body: Endpoints['DELETE /appCatalogs/teamsApps/{teamsApp-id}']['body'],
+    params?: Endpoints['DELETE /appCatalogs/teamsApps/{teamsApp-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/appCatalogs/teamsApps/{teamsApp-id}",
+      '/appCatalogs/teamsApps/{teamsApp-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "teamsApp-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'teamsApp-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
-        (res) =>
-          res.data as Endpoints["DELETE /appCatalogs/teamsApps/{teamsApp-id}"]["response"],
+        (res) => res.data as Endpoints['DELETE /appCatalogs/teamsApps/{teamsApp-id}']['response']
       );
   }
 
@@ -108,52 +103,44 @@ export class TeamsAppsClient {
    *
    * List apps from the Microsoft Teams app catalog, including apps from the Microsoft Teams store and apps from your organization&#x27;s app catalog (the tenant app catalog). To get apps from your organization&#x27;s app catalog only, specify organization as the distributionMethod in the request.
    */
-  async list(params?: Endpoints["GET /appCatalogs/teamsApps"]["parameters"]) {
+  async list(params?: Endpoints['GET /appCatalogs/teamsApps']['parameters']) {
     const url = getInjectedUrl(
-      "/appCatalogs/teamsApps",
+      '/appCatalogs/teamsApps',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /appCatalogs/teamsApps"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /appCatalogs/teamsApps']['response']);
   }
 
   /**
    * `GET /appCatalogs/teamsApps/{teamsApp-id}`
    *
    */
-  async get(
-    params?: Endpoints["GET /appCatalogs/teamsApps/{teamsApp-id}"]["parameters"],
-  ) {
+  async get(params?: Endpoints['GET /appCatalogs/teamsApps/{teamsApp-id}']['parameters']) {
     const url = getInjectedUrl(
-      "/appCatalogs/teamsApps/{teamsApp-id}",
+      '/appCatalogs/teamsApps/{teamsApp-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "teamsApp-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'teamsApp-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /appCatalogs/teamsApps/{teamsApp-id}"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /appCatalogs/teamsApps/{teamsApp-id}']['response']);
   }
 
   /**
@@ -161,22 +148,21 @@ export class TeamsAppsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /appCatalogs/teamsApps/{teamsApp-id}"]["body"],
-    params?: Endpoints["PATCH /appCatalogs/teamsApps/{teamsApp-id}"]["parameters"],
+    body: Endpoints['PATCH /appCatalogs/teamsApps/{teamsApp-id}']['body'],
+    params?: Endpoints['PATCH /appCatalogs/teamsApps/{teamsApp-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/appCatalogs/teamsApps/{teamsApp-id}",
-      [{ name: "teamsApp-id", in: "path" }],
+      '/appCatalogs/teamsApps/{teamsApp-id}',
+      [{ name: 'teamsApp-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body)
       .then(
-        (res) =>
-          res.data as Endpoints["PATCH /appCatalogs/teamsApps/{teamsApp-id}"]["response"],
+        (res) => res.data as Endpoints['PATCH /appCatalogs/teamsApps/{teamsApp-id}']['response']
       );
   }
 
@@ -188,18 +174,15 @@ Specifically, this API publishes the app to your organization&#x27;s catalog (th
 the created resource has a distributionMethod property value of organization. The requiresReview property allows any user to submit an app for review by an administrator. Admins can approve or reject these apps via this API or the Microsoft Teams admin center.
    */
   async create(
-    body: Endpoints["POST /appCatalogs/teamsApps"]["body"],
-    params?: Endpoints["POST /appCatalogs/teamsApps"]["parameters"],
+    body: Endpoints['POST /appCatalogs/teamsApps']['body'],
+    params?: Endpoints['POST /appCatalogs/teamsApps']['parameters']
   ) {
-    const url = getInjectedUrl("/appCatalogs/teamsApps", [], {
+    const url = getInjectedUrl('/appCatalogs/teamsApps', [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body)
-      .then(
-        (res) =>
-          res.data as Endpoints["POST /appCatalogs/teamsApps"]["response"],
-      );
+      .then((res) => res.data as Endpoints['POST /appCatalogs/teamsApps']['response']);
   }
 }

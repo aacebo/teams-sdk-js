@@ -5,9 +5,7 @@ Event activities communicate programmatic information from a client or channel t
 Event activities are the asynchronous counterpart to [invoke activities](#invoke-activity). Unlike invoke, event is designed to be extended by client application extensions.
 
 ```typescript
-app.on('event', async ({ activity }) => {
-
-});
+app.on('event', async ({ activity }) => {});
 ```
 
 ## Schema

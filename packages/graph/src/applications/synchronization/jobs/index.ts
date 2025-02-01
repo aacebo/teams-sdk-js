@@ -1,15 +1,15 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { BulkUploadClient } from "./bulkUpload";
-import { CountClient } from "./count";
-import { PauseClient } from "./pause";
-import { ProvisionOnDemandClient } from "./provisionOnDemand";
-import { RestartClient } from "./restart";
-import { SchemaClient } from "./schema";
-import { StartClient } from "./start";
-import { ValidateCredentialsClient } from "./validateCredentials";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { BulkUploadClient } from './bulkUpload';
+import { CountClient } from './count';
+import { PauseClient } from './pause';
+import { ProvisionOnDemandClient } from './provisionOnDemand';
+import { RestartClient } from './restart';
+import { SchemaClient } from './schema';
+import { StartClient } from './start';
+import { ValidateCredentialsClient } from './validateCredentials';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -18,13 +18,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -36,27 +32,27 @@ function getInjectedUrl(
  * Provides operations to manage the jobs property of the microsoft.graph.synchronization entity.
  */
 export class JobsClient {
-  protected baseUrl = "/applications/{application-id}/synchronization/jobs";
+  protected baseUrl = '/applications/{application-id}/synchronization/jobs';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -140,26 +136,26 @@ export class JobsClient {
    *
    */
   async delete(
-    body: Endpoints["DELETE /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}"]["body"],
-    params?: Endpoints["DELETE /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}"]["parameters"],
+    body: Endpoints['DELETE /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}']['body'],
+    params?: Endpoints['DELETE /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}",
+      '/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "application-id", in: "path" },
-        { name: "synchronizationJob-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'application-id', in: 'path' },
+        { name: 'synchronizationJob-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}"]["response"],
+          res.data as Endpoints['DELETE /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}']['response']
       );
   }
 
@@ -169,26 +165,26 @@ export class JobsClient {
    * Performs synchronization by periodically running in the background, polling for changes in one directory, and pushing them to another directory.
    */
   async list(
-    params?: Endpoints["GET /applications/{application-id}/synchronization/jobs"]["parameters"],
+    params?: Endpoints['GET /applications/{application-id}/synchronization/jobs']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/synchronization/jobs",
+      '/applications/{application-id}/synchronization/jobs',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "application-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications/{application-id}/synchronization/jobs"]["response"],
+          res.data as Endpoints['GET /applications/{application-id}/synchronization/jobs']['response']
       );
   }
 
@@ -198,26 +194,26 @@ export class JobsClient {
    * Performs synchronization by periodically running in the background, polling for changes in one directory, and pushing them to another directory.
    */
   async get(
-    params?: Endpoints["GET /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}"]["parameters"],
+    params?: Endpoints['GET /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}",
+      '/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "application-id", in: "path" },
-        { name: "synchronizationJob-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
+        { name: 'synchronizationJob-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}"]["response"],
+          res.data as Endpoints['GET /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}']['response']
       );
   }
 
@@ -226,25 +222,25 @@ export class JobsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}"]["body"],
-    params?: Endpoints["PATCH /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}"]["parameters"],
+    body: Endpoints['PATCH /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}']['body'],
+    params?: Endpoints['PATCH /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}",
+      '/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}',
       [
-        { name: "application-id", in: "path" },
-        { name: "synchronizationJob-id", in: "path" },
+        { name: 'application-id', in: 'path' },
+        { name: 'synchronizationJob-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}"]["response"],
+          res.data as Endpoints['PATCH /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}']['response']
       );
   }
 
@@ -253,22 +249,22 @@ export class JobsClient {
    *
    */
   async create(
-    body: Endpoints["POST /applications/{application-id}/synchronization/jobs"]["body"],
-    params?: Endpoints["POST /applications/{application-id}/synchronization/jobs"]["parameters"],
+    body: Endpoints['POST /applications/{application-id}/synchronization/jobs']['body'],
+    params?: Endpoints['POST /applications/{application-id}/synchronization/jobs']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/synchronization/jobs",
-      [{ name: "application-id", in: "path" }],
+      '/applications/{application-id}/synchronization/jobs',
+      [{ name: 'application-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .post(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["POST /applications/{application-id}/synchronization/jobs"]["response"],
+          res.data as Endpoints['POST /applications/{application-id}/synchronization/jobs']['response']
       );
   }
 }

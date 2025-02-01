@@ -9,7 +9,7 @@ import {
 } from './Types';
 
 interface SocketEventTypes {
-  readonly 'activity': ActivityEvent;
+  readonly activity: ActivityEvent;
   readonly 'activity.received': ActivityReceivedEvent;
   readonly 'activity.sending': ActivitySendingEvent;
   readonly 'activity.sent': ActivitySentEvent;

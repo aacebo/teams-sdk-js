@@ -1,15 +1,15 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { DeltaClient } from "./delta";
-import { HostedContentsClient } from "./hostedContents";
-import { RepliesClient } from "./replies";
-import { SetReactionClient } from "./setReaction";
-import { SoftDeleteClient } from "./softDelete";
-import { UndoSoftDeleteClient } from "./undoSoftDelete";
-import { UnsetReactionClient } from "./unsetReaction";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { DeltaClient } from './delta';
+import { HostedContentsClient } from './hostedContents';
+import { RepliesClient } from './replies';
+import { SetReactionClient } from './setReaction';
+import { SoftDeleteClient } from './softDelete';
+import { UndoSoftDeleteClient } from './undoSoftDelete';
+import { UnsetReactionClient } from './unsetReaction';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -18,13 +18,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -36,27 +32,27 @@ function getInjectedUrl(
  * Provides operations to manage the messages property of the microsoft.graph.channel entity.
  */
 export class MessagesClient {
-  protected baseUrl = "/teams/{team-id}/primaryChannel/messages";
+  protected baseUrl = '/teams/{team-id}/primaryChannel/messages';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -140,26 +136,26 @@ export class MessagesClient {
    *
    */
   async delete(
-    body: Endpoints["DELETE /teams/{team-id}/primaryChannel/messages/{chatMessage-id}"]["body"],
-    params?: Endpoints["DELETE /teams/{team-id}/primaryChannel/messages/{chatMessage-id}"]["parameters"],
+    body: Endpoints['DELETE /teams/{team-id}/primaryChannel/messages/{chatMessage-id}']['body'],
+    params?: Endpoints['DELETE /teams/{team-id}/primaryChannel/messages/{chatMessage-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/primaryChannel/messages/{chatMessage-id}",
+      '/teams/{team-id}/primaryChannel/messages/{chatMessage-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "team-id", in: "path" },
-        { name: "chatMessage-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'team-id', in: 'path' },
+        { name: 'chatMessage-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /teams/{team-id}/primaryChannel/messages/{chatMessage-id}"]["response"],
+          res.data as Endpoints['DELETE /teams/{team-id}/primaryChannel/messages/{chatMessage-id}']['response']
       );
   }
 
@@ -168,27 +164,24 @@ export class MessagesClient {
    *
    * A collection of all the messages in the channel. A navigation property. Nullable.
    */
-  async list(
-    params?: Endpoints["GET /teams/{team-id}/primaryChannel/messages"]["parameters"],
-  ) {
+  async list(params?: Endpoints['GET /teams/{team-id}/primaryChannel/messages']['parameters']) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/primaryChannel/messages",
+      '/teams/{team-id}/primaryChannel/messages',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
       .then(
-        (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/primaryChannel/messages"]["response"],
+        (res) => res.data as Endpoints['GET /teams/{team-id}/primaryChannel/messages']['response']
       );
   }
 
@@ -198,26 +191,26 @@ export class MessagesClient {
    * A collection of all the messages in the channel. A navigation property. Nullable.
    */
   async get(
-    params?: Endpoints["GET /teams/{team-id}/primaryChannel/messages/{chatMessage-id}"]["parameters"],
+    params?: Endpoints['GET /teams/{team-id}/primaryChannel/messages/{chatMessage-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/primaryChannel/messages/{chatMessage-id}",
+      '/teams/{team-id}/primaryChannel/messages/{chatMessage-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
-        { name: "chatMessage-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
+        { name: 'chatMessage-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/primaryChannel/messages/{chatMessage-id}"]["response"],
+          res.data as Endpoints['GET /teams/{team-id}/primaryChannel/messages/{chatMessage-id}']['response']
       );
   }
 
@@ -226,25 +219,25 @@ export class MessagesClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /teams/{team-id}/primaryChannel/messages/{chatMessage-id}"]["body"],
-    params?: Endpoints["PATCH /teams/{team-id}/primaryChannel/messages/{chatMessage-id}"]["parameters"],
+    body: Endpoints['PATCH /teams/{team-id}/primaryChannel/messages/{chatMessage-id}']['body'],
+    params?: Endpoints['PATCH /teams/{team-id}/primaryChannel/messages/{chatMessage-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/primaryChannel/messages/{chatMessage-id}",
+      '/teams/{team-id}/primaryChannel/messages/{chatMessage-id}',
       [
-        { name: "team-id", in: "path" },
-        { name: "chatMessage-id", in: "path" },
+        { name: 'team-id', in: 'path' },
+        { name: 'chatMessage-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /teams/{team-id}/primaryChannel/messages/{chatMessage-id}"]["response"],
+          res.data as Endpoints['PATCH /teams/{team-id}/primaryChannel/messages/{chatMessage-id}']['response']
       );
   }
 
@@ -253,22 +246,21 @@ export class MessagesClient {
    *
    */
   async create(
-    body: Endpoints["POST /teams/{team-id}/primaryChannel/messages"]["body"],
-    params?: Endpoints["POST /teams/{team-id}/primaryChannel/messages"]["parameters"],
+    body: Endpoints['POST /teams/{team-id}/primaryChannel/messages']['body'],
+    params?: Endpoints['POST /teams/{team-id}/primaryChannel/messages']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/primaryChannel/messages",
-      [{ name: "team-id", in: "path" }],
+      '/teams/{team-id}/primaryChannel/messages',
+      [{ name: 'team-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .post(url, body)
       .then(
-        (res) =>
-          res.data as Endpoints["POST /teams/{team-id}/primaryChannel/messages"]["response"],
+        (res) => res.data as Endpoints['POST /teams/{team-id}/primaryChannel/messages']['response']
       );
   }
 }

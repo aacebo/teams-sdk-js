@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./message-types.d.ts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './message-types.d.ts';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -10,13 +10,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -28,31 +24,30 @@ function getInjectedUrl(
  * Provides operations to manage the message property of the microsoft.graph.pinnedChatMessageInfo entity.
  */
 export class MessageClient {
-  protected baseUrl =
-    "/chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}/message";
+  protected baseUrl = '/chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}/message';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly pinnedChatMessageInfoId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -65,27 +60,27 @@ export class MessageClient {
    * Represents details about the chat message that is pinned.
    */
   async get(
-    params?: Endpoints["GET /chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}/message"]["parameters"],
+    params?: Endpoints['GET /chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}/message']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}/message",
+      '/chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}/message',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "chat-id", in: "path" },
-        { name: "pinnedChatMessageInfo-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'chat-id', in: 'path' },
+        { name: 'pinnedChatMessageInfo-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "pinnedChatMessageInfo-id": this.pinnedChatMessageInfoId,
-      },
+        'pinnedChatMessageInfo-id': this.pinnedChatMessageInfoId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}/message"]["response"],
+          res.data as Endpoints['GET /chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}/message']['response']
       );
   }
 }

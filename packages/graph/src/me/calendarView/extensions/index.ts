@@ -1,8 +1,8 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -11,13 +11,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -29,30 +25,30 @@ function getInjectedUrl(
  * Provides operations to manage the extensions property of the microsoft.graph.event entity.
  */
 export class ExtensionsClient {
-  protected baseUrl = "/me/calendarView/{event-id}/extensions";
+  protected baseUrl = '/me/calendarView/{event-id}/extensions';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly eventId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -73,27 +69,27 @@ export class ExtensionsClient {
    *
    */
   async delete(
-    body: Endpoints["DELETE /me/calendarView/{event-id}/extensions/{extension-id}"]["body"],
-    params?: Endpoints["DELETE /me/calendarView/{event-id}/extensions/{extension-id}"]["parameters"],
+    body: Endpoints['DELETE /me/calendarView/{event-id}/extensions/{extension-id}']['body'],
+    params?: Endpoints['DELETE /me/calendarView/{event-id}/extensions/{extension-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/me/calendarView/{event-id}/extensions/{extension-id}",
+      '/me/calendarView/{event-id}/extensions/{extension-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "event-id", in: "path" },
-        { name: "extension-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'event-id', in: 'path' },
+        { name: 'extension-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "event-id": this.eventId,
-      },
+        'event-id': this.eventId,
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /me/calendarView/{event-id}/extensions/{extension-id}"]["response"],
+          res.data as Endpoints['DELETE /me/calendarView/{event-id}/extensions/{extension-id}']['response']
       );
   }
 
@@ -102,28 +98,25 @@ export class ExtensionsClient {
    *
    * The collection of open extensions defined for the event. Nullable.
    */
-  async list(
-    params?: Endpoints["GET /me/calendarView/{event-id}/extensions"]["parameters"],
-  ) {
+  async list(params?: Endpoints['GET /me/calendarView/{event-id}/extensions']['parameters']) {
     const url = getInjectedUrl(
-      "/me/calendarView/{event-id}/extensions",
+      '/me/calendarView/{event-id}/extensions',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "event-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'event-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "event-id": this.eventId,
-      },
+        'event-id': this.eventId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
-        (res) =>
-          res.data as Endpoints["GET /me/calendarView/{event-id}/extensions"]["response"],
+        (res) => res.data as Endpoints['GET /me/calendarView/{event-id}/extensions']['response']
       );
   }
 
@@ -133,27 +126,27 @@ export class ExtensionsClient {
    * The collection of open extensions defined for the event. Nullable.
    */
   async get(
-    params?: Endpoints["GET /me/calendarView/{event-id}/extensions/{extension-id}"]["parameters"],
+    params?: Endpoints['GET /me/calendarView/{event-id}/extensions/{extension-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/me/calendarView/{event-id}/extensions/{extension-id}",
+      '/me/calendarView/{event-id}/extensions/{extension-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "event-id", in: "path" },
-        { name: "extension-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'event-id', in: 'path' },
+        { name: 'extension-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "event-id": this.eventId,
-      },
+        'event-id': this.eventId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /me/calendarView/{event-id}/extensions/{extension-id}"]["response"],
+          res.data as Endpoints['GET /me/calendarView/{event-id}/extensions/{extension-id}']['response']
       );
   }
 
@@ -162,26 +155,26 @@ export class ExtensionsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /me/calendarView/{event-id}/extensions/{extension-id}"]["body"],
-    params?: Endpoints["PATCH /me/calendarView/{event-id}/extensions/{extension-id}"]["parameters"],
+    body: Endpoints['PATCH /me/calendarView/{event-id}/extensions/{extension-id}']['body'],
+    params?: Endpoints['PATCH /me/calendarView/{event-id}/extensions/{extension-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/me/calendarView/{event-id}/extensions/{extension-id}",
+      '/me/calendarView/{event-id}/extensions/{extension-id}',
       [
-        { name: "event-id", in: "path" },
-        { name: "extension-id", in: "path" },
+        { name: 'event-id', in: 'path' },
+        { name: 'extension-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "event-id": this.eventId,
-      },
+        'event-id': this.eventId,
+      }
     );
 
     return this.http
       .patch(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /me/calendarView/{event-id}/extensions/{extension-id}"]["response"],
+          res.data as Endpoints['PATCH /me/calendarView/{event-id}/extensions/{extension-id}']['response']
       );
   }
 
@@ -190,23 +183,22 @@ export class ExtensionsClient {
    *
    */
   async create(
-    body: Endpoints["POST /me/calendarView/{event-id}/extensions"]["body"],
-    params?: Endpoints["POST /me/calendarView/{event-id}/extensions"]["parameters"],
+    body: Endpoints['POST /me/calendarView/{event-id}/extensions']['body'],
+    params?: Endpoints['POST /me/calendarView/{event-id}/extensions']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/me/calendarView/{event-id}/extensions",
-      [{ name: "event-id", in: "path" }],
+      '/me/calendarView/{event-id}/extensions',
+      [{ name: 'event-id', in: 'path' }],
       {
         ...(params || {}),
-        "event-id": this.eventId,
-      },
+        'event-id': this.eventId,
+      }
     );
 
     return this.http
       .post(url, body)
       .then(
-        (res) =>
-          res.data as Endpoints["POST /me/calendarView/{event-id}/extensions"]["response"],
+        (res) => res.data as Endpoints['POST /me/calendarView/{event-id}/extensions']['response']
       );
   }
 }

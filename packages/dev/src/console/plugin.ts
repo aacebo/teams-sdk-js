@@ -68,7 +68,7 @@ export class ConsolePlugin extends EventEmitter<PluginEvents> implements Plugin 
             id: '1',
             conversationType: 'oneOnOne',
             isGroup: false,
-            name: ''
+            name: '',
           },
           from: {
             id: '1',

@@ -1,28 +1,28 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { AddLargeGalleryViewClient } from "./addLargeGalleryView";
-import { AnswerClient } from "./answer";
-import { AudioRoutingGroupsClient } from "./audioRoutingGroups";
-import { CancelMediaProcessingClient } from "./cancelMediaProcessing";
-import { ChangeScreenSharingRoleClient } from "./changeScreenSharingRole";
-import { ContentSharingSessionsClient } from "./contentSharingSessions";
-import { CountClient } from "./count";
-import { KeepAliveClient } from "./keepAlive";
-import { LogTeleconferenceDeviceQualityClient } from "./logTeleconferenceDeviceQuality";
-import { MuteClient } from "./mute";
-import { OperationsClient } from "./operations";
-import { ParticipantsClient } from "./participants";
-import { PlayPromptClient } from "./playPrompt";
-import { RecordResponseClient } from "./recordResponse";
-import { RedirectClient } from "./redirect";
-import { RejectClient } from "./reject";
-import { SendDtmfTonesClient } from "./sendDtmfTones";
-import { SubscribeToToneClient } from "./subscribeToTone";
-import { TransferClient } from "./transfer";
-import { UnmuteClient } from "./unmute";
-import { UpdateRecordingStatusClient } from "./updateRecordingStatus";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { AddLargeGalleryViewClient } from './addLargeGalleryView';
+import { AnswerClient } from './answer';
+import { AudioRoutingGroupsClient } from './audioRoutingGroups';
+import { CancelMediaProcessingClient } from './cancelMediaProcessing';
+import { ChangeScreenSharingRoleClient } from './changeScreenSharingRole';
+import { ContentSharingSessionsClient } from './contentSharingSessions';
+import { CountClient } from './count';
+import { KeepAliveClient } from './keepAlive';
+import { LogTeleconferenceDeviceQualityClient } from './logTeleconferenceDeviceQuality';
+import { MuteClient } from './mute';
+import { OperationsClient } from './operations';
+import { ParticipantsClient } from './participants';
+import { PlayPromptClient } from './playPrompt';
+import { RecordResponseClient } from './recordResponse';
+import { RedirectClient } from './redirect';
+import { RejectClient } from './reject';
+import { SendDtmfTonesClient } from './sendDtmfTones';
+import { SubscribeToToneClient } from './subscribeToTone';
+import { TransferClient } from './transfer';
+import { UnmuteClient } from './unmute';
+import { UpdateRecordingStatusClient } from './updateRecordingStatus';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -31,13 +31,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -49,27 +45,27 @@ function getInjectedUrl(
  * Provides operations to manage the calls property of the microsoft.graph.cloudCommunications entity.
  */
 export class CallsClient {
-  protected baseUrl = "/communications/calls";
+  protected baseUrl = '/communications/calls';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -271,26 +267,23 @@ export class CallsClient {
    * Delete or hang up an active call. For group calls, this will only delete your call leg and the underlying group call will still continue.
    */
   async delete(
-    body: Endpoints["DELETE /communications/calls/{call-id}"]["body"],
-    params?: Endpoints["DELETE /communications/calls/{call-id}"]["parameters"],
+    body: Endpoints['DELETE /communications/calls/{call-id}']['body'],
+    params?: Endpoints['DELETE /communications/calls/{call-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/communications/calls/{call-id}",
+      '/communications/calls/{call-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "call-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'call-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, body)
-      .then(
-        (res) =>
-          res.data as Endpoints["DELETE /communications/calls/{call-id}"]["response"],
-      );
+      .then((res) => res.data as Endpoints['DELETE /communications/calls/{call-id}']['response']);
   }
 
   /**
@@ -298,24 +291,22 @@ export class CallsClient {
    *
    * Retrieve the properties and relationships of a call object.
    */
-  async list(params?: Endpoints["GET /communications/calls"]["parameters"]) {
+  async list(params?: Endpoints['GET /communications/calls']['parameters']) {
     const url = getInjectedUrl(
-      "/communications/calls",
+      '/communications/calls',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
-      .then(
-        (res) => res.data as Endpoints["GET /communications/calls"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /communications/calls']['response']);
   }
 
   /**
@@ -323,27 +314,22 @@ export class CallsClient {
    *
    * Retrieve the properties and relationships of a call object.
    */
-  async get(
-    params?: Endpoints["GET /communications/calls/{call-id}"]["parameters"],
-  ) {
+  async get(params?: Endpoints['GET /communications/calls/{call-id}']['parameters']) {
     const url = getInjectedUrl(
-      "/communications/calls/{call-id}",
+      '/communications/calls/{call-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "call-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'call-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /communications/calls/{call-id}"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /communications/calls/{call-id}']['response']);
   }
 
   /**
@@ -351,23 +337,20 @@ export class CallsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /communications/calls/{call-id}"]["body"],
-    params?: Endpoints["PATCH /communications/calls/{call-id}"]["parameters"],
+    body: Endpoints['PATCH /communications/calls/{call-id}']['body'],
+    params?: Endpoints['PATCH /communications/calls/{call-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/communications/calls/{call-id}",
-      [{ name: "call-id", in: "path" }],
+      '/communications/calls/{call-id}',
+      [{ name: 'call-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body)
-      .then(
-        (res) =>
-          res.data as Endpoints["PATCH /communications/calls/{call-id}"]["response"],
-      );
+      .then((res) => res.data as Endpoints['PATCH /communications/calls/{call-id}']['response']);
   }
 
   /**
@@ -376,18 +359,15 @@ export class CallsClient {
    * Create call enables your bot to create a new outgoing peer-to-peer or group call, or join an existing meeting. You need to register the calling bot and go through the list of permissions needed. This API supports the following PSTN scenarios:
    */
   async create(
-    body: Endpoints["POST /communications/calls"]["body"],
-    params?: Endpoints["POST /communications/calls"]["parameters"],
+    body: Endpoints['POST /communications/calls']['body'],
+    params?: Endpoints['POST /communications/calls']['parameters']
   ) {
-    const url = getInjectedUrl("/communications/calls", [], {
+    const url = getInjectedUrl('/communications/calls', [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body)
-      .then(
-        (res) =>
-          res.data as Endpoints["POST /communications/calls"]["response"],
-      );
+      .then((res) => res.data as Endpoints['POST /communications/calls']['response']);
   }
 }

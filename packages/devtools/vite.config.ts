@@ -9,7 +9,7 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 16000,
     rollupOptions: {
-      plugins: [nodeResolve()]
-    }
-  }
+      plugins: [nodeResolve()],
+    },
+  },
 });

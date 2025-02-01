@@ -34,9 +34,9 @@ $: npm install @teams.sdk/cards
 
 ## Links
 
--   [AdaptiveCards.io](https://adaptivecards.io/)
--   [Teams Adaptive Cards Designer](https://aka.ms/acdesignerbeta)
--   [Teams Adaptive Cards Schema Explorer](https://aka.ms/acexplorer)
+- [AdaptiveCards.io](https://adaptivecards.io/)
+- [Teams Adaptive Cards Designer](https://aka.ms/acdesignerbeta)
+- [Teams Adaptive Cards Schema Explorer](https://aka.ms/acexplorer)
 
 ## Dependencies
 

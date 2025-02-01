@@ -34,4 +34,4 @@ $: npm install @teams.sdk/openai
 
 ## Dependencies
 
--   [`openai`](https://www.npmjs.com/package/openai)
+- [`openai`](https://www.npmjs.com/package/openai)

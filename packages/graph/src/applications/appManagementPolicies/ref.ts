@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./ref-types.d.ts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './ref-types.d.ts';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -10,13 +10,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -29,30 +25,30 @@ function getInjectedUrl(
  */
 export class RefClient {
   protected baseUrl =
-    "/applications/{application-id}/appManagementPolicies/{appManagementPolicy-id}/ref";
+    '/applications/{application-id}/appManagementPolicies/{appManagementPolicy-id}/ref';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly appManagementPolicyId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -65,27 +61,27 @@ export class RefClient {
    * Remove an appManagementPolicy policy object from an application or service principal object. When you remove the appManagementPolicy, the application or service principal adopts the tenant-wide tenantAppManagementPolicy setting.
    */
   async delete$1(
-    body: Endpoints["DELETE /applications/{application-id}/appManagementPolicies/$ref"]["body"],
-    params?: Endpoints["DELETE /applications/{application-id}/appManagementPolicies/$ref"]["parameters"],
+    body: Endpoints['DELETE /applications/{application-id}/appManagementPolicies/$ref']['body'],
+    params?: Endpoints['DELETE /applications/{application-id}/appManagementPolicies/$ref']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/appManagementPolicies/$ref",
+      '/applications/{application-id}/appManagementPolicies/$ref',
       [
-        { name: "If-Match", in: "header" },
-        { name: "@id", in: "query" },
-        { name: "application-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: '@id', in: 'query' },
+        { name: 'application-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "appManagementPolicy-id": this.appManagementPolicyId,
-      },
+        'appManagementPolicy-id': this.appManagementPolicyId,
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /applications/{application-id}/appManagementPolicies/$ref"]["response"],
+          res.data as Endpoints['DELETE /applications/{application-id}/appManagementPolicies/$ref']['response']
       );
   }
 
@@ -95,27 +91,27 @@ export class RefClient {
    * Remove an appManagementPolicy policy object from an application or service principal object. When you remove the appManagementPolicy, the application or service principal adopts the tenant-wide tenantAppManagementPolicy setting.
    */
   async delete(
-    body: Endpoints["DELETE /applications/{application-id}/appManagementPolicies/{appManagementPolicy-id}/$ref"]["body"],
-    params?: Endpoints["DELETE /applications/{application-id}/appManagementPolicies/{appManagementPolicy-id}/$ref"]["parameters"],
+    body: Endpoints['DELETE /applications/{application-id}/appManagementPolicies/{appManagementPolicy-id}/$ref']['body'],
+    params?: Endpoints['DELETE /applications/{application-id}/appManagementPolicies/{appManagementPolicy-id}/$ref']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/appManagementPolicies/{appManagementPolicy-id}/$ref",
+      '/applications/{application-id}/appManagementPolicies/{appManagementPolicy-id}/$ref',
       [
-        { name: "If-Match", in: "header" },
-        { name: "application-id", in: "path" },
-        { name: "appManagementPolicy-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'application-id', in: 'path' },
+        { name: 'appManagementPolicy-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "appManagementPolicy-id": this.appManagementPolicyId,
-      },
+        'appManagementPolicy-id': this.appManagementPolicyId,
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /applications/{application-id}/appManagementPolicies/{appManagementPolicy-id}/$ref"]["response"],
+          res.data as Endpoints['DELETE /applications/{application-id}/appManagementPolicies/{appManagementPolicy-id}/$ref']['response']
       );
   }
 
@@ -125,25 +121,25 @@ export class RefClient {
    * The appManagementPolicy applied to this application.
    */
   async get(
-    params?: Endpoints["GET /applications/{application-id}/appManagementPolicies/$ref"]["parameters"],
+    params?: Endpoints['GET /applications/{application-id}/appManagementPolicies/$ref']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/appManagementPolicies/$ref",
+      '/applications/{application-id}/appManagementPolicies/$ref',
       [
-        { name: "$orderby", in: "query" },
-        { name: "application-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: 'application-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "appManagementPolicy-id": this.appManagementPolicyId,
-      },
+        'appManagementPolicy-id': this.appManagementPolicyId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications/{application-id}/appManagementPolicies/$ref"]["response"],
+          res.data as Endpoints['GET /applications/{application-id}/appManagementPolicies/$ref']['response']
       );
   }
 
@@ -153,23 +149,23 @@ export class RefClient {
    * Assign an appManagementPolicy policy object to an application or service principal object. The application or service principal adopts this policy over the tenant-wide tenantAppManagementPolicy setting. Only one policy object can be assigned to an application or service principal.
    */
   async create(
-    body: Endpoints["POST /applications/{application-id}/appManagementPolicies/$ref"]["body"],
-    params?: Endpoints["POST /applications/{application-id}/appManagementPolicies/$ref"]["parameters"],
+    body: Endpoints['POST /applications/{application-id}/appManagementPolicies/$ref']['body'],
+    params?: Endpoints['POST /applications/{application-id}/appManagementPolicies/$ref']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/appManagementPolicies/$ref",
-      [{ name: "application-id", in: "path" }],
+      '/applications/{application-id}/appManagementPolicies/$ref',
+      [{ name: 'application-id', in: 'path' }],
       {
         ...(params || {}),
-        "appManagementPolicy-id": this.appManagementPolicyId,
-      },
+        'appManagementPolicy-id': this.appManagementPolicyId,
+      }
     );
 
     return this.http
       .post(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["POST /applications/{application-id}/appManagementPolicies/$ref"]["response"],
+          res.data as Endpoints['POST /applications/{application-id}/appManagementPolicies/$ref']['response']
       );
   }
 }

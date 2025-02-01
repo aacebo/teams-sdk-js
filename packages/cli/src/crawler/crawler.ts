@@ -33,15 +33,15 @@ export class Crawler {
   private _downloadSource() {
     return new Promise<void>(async (resolve) => {
       const teamsSdkPath = npath.join(os.homedir(), 'teams-sdk');
-      const zipPath = npath.join(
-        teamsSdkPath,
-        'repository.zip',
-      );
+      const zipPath = npath.join(teamsSdkPath, 'repository.zip');
 
       const file = fs.createWriteStream(zipPath);
-      const res = await axios.get('http://github.com/aacebo/teams-sdk-js/archive/refs/heads/main.zip', {
-        responseType: 'stream'
-      });
+      const res = await axios.get(
+        'http://github.com/aacebo/teams-sdk-js/archive/refs/heads/main.zip',
+        {
+          responseType: 'stream',
+        }
+      );
 
       res.data.pipe(file);
       file.on('finish', () => {
@@ -84,7 +84,7 @@ export class Crawler {
 
     fs.rmSync(path, {
       recursive: true,
-      force: true
+      force: true,
     });
   }
 
@@ -93,7 +93,8 @@ export class Crawler {
       !npath.matchesGlob(path, '**/*.ts') &&
       !npath.matchesGlob(path, '**/*/src/**/*.md') &&
       !npath.matchesGlob(path, '**/*/package.json')
-    ) return;
+    )
+      return;
 
     try {
       let file = await this._storage.file.getOne(path);

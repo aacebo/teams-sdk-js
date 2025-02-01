@@ -1,10 +1,10 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { LearningContentsClient } from "./learningContents";
-import { LearningCourseActivitiesClient } from "./learningCourseActivities";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { LearningContentsClient } from './learningContents';
+import { LearningCourseActivitiesClient } from './learningCourseActivities';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -13,13 +13,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -31,27 +27,27 @@ function getInjectedUrl(
  * Provides operations to manage the learningCourseActivities property of the microsoft.graph.learningProvider entity.
  */
 export class LearningProvidersClient {
-  protected baseUrl = "/employeeExperience/learningProviders";
+  protected baseUrl = '/employeeExperience/learningProviders';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -91,25 +87,25 @@ export class LearningProvidersClient {
    * Delete a learningProvider resource and remove its registration in Viva Learning for a tenant.
    */
   async delete(
-    body: Endpoints["DELETE /employeeExperience/learningProviders/{learningProvider-id}"]["body"],
-    params?: Endpoints["DELETE /employeeExperience/learningProviders/{learningProvider-id}"]["parameters"],
+    body: Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}']['body'],
+    params?: Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/employeeExperience/learningProviders/{learningProvider-id}",
+      '/employeeExperience/learningProviders/{learningProvider-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "learningProvider-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'learningProvider-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /employeeExperience/learningProviders/{learningProvider-id}"]["response"],
+          res.data as Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}']['response']
       );
   }
 
@@ -119,26 +115,26 @@ export class LearningProvidersClient {
    * Delete the specified learningContent resource that represents the metadata of the specified provider&#x27;s ingested content.
    */
   async delete$1(
-    body: Endpoints["DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)"]["body"],
-    params?: Endpoints["DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)"]["parameters"],
+    body: Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['body'],
+    params?: Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)",
+      '/employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)',
       [
-        { name: "If-Match", in: "header" },
-        { name: "learningProvider-id", in: "path" },
-        { name: "externalId", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'learningProvider-id', in: 'path' },
+        { name: 'externalId', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)"]["response"],
+          res.data as Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['response']
       );
   }
 
@@ -148,26 +144,26 @@ export class LearningProvidersClient {
    * Delete a learningCourseActivity object using the course activity ID of either an assignment or a self-initiated activity.
    */
   async delete$2(
-    body: Endpoints["DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)"]["body"],
-    params?: Endpoints["DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)"]["parameters"],
+    body: Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['body'],
+    params?: Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)",
+      '/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)',
       [
-        { name: "If-Match", in: "header" },
-        { name: "learningProvider-id", in: "path" },
-        { name: "externalcourseActivityId", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'learningProvider-id', in: 'path' },
+        { name: 'externalcourseActivityId', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)"]["response"],
+          res.data as Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['response']
       );
   }
 
@@ -176,26 +172,23 @@ export class LearningProvidersClient {
    *
    * Get a list of the learningProvider resources registered in Viva Learning for a tenant.
    */
-  async list(
-    params?: Endpoints["GET /employeeExperience/learningProviders"]["parameters"],
-  ) {
+  async list(params?: Endpoints['GET /employeeExperience/learningProviders']['parameters']) {
     const url = getInjectedUrl(
-      "/employeeExperience/learningProviders",
+      '/employeeExperience/learningProviders',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
       .then(
-        (res) =>
-          res.data as Endpoints["GET /employeeExperience/learningProviders"]["response"],
+        (res) => res.data as Endpoints['GET /employeeExperience/learningProviders']['response']
       );
   }
 
@@ -205,25 +198,25 @@ export class LearningProvidersClient {
    * Read the properties and relationships of a learningProvider object.
    */
   async get(
-    params?: Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}"]["parameters"],
+    params?: Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/employeeExperience/learningProviders/{learningProvider-id}",
+      '/employeeExperience/learningProviders/{learningProvider-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "learningProvider-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'learningProvider-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}"]["response"],
+          res.data as Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}']['response']
       );
   }
 
@@ -233,26 +226,26 @@ export class LearningProvidersClient {
    * Get the specified learningContent resource which represents the metadata of the specified provider&#x27;s ingested content.
    */
   async get$1(
-    params?: Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)"]["parameters"],
+    params?: Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)",
+      '/employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "learningProvider-id", in: "path" },
-        { name: "externalId", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'learningProvider-id', in: 'path' },
+        { name: 'externalId', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)"]["response"],
+          res.data as Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['response']
       );
   }
 
@@ -261,26 +254,26 @@ export class LearningProvidersClient {
    *
    */
   async get$2(
-    params?: Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)"]["parameters"],
+    params?: Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)",
+      '/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "learningProvider-id", in: "path" },
-        { name: "externalcourseActivityId", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'learningProvider-id', in: 'path' },
+        { name: 'externalcourseActivityId', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)"]["response"],
+          res.data as Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['response']
       );
   }
 
@@ -290,22 +283,22 @@ export class LearningProvidersClient {
    * Update the properties of a learningProvider object.
    */
   async update(
-    body: Endpoints["PATCH /employeeExperience/learningProviders/{learningProvider-id}"]["body"],
-    params?: Endpoints["PATCH /employeeExperience/learningProviders/{learningProvider-id}"]["parameters"],
+    body: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}']['body'],
+    params?: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/employeeExperience/learningProviders/{learningProvider-id}",
-      [{ name: "learningProvider-id", in: "path" }],
+      '/employeeExperience/learningProviders/{learningProvider-id}',
+      [{ name: 'learningProvider-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /employeeExperience/learningProviders/{learningProvider-id}"]["response"],
+          res.data as Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}']['response']
       );
   }
 
@@ -314,25 +307,25 @@ export class LearningProvidersClient {
    *
    */
   async update$1(
-    body: Endpoints["PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)"]["body"],
-    params?: Endpoints["PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)"]["parameters"],
+    body: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['body'],
+    params?: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)",
+      '/employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)',
       [
-        { name: "learningProvider-id", in: "path" },
-        { name: "externalId", in: "path" },
+        { name: 'learningProvider-id', in: 'path' },
+        { name: 'externalId', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)"]["response"],
+          res.data as Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['response']
       );
   }
 
@@ -342,25 +335,25 @@ export class LearningProvidersClient {
    * Update the properties of a learningCourseActivity object.
    */
   async update$2(
-    body: Endpoints["PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)"]["body"],
-    params?: Endpoints["PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)"]["parameters"],
+    body: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['body'],
+    params?: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)",
+      '/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)',
       [
-        { name: "learningProvider-id", in: "path" },
-        { name: "externalcourseActivityId", in: "path" },
+        { name: 'learningProvider-id', in: 'path' },
+        { name: 'externalcourseActivityId', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)"]["response"],
+          res.data as Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['response']
       );
   }
 
@@ -370,18 +363,17 @@ export class LearningProvidersClient {
    * Create a new learningProvider object and register it with Viva Learning using the specified display name and logos for different themes.
    */
   async create(
-    body: Endpoints["POST /employeeExperience/learningProviders"]["body"],
-    params?: Endpoints["POST /employeeExperience/learningProviders"]["parameters"],
+    body: Endpoints['POST /employeeExperience/learningProviders']['body'],
+    params?: Endpoints['POST /employeeExperience/learningProviders']['parameters']
   ) {
-    const url = getInjectedUrl("/employeeExperience/learningProviders", [], {
+    const url = getInjectedUrl('/employeeExperience/learningProviders', [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body)
       .then(
-        (res) =>
-          res.data as Endpoints["POST /employeeExperience/learningProviders"]["response"],
+        (res) => res.data as Endpoints['POST /employeeExperience/learningProviders']['response']
       );
   }
 }

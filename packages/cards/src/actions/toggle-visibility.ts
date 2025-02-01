@@ -19,7 +19,10 @@ export type ToggleVisibilityActionParams = Omit<ToggleVisibilityAction, 'type' |
 /**
  * An action that toggles the visibility of associated card elements.
  */
-export function ToggleVisibilityAction(targetElements: (string | TargetElement)[], params: ToggleVisibilityActionParams): ToggleVisibilityAction {
+export function ToggleVisibilityAction(
+  targetElements: (string | TargetElement)[],
+  params: ToggleVisibilityActionParams
+): ToggleVisibilityAction {
   return {
     type: 'Action.ToggleVisibility',
     targetElements,

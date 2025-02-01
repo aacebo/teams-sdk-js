@@ -65,7 +65,10 @@ export interface LineChartData {
 
 export type LineChartDataParams = Omit<LineChartData, 'values'>;
 
-export function LineChartData(values: LineChartDataPoint[] = [], params?: LineChartDataParams): LineChartData {
+export function LineChartData(
+  values: LineChartDataPoint[] = [],
+  params?: LineChartDataParams
+): LineChartData {
   return {
     values,
     ...params,

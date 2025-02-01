@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./redirect-types.d.ts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './redirect-types.d.ts';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -10,13 +10,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -28,30 +24,30 @@ function getInjectedUrl(
  * Provides operations to call the redirect method.
  */
 export class RedirectClient {
-  protected baseUrl = "/communications/calls/{call-id}/redirect";
+  protected baseUrl = '/communications/calls/{call-id}/redirect';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly callId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -64,23 +60,22 @@ export class RedirectClient {
    * Redirect an incoming call that hasn&#x27;t been answered or rejected yet. The terms &#x27;redirecting&#x27; and &#x27;forwarding&#x27; a call are used interchangeably. The bot is expected to redirect the call before the call times out. The current timeout value is 15 seconds.
    */
   async create(
-    body: Endpoints["POST /communications/calls/{call-id}/redirect"]["body"],
-    params?: Endpoints["POST /communications/calls/{call-id}/redirect"]["parameters"],
+    body: Endpoints['POST /communications/calls/{call-id}/redirect']['body'],
+    params?: Endpoints['POST /communications/calls/{call-id}/redirect']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/communications/calls/{call-id}/redirect",
-      [{ name: "call-id", in: "path" }],
+      '/communications/calls/{call-id}/redirect',
+      [{ name: 'call-id', in: 'path' }],
       {
         ...(params || {}),
-        "call-id": this.callId,
-      },
+        'call-id': this.callId,
+      }
     );
 
     return this.http
       .post(url, body)
       .then(
-        (res) =>
-          res.data as Endpoints["POST /communications/calls/{call-id}/redirect"]["response"],
+        (res) => res.data as Endpoints['POST /communications/calls/{call-id}/redirect']['response']
       );
   }
 }

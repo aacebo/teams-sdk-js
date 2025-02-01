@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./team-types.d.ts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './team-types.d.ts';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -10,13 +10,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -28,31 +24,30 @@ function getInjectedUrl(
  * Provides operations to manage the team property of the microsoft.graph.teamInfo entity.
  */
 export class TeamClient {
-  protected baseUrl =
-    "/users/{user-id}/teamwork/associatedTeams/{associatedTeamInfo-id}/team";
+  protected baseUrl = '/users/{user-id}/teamwork/associatedTeams/{associatedTeamInfo-id}/team';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly associatedTeamInfoId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -64,27 +59,27 @@ export class TeamClient {
    *
    */
   async get(
-    params?: Endpoints["GET /users/{user-id}/teamwork/associatedTeams/{associatedTeamInfo-id}/team"]["parameters"],
+    params?: Endpoints['GET /users/{user-id}/teamwork/associatedTeams/{associatedTeamInfo-id}/team']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/teamwork/associatedTeams/{associatedTeamInfo-id}/team",
+      '/users/{user-id}/teamwork/associatedTeams/{associatedTeamInfo-id}/team',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "user-id", in: "path" },
-        { name: "associatedTeamInfo-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'user-id', in: 'path' },
+        { name: 'associatedTeamInfo-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "associatedTeamInfo-id": this.associatedTeamInfoId,
-      },
+        'associatedTeamInfo-id': this.associatedTeamInfoId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /users/{user-id}/teamwork/associatedTeams/{associatedTeamInfo-id}/team"]["response"],
+          res.data as Endpoints['GET /users/{user-id}/teamwork/associatedTeams/{associatedTeamInfo-id}/team']['response']
       );
   }
 }

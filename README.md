@@ -15,13 +15,13 @@ a suite of packages used to build on the Teams Platform.
 
 > ⚠️ **Warning**: this project is not supported or affiliated with Microsoft in any way!
 
--   [Documentation](https://aacebo.github.io/teams-sdk-js)
--   [Why?](#why)
--   [Design Philosophy](#design-philosophy)
--   [Scripts](#scripts)
--   [Packages](#packages)
--   [Samples](#samples)
--   [Apps](#apps)
+- [Documentation](https://aacebo.github.io/teams-sdk-js)
+- [Why?](#why)
+- [Design Philosophy](#design-philosophy)
+- [Scripts](#scripts)
+- [Packages](#packages)
+- [Samples](#samples)
+- [Apps](#apps)
 
 ## Why?
 
@@ -85,33 +85,33 @@ $: npm run test
 
 ## Packages
 
--   [`@teams.sdk/apps`](./packages/apps/README.md)
--   [`@teams.sdk/ai`](./packages/ai/README.md)
--   [`@teams.sdk/api`](./packages/api/README.md)
--   [`@teams.sdk/botbuilder`](./packages/botbuilder/README.md)
--   [`@teams.sdk/cards`](./packages/cards/README.md)
--   [`@teams.sdk/cli`](./packages/cli/README.md)
--   [`@teams.sdk/client`](./packages/client/README.md)
--   [`@teams.sdk/common`](./packages/common/README.md)
--   [`@teams.sdk/config`](./packages/config/README.md)
--   [`@teams.sdk/dev`](./packages/dev/README.md)
--   [`@teams.sdk/devtools`](./packages/devtools/README.md)
--   [`@teams.sdk/graph`](./packages/graph/README.md)
--   [`@teams.sdk/openai`](./packages/openai/README.md)
+- [`@teams.sdk/apps`](./packages/apps/README.md)
+- [`@teams.sdk/ai`](./packages/ai/README.md)
+- [`@teams.sdk/api`](./packages/api/README.md)
+- [`@teams.sdk/botbuilder`](./packages/botbuilder/README.md)
+- [`@teams.sdk/cards`](./packages/cards/README.md)
+- [`@teams.sdk/cli`](./packages/cli/README.md)
+- [`@teams.sdk/client`](./packages/client/README.md)
+- [`@teams.sdk/common`](./packages/common/README.md)
+- [`@teams.sdk/config`](./packages/config/README.md)
+- [`@teams.sdk/dev`](./packages/dev/README.md)
+- [`@teams.sdk/devtools`](./packages/devtools/README.md)
+- [`@teams.sdk/graph`](./packages/graph/README.md)
+- [`@teams.sdk/openai`](./packages/openai/README.md)
 
 ## Samples
 
--   [`@samples/echo`](./samples/echo/README.md)
--   [`@samples/botbuilder`](./samples/botbuilder/README.md)
--   [`@samples/console`](./samples/console/README.md)
--   [`@samples/auth`](./samples/auth/README.md)
--   [`@samples/lights`](./samples/lights/README.md)
+- [`@samples/echo`](./samples/echo/README.md)
+- [`@samples/botbuilder`](./samples/botbuilder/README.md)
+- [`@samples/console`](./samples/console/README.md)
+- [`@samples/auth`](./samples/auth/README.md)
+- [`@samples/lights`](./samples/lights/README.md)
 
 ## Apps
 
--   [`@apps/copilot`](./apps/copilot/README.md)
+- [`@apps/copilot`](./apps/copilot/README.md)
 
 ## Links
 
--   [Teams Developer Portal: Apps](https://dev.teams.microsoft.com/apps)
--   [Teams Toolkit](https://www.npmjs.com/package/@microsoft/teamsapp-cli)
+- [Teams Developer Portal: Apps](https://dev.teams.microsoft.com/apps)
+- [Teams Toolkit](https://www.npmjs.com/package/@microsoft/teamsapp-cli)

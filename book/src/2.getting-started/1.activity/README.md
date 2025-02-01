@@ -3,9 +3,7 @@
 An application-level representation of conversational actions made by humans and automated software.
 
 ```typescript
-app.on('activity', async ({ activity }) => {
-
-});
+app.on('activity', async ({ activity }) => {});
 ```
 
 ## Schema
@@ -83,6 +81,7 @@ The `timestamp` field records the exact UTC time when the activity occurred. Due
 `A2043`: Senders SHOULD always use encode the value of `timestamp` fields as UTC, and they SHOULD always include Z as an explicit UTC mark within the value.
 
 ### Local timezone
+
 The `localTimezone` field expresses the timezone where the activity was generated. The value of the `localTimezone` field is a time zone name (zone entry) per the IANA Time Zone database. [[14](#references)]
 
 `A2055`: Clients MAY include the `localTimezone` in their activities.

@@ -16,14 +16,16 @@ export default function IconCard(props: IconCardProps) {
     return <>icon "{name}" not found</>;
   }
 
-  return <Icon
-    className={classNames(className, {
-      'text-lg': value.size === 'xxSmall',
-      'text-xl': value.size === 'xSmall',
-      'text-2xl': value.size === 'Standard' || value.size === 'Medium',
-      'text-4xl': value.size === 'Large',
-      'text-8xl': value.size === 'xLarge',
-      'text-9xl': value.size === 'xxLarge',
-    })}
-  />;
+  return (
+    <Icon
+      className={classNames(className, {
+        'text-lg': value.size === 'xxSmall',
+        'text-xl': value.size === 'xSmall',
+        'text-2xl': value.size === 'Standard' || value.size === 'Medium',
+        'text-4xl': value.size === 'Large',
+        'text-8xl': value.size === 'xLarge',
+        'text-9xl': value.size === 'xxLarge',
+      })}
+    />
+  );
 }

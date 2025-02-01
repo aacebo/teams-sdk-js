@@ -3,9 +3,7 @@
 Message activities represent content intended to be shown within a conversational interface. Message activities may contain text, speech, interactive cards, and binary or unknown attachments; typically channels require at most one of these for the message activity to be well-formed.
 
 ```typescript
-app.on('message', async ({ activity }) => {
-
-});
+app.on('message', async ({ activity }) => {});
 ```
 
 ## Schema
@@ -131,7 +129,7 @@ The `importance` field contains an enumerated set of values to signal to the rec
 The `deliveryMode` field contains any one of an enumerated set of values to signal to the recipient alternate delivery paths for the activity or response. The value of the `deliveryMode` field is of type string, with defined values of `normal`, `notification` and `expectReplies`. The default value is `normal`.
 
 Activities with a `deliveryMode` of `expectReplies` differ only in their requirement to return a response payload back to the caller synchronously, as a direct response to the initial request.
- 
+
 `A3110`: If a sender includes the `deliveryMode` field, it SHOULD only send defined values.
 
 `A3111`: Receivers SHOULD interpret undefined values as `normal`.
@@ -144,7 +142,7 @@ Activities with a `deliveryMode` of `expectReplies` differ only in their require
 
 `A3115`: Senders MUST establish whether a receiver understands `deliveryMode` of `expectReplies` prior to sending activities with that value.
 
-`A3116`: Bots SHOULD NOT send activities with `deliveryMode` of `expectReplies` to channels.  
+`A3116`: Bots SHOULD NOT send activities with `deliveryMode` of `expectReplies` to channels.
 
 ### Listen for
 

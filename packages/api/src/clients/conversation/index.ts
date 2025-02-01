@@ -41,7 +41,7 @@ export class ConversationClient extends ClientBase {
 
     super({
       ...options,
-      children: [activities]
+      children: [activities],
     });
 
     this._activities = activities;
@@ -50,8 +50,10 @@ export class ConversationClient extends ClientBase {
   activities(conversationId: string) {
     return {
       create: (params: ActivityParams) => this._activities.create(conversationId, params),
-      update: (id: string, params: ActivityParams) => this._activities.update(conversationId, id, params),
-      reply: (id: string, params: ActivityParams) => this._activities.reply(conversationId, id, params),
+      update: (id: string, params: ActivityParams) =>
+        this._activities.update(conversationId, id, params),
+      reply: (id: string, params: ActivityParams) =>
+        this._activities.reply(conversationId, id, params),
       delete: (id: string) => this._activities.delete(conversationId, id),
       members: (activityId: string) => this._activities.members(conversationId, activityId),
     };

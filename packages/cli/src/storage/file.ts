@@ -3,7 +3,7 @@ import { Knex } from 'knex';
 import { File } from './models';
 
 export class FileStorage {
-  constructor(private readonly _db: Knex) { }
+  constructor(private readonly _db: Knex) {}
 
   async migrate() {
     const exists = await this._db.schema.hasTable('files');
@@ -25,19 +25,17 @@ export class FileStorage {
   }
 
   async getOne(path: string) {
-    const res = await this._db.table<File>('files')
-      .select('*')
-      .where('path', '=', path)
-      .first();
+    const res = await this._db.table<File>('files').select('*').where('path', '=', path).first();
 
     return res;
   }
 
   async search(embedding: Array<number>) {
-    const res = await this._db.table<File>('files')
+    const res = await this._db
+      .table<File>('files')
       .select<File[]>(
         '*',
-        this._db.raw(`vec_distance_L2(embedding, '${JSON.stringify(embedding)}') as distance`),
+        this._db.raw(`vec_distance_L2(embedding, '${JSON.stringify(embedding)}') as distance`)
       )
       .orderBy('distance')
       .limit(3);
@@ -46,25 +44,25 @@ export class FileStorage {
   }
 
   async create(value: File) {
-    await this._db.table<File>('files')
-      .insert({
-        ...value,
-        embedding: value.embedding ?
-          this._db.raw(`vec_f32('${JSON.stringify(value.embedding)}')`) :
-          undefined,
-      });
+    await this._db.table<File>('files').insert({
+      ...value,
+      embedding: value.embedding
+        ? this._db.raw(`vec_f32('${JSON.stringify(value.embedding)}')`)
+        : undefined,
+    });
 
     return { ...value };
   }
 
   async update(value: File) {
     value.updated_at = new Date();
-    await this._db.table<File>('files')
+    await this._db
+      .table<File>('files')
       .update({
         ...value,
-        embedding: value.embedding ?
-          this._db.raw(`vec_f32('${JSON.stringify(value.embedding)}')`) :
-          undefined,
+        embedding: value.embedding
+          ? this._db.raw(`vec_f32('${JSON.stringify(value.embedding)}')`)
+          : undefined,
       })
       .where('path', '=', value.path);
 
@@ -72,8 +70,6 @@ export class FileStorage {
   }
 
   async delete(path: string) {
-    await this._db.table<File>('files')
-      .delete()
-      .where('path', '=', path);
+    await this._db.table<File>('files').delete().where('path', '=', path);
   }
 }

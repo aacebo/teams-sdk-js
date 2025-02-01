@@ -17,7 +17,7 @@ export class ConsoleSender implements Sender {
     if (typeof activity === 'string') {
       activity = {
         type: 'message',
-        text: activity
+        text: activity,
       };
     }
 

@@ -1,9 +1,9 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { RefClient } from "./ref";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { RefClient } from './ref';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -12,13 +12,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -30,30 +26,30 @@ function getInjectedUrl(
  * Provides operations to manage the appManagementPolicies property of the microsoft.graph.application entity.
  */
 export class AppManagementPoliciesClient {
-  protected baseUrl = "/applications/{application-id}/appManagementPolicies";
+  protected baseUrl = '/applications/{application-id}/appManagementPolicies';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly applicationId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -84,27 +80,27 @@ export class AppManagementPoliciesClient {
    * The appManagementPolicy applied to this application.
    */
   async list(
-    params?: Endpoints["GET /applications/{application-id}/appManagementPolicies"]["parameters"],
+    params?: Endpoints['GET /applications/{application-id}/appManagementPolicies']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/appManagementPolicies",
+      '/applications/{application-id}/appManagementPolicies',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "application-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "application-id": this.applicationId,
-      },
+        'application-id': this.applicationId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications/{application-id}/appManagementPolicies"]["response"],
+          res.data as Endpoints['GET /applications/{application-id}/appManagementPolicies']['response']
       );
   }
 }

@@ -16,7 +16,7 @@ export class TypingActivityBuilder extends ActivityBuilder {
     super();
     this.activity = {
       ...options,
-      type: 'typing'
+      type: 'typing',
     };
   }
 

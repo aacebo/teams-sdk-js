@@ -19,8 +19,8 @@ export class MessageDeleteActivityBuilder extends ActivityBuilder {
       type: 'messageDelete',
       channelData: {
         ...options?.channelData,
-        eventType: 'softDeleteMessage'
-      }
+        eventType: 'softDeleteMessage',
+      },
     };
   }
 

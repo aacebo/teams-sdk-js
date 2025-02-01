@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./getMemberGroups-types.d.ts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './getMemberGroups-types.d.ts';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -10,13 +10,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -28,31 +24,30 @@ function getInjectedUrl(
  * Provides operations to call the getMemberGroups method.
  */
 export class GetMemberGroupsClient {
-  protected baseUrl =
-    "/appRoleAssignments/{appRoleAssignment-id}/getMemberGroups";
+  protected baseUrl = '/appRoleAssignments/{appRoleAssignment-id}/getMemberGroups';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly appRoleAssignmentId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -65,23 +60,23 @@ export class GetMemberGroupsClient {
    * Return all the group IDs for the groups that the specified user, group, service principal, organizational contact, device, or directory object is a member of. This function is transitive. This API returns up to 11,000 group IDs. If more than 11,000 results are available, it returns a 400 Bad Request error with the DirectoryResultSizeLimitExceeded error code. If you get the DirectoryResultSizeLimitExceeded error code, use the List group transitive memberOf API instead.
    */
   async create(
-    body: Endpoints["POST /appRoleAssignments/{appRoleAssignment-id}/getMemberGroups"]["body"],
-    params?: Endpoints["POST /appRoleAssignments/{appRoleAssignment-id}/getMemberGroups"]["parameters"],
+    body: Endpoints['POST /appRoleAssignments/{appRoleAssignment-id}/getMemberGroups']['body'],
+    params?: Endpoints['POST /appRoleAssignments/{appRoleAssignment-id}/getMemberGroups']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/appRoleAssignments/{appRoleAssignment-id}/getMemberGroups",
-      [{ name: "appRoleAssignment-id", in: "path" }],
+      '/appRoleAssignments/{appRoleAssignment-id}/getMemberGroups',
+      [{ name: 'appRoleAssignment-id', in: 'path' }],
       {
         ...(params || {}),
-        "appRoleAssignment-id": this.appRoleAssignmentId,
-      },
+        'appRoleAssignment-id': this.appRoleAssignmentId,
+      }
     );
 
     return this.http
       .post(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["POST /appRoleAssignments/{appRoleAssignment-id}/getMemberGroups"]["response"],
+          res.data as Endpoints['POST /appRoleAssignments/{appRoleAssignment-id}/getMemberGroups']['response']
       );
   }
 }

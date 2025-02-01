@@ -20,6 +20,7 @@
 
 a web frontend for the `DevToolsPlugin` in the package `@teams.sdk/dev`.  
 The devtools allow help you:
+
 - chat with your app locally without needing to publish your app or interact with teams directly💬
 - inspect incoming and outgoing activities live🛜⚡
 - inspect logs from your app live🗃️⚡

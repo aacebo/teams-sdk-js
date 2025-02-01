@@ -13,10 +13,10 @@ export const schema: ObjectSchema = {
     text: {
       type: 'string',
       title: 'text',
-      description: 'the topic or subject to search for'
-    }
+      description: 'the topic or subject to search for',
+    },
   },
-  required: ['text']
+  required: ['text'],
 };
 
 export function handler(ctx: CopilotContext) {
@@ -28,7 +28,7 @@ export function handler(ctx: CopilotContext) {
 
     try {
       // 50min
-      if (!config.syncedAt || (new Date().getTime() - config.syncedAt.getTime()) > 3000000) {
+      if (!config.syncedAt || new Date().getTime() - config.syncedAt.getTime() > 3000000) {
         console.log('please wait while I refresh my memory...');
         config.syncedAt = new Date();
         config.save();
@@ -38,14 +38,11 @@ export function handler(ctx: CopilotContext) {
       const res = await openai.embeddings.create({
         input: text,
         model: 'text-embedding-3-small',
-        encoding_format: 'float'
+        encoding_format: 'float',
       });
 
       const files = await stores.file.search(res.data[0].embedding);
-      return files.map(file => [
-        `# File (${file.path})`,
-        file.content,
-      ].join('\n')).join('\n');
+      return files.map((file) => [`# File (${file.path})`, file.content].join('\n')).join('\n');
     } catch (err) {
       if (err instanceof Error) {
         log.debug(err.message);

@@ -106,7 +106,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
             chat: ctx.activity.conversation,
             body: {
               ...JSON.parse(res.config.data),
-              ...res.data
+              ...res.data,
             },
             sentAt: new Date(sentAt),
           });
@@ -132,7 +132,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
         }
 
         return Promise.reject(err);
-      }
+      },
     });
 
     return new HttpSender(ctx);

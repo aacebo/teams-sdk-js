@@ -1,6 +1,12 @@
 import { Element } from '@teams.sdk/cards';
 
-import { ContainerCard, ColumnSetCard, FactSetCard, ImageSetCard, ActionSetCard } from './Containers';
+import {
+  ContainerCard,
+  ColumnSetCard,
+  FactSetCard,
+  ImageSetCard,
+  ActionSetCard,
+} from './Containers';
 import { BadgeCard, CodeBlockCard, IconCard, ImageCard, TextBlockCard } from './Medias';
 
 export interface CardProps {

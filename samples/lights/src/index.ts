@@ -12,7 +12,7 @@ const storage = new LocalStorage<{
 
 const app = new App({
   logger: new ConsoleLogger('@samples/lights', { level: 'debug' }),
-  plugins: [new DevtoolsPlugin(), new HttpPlugin()]
+  plugins: [new DevtoolsPlugin(), new HttpPlugin()],
 });
 
 app.on('message', async ({ send, stream, activity }) => {
@@ -64,8 +64,8 @@ app.on('message', async ({ send, stream, activity }) => {
       type: 'message',
       text: chunk,
       channelData: {
-        feedbackLoopEnabled: true
-      }
+        feedbackLoopEnabled: true,
+      },
     });
   });
 });

@@ -26,6 +26,7 @@ Much of the difficulty in our development flow comes from fragmentation of tooli
 causing information to be hard to find and tools to not feel cohesive with one another.
 
 Today to build a teams app, you may need to use:
+
 - Teams Toolkit as your developer toolchain
 - `teams-js` as your package for tab implementation
 - `botbuilder-*` or `teams-ai` for package bot implementation

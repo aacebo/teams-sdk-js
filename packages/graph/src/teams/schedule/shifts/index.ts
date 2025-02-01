@@ -1,8 +1,8 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -11,13 +11,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -29,27 +25,27 @@ function getInjectedUrl(
  * Provides operations to manage the shifts property of the microsoft.graph.schedule entity.
  */
 export class ShiftsClient {
-  protected baseUrl = "/teams/{team-id}/schedule/shifts";
+  protected baseUrl = '/teams/{team-id}/schedule/shifts';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -71,26 +67,26 @@ export class ShiftsClient {
    * Delete a shift from the schedule.
    */
   async delete(
-    body: Endpoints["DELETE /teams/{team-id}/schedule/shifts/{shift-id}"]["body"],
-    params?: Endpoints["DELETE /teams/{team-id}/schedule/shifts/{shift-id}"]["parameters"],
+    body: Endpoints['DELETE /teams/{team-id}/schedule/shifts/{shift-id}']['body'],
+    params?: Endpoints['DELETE /teams/{team-id}/schedule/shifts/{shift-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/shifts/{shift-id}",
+      '/teams/{team-id}/schedule/shifts/{shift-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "team-id", in: "path" },
-        { name: "shift-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'team-id', in: 'path' },
+        { name: 'shift-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /teams/{team-id}/schedule/shifts/{shift-id}"]["response"],
+          res.data as Endpoints['DELETE /teams/{team-id}/schedule/shifts/{shift-id}']['response']
       );
   }
 
@@ -99,28 +95,23 @@ export class ShiftsClient {
    *
    * Get the list of shift instances in a schedule.
    */
-  async list(
-    params?: Endpoints["GET /teams/{team-id}/schedule/shifts"]["parameters"],
-  ) {
+  async list(params?: Endpoints['GET /teams/{team-id}/schedule/shifts']['parameters']) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/shifts",
+      '/teams/{team-id}/schedule/shifts',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/schedule/shifts"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /teams/{team-id}/schedule/shifts']['response']);
   }
 
   /**
@@ -128,27 +119,25 @@ export class ShiftsClient {
    *
    * Retrieve the properties and relationships of a shift object by ID.
    */
-  async get(
-    params?: Endpoints["GET /teams/{team-id}/schedule/shifts/{shift-id}"]["parameters"],
-  ) {
+  async get(params?: Endpoints['GET /teams/{team-id}/schedule/shifts/{shift-id}']['parameters']) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/shifts/{shift-id}",
+      '/teams/{team-id}/schedule/shifts/{shift-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
-        { name: "shift-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
+        { name: 'shift-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/schedule/shifts/{shift-id}"]["response"],
+          res.data as Endpoints['GET /teams/{team-id}/schedule/shifts/{shift-id}']['response']
       );
   }
 
@@ -158,25 +147,25 @@ export class ShiftsClient {
    * Replace an existing shift. If the specified shift doesn&#x27;t exist, this method returns 404 Not found. The duration of a shift can&#x27;t be less than 1 minute or longer than 24 hours.
    */
   async update(
-    body: Endpoints["PATCH /teams/{team-id}/schedule/shifts/{shift-id}"]["body"],
-    params?: Endpoints["PATCH /teams/{team-id}/schedule/shifts/{shift-id}"]["parameters"],
+    body: Endpoints['PATCH /teams/{team-id}/schedule/shifts/{shift-id}']['body'],
+    params?: Endpoints['PATCH /teams/{team-id}/schedule/shifts/{shift-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/shifts/{shift-id}",
+      '/teams/{team-id}/schedule/shifts/{shift-id}',
       [
-        { name: "team-id", in: "path" },
-        { name: "shift-id", in: "path" },
+        { name: 'team-id', in: 'path' },
+        { name: 'shift-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /teams/{team-id}/schedule/shifts/{shift-id}"]["response"],
+          res.data as Endpoints['PATCH /teams/{team-id}/schedule/shifts/{shift-id}']['response']
       );
   }
 
@@ -186,22 +175,19 @@ export class ShiftsClient {
    * Create a new shift instance in a schedule. The duration of a shift cannot be less than 1 minute or longer than 24 hours.
    */
   async create(
-    body: Endpoints["POST /teams/{team-id}/schedule/shifts"]["body"],
-    params?: Endpoints["POST /teams/{team-id}/schedule/shifts"]["parameters"],
+    body: Endpoints['POST /teams/{team-id}/schedule/shifts']['body'],
+    params?: Endpoints['POST /teams/{team-id}/schedule/shifts']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/shifts",
-      [{ name: "team-id", in: "path" }],
+      '/teams/{team-id}/schedule/shifts',
+      [{ name: 'team-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .post(url, body)
-      .then(
-        (res) =>
-          res.data as Endpoints["POST /teams/{team-id}/schedule/shifts"]["response"],
-      );
+      .then((res) => res.data as Endpoints['POST /teams/{team-id}/schedule/shifts']['response']);
   }
 }

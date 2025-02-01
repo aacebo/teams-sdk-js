@@ -15,10 +15,10 @@ export const schema: ObjectSchema = {
     path: {
       type: 'string',
       title: 'path',
-      description: 'the path to the directory'
-    }
+      description: 'the path to the directory',
+    },
   },
-  required: ['path']
+  required: ['path'],
 };
 
 export function handler({ log }: CopilotContext) {
@@ -37,26 +37,16 @@ export function handler({ log }: CopilotContext) {
       return 'error: cannot use "read-directory" on a file';
     }
 
-    const items = fs.readdirSync(
-      path.join(process.cwd(), args.path),
-      { recursive: true }
-    );
+    const items = fs.readdirSync(path.join(process.cwd(), args.path), { recursive: true });
 
-    const contents: { [key: string]: string } = { };
+    const contents: { [key: string]: string } = {};
 
     for (const item of items) {
       const subPath = item.toString();
 
-      if (
-        subPath.includes('node_modules') ||
-        subPath.includes('-lock.json')
-      ) continue;
+      if (subPath.includes('node_modules') || subPath.includes('-lock.json')) continue;
 
-      const stat = fs.statSync(path.join(
-        process.cwd(),
-        args.path,
-        subPath
-      ));
+      const stat = fs.statSync(path.join(process.cwd(), args.path, subPath));
 
       contents[subPath] = stat.isFile() ? 'file' : 'directory';
     }

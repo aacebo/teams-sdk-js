@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./logo-types.d.ts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './logo-types.d.ts';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -10,13 +10,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -28,30 +24,30 @@ function getInjectedUrl(
  * Provides operations to manage the media for the application entity.
  */
 export class LogoClient {
-  protected baseUrl = "/applications/{application-id}/logo";
+  protected baseUrl = '/applications/{application-id}/logo';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly applicationId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -64,26 +60,25 @@ export class LogoClient {
    * The main logo for the application. Not nullable.
    */
   async delete(
-    body: Endpoints["DELETE /applications/{application-id}/logo"]["body"],
-    params?: Endpoints["DELETE /applications/{application-id}/logo"]["parameters"],
+    body: Endpoints['DELETE /applications/{application-id}/logo']['body'],
+    params?: Endpoints['DELETE /applications/{application-id}/logo']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/logo",
+      '/applications/{application-id}/logo',
       [
-        { name: "If-Match", in: "header" },
-        { name: "application-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'application-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "application-id": this.applicationId,
-      },
+        'application-id': this.applicationId,
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
-        (res) =>
-          res.data as Endpoints["DELETE /applications/{application-id}/logo"]["response"],
+        (res) => res.data as Endpoints['DELETE /applications/{application-id}/logo']['response']
       );
   }
 
@@ -92,24 +87,19 @@ export class LogoClient {
    *
    * The main logo for the application. Not nullable.
    */
-  async get(
-    params?: Endpoints["GET /applications/{application-id}/logo"]["parameters"],
-  ) {
+  async get(params?: Endpoints['GET /applications/{application-id}/logo']['parameters']) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/logo",
-      [{ name: "application-id", in: "path" }],
+      '/applications/{application-id}/logo',
+      [{ name: 'application-id', in: 'path' }],
       {
         ...(params || {}),
-        "application-id": this.applicationId,
-      },
+        'application-id': this.applicationId,
+      }
     );
 
     return this.http
       .get(url)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /applications/{application-id}/logo"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /applications/{application-id}/logo']['response']);
   }
 
   /**
@@ -118,23 +108,20 @@ export class LogoClient {
    * The main logo for the application. Not nullable.
    */
   async set(
-    body: Endpoints["PUT /applications/{application-id}/logo"]["body"],
-    params?: Endpoints["PUT /applications/{application-id}/logo"]["parameters"],
+    body: Endpoints['PUT /applications/{application-id}/logo']['body'],
+    params?: Endpoints['PUT /applications/{application-id}/logo']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/logo",
-      [{ name: "application-id", in: "path" }],
+      '/applications/{application-id}/logo',
+      [{ name: 'application-id', in: 'path' }],
       {
         ...(params || {}),
-        "application-id": this.applicationId,
-      },
+        'application-id': this.applicationId,
+      }
     );
 
     return this.http
       .put(url, body)
-      .then(
-        (res) =>
-          res.data as Endpoints["PUT /applications/{application-id}/logo"]["response"],
-      );
+      .then((res) => res.data as Endpoints['PUT /applications/{application-id}/logo']['response']);
   }
 }

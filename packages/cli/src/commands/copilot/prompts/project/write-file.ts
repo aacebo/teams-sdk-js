@@ -16,15 +16,15 @@ export const schema: ObjectSchema = {
     path: {
       type: 'string',
       title: 'path',
-      description: 'the path to the file to create'
+      description: 'the path to the file to create',
     },
     content: {
       type: 'string',
       title: 'content',
-      description: 'the content of the new file'
-    }
+      description: 'the content of the new file',
+    },
   },
-  required: ['path', 'content']
+  required: ['path', 'content'],
 };
 
 export function handler({ log }: CopilotContext) {
@@ -32,7 +32,7 @@ export function handler({ log }: CopilotContext) {
     log.debug(args.path);
 
     fs.writeFileSync(path.join(process.cwd(), args.path), args.content, {
-      encoding: 'utf8'
+      encoding: 'utf8',
     });
 
     return 'file created';

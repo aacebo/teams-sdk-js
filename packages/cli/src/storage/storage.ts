@@ -36,19 +36,15 @@ export class Storage {
       client: 'sqlite3',
       useNullAsDefault: true,
       connection: {
-        filename: path.join(
-          os.homedir(),
-          'teams-sdk',
-          'memory.db'
-        )
+        filename: path.join(os.homedir(), 'teams-sdk', 'memory.db'),
       },
       pool: {
         max: 5,
         afterCreate: (conn: sqlite.Database, done: (...args: any[]) => void) => {
           sqliteVec.load(conn as any);
           done(null, conn);
-        }
-      }
+        },
+      },
     });
 
     try {

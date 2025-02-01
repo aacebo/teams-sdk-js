@@ -91,7 +91,7 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
     this.activity = {
       ...options,
       type: 'message',
-      text
+      text,
     };
   }
 
@@ -206,14 +206,8 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
   /**
    * Add a card attachment
    */
-  card<T extends CardAttachmentType>(
-    type: T,
-    content: CardAttachmentTypes[T]['content']
-  ) {
-    return this.attachment(cardAttachment(
-      type,
-      content
-    ));
+  card<T extends CardAttachmentType>(type: T, content: CardAttachmentTypes[T]['content']) {
+    return this.attachment(cardAttachment(type, content));
   }
 
   build() {
@@ -221,6 +215,9 @@ export class MessageSendActivityBuilder extends ActivityBuilder {
   }
 }
 
-export function MessageSendActivity(text: string, options?: Omit<Partial<MessageSendActivity>, 'type'>) {
+export function MessageSendActivity(
+  text: string,
+  options?: Omit<Partial<MessageSendActivity>, 'type'>
+) {
   return new MessageSendActivityBuilder(text, options);
 }

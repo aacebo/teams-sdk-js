@@ -15,10 +15,10 @@ export const schema: ObjectSchema = {
     path: {
       type: 'string',
       title: 'path',
-      description: 'the path to the file to read'
-    }
+      description: 'the path to the file to read',
+    },
   },
-  required: ['path']
+  required: ['path'],
 };
 
 export function handler({ log }: CopilotContext) {

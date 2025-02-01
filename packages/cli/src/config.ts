@@ -2,18 +2,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 
-const filePath = path.join(
-  os.homedir(),
-  'teams-sdk',
-  '.config.json',
-);
+const filePath = path.join(os.homedir(), 'teams-sdk', '.config.json');
 
 export class Config {
   syncedAt?: Date;
 
   save() {
     fs.writeFileSync(filePath, JSON.stringify(this), {
-      encoding: 'utf8'
+      encoding: 'utf8',
     });
   }
 
@@ -25,13 +21,10 @@ export class Config {
     }
 
     try {
-      const json = JSON.parse(fs.readFileSync(
-        filePath,
-        { encoding: 'utf8' },
-      ));
+      const json = JSON.parse(fs.readFileSync(filePath, { encoding: 'utf8' }));
 
       config.syncedAt = new Date(json.syncedAt);
-    } catch (err) { }
+    } catch (err) {}
 
     return config;
   }

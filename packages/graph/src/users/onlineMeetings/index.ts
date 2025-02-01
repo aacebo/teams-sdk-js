@@ -1,18 +1,18 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { AttendanceReportsClient } from "./attendanceReports";
-import { AttendeeReportClient } from "./attendeeReport";
-import { CountClient } from "./count";
-import { CreateOrGetClient } from "./createOrGet";
-import { GetAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTimeClient } from "./getAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime";
-import { GetAllTranscriptsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTimeClient } from "./getAllTranscriptsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime";
-import { GetVirtualAppointmentJoinWebUrlClient } from "./getVirtualAppointmentJoinWebUrl";
-import { RecordingsClient } from "./recordings";
-import { SendVirtualAppointmentReminderSmsClient } from "./sendVirtualAppointmentReminderSms";
-import { SendVirtualAppointmentSmsClient } from "./sendVirtualAppointmentSms";
-import { TranscriptsClient } from "./transcripts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { AttendanceReportsClient } from './attendanceReports';
+import { AttendeeReportClient } from './attendeeReport';
+import { CountClient } from './count';
+import { CreateOrGetClient } from './createOrGet';
+import { GetAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTimeClient } from './getAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime';
+import { GetAllTranscriptsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTimeClient } from './getAllTranscriptsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime';
+import { GetVirtualAppointmentJoinWebUrlClient } from './getVirtualAppointmentJoinWebUrl';
+import { RecordingsClient } from './recordings';
+import { SendVirtualAppointmentReminderSmsClient } from './sendVirtualAppointmentReminderSms';
+import { SendVirtualAppointmentSmsClient } from './sendVirtualAppointmentSms';
+import { TranscriptsClient } from './transcripts';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -21,13 +21,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -39,30 +35,30 @@ function getInjectedUrl(
  * Provides operations to manage the onlineMeetings property of the microsoft.graph.user entity.
  */
 export class OnlineMeetingsClient {
-  protected baseUrl = "/users/{user-id}/onlineMeetings";
+  protected baseUrl = '/users/{user-id}/onlineMeetings';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly userId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -112,7 +108,7 @@ export class OnlineMeetingsClient {
    */
   get getAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime() {
     return new GetAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTimeClient(
-      this.http,
+      this.http
     );
   }
 
@@ -123,7 +119,7 @@ export class OnlineMeetingsClient {
    */
   get getAllTranscriptsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime() {
     return new GetAllTranscriptsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTimeClient(
-      this.http,
+      this.http
     );
   }
 
@@ -133,10 +129,7 @@ export class OnlineMeetingsClient {
    * Provides operations to call the getVirtualAppointmentJoinWebUrl method.
    */
   getVirtualAppointmentJoinWebUrl(onlineMeetingId: string) {
-    return new GetVirtualAppointmentJoinWebUrlClient(
-      onlineMeetingId,
-      this.http,
-    );
+    return new GetVirtualAppointmentJoinWebUrlClient(onlineMeetingId, this.http);
   }
 
   /**
@@ -154,10 +147,7 @@ export class OnlineMeetingsClient {
    * Provides operations to call the sendVirtualAppointmentReminderSms method.
    */
   sendVirtualAppointmentReminderSms(onlineMeetingId: string) {
-    return new SendVirtualAppointmentReminderSmsClient(
-      onlineMeetingId,
-      this.http,
-    );
+    return new SendVirtualAppointmentReminderSmsClient(onlineMeetingId, this.http);
   }
 
   /**
@@ -183,27 +173,27 @@ export class OnlineMeetingsClient {
    *
    */
   async delete(
-    body: Endpoints["DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}"]["body"],
-    params?: Endpoints["DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}"]["parameters"],
+    body: Endpoints['DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}']['body'],
+    params?: Endpoints['DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}",
+      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "user-id", in: "path" },
-        { name: "onlineMeeting-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'user-id', in: 'path' },
+        { name: 'onlineMeeting-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "user-id": this.userId,
-      },
+        'user-id': this.userId,
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}"]["response"],
+          res.data as Endpoints['DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}']['response']
       );
   }
 
@@ -212,29 +202,24 @@ export class OnlineMeetingsClient {
    *
    * Information about a meeting, including the URL used to join a meeting, the attendees list, and the description.
    */
-  async list(
-    params?: Endpoints["GET /users/{user-id}/onlineMeetings"]["parameters"],
-  ) {
+  async list(params?: Endpoints['GET /users/{user-id}/onlineMeetings']['parameters']) {
     const url = getInjectedUrl(
-      "/users/{user-id}/onlineMeetings",
+      '/users/{user-id}/onlineMeetings',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "user-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'user-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "user-id": this.userId,
-      },
+        'user-id': this.userId,
+      }
     );
 
     return this.http
       .get(url)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /users/{user-id}/onlineMeetings"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /users/{user-id}/onlineMeetings']['response']);
   }
 
   /**
@@ -243,27 +228,27 @@ export class OnlineMeetingsClient {
    * Information about a meeting, including the URL used to join a meeting, the attendees list, and the description.
    */
   async get(
-    params?: Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}"]["parameters"],
+    params?: Endpoints['GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}",
+      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "user-id", in: "path" },
-        { name: "onlineMeeting-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'user-id', in: 'path' },
+        { name: 'onlineMeeting-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "user-id": this.userId,
-      },
+        'user-id': this.userId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}"]["response"],
+          res.data as Endpoints['GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}']['response']
       );
   }
 
@@ -272,26 +257,26 @@ export class OnlineMeetingsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}"]["body"],
-    params?: Endpoints["PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}"]["parameters"],
+    body: Endpoints['PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}']['body'],
+    params?: Endpoints['PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}",
+      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}',
       [
-        { name: "user-id", in: "path" },
-        { name: "onlineMeeting-id", in: "path" },
+        { name: 'user-id', in: 'path' },
+        { name: 'onlineMeeting-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "user-id": this.userId,
-      },
+        'user-id': this.userId,
+      }
     );
 
     return this.http
       .patch(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}"]["response"],
+          res.data as Endpoints['PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}']['response']
       );
   }
 
@@ -300,23 +285,20 @@ export class OnlineMeetingsClient {
    *
    */
   async create(
-    body: Endpoints["POST /users/{user-id}/onlineMeetings"]["body"],
-    params?: Endpoints["POST /users/{user-id}/onlineMeetings"]["parameters"],
+    body: Endpoints['POST /users/{user-id}/onlineMeetings']['body'],
+    params?: Endpoints['POST /users/{user-id}/onlineMeetings']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/onlineMeetings",
-      [{ name: "user-id", in: "path" }],
+      '/users/{user-id}/onlineMeetings',
+      [{ name: 'user-id', in: 'path' }],
       {
         ...(params || {}),
-        "user-id": this.userId,
-      },
+        'user-id': this.userId,
+      }
     );
 
     return this.http
       .post(url, body)
-      .then(
-        (res) =>
-          res.data as Endpoints["POST /users/{user-id}/onlineMeetings"]["response"],
-      );
+      .then((res) => res.data as Endpoints['POST /users/{user-id}/onlineMeetings']['response']);
   }
 }

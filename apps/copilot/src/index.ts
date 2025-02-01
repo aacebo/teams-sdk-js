@@ -22,7 +22,7 @@ app.on('message', events.message);
 app.on('dialog.open', events.dialogOpen);
 app.on('message.submit.feedback', () => {
   return {
-    status: 200
+    status: 200,
   };
 });
 

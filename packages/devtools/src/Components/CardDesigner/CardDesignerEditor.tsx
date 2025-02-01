@@ -18,7 +18,11 @@ export interface CardDesignerEditorProps {
   readonly onChange?: (value: Card) => void;
 }
 
-export default function CardDesignerEditor({ value, typescript, onChange }: CardDesignerEditorProps) {
+export default function CardDesignerEditor({
+  value,
+  typescript,
+  onChange,
+}: CardDesignerEditorProps) {
   return (
     <TabGroup className="flex flex-col flex-1 max-w-[50%] min-h-0 min-w-0 relative">
       <TabList className="flex absolute top-1 right-1 gap-1 z-10">
@@ -59,25 +63,27 @@ export function CardDesignerJsonEditor({ value, onChange }: CardDesignerJsonEdit
   useEffect(() => {
     if (!ref.current) return;
 
-    setView(new EditorView({
-      parent: ref.current,
-      state: EditorState.create({
-        doc: value ? JSON.stringify(value, null, 2) : undefined,
-        extensions: [
-          basicSetup,
-          atomone,
-          json(),
-          EditorView.updateListener.of((update: ViewUpdate) => {
-            if (!update.docChanged || !onChange) return;
+    setView(
+      new EditorView({
+        parent: ref.current,
+        state: EditorState.create({
+          doc: value ? JSON.stringify(value, null, 2) : undefined,
+          extensions: [
+            basicSetup,
+            atomone,
+            json(),
+            EditorView.updateListener.of((update: ViewUpdate) => {
+              if (!update.docChanged || !onChange) return;
 
-            try {
-              const card = JSON.parse(update.state.doc.toString());
-              onChange(card);
-            } catch (err) { }
-          }),
-        ],
-      }),
-    }));
+              try {
+                const card = JSON.parse(update.state.doc.toString());
+                onChange(card);
+              } catch (err) {}
+            }),
+          ],
+        }),
+      })
+    );
   }, [ref]);
 
   useEffect(() => {
@@ -107,16 +113,18 @@ export function CardDesignerTypescriptEditor({ value }: CardDesignerTypescriptEd
   useEffect(() => {
     if (!ref.current) return;
 
-    setView(new EditorView({
-      parent: ref.current,
-      doc: value,
-      extensions: [
-        basicSetup,
-        atomone,
-        javascript({ typescript: true }),
-        EditorState.readOnly.of(true),
-      ],
-    }));
+    setView(
+      new EditorView({
+        parent: ref.current,
+        doc: value,
+        extensions: [
+          basicSetup,
+          atomone,
+          javascript({ typescript: true }),
+          EditorState.readOnly.of(true),
+        ],
+      })
+    );
   }, [ref]);
 
   useEffect(() => {

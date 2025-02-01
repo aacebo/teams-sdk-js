@@ -1,13 +1,13 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { ClearPresenceClient } from "./clearPresence";
-import { ClearUserPreferredPresenceClient } from "./clearUserPreferredPresence";
-import { CountClient } from "./count";
-import { SetPresenceClient } from "./setPresence";
-import { SetStatusMessageClient } from "./setStatusMessage";
-import { SetUserPreferredPresenceClient } from "./setUserPreferredPresence";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { ClearPresenceClient } from './clearPresence';
+import { ClearUserPreferredPresenceClient } from './clearUserPreferredPresence';
+import { CountClient } from './count';
+import { SetPresenceClient } from './setPresence';
+import { SetStatusMessageClient } from './setStatusMessage';
+import { SetUserPreferredPresenceClient } from './setUserPreferredPresence';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -16,13 +16,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -34,27 +30,27 @@ function getInjectedUrl(
  * Provides operations to manage the presences property of the microsoft.graph.cloudCommunications entity.
  */
 export class PresencesClient {
-  protected baseUrl = "/communications/presences";
+  protected baseUrl = '/communications/presences';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -120,25 +116,24 @@ export class PresencesClient {
    *
    */
   async delete(
-    body: Endpoints["DELETE /communications/presences/{presence-id}"]["body"],
-    params?: Endpoints["DELETE /communications/presences/{presence-id}"]["parameters"],
+    body: Endpoints['DELETE /communications/presences/{presence-id}']['body'],
+    params?: Endpoints['DELETE /communications/presences/{presence-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/communications/presences/{presence-id}",
+      '/communications/presences/{presence-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "presence-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'presence-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
-        (res) =>
-          res.data as Endpoints["DELETE /communications/presences/{presence-id}"]["response"],
+        (res) => res.data as Endpoints['DELETE /communications/presences/{presence-id}']['response']
       );
   }
 
@@ -147,27 +142,22 @@ export class PresencesClient {
    *
    * Get a user&#x27;s presence information.
    */
-  async list(
-    params?: Endpoints["GET /communications/presences"]["parameters"],
-  ) {
+  async list(params?: Endpoints['GET /communications/presences']['parameters']) {
     const url = getInjectedUrl(
-      "/communications/presences",
+      '/communications/presences',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /communications/presences"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /communications/presences']['response']);
   }
 
   /**
@@ -175,26 +165,23 @@ export class PresencesClient {
    *
    * Get a user&#x27;s presence information.
    */
-  async get(
-    params?: Endpoints["GET /communications/presences/{presence-id}"]["parameters"],
-  ) {
+  async get(params?: Endpoints['GET /communications/presences/{presence-id}']['parameters']) {
     const url = getInjectedUrl(
-      "/communications/presences/{presence-id}",
+      '/communications/presences/{presence-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "presence-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'presence-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url)
       .then(
-        (res) =>
-          res.data as Endpoints["GET /communications/presences/{presence-id}"]["response"],
+        (res) => res.data as Endpoints['GET /communications/presences/{presence-id}']['response']
       );
   }
 
@@ -203,22 +190,21 @@ export class PresencesClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /communications/presences/{presence-id}"]["body"],
-    params?: Endpoints["PATCH /communications/presences/{presence-id}"]["parameters"],
+    body: Endpoints['PATCH /communications/presences/{presence-id}']['body'],
+    params?: Endpoints['PATCH /communications/presences/{presence-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/communications/presences/{presence-id}",
-      [{ name: "presence-id", in: "path" }],
+      '/communications/presences/{presence-id}',
+      [{ name: 'presence-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body)
       .then(
-        (res) =>
-          res.data as Endpoints["PATCH /communications/presences/{presence-id}"]["response"],
+        (res) => res.data as Endpoints['PATCH /communications/presences/{presence-id}']['response']
       );
   }
 
@@ -227,18 +213,15 @@ export class PresencesClient {
    *
    */
   async create(
-    body: Endpoints["POST /communications/presences"]["body"],
-    params?: Endpoints["POST /communications/presences"]["parameters"],
+    body: Endpoints['POST /communications/presences']['body'],
+    params?: Endpoints['POST /communications/presences']['parameters']
   ) {
-    const url = getInjectedUrl("/communications/presences", [], {
+    const url = getInjectedUrl('/communications/presences', [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body)
-      .then(
-        (res) =>
-          res.data as Endpoints["POST /communications/presences"]["response"],
-      );
+      .then((res) => res.data as Endpoints['POST /communications/presences']['response']);
   }
 }

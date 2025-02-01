@@ -1,18 +1,16 @@
 # Activity: Trace
 
-The Trace activity is an activity which the developer inserts in to the stream of activities to represent a point in the developers bot logic. The trace activity typically is logged by transcript history components to become part of a [Transcript-format](../transcript/transcript.md) history file.  In remote debugging scenarios the Trace activity can be sent to the client so that the activity can be inspected as part of the debug flow.
+The Trace activity is an activity which the developer inserts in to the stream of activities to represent a point in the developers bot logic. The trace activity typically is logged by transcript history components to become part of a [Transcript-format](../transcript/transcript.md) history file. In remote debugging scenarios the Trace activity can be sent to the client so that the activity can be inspected as part of the debug flow.
 
 Trace activities are normally not shown to the user, and are internal to transcript logging and developer debugging.
 
 ```typescript
-app.on('trace', async ({ activity }) => {
-
-});
+app.on('trace', async ({ activity }) => {});
 ```
 
 ## Schema
 
-Trace  activities are identified by a `type` value of `trace`.
+Trace activities are identified by a `type` value of `trace`.
 
 `A6150`: channels SHOULD NOT display trace activities to the user, unless the user has identified itself as the developer in a secure manner.
 

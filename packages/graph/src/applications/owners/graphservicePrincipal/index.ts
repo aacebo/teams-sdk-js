@@ -1,8 +1,8 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -11,13 +11,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -30,30 +26,30 @@ function getInjectedUrl(
  */
 export class GraphservicePrincipalClient {
   protected baseUrl =
-    "/applications/{application-id}/owners/{directoryObject-id}/graphservicePrincipal";
+    '/applications/{application-id}/owners/{directoryObject-id}/graphservicePrincipal';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly directoryObjectId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -74,28 +70,28 @@ export class GraphservicePrincipalClient {
    *
    */
   async get$1(
-    params?: Endpoints["GET /applications/{application-id}/owners/graph.servicePrincipal"]["parameters"],
+    params?: Endpoints['GET /applications/{application-id}/owners/graph.servicePrincipal']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/owners/graph.servicePrincipal",
+      '/applications/{application-id}/owners/graph.servicePrincipal',
       [
-        { name: "ConsistencyLevel", in: "header" },
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "application-id", in: "path" },
+        { name: 'ConsistencyLevel', in: 'header' },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "directoryObject-id": this.directoryObjectId,
-      },
+        'directoryObject-id': this.directoryObjectId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications/{application-id}/owners/graph.servicePrincipal"]["response"],
+          res.data as Endpoints['GET /applications/{application-id}/owners/graph.servicePrincipal']['response']
       );
   }
 
@@ -104,28 +100,28 @@ export class GraphservicePrincipalClient {
    *
    */
   async get(
-    params?: Endpoints["GET /applications/{application-id}/owners/{directoryObject-id}/graph.servicePrincipal"]["parameters"],
+    params?: Endpoints['GET /applications/{application-id}/owners/{directoryObject-id}/graph.servicePrincipal']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/owners/{directoryObject-id}/graph.servicePrincipal",
+      '/applications/{application-id}/owners/{directoryObject-id}/graph.servicePrincipal',
       [
-        { name: "ConsistencyLevel", in: "header" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "application-id", in: "path" },
-        { name: "directoryObject-id", in: "path" },
+        { name: 'ConsistencyLevel', in: 'header' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
+        { name: 'directoryObject-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "directoryObject-id": this.directoryObjectId,
-      },
+        'directoryObject-id': this.directoryObjectId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications/{application-id}/owners/{directoryObject-id}/graph.servicePrincipal"]["response"],
+          res.data as Endpoints['GET /applications/{application-id}/owners/{directoryObject-id}/graph.servicePrincipal']['response']
       );
   }
 }

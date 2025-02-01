@@ -1,9 +1,9 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { RefClient } from "./ref";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { RefClient } from './ref';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -12,13 +12,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -30,30 +26,30 @@ function getInjectedUrl(
  * Provides operations to manage the tokenLifetimePolicies property of the microsoft.graph.application entity.
  */
 export class TokenLifetimePoliciesClient {
-  protected baseUrl = "/applications/{application-id}/tokenLifetimePolicies";
+  protected baseUrl = '/applications/{application-id}/tokenLifetimePolicies';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly applicationId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -84,27 +80,27 @@ export class TokenLifetimePoliciesClient {
    * List the tokenLifetimePolicy objects that are assigned to an application. Only one object is returned in the collection because only one tokenLifetimePolicy can be assigned to an application.
    */
   async list(
-    params?: Endpoints["GET /applications/{application-id}/tokenLifetimePolicies"]["parameters"],
+    params?: Endpoints['GET /applications/{application-id}/tokenLifetimePolicies']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/tokenLifetimePolicies",
+      '/applications/{application-id}/tokenLifetimePolicies',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "application-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "application-id": this.applicationId,
-      },
+        'application-id': this.applicationId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications/{application-id}/tokenLifetimePolicies"]["response"],
+          res.data as Endpoints['GET /applications/{application-id}/tokenLifetimePolicies']['response']
       );
   }
 }

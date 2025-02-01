@@ -8,10 +8,10 @@ export interface Event<T = any> {
 }
 
 export type ActivityEvent<T extends Activity = Activity> =
-  ActivityReceivedEvent<T> |
-  ActivitySendingEvent<T> |
-  ActivitySentEvent<T> |
-  ActivityErrorEvent<T>;
+  | ActivityReceivedEvent<T>
+  | ActivitySendingEvent<T>
+  | ActivitySentEvent<T>
+  | ActivityErrorEvent<T>;
 
 export interface ActivityReceivedEvent<T extends Activity = Activity> extends Event<T> {
   readonly type: 'activity.received';

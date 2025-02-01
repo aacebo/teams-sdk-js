@@ -45,7 +45,7 @@ export default function CardDesigner({ value, onChange }: CardDesignerProps) {
 
     card.body.push(el);
     setCard({ ...card });
-    setTypescript([typescript, ts].filter(v => !!v).join(','));
+    setTypescript([typescript, ts].filter((v) => !!v).join(','));
   };
 
   const onEditorUpdate = (value: Card) => {
@@ -56,11 +56,7 @@ export default function CardDesigner({ value, onChange }: CardDesignerProps) {
     <div className="flex flex-1 min-h-0">
       <CardDesignerSidebar onSelect={onSelect} />
       <CardDesignerContent value={card} />
-      <CardDesignerEditor
-        value={card}
-        typescript={formatted}
-        onChange={onEditorUpdate}
-      />
+      <CardDesignerEditor value={card} typescript={formatted} onChange={onEditorUpdate} />
     </div>
   );
 }

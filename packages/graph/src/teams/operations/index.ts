@@ -1,8 +1,8 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -11,13 +11,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -29,30 +25,30 @@ function getInjectedUrl(
  * Provides operations to manage the operations property of the microsoft.graph.team entity.
  */
 export class OperationsClient {
-  protected baseUrl = "/teams/{team-id}/operations";
+  protected baseUrl = '/teams/{team-id}/operations';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly teamId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -73,27 +69,27 @@ export class OperationsClient {
    *
    */
   async delete(
-    body: Endpoints["DELETE /teams/{team-id}/operations/{teamsAsyncOperation-id}"]["body"],
-    params?: Endpoints["DELETE /teams/{team-id}/operations/{teamsAsyncOperation-id}"]["parameters"],
+    body: Endpoints['DELETE /teams/{team-id}/operations/{teamsAsyncOperation-id}']['body'],
+    params?: Endpoints['DELETE /teams/{team-id}/operations/{teamsAsyncOperation-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/operations/{teamsAsyncOperation-id}",
+      '/teams/{team-id}/operations/{teamsAsyncOperation-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "team-id", in: "path" },
-        { name: "teamsAsyncOperation-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'team-id', in: 'path' },
+        { name: 'teamsAsyncOperation-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "team-id": this.teamId,
-      },
+        'team-id': this.teamId,
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /teams/{team-id}/operations/{teamsAsyncOperation-id}"]["response"],
+          res.data as Endpoints['DELETE /teams/{team-id}/operations/{teamsAsyncOperation-id}']['response']
       );
   }
 
@@ -102,29 +98,24 @@ export class OperationsClient {
    *
    * The async operations that ran or are running on this team.
    */
-  async list(
-    params?: Endpoints["GET /teams/{team-id}/operations"]["parameters"],
-  ) {
+  async list(params?: Endpoints['GET /teams/{team-id}/operations']['parameters']) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/operations",
+      '/teams/{team-id}/operations',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "team-id": this.teamId,
-      },
+        'team-id': this.teamId,
+      }
     );
 
     return this.http
       .get(url)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/operations"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /teams/{team-id}/operations']['response']);
   }
 
   /**
@@ -133,27 +124,27 @@ export class OperationsClient {
    * The async operations that ran or are running on this team.
    */
   async get(
-    params?: Endpoints["GET /teams/{team-id}/operations/{teamsAsyncOperation-id}"]["parameters"],
+    params?: Endpoints['GET /teams/{team-id}/operations/{teamsAsyncOperation-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/operations/{teamsAsyncOperation-id}",
+      '/teams/{team-id}/operations/{teamsAsyncOperation-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
-        { name: "teamsAsyncOperation-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
+        { name: 'teamsAsyncOperation-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "team-id": this.teamId,
-      },
+        'team-id': this.teamId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/operations/{teamsAsyncOperation-id}"]["response"],
+          res.data as Endpoints['GET /teams/{team-id}/operations/{teamsAsyncOperation-id}']['response']
       );
   }
 
@@ -162,26 +153,26 @@ export class OperationsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /teams/{team-id}/operations/{teamsAsyncOperation-id}"]["body"],
-    params?: Endpoints["PATCH /teams/{team-id}/operations/{teamsAsyncOperation-id}"]["parameters"],
+    body: Endpoints['PATCH /teams/{team-id}/operations/{teamsAsyncOperation-id}']['body'],
+    params?: Endpoints['PATCH /teams/{team-id}/operations/{teamsAsyncOperation-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/operations/{teamsAsyncOperation-id}",
+      '/teams/{team-id}/operations/{teamsAsyncOperation-id}',
       [
-        { name: "team-id", in: "path" },
-        { name: "teamsAsyncOperation-id", in: "path" },
+        { name: 'team-id', in: 'path' },
+        { name: 'teamsAsyncOperation-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "team-id": this.teamId,
-      },
+        'team-id': this.teamId,
+      }
     );
 
     return this.http
       .patch(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /teams/{team-id}/operations/{teamsAsyncOperation-id}"]["response"],
+          res.data as Endpoints['PATCH /teams/{team-id}/operations/{teamsAsyncOperation-id}']['response']
       );
   }
 
@@ -190,23 +181,16 @@ export class OperationsClient {
    *
    */
   async create(
-    body: Endpoints["POST /teams/{team-id}/operations"]["body"],
-    params?: Endpoints["POST /teams/{team-id}/operations"]["parameters"],
+    body: Endpoints['POST /teams/{team-id}/operations']['body'],
+    params?: Endpoints['POST /teams/{team-id}/operations']['parameters']
   ) {
-    const url = getInjectedUrl(
-      "/teams/{team-id}/operations",
-      [{ name: "team-id", in: "path" }],
-      {
-        ...(params || {}),
-        "team-id": this.teamId,
-      },
-    );
+    const url = getInjectedUrl('/teams/{team-id}/operations', [{ name: 'team-id', in: 'path' }], {
+      ...(params || {}),
+      'team-id': this.teamId,
+    });
 
     return this.http
       .post(url, body)
-      .then(
-        (res) =>
-          res.data as Endpoints["POST /teams/{team-id}/operations"]["response"],
-      );
+      .then((res) => res.data as Endpoints['POST /teams/{team-id}/operations']['response']);
   }
 }

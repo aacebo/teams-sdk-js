@@ -1,20 +1,20 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { AcceptClient } from "./accept";
-import { AttachmentsClient } from "./attachments";
-import { CalendarClient } from "./calendar";
-import { CancelClient } from "./cancel";
-import { CountClient } from "./count";
-import { DeclineClient } from "./decline";
-import { DeltaClient } from "./delta";
-import { DismissReminderClient } from "./dismissReminder";
-import { ExtensionsClient } from "./extensions";
-import { ForwardClient } from "./forward";
-import { InstancesClient } from "./instances";
-import { SnoozeReminderClient } from "./snoozeReminder";
-import { TentativelyAcceptClient } from "./tentativelyAccept";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { AcceptClient } from './accept';
+import { AttachmentsClient } from './attachments';
+import { CalendarClient } from './calendar';
+import { CancelClient } from './cancel';
+import { CountClient } from './count';
+import { DeclineClient } from './decline';
+import { DeltaClient } from './delta';
+import { DismissReminderClient } from './dismissReminder';
+import { ExtensionsClient } from './extensions';
+import { ForwardClient } from './forward';
+import { InstancesClient } from './instances';
+import { SnoozeReminderClient } from './snoozeReminder';
+import { TentativelyAcceptClient } from './tentativelyAccept';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -23,13 +23,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -41,30 +37,30 @@ function getInjectedUrl(
  * Provides operations to manage the calendarView property of the microsoft.graph.calendar entity.
  */
 export class CalendarViewClient {
-  protected baseUrl = "/me/calendars/{calendar-id}/calendarView";
+  protected baseUrl = '/me/calendars/{calendar-id}/calendarView';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly calendarId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -193,30 +189,27 @@ export class CalendarViewClient {
    *
    * The calendar view for the calendar. Navigation property. Read-only.
    */
-  async get(
-    params?: Endpoints["GET /me/calendars/{calendar-id}/calendarView"]["parameters"],
-  ) {
+  async get(params?: Endpoints['GET /me/calendars/{calendar-id}/calendarView']['parameters']) {
     const url = getInjectedUrl(
-      "/me/calendars/{calendar-id}/calendarView",
+      '/me/calendars/{calendar-id}/calendarView',
       [
-        { name: "startDateTime", in: "query" },
-        { name: "endDateTime", in: "query" },
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "calendar-id", in: "path" },
+        { name: 'startDateTime', in: 'query' },
+        { name: 'endDateTime', in: 'query' },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'calendar-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "calendar-id": this.calendarId,
-      },
+        'calendar-id': this.calendarId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
-        (res) =>
-          res.data as Endpoints["GET /me/calendars/{calendar-id}/calendarView"]["response"],
+        (res) => res.data as Endpoints['GET /me/calendars/{calendar-id}/calendarView']['response']
       );
   }
 
@@ -226,29 +219,29 @@ export class CalendarViewClient {
    * The calendar view for the calendar. Navigation property. Read-only.
    */
   async get$1(
-    params?: Endpoints["GET /me/calendars/{calendar-id}/calendarView/{event-id}"]["parameters"],
+    params?: Endpoints['GET /me/calendars/{calendar-id}/calendarView/{event-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/me/calendars/{calendar-id}/calendarView/{event-id}",
+      '/me/calendars/{calendar-id}/calendarView/{event-id}',
       [
-        { name: "startDateTime", in: "query" },
-        { name: "endDateTime", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "calendar-id", in: "path" },
-        { name: "event-id", in: "path" },
+        { name: 'startDateTime', in: 'query' },
+        { name: 'endDateTime', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'calendar-id', in: 'path' },
+        { name: 'event-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "calendar-id": this.calendarId,
-      },
+        'calendar-id': this.calendarId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /me/calendars/{calendar-id}/calendarView/{event-id}"]["response"],
+          res.data as Endpoints['GET /me/calendars/{calendar-id}/calendarView/{event-id}']['response']
       );
   }
 }

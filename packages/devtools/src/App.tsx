@@ -5,12 +5,7 @@ import { ConsoleLogger } from '@teams.sdk/common/logging';
 import * as icons from '@fluentui/react-icons';
 
 import { SocketClient } from './socket-client';
-import {
-  ActivityContext,
-  ChatContext,
-  useActivityStore,
-  useChatStore,
-} from './Stores';
+import { ActivityContext, ChatContext, useActivityStore, useChatStore } from './Stores';
 
 import Cards from './Screens/Cards';
 import Activities from './Screens/Activities';

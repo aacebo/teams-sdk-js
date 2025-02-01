@@ -9,12 +9,7 @@ The Adaptive Card framework is used across many Microsoft products, including Te
 ```typescript
 import { Card, ColumnSet, Column, Image, CodeBlock } from '@teams.sdk/cards';
 
-Card([
-    ColumnSet([
-        Column([Image('...')]),
-        Column([CodeBlock({ codeSnippet: '...' })])
-    ])
-]);
+Card([ColumnSet([Column([Image('...')]), Column([CodeBlock({ codeSnippet: '...' })])])]);
 ```
 
 ## Json
@@ -30,17 +25,21 @@ Card([
             "columns": [
                 {
                     "type": "Column",
-                    "items": [{
-                        "type": "Image",
-                        "url": "..."
-                    }]
+                    "items": [
+                        {
+                            "type": "Image",
+                            "url": "..."
+                        }
+                    ]
                 },
                 {
                     "type": "Column",
-                    "items": [{
-                        "type": "CodeBlock",
-                        "codeSnippet": "..."
-                    }]
+                    "items": [
+                        {
+                            "type": "CodeBlock",
+                            "codeSnippet": "..."
+                        }
+                    ]
                 }
             ]
         }

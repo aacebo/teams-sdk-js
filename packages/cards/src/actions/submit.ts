@@ -65,7 +65,11 @@ export interface MessageBackActionData {
 
 export type MessageBackActionDataParams = Omit<MessageBackActionData, 'type' | 'text' | 'value'>;
 
-export function MessageBackActionData(text: string, value: string, params?: MessageBackActionDataParams): MessageBackActionData {
+export function MessageBackActionData(
+  text: string,
+  value: string,
+  params?: MessageBackActionDataParams
+): MessageBackActionData {
   return {
     type: 'messageBack',
     text,

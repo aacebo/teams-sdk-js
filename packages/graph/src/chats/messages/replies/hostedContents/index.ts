@@ -1,9 +1,9 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { ValueClient } from "./value";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { ValueClient } from './value';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -12,13 +12,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -31,30 +27,30 @@ function getInjectedUrl(
  */
 export class HostedContentsClient {
   protected baseUrl =
-    "/chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents";
+    '/chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly chatMessageId1: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -84,29 +80,29 @@ export class HostedContentsClient {
    *
    */
   async delete(
-    body: Endpoints["DELETE /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}"]["body"],
-    params?: Endpoints["DELETE /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}"]["parameters"],
+    body: Endpoints['DELETE /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}']['body'],
+    params?: Endpoints['DELETE /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}",
+      '/chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "chat-id", in: "path" },
-        { name: "chatMessage-id", in: "path" },
-        { name: "chatMessage-id1", in: "path" },
-        { name: "chatMessageHostedContent-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'chat-id', in: 'path' },
+        { name: 'chatMessage-id', in: 'path' },
+        { name: 'chatMessage-id1', in: 'path' },
+        { name: 'chatMessageHostedContent-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chatMessage-id1": this.chatMessageId1,
-      },
+        'chatMessage-id1': this.chatMessageId1,
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}"]["response"],
+          res.data as Endpoints['DELETE /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}']['response']
       );
   }
 
@@ -116,29 +112,29 @@ export class HostedContentsClient {
    * Content in a message hosted by Microsoft Teams - for example, images or code snippets.
    */
   async list(
-    params?: Endpoints["GET /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents"]["parameters"],
+    params?: Endpoints['GET /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents",
+      '/chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "chat-id", in: "path" },
-        { name: "chatMessage-id", in: "path" },
-        { name: "chatMessage-id1", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'chat-id', in: 'path' },
+        { name: 'chatMessage-id', in: 'path' },
+        { name: 'chatMessage-id1', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chatMessage-id1": this.chatMessageId1,
-      },
+        'chatMessage-id1': this.chatMessageId1,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents"]["response"],
+          res.data as Endpoints['GET /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents']['response']
       );
   }
 
@@ -148,29 +144,29 @@ export class HostedContentsClient {
    * Content in a message hosted by Microsoft Teams - for example, images or code snippets.
    */
   async get(
-    params?: Endpoints["GET /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}"]["parameters"],
+    params?: Endpoints['GET /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}",
+      '/chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "chat-id", in: "path" },
-        { name: "chatMessage-id", in: "path" },
-        { name: "chatMessage-id1", in: "path" },
-        { name: "chatMessageHostedContent-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'chat-id', in: 'path' },
+        { name: 'chatMessage-id', in: 'path' },
+        { name: 'chatMessage-id1', in: 'path' },
+        { name: 'chatMessageHostedContent-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chatMessage-id1": this.chatMessageId1,
-      },
+        'chatMessage-id1': this.chatMessageId1,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}"]["response"],
+          res.data as Endpoints['GET /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}']['response']
       );
   }
 
@@ -179,28 +175,28 @@ export class HostedContentsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}"]["body"],
-    params?: Endpoints["PATCH /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}"]["parameters"],
+    body: Endpoints['PATCH /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}']['body'],
+    params?: Endpoints['PATCH /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}",
+      '/chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}',
       [
-        { name: "chat-id", in: "path" },
-        { name: "chatMessage-id", in: "path" },
-        { name: "chatMessage-id1", in: "path" },
-        { name: "chatMessageHostedContent-id", in: "path" },
+        { name: 'chat-id', in: 'path' },
+        { name: 'chatMessage-id', in: 'path' },
+        { name: 'chatMessage-id1', in: 'path' },
+        { name: 'chatMessageHostedContent-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chatMessage-id1": this.chatMessageId1,
-      },
+        'chatMessage-id1': this.chatMessageId1,
+      }
     );
 
     return this.http
       .patch(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}"]["response"],
+          res.data as Endpoints['PATCH /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}']['response']
       );
   }
 
@@ -209,27 +205,27 @@ export class HostedContentsClient {
    *
    */
   async create(
-    body: Endpoints["POST /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents"]["body"],
-    params?: Endpoints["POST /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents"]["parameters"],
+    body: Endpoints['POST /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents']['body'],
+    params?: Endpoints['POST /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents",
+      '/chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents',
       [
-        { name: "chat-id", in: "path" },
-        { name: "chatMessage-id", in: "path" },
-        { name: "chatMessage-id1", in: "path" },
+        { name: 'chat-id', in: 'path' },
+        { name: 'chatMessage-id', in: 'path' },
+        { name: 'chatMessage-id1', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chatMessage-id1": this.chatMessageId1,
-      },
+        'chatMessage-id1': this.chatMessageId1,
+      }
     );
 
     return this.http
       .post(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["POST /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents"]["response"],
+          res.data as Endpoints['POST /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents']['response']
       );
   }
 }

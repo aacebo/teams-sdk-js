@@ -32,38 +32,42 @@ export function Project(ctx: CopilotContext) {
     model: new OpenAIChatModel({
       model: 'gpt-4o',
       apiKey: ctx.apiKey,
-      temperature: 0
-    })
-  }).function(
-    'read-file',
-    'read a project files source code',
-    readFile.schema,
-    readFile.handler({
-      ...ctx,
-      log: ctx.log.child('read-file'),
+      temperature: 0,
     }),
-  ).function(
-    'read-directory',
-    'list the files and directories in a projects directory or sub directory',
-    readDirectory.schema,
-    readDirectory.handler({
-      ...ctx,
-      log: ctx.log.child('read-directory'),
-    }),
-  ).function(
-    'write-file',
-    'create or update a project file',
-    writeFile.schema,
-    writeFile.handler({
-      ...ctx,
-      log: ctx.log.child('write-file'),
-    }),
-  ).function(
-    'build',
-    'build the project and return the output',
-    build.handler({
-      ...ctx,
-      log: ctx.log.child('build'),
-    }),
-  );
+  })
+    .function(
+      'read-file',
+      'read a project files source code',
+      readFile.schema,
+      readFile.handler({
+        ...ctx,
+        log: ctx.log.child('read-file'),
+      })
+    )
+    .function(
+      'read-directory',
+      'list the files and directories in a projects directory or sub directory',
+      readDirectory.schema,
+      readDirectory.handler({
+        ...ctx,
+        log: ctx.log.child('read-directory'),
+      })
+    )
+    .function(
+      'write-file',
+      'create or update a project file',
+      writeFile.schema,
+      writeFile.handler({
+        ...ctx,
+        log: ctx.log.child('write-file'),
+      })
+    )
+    .function(
+      'build',
+      'build the project and return the output',
+      build.handler({
+        ...ctx,
+        log: ctx.log.child('build'),
+      })
+    );
 }

@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./value-types.d.ts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './value-types.d.ts';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -10,13 +10,9 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   for (const param of params) {
-    if (param.in !== "path") continue;
+    if (param.in !== 'path') continue;
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
@@ -29,30 +25,30 @@ function getInjectedUrl(
  */
 export class ValueClient {
   protected baseUrl =
-    "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/value";
+    '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/value';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly chatMessageHostedContentId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -65,30 +61,30 @@ export class ValueClient {
    * The unique identifier for an entity. Read-only.
    */
   async delete(
-    body: Endpoints["DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value"]["body"],
-    params?: Endpoints["DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value"]["parameters"],
+    body: Endpoints['DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value']['body'],
+    params?: Endpoints['DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value',
       [
-        { name: "If-Match", in: "header" },
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
-        { name: "chatMessage-id", in: "path" },
-        { name: "chatMessage-id1", in: "path" },
-        { name: "chatMessageHostedContent-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
+        { name: 'chatMessage-id', in: 'path' },
+        { name: 'chatMessage-id1', in: 'path' },
+        { name: 'chatMessageHostedContent-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chatMessageHostedContent-id": this.chatMessageHostedContentId,
-      },
+        'chatMessageHostedContent-id': this.chatMessageHostedContentId,
+      }
     );
 
     return this.http
       .delete(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value"]["response"],
+          res.data as Endpoints['DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value']['response']
       );
   }
 
@@ -98,28 +94,28 @@ export class ValueClient {
    * The unique identifier for an entity. Read-only.
    */
   async get(
-    params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value"]["parameters"],
+    params?: Endpoints['GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value',
       [
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
-        { name: "chatMessage-id", in: "path" },
-        { name: "chatMessage-id1", in: "path" },
-        { name: "chatMessageHostedContent-id", in: "path" },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
+        { name: 'chatMessage-id', in: 'path' },
+        { name: 'chatMessage-id1', in: 'path' },
+        { name: 'chatMessageHostedContent-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chatMessageHostedContent-id": this.chatMessageHostedContentId,
-      },
+        'chatMessageHostedContent-id': this.chatMessageHostedContentId,
+      }
     );
 
     return this.http
       .get(url)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value"]["response"],
+          res.data as Endpoints['GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value']['response']
       );
   }
 
@@ -129,29 +125,29 @@ export class ValueClient {
    * The unique identifier for an entity. Read-only.
    */
   async set(
-    body: Endpoints["PUT /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value"]["body"],
-    params?: Endpoints["PUT /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value"]["parameters"],
+    body: Endpoints['PUT /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value']['body'],
+    params?: Endpoints['PUT /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value']['parameters']
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value',
       [
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
-        { name: "chatMessage-id", in: "path" },
-        { name: "chatMessage-id1", in: "path" },
-        { name: "chatMessageHostedContent-id", in: "path" },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
+        { name: 'chatMessage-id', in: 'path' },
+        { name: 'chatMessage-id1', in: 'path' },
+        { name: 'chatMessageHostedContent-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chatMessageHostedContent-id": this.chatMessageHostedContentId,
-      },
+        'chatMessageHostedContent-id': this.chatMessageHostedContentId,
+      }
     );
 
     return this.http
       .put(url, body)
       .then(
         (res) =>
-          res.data as Endpoints["PUT /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value"]["response"],
+          res.data as Endpoints['PUT /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/$value']['response']
       );
   }
 }

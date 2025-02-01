@@ -23,13 +23,13 @@ A `Prompt` is the component that orchestrates everything, it handles state manag
 function definitions, and invokes the model/template when needed.
 
 > **ℹ️ Note**: A prompt can have one model and one template. The type of model that can be provided to a
-prompt must match that of the prompt.
+> prompt must match that of the prompt.
 
 ## 💬 🔈 📷 Multi Media
 
 `Prompts` and `Models` are typically separated into different media types, but some
 support multiple media types at once.
 
-The model given to a prompt must have one or more matching media types, this is because 
+The model given to a prompt must have one or more matching media types, this is because
 the media type of a model affects how a prompt will interface with it, and the media type of
 a prompt affects the features it supports **and** how you can interface/prompt it.

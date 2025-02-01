@@ -5,14 +5,12 @@ Command activities communicate a request to perform a specific action.
 Commands look similar in structure to events but have different semantics. Commands are requests to perform an action and receivers typically respond with one or more commandResult activities. Receivers are also expected to explicitly reject unsupported command activities.
 
 ```typescript
-app.on('command', async ({ activity }) => {
-
-});
+app.on('command', async ({ activity }) => {});
 ```
 
 ## Schema
 
-Command activities are identified by a `type` value of `command` and specific values of the `name` field. 
+Command activities are identified by a `type` value of `command` and specific values of the `name` field.
 
 `A6300`: Channels MAY allow application-defined command activities between clients and bots, if the clients allow application customization.
 
@@ -38,6 +36,6 @@ The recommended patterns for rejecting command activities are included in [Appen
 
 The `value` field contains the command metadata and parameters specific to a command, as defined by the command `name`. The `value` field is a complex object of the [command value](#command-value) type.
 
-`A6321`: Command activities MUST contain a `value` field. 
+`A6321`: Command activities MUST contain a `value` field.
 
 `A6322`: Receivers MUST ignore command activities with missing or invalid `value` field.

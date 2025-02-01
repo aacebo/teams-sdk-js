@@ -1,4 +1,9 @@
-import { ActivityParams, cardAttachment, ConversationAccount, TokenExchangeState } from '@teams.sdk/api';
+import {
+  ActivityParams,
+  cardAttachment,
+  ConversationAccount,
+  TokenExchangeState,
+} from '@teams.sdk/api';
 
 import { Sender } from '../../types';
 import { ActivityContext } from '../../activity-context';
@@ -22,7 +27,7 @@ export class HttpSender implements Sender {
     if (typeof activity === 'string') {
       activity = {
         type: 'message',
-        text: activity
+        text: activity,
       };
     }
 
@@ -32,24 +37,22 @@ export class HttpSender implements Sender {
         .update(activity.id, {
           ...activity,
           from: this.ctx.activity.recipient,
-          conversation: this.ctx.activity.conversation
+          conversation: this.ctx.activity.conversation,
         });
     }
 
-    return this.ctx.api.conversations
-      .activities(this.ctx.activity.conversation.id)
-      .create({
-        ...activity,
-        from: this.ctx.activity.recipient,
-        conversation: this.ctx.activity.conversation
-      });
+    return this.ctx.api.conversations.activities(this.ctx.activity.conversation.id).create({
+      ...activity,
+      from: this.ctx.activity.recipient,
+      conversation: this.ctx.activity.conversation,
+    });
   }
 
   reply(activity: ActivityParams | string) {
     if (typeof activity === 'string') {
       activity = {
         type: 'message',
-        text: activity
+        text: activity,
       };
     }
 
@@ -58,7 +61,7 @@ export class HttpSender implements Sender {
       .reply(this.ctx.activity.id, {
         ...activity,
         from: this.ctx.activity.recipient,
-        conversation: this.ctx.activity.conversation
+        conversation: this.ctx.activity.conversation,
       });
   }
 

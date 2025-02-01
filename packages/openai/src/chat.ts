@@ -216,19 +216,22 @@ export class OpenAIChatModel implements ChatModel {
       const modelMessage: ModelMessage = {
         role: 'model',
         content: message.content || undefined,
-        function_calls: message.tool_calls?.map(call => ({
+        function_calls: message.tool_calls?.map((call) => ({
           id: call.id,
           name: call.function.name,
           arguments: JSON.parse(call.function.arguments || '{}'),
-        }))
+        })),
       };
 
       if (message.tool_calls && message.tool_calls.length > 0) {
-        return this.chat({
-          ...params,
-          input: modelMessage,
-          messages: memory,
-        }, onChunk);
+        return this.chat(
+          {
+            ...params,
+            input: modelMessage,
+            messages: memory,
+          },
+          onChunk
+        );
       }
 
       await memory.push(modelMessage);

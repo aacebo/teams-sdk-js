@@ -23,12 +23,12 @@ const whitelist = [
   /^\/solutions(.*)$/,
   /^\/me$/,
   /^\/me\/calendars(.*)$/,
-  /^\/me\/calendar(.*)$/
-]
+  /^\/me\/calendar(.*)$/,
+];
 
 const patterns = {
   specialChars: /[!$#@%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/g,
-  param: /\{[A-Za-z0-9\-]*\}/g
+  param: /\{[A-Za-z0-9\-]*\}/g,
 };
 
 const methods = {
@@ -37,13 +37,10 @@ const methods = {
   patch: 'update',
   put: 'set',
   delete: 'delete',
-  trace: 'trace'
+  trace: 'trace',
 };
 
-const reserved = [
-  ...Object.values(methods),
-  'list'
-];
+const reserved = [...Object.values(methods), 'list'];
 
 handlebars.registerHelper('capitalize', (value: string) => {
   if (!value) return value;
@@ -77,15 +74,15 @@ handlebars.registerHelper('notEmpty', (value: Record<string, any> | Array<any> |
 });
 
 const typesTemplate = handlebars.compile(
-  fs.readFileSync(npath.join(__dirname, 'types.ts.template'), 'utf8'),
+  fs.readFileSync(npath.join(__dirname, 'types.ts.template'), 'utf8')
 );
 
 const commonTemplate = handlebars.compile(
-  fs.readFileSync(npath.join(__dirname, 'common.ts.template'), 'utf8'),
+  fs.readFileSync(npath.join(__dirname, 'common.ts.template'), 'utf8')
 );
 
 const clientTemplate = handlebars.compile(
-  fs.readFileSync(npath.join(__dirname, 'client.ts.template'), 'utf8'),
+  fs.readFileSync(npath.join(__dirname, 'client.ts.template'), 'utf8')
 );
 
 interface Endpoint {
@@ -110,13 +107,13 @@ class Client {
     this.name = name;
     this.description = description;
     this.url = '/';
-    this.parameters = [ ];
-    this.clients = { };
-    this.endpoints = { };
+    this.parameters = [];
+    this.clients = {};
+    this.endpoints = {};
   }
 
   set(_parent: string, path: string, schema: OpenAPIV3.PathItemObject & { url: string }) {
-    const children = path.split('/').filter(v => !!v);
+    const children = path.split('/').filter((v) => !!v);
     const params: Array<string> = [];
 
     while (children.length) {
@@ -151,7 +148,7 @@ class Client {
     let name = child;
 
     // if reserved change the name
-    if (reserved.some(n => n === name)) {
+    if (reserved.some((n) => n === name)) {
       name = `$${name}`;
     }
 
@@ -161,7 +158,7 @@ class Client {
 
     if (!this.clients[name]) {
       this.clients[name] = new Client(name);
-      this.clients[name].url = npath.join(this.url, ...params.map(p => `{${p}}`), child);
+      this.clients[name].url = npath.join(this.url, ...params.map((p) => `{${p}}`), child);
       this.clients[name].parameters = params;
     }
 
@@ -174,10 +171,7 @@ class Client {
     this.clients = sortKeys(this.clients, { deep: true });
     this.endpoints = sortKeys(this.endpoints, { deep: true });
 
-    fs.writeFileSync(
-      npath.join(__dirname, '..', 'src', 'common.d.ts'),
-      commonTemplate({})
-    );
+    fs.writeFileSync(npath.join(__dirname, '..', 'src', 'common.d.ts'), commonTemplate({}));
 
     if (Object.keys(this.clients).length && !fs.existsSync(srcPath)) {
       fs.mkdirSync(srcPath, { recursive: true });
@@ -195,12 +189,12 @@ class Client {
 
     let res = clientTemplate({
       ...this,
-      types: Object.keys(this.clients).length > 0 ? 'index' : this.name
+      types: Object.keys(this.clients).length > 0 ? 'index' : this.name,
     });
 
     fs.writeFileSync(
       npath.join(__dirname, '..', 'src', path, `${filename}.ts`),
-      await prettier.format(res, { parser: "typescript" })
+      await prettier.format(res, { parser: 'typescript' })
     );
 
     res = typesTemplate({
@@ -208,27 +202,27 @@ class Client {
       path: npath.relative(
         npath.join('/', path, Object.keys(this.clients).length ? this.name : ''),
         npath.join('/', 'common.d.ts')
-      )
+      ),
     });
 
     fs.writeFileSync(
       npath.join(__dirname, '..', 'src', path, `${filename}-types.d.ts`),
-      await prettier.format(res, { parser: "typescript" })
+      await prettier.format(res, { parser: 'typescript' })
     );
   }
 
   protected addEndpoint(path: string[], schema: OpenAPIV3.PathItemObject & { url: string }) {
     for (const method in methods) {
-      const def = schema[method as keyof (typeof methods)];
+      const def = schema[method as keyof typeof methods];
 
       if (!def) continue;
 
-      const params = [
-        ...(def.parameters || []),
-        ...(schema.parameters || []),
-      ];
+      const params = [...(def.parameters || []), ...(schema.parameters || [])];
 
-      let name = camelcase([methods[method as keyof (typeof methods)], ...path]).replaceAll(patterns.specialChars, '');
+      let name = camelcase([methods[method as keyof typeof methods], ...path]).replaceAll(
+        patterns.specialChars,
+        ''
+      );
 
       // if GET and endpoints has same url as client base url
       if (method === 'get' && schema.url === this.url && schema.url.endsWith('s')) {
@@ -243,10 +237,10 @@ class Client {
         method,
         name: this.getUniqueName(name),
         url: schema.url,
-        parameters: params.filter(p => 'name' in p),
+        parameters: params.filter((p) => 'name' in p),
         description: def.description,
-        deprecated: def.deprecated
-      }
+        deprecated: def.deprecated,
+      };
     }
   }
 
@@ -255,8 +249,8 @@ class Client {
     let i = 1;
 
     while (
-      Object.values(this.endpoints).some(e => e.name === name) ||
-      Object.keys(this.clients).some(c => c === name)
+      Object.values(this.endpoints).some((e) => e.name === name) ||
+      Object.keys(this.clients).some((c) => c === name)
     ) {
       name = `${original}$${i}`;
       i++;
@@ -291,7 +285,7 @@ function isWhitelisted(path: string) {
 
     client.set('', path, {
       ...definition,
-      url: path
+      url: path,
     });
   }
 
