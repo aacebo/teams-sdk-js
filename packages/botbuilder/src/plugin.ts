@@ -5,17 +5,25 @@ import { Activity, JsonWebToken } from '@teams.sdk/api';
 
 import {
   TurnContext,
+  ActivityHandler,
   CloudAdapter,
   ConfigurationBotFrameworkAuthentication,
   ConfigurationServiceClientCredentialFactory,
 } from 'botbuilder';
 
+export interface BotBuilderPluginOptions {
+  readonly adapter?: CloudAdapter;
+  readonly handler?: ActivityHandler;
+}
+
 export class BotBuilderPlugin extends HttpPlugin {
   protected adapter?: CloudAdapter;
+  protected handler?: ActivityHandler;
 
-  constructor(adapter?: CloudAdapter) {
+  constructor(options?: BotBuilderPluginOptions) {
     super();
-    this.adapter = adapter;
+    this.adapter = options?.adapter;
+    this.handler = options?.handler;
     this.on('error', (err) => {
       this.adapter?.onTurnError(new TurnContext(this.adapter!, {}), err);
     });
@@ -23,17 +31,20 @@ export class BotBuilderPlugin extends HttpPlugin {
 
   register(app: App) {
     super.register(app);
-    this.adapter = new CloudAdapter(
-      new ConfigurationBotFrameworkAuthentication(
-        {},
-        new ConfigurationServiceClientCredentialFactory({
-          MicrosoftAppType: app.options.tenantId ? 'SingleTenant' : 'MultiTenant',
-          MicrosoftAppId: app.options.clientId,
-          MicrosoftAppPassword: app.options.clientSecret,
-          MicrosoftAppTenantId: app.options.tenantId,
-        })
-      )
-    );
+
+    if (!this.adapter) {
+      this.adapter = new CloudAdapter(
+        new ConfigurationBotFrameworkAuthentication(
+          {},
+          new ConfigurationServiceClientCredentialFactory({
+            MicrosoftAppType: app.credentials?.tenantId ? 'SingleTenant' : 'MultiTenant',
+            MicrosoftAppId: app.credentials?.clientId,
+            MicrosoftAppPassword: app.credentials?.clientSecret,
+            MicrosoftAppTenantId: app.credentials?.tenantId,
+          })
+        )
+      );
+    }
   }
 
   protected async onRequest(
@@ -63,6 +74,14 @@ export class BotBuilderPlugin extends HttpPlugin {
       }
 
       await this.adapter.process(req, res, async (context) => {
+        if (this.handler) {
+          await this.handler.run(context);
+        }
+
+        if (res.headersSent) {
+          return next();
+        }
+
         const response = await this.app!.process({
           token: new JsonWebToken(authorization),
           activity: context.activity as Activity,

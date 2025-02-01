@@ -80,6 +80,7 @@ export class App {
   api: Client;
   log: Logger;
   storage: Storage;
+  credentials?: Credentials;
 
   get tokens() {
     return this._tokens;
@@ -99,7 +100,6 @@ export class App {
   protected plugins: Array<Plugin>;
   protected sender: Plugin;
   protected router = new Router();
-  protected credentials?: Credentials;
 
   private readonly _events = DEFAULT_EVENTS;
 

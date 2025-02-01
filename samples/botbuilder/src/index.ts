@@ -1,17 +1,26 @@
 import { App } from '@teams.sdk/apps';
 import { ConsoleLogger } from '@teams.sdk/common/logging';
 import { BotBuilderPlugin } from '@teams.sdk/botbuilder';
+import { TeamsActivityHandler } from 'botbuilder';
 
+export class ActivityHandler extends TeamsActivityHandler {
+  constructor() {
+    super();
+    this.onMessage(async (ctx, next) => {
+      await ctx.sendActivity('hi from botbuilder...');
+      await next();
+    });
+  }
+}
+
+const handler = new ActivityHandler();
 const app = new App({
   logger: new ConsoleLogger('@samples/botbuilder', { level: 'debug' }),
-  plugins: [new BotBuilderPlugin()],
+  plugins: [new BotBuilderPlugin({ handler })],
 });
 
-app.on('message', async ({ send, activity }) => {
-  await send({
-    type: 'message',
-    text: `you said "${activity.text}"`,
-  });
+app.on('message', async ({ send }) => {
+  await send('hi from spark...');
 });
 
 (async () => {
