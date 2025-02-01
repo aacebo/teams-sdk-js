@@ -1,15 +1,11 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { AddClient } from "./add";
-import { CountClient } from "./count";
-import { RemoveClient } from "./remove";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { AddClient } from './add';
+import { CountClient } from './count';
+import { RemoveClient } from './remove';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -18,19 +14,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -45,31 +37,30 @@ function getInjectedUrl(
  * Provides operations to manage the members property of the microsoft.graph.channel entity.
  */
 export class MembersClient {
-  protected baseUrl =
-    "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members";
+  protected baseUrl = '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly channelId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -108,28 +99,28 @@ export class MembersClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
-        { name: "conversationMember-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
+        { name: 'conversationMember-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "channel-id": this.channelId,
-      },
+        'channel-id': this.channelId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}"]["response"],
+          res.data as Endpoints['DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}']['response']
       );
   }
 
@@ -139,29 +130,29 @@ export class MembersClient {
    * A collection of membership records associated with the channel.
    */
   async list(
-    params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "channel-id": this.channelId,
-      },
+        'channel-id': this.channelId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members"]["response"],
+          res.data as Endpoints['GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members']['response']
       );
   }
 
@@ -171,29 +162,29 @@ export class MembersClient {
    * A collection of membership records associated with the channel.
    */
   async get(
-    params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
-        { name: "conversationMember-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
+        { name: 'conversationMember-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "channel-id": this.channelId,
-      },
+        'channel-id': this.channelId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}"]["response"],
+          res.data as Endpoints['GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}']['response']
       );
   }
 
@@ -202,28 +193,28 @@ export class MembersClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}"]["body"],
-    params?: Endpoints["PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}']['body'],
+    params?: Endpoints['PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}',
       [
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
-        { name: "conversationMember-id", in: "path" },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
+        { name: 'conversationMember-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "channel-id": this.channelId,
-      },
+        'channel-id': this.channelId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}"]["response"],
+          res.data as Endpoints['PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}']['response']
       );
   }
 
@@ -232,27 +223,27 @@ export class MembersClient {
    *
    */
   async create(
-    body: Endpoints["POST /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members"]["body"],
-    params?: Endpoints["POST /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['POST /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members']['body'],
+    params?: Endpoints['POST /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members',
       [
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "channel-id": this.channelId,
-      },
+        'channel-id': this.channelId,
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members"]["response"],
+          res.data as Endpoints['POST /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members']['response']
       );
   }
 }

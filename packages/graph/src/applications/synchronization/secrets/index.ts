@@ -1,13 +1,9 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -16,19 +12,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -42,27 +34,27 @@ function getInjectedUrl(
  * /applications/{application-id}/synchronization/secrets
  */
 export class SecretsClient {
-  protected baseUrl = "/applications/{application-id}/synchronization/secrets";
+  protected baseUrl = '/applications/{application-id}/synchronization/secrets';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -83,23 +75,23 @@ export class SecretsClient {
    *
    */
   async set(
-    body: Endpoints["PUT /applications/{application-id}/synchronization/secrets"]["body"],
-    params?: Endpoints["PUT /applications/{application-id}/synchronization/secrets"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['PUT /applications/{application-id}/synchronization/secrets']['body'],
+    params?: Endpoints['PUT /applications/{application-id}/synchronization/secrets']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/synchronization/secrets",
-      [{ name: "application-id", in: "path" }],
+      '/applications/{application-id}/synchronization/secrets',
+      [{ name: 'application-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .put(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PUT /applications/{application-id}/synchronization/secrets"]["response"],
+          res.data as Endpoints['PUT /applications/{application-id}/synchronization/secrets']['response']
       );
   }
 }

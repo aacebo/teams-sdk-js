@@ -1,13 +1,9 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -16,19 +12,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -43,31 +35,30 @@ function getInjectedUrl(
  * Provides operations to manage the presenters property of the microsoft.graph.virtualEvent entity.
  */
 export class PresentersClient {
-  protected baseUrl =
-    "/solutions/virtualEvents/events/{virtualEvent-id}/presenters";
+  protected baseUrl = '/solutions/virtualEvents/events/{virtualEvent-id}/presenters';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly virtualEventId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -88,27 +79,27 @@ export class PresentersClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['DELETE /solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}",
+      '/solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "virtualEvent-id", in: "path" },
-        { name: "virtualEventPresenter-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'virtualEvent-id', in: 'path' },
+        { name: 'virtualEventPresenter-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "virtualEvent-id": this.virtualEventId,
-      },
+        'virtualEvent-id': this.virtualEventId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}"]["response"],
+          res.data as Endpoints['DELETE /solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}']['response']
       );
   }
 
@@ -118,28 +109,28 @@ export class PresentersClient {
    * The virtual event presenters.
    */
   async list(
-    params?: Endpoints["GET /solutions/virtualEvents/events/{virtualEvent-id}/presenters"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /solutions/virtualEvents/events/{virtualEvent-id}/presenters']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/events/{virtualEvent-id}/presenters",
+      '/solutions/virtualEvents/events/{virtualEvent-id}/presenters',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "virtualEvent-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'virtualEvent-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "virtualEvent-id": this.virtualEventId,
-      },
+        'virtualEvent-id': this.virtualEventId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/virtualEvents/events/{virtualEvent-id}/presenters"]["response"],
+          res.data as Endpoints['GET /solutions/virtualEvents/events/{virtualEvent-id}/presenters']['response']
       );
   }
 
@@ -149,28 +140,28 @@ export class PresentersClient {
    * The virtual event presenters.
    */
   async get(
-    params?: Endpoints["GET /solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}",
+      '/solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "virtualEvent-id", in: "path" },
-        { name: "virtualEventPresenter-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'virtualEvent-id', in: 'path' },
+        { name: 'virtualEventPresenter-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "virtualEvent-id": this.virtualEventId,
-      },
+        'virtualEvent-id': this.virtualEventId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}"]["response"],
+          res.data as Endpoints['GET /solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}']['response']
       );
   }
 
@@ -179,27 +170,27 @@ export class PresentersClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}"]["body"],
-    params?: Endpoints["PATCH /solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['PATCH /solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}']['body'],
+    params?: Endpoints['PATCH /solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}",
+      '/solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}',
       [
-        { name: "virtualEvent-id", in: "path" },
-        { name: "virtualEventPresenter-id", in: "path" },
+        { name: 'virtualEvent-id', in: 'path' },
+        { name: 'virtualEventPresenter-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "virtualEvent-id": this.virtualEventId,
-      },
+        'virtualEvent-id': this.virtualEventId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}"]["response"],
+          res.data as Endpoints['PATCH /solutions/virtualEvents/events/{virtualEvent-id}/presenters/{virtualEventPresenter-id}']['response']
       );
   }
 
@@ -208,24 +199,24 @@ export class PresentersClient {
    *
    */
   async create(
-    body: Endpoints["POST /solutions/virtualEvents/events/{virtualEvent-id}/presenters"]["body"],
-    params?: Endpoints["POST /solutions/virtualEvents/events/{virtualEvent-id}/presenters"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['POST /solutions/virtualEvents/events/{virtualEvent-id}/presenters']['body'],
+    params?: Endpoints['POST /solutions/virtualEvents/events/{virtualEvent-id}/presenters']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/events/{virtualEvent-id}/presenters",
-      [{ name: "virtualEvent-id", in: "path" }],
+      '/solutions/virtualEvents/events/{virtualEvent-id}/presenters',
+      [{ name: 'virtualEvent-id', in: 'path' }],
       {
         ...(params || {}),
-        "virtualEvent-id": this.virtualEventId,
-      },
+        'virtualEvent-id': this.virtualEventId,
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /solutions/virtualEvents/events/{virtualEvent-id}/presenters"]["response"],
+          res.data as Endpoints['POST /solutions/virtualEvents/events/{virtualEvent-id}/presenters']['response']
       );
   }
 }

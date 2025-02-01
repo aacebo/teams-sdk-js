@@ -1,14 +1,10 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { SchemaClient } from "./schema";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { SchemaClient } from './schema';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -17,19 +13,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -44,28 +36,27 @@ function getInjectedUrl(
  * Provides operations to manage the templates property of the microsoft.graph.synchronization entity.
  */
 export class TemplatesClient {
-  protected baseUrl =
-    "/applications/{application-id}/synchronization/templates";
+  protected baseUrl = '/applications/{application-id}/synchronization/templates';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -95,26 +86,26 @@ export class TemplatesClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}",
+      '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "application-id", in: "path" },
-        { name: "synchronizationTemplate-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'application-id', in: 'path' },
+        { name: 'synchronizationTemplate-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}"]["response"],
+          res.data as Endpoints['DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}']['response']
       );
   }
 
@@ -124,27 +115,27 @@ export class TemplatesClient {
    * Preconfigured synchronization settings for a particular application.
    */
   async list(
-    params?: Endpoints["GET /applications/{application-id}/synchronization/templates"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /applications/{application-id}/synchronization/templates']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/synchronization/templates",
+      '/applications/{application-id}/synchronization/templates',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "application-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications/{application-id}/synchronization/templates"]["response"],
+          res.data as Endpoints['GET /applications/{application-id}/synchronization/templates']['response']
       );
   }
 
@@ -154,27 +145,27 @@ export class TemplatesClient {
    * Preconfigured synchronization settings for a particular application.
    */
   async get(
-    params?: Endpoints["GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}",
+      '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "application-id", in: "path" },
-        { name: "synchronizationTemplate-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
+        { name: 'synchronizationTemplate-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}"]["response"],
+          res.data as Endpoints['GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}']['response']
       );
   }
 
@@ -184,26 +175,26 @@ export class TemplatesClient {
    * Update (override) the synchronization template associated with a given application.
    */
   async update(
-    body: Endpoints["PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}"]["body"],
-    params?: Endpoints["PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}']['body'],
+    params?: Endpoints['PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}",
+      '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}',
       [
-        { name: "application-id", in: "path" },
-        { name: "synchronizationTemplate-id", in: "path" },
+        { name: 'application-id', in: 'path' },
+        { name: 'synchronizationTemplate-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}"]["response"],
+          res.data as Endpoints['PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}']['response']
       );
   }
 
@@ -212,23 +203,23 @@ export class TemplatesClient {
    *
    */
   async create(
-    body: Endpoints["POST /applications/{application-id}/synchronization/templates"]["body"],
-    params?: Endpoints["POST /applications/{application-id}/synchronization/templates"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['POST /applications/{application-id}/synchronization/templates']['body'],
+    params?: Endpoints['POST /applications/{application-id}/synchronization/templates']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/synchronization/templates",
-      [{ name: "application-id", in: "path" }],
+      '/applications/{application-id}/synchronization/templates',
+      [{ name: 'application-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /applications/{application-id}/synchronization/templates"]["response"],
+          res.data as Endpoints['POST /applications/{application-id}/synchronization/templates']['response']
       );
   }
 }

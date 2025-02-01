@@ -1,12 +1,8 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./createdOnBehalfOf-types.d.ts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './createdOnBehalfOf-types.d.ts';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -15,19 +11,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -42,30 +34,30 @@ function getInjectedUrl(
  * Provides operations to manage the createdOnBehalfOf property of the microsoft.graph.application entity.
  */
 export class CreatedOnBehalfOfClient {
-  protected baseUrl = "/applications/{application-id}/createdOnBehalfOf";
+  protected baseUrl = '/applications/{application-id}/createdOnBehalfOf';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly applicationId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -78,27 +70,27 @@ export class CreatedOnBehalfOfClient {
    * Supports $filter (/$count eq 0, /$count ne 0). Read-only.
    */
   async get(
-    params?: Endpoints["GET /applications/{application-id}/createdOnBehalfOf"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /applications/{application-id}/createdOnBehalfOf']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/createdOnBehalfOf",
+      '/applications/{application-id}/createdOnBehalfOf',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "application-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "application-id": this.applicationId,
-      },
+        'application-id': this.applicationId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications/{application-id}/createdOnBehalfOf"]["response"],
+          res.data as Endpoints['GET /applications/{application-id}/createdOnBehalfOf']['response']
       );
   }
 }

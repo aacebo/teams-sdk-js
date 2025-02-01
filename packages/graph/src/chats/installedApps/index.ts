@@ -1,16 +1,12 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { TeamsAppClient } from "./teamsApp";
-import { TeamsAppDefinitionClient } from "./teamsAppDefinition";
-import { UpgradeClient } from "./upgrade";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { TeamsAppClient } from './teamsApp';
+import { TeamsAppDefinitionClient } from './teamsAppDefinition';
+import { UpgradeClient } from './upgrade';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -19,19 +15,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -46,30 +38,30 @@ function getInjectedUrl(
  * Provides operations to manage the installedApps property of the microsoft.graph.chat entity.
  */
 export class InstalledAppsClient {
-  protected baseUrl = "/chats/{chat-id}/installedApps";
+  protected baseUrl = '/chats/{chat-id}/installedApps';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly chatId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -118,27 +110,27 @@ export class InstalledAppsClient {
    * Uninstall an app installed within a chat.
    */
   async delete(
-    params?: Endpoints["DELETE /chats/{chat-id}/installedApps/{teamsAppInstallation-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['DELETE /chats/{chat-id}/installedApps/{teamsAppInstallation-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/installedApps/{teamsAppInstallation-id}",
+      '/chats/{chat-id}/installedApps/{teamsAppInstallation-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "chat-id", in: "path" },
-        { name: "teamsAppInstallation-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'chat-id', in: 'path' },
+        { name: 'teamsAppInstallation-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /chats/{chat-id}/installedApps/{teamsAppInstallation-id}"]["response"],
+          res.data as Endpoints['DELETE /chats/{chat-id}/installedApps/{teamsAppInstallation-id}']['response']
       );
   }
 
@@ -148,29 +140,26 @@ export class InstalledAppsClient {
    * List all app installations within a chat.
    */
   async list(
-    params?: Endpoints["GET /chats/{chat-id}/installedApps"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /chats/{chat-id}/installedApps']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/installedApps",
+      '/chats/{chat-id}/installedApps',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "chat-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'chat-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /chats/{chat-id}/installedApps"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /chats/{chat-id}/installedApps']['response']);
   }
 
   /**
@@ -179,28 +168,28 @@ export class InstalledAppsClient {
    * Get an app installed in a chat.
    */
   async get(
-    params?: Endpoints["GET /chats/{chat-id}/installedApps/{teamsAppInstallation-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /chats/{chat-id}/installedApps/{teamsAppInstallation-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/installedApps/{teamsAppInstallation-id}",
+      '/chats/{chat-id}/installedApps/{teamsAppInstallation-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "chat-id", in: "path" },
-        { name: "teamsAppInstallation-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'chat-id', in: 'path' },
+        { name: 'teamsAppInstallation-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /chats/{chat-id}/installedApps/{teamsAppInstallation-id}"]["response"],
+          res.data as Endpoints['GET /chats/{chat-id}/installedApps/{teamsAppInstallation-id}']['response']
       );
   }
 
@@ -209,27 +198,27 @@ export class InstalledAppsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /chats/{chat-id}/installedApps/{teamsAppInstallation-id}"]["body"],
-    params?: Endpoints["PATCH /chats/{chat-id}/installedApps/{teamsAppInstallation-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['PATCH /chats/{chat-id}/installedApps/{teamsAppInstallation-id}']['body'],
+    params?: Endpoints['PATCH /chats/{chat-id}/installedApps/{teamsAppInstallation-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/installedApps/{teamsAppInstallation-id}",
+      '/chats/{chat-id}/installedApps/{teamsAppInstallation-id}',
       [
-        { name: "chat-id", in: "path" },
-        { name: "teamsAppInstallation-id", in: "path" },
+        { name: 'chat-id', in: 'path' },
+        { name: 'teamsAppInstallation-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /chats/{chat-id}/installedApps/{teamsAppInstallation-id}"]["response"],
+          res.data as Endpoints['PATCH /chats/{chat-id}/installedApps/{teamsAppInstallation-id}']['response']
       );
   }
 
@@ -239,24 +228,21 @@ export class InstalledAppsClient {
    * Install a teamsApp to the specified chat.
    */
   async create(
-    body: Endpoints["POST /chats/{chat-id}/installedApps"]["body"],
-    params?: Endpoints["POST /chats/{chat-id}/installedApps"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['POST /chats/{chat-id}/installedApps']['body'],
+    params?: Endpoints['POST /chats/{chat-id}/installedApps']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/installedApps",
-      [{ name: "chat-id", in: "path" }],
+      '/chats/{chat-id}/installedApps',
+      [{ name: 'chat-id', in: 'path' }],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .post(url, body, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["POST /chats/{chat-id}/installedApps"]["response"],
-      );
+      .then((res) => res.data as Endpoints['POST /chats/{chat-id}/installedApps']['response']);
   }
 }

@@ -280,11 +280,11 @@ export class App {
       const res = await this.api.users.token.get({
         channelId: activity.channelId,
         userId: activity.from.id,
-        connectionName: this.options.oauth?.graph || 'graph'
+        connectionName: this.options.oauth?.graph || 'graph',
       });
 
       userToken = res.token;
-    } catch (err) { }
+    } catch (err) {}
 
     const api = new Client({
       ...this.options.http,

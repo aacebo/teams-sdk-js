@@ -1,16 +1,12 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CalendarPermissionsClient } from "./calendarPermissions";
-import { CalendarViewClient } from "./calendarView";
-import { EventsClient } from "./events";
-import { GetScheduleClient } from "./getSchedule";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CalendarPermissionsClient } from './calendarPermissions';
+import { CalendarViewClient } from './calendarView';
+import { EventsClient } from './events';
+import { GetScheduleClient } from './getSchedule';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -19,19 +15,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -46,27 +38,27 @@ function getInjectedUrl(
  * Provides operations to call the allowedCalendarSharingRoles method.
  */
 export class CalendarClient {
-  protected baseUrl = "/me/calendar";
+  protected baseUrl = '/me/calendar';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -115,24 +107,21 @@ export class CalendarClient {
    * Get the properties and relationships of a calendar object. The calendar can be one for a user,
 or the default calendar of a Microsoft 365 group. There are two scenarios where an app can get another user&#x27;s calendar:
    */
-  async get(
-    params?: Endpoints["GET /me/calendar"]["parameters"],
-    config?: AxiosRequestConfig,
-  ) {
+  async get(params?: Endpoints['GET /me/calendar']['parameters'], config?: AxiosRequestConfig) {
     const url = getInjectedUrl(
-      "/me/calendar",
+      '/me/calendar',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints["GET /me/calendar"]["response"]);
+      .then((res) => res.data as Endpoints['GET /me/calendar']['response']);
   }
 
   /**
@@ -140,22 +129,22 @@ or the default calendar of a Microsoft 365 group. There are two scenarios where 
    *
    */
   async get$1(
-    params?: Endpoints["GET /me/calendar/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /me/calendar/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/me/calendar/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)",
-      [{ name: "User", in: "path" }],
+      '/me/calendar/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)',
+      [{ name: 'User', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /me/calendar/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)"]["response"],
+          res.data as Endpoints['GET /me/calendar/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)']['response']
       );
   }
 
@@ -166,16 +155,16 @@ or the default calendar of a Microsoft 365 group. There are two scenarios where 
 or the default calendar of a Microsoft 365 group.
    */
   async update(
-    body: Endpoints["PATCH /me/calendar"]["body"],
-    params?: Endpoints["PATCH /me/calendar"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['PATCH /me/calendar']['body'],
+    params?: Endpoints['PATCH /me/calendar']['parameters'],
+    config?: AxiosRequestConfig
   ) {
-    const url = getInjectedUrl("/me/calendar", [], {
+    const url = getInjectedUrl('/me/calendar', [], {
       ...(params || {}),
     });
 
     return this.http
       .patch(url, body, config)
-      .then((res) => res.data as Endpoints["PATCH /me/calendar"]["response"]);
+      .then((res) => res.data as Endpoints['PATCH /me/calendar']['response']);
   }
 }

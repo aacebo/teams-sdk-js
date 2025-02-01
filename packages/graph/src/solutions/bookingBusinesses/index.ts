@@ -1,22 +1,18 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { AppointmentsClient } from "./appointments";
-import { CalendarViewClient } from "./calendarView";
-import { CountClient } from "./count";
-import { CustomQuestionsClient } from "./customQuestions";
-import { CustomersClient } from "./customers";
-import { GetStaffAvailabilityClient } from "./getStaffAvailability";
-import { PublishClient } from "./publish";
-import { ServicesClient } from "./services";
-import { StaffMembersClient } from "./staffMembers";
-import { UnpublishClient } from "./unpublish";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { AppointmentsClient } from './appointments';
+import { CalendarViewClient } from './calendarView';
+import { CountClient } from './count';
+import { CustomQuestionsClient } from './customQuestions';
+import { CustomersClient } from './customers';
+import { GetStaffAvailabilityClient } from './getStaffAvailability';
+import { PublishClient } from './publish';
+import { ServicesClient } from './services';
+import { StaffMembersClient } from './staffMembers';
+import { UnpublishClient } from './unpublish';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -25,19 +21,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -52,27 +44,27 @@ function getInjectedUrl(
  * Provides operations to manage the bookingBusinesses property of the microsoft.graph.solutionsRoot entity.
  */
 export class BookingBusinessesClient {
-  protected baseUrl = "/solutions/bookingBusinesses";
+  protected baseUrl = '/solutions/bookingBusinesses';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -175,25 +167,25 @@ export class BookingBusinessesClient {
    * Delete a bookingBusiness object.
    */
   async delete(
-    params?: Endpoints["DELETE /solutions/bookingBusinesses/{bookingBusiness-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['DELETE /solutions/bookingBusinesses/{bookingBusiness-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/bookingBusinesses/{bookingBusiness-id}",
+      '/solutions/bookingBusinesses/{bookingBusiness-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "bookingBusiness-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'bookingBusiness-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /solutions/bookingBusinesses/{bookingBusiness-id}"]["response"],
+          res.data as Endpoints['DELETE /solutions/bookingBusinesses/{bookingBusiness-id}']['response']
       );
   }
 
@@ -203,27 +195,24 @@ export class BookingBusinessesClient {
    * Get a collection of bookingBusiness objects that has been created for the tenant. This operation returns only the id and displayName of each Microsoft Bookings business in the collection. For performance considerations, it does not return other properties. You can get the other properties of a Bookings business by specifying its id in a GET operation.
    */
   async list(
-    params?: Endpoints["GET /solutions/bookingBusinesses"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /solutions/bookingBusinesses']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/bookingBusinesses",
+      '/solutions/bookingBusinesses',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /solutions/bookingBusinesses"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /solutions/bookingBusinesses']['response']);
   }
 
   /**
@@ -232,26 +221,26 @@ export class BookingBusinessesClient {
    * Get the properties and relationships of a bookingBusiness object.
    */
   async get(
-    params?: Endpoints["GET /solutions/bookingBusinesses/{bookingBusiness-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /solutions/bookingBusinesses/{bookingBusiness-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/bookingBusinesses/{bookingBusiness-id}",
+      '/solutions/bookingBusinesses/{bookingBusiness-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "bookingBusiness-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'bookingBusiness-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/bookingBusinesses/{bookingBusiness-id}"]["response"],
+          res.data as Endpoints['GET /solutions/bookingBusinesses/{bookingBusiness-id}']['response']
       );
   }
 
@@ -261,23 +250,23 @@ export class BookingBusinessesClient {
    * Update the properties of a bookingBusiness object.
    */
   async update(
-    body: Endpoints["PATCH /solutions/bookingBusinesses/{bookingBusiness-id}"]["body"],
-    params?: Endpoints["PATCH /solutions/bookingBusinesses/{bookingBusiness-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['PATCH /solutions/bookingBusinesses/{bookingBusiness-id}']['body'],
+    params?: Endpoints['PATCH /solutions/bookingBusinesses/{bookingBusiness-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/bookingBusinesses/{bookingBusiness-id}",
-      [{ name: "bookingBusiness-id", in: "path" }],
+      '/solutions/bookingBusinesses/{bookingBusiness-id}',
+      [{ name: 'bookingBusiness-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /solutions/bookingBusinesses/{bookingBusiness-id}"]["response"],
+          res.data as Endpoints['PATCH /solutions/bookingBusinesses/{bookingBusiness-id}']['response']
       );
   }
 
@@ -287,19 +276,16 @@ export class BookingBusinessesClient {
    * Create a new Microsoft Bookings business in a tenant. This is the first step in setting up a Bookings business where you must specify the business display name. You can include other information such as business address, web site address, and scheduling policy, or set that information later by updating the bookingBusiness.
    */
   async create(
-    body: Endpoints["POST /solutions/bookingBusinesses"]["body"],
-    params?: Endpoints["POST /solutions/bookingBusinesses"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['POST /solutions/bookingBusinesses']['body'],
+    params?: Endpoints['POST /solutions/bookingBusinesses']['parameters'],
+    config?: AxiosRequestConfig
   ) {
-    const url = getInjectedUrl("/solutions/bookingBusinesses", [], {
+    const url = getInjectedUrl('/solutions/bookingBusinesses', [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["POST /solutions/bookingBusinesses"]["response"],
-      );
+      .then((res) => res.data as Endpoints['POST /solutions/bookingBusinesses']['response']);
   }
 }

@@ -1,13 +1,9 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -16,19 +12,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -43,27 +35,27 @@ function getInjectedUrl(
  * Provides operations to manage the driveProtectionUnits property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class DriveProtectionUnitsClient {
-  protected baseUrl = "/solutions/backupRestore/driveProtectionUnits";
+  protected baseUrl = '/solutions/backupRestore/driveProtectionUnits';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -84,25 +76,25 @@ export class DriveProtectionUnitsClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['DELETE /solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}",
+      '/solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "driveProtectionUnit-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'driveProtectionUnit-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}"]["response"],
+          res.data as Endpoints['DELETE /solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}']['response']
       );
   }
 
@@ -112,26 +104,26 @@ export class DriveProtectionUnitsClient {
    * The list of drive protection units in the tenant.
    */
   async list(
-    params?: Endpoints["GET /solutions/backupRestore/driveProtectionUnits"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /solutions/backupRestore/driveProtectionUnits']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/driveProtectionUnits",
+      '/solutions/backupRestore/driveProtectionUnits',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/backupRestore/driveProtectionUnits"]["response"],
+          res.data as Endpoints['GET /solutions/backupRestore/driveProtectionUnits']['response']
       );
   }
 
@@ -141,26 +133,26 @@ export class DriveProtectionUnitsClient {
    * The list of drive protection units in the tenant.
    */
   async get(
-    params?: Endpoints["GET /solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}",
+      '/solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "driveProtectionUnit-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'driveProtectionUnit-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}"]["response"],
+          res.data as Endpoints['GET /solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}']['response']
       );
   }
 
@@ -169,23 +161,23 @@ export class DriveProtectionUnitsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}"]["body"],
-    params?: Endpoints["PATCH /solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['PATCH /solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}']['body'],
+    params?: Endpoints['PATCH /solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}",
-      [{ name: "driveProtectionUnit-id", in: "path" }],
+      '/solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}',
+      [{ name: 'driveProtectionUnit-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}"]["response"],
+          res.data as Endpoints['PATCH /solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}']['response']
       );
   }
 
@@ -194,23 +186,19 @@ export class DriveProtectionUnitsClient {
    *
    */
   async create(
-    body: Endpoints["POST /solutions/backupRestore/driveProtectionUnits"]["body"],
-    params?: Endpoints["POST /solutions/backupRestore/driveProtectionUnits"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['POST /solutions/backupRestore/driveProtectionUnits']['body'],
+    params?: Endpoints['POST /solutions/backupRestore/driveProtectionUnits']['parameters'],
+    config?: AxiosRequestConfig
   ) {
-    const url = getInjectedUrl(
-      "/solutions/backupRestore/driveProtectionUnits",
-      [],
-      {
-        ...(params || {}),
-      },
-    );
+    const url = getInjectedUrl('/solutions/backupRestore/driveProtectionUnits', [], {
+      ...(params || {}),
+    });
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /solutions/backupRestore/driveProtectionUnits"]["response"],
+          res.data as Endpoints['POST /solutions/backupRestore/driveProtectionUnits']['response']
       );
   }
 }

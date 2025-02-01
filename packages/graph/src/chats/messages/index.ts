@@ -1,20 +1,16 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { DeltaClient } from "./delta";
-import { HostedContentsClient } from "./hostedContents";
-import { RepliesClient } from "./replies";
-import { SetReactionClient } from "./setReaction";
-import { SoftDeleteClient } from "./softDelete";
-import { UndoSoftDeleteClient } from "./undoSoftDelete";
-import { UnsetReactionClient } from "./unsetReaction";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { DeltaClient } from './delta';
+import { HostedContentsClient } from './hostedContents';
+import { RepliesClient } from './replies';
+import { SetReactionClient } from './setReaction';
+import { SoftDeleteClient } from './softDelete';
+import { UndoSoftDeleteClient } from './undoSoftDelete';
+import { UnsetReactionClient } from './unsetReaction';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -23,19 +19,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -50,30 +42,30 @@ function getInjectedUrl(
  * Provides operations to manage the messages property of the microsoft.graph.chat entity.
  */
 export class MessagesClient {
-  protected baseUrl = "/chats/{chat-id}/messages";
+  protected baseUrl = '/chats/{chat-id}/messages';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly chatId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -157,27 +149,27 @@ export class MessagesClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /chats/{chat-id}/messages/{chatMessage-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['DELETE /chats/{chat-id}/messages/{chatMessage-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/messages/{chatMessage-id}",
+      '/chats/{chat-id}/messages/{chatMessage-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "chat-id", in: "path" },
-        { name: "chatMessage-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'chat-id', in: 'path' },
+        { name: 'chatMessage-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /chats/{chat-id}/messages/{chatMessage-id}"]["response"],
+          res.data as Endpoints['DELETE /chats/{chat-id}/messages/{chatMessage-id}']['response']
       );
   }
 
@@ -187,29 +179,26 @@ export class MessagesClient {
    * Retrieve the list of messages in a chat. This method supports federation. To list chat messages in application context, the request must be made from the tenant that the channel owner belongs to (represented by the tenantId property on the channel).
    */
   async list(
-    params?: Endpoints["GET /chats/{chat-id}/messages"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /chats/{chat-id}/messages']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/messages",
+      '/chats/{chat-id}/messages',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "chat-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'chat-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /chats/{chat-id}/messages"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /chats/{chat-id}/messages']['response']);
   }
 
   /**
@@ -218,28 +207,27 @@ export class MessagesClient {
    * Retrieve a single message or a message reply in a channel or a chat.
    */
   async get(
-    params?: Endpoints["GET /chats/{chat-id}/messages/{chatMessage-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /chats/{chat-id}/messages/{chatMessage-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/messages/{chatMessage-id}",
+      '/chats/{chat-id}/messages/{chatMessage-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "chat-id", in: "path" },
-        { name: "chatMessage-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'chat-id', in: 'path' },
+        { name: 'chatMessage-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
-        (res) =>
-          res.data as Endpoints["GET /chats/{chat-id}/messages/{chatMessage-id}"]["response"],
+        (res) => res.data as Endpoints['GET /chats/{chat-id}/messages/{chatMessage-id}']['response']
       );
   }
 
@@ -248,27 +236,27 @@ export class MessagesClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /chats/{chat-id}/messages/{chatMessage-id}"]["body"],
-    params?: Endpoints["PATCH /chats/{chat-id}/messages/{chatMessage-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['PATCH /chats/{chat-id}/messages/{chatMessage-id}']['body'],
+    params?: Endpoints['PATCH /chats/{chat-id}/messages/{chatMessage-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/messages/{chatMessage-id}",
+      '/chats/{chat-id}/messages/{chatMessage-id}',
       [
-        { name: "chat-id", in: "path" },
-        { name: "chatMessage-id", in: "path" },
+        { name: 'chat-id', in: 'path' },
+        { name: 'chatMessage-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /chats/{chat-id}/messages/{chatMessage-id}"]["response"],
+          res.data as Endpoints['PATCH /chats/{chat-id}/messages/{chatMessage-id}']['response']
       );
   }
 
@@ -278,24 +266,17 @@ export class MessagesClient {
    * Send a new chatMessage in the specified channel or a chat.
    */
   async create(
-    body: Endpoints["POST /chats/{chat-id}/messages"]["body"],
-    params?: Endpoints["POST /chats/{chat-id}/messages"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['POST /chats/{chat-id}/messages']['body'],
+    params?: Endpoints['POST /chats/{chat-id}/messages']['parameters'],
+    config?: AxiosRequestConfig
   ) {
-    const url = getInjectedUrl(
-      "/chats/{chat-id}/messages",
-      [{ name: "chat-id", in: "path" }],
-      {
-        ...(params || {}),
-        "chat-id": this.chatId,
-      },
-    );
+    const url = getInjectedUrl('/chats/{chat-id}/messages', [{ name: 'chat-id', in: 'path' }], {
+      ...(params || {}),
+      'chat-id': this.chatId,
+    });
 
     return this.http
       .post(url, body, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["POST /chats/{chat-id}/messages"]["response"],
-      );
+      .then((res) => res.data as Endpoints['POST /chats/{chat-id}/messages']['response']);
   }
 }

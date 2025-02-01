@@ -1,12 +1,8 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./ref-types.d.ts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './ref-types.d.ts';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -15,19 +11,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -43,30 +35,30 @@ function getInjectedUrl(
  */
 export class RefClient {
   protected baseUrl =
-    "/applications/{application-id}/tokenLifetimePolicies/{tokenLifetimePolicy-id}/ref";
+    '/applications/{application-id}/tokenLifetimePolicies/{tokenLifetimePolicy-id}/ref';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly tokenLifetimePolicyId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -79,27 +71,27 @@ export class RefClient {
    * Remove a tokenLifetimePolicy from an application.
    */
   async delete$1(
-    params?: Endpoints["DELETE /applications/{application-id}/tokenLifetimePolicies/$ref"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['DELETE /applications/{application-id}/tokenLifetimePolicies/$ref']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/tokenLifetimePolicies/$ref",
+      '/applications/{application-id}/tokenLifetimePolicies/$ref',
       [
-        { name: "If-Match", in: "header" },
-        { name: "@id", in: "query" },
-        { name: "application-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: '@id', in: 'query' },
+        { name: 'application-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "tokenLifetimePolicy-id": this.tokenLifetimePolicyId,
-      },
+        'tokenLifetimePolicy-id': this.tokenLifetimePolicyId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /applications/{application-id}/tokenLifetimePolicies/$ref"]["response"],
+          res.data as Endpoints['DELETE /applications/{application-id}/tokenLifetimePolicies/$ref']['response']
       );
   }
 
@@ -109,27 +101,27 @@ export class RefClient {
    * Remove a tokenLifetimePolicy from an application.
    */
   async delete(
-    params?: Endpoints["DELETE /applications/{application-id}/tokenLifetimePolicies/{tokenLifetimePolicy-id}/$ref"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['DELETE /applications/{application-id}/tokenLifetimePolicies/{tokenLifetimePolicy-id}/$ref']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/tokenLifetimePolicies/{tokenLifetimePolicy-id}/$ref",
+      '/applications/{application-id}/tokenLifetimePolicies/{tokenLifetimePolicy-id}/$ref',
       [
-        { name: "If-Match", in: "header" },
-        { name: "application-id", in: "path" },
-        { name: "tokenLifetimePolicy-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'application-id', in: 'path' },
+        { name: 'tokenLifetimePolicy-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "tokenLifetimePolicy-id": this.tokenLifetimePolicyId,
-      },
+        'tokenLifetimePolicy-id': this.tokenLifetimePolicyId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /applications/{application-id}/tokenLifetimePolicies/{tokenLifetimePolicy-id}/$ref"]["response"],
+          res.data as Endpoints['DELETE /applications/{application-id}/tokenLifetimePolicies/{tokenLifetimePolicy-id}/$ref']['response']
       );
   }
 
@@ -139,26 +131,26 @@ export class RefClient {
    * List the tokenLifetimePolicy objects that are assigned to an application. Only one object is returned in the collection because only one tokenLifetimePolicy can be assigned to an application.
    */
   async get(
-    params?: Endpoints["GET /applications/{application-id}/tokenLifetimePolicies/$ref"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /applications/{application-id}/tokenLifetimePolicies/$ref']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/tokenLifetimePolicies/$ref",
+      '/applications/{application-id}/tokenLifetimePolicies/$ref',
       [
-        { name: "$orderby", in: "query" },
-        { name: "application-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: 'application-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "tokenLifetimePolicy-id": this.tokenLifetimePolicyId,
-      },
+        'tokenLifetimePolicy-id': this.tokenLifetimePolicyId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications/{application-id}/tokenLifetimePolicies/$ref"]["response"],
+          res.data as Endpoints['GET /applications/{application-id}/tokenLifetimePolicies/$ref']['response']
       );
   }
 
@@ -168,24 +160,24 @@ export class RefClient {
    * Assign a tokenLifetimePolicy to an application. You can have multiple tokenLifetimePolicy policies in a tenant but can assign only one tokenLifetimePolicy per application.
    */
   async create(
-    body: Endpoints["POST /applications/{application-id}/tokenLifetimePolicies/$ref"]["body"],
-    params?: Endpoints["POST /applications/{application-id}/tokenLifetimePolicies/$ref"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['POST /applications/{application-id}/tokenLifetimePolicies/$ref']['body'],
+    params?: Endpoints['POST /applications/{application-id}/tokenLifetimePolicies/$ref']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/tokenLifetimePolicies/$ref",
-      [{ name: "application-id", in: "path" }],
+      '/applications/{application-id}/tokenLifetimePolicies/$ref',
+      [{ name: 'application-id', in: 'path' }],
       {
         ...(params || {}),
-        "tokenLifetimePolicy-id": this.tokenLifetimePolicyId,
-      },
+        'tokenLifetimePolicy-id': this.tokenLifetimePolicyId,
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /applications/{application-id}/tokenLifetimePolicies/$ref"]["response"],
+          res.data as Endpoints['POST /applications/{application-id}/tokenLifetimePolicies/$ref']['response']
       );
   }
 }

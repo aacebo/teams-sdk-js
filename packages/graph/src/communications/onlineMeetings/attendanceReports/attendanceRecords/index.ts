@@ -1,13 +1,9 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -16,19 +12,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -44,30 +36,30 @@ function getInjectedUrl(
  */
 export class AttendanceRecordsClient {
   protected baseUrl =
-    "/communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords";
+    '/communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly meetingAttendanceReportId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -88,28 +80,28 @@ export class AttendanceRecordsClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['DELETE /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}",
+      '/communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "onlineMeeting-id", in: "path" },
-        { name: "meetingAttendanceReport-id", in: "path" },
-        { name: "attendanceRecord-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'onlineMeeting-id', in: 'path' },
+        { name: 'meetingAttendanceReport-id', in: 'path' },
+        { name: 'attendanceRecord-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "meetingAttendanceReport-id": this.meetingAttendanceReportId,
-      },
+        'meetingAttendanceReport-id': this.meetingAttendanceReportId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}"]["response"],
+          res.data as Endpoints['DELETE /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}']['response']
       );
   }
 
@@ -119,29 +111,29 @@ export class AttendanceRecordsClient {
    * List of attendance records of an attendance report. Read-only.
    */
   async list(
-    params?: Endpoints["GET /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords",
+      '/communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "onlineMeeting-id", in: "path" },
-        { name: "meetingAttendanceReport-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'onlineMeeting-id', in: 'path' },
+        { name: 'meetingAttendanceReport-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "meetingAttendanceReport-id": this.meetingAttendanceReportId,
-      },
+        'meetingAttendanceReport-id': this.meetingAttendanceReportId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords"]["response"],
+          res.data as Endpoints['GET /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords']['response']
       );
   }
 
@@ -151,29 +143,29 @@ export class AttendanceRecordsClient {
    * List of attendance records of an attendance report. Read-only.
    */
   async get(
-    params?: Endpoints["GET /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}",
+      '/communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "onlineMeeting-id", in: "path" },
-        { name: "meetingAttendanceReport-id", in: "path" },
-        { name: "attendanceRecord-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'onlineMeeting-id', in: 'path' },
+        { name: 'meetingAttendanceReport-id', in: 'path' },
+        { name: 'attendanceRecord-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "meetingAttendanceReport-id": this.meetingAttendanceReportId,
-      },
+        'meetingAttendanceReport-id': this.meetingAttendanceReportId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}"]["response"],
+          res.data as Endpoints['GET /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}']['response']
       );
   }
 
@@ -182,28 +174,28 @@ export class AttendanceRecordsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}"]["body"],
-    params?: Endpoints["PATCH /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['PATCH /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}']['body'],
+    params?: Endpoints['PATCH /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}",
+      '/communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}',
       [
-        { name: "onlineMeeting-id", in: "path" },
-        { name: "meetingAttendanceReport-id", in: "path" },
-        { name: "attendanceRecord-id", in: "path" },
+        { name: 'onlineMeeting-id', in: 'path' },
+        { name: 'meetingAttendanceReport-id', in: 'path' },
+        { name: 'attendanceRecord-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "meetingAttendanceReport-id": this.meetingAttendanceReportId,
-      },
+        'meetingAttendanceReport-id': this.meetingAttendanceReportId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}"]["response"],
+          res.data as Endpoints['PATCH /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}']['response']
       );
   }
 
@@ -212,27 +204,27 @@ export class AttendanceRecordsClient {
    *
    */
   async create(
-    body: Endpoints["POST /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords"]["body"],
-    params?: Endpoints["POST /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['POST /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords']['body'],
+    params?: Endpoints['POST /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords",
+      '/communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords',
       [
-        { name: "onlineMeeting-id", in: "path" },
-        { name: "meetingAttendanceReport-id", in: "path" },
+        { name: 'onlineMeeting-id', in: 'path' },
+        { name: 'meetingAttendanceReport-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "meetingAttendanceReport-id": this.meetingAttendanceReportId,
-      },
+        'meetingAttendanceReport-id': this.meetingAttendanceReportId,
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords"]["response"],
+          res.data as Endpoints['POST /communications/onlineMeetings/{onlineMeeting-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords']['response']
       );
   }
 }

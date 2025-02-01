@@ -76,7 +76,7 @@ export class HttpSender implements Sender {
       });
 
       return res.token;
-    } catch (err) { }
+    } catch (err) {}
 
     // create new 1:1 conversation with user to do SSO
     // because groupchats don't support it.

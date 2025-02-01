@@ -1,12 +1,8 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./cancel-types.d.ts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './cancel-types.d.ts';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -15,19 +11,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -43,30 +35,30 @@ function getInjectedUrl(
  */
 export class CancelClient {
   protected baseUrl =
-    "/me/calendars/{calendar-id}/calendarView/{event-id}/instances/{event-id1}/cancel";
+    '/me/calendars/{calendar-id}/calendarView/{event-id}/instances/{event-id1}/cancel';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly eventId1: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -82,28 +74,28 @@ error message: &#x27;Your request can&#x27;t be completed. You need to be an org
 the organizer send a custom message to the attendees about the cancellation.
    */
   async create(
-    body: Endpoints["POST /me/calendars/{calendar-id}/calendarView/{event-id}/instances/{event-id1}/cancel"]["body"],
-    params?: Endpoints["POST /me/calendars/{calendar-id}/calendarView/{event-id}/instances/{event-id1}/cancel"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['POST /me/calendars/{calendar-id}/calendarView/{event-id}/instances/{event-id1}/cancel']['body'],
+    params?: Endpoints['POST /me/calendars/{calendar-id}/calendarView/{event-id}/instances/{event-id1}/cancel']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/me/calendars/{calendar-id}/calendarView/{event-id}/instances/{event-id1}/cancel",
+      '/me/calendars/{calendar-id}/calendarView/{event-id}/instances/{event-id1}/cancel',
       [
-        { name: "calendar-id", in: "path" },
-        { name: "event-id", in: "path" },
-        { name: "event-id1", in: "path" },
+        { name: 'calendar-id', in: 'path' },
+        { name: 'event-id', in: 'path' },
+        { name: 'event-id1', in: 'path' },
       ],
       {
         ...(params || {}),
-        "event-id1": this.eventId1,
-      },
+        'event-id1': this.eventId1,
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /me/calendars/{calendar-id}/calendarView/{event-id}/instances/{event-id1}/cancel"]["response"],
+          res.data as Endpoints['POST /me/calendars/{calendar-id}/calendarView/{event-id}/instances/{event-id1}/cancel']['response']
       );
   }
 }

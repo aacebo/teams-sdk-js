@@ -1,13 +1,9 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -16,19 +12,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -43,30 +35,30 @@ function getInjectedUrl(
  * Provides operations to manage the permissionGrants property of the microsoft.graph.chat entity.
  */
 export class PermissionGrantsClient {
-  protected baseUrl = "/chats/{chat-id}/permissionGrants";
+  protected baseUrl = '/chats/{chat-id}/permissionGrants';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly chatId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -87,27 +79,27 @@ export class PermissionGrantsClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['DELETE /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}",
+      '/chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "chat-id", in: "path" },
-        { name: "resourceSpecificPermissionGrant-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'chat-id', in: 'path' },
+        { name: 'resourceSpecificPermissionGrant-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["response"],
+          res.data as Endpoints['DELETE /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}']['response']
       );
   }
 
@@ -117,29 +109,26 @@ export class PermissionGrantsClient {
    * List all resource-specific permission grants on the chat. This list specifies the Microsoft Entra apps that have access to the chat, along with the corresponding resource-specific access that each app has.
    */
   async list(
-    params?: Endpoints["GET /chats/{chat-id}/permissionGrants"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /chats/{chat-id}/permissionGrants']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/permissionGrants",
+      '/chats/{chat-id}/permissionGrants',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "chat-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'chat-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /chats/{chat-id}/permissionGrants"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /chats/{chat-id}/permissionGrants']['response']);
   }
 
   /**
@@ -148,28 +137,28 @@ export class PermissionGrantsClient {
    * A collection of permissions granted to apps for the chat.
    */
   async get(
-    params?: Endpoints["GET /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}",
+      '/chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "chat-id", in: "path" },
-        { name: "resourceSpecificPermissionGrant-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'chat-id', in: 'path' },
+        { name: 'resourceSpecificPermissionGrant-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["response"],
+          res.data as Endpoints['GET /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}']['response']
       );
   }
 
@@ -178,27 +167,27 @@ export class PermissionGrantsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["body"],
-    params?: Endpoints["PATCH /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['PATCH /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}']['body'],
+    params?: Endpoints['PATCH /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}",
+      '/chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}',
       [
-        { name: "chat-id", in: "path" },
-        { name: "resourceSpecificPermissionGrant-id", in: "path" },
+        { name: 'chat-id', in: 'path' },
+        { name: 'resourceSpecificPermissionGrant-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["response"],
+          res.data as Endpoints['PATCH /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}']['response']
       );
   }
 
@@ -207,24 +196,21 @@ export class PermissionGrantsClient {
    *
    */
   async create(
-    body: Endpoints["POST /chats/{chat-id}/permissionGrants"]["body"],
-    params?: Endpoints["POST /chats/{chat-id}/permissionGrants"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['POST /chats/{chat-id}/permissionGrants']['body'],
+    params?: Endpoints['POST /chats/{chat-id}/permissionGrants']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/permissionGrants",
-      [{ name: "chat-id", in: "path" }],
+      '/chats/{chat-id}/permissionGrants',
+      [{ name: 'chat-id', in: 'path' }],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .post(url, body, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["POST /chats/{chat-id}/permissionGrants"]["response"],
-      );
+      .then((res) => res.data as Endpoints['POST /chats/{chat-id}/permissionGrants']['response']);
   }
 }

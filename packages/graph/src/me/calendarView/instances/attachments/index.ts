@@ -1,14 +1,10 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { CreateUploadSessionClient } from "./createUploadSession";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { CreateUploadSessionClient } from './createUploadSession';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -17,19 +13,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -44,31 +36,30 @@ function getInjectedUrl(
  * Provides operations to manage the attachments property of the microsoft.graph.event entity.
  */
 export class AttachmentsClient {
-  protected baseUrl =
-    "/me/calendarView/{event-id}/instances/{event-id1}/attachments";
+  protected baseUrl = '/me/calendarView/{event-id}/instances/{event-id1}/attachments';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly eventId1: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -98,28 +89,28 @@ export class AttachmentsClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /me/calendarView/{event-id}/instances/{event-id1}/attachments/{attachment-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['DELETE /me/calendarView/{event-id}/instances/{event-id1}/attachments/{attachment-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/me/calendarView/{event-id}/instances/{event-id1}/attachments/{attachment-id}",
+      '/me/calendarView/{event-id}/instances/{event-id1}/attachments/{attachment-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "event-id", in: "path" },
-        { name: "event-id1", in: "path" },
-        { name: "attachment-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'event-id', in: 'path' },
+        { name: 'event-id1', in: 'path' },
+        { name: 'attachment-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "event-id1": this.eventId1,
-      },
+        'event-id1': this.eventId1,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /me/calendarView/{event-id}/instances/{event-id1}/attachments/{attachment-id}"]["response"],
+          res.data as Endpoints['DELETE /me/calendarView/{event-id}/instances/{event-id1}/attachments/{attachment-id}']['response']
       );
   }
 
@@ -129,29 +120,29 @@ export class AttachmentsClient {
    * The collection of FileAttachment, ItemAttachment, and referenceAttachment attachments for the event. Navigation property. Read-only. Nullable.
    */
   async list(
-    params?: Endpoints["GET /me/calendarView/{event-id}/instances/{event-id1}/attachments"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /me/calendarView/{event-id}/instances/{event-id1}/attachments']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/me/calendarView/{event-id}/instances/{event-id1}/attachments",
+      '/me/calendarView/{event-id}/instances/{event-id1}/attachments',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "event-id", in: "path" },
-        { name: "event-id1", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'event-id', in: 'path' },
+        { name: 'event-id1', in: 'path' },
       ],
       {
         ...(params || {}),
-        "event-id1": this.eventId1,
-      },
+        'event-id1': this.eventId1,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /me/calendarView/{event-id}/instances/{event-id1}/attachments"]["response"],
+          res.data as Endpoints['GET /me/calendarView/{event-id}/instances/{event-id1}/attachments']['response']
       );
   }
 
@@ -161,29 +152,29 @@ export class AttachmentsClient {
    * The collection of FileAttachment, ItemAttachment, and referenceAttachment attachments for the event. Navigation property. Read-only. Nullable.
    */
   async get(
-    params?: Endpoints["GET /me/calendarView/{event-id}/instances/{event-id1}/attachments/{attachment-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /me/calendarView/{event-id}/instances/{event-id1}/attachments/{attachment-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/me/calendarView/{event-id}/instances/{event-id1}/attachments/{attachment-id}",
+      '/me/calendarView/{event-id}/instances/{event-id1}/attachments/{attachment-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "event-id", in: "path" },
-        { name: "event-id1", in: "path" },
-        { name: "attachment-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'event-id', in: 'path' },
+        { name: 'event-id1', in: 'path' },
+        { name: 'attachment-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "event-id1": this.eventId1,
-      },
+        'event-id1': this.eventId1,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /me/calendarView/{event-id}/instances/{event-id1}/attachments/{attachment-id}"]["response"],
+          res.data as Endpoints['GET /me/calendarView/{event-id}/instances/{event-id1}/attachments/{attachment-id}']['response']
       );
   }
 
@@ -192,27 +183,27 @@ export class AttachmentsClient {
    *
    */
   async create(
-    body: Endpoints["POST /me/calendarView/{event-id}/instances/{event-id1}/attachments"]["body"],
-    params?: Endpoints["POST /me/calendarView/{event-id}/instances/{event-id1}/attachments"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['POST /me/calendarView/{event-id}/instances/{event-id1}/attachments']['body'],
+    params?: Endpoints['POST /me/calendarView/{event-id}/instances/{event-id1}/attachments']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/me/calendarView/{event-id}/instances/{event-id1}/attachments",
+      '/me/calendarView/{event-id}/instances/{event-id1}/attachments',
       [
-        { name: "event-id", in: "path" },
-        { name: "event-id1", in: "path" },
+        { name: 'event-id', in: 'path' },
+        { name: 'event-id1', in: 'path' },
       ],
       {
         ...(params || {}),
-        "event-id1": this.eventId1,
-      },
+        'event-id1': this.eventId1,
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /me/calendarView/{event-id}/instances/{event-id1}/attachments"]["response"],
+          res.data as Endpoints['POST /me/calendarView/{event-id}/instances/{event-id1}/attachments']['response']
       );
   }
 }

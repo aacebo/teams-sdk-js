@@ -1,14 +1,10 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { SiteRestoreArtifactsClient } from "./siteRestoreArtifacts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { SiteRestoreArtifactsClient } from './siteRestoreArtifacts';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -17,19 +13,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -44,27 +36,27 @@ function getInjectedUrl(
  * Provides operations to manage the sharePointRestoreSessions property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class SharePointRestoreSessionsClient {
-  protected baseUrl = "/solutions/backupRestore/sharePointRestoreSessions";
+  protected baseUrl = '/solutions/backupRestore/sharePointRestoreSessions';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -86,10 +78,7 @@ export class SharePointRestoreSessionsClient {
    * Provides operations to manage the siteRestoreArtifacts property of the microsoft.graph.sharePointRestoreSession entity.
    */
   siteRestoreArtifacts(sharePointRestoreSessionId: string) {
-    return new SiteRestoreArtifactsClient(
-      sharePointRestoreSessionId,
-      this.http,
-    );
+    return new SiteRestoreArtifactsClient(sharePointRestoreSessionId, this.http);
   }
 
   /**
@@ -97,25 +86,25 @@ export class SharePointRestoreSessionsClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['DELETE /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}",
+      '/solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "sharePointRestoreSession-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'sharePointRestoreSession-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}"]["response"],
+          res.data as Endpoints['DELETE /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}']['response']
       );
   }
 
@@ -125,26 +114,26 @@ export class SharePointRestoreSessionsClient {
    * The list of SharePoint restore sessions available in the tenant.
    */
   async list(
-    params?: Endpoints["GET /solutions/backupRestore/sharePointRestoreSessions"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /solutions/backupRestore/sharePointRestoreSessions']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/sharePointRestoreSessions",
+      '/solutions/backupRestore/sharePointRestoreSessions',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/backupRestore/sharePointRestoreSessions"]["response"],
+          res.data as Endpoints['GET /solutions/backupRestore/sharePointRestoreSessions']['response']
       );
   }
 
@@ -154,26 +143,26 @@ export class SharePointRestoreSessionsClient {
    * The list of SharePoint restore sessions available in the tenant.
    */
   async get(
-    params?: Endpoints["GET /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}",
+      '/solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "sharePointRestoreSession-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'sharePointRestoreSession-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}"]["response"],
+          res.data as Endpoints['GET /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}']['response']
       );
   }
 
@@ -182,23 +171,23 @@ export class SharePointRestoreSessionsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}"]["body"],
-    params?: Endpoints["PATCH /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['PATCH /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}']['body'],
+    params?: Endpoints['PATCH /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}",
-      [{ name: "sharePointRestoreSession-id", in: "path" }],
+      '/solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}',
+      [{ name: 'sharePointRestoreSession-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}"]["response"],
+          res.data as Endpoints['PATCH /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}']['response']
       );
   }
 
@@ -208,23 +197,19 @@ export class SharePointRestoreSessionsClient {
    * Create a new sharePointRestoreSession object.
    */
   async create(
-    body: Endpoints["POST /solutions/backupRestore/sharePointRestoreSessions"]["body"],
-    params?: Endpoints["POST /solutions/backupRestore/sharePointRestoreSessions"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['POST /solutions/backupRestore/sharePointRestoreSessions']['body'],
+    params?: Endpoints['POST /solutions/backupRestore/sharePointRestoreSessions']['parameters'],
+    config?: AxiosRequestConfig
   ) {
-    const url = getInjectedUrl(
-      "/solutions/backupRestore/sharePointRestoreSessions",
-      [],
-      {
-        ...(params || {}),
-      },
-    );
+    const url = getInjectedUrl('/solutions/backupRestore/sharePointRestoreSessions', [], {
+      ...(params || {}),
+    });
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /solutions/backupRestore/sharePointRestoreSessions"]["response"],
+          res.data as Endpoints['POST /solutions/backupRestore/sharePointRestoreSessions']['response']
       );
   }
 }

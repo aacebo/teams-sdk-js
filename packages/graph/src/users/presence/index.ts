@@ -1,17 +1,13 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { ClearPresenceClient } from "./clearPresence";
-import { ClearUserPreferredPresenceClient } from "./clearUserPreferredPresence";
-import { SetPresenceClient } from "./setPresence";
-import { SetStatusMessageClient } from "./setStatusMessage";
-import { SetUserPreferredPresenceClient } from "./setUserPreferredPresence";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { ClearPresenceClient } from './clearPresence';
+import { ClearUserPreferredPresenceClient } from './clearUserPreferredPresence';
+import { SetPresenceClient } from './setPresence';
+import { SetStatusMessageClient } from './setStatusMessage';
+import { SetUserPreferredPresenceClient } from './setUserPreferredPresence';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -20,19 +16,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -47,30 +39,30 @@ function getInjectedUrl(
  * Provides operations to manage the presence property of the microsoft.graph.user entity.
  */
 export class PresenceClient {
-  protected baseUrl = "/users/{user-id}/presence";
+  protected baseUrl = '/users/{user-id}/presence';
   protected http: AxiosInstance;
 
   constructor(
     protected readonly userId: string,
-    options?: GraphClientOptions,
+    options?: GraphClientOptions
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -127,27 +119,24 @@ export class PresenceClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /users/{user-id}/presence"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['DELETE /users/{user-id}/presence']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/presence",
+      '/users/{user-id}/presence',
       [
-        { name: "If-Match", in: "header" },
-        { name: "user-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'user-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "user-id": this.userId,
-      },
+        'user-id': this.userId,
+      }
     );
 
     return this.http
       .delete(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["DELETE /users/{user-id}/presence"]["response"],
-      );
+      .then((res) => res.data as Endpoints['DELETE /users/{user-id}/presence']['response']);
   }
 
   /**
@@ -156,28 +145,25 @@ export class PresenceClient {
    * Get a user&#x27;s presence information.
    */
   async get(
-    params?: Endpoints["GET /users/{user-id}/presence"]["parameters"],
-    config?: AxiosRequestConfig,
+    params?: Endpoints['GET /users/{user-id}/presence']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/presence",
+      '/users/{user-id}/presence',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "user-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'user-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "user-id": this.userId,
-      },
+        'user-id': this.userId,
+      }
     );
 
     return this.http
       .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /users/{user-id}/presence"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /users/{user-id}/presence']['response']);
   }
 
   /**
@@ -185,24 +171,17 @@ export class PresenceClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /users/{user-id}/presence"]["body"],
-    params?: Endpoints["PATCH /users/{user-id}/presence"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['PATCH /users/{user-id}/presence']['body'],
+    params?: Endpoints['PATCH /users/{user-id}/presence']['parameters'],
+    config?: AxiosRequestConfig
   ) {
-    const url = getInjectedUrl(
-      "/users/{user-id}/presence",
-      [{ name: "user-id", in: "path" }],
-      {
-        ...(params || {}),
-        "user-id": this.userId,
-      },
-    );
+    const url = getInjectedUrl('/users/{user-id}/presence', [{ name: 'user-id', in: 'path' }], {
+      ...(params || {}),
+      'user-id': this.userId,
+    });
 
     return this.http
       .patch(url, body, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["PATCH /users/{user-id}/presence"]["response"],
-      );
+      .then((res) => res.data as Endpoints['PATCH /users/{user-id}/presence']['response']);
   }
 }

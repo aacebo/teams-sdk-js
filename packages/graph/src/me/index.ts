@@ -1,19 +1,15 @@
-import qs from "qs";
-import axios, {
-  AxiosInstance,
-  CreateAxiosDefaults,
-  AxiosRequestConfig,
-} from "axios";
+import qs from 'qs';
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CalendarClient } from "./calendar";
-import { CalendarGroupsClient } from "./calendarGroups";
-import { CalendarViewClient } from "./calendarView";
-import { CalendarsClient } from "./calendars";
-import { PhotoClient } from "./photo";
-import { PhotosClient } from "./photos";
-import { PresenceClient } from "./presence";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CalendarClient } from './calendar';
+import { CalendarGroupsClient } from './calendarGroups';
+import { CalendarViewClient } from './calendarView';
+import { CalendarsClient } from './calendars';
+import { PhotoClient } from './photo';
+import { PhotosClient } from './photos';
+import { PresenceClient } from './presence';
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -22,19 +18,15 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -49,27 +41,27 @@ function getInjectedUrl(
  * Provides operations to manage the user singleton.
  */
 export class MeClient {
-  protected baseUrl = "/me";
+  protected baseUrl = '/me';
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("get" in options) {
+    } else if ('get' in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: "https://graph.microsoft.com/v1.0",
+        baseURL: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -144,25 +136,20 @@ export class MeClient {
    *
    * Retrieve the properties and relationships of user object. This operation returns by default only a subset of the more commonly used properties for each user. These default properties are noted in the Properties section. To get properties that are not returned by default, do a GET operation for the user and specify the properties in a $select OData query option. Because the user resource supports extensions, you can also use the GET operation to get custom properties and extension data in a user instance. Customers through Microsoft Entra ID for customers can also use this API operation to retrieve their details.
    */
-  async get(
-    params?: Endpoints["GET /me"]["parameters"],
-    config?: AxiosRequestConfig,
-  ) {
+  async get(params?: Endpoints['GET /me']['parameters'], config?: AxiosRequestConfig) {
     const url = getInjectedUrl(
-      "/me",
+      '/me',
       [
-        { name: "ConsistencyLevel", in: "header" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: 'ConsistencyLevel', in: 'header' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
-    return this.http
-      .get(url, config)
-      .then((res) => res.data as Endpoints["GET /me"]["response"]);
+    return this.http.get(url, config).then((res) => res.data as Endpoints['GET /me']['response']);
   }
 
   /**
@@ -171,16 +158,16 @@ export class MeClient {
    * Update the properties of a user object.
    */
   async update(
-    body: Endpoints["PATCH /me"]["body"],
-    params?: Endpoints["PATCH /me"]["parameters"],
-    config?: AxiosRequestConfig,
+    body: Endpoints['PATCH /me']['body'],
+    params?: Endpoints['PATCH /me']['parameters'],
+    config?: AxiosRequestConfig
   ) {
-    const url = getInjectedUrl("/me", [], {
+    const url = getInjectedUrl('/me', [], {
       ...(params || {}),
     });
 
     return this.http
       .patch(url, body, config)
-      .then((res) => res.data as Endpoints["PATCH /me"]["response"]);
+      .then((res) => res.data as Endpoints['PATCH /me']['response']);
   }
 }
