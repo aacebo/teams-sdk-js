@@ -26,7 +26,7 @@ export interface Sender {
    * @param name auth connection name
    * @param text card text to display
    */
-  signin(name: string, text?: string): Promise<Resource>;
+  signin(name: string, text?: string): Promise<string | undefined>;
 }
 
 /**

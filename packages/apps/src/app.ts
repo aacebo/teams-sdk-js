@@ -333,6 +333,7 @@ export class App {
       tokens: this.tokens,
       ref: conversation,
       storage: this.storage,
+      isSignedIn: !!userToken,
     };
 
     let i = 0;

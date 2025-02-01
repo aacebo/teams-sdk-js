@@ -32,7 +32,7 @@ export class ConsoleSender implements Sender {
     return this.send(activity);
   }
 
-  async signin() {
+  async signin(): Promise<string | undefined> {
     const open = (await import('open')).default;
     const q = qs.stringify({
       client_id: this.ctx.clientId,
@@ -44,6 +44,6 @@ export class ConsoleSender implements Sender {
     });
 
     await open(`https://login.microsoftonline.com/${this.ctx.tenantId}/oauth2/v2.0/authorize?${q}`);
-    return { id: '1' };
+    return;
   }
 }

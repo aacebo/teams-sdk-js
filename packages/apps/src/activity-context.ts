@@ -24,7 +24,7 @@ export interface ActivityContext<T extends Activity = Activity> {
   log: Logger;
 
   /**
-   * the bot api client
+   * the api client
    */
   api: Client;
 
@@ -32,6 +32,13 @@ export interface ActivityContext<T extends Activity = Activity> {
    * app storage instance
    */
   storage: Storage;
+
+  /**
+   * whether the user has provided
+   * their MSGraph credentials for use
+   * via `api.graph.*`
+   */
+  isSignedIn?: boolean;
 
   /**
    * extra data

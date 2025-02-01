@@ -68,6 +68,16 @@ export class HttpSender implements Sender {
   async signin(name: string, text = 'Please Sign In...') {
     let convo = { ...this.ctx.ref };
 
+    try {
+      const res = await this.ctx.api.users.token.get({
+        channelId: this.ctx.activity.channelId,
+        userId: this.ctx.activity.from.id,
+        connectionName: name,
+      });
+
+      return res.token;
+    } catch (err) { }
+
     // create new 1:1 conversation with user to do SSO
     // because groupchats don't support it.
     if (this.ctx.activity.conversation.isGroup) {
@@ -96,7 +106,7 @@ export class HttpSender implements Sender {
     const state = Buffer.from(JSON.stringify(tokenExchangeState)).toString('base64');
     const resource = await this.ctx.api.bots.signIn.getResource({ state });
 
-    return this.ctx.api.conversations.activities(convo.conversation.id).create({
+    await this.ctx.api.conversations.activities(convo.conversation.id).create({
       type: 'message',
       inputHint: 'acceptingInput',
       recipient: this.ctx.activity.from,

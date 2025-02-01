@@ -8,8 +8,10 @@ const app = new App({
   oauth: { graph: 'graph-connection' }
 });
 
-app.on('message', async ({ signin }) => {
-  await signin('graph-connection');
+app.on('message', async ({ signin, isSignedIn }) => {
+  if (!isSignedIn) {
+    await signin('graph-connection');
+  }
 });
 
 app.event('signin', async ({ send, api }) => {

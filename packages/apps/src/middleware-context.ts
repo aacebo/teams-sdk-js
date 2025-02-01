@@ -40,7 +40,7 @@ export interface MiddlewareContext<T extends Activity = Activity> extends Activi
    * @param name auth connection name
    * @param text card text to display
    */
-  signin: (name: string, text?: string) => Promise<Resource>;
+  signin: (name: string, text?: string) => Promise<string | undefined>;
 }
 
 export interface MentionMiddlewareContext extends MiddlewareContext<MessageSendActivity> {
