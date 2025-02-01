@@ -1,0 +1,90 @@
+import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+
+import pkg from "src/../package.json";
+import type { Endpoints } from "./tentativelyAccept-types.d.ts";
+
+type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+
+interface Param {
+  readonly in: string;
+  readonly name: string;
+}
+
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  for (const param of params) {
+    if (param.in !== "path") continue;
+    url = url.replace(`{${param.name}}`, data[param.name]);
+  }
+
+  return url;
+}
+
+/**
+ * /me/calendars/{calendar-id}/calendarView/{event-id}/tentativelyAccept
+ * Provides operations to call the tentativelyAccept method.
+ */
+export class TentativelyAcceptClient {
+  protected baseUrl =
+    "/me/calendars/{calendar-id}/calendarView/{event-id}/tentativelyAccept";
+  protected http: AxiosInstance;
+
+  constructor(
+    protected readonly eventId: string,
+    options?: GraphClientOptions,
+  ) {
+    if (!options) {
+      this.http = axios.create({
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+        },
+      });
+    } else if ("get" in options) {
+      this.http = options;
+    } else {
+      this.http = axios.create({
+        ...options,
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+          ...options.headers,
+        },
+      });
+    }
+  }
+
+  /**
+   * `POST /me/calendars/{calendar-id}/calendarView/{event-id}/tentativelyAccept`
+   *
+   * Tentatively accept the specified event in a user calendar. If the event allows proposals for new times, on responding tentative to the event, an invitee can choose to suggest an alternative time by including the proposedNewTime parameter. For more information on how to propose a time, and how to receive and accept a new time proposal, see Propose new meeting times.
+   */
+  async create(
+    body: Endpoints["POST /me/calendars/{calendar-id}/calendarView/{event-id}/tentativelyAccept"]["body"],
+    params?: Endpoints["POST /me/calendars/{calendar-id}/calendarView/{event-id}/tentativelyAccept"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/me/calendars/{calendar-id}/calendarView/{event-id}/tentativelyAccept",
+      [
+        { name: "calendar-id", in: "path" },
+        { name: "event-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "event-id": this.eventId,
+      },
+    );
+
+    return this.http
+      .post(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["POST /me/calendars/{calendar-id}/calendarView/{event-id}/tentativelyAccept"]["response"],
+      );
+  }
+}

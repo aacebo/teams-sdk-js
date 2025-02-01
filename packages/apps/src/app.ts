@@ -71,7 +71,9 @@ export interface ProcessActivityArgs {
  * The orchestrator for receiving/sending activities
  */
 export class App {
+  readonly api: Client;
   readonly log: Logger;
+  readonly storage: Storage;
 
   get tokens() {
     return this._tokens;
@@ -90,8 +92,6 @@ export class App {
 
   protected plugins: Array<Plugin>;
   protected sender: Plugin;
-  protected storage: Storage;
-  protected api: Client;
   protected router = new Router();
   protected credentials?: Credentials;
 

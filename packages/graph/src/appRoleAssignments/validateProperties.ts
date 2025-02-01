@@ -1,0 +1,81 @@
+import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+
+import pkg from "src/../package.json";
+import type { Endpoints } from "./validateProperties-types.d.ts";
+
+type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+
+interface Param {
+  readonly in: string;
+  readonly name: string;
+}
+
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  for (const param of params) {
+    if (param.in !== "path") continue;
+    url = url.replace(`{${param.name}}`, data[param.name]);
+  }
+
+  return url;
+}
+
+/**
+ * /appRoleAssignments/validateProperties
+ * Provides operations to call the validateProperties method.
+ */
+export class ValidatePropertiesClient {
+  protected baseUrl = "/appRoleAssignments/validateProperties";
+  protected http: AxiosInstance;
+
+  constructor(options?: GraphClientOptions) {
+    if (!options) {
+      this.http = axios.create({
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+        },
+      });
+    } else if ("get" in options) {
+      this.http = options;
+    } else {
+      this.http = axios.create({
+        ...options,
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+          ...options.headers,
+        },
+      });
+    }
+  }
+
+  /**
+   * `POST /appRoleAssignments/validateProperties`
+   *
+   * Validate that a Microsoft 365 group&#x27;s display name or mail nickname complies with naming policies.  Clients can use this API to determine whether a display name or mail nickname is valid before trying to create a Microsoft 365 group. To validate the properties of an existing group, use the group: validateProperties function. The following policy validations are performed for the display name and mail nickname properties:
+1. Validate the prefix and suffix naming policy
+2. Validate the custom banned words policy
+3. Validate that the mail nickname is unique This API only returns the first validation failure that is encountered. If the properties fail multiple validations, only the first validation failure is returned. However, you can validate both the mail nickname and the display name and receive a collection of validation errors if you are only validating the prefix and suffix naming policy. To learn more about configuring naming policies, see Configure naming policy.
+   */
+  async create(
+    body: Endpoints["POST /appRoleAssignments/validateProperties"]["body"],
+    params?: Endpoints["POST /appRoleAssignments/validateProperties"]["parameters"],
+  ) {
+    const url = getInjectedUrl("/appRoleAssignments/validateProperties", [], {
+      ...(params || {}),
+    });
+
+    return this.http
+      .post(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["POST /appRoleAssignments/validateProperties"]["response"],
+      );
+  }
+}

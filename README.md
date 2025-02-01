@@ -96,6 +96,7 @@ $: npm run test
 -   [`@teams.sdk/config`](./packages/config/README.md)
 -   [`@teams.sdk/dev`](./packages/dev/README.md)
 -   [`@teams.sdk/devtools`](./packages/devtools/README.md)
+-   [`@teams.sdk/graph`](./packages/graph/README.md)
 -   [`@teams.sdk/openai`](./packages/openai/README.md)
 
 ## Samples

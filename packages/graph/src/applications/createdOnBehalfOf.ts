@@ -1,0 +1,89 @@
+import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+
+import pkg from "src/../package.json";
+import type { Endpoints } from "./createdOnBehalfOf-types.d.ts";
+
+type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+
+interface Param {
+  readonly in: string;
+  readonly name: string;
+}
+
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  for (const param of params) {
+    if (param.in !== "path") continue;
+    url = url.replace(`{${param.name}}`, data[param.name]);
+  }
+
+  return url;
+}
+
+/**
+ * /applications/{application-id}/createdOnBehalfOf
+ * Provides operations to manage the createdOnBehalfOf property of the microsoft.graph.application entity.
+ */
+export class CreatedOnBehalfOfClient {
+  protected baseUrl = "/applications/{application-id}/createdOnBehalfOf";
+  protected http: AxiosInstance;
+
+  constructor(
+    protected readonly applicationId: string,
+    options?: GraphClientOptions,
+  ) {
+    if (!options) {
+      this.http = axios.create({
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+        },
+      });
+    } else if ("get" in options) {
+      this.http = options;
+    } else {
+      this.http = axios.create({
+        ...options,
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+          ...options.headers,
+        },
+      });
+    }
+  }
+
+  /**
+   * `GET /applications/{application-id}/createdOnBehalfOf`
+   *
+   * Supports $filter (/$count eq 0, /$count ne 0). Read-only.
+   */
+  async get(
+    params?: Endpoints["GET /applications/{application-id}/createdOnBehalfOf"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/applications/{application-id}/createdOnBehalfOf",
+      [
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "application-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "application-id": this.applicationId,
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /applications/{application-id}/createdOnBehalfOf"]["response"],
+      );
+  }
+}

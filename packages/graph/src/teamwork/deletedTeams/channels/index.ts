@@ -1,0 +1,347 @@
+import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { ArchiveClient } from "./archive";
+import { CompleteMigrationClient } from "./completeMigration";
+import { CountClient } from "./count";
+import { DoesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalNameClient } from "./doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName";
+import { FilesFolderClient } from "./filesFolder";
+import { GetAllMessagesClient } from "./getAllMessages";
+import { GetAllRetainedMessagesClient } from "./getAllRetainedMessages";
+import { MembersClient } from "./members";
+import { MessagesClient } from "./messages";
+import { ProvisionEmailClient } from "./provisionEmail";
+import { RemoveEmailClient } from "./removeEmail";
+import { SharedWithTeamsClient } from "./sharedWithTeams";
+import { TabsClient } from "./tabs";
+import { UnarchiveClient } from "./unarchive";
+
+type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+
+interface Param {
+  readonly in: string;
+  readonly name: string;
+}
+
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  for (const param of params) {
+    if (param.in !== "path") continue;
+    url = url.replace(`{${param.name}}`, data[param.name]);
+  }
+
+  return url;
+}
+
+/**
+ * /teamwork/deletedTeams/{deletedTeam-id}/channels
+ * Provides operations to manage the channels property of the microsoft.graph.deletedTeam entity.
+ */
+export class ChannelsClient {
+  protected baseUrl = "/teamwork/deletedTeams/{deletedTeam-id}/channels";
+  protected http: AxiosInstance;
+
+  constructor(
+    protected readonly deletedTeamId: string,
+    options?: GraphClientOptions,
+  ) {
+    if (!options) {
+      this.http = axios.create({
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+        },
+      });
+    } else if ("get" in options) {
+      this.http = options;
+    } else {
+      this.http = axios.create({
+        ...options,
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+          ...options.headers,
+        },
+      });
+    }
+  }
+
+  /**
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/archive`
+   *
+   * Provides operations to call the archive method.
+   */
+  archive(channelId: string) {
+    return new ArchiveClient(channelId, this.http);
+  }
+
+  /**
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/completeMigration`
+   *
+   * Provides operations to call the completeMigration method.
+   */
+  completeMigration(channelId: string) {
+    return new CompleteMigrationClient(channelId, this.http);
+  }
+
+  /**
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/count`
+   *
+   * Provides operations to count the resources in the collection.
+   */
+  get count() {
+    return new CountClient(this.http);
+  }
+
+  /**
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName`
+   *
+   * Provides operations to call the doesUserHaveAccess method.
+   */
+  doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName(
+    channelId: string,
+  ) {
+    return new DoesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalNameClient(
+      channelId,
+      this.http,
+    );
+  }
+
+  /**
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder`
+   *
+   * Provides operations to manage the filesFolder property of the microsoft.graph.channel entity.
+   */
+  filesFolder(channelId: string) {
+    return new FilesFolderClient(channelId, this.http);
+  }
+
+  /**
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/getAllMessages`
+   *
+   * Provides operations to call the getAllMessages method.
+   */
+  get getAllMessages() {
+    return new GetAllMessagesClient(this.http);
+  }
+
+  /**
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/getAllRetainedMessages`
+   *
+   * Provides operations to call the getAllRetainedMessages method.
+   */
+  get getAllRetainedMessages() {
+    return new GetAllRetainedMessagesClient(this.http);
+  }
+
+  /**
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members`
+   *
+   * Provides operations to manage the members property of the microsoft.graph.channel entity.
+   */
+  members(channelId: string) {
+    return new MembersClient(channelId, this.http);
+  }
+
+  /**
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages`
+   *
+   * Provides operations to manage the messages property of the microsoft.graph.channel entity.
+   */
+  messages(channelId: string) {
+    return new MessagesClient(channelId, this.http);
+  }
+
+  /**
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/provisionEmail`
+   *
+   * Provides operations to call the provisionEmail method.
+   */
+  provisionEmail(channelId: string) {
+    return new ProvisionEmailClient(channelId, this.http);
+  }
+
+  /**
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/removeEmail`
+   *
+   * Provides operations to call the removeEmail method.
+   */
+  removeEmail(channelId: string) {
+    return new RemoveEmailClient(channelId, this.http);
+  }
+
+  /**
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/sharedWithTeams`
+   *
+   * Provides operations to manage the sharedWithTeams property of the microsoft.graph.channel entity.
+   */
+  sharedWithTeams(channelId: string) {
+    return new SharedWithTeamsClient(channelId, this.http);
+  }
+
+  /**
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs`
+   *
+   * Provides operations to manage the tabs property of the microsoft.graph.channel entity.
+   */
+  tabs(channelId: string) {
+    return new TabsClient(channelId, this.http);
+  }
+
+  /**
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/unarchive`
+   *
+   * Provides operations to call the unarchive method.
+   */
+  unarchive(channelId: string) {
+    return new UnarchiveClient(channelId, this.http);
+  }
+
+  /**
+   * `DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}`
+   *
+   */
+  async delete(
+    body: Endpoints["DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}"]["body"],
+    params?: Endpoints["DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}",
+      [
+        { name: "If-Match", in: "header" },
+        { name: "deletedTeam-id", in: "path" },
+        { name: "channel-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "deletedTeam-id": this.deletedTeamId,
+      },
+    );
+
+    return this.http
+      .delete(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}"]["response"],
+      );
+  }
+
+  /**
+   * `GET /teamwork/deletedTeams/{deletedTeam-id}/channels`
+   *
+   * The channels that are either shared with this deleted team or created in this deleted team.
+   */
+  async list(
+    params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/teamwork/deletedTeams/{deletedTeam-id}/channels",
+      [
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "deletedTeam-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "deletedTeam-id": this.deletedTeamId,
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels"]["response"],
+      );
+  }
+
+  /**
+   * `GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}`
+   *
+   * The channels that are either shared with this deleted team or created in this deleted team.
+   */
+  async get(
+    params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}",
+      [
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "deletedTeam-id", in: "path" },
+        { name: "channel-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "deletedTeam-id": this.deletedTeamId,
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}"]["response"],
+      );
+  }
+
+  /**
+   * `PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}`
+   *
+   */
+  async update(
+    body: Endpoints["PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}"]["body"],
+    params?: Endpoints["PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}",
+      [
+        { name: "deletedTeam-id", in: "path" },
+        { name: "channel-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "deletedTeam-id": this.deletedTeamId,
+      },
+    );
+
+    return this.http
+      .patch(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}"]["response"],
+      );
+  }
+
+  /**
+   * `POST /teamwork/deletedTeams/{deletedTeam-id}/channels`
+   *
+   */
+  async create(
+    body: Endpoints["POST /teamwork/deletedTeams/{deletedTeam-id}/channels"]["body"],
+    params?: Endpoints["POST /teamwork/deletedTeams/{deletedTeam-id}/channels"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/teamwork/deletedTeams/{deletedTeam-id}/channels",
+      [{ name: "deletedTeam-id", in: "path" }],
+      {
+        ...(params || {}),
+        "deletedTeam-id": this.deletedTeamId,
+      },
+    );
+
+    return this.http
+      .post(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["POST /teamwork/deletedTeams/{deletedTeam-id}/channels"]["response"],
+      );
+  }
+}

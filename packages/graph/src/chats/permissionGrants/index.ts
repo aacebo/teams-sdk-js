@@ -1,0 +1,212 @@
+import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
+
+type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+
+interface Param {
+  readonly in: string;
+  readonly name: string;
+}
+
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  for (const param of params) {
+    if (param.in !== "path") continue;
+    url = url.replace(`{${param.name}}`, data[param.name]);
+  }
+
+  return url;
+}
+
+/**
+ * /chats/{chat-id}/permissionGrants
+ * Provides operations to manage the permissionGrants property of the microsoft.graph.chat entity.
+ */
+export class PermissionGrantsClient {
+  protected baseUrl = "/chats/{chat-id}/permissionGrants";
+  protected http: AxiosInstance;
+
+  constructor(
+    protected readonly chatId: string,
+    options?: GraphClientOptions,
+  ) {
+    if (!options) {
+      this.http = axios.create({
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+        },
+      });
+    } else if ("get" in options) {
+      this.http = options;
+    } else {
+      this.http = axios.create({
+        ...options,
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+          ...options.headers,
+        },
+      });
+    }
+  }
+
+  /**
+   * `/chats/{chat-id}/permissionGrants/count`
+   *
+   * Provides operations to count the resources in the collection.
+   */
+  get count() {
+    return new CountClient(this.http);
+  }
+
+  /**
+   * `DELETE /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}`
+   *
+   */
+  async delete(
+    body: Endpoints["DELETE /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["body"],
+    params?: Endpoints["DELETE /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}",
+      [
+        { name: "If-Match", in: "header" },
+        { name: "chat-id", in: "path" },
+        { name: "resourceSpecificPermissionGrant-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "chat-id": this.chatId,
+      },
+    );
+
+    return this.http
+      .delete(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["DELETE /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["response"],
+      );
+  }
+
+  /**
+   * `GET /chats/{chat-id}/permissionGrants`
+   *
+   * List all resource-specific permission grants on the chat. This list specifies the Microsoft Entra apps that have access to the chat, along with the corresponding resource-specific access that each app has.
+   */
+  async list(
+    params?: Endpoints["GET /chats/{chat-id}/permissionGrants"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/chats/{chat-id}/permissionGrants",
+      [
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "chat-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "chat-id": this.chatId,
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /chats/{chat-id}/permissionGrants"]["response"],
+      );
+  }
+
+  /**
+   * `GET /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}`
+   *
+   * A collection of permissions granted to apps for the chat.
+   */
+  async get(
+    params?: Endpoints["GET /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}",
+      [
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "chat-id", in: "path" },
+        { name: "resourceSpecificPermissionGrant-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "chat-id": this.chatId,
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["response"],
+      );
+  }
+
+  /**
+   * `PATCH /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}`
+   *
+   */
+  async update(
+    body: Endpoints["PATCH /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["body"],
+    params?: Endpoints["PATCH /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}",
+      [
+        { name: "chat-id", in: "path" },
+        { name: "resourceSpecificPermissionGrant-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "chat-id": this.chatId,
+      },
+    );
+
+    return this.http
+      .patch(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["PATCH /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["response"],
+      );
+  }
+
+  /**
+   * `POST /chats/{chat-id}/permissionGrants`
+   *
+   */
+  async create(
+    body: Endpoints["POST /chats/{chat-id}/permissionGrants"]["body"],
+    params?: Endpoints["POST /chats/{chat-id}/permissionGrants"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/chats/{chat-id}/permissionGrants",
+      [{ name: "chat-id", in: "path" }],
+      {
+        ...(params || {}),
+        "chat-id": this.chatId,
+      },
+    );
+
+    return this.http
+      .post(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["POST /chats/{chat-id}/permissionGrants"]["response"],
+      );
+  }
+}

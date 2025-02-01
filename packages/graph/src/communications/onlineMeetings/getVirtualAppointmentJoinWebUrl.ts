@@ -1,0 +1,86 @@
+import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+
+import pkg from "src/../package.json";
+import type { Endpoints } from "./getVirtualAppointmentJoinWebUrl-types.d.ts";
+
+type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+
+interface Param {
+  readonly in: string;
+  readonly name: string;
+}
+
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  for (const param of params) {
+    if (param.in !== "path") continue;
+    url = url.replace(`{${param.name}}`, data[param.name]);
+  }
+
+  return url;
+}
+
+/**
+ * /communications/onlineMeetings/{onlineMeeting-id}/getVirtualAppointmentJoinWebUrl
+ * Provides operations to call the getVirtualAppointmentJoinWebUrl method.
+ */
+export class GetVirtualAppointmentJoinWebUrlClient {
+  protected baseUrl =
+    "/communications/onlineMeetings/{onlineMeeting-id}/getVirtualAppointmentJoinWebUrl";
+  protected http: AxiosInstance;
+
+  constructor(
+    protected readonly onlineMeetingId: string,
+    options?: GraphClientOptions,
+  ) {
+    if (!options) {
+      this.http = axios.create({
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+        },
+      });
+    } else if ("get" in options) {
+      this.http = options;
+    } else {
+      this.http = axios.create({
+        ...options,
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+          ...options.headers,
+        },
+      });
+    }
+  }
+
+  /**
+   * `GET /communications/onlineMeetings/{onlineMeeting-id}/getVirtualAppointmentJoinWebUrl()`
+   *
+   * Get a join web URL for a Microsoft Virtual Appointment. This web URL includes enhanced business-to-customer experiences such as mobile browser join and virtual lobby rooms. With Teams Premium, you can configure a custom lobby room experience for attendees by adding your company logo and access the Virtual Appointments usage report for organizational analytics.
+   */
+  async get(
+    params?: Endpoints["GET /communications/onlineMeetings/{onlineMeeting-id}/getVirtualAppointmentJoinWebUrl()"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/communications/onlineMeetings/{onlineMeeting-id}/getVirtualAppointmentJoinWebUrl()",
+      [{ name: "onlineMeeting-id", in: "path" }],
+      {
+        ...(params || {}),
+        "onlineMeeting-id": this.onlineMeetingId,
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /communications/onlineMeetings/{onlineMeeting-id}/getVirtualAppointmentJoinWebUrl()"]["response"],
+      );
+  }
+}

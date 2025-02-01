@@ -1,0 +1,153 @@
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+
+import pkg from 'src/../package.json';
+{{#if (notEmpty endpoints)}}
+import type { Endpoints } from './{{types}}-types.d.ts';
+{{/if}}
+{{#each clients}}
+import { {{capitalize @key}}Client } from './{{@key}}';
+{{/each}}
+
+type GraphClientOptions =
+  CreateAxiosDefaults |
+  AxiosInstance;
+
+{{#if (notEmpty endpoints)}}
+interface Param {
+  readonly in: string;
+  readonly name: string;
+}
+{{/if}}
+
+{{#if (notEmpty endpoints)}}
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+  for (const param of params) {
+    if (param.in !== 'path') continue;
+    url = url.replace(`{${param.name}}`, data[param.name]);
+  }
+
+  return url;
+}
+{{/if}}
+
+/**
+ * {{url}}
+ {{#if description}}
+ * {{description}}
+ {{/if}}
+ */
+export class {{capitalize name}}Client {
+  protected baseUrl = '{{url}}';
+  protected http: AxiosInstance;
+
+  {{#if (notEmpty parameters)}}
+  constructor(
+    {{#each parameters}}protected readonly {{camelcase this}}: string,{{/each}}
+    options?: GraphClientOptions
+  ) {
+  {{else}}
+  constructor(options?: GraphClientOptions) {
+  {{/if}}
+    if (!options) {
+      this.http = axios.create({
+        baseURL: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`
+        }
+      });
+    } else if ('get' in options) {
+      this.http = options;
+    } else {
+      this.http = axios.create({
+        ...options,
+        baseURL: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+          ...options.headers
+        }
+      });
+    }
+  }
+
+  {{#each clients}}
+  /**
+   * `{{url}}`
+   *
+   {{#if description}}
+   * {{description}}
+   {{/if}}
+   */
+  {{#if (notEmpty parameters)}}
+  {{@key}}({{#each parameters}}{{camelcase this}}: string,{{/each}}) {
+    return new {{capitalize @key}}Client(
+      {{#each parameters}}{{camelcase this}},{{/each}}
+      this.http
+    );
+  }
+  {{else}}
+  get {{@key}}() {
+    return new {{capitalize @key}}Client(this.http);
+  }
+  {{/if}}
+
+  {{/each}}
+
+  {{#each endpoints}}
+  /**
+   * `{{uppercase method}} {{url}}`
+   *
+  {{#if description}}
+   * {{description}}
+  {{/if}}
+   */
+  {{#if (eq method "get")}}
+  async {{name}}(params?: Endpoints['{{@key}}']['parameters']) {
+    const url = getInjectedUrl(
+      '{{url}}',
+      [
+        {{#if (notEmpty parameters)}}
+        {{#each parameters}}
+        { name: '{{name}}', in: '{{in}}' },
+        {{/each}}
+        {{/if}}
+      ],
+      {
+        ...(params || { }),
+        {{#if (notEmpty ../parameters)}}
+        {{#each ../parameters}}'{{this}}': this.{{camelcase this}},{{/each}}
+        {{/if}}
+      },
+    );
+
+    return this.http.get(url).then(res => res.data as Endpoints['{{@key}}']['response']);
+  }
+  {{else}}
+  async {{name}}(
+    body: Endpoints['{{@key}}']['body'],
+    params?: Endpoints['{{@key}}']['parameters']
+  ) {
+    const url = getInjectedUrl(
+      '{{url}}',
+      [
+        {{#if (notEmpty parameters)}}
+        {{#each parameters}}
+        { name: '{{name}}', in: '{{in}}' },
+        {{/each}}
+        {{/if}}
+      ],
+      {
+        ...(params || { }),
+        {{#if (notEmpty ../parameters)}}
+        {{#each ../parameters}}'{{this}}': this.{{camelcase this}},{{/each}}
+        {{/if}}
+      },
+    );
+
+    return this.http.{{method}}(url, body).then(res => res.data as Endpoints['{{@key}}']['response']);
+  }
+  {{/if}}
+
+  {{/each}}
+}

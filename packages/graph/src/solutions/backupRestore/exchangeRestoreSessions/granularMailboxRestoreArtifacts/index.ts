@@ -1,0 +1,221 @@
+import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
+import { RestorePointClient } from "./restorePoint";
+
+type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+
+interface Param {
+  readonly in: string;
+  readonly name: string;
+}
+
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  for (const param of params) {
+    if (param.in !== "path") continue;
+    url = url.replace(`{${param.name}}`, data[param.name]);
+  }
+
+  return url;
+}
+
+/**
+ * /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts
+ * Provides operations to manage the granularMailboxRestoreArtifacts property of the microsoft.graph.exchangeRestoreSession entity.
+ */
+export class GranularMailboxRestoreArtifactsClient {
+  protected baseUrl =
+    "/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts";
+  protected http: AxiosInstance;
+
+  constructor(
+    protected readonly exchangeRestoreSessionId: string,
+    options?: GraphClientOptions,
+  ) {
+    if (!options) {
+      this.http = axios.create({
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+        },
+      });
+    } else if ("get" in options) {
+      this.http = options;
+    } else {
+      this.http = axios.create({
+        ...options,
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+          ...options.headers,
+        },
+      });
+    }
+  }
+
+  /**
+   * `/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/count`
+   *
+   * Provides operations to count the resources in the collection.
+   */
+  get count() {
+    return new CountClient(this.http);
+  }
+
+  /**
+   * `/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}/restorePoint`
+   *
+   * Provides operations to manage the restorePoint property of the microsoft.graph.restoreArtifactBase entity.
+   */
+  restorePoint(granularMailboxRestoreArtifactId: string) {
+    return new RestorePointClient(granularMailboxRestoreArtifactId, this.http);
+  }
+
+  /**
+   * `DELETE /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}`
+   *
+   */
+  async delete(
+    body: Endpoints["DELETE /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}"]["body"],
+    params?: Endpoints["DELETE /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}",
+      [
+        { name: "If-Match", in: "header" },
+        { name: "exchangeRestoreSession-id", in: "path" },
+        { name: "granularMailboxRestoreArtifact-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "exchangeRestoreSession-id": this.exchangeRestoreSessionId,
+      },
+    );
+
+    return this.http
+      .delete(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["DELETE /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}"]["response"],
+      );
+  }
+
+  /**
+   * `GET /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts`
+   *
+   */
+  async list(
+    params?: Endpoints["GET /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts",
+      [
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "exchangeRestoreSession-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "exchangeRestoreSession-id": this.exchangeRestoreSessionId,
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts"]["response"],
+      );
+  }
+
+  /**
+   * `GET /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}`
+   *
+   */
+  async get(
+    params?: Endpoints["GET /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}",
+      [
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "exchangeRestoreSession-id", in: "path" },
+        { name: "granularMailboxRestoreArtifact-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "exchangeRestoreSession-id": this.exchangeRestoreSessionId,
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}"]["response"],
+      );
+  }
+
+  /**
+   * `PATCH /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}`
+   *
+   */
+  async update(
+    body: Endpoints["PATCH /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}"]["body"],
+    params?: Endpoints["PATCH /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}",
+      [
+        { name: "exchangeRestoreSession-id", in: "path" },
+        { name: "granularMailboxRestoreArtifact-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "exchangeRestoreSession-id": this.exchangeRestoreSessionId,
+      },
+    );
+
+    return this.http
+      .patch(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["PATCH /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}"]["response"],
+      );
+  }
+
+  /**
+   * `POST /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts`
+   *
+   */
+  async create(
+    body: Endpoints["POST /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts"]["body"],
+    params?: Endpoints["POST /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts",
+      [{ name: "exchangeRestoreSession-id", in: "path" }],
+      {
+        ...(params || {}),
+        "exchangeRestoreSession-id": this.exchangeRestoreSessionId,
+      },
+    );
+
+    return this.http
+      .post(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["POST /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts"]["response"],
+      );
+  }
+}

@@ -1,0 +1,148 @@
+import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+
+import pkg from "src/../package.json";
+import type { Endpoints } from "./bot-types.d.ts";
+
+type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+
+interface Param {
+  readonly in: string;
+  readonly name: string;
+}
+
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  for (const param of params) {
+    if (param.in !== "path") continue;
+    url = url.replace(`{${param.name}}`, data[param.name]);
+  }
+
+  return url;
+}
+
+/**
+ * /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot
+ * Provides operations to manage the bot property of the microsoft.graph.teamsAppDefinition entity.
+ */
+export class BotClient {
+  protected baseUrl =
+    "/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot";
+  protected http: AxiosInstance;
+
+  constructor(
+    protected readonly teamsAppDefinitionId: string,
+    options?: GraphClientOptions,
+  ) {
+    if (!options) {
+      this.http = axios.create({
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+        },
+      });
+    } else if ("get" in options) {
+      this.http = options;
+    } else {
+      this.http = axios.create({
+        ...options,
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+          ...options.headers,
+        },
+      });
+    }
+  }
+
+  /**
+   * `DELETE /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot`
+   *
+   */
+  async delete(
+    body: Endpoints["DELETE /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot"]["body"],
+    params?: Endpoints["DELETE /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot",
+      [
+        { name: "If-Match", in: "header" },
+        { name: "teamsApp-id", in: "path" },
+        { name: "teamsAppDefinition-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "teamsAppDefinition-id": this.teamsAppDefinitionId,
+      },
+    );
+
+    return this.http
+      .delete(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["DELETE /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot"]["response"],
+      );
+  }
+
+  /**
+   * `GET /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot`
+   *
+   * Get the bot associated with a specific definition of the  TeamsApp.
+   */
+  async get(
+    params?: Endpoints["GET /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot",
+      [
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "teamsApp-id", in: "path" },
+        { name: "teamsAppDefinition-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "teamsAppDefinition-id": this.teamsAppDefinitionId,
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot"]["response"],
+      );
+  }
+
+  /**
+   * `PATCH /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot`
+   *
+   */
+  async update(
+    body: Endpoints["PATCH /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot"]["body"],
+    params?: Endpoints["PATCH /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot",
+      [
+        { name: "teamsApp-id", in: "path" },
+        { name: "teamsAppDefinition-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "teamsAppDefinition-id": this.teamsAppDefinitionId,
+      },
+    );
+
+    return this.http
+      .patch(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["PATCH /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot"]["response"],
+      );
+  }
+}

@@ -1,0 +1,250 @@
+import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { ContentClient } from "./content";
+import { CountClient } from "./count";
+import { DeltaClient } from "./delta";
+import { MetadataContentClient } from "./metadataContent";
+
+type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+
+interface Param {
+  readonly in: string;
+  readonly name: string;
+}
+
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  for (const param of params) {
+    if (param.in !== "path") continue;
+    url = url.replace(`{${param.name}}`, data[param.name]);
+  }
+
+  return url;
+}
+
+/**
+ * /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts
+ * Provides operations to manage the transcripts property of the microsoft.graph.onlineMeeting entity.
+ */
+export class TranscriptsClient {
+  protected baseUrl =
+    "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts";
+  protected http: AxiosInstance;
+
+  constructor(
+    protected readonly onlineMeetingId: string,
+    options?: GraphClientOptions,
+  ) {
+    if (!options) {
+      this.http = axios.create({
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+        },
+      });
+    } else if ("get" in options) {
+      this.http = options;
+    } else {
+      this.http = axios.create({
+        ...options,
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+          ...options.headers,
+        },
+      });
+    }
+  }
+
+  /**
+   * `/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/content`
+   *
+   * Provides operations to manage the media for the user entity.
+   */
+  content(callTranscriptId: string) {
+    return new ContentClient(callTranscriptId, this.http);
+  }
+
+  /**
+   * `/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/count`
+   *
+   * Provides operations to count the resources in the collection.
+   */
+  get count() {
+    return new CountClient(this.http);
+  }
+
+  /**
+   * `/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/delta`
+   *
+   * Provides operations to call the delta method.
+   */
+  get delta() {
+    return new DeltaClient(this.http);
+  }
+
+  /**
+   * `/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent`
+   *
+   * Provides operations to manage the media for the user entity.
+   */
+  metadataContent(callTranscriptId: string) {
+    return new MetadataContentClient(callTranscriptId, this.http);
+  }
+
+  /**
+   * `DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}`
+   *
+   */
+  async delete(
+    body: Endpoints["DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["body"],
+    params?: Endpoints["DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}",
+      [
+        { name: "If-Match", in: "header" },
+        { name: "user-id", in: "path" },
+        { name: "onlineMeeting-id", in: "path" },
+        { name: "callTranscript-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "onlineMeeting-id": this.onlineMeetingId,
+      },
+    );
+
+    return this.http
+      .delete(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["response"],
+      );
+  }
+
+  /**
+   * `GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts`
+   *
+   * Retrieve the list of callTranscript objects associated with a scheduled onlineMeeting. This API doesn&#x27;t support getting call transcripts from channel meetings.
+   */
+  async list(
+    params?: Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts",
+      [
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "user-id", in: "path" },
+        { name: "onlineMeeting-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "onlineMeeting-id": this.onlineMeetingId,
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts"]["response"],
+      );
+  }
+
+  /**
+   * `GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}`
+   *
+   * Retrieve a callTranscript object associated with a scheduled onlineMeeting. This API doesn&#x27;t support getting call transcripts from channel meetings. Retrieving the transcript returns the metadata of the single transcript associated with the online meeting. Retrieving the content of the transcript returns the stream of text associated with the transcript.
+   */
+  async get(
+    params?: Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}",
+      [
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "user-id", in: "path" },
+        { name: "onlineMeeting-id", in: "path" },
+        { name: "callTranscript-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "onlineMeeting-id": this.onlineMeetingId,
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["response"],
+      );
+  }
+
+  /**
+   * `PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}`
+   *
+   */
+  async update(
+    body: Endpoints["PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["body"],
+    params?: Endpoints["PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}",
+      [
+        { name: "user-id", in: "path" },
+        { name: "onlineMeeting-id", in: "path" },
+        { name: "callTranscript-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "onlineMeeting-id": this.onlineMeetingId,
+      },
+    );
+
+    return this.http
+      .patch(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["response"],
+      );
+  }
+
+  /**
+   * `POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts`
+   *
+   */
+  async create(
+    body: Endpoints["POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts"]["body"],
+    params?: Endpoints["POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts",
+      [
+        { name: "user-id", in: "path" },
+        { name: "onlineMeeting-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "onlineMeeting-id": this.onlineMeetingId,
+      },
+    );
+
+    return this.http
+      .post(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts"]["response"],
+      );
+  }
+}

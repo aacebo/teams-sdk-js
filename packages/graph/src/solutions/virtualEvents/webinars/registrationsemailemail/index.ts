@@ -1,0 +1,158 @@
+import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CancelClient } from "./cancel";
+
+type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+
+interface Param {
+  readonly in: string;
+  readonly name: string;
+}
+
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  for (const param of params) {
+    if (param.in !== "path") continue;
+    url = url.replace(`{${param.name}}`, data[param.name]);
+  }
+
+  return url;
+}
+
+/**
+ * /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationsemailemail
+ * Provides operations to manage the registrations property of the microsoft.graph.virtualEventWebinar entity.
+ */
+export class RegistrationsemailemailClient {
+  protected baseUrl =
+    "/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationsemailemail";
+  protected http: AxiosInstance;
+
+  constructor(
+    protected readonly virtualEventWebinarId: string,
+    options?: GraphClientOptions,
+  ) {
+    if (!options) {
+      this.http = axios.create({
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+        },
+      });
+    } else if ("get" in options) {
+      this.http = options;
+    } else {
+      this.http = axios.create({
+        ...options,
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+          ...options.headers,
+        },
+      });
+    }
+  }
+
+  /**
+   * `/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationsemailemail/cancel`
+   *
+   * Provides operations to call the cancel method.
+   */
+  get cancel() {
+    return new CancelClient(this.http);
+  }
+
+  /**
+   * `DELETE /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations(email&#x3D;&#x27;{email}&#x27;)`
+   *
+   */
+  async delete(
+    body: Endpoints["DELETE /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations(email&#x3D;&#x27;{email}&#x27;)"]["body"],
+    params?: Endpoints["DELETE /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations(email&#x3D;&#x27;{email}&#x27;)"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations(email&#x3D;&#x27;{email}&#x27;)",
+      [
+        { name: "If-Match", in: "header" },
+        { name: "virtualEventWebinar-id", in: "path" },
+        { name: "email", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "virtualEventWebinar-id": this.virtualEventWebinarId,
+      },
+    );
+
+    return this.http
+      .delete(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["DELETE /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations(email&#x3D;&#x27;{email}&#x27;)"]["response"],
+      );
+  }
+
+  /**
+   * `GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations(email&#x3D;&#x27;{email}&#x27;)`
+   *
+   * Get the properties and relationships of a virtualEventRegistration object.
+   */
+  async get(
+    params?: Endpoints["GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations(email&#x3D;&#x27;{email}&#x27;)"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations(email&#x3D;&#x27;{email}&#x27;)",
+      [
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "virtualEventWebinar-id", in: "path" },
+        { name: "email", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "virtualEventWebinar-id": this.virtualEventWebinarId,
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations(email&#x3D;&#x27;{email}&#x27;)"]["response"],
+      );
+  }
+
+  /**
+   * `PATCH /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations(email&#x3D;&#x27;{email}&#x27;)`
+   *
+   */
+  async update(
+    body: Endpoints["PATCH /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations(email&#x3D;&#x27;{email}&#x27;)"]["body"],
+    params?: Endpoints["PATCH /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations(email&#x3D;&#x27;{email}&#x27;)"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations(email&#x3D;&#x27;{email}&#x27;)",
+      [
+        { name: "virtualEventWebinar-id", in: "path" },
+        { name: "email", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "virtualEventWebinar-id": this.virtualEventWebinarId,
+      },
+    );
+
+    return this.http
+      .patch(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["PATCH /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations(email&#x3D;&#x27;{email}&#x27;)"]["response"],
+      );
+  }
+}

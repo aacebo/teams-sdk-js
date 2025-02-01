@@ -1,0 +1,207 @@
+import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
+
+type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+
+interface Param {
+  readonly in: string;
+  readonly name: string;
+}
+
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  for (const param of params) {
+    if (param.in !== "path") continue;
+    url = url.replace(`{${param.name}}`, data[param.name]);
+  }
+
+  return url;
+}
+
+/**
+ * /teams/{team-id}/schedule/timesOff
+ * Provides operations to manage the timesOff property of the microsoft.graph.schedule entity.
+ */
+export class TimesOffClient {
+  protected baseUrl = "/teams/{team-id}/schedule/timesOff";
+  protected http: AxiosInstance;
+
+  constructor(options?: GraphClientOptions) {
+    if (!options) {
+      this.http = axios.create({
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+        },
+      });
+    } else if ("get" in options) {
+      this.http = options;
+    } else {
+      this.http = axios.create({
+        ...options,
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+          ...options.headers,
+        },
+      });
+    }
+  }
+
+  /**
+   * `/teams/{team-id}/schedule/timesOff/count`
+   *
+   * Provides operations to count the resources in the collection.
+   */
+  get count() {
+    return new CountClient(this.http);
+  }
+
+  /**
+   * `DELETE /teams/{team-id}/schedule/timesOff/{timeOff-id}`
+   *
+   * Delete a timeOff instance from a schedule.
+   */
+  async delete(
+    body: Endpoints["DELETE /teams/{team-id}/schedule/timesOff/{timeOff-id}"]["body"],
+    params?: Endpoints["DELETE /teams/{team-id}/schedule/timesOff/{timeOff-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/teams/{team-id}/schedule/timesOff/{timeOff-id}",
+      [
+        { name: "If-Match", in: "header" },
+        { name: "team-id", in: "path" },
+        { name: "timeOff-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+      },
+    );
+
+    return this.http
+      .delete(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["DELETE /teams/{team-id}/schedule/timesOff/{timeOff-id}"]["response"],
+      );
+  }
+
+  /**
+   * `GET /teams/{team-id}/schedule/timesOff`
+   *
+   * Get the list of timeOff instances in a schedule.
+   */
+  async get(
+    params?: Endpoints["GET /teams/{team-id}/schedule/timesOff"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/teams/{team-id}/schedule/timesOff",
+      [
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "team-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /teams/{team-id}/schedule/timesOff"]["response"],
+      );
+  }
+
+  /**
+   * `GET /teams/{team-id}/schedule/timesOff/{timeOff-id}`
+   *
+   * Retrieve the properties and relationships of a timeOff object by ID.
+   */
+  async get$1(
+    params?: Endpoints["GET /teams/{team-id}/schedule/timesOff/{timeOff-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/teams/{team-id}/schedule/timesOff/{timeOff-id}",
+      [
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "team-id", in: "path" },
+        { name: "timeOff-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /teams/{team-id}/schedule/timesOff/{timeOff-id}"]["response"],
+      );
+  }
+
+  /**
+   * `PATCH /teams/{team-id}/schedule/timesOff/{timeOff-id}`
+   *
+   * Replace an existing timeOff object. If the specified timeOff object doesn&#x27;t exist, this method returns 404 Not found.
+   */
+  async update(
+    body: Endpoints["PATCH /teams/{team-id}/schedule/timesOff/{timeOff-id}"]["body"],
+    params?: Endpoints["PATCH /teams/{team-id}/schedule/timesOff/{timeOff-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/teams/{team-id}/schedule/timesOff/{timeOff-id}",
+      [
+        { name: "team-id", in: "path" },
+        { name: "timeOff-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+      },
+    );
+
+    return this.http
+      .patch(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["PATCH /teams/{team-id}/schedule/timesOff/{timeOff-id}"]["response"],
+      );
+  }
+
+  /**
+   * `POST /teams/{team-id}/schedule/timesOff`
+   *
+   * Create a new timeOff instance in a schedule.
+   */
+  async create(
+    body: Endpoints["POST /teams/{team-id}/schedule/timesOff"]["body"],
+    params?: Endpoints["POST /teams/{team-id}/schedule/timesOff"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/teams/{team-id}/schedule/timesOff",
+      [{ name: "team-id", in: "path" }],
+      {
+        ...(params || {}),
+      },
+    );
+
+    return this.http
+      .post(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["POST /teams/{team-id}/schedule/timesOff"]["response"],
+      );
+  }
+}

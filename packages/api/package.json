@@ -35,7 +35,8 @@
     "qs": "^6.13.0"
   },
   "peerDependencies": {
-    "@teams.sdk/cards": "*"
+    "@teams.sdk/cards": "*",
+    "@teams.sdk/graph": "*"
   },
   "devDependencies": {
     "@teams.sdk/config": "*",

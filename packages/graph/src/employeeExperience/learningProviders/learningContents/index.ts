@@ -1,0 +1,214 @@
+import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
+
+type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+
+interface Param {
+  readonly in: string;
+  readonly name: string;
+}
+
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  for (const param of params) {
+    if (param.in !== "path") continue;
+    url = url.replace(`{${param.name}}`, data[param.name]);
+  }
+
+  return url;
+}
+
+/**
+ * /employeeExperience/learningProviders/{learningProvider-id}/learningContents
+ * Provides operations to manage the learningContents property of the microsoft.graph.learningProvider entity.
+ */
+export class LearningContentsClient {
+  protected baseUrl =
+    "/employeeExperience/learningProviders/{learningProvider-id}/learningContents";
+  protected http: AxiosInstance;
+
+  constructor(
+    protected readonly learningProviderId: string,
+    options?: GraphClientOptions,
+  ) {
+    if (!options) {
+      this.http = axios.create({
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+        },
+      });
+    } else if ("get" in options) {
+      this.http = options;
+    } else {
+      this.http = axios.create({
+        ...options,
+        baseURL: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+          ...options.headers,
+        },
+      });
+    }
+  }
+
+  /**
+   * `/employeeExperience/learningProviders/{learningProvider-id}/learningContents/count`
+   *
+   * Provides operations to count the resources in the collection.
+   */
+  get count() {
+    return new CountClient(this.http);
+  }
+
+  /**
+   * `DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningContents/{learningContent-id}`
+   *
+   * Delete the specified learningContent resource that represents the metadata of the specified provider&#x27;s ingested content.
+   */
+  async delete(
+    body: Endpoints["DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningContents/{learningContent-id}"]["body"],
+    params?: Endpoints["DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningContents/{learningContent-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/employeeExperience/learningProviders/{learningProvider-id}/learningContents/{learningContent-id}",
+      [
+        { name: "If-Match", in: "header" },
+        { name: "learningProvider-id", in: "path" },
+        { name: "learningContent-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "learningProvider-id": this.learningProviderId,
+      },
+    );
+
+    return this.http
+      .delete(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningContents/{learningContent-id}"]["response"],
+      );
+  }
+
+  /**
+   * `GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents`
+   *
+   * Get a list of the learningContent resources and their properties. This list represents the metadata of the specified provider&#x27;s content in Viva Learning.
+   */
+  async list(
+    params?: Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/employeeExperience/learningProviders/{learningProvider-id}/learningContents",
+      [
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "learningProvider-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "learningProvider-id": this.learningProviderId,
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents"]["response"],
+      );
+  }
+
+  /**
+   * `GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents/{learningContent-id}`
+   *
+   * Get the specified learningContent resource which represents the metadata of the specified provider&#x27;s ingested content.
+   */
+  async get(
+    params?: Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents/{learningContent-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/employeeExperience/learningProviders/{learningProvider-id}/learningContents/{learningContent-id}",
+      [
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "learningProvider-id", in: "path" },
+        { name: "learningContent-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "learningProvider-id": this.learningProviderId,
+      },
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents/{learningContent-id}"]["response"],
+      );
+  }
+
+  /**
+   * `PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents/{learningContent-id}`
+   *
+   */
+  async update(
+    body: Endpoints["PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents/{learningContent-id}"]["body"],
+    params?: Endpoints["PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents/{learningContent-id}"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/employeeExperience/learningProviders/{learningProvider-id}/learningContents/{learningContent-id}",
+      [
+        { name: "learningProvider-id", in: "path" },
+        { name: "learningContent-id", in: "path" },
+      ],
+      {
+        ...(params || {}),
+        "learningProvider-id": this.learningProviderId,
+      },
+    );
+
+    return this.http
+      .patch(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents/{learningContent-id}"]["response"],
+      );
+  }
+
+  /**
+   * `POST /employeeExperience/learningProviders/{learningProvider-id}/learningContents`
+   *
+   */
+  async create(
+    body: Endpoints["POST /employeeExperience/learningProviders/{learningProvider-id}/learningContents"]["body"],
+    params?: Endpoints["POST /employeeExperience/learningProviders/{learningProvider-id}/learningContents"]["parameters"],
+  ) {
+    const url = getInjectedUrl(
+      "/employeeExperience/learningProviders/{learningProvider-id}/learningContents",
+      [{ name: "learningProvider-id", in: "path" }],
+      {
+        ...(params || {}),
+        "learningProvider-id": this.learningProviderId,
+      },
+    );
+
+    return this.http
+      .post(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints["POST /employeeExperience/learningProviders/{learningProvider-id}/learningContents"]["response"],
+      );
+  }
+}
