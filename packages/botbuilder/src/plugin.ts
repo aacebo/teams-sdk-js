@@ -13,8 +13,9 @@ import {
 export class BotBuilderPlugin extends HttpPlugin {
   protected adapter?: CloudAdapter;
 
-  constructor() {
+  constructor(adapter?: CloudAdapter) {
     super();
+    this.adapter = adapter;
     this.on('error', (err) => {
       this.adapter?.onTurnError(new TurnContext(this.adapter!, {}), err);
     });
