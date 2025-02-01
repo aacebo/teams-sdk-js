@@ -1,8 +1,13 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import qs from "qs";
+import axios, {
+  AxiosInstance,
+  CreateAxiosDefaults,
+  AxiosRequestConfig,
+} from "axios";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -11,13 +16,26 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  const query: Record<string, any> = {};
+
   for (const param of params) {
-    if (param.in !== 'path') continue;
+    if (param.in === "query") {
+      query[param.name] = data[param.name];
+    }
+
+    if (param.in !== "path") {
+      continue;
+    }
+
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
-  return url;
+  return `${url}${qs.stringify(query, { addQueryPrefix: true })}`;
 }
 
 /**
@@ -26,30 +44,30 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class AttendanceRecordsClient {
   protected baseUrl =
-    '/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords';
+    "/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords";
   protected http: AxiosInstance;
 
   constructor(
     protected readonly meetingAttendanceReportId: string,
-    options?: GraphClientOptions
+    options?: GraphClientOptions,
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("get" in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -70,29 +88,29 @@ export class AttendanceRecordsClient {
    *
    */
   async delete(
-    body: Endpoints['DELETE /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}']['body'],
-    params?: Endpoints['DELETE /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}']['parameters']
+    params?: Endpoints["DELETE /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}',
+      "/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'virtualEventTownhall-id', in: 'path' },
-        { name: 'virtualEventSession-id', in: 'path' },
-        { name: 'meetingAttendanceReport-id', in: 'path' },
-        { name: 'attendanceRecord-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "virtualEventTownhall-id", in: "path" },
+        { name: "virtualEventSession-id", in: "path" },
+        { name: "meetingAttendanceReport-id", in: "path" },
+        { name: "attendanceRecord-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'meetingAttendanceReport-id': this.meetingAttendanceReportId,
-      }
+        "meetingAttendanceReport-id": this.meetingAttendanceReportId,
+      },
     );
 
     return this.http
-      .delete(url, body)
+      .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}']['response']
+          res.data as Endpoints["DELETE /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}"]["response"],
       );
   }
 
@@ -102,29 +120,30 @@ export class AttendanceRecordsClient {
    * List of attendance records of an attendance report. Read-only.
    */
   async list(
-    params?: Endpoints['GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords']['parameters']
+    params?: Endpoints["GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords',
+      "/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'virtualEventTownhall-id', in: 'path' },
-        { name: 'virtualEventSession-id', in: 'path' },
-        { name: 'meetingAttendanceReport-id', in: 'path' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "virtualEventTownhall-id", in: "path" },
+        { name: "virtualEventSession-id", in: "path" },
+        { name: "meetingAttendanceReport-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'meetingAttendanceReport-id': this.meetingAttendanceReportId,
-      }
+        "meetingAttendanceReport-id": this.meetingAttendanceReportId,
+      },
     );
 
     return this.http
-      .get(url)
+      .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords']['response']
+          res.data as Endpoints["GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords"]["response"],
       );
   }
 
@@ -134,29 +153,30 @@ export class AttendanceRecordsClient {
    * List of attendance records of an attendance report. Read-only.
    */
   async get(
-    params?: Endpoints['GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}']['parameters']
+    params?: Endpoints["GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}',
+      "/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'virtualEventTownhall-id', in: 'path' },
-        { name: 'virtualEventSession-id', in: 'path' },
-        { name: 'meetingAttendanceReport-id', in: 'path' },
-        { name: 'attendanceRecord-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "virtualEventTownhall-id", in: "path" },
+        { name: "virtualEventSession-id", in: "path" },
+        { name: "meetingAttendanceReport-id", in: "path" },
+        { name: "attendanceRecord-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'meetingAttendanceReport-id': this.meetingAttendanceReportId,
-      }
+        "meetingAttendanceReport-id": this.meetingAttendanceReportId,
+      },
     );
 
     return this.http
-      .get(url)
+      .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}']['response']
+          res.data as Endpoints["GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}"]["response"],
       );
   }
 
@@ -165,28 +185,29 @@ export class AttendanceRecordsClient {
    *
    */
   async update(
-    body: Endpoints['PATCH /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}']['body'],
-    params?: Endpoints['PATCH /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}']['parameters']
+    body: Endpoints["PATCH /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}"]["body"],
+    params?: Endpoints["PATCH /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}',
+      "/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}",
       [
-        { name: 'virtualEventTownhall-id', in: 'path' },
-        { name: 'virtualEventSession-id', in: 'path' },
-        { name: 'meetingAttendanceReport-id', in: 'path' },
-        { name: 'attendanceRecord-id', in: 'path' },
+        { name: "virtualEventTownhall-id", in: "path" },
+        { name: "virtualEventSession-id", in: "path" },
+        { name: "meetingAttendanceReport-id", in: "path" },
+        { name: "attendanceRecord-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'meetingAttendanceReport-id': this.meetingAttendanceReportId,
-      }
+        "meetingAttendanceReport-id": this.meetingAttendanceReportId,
+      },
     );
 
     return this.http
-      .patch(url, body)
+      .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PATCH /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}']['response']
+          res.data as Endpoints["PATCH /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}"]["response"],
       );
   }
 
@@ -195,27 +216,28 @@ export class AttendanceRecordsClient {
    *
    */
   async create(
-    body: Endpoints['POST /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords']['body'],
-    params?: Endpoints['POST /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords']['parameters']
+    body: Endpoints["POST /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords"]["body"],
+    params?: Endpoints["POST /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords',
+      "/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords",
       [
-        { name: 'virtualEventTownhall-id', in: 'path' },
-        { name: 'virtualEventSession-id', in: 'path' },
-        { name: 'meetingAttendanceReport-id', in: 'path' },
+        { name: "virtualEventTownhall-id", in: "path" },
+        { name: "virtualEventSession-id", in: "path" },
+        { name: "meetingAttendanceReport-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'meetingAttendanceReport-id': this.meetingAttendanceReportId,
-      }
+        "meetingAttendanceReport-id": this.meetingAttendanceReportId,
+      },
     );
 
     return this.http
-      .post(url, body)
+      .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords']['response']
+          res.data as Endpoints["POST /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords"]["response"],
       );
   }
 }

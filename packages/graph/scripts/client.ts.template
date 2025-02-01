@@ -1,4 +1,7 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+{{#if (notEmpty endpoints)}}
+import qs from 'qs';
+{{/if}}
+import axios, { AxiosInstance, CreateAxiosDefaults, {{#if (notEmpty endpoints)}}AxiosRequestConfig{{/if}} } from 'axios';
 
 import pkg from 'src/../package.json';
 {{#if (notEmpty endpoints)}}
@@ -21,12 +24,21 @@ interface Param {
 
 {{#if (notEmpty endpoints)}}
 function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+  const query: Record<string, any> = { };
+
   for (const param of params) {
-    if (param.in !== 'path') continue;
+    if (param.in === 'query') {
+      query[param.name] = data[param.name];
+    }
+
+    if (param.in !== 'path') {
+      continue;
+    }
+
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
-  return url;
+  return `${url}${qs.stringify(query, { addQueryPrefix: true })}`;
 }
 {{/if}}
 
@@ -103,7 +115,7 @@ export class {{capitalize name}}Client {
   {{/if}}
    */
   {{#if (eq method "get")}}
-  async {{name}}(params?: Endpoints['{{@key}}']['parameters']) {
+  async {{name}}(params?: Endpoints['{{@key}}']['parameters'], config?: AxiosRequestConfig) {
     const url = getInjectedUrl(
       '{{url}}',
       [
@@ -121,12 +133,34 @@ export class {{capitalize name}}Client {
       },
     );
 
-    return this.http.get(url).then(res => res.data as Endpoints['{{@key}}']['response']);
+    return this.http.get(url, config).then(res => res.data as Endpoints['{{@key}}']['response']);
+  }
+  {{else if (eq method "delete")}}
+  async {{name}}(params?: Endpoints['{{@key}}']['parameters'], config?: AxiosRequestConfig) {
+    const url = getInjectedUrl(
+      '{{url}}',
+      [
+        {{#if (notEmpty parameters)}}
+        {{#each parameters}}
+        { name: '{{name}}', in: '{{in}}' },
+        {{/each}}
+        {{/if}}
+      ],
+      {
+        ...(params || { }),
+        {{#if (notEmpty ../parameters)}}
+        {{#each ../parameters}}'{{this}}': this.{{camelcase this}},{{/each}}
+        {{/if}}
+      },
+    );
+
+    return this.http.delete(url, config).then(res => res.data as Endpoints['{{@key}}']['response']);
   }
   {{else}}
   async {{name}}(
     body: Endpoints['{{@key}}']['body'],
-    params?: Endpoints['{{@key}}']['parameters']
+    params?: Endpoints['{{@key}}']['parameters'],
+    config?: AxiosRequestConfig
   ) {
     const url = getInjectedUrl(
       '{{url}}',
@@ -145,7 +179,7 @@ export class {{capitalize name}}Client {
       },
     );
 
-    return this.http.{{method}}(url, body).then(res => res.data as Endpoints['{{@key}}']['response']);
+    return this.http.{{method}}(url, body, config).then(res => res.data as Endpoints['{{@key}}']['response']);
   }
   {{/if}}
 

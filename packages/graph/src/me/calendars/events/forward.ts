@@ -1,7 +1,12 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import qs from "qs";
+import axios, {
+  AxiosInstance,
+  CreateAxiosDefaults,
+  AxiosRequestConfig,
+} from "axios";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './forward-types.d.ts';
+import pkg from "src/../package.json";
+import type { Endpoints } from "./forward-types.d.ts";
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -10,13 +15,26 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  const query: Record<string, any> = {};
+
   for (const param of params) {
-    if (param.in !== 'path') continue;
+    if (param.in === "query") {
+      query[param.name] = data[param.name];
+    }
+
+    if (param.in !== "path") {
+      continue;
+    }
+
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
-  return url;
+  return `${url}${qs.stringify(query, { addQueryPrefix: true })}`;
 }
 
 /**
@@ -24,30 +42,30 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  * Provides operations to call the forward method.
  */
 export class ForwardClient {
-  protected baseUrl = '/me/calendars/{calendar-id}/events/{event-id}/forward';
+  protected baseUrl = "/me/calendars/{calendar-id}/events/{event-id}/forward";
   protected http: AxiosInstance;
 
   constructor(
     protected readonly eventId: string,
-    options?: GraphClientOptions
+    options?: GraphClientOptions,
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("get" in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -63,26 +81,27 @@ also sends a message to notify the organizer of the forwarding, and adds the rec
 copy of the meeting event. This convenience is not available when forwarding from an Outlook.com account.
    */
   async create(
-    body: Endpoints['POST /me/calendars/{calendar-id}/events/{event-id}/forward']['body'],
-    params?: Endpoints['POST /me/calendars/{calendar-id}/events/{event-id}/forward']['parameters']
+    body: Endpoints["POST /me/calendars/{calendar-id}/events/{event-id}/forward"]["body"],
+    params?: Endpoints["POST /me/calendars/{calendar-id}/events/{event-id}/forward"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/me/calendars/{calendar-id}/events/{event-id}/forward',
+      "/me/calendars/{calendar-id}/events/{event-id}/forward",
       [
-        { name: 'calendar-id', in: 'path' },
-        { name: 'event-id', in: 'path' },
+        { name: "calendar-id", in: "path" },
+        { name: "event-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'event-id': this.eventId,
-      }
+        "event-id": this.eventId,
+      },
     );
 
     return this.http
-      .post(url, body)
+      .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /me/calendars/{calendar-id}/events/{event-id}/forward']['response']
+          res.data as Endpoints["POST /me/calendars/{calendar-id}/events/{event-id}/forward"]["response"],
       );
   }
 }

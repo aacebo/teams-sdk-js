@@ -1,9 +1,14 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import qs from "qs";
+import axios, {
+  AxiosInstance,
+  CreateAxiosDefaults,
+  AxiosRequestConfig,
+} from "axios";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-import { DiscoverClient } from './discover';
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
+import { DiscoverClient } from "./discover";
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -12,13 +17,26 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  const query: Record<string, any> = {};
+
   for (const param of params) {
-    if (param.in !== 'path') continue;
+    if (param.in === "query") {
+      query[param.name] = data[param.name];
+    }
+
+    if (param.in !== "path") {
+      continue;
+    }
+
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
-  return url;
+  return `${url}${qs.stringify(query, { addQueryPrefix: true })}`;
 }
 
 /**
@@ -27,27 +45,27 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class DirectoriesClient {
   protected baseUrl =
-    '/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories';
+    "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories";
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("get" in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -77,27 +95,27 @@ export class DirectoriesClient {
    *
    */
   async delete(
-    body: Endpoints['DELETE /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}']['body'],
-    params?: Endpoints['DELETE /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}']['parameters']
+    params?: Endpoints["DELETE /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}',
+      "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'application-id', in: 'path' },
-        { name: 'synchronizationJob-id', in: 'path' },
-        { name: 'directoryDefinition-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "application-id", in: "path" },
+        { name: "synchronizationJob-id", in: "path" },
+        { name: "directoryDefinition-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
-      .delete(url, body)
+      .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}']['response']
+          res.data as Endpoints["DELETE /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}"]["response"],
       );
   }
 
@@ -107,27 +125,28 @@ export class DirectoriesClient {
    * Contains the collection of directories and all of their objects.
    */
   async list(
-    params?: Endpoints['GET /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories']['parameters']
+    params?: Endpoints["GET /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories',
+      "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'application-id', in: 'path' },
-        { name: 'synchronizationJob-id', in: 'path' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "application-id", in: "path" },
+        { name: "synchronizationJob-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
-      .get(url)
+      .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories']['response']
+          res.data as Endpoints["GET /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories"]["response"],
       );
   }
 
@@ -137,27 +156,28 @@ export class DirectoriesClient {
    * Contains the collection of directories and all of their objects.
    */
   async get(
-    params?: Endpoints['GET /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}']['parameters']
+    params?: Endpoints["GET /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}',
+      "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'application-id', in: 'path' },
-        { name: 'synchronizationJob-id', in: 'path' },
-        { name: 'directoryDefinition-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "application-id", in: "path" },
+        { name: "synchronizationJob-id", in: "path" },
+        { name: "directoryDefinition-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
-      .get(url)
+      .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}']['response']
+          res.data as Endpoints["GET /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}"]["response"],
       );
   }
 
@@ -166,26 +186,27 @@ export class DirectoriesClient {
    *
    */
   async update(
-    body: Endpoints['PATCH /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}']['body'],
-    params?: Endpoints['PATCH /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}']['parameters']
+    body: Endpoints["PATCH /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}"]["body"],
+    params?: Endpoints["PATCH /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}',
+      "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}",
       [
-        { name: 'application-id', in: 'path' },
-        { name: 'synchronizationJob-id', in: 'path' },
-        { name: 'directoryDefinition-id', in: 'path' },
+        { name: "application-id", in: "path" },
+        { name: "synchronizationJob-id", in: "path" },
+        { name: "directoryDefinition-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
-      .patch(url, body)
+      .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PATCH /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}']['response']
+          res.data as Endpoints["PATCH /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}"]["response"],
       );
   }
 
@@ -194,25 +215,26 @@ export class DirectoriesClient {
    *
    */
   async create(
-    body: Endpoints['POST /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories']['body'],
-    params?: Endpoints['POST /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories']['parameters']
+    body: Endpoints["POST /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories"]["body"],
+    params?: Endpoints["POST /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories',
+      "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories",
       [
-        { name: 'application-id', in: 'path' },
-        { name: 'synchronizationJob-id', in: 'path' },
+        { name: "application-id", in: "path" },
+        { name: "synchronizationJob-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
-      .post(url, body)
+      .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories']['response']
+          res.data as Endpoints["POST /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories"]["response"],
       );
   }
 }

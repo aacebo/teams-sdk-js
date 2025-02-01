@@ -9,21 +9,22 @@ import { OpenAPIV3 } from 'openapi-types';
 
 const whitelist = [
   /^\/chats(.*)$/,
-  /^\/users\/chats(.*)$/,
   /^\/teams(.*)$/,
-  /^\/users\/(.*)\/teamwork(.*)$/,
   /^\/teamwork(.*)$/,
   /^\/appCatalogs(.*)$/,
   /^\/employeeExperience\/learningProviders(.*)$/,
   /^\/communications(.*)$/,
   /^\/app(.*)$/,
-  /^\/me\/presence(.*)$/,
+  /^\/users\/chats(.*)$/,
   /^\/users\/(.*)\/presence(.*)$/,
   /^\/users\/(.*)\/onlineMeetings(.*)$/,
-  /^\/solutions(.*)$/,
+  /^\/users\/(.*)\/teamwork(.*)$/,
   /^\/me$/,
+  /^\/me\/photo(.*)$/,
   /^\/me\/calendars(.*)$/,
   /^\/me\/calendar(.*)$/,
+  /^\/me\/presence(.*)$/,
+  /^\/solutions(.*)$/,
 ];
 
 const patterns = {

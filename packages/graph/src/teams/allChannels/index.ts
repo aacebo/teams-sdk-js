@@ -1,8 +1,13 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import qs from "qs";
+import axios, {
+  AxiosInstance,
+  CreateAxiosDefaults,
+  AxiosRequestConfig,
+} from "axios";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -11,13 +16,26 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  const query: Record<string, any> = {};
+
   for (const param of params) {
-    if (param.in !== 'path') continue;
+    if (param.in === "query") {
+      query[param.name] = data[param.name];
+    }
+
+    if (param.in !== "path") {
+      continue;
+    }
+
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
-  return url;
+  return `${url}${qs.stringify(query, { addQueryPrefix: true })}`;
 }
 
 /**
@@ -25,30 +43,30 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  * Provides operations to manage the allChannels property of the microsoft.graph.team entity.
  */
 export class AllChannelsClient {
-  protected baseUrl = '/teams/{team-id}/allChannels';
+  protected baseUrl = "/teams/{team-id}/allChannels";
   protected http: AxiosInstance;
 
   constructor(
     protected readonly teamId: string,
-    options?: GraphClientOptions
+    options?: GraphClientOptions,
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("get" in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -69,24 +87,30 @@ export class AllChannelsClient {
    *
    * Get the list of channels either in this team or shared with this team (incoming channels).
    */
-  async list(params?: Endpoints['GET /teams/{team-id}/allChannels']['parameters']) {
+  async list(
+    params?: Endpoints["GET /teams/{team-id}/allChannels"]["parameters"],
+    config?: AxiosRequestConfig,
+  ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/allChannels',
+      "/teams/{team-id}/allChannels",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'team-id', in: 'path' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "team-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'team-id': this.teamId,
-      }
+        "team-id": this.teamId,
+      },
     );
 
     return this.http
-      .get(url)
-      .then((res) => res.data as Endpoints['GET /teams/{team-id}/allChannels']['response']);
+      .get(url, config)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /teams/{team-id}/allChannels"]["response"],
+      );
   }
 
   /**
@@ -94,25 +118,29 @@ export class AllChannelsClient {
    *
    * List of channels either hosted in or shared with the team (incoming channels).
    */
-  async get(params?: Endpoints['GET /teams/{team-id}/allChannels/{channel-id}']['parameters']) {
+  async get(
+    params?: Endpoints["GET /teams/{team-id}/allChannels/{channel-id}"]["parameters"],
+    config?: AxiosRequestConfig,
+  ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/allChannels/{channel-id}',
+      "/teams/{team-id}/allChannels/{channel-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'team-id', in: 'path' },
-        { name: 'channel-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "team-id", in: "path" },
+        { name: "channel-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'team-id': this.teamId,
-      }
+        "team-id": this.teamId,
+      },
     );
 
     return this.http
-      .get(url)
+      .get(url, config)
       .then(
-        (res) => res.data as Endpoints['GET /teams/{team-id}/allChannels/{channel-id}']['response']
+        (res) =>
+          res.data as Endpoints["GET /teams/{team-id}/allChannels/{channel-id}"]["response"],
       );
   }
 }

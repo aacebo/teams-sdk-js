@@ -1,25 +1,30 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import qs from "qs";
+import axios, {
+  AxiosInstance,
+  CreateAxiosDefaults,
+  AxiosRequestConfig,
+} from "axios";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { DriveInclusionRulesClient } from './driveInclusionRules';
-import { DriveProtectionUnitsClient } from './driveProtectionUnits';
-import { EnableClient } from './enable';
-import { ExchangeProtectionPoliciesClient } from './exchangeProtectionPolicies';
-import { ExchangeRestoreSessionsClient } from './exchangeRestoreSessions';
-import { MailboxInclusionRulesClient } from './mailboxInclusionRules';
-import { MailboxProtectionUnitsClient } from './mailboxProtectionUnits';
-import { OneDriveForBusinessProtectionPoliciesClient } from './oneDriveForBusinessProtectionPolicies';
-import { OneDriveForBusinessRestoreSessionsClient } from './oneDriveForBusinessRestoreSessions';
-import { ProtectionPoliciesClient } from './protectionPolicies';
-import { ProtectionUnitsClient } from './protectionUnits';
-import { RestorePointsClient } from './restorePoints';
-import { RestoreSessionsClient } from './restoreSessions';
-import { ServiceAppsClient } from './serviceApps';
-import { SharePointProtectionPoliciesClient } from './sharePointProtectionPolicies';
-import { SharePointRestoreSessionsClient } from './sharePointRestoreSessions';
-import { SiteInclusionRulesClient } from './siteInclusionRules';
-import { SiteProtectionUnitsClient } from './siteProtectionUnits';
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { DriveInclusionRulesClient } from "./driveInclusionRules";
+import { DriveProtectionUnitsClient } from "./driveProtectionUnits";
+import { EnableClient } from "./enable";
+import { ExchangeProtectionPoliciesClient } from "./exchangeProtectionPolicies";
+import { ExchangeRestoreSessionsClient } from "./exchangeRestoreSessions";
+import { MailboxInclusionRulesClient } from "./mailboxInclusionRules";
+import { MailboxProtectionUnitsClient } from "./mailboxProtectionUnits";
+import { OneDriveForBusinessProtectionPoliciesClient } from "./oneDriveForBusinessProtectionPolicies";
+import { OneDriveForBusinessRestoreSessionsClient } from "./oneDriveForBusinessRestoreSessions";
+import { ProtectionPoliciesClient } from "./protectionPolicies";
+import { ProtectionUnitsClient } from "./protectionUnits";
+import { RestorePointsClient } from "./restorePoints";
+import { RestoreSessionsClient } from "./restoreSessions";
+import { ServiceAppsClient } from "./serviceApps";
+import { SharePointProtectionPoliciesClient } from "./sharePointProtectionPolicies";
+import { SharePointRestoreSessionsClient } from "./sharePointRestoreSessions";
+import { SiteInclusionRulesClient } from "./siteInclusionRules";
+import { SiteProtectionUnitsClient } from "./siteProtectionUnits";
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -28,13 +33,26 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  const query: Record<string, any> = {};
+
   for (const param of params) {
-    if (param.in !== 'path') continue;
+    if (param.in === "query") {
+      query[param.name] = data[param.name];
+    }
+
+    if (param.in !== "path") {
+      continue;
+    }
+
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
-  return url;
+  return `${url}${qs.stringify(query, { addQueryPrefix: true })}`;
 }
 
 /**
@@ -42,27 +60,27 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  * Provides operations to manage the backupRestore property of the microsoft.graph.solutionsRoot entity.
  */
 export class BackupRestoreClient {
-  protected baseUrl = '/solutions/backupRestore';
+  protected baseUrl = "/solutions/backupRestore";
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("get" in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -236,16 +254,23 @@ export class BackupRestoreClient {
    *
    */
   async delete(
-    body: Endpoints['DELETE /solutions/backupRestore']['body'],
-    params?: Endpoints['DELETE /solutions/backupRestore']['parameters']
+    params?: Endpoints["DELETE /solutions/backupRestore"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
-    const url = getInjectedUrl('/solutions/backupRestore', [{ name: 'If-Match', in: 'header' }], {
-      ...(params || {}),
-    });
+    const url = getInjectedUrl(
+      "/solutions/backupRestore",
+      [{ name: "If-Match", in: "header" }],
+      {
+        ...(params || {}),
+      },
+    );
 
     return this.http
-      .delete(url, body)
-      .then((res) => res.data as Endpoints['DELETE /solutions/backupRestore']['response']);
+      .delete(url, config)
+      .then(
+        (res) =>
+          res.data as Endpoints["DELETE /solutions/backupRestore"]["response"],
+      );
   }
 
   /**
@@ -253,21 +278,27 @@ export class BackupRestoreClient {
    *
    * Get the serviceStatus of the Microsoft 365 Backup Storage service in a tenant.
    */
-  async get(params?: Endpoints['GET /solutions/backupRestore']['parameters']) {
+  async get(
+    params?: Endpoints["GET /solutions/backupRestore"]["parameters"],
+    config?: AxiosRequestConfig,
+  ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore',
+      "/solutions/backupRestore",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
-      .get(url)
-      .then((res) => res.data as Endpoints['GET /solutions/backupRestore']['response']);
+      .get(url, config)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /solutions/backupRestore"]["response"],
+      );
   }
 
   /**
@@ -275,15 +306,19 @@ export class BackupRestoreClient {
    *
    */
   async update(
-    body: Endpoints['PATCH /solutions/backupRestore']['body'],
-    params?: Endpoints['PATCH /solutions/backupRestore']['parameters']
+    body: Endpoints["PATCH /solutions/backupRestore"]["body"],
+    params?: Endpoints["PATCH /solutions/backupRestore"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
-    const url = getInjectedUrl('/solutions/backupRestore', [], {
+    const url = getInjectedUrl("/solutions/backupRestore", [], {
       ...(params || {}),
     });
 
     return this.http
-      .patch(url, body)
-      .then((res) => res.data as Endpoints['PATCH /solutions/backupRestore']['response']);
+      .patch(url, body, config)
+      .then(
+        (res) =>
+          res.data as Endpoints["PATCH /solutions/backupRestore"]["response"],
+      );
   }
 }

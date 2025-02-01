@@ -24,6 +24,7 @@ import { DEFAULT_EVENTS, Events } from './events';
 import { ActivityContext } from './activity-context';
 import { MiddlewareContext } from './middleware-context';
 import { HttpPlugin } from './plugins';
+import { OAuthSettings } from './oauth';
 
 /**
  * App initialization options
@@ -48,6 +49,11 @@ export type AppOptions = Partial<Credentials> & {
    * plugins to extend the apps functionality
    */
   readonly plugins?: Array<Plugin>;
+
+  /**
+   * OAuth Settings
+   */
+  readonly oauth?: OAuthSettings;
 };
 
 export interface ProcessActivityArgs {
@@ -268,7 +274,18 @@ export class App {
       serviceUrl = serviceUrl.slice(0, serviceUrl.length - 1);
     }
 
-    const userToken = await this.storage.get(`${activity.conversation.id}/${activity.from.id}/token`);
+    let userToken: string | undefined;
+
+    try {
+      const res = await this.api.users.token.get({
+        channelId: activity.channelId,
+        userId: activity.from.id,
+        connectionName: this.options.oauth?.graph || 'graph'
+      });
+
+      userToken = res.token;
+    } catch (err) { }
+
     const api = new Client({
       ...this.options.http,
       baseURL: serviceUrl,
@@ -362,6 +379,22 @@ export class App {
         },
       });
 
+      ctx.api = new Client({
+        ...this.options.http,
+        baseURL: ctx.ref.serviceUrl,
+        headers: {
+          ...this.options.http?.headers,
+          'User-Agent': `teams[apps]/${pkg.version}`,
+          Authorization: `Bearer ${this.tokens.bot}`,
+        },
+        graph: {
+          headers: {
+            'User-Agent': `teams[apps]/${pkg.version}`,
+            Authorization: `Bearer ${token.token}`,
+          },
+        },
+      });
+
       this._events.signin({ ...ctx, token });
       return { status: 200 };
     } catch (err) {
@@ -406,6 +439,23 @@ export class App {
 
       await storage.delete(key);
       await storage.set(`${activity.conversation.id}/${activity.from.id}/token`, token);
+
+      ctx.api = new Client({
+        ...this.options.http,
+        baseURL: ctx.ref.serviceUrl,
+        headers: {
+          ...this.options.http?.headers,
+          'User-Agent': `teams[apps]/${pkg.version}`,
+          Authorization: `Bearer ${this.tokens.bot}`,
+        },
+        graph: {
+          headers: {
+            'User-Agent': `teams[apps]/${pkg.version}`,
+            Authorization: `Bearer ${token.token}`,
+          },
+        },
+      });
+
       this._events.signin({ ...ctx, token });
       return { status: 200 };
     } catch (err) {

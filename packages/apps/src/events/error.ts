@@ -17,6 +17,7 @@ export function error({ err, log }: ErrorEventArgs) {
   log.error(err.message);
 
   if (err instanceof AxiosError) {
+    log.error(err.request.path);
     log.error(err.response?.data);
   }
 }

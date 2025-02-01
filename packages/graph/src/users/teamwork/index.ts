@@ -1,10 +1,15 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import qs from "qs";
+import axios, {
+  AxiosInstance,
+  CreateAxiosDefaults,
+  AxiosRequestConfig,
+} from "axios";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { AssociatedTeamsClient } from './associatedTeams';
-import { InstalledAppsClient } from './installedApps';
-import { SendActivityNotificationClient } from './sendActivityNotification';
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { AssociatedTeamsClient } from "./associatedTeams";
+import { InstalledAppsClient } from "./installedApps";
+import { SendActivityNotificationClient } from "./sendActivityNotification";
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -13,13 +18,26 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  const query: Record<string, any> = {};
+
   for (const param of params) {
-    if (param.in !== 'path') continue;
+    if (param.in === "query") {
+      query[param.name] = data[param.name];
+    }
+
+    if (param.in !== "path") {
+      continue;
+    }
+
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
-  return url;
+  return `${url}${qs.stringify(query, { addQueryPrefix: true })}`;
 }
 
 /**
@@ -27,30 +45,30 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  * Provides operations to manage the teamwork property of the microsoft.graph.user entity.
  */
 export class TeamworkClient {
-  protected baseUrl = '/users/{user-id}/teamwork';
+  protected baseUrl = "/users/{user-id}/teamwork";
   protected http: AxiosInstance;
 
   constructor(
     protected readonly userId: string,
-    options?: GraphClientOptions
+    options?: GraphClientOptions,
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("get" in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -89,24 +107,27 @@ export class TeamworkClient {
    *
    */
   async delete(
-    body: Endpoints['DELETE /users/{user-id}/teamwork']['body'],
-    params?: Endpoints['DELETE /users/{user-id}/teamwork']['parameters']
+    params?: Endpoints["DELETE /users/{user-id}/teamwork"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/users/{user-id}/teamwork',
+      "/users/{user-id}/teamwork",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'user-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "user-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'user-id': this.userId,
-      }
+        "user-id": this.userId,
+      },
     );
 
     return this.http
-      .delete(url, body)
-      .then((res) => res.data as Endpoints['DELETE /users/{user-id}/teamwork']['response']);
+      .delete(url, config)
+      .then(
+        (res) =>
+          res.data as Endpoints["DELETE /users/{user-id}/teamwork"]["response"],
+      );
   }
 
   /**
@@ -114,23 +135,29 @@ export class TeamworkClient {
    *
    * Get the userTeamwork settings for a specified user, which includes the Microsoft Teams region and the locale chosen by the user.
    */
-  async get(params?: Endpoints['GET /users/{user-id}/teamwork']['parameters']) {
+  async get(
+    params?: Endpoints["GET /users/{user-id}/teamwork"]["parameters"],
+    config?: AxiosRequestConfig,
+  ) {
     const url = getInjectedUrl(
-      '/users/{user-id}/teamwork',
+      "/users/{user-id}/teamwork",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'user-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "user-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'user-id': this.userId,
-      }
+        "user-id": this.userId,
+      },
     );
 
     return this.http
-      .get(url)
-      .then((res) => res.data as Endpoints['GET /users/{user-id}/teamwork']['response']);
+      .get(url, config)
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /users/{user-id}/teamwork"]["response"],
+      );
   }
 
   /**
@@ -138,16 +165,24 @@ export class TeamworkClient {
    *
    */
   async update(
-    body: Endpoints['PATCH /users/{user-id}/teamwork']['body'],
-    params?: Endpoints['PATCH /users/{user-id}/teamwork']['parameters']
+    body: Endpoints["PATCH /users/{user-id}/teamwork"]["body"],
+    params?: Endpoints["PATCH /users/{user-id}/teamwork"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
-    const url = getInjectedUrl('/users/{user-id}/teamwork', [{ name: 'user-id', in: 'path' }], {
-      ...(params || {}),
-      'user-id': this.userId,
-    });
+    const url = getInjectedUrl(
+      "/users/{user-id}/teamwork",
+      [{ name: "user-id", in: "path" }],
+      {
+        ...(params || {}),
+        "user-id": this.userId,
+      },
+    );
 
     return this.http
-      .patch(url, body)
-      .then((res) => res.data as Endpoints['PATCH /users/{user-id}/teamwork']['response']);
+      .patch(url, body, config)
+      .then(
+        (res) =>
+          res.data as Endpoints["PATCH /users/{user-id}/teamwork"]["response"],
+      );
   }
 }

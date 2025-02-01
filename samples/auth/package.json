@@ -16,7 +16,6 @@
     "dev": "npx nodemon -w \"./src/**\" -e ts --exec \"node -r ts-node/register -r dotenv/config ./src/index.ts\""
   },
   "dependencies": {
-    "@microsoft/microsoft-graph-client": "^3.0.7",
     "@teams.sdk/api": "*",
     "@teams.sdk/apps": "*",
     "@teams.sdk/cards": "*",
@@ -24,7 +23,6 @@
     "@teams.sdk/graph": "*"
   },
   "devDependencies": {
-    "@microsoft/microsoft-graph-types": "^2.40.0",
     "@teams.sdk/config": "*",
     "@types/node": "^22.5.4",
     "dotenv": "^16.4.5",

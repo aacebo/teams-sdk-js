@@ -1,7 +1,12 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import qs from "qs";
+import axios, {
+  AxiosInstance,
+  CreateAxiosDefaults,
+  AxiosRequestConfig,
+} from "axios";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './createOrGet-types.d.ts';
+import pkg from "src/../package.json";
+import type { Endpoints } from "./createOrGet-types.d.ts";
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -10,13 +15,26 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  const query: Record<string, any> = {};
+
   for (const param of params) {
-    if (param.in !== 'path') continue;
+    if (param.in === "query") {
+      query[param.name] = data[param.name];
+    }
+
+    if (param.in !== "path") {
+      continue;
+    }
+
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
-  return url;
+  return `${url}${qs.stringify(query, { addQueryPrefix: true })}`;
 }
 
 /**
@@ -24,27 +42,27 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  * Provides operations to call the createOrGet method.
  */
 export class CreateOrGetClient {
-  protected baseUrl = '/communications/onlineMeetings/createOrGet';
+  protected baseUrl = "/communications/onlineMeetings/createOrGet";
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("get" in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -57,18 +75,23 @@ export class CreateOrGetClient {
    * Create an onlineMeeting object with a custom specified external ID. If the external ID already exists, this API will return the onlineMeeting object with that external ID.
    */
   async create(
-    body: Endpoints['POST /communications/onlineMeetings/createOrGet']['body'],
-    params?: Endpoints['POST /communications/onlineMeetings/createOrGet']['parameters']
+    body: Endpoints["POST /communications/onlineMeetings/createOrGet"]["body"],
+    params?: Endpoints["POST /communications/onlineMeetings/createOrGet"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
-    const url = getInjectedUrl('/communications/onlineMeetings/createOrGet', [], {
-      ...(params || {}),
-    });
+    const url = getInjectedUrl(
+      "/communications/onlineMeetings/createOrGet",
+      [],
+      {
+        ...(params || {}),
+      },
+    );
 
     return this.http
-      .post(url, body)
+      .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /communications/onlineMeetings/createOrGet']['response']
+          res.data as Endpoints["POST /communications/onlineMeetings/createOrGet"]["response"],
       );
   }
 }

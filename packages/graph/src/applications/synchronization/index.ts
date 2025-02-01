@@ -1,11 +1,16 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import qs from "qs";
+import axios, {
+  AxiosInstance,
+  CreateAxiosDefaults,
+  AxiosRequestConfig,
+} from "axios";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { AcquireAccessTokenClient } from './acquireAccessToken';
-import { JobsClient } from './jobs';
-import { SecretsClient } from './secrets';
-import { TemplatesClient } from './templates';
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { AcquireAccessTokenClient } from "./acquireAccessToken";
+import { JobsClient } from "./jobs";
+import { SecretsClient } from "./secrets";
+import { TemplatesClient } from "./templates";
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -14,13 +19,26 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  const query: Record<string, any> = {};
+
   for (const param of params) {
-    if (param.in !== 'path') continue;
+    if (param.in === "query") {
+      query[param.name] = data[param.name];
+    }
+
+    if (param.in !== "path") {
+      continue;
+    }
+
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
-  return url;
+  return `${url}${qs.stringify(query, { addQueryPrefix: true })}`;
 }
 
 /**
@@ -28,30 +46,30 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  * Provides operations to manage the synchronization property of the microsoft.graph.application entity.
  */
 export class SynchronizationClient {
-  protected baseUrl = '/applications/{application-id}/synchronization';
+  protected baseUrl = "/applications/{application-id}/synchronization";
   protected http: AxiosInstance;
 
   constructor(
     protected readonly applicationId: string,
-    options?: GraphClientOptions
+    options?: GraphClientOptions,
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("get" in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -98,26 +116,26 @@ export class SynchronizationClient {
    *
    */
   async delete(
-    body: Endpoints['DELETE /applications/{application-id}/synchronization']['body'],
-    params?: Endpoints['DELETE /applications/{application-id}/synchronization']['parameters']
+    params?: Endpoints["DELETE /applications/{application-id}/synchronization"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications/{application-id}/synchronization',
+      "/applications/{application-id}/synchronization",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'application-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "application-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'application-id': this.applicationId,
-      }
+        "application-id": this.applicationId,
+      },
     );
 
     return this.http
-      .delete(url, body)
+      .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /applications/{application-id}/synchronization']['response']
+          res.data as Endpoints["DELETE /applications/{application-id}/synchronization"]["response"],
       );
   }
 
@@ -127,26 +145,27 @@ export class SynchronizationClient {
    * Represents the capability for Microsoft Entra identity synchronization through the Microsoft Graph API.
    */
   async get(
-    params?: Endpoints['GET /applications/{application-id}/synchronization']['parameters']
+    params?: Endpoints["GET /applications/{application-id}/synchronization"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications/{application-id}/synchronization',
+      "/applications/{application-id}/synchronization",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'application-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "application-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'application-id': this.applicationId,
-      }
+        "application-id": this.applicationId,
+      },
     );
 
     return this.http
-      .get(url)
+      .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /applications/{application-id}/synchronization']['response']
+          res.data as Endpoints["GET /applications/{application-id}/synchronization"]["response"],
       );
   }
 
@@ -155,23 +174,24 @@ export class SynchronizationClient {
    *
    */
   async set(
-    body: Endpoints['PUT /applications/{application-id}/synchronization']['body'],
-    params?: Endpoints['PUT /applications/{application-id}/synchronization']['parameters']
+    body: Endpoints["PUT /applications/{application-id}/synchronization"]["body"],
+    params?: Endpoints["PUT /applications/{application-id}/synchronization"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications/{application-id}/synchronization',
-      [{ name: 'application-id', in: 'path' }],
+      "/applications/{application-id}/synchronization",
+      [{ name: "application-id", in: "path" }],
       {
         ...(params || {}),
-        'application-id': this.applicationId,
-      }
+        "application-id": this.applicationId,
+      },
     );
 
     return this.http
-      .put(url, body)
+      .put(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PUT /applications/{application-id}/synchronization']['response']
+          res.data as Endpoints["PUT /applications/{application-id}/synchronization"]["response"],
       );
   }
 }

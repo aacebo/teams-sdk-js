@@ -1,7 +1,12 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import qs from "qs";
+import axios, {
+  AxiosInstance,
+  CreateAxiosDefaults,
+  AxiosRequestConfig,
+} from "axios";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './metadataContent-types.d.ts';
+import pkg from "src/../package.json";
+import type { Endpoints } from "./metadataContent-types.d.ts";
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -10,13 +15,26 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  const query: Record<string, any> = {};
+
   for (const param of params) {
-    if (param.in !== 'path') continue;
+    if (param.in === "query") {
+      query[param.name] = data[param.name];
+    }
+
+    if (param.in !== "path") {
+      continue;
+    }
+
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
-  return url;
+  return `${url}${qs.stringify(query, { addQueryPrefix: true })}`;
 }
 
 /**
@@ -25,30 +43,30 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class MetadataContentClient {
   protected baseUrl =
-    '/communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent';
+    "/communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent";
   protected http: AxiosInstance;
 
   constructor(
     protected readonly callTranscriptId: string,
-    options?: GraphClientOptions
+    options?: GraphClientOptions,
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("get" in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -61,27 +79,27 @@ export class MetadataContentClient {
    * The time-aligned metadata of the utterances in the transcript. Read-only.
    */
   async delete(
-    body: Endpoints['DELETE /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent']['body'],
-    params?: Endpoints['DELETE /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent']['parameters']
+    params?: Endpoints["DELETE /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent',
+      "/communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'onlineMeeting-id', in: 'path' },
-        { name: 'callTranscript-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "onlineMeeting-id", in: "path" },
+        { name: "callTranscript-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'callTranscript-id': this.callTranscriptId,
-      }
+        "callTranscript-id": this.callTranscriptId,
+      },
     );
 
     return this.http
-      .delete(url, body)
+      .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent']['response']
+          res.data as Endpoints["DELETE /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent"]["response"],
       );
   }
 
@@ -91,25 +109,26 @@ export class MetadataContentClient {
    * The time-aligned metadata of the utterances in the transcript. Read-only.
    */
   async get(
-    params?: Endpoints['GET /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent']['parameters']
+    params?: Endpoints["GET /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent',
+      "/communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent",
       [
-        { name: 'onlineMeeting-id', in: 'path' },
-        { name: 'callTranscript-id', in: 'path' },
+        { name: "onlineMeeting-id", in: "path" },
+        { name: "callTranscript-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'callTranscript-id': this.callTranscriptId,
-      }
+        "callTranscript-id": this.callTranscriptId,
+      },
     );
 
     return this.http
-      .get(url)
+      .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent']['response']
+          res.data as Endpoints["GET /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent"]["response"],
       );
   }
 
@@ -119,26 +138,27 @@ export class MetadataContentClient {
    * The time-aligned metadata of the utterances in the transcript. Read-only.
    */
   async set(
-    body: Endpoints['PUT /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent']['body'],
-    params?: Endpoints['PUT /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent']['parameters']
+    body: Endpoints["PUT /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent"]["body"],
+    params?: Endpoints["PUT /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent',
+      "/communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent",
       [
-        { name: 'onlineMeeting-id', in: 'path' },
-        { name: 'callTranscript-id', in: 'path' },
+        { name: "onlineMeeting-id", in: "path" },
+        { name: "callTranscript-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'callTranscript-id': this.callTranscriptId,
-      }
+        "callTranscript-id": this.callTranscriptId,
+      },
     );
 
     return this.http
-      .put(url, body)
+      .put(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PUT /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent']['response']
+          res.data as Endpoints["PUT /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent"]["response"],
       );
   }
 }

@@ -32,12 +32,14 @@
     "gen:endpoints": "npx ts-node ./scripts/gen-endpoints.ts"
   },
   "dependencies": {
-    "axios": "^1.7.9"
+    "axios": "^1.7.9",
+    "qs": "^6.13.0"
   },
   "devDependencies": {
     "@teams.sdk/config": "*",
     "@types/jest": "^29.5.12",
     "@types/node": "^22.0.2",
+    "@types/qs": "^6.9.15",
     "camelcase": "^8.0.0",
     "handlebars": "^4.7.8",
     "jest": "^29.7.0",

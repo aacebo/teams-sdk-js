@@ -1,11 +1,16 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import qs from "qs";
+import axios, {
+  AxiosInstance,
+  CreateAxiosDefaults,
+  AxiosRequestConfig,
+} from "axios";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { ContentClient } from './content';
-import { CountClient } from './count';
-import { DeltaClient } from './delta';
-import { MetadataContentClient } from './metadataContent';
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { ContentClient } from "./content";
+import { CountClient } from "./count";
+import { DeltaClient } from "./delta";
+import { MetadataContentClient } from "./metadataContent";
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -14,13 +19,26 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  const query: Record<string, any> = {};
+
   for (const param of params) {
-    if (param.in !== 'path') continue;
+    if (param.in === "query") {
+      query[param.name] = data[param.name];
+    }
+
+    if (param.in !== "path") {
+      continue;
+    }
+
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
-  return url;
+  return `${url}${qs.stringify(query, { addQueryPrefix: true })}`;
 }
 
 /**
@@ -28,30 +46,31 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  * Provides operations to manage the transcripts property of the microsoft.graph.onlineMeeting entity.
  */
 export class TranscriptsClient {
-  protected baseUrl = '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts';
+  protected baseUrl =
+    "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts";
   protected http: AxiosInstance;
 
   constructor(
     protected readonly onlineMeetingId: string,
-    options?: GraphClientOptions
+    options?: GraphClientOptions,
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("get" in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -99,28 +118,28 @@ export class TranscriptsClient {
    *
    */
   async delete(
-    body: Endpoints['DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}']['body'],
-    params?: Endpoints['DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}']['parameters']
+    params?: Endpoints["DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}',
+      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'user-id', in: 'path' },
-        { name: 'onlineMeeting-id', in: 'path' },
-        { name: 'callTranscript-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "user-id", in: "path" },
+        { name: "onlineMeeting-id", in: "path" },
+        { name: "callTranscript-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'onlineMeeting-id': this.onlineMeetingId,
-      }
+        "onlineMeeting-id": this.onlineMeetingId,
+      },
     );
 
     return this.http
-      .delete(url, body)
+      .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}']['response']
+          res.data as Endpoints["DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["response"],
       );
   }
 
@@ -130,28 +149,29 @@ export class TranscriptsClient {
    * Retrieve the list of callTranscript objects associated with a scheduled onlineMeeting. This API doesn&#x27;t support getting call transcripts from channel meetings.
    */
   async list(
-    params?: Endpoints['GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts']['parameters']
+    params?: Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts',
+      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'user-id', in: 'path' },
-        { name: 'onlineMeeting-id', in: 'path' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "user-id", in: "path" },
+        { name: "onlineMeeting-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'onlineMeeting-id': this.onlineMeetingId,
-      }
+        "onlineMeeting-id": this.onlineMeetingId,
+      },
     );
 
     return this.http
-      .get(url)
+      .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts']['response']
+          res.data as Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts"]["response"],
       );
   }
 
@@ -161,28 +181,29 @@ export class TranscriptsClient {
    * Retrieve a callTranscript object associated with a scheduled onlineMeeting. This API doesn&#x27;t support getting call transcripts from channel meetings. Retrieving the transcript returns the metadata of the single transcript associated with the online meeting. Retrieving the content of the transcript returns the stream of text associated with the transcript.
    */
   async get(
-    params?: Endpoints['GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}']['parameters']
+    params?: Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}',
+      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'user-id', in: 'path' },
-        { name: 'onlineMeeting-id', in: 'path' },
-        { name: 'callTranscript-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "user-id", in: "path" },
+        { name: "onlineMeeting-id", in: "path" },
+        { name: "callTranscript-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'onlineMeeting-id': this.onlineMeetingId,
-      }
+        "onlineMeeting-id": this.onlineMeetingId,
+      },
     );
 
     return this.http
-      .get(url)
+      .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}']['response']
+          res.data as Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["response"],
       );
   }
 
@@ -191,27 +212,28 @@ export class TranscriptsClient {
    *
    */
   async update(
-    body: Endpoints['PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}']['body'],
-    params?: Endpoints['PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}']['parameters']
+    body: Endpoints["PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["body"],
+    params?: Endpoints["PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}',
+      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}",
       [
-        { name: 'user-id', in: 'path' },
-        { name: 'onlineMeeting-id', in: 'path' },
-        { name: 'callTranscript-id', in: 'path' },
+        { name: "user-id", in: "path" },
+        { name: "onlineMeeting-id", in: "path" },
+        { name: "callTranscript-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'onlineMeeting-id': this.onlineMeetingId,
-      }
+        "onlineMeeting-id": this.onlineMeetingId,
+      },
     );
 
     return this.http
-      .patch(url, body)
+      .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}']['response']
+          res.data as Endpoints["PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["response"],
       );
   }
 
@@ -220,26 +242,27 @@ export class TranscriptsClient {
    *
    */
   async create(
-    body: Endpoints['POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts']['body'],
-    params?: Endpoints['POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts']['parameters']
+    body: Endpoints["POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts"]["body"],
+    params?: Endpoints["POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts',
+      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts",
       [
-        { name: 'user-id', in: 'path' },
-        { name: 'onlineMeeting-id', in: 'path' },
+        { name: "user-id", in: "path" },
+        { name: "onlineMeeting-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'onlineMeeting-id': this.onlineMeetingId,
-      }
+        "onlineMeeting-id": this.onlineMeetingId,
+      },
     );
 
     return this.http
-      .post(url, body)
+      .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts']['response']
+          res.data as Endpoints["POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/transcripts"]["response"],
       );
   }
 }

@@ -66,7 +66,7 @@ export class HttpSender implements Sender {
   }
 
   async signin(name: string, text = 'Please Sign In...') {
-    let convo = { ...this.ctx.conversation };
+    let convo = { ...this.ctx.ref };
 
     // create new 1:1 conversation with user to do SSO
     // because groupchats don't support it.

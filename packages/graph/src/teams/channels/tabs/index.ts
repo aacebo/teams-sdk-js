@@ -1,9 +1,14 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import qs from "qs";
+import axios, {
+  AxiosInstance,
+  CreateAxiosDefaults,
+  AxiosRequestConfig,
+} from "axios";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-import { TeamsAppClient } from './teamsApp';
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
+import { TeamsAppClient } from "./teamsApp";
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -12,13 +17,26 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  const query: Record<string, any> = {};
+
   for (const param of params) {
-    if (param.in !== 'path') continue;
+    if (param.in === "query") {
+      query[param.name] = data[param.name];
+    }
+
+    if (param.in !== "path") {
+      continue;
+    }
+
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
-  return url;
+  return `${url}${qs.stringify(query, { addQueryPrefix: true })}`;
 }
 
 /**
@@ -26,30 +44,30 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  * Provides operations to manage the tabs property of the microsoft.graph.channel entity.
  */
 export class TabsClient {
-  protected baseUrl = '/teams/{team-id}/channels/{channel-id}/tabs';
+  protected baseUrl = "/teams/{team-id}/channels/{channel-id}/tabs";
   protected http: AxiosInstance;
 
   constructor(
     protected readonly channelId: string,
-    options?: GraphClientOptions
+    options?: GraphClientOptions,
   ) {
     if (!options) {
       this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("get" in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -80,28 +98,28 @@ export class TabsClient {
    * Removes (unpins) a tab from the specified channel within a team.
    */
   async delete(
-    body: Endpoints['DELETE /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}']['body'],
-    params?: Endpoints['DELETE /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}']['parameters']
+    params?: Endpoints["DELETE /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}',
+      "/teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'team-id', in: 'path' },
-        { name: 'channel-id', in: 'path' },
-        { name: 'teamsTab-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "team-id", in: "path" },
+        { name: "channel-id", in: "path" },
+        { name: "teamsTab-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'channel-id': this.channelId,
-      }
+        "channel-id": this.channelId,
+      },
     );
 
     return this.http
-      .delete(url, body)
+      .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}']['response']
+          res.data as Endpoints["DELETE /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}"]["response"],
       );
   }
 
@@ -110,27 +128,30 @@ export class TabsClient {
    *
    * Retrieve the list of tabs in the specified channel within a team.
    */
-  async list(params?: Endpoints['GET /teams/{team-id}/channels/{channel-id}/tabs']['parameters']) {
+  async list(
+    params?: Endpoints["GET /teams/{team-id}/channels/{channel-id}/tabs"]["parameters"],
+    config?: AxiosRequestConfig,
+  ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/channels/{channel-id}/tabs',
+      "/teams/{team-id}/channels/{channel-id}/tabs",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'team-id', in: 'path' },
-        { name: 'channel-id', in: 'path' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "team-id", in: "path" },
+        { name: "channel-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'channel-id': this.channelId,
-      }
+        "channel-id": this.channelId,
+      },
     );
 
     return this.http
-      .get(url)
+      .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /teams/{team-id}/channels/{channel-id}/tabs']['response']
+          res.data as Endpoints["GET /teams/{team-id}/channels/{channel-id}/tabs"]["response"],
       );
   }
 
@@ -140,28 +161,29 @@ export class TabsClient {
    * Retrieve the properties and relationships of the specified tab in a channel within a team.
    */
   async get(
-    params?: Endpoints['GET /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}']['parameters']
+    params?: Endpoints["GET /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}',
+      "/teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'team-id', in: 'path' },
-        { name: 'channel-id', in: 'path' },
-        { name: 'teamsTab-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "team-id", in: "path" },
+        { name: "channel-id", in: "path" },
+        { name: "teamsTab-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'channel-id': this.channelId,
-      }
+        "channel-id": this.channelId,
+      },
     );
 
     return this.http
-      .get(url)
+      .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}']['response']
+          res.data as Endpoints["GET /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}"]["response"],
       );
   }
 
@@ -172,27 +194,28 @@ export class TabsClient {
 This API can be used to configure the content of the tab.
    */
   async update(
-    body: Endpoints['PATCH /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}']['body'],
-    params?: Endpoints['PATCH /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}']['parameters']
+    body: Endpoints["PATCH /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}"]["body"],
+    params?: Endpoints["PATCH /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}',
+      "/teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}",
       [
-        { name: 'team-id', in: 'path' },
-        { name: 'channel-id', in: 'path' },
-        { name: 'teamsTab-id', in: 'path' },
+        { name: "team-id", in: "path" },
+        { name: "channel-id", in: "path" },
+        { name: "teamsTab-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'channel-id': this.channelId,
-      }
+        "channel-id": this.channelId,
+      },
     );
 
     return this.http
-      .patch(url, body)
+      .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PATCH /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}']['response']
+          res.data as Endpoints["PATCH /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}"]["response"],
       );
   }
 
@@ -202,26 +225,27 @@ This API can be used to configure the content of the tab.
    * Add (pin) a tab to the specified channel within a team. The app must be preinstalled in the team and have the configurableTabs property defined in the app manifest.
    */
   async create(
-    body: Endpoints['POST /teams/{team-id}/channels/{channel-id}/tabs']['body'],
-    params?: Endpoints['POST /teams/{team-id}/channels/{channel-id}/tabs']['parameters']
+    body: Endpoints["POST /teams/{team-id}/channels/{channel-id}/tabs"]["body"],
+    params?: Endpoints["POST /teams/{team-id}/channels/{channel-id}/tabs"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/channels/{channel-id}/tabs',
+      "/teams/{team-id}/channels/{channel-id}/tabs",
       [
-        { name: 'team-id', in: 'path' },
-        { name: 'channel-id', in: 'path' },
+        { name: "team-id", in: "path" },
+        { name: "channel-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'channel-id': this.channelId,
-      }
+        "channel-id": this.channelId,
+      },
     );
 
     return this.http
-      .post(url, body)
+      .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /teams/{team-id}/channels/{channel-id}/tabs']['response']
+          res.data as Endpoints["POST /teams/{team-id}/channels/{channel-id}/tabs"]["response"],
       );
   }
 }

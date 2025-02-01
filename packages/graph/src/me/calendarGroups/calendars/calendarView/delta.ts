@@ -1,7 +1,12 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import qs from "qs";
+import axios, {
+  AxiosInstance,
+  CreateAxiosDefaults,
+  AxiosRequestConfig,
+} from "axios";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './delta-types.d.ts';
+import pkg from "src/../package.json";
+import type { Endpoints } from "./delta-types.d.ts";
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -10,13 +15,26 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  const query: Record<string, any> = {};
+
   for (const param of params) {
-    if (param.in !== 'path') continue;
+    if (param.in === "query") {
+      query[param.name] = data[param.name];
+    }
+
+    if (param.in !== "path") {
+      continue;
+    }
+
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
-  return url;
+  return `${url}${qs.stringify(query, { addQueryPrefix: true })}`;
 }
 
 /**
@@ -25,27 +43,27 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class DeltaClient {
   protected baseUrl =
-    '/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/delta';
+    "/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/delta";
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("get" in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -58,29 +76,30 @@ export class DeltaClient {
    * Get a set of event resources that have been added, deleted, or updated in a calendarView (a range of events defined by start and end dates) of the user&#x27;s primary calendar. Typically, synchronizing events in a calendarView in a local store entails a round of multiple delta function calls. The initial call is a full synchronization, and every subsequent delta call in the same round gets the incremental changes (additions, deletions, or updates). This allows you to maintain and synchronize a local store of events in the specified calendarView, without having to fetch all the events of that calendar from the server every time.
    */
   async get(
-    params?: Endpoints['GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/delta()']['parameters']
+    params?: Endpoints["GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/delta()"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/delta()',
+      "/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/delta()",
       [
-        { name: 'startDateTime', in: 'query' },
-        { name: 'endDateTime', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$orderby', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'calendarGroup-id', in: 'path' },
-        { name: 'calendar-id', in: 'path' },
+        { name: "startDateTime", in: "query" },
+        { name: "endDateTime", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$orderby", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "calendarGroup-id", in: "path" },
+        { name: "calendar-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
-      .get(url)
+      .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/delta()']['response']
+          res.data as Endpoints["GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/delta()"]["response"],
       );
   }
 }

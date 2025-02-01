@@ -1,17 +1,22 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import qs from "qs";
+import axios, {
+  AxiosInstance,
+  CreateAxiosDefaults,
+  AxiosRequestConfig,
+} from "axios";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CheckMemberGroupsClient } from './checkMemberGroups';
-import { CheckMemberObjectsClient } from './checkMemberObjects';
-import { CountClient } from './count';
-import { DeltaClient } from './delta';
-import { GetAvailableExtensionPropertiesClient } from './getAvailableExtensionProperties';
-import { GetByIdsClient } from './getByIds';
-import { GetMemberGroupsClient } from './getMemberGroups';
-import { GetMemberObjectsClient } from './getMemberObjects';
-import { RestoreClient } from './restore';
-import { ValidatePropertiesClient } from './validateProperties';
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CheckMemberGroupsClient } from "./checkMemberGroups";
+import { CheckMemberObjectsClient } from "./checkMemberObjects";
+import { CountClient } from "./count";
+import { DeltaClient } from "./delta";
+import { GetAvailableExtensionPropertiesClient } from "./getAvailableExtensionProperties";
+import { GetByIdsClient } from "./getByIds";
+import { GetMemberGroupsClient } from "./getMemberGroups";
+import { GetMemberObjectsClient } from "./getMemberObjects";
+import { RestoreClient } from "./restore";
+import { ValidatePropertiesClient } from "./validateProperties";
 
 type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
@@ -20,13 +25,26 @@ interface Param {
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
+  const query: Record<string, any> = {};
+
   for (const param of params) {
-    if (param.in !== 'path') continue;
+    if (param.in === "query") {
+      query[param.name] = data[param.name];
+    }
+
+    if (param.in !== "path") {
+      continue;
+    }
+
     url = url.replace(`{${param.name}}`, data[param.name]);
   }
 
-  return url;
+  return `${url}${qs.stringify(query, { addQueryPrefix: true })}`;
 }
 
 /**
@@ -34,27 +52,27 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  * Provides operations to manage the collection of appRoleAssignment entities.
  */
 export class AppRoleAssignmentsClient {
-  protected baseUrl = '/appRoleAssignments';
+  protected baseUrl = "/appRoleAssignments";
   protected http: AxiosInstance;
 
   constructor(options?: GraphClientOptions) {
     if (!options) {
       this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("get" in options) {
       this.http = options;
     } else {
       this.http = axios.create({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseURL: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -156,25 +174,25 @@ export class AppRoleAssignmentsClient {
    *
    */
   async delete(
-    body: Endpoints['DELETE /appRoleAssignments/{appRoleAssignment-id}']['body'],
-    params?: Endpoints['DELETE /appRoleAssignments/{appRoleAssignment-id}']['parameters']
+    params?: Endpoints["DELETE /appRoleAssignments/{appRoleAssignment-id}"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/appRoleAssignments/{appRoleAssignment-id}',
+      "/appRoleAssignments/{appRoleAssignment-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'appRoleAssignment-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "appRoleAssignment-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
-      .delete(url, body)
+      .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /appRoleAssignments/{appRoleAssignment-id}']['response']
+          res.data as Endpoints["DELETE /appRoleAssignments/{appRoleAssignment-id}"]["response"],
       );
   }
 
@@ -182,45 +200,54 @@ export class AppRoleAssignmentsClient {
    * `GET /appRoleAssignments`
    *
    */
-  async list(params?: Endpoints['GET /appRoleAssignments']['parameters']) {
+  async list(
+    params?: Endpoints["GET /appRoleAssignments"]["parameters"],
+    config?: AxiosRequestConfig,
+  ) {
     const url = getInjectedUrl(
-      '/appRoleAssignments',
+      "/appRoleAssignments",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
-      .get(url)
-      .then((res) => res.data as Endpoints['GET /appRoleAssignments']['response']);
+      .get(url, config)
+      .then(
+        (res) => res.data as Endpoints["GET /appRoleAssignments"]["response"],
+      );
   }
 
   /**
    * `GET /appRoleAssignments/{appRoleAssignment-id}`
    *
    */
-  async get(params?: Endpoints['GET /appRoleAssignments/{appRoleAssignment-id}']['parameters']) {
+  async get(
+    params?: Endpoints["GET /appRoleAssignments/{appRoleAssignment-id}"]["parameters"],
+    config?: AxiosRequestConfig,
+  ) {
     const url = getInjectedUrl(
-      '/appRoleAssignments/{appRoleAssignment-id}',
+      "/appRoleAssignments/{appRoleAssignment-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'appRoleAssignment-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "appRoleAssignment-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
-      .get(url)
+      .get(url, config)
       .then(
-        (res) => res.data as Endpoints['GET /appRoleAssignments/{appRoleAssignment-id}']['response']
+        (res) =>
+          res.data as Endpoints["GET /appRoleAssignments/{appRoleAssignment-id}"]["response"],
       );
   }
 
@@ -229,22 +256,23 @@ export class AppRoleAssignmentsClient {
    *
    */
   async update(
-    body: Endpoints['PATCH /appRoleAssignments/{appRoleAssignment-id}']['body'],
-    params?: Endpoints['PATCH /appRoleAssignments/{appRoleAssignment-id}']['parameters']
+    body: Endpoints["PATCH /appRoleAssignments/{appRoleAssignment-id}"]["body"],
+    params?: Endpoints["PATCH /appRoleAssignments/{appRoleAssignment-id}"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/appRoleAssignments/{appRoleAssignment-id}',
-      [{ name: 'appRoleAssignment-id', in: 'path' }],
+      "/appRoleAssignments/{appRoleAssignment-id}",
+      [{ name: "appRoleAssignment-id", in: "path" }],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
-      .patch(url, body)
+      .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PATCH /appRoleAssignments/{appRoleAssignment-id}']['response']
+          res.data as Endpoints["PATCH /appRoleAssignments/{appRoleAssignment-id}"]["response"],
       );
   }
 
@@ -253,15 +281,18 @@ export class AppRoleAssignmentsClient {
    *
    */
   async create(
-    body: Endpoints['POST /appRoleAssignments']['body'],
-    params?: Endpoints['POST /appRoleAssignments']['parameters']
+    body: Endpoints["POST /appRoleAssignments"]["body"],
+    params?: Endpoints["POST /appRoleAssignments"]["parameters"],
+    config?: AxiosRequestConfig,
   ) {
-    const url = getInjectedUrl('/appRoleAssignments', [], {
+    const url = getInjectedUrl("/appRoleAssignments", [], {
       ...(params || {}),
     });
 
     return this.http
-      .post(url, body)
-      .then((res) => res.data as Endpoints['POST /appRoleAssignments']['response']);
+      .post(url, body, config)
+      .then(
+        (res) => res.data as Endpoints["POST /appRoleAssignments"]["response"],
+      );
   }
 }
