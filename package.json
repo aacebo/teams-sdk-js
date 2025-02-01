@@ -31,7 +31,7 @@
     "build": "npx turbo build",
     "dev": "npx turbo dev",
     "lint": "npx turbo lint",
-    "test": "npx turbo test",
+    "test": "npx turbo test --concurrency=100%",
     "fmt": "npx prettier --write \"**/*.{js,ts,tsx,md,json}\"",
     "docs:build": "mdbook build book",
     "docs:serve": "mdbook serve book"
