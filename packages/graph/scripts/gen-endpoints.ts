@@ -145,7 +145,7 @@ class Client {
       return;
     }
 
-    let name = child;
+    let name = child.replace(patterns.specialChars, '');
 
     // if reserved change the name
     if (reserved.some((n) => n === name)) {
