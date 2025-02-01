@@ -268,6 +268,7 @@ export class App {
       serviceUrl = serviceUrl.slice(0, serviceUrl.length - 1);
     }
 
+    const userToken = await this.storage.get(`${activity.conversation.id}/${activity.from.id}/token`);
     const api = new Client({
       ...this.options.http,
       baseURL: serviceUrl,
@@ -279,7 +280,7 @@ export class App {
       graph: {
         headers: {
           'User-Agent': `teams[apps]/${pkg.version}`,
-          Authorization: `Bearer ${this.tokens.graph}`,
+          Authorization: `Bearer ${userToken || this.tokens.graph}`,
         },
       },
     });
@@ -404,6 +405,7 @@ export class App {
       });
 
       await storage.delete(key);
+      await storage.set(`${activity.conversation.id}/${activity.from.id}/token`, token);
       this._events.signin({ ...ctx, token });
       return { status: 200 };
     } catch (err) {
