@@ -1,5 +1,11 @@
 # @teams.sdk/config
 
+## 0.1.15
+
+### Patch Changes
+
+- add graph package
+
 ## 0.1.14
 
 ### Patch Changes

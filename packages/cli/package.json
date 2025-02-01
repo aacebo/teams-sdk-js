@@ -1,6 +1,6 @@
 {
   "name": "@teams.sdk/cli",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
