@@ -1,4 +1,4 @@
-import readline from 'node:readline';
+import readline from 'readline';
 import express from 'express';
 
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';

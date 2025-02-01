@@ -1,6 +1,6 @@
 /** @type {import('tsup').Options} */
 module.exports = {
-  dts: true,
+  dts: { resolve: true },
   minify: true,
   sourcemap: true,
   treeshake: true,

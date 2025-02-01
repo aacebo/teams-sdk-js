@@ -1,5 +1,5 @@
-import http from 'node:http';
-import path from 'node:path';
+import http from 'http';
+import path from 'path';
 
 import express from 'express';
 import io from 'socket.io';
