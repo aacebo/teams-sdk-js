@@ -6,10 +6,10 @@
 
 - make graph package smaller
 - Updated dependencies
-  - @teams.sdk/api@0.1.16
-  - @teams.sdk/apps@0.1.16
-  - @teams.sdk/common@0.1.16
-  - @teams.sdk/graph@0.1.16
+    - @teams.sdk/api@0.1.16
+    - @teams.sdk/apps@0.1.16
+    - @teams.sdk/common@0.1.16
+    - @teams.sdk/graph@0.1.16
 
 ## 0.1.15
 
@@ -17,10 +17,10 @@
 
 - add graph package
 - Updated dependencies
-  - @teams.sdk/api@0.1.15
-  - @teams.sdk/apps@0.1.15
-  - @teams.sdk/common@0.1.15
-  - @teams.sdk/graph@0.1.15
+    - @teams.sdk/api@0.1.15
+    - @teams.sdk/apps@0.1.15
+    - @teams.sdk/common@0.1.15
+    - @teams.sdk/graph@0.1.15
 
 ## 0.1.14
 
@@ -28,9 +28,9 @@
 
 - add activity builder
 - Updated dependencies
-  - @teams.sdk/api@0.1.14
-  - @teams.sdk/apps@0.1.14
-  - @teams.sdk/common@0.1.14
+    - @teams.sdk/api@0.1.14
+    - @teams.sdk/apps@0.1.14
+    - @teams.sdk/common@0.1.14
 
 ## 0.1.13
 
@@ -38,9 +38,9 @@
 
 - update devtools
 - Updated dependencies
-  - @teams.sdk/api@0.1.13
-  - @teams.sdk/apps@0.1.13
-  - @teams.sdk/common@0.1.13
+    - @teams.sdk/api@0.1.13
+    - @teams.sdk/apps@0.1.13
+    - @teams.sdk/common@0.1.13
 
 ## 0.1.12
 
@@ -48,9 +48,9 @@
 
 - updates to cli
 - Updated dependencies
-  - @teams.sdk/api@0.1.12
-  - @teams.sdk/apps@0.1.12
-  - @teams.sdk/common@0.1.12
+    - @teams.sdk/api@0.1.12
+    - @teams.sdk/apps@0.1.12
+    - @teams.sdk/common@0.1.12
 
 ## 0.1.11
 
@@ -58,9 +58,9 @@
 
 - latest changes to cli and common
 - Updated dependencies
-  - @teams.sdk/api@0.1.11
-  - @teams.sdk/apps@0.1.11
-  - @teams.sdk/common@0.1.11
+    - @teams.sdk/api@0.1.11
+    - @teams.sdk/apps@0.1.11
+    - @teams.sdk/common@0.1.11
 
 ## 0.1.10
 
@@ -68,9 +68,9 @@
 
 - add cli package
 - Updated dependencies
-  - @teams.sdk/api@0.1.10
-  - @teams.sdk/apps@0.1.10
-  - @teams.sdk/common@0.1.10
+    - @teams.sdk/api@0.1.10
+    - @teams.sdk/apps@0.1.10
+    - @teams.sdk/common@0.1.10
 
 ## 0.1.9
 
@@ -78,9 +78,9 @@
 
 - remove @teams.sdk/config peer dep
 - Updated dependencies
-  - @teams.sdk/api@0.1.9
-  - @teams.sdk/apps@0.1.9
-  - @teams.sdk/common@0.1.9
+    - @teams.sdk/api@0.1.9
+    - @teams.sdk/apps@0.1.9
+    - @teams.sdk/common@0.1.9
 
 ## 0.1.8
 
@@ -88,10 +88,10 @@
 
 - make credentials optional
 - Updated dependencies
-  - @teams.sdk/api@0.1.8
-  - @teams.sdk/apps@0.1.8
-  - @teams.sdk/common@0.1.8
-  - @teams.sdk/config@0.1.8
+    - @teams.sdk/api@0.1.8
+    - @teams.sdk/apps@0.1.8
+    - @teams.sdk/common@0.1.8
+    - @teams.sdk/config@0.1.8
 
 ## 0.1.7
 
@@ -99,7 +99,7 @@
 
 - add devtools
 - Updated dependencies
-  - @teams.sdk/api@0.1.7
-  - @teams.sdk/apps@0.1.7
-  - @teams.sdk/common@0.1.7
-  - @teams.sdk/config@0.1.7
+    - @teams.sdk/api@0.1.7
+    - @teams.sdk/apps@0.1.7
+    - @teams.sdk/common@0.1.7
+    - @teams.sdk/config@0.1.7

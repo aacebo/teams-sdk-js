@@ -6,8 +6,8 @@
 
 - make graph package smaller
 - Updated dependencies
-  - @teams.sdk/api@0.1.16
-  - @teams.sdk/common@0.1.16
+    - @teams.sdk/api@0.1.16
+    - @teams.sdk/common@0.1.16
 
 ## 0.1.15
 
@@ -15,8 +15,8 @@
 
 - add graph package
 - Updated dependencies
-  - @teams.sdk/api@0.1.15
-  - @teams.sdk/common@0.1.15
+    - @teams.sdk/api@0.1.15
+    - @teams.sdk/common@0.1.15
 
 ## 0.1.14
 
@@ -24,8 +24,8 @@
 
 - add activity builder
 - Updated dependencies
-  - @teams.sdk/api@0.1.14
-  - @teams.sdk/common@0.1.14
+    - @teams.sdk/api@0.1.14
+    - @teams.sdk/common@0.1.14
 
 ## 0.1.13
 
@@ -33,5 +33,5 @@
 
 - update devtools
 - Updated dependencies
-  - @teams.sdk/api@0.1.13
-  - @teams.sdk/common@0.1.13
+    - @teams.sdk/api@0.1.13
+    - @teams.sdk/common@0.1.13
