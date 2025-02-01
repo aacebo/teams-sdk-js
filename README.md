@@ -21,7 +21,6 @@ a suite of packages used to build on the Teams Platform.
 - [Scripts](#scripts)
 - [Packages](#packages)
 - [Samples](#samples)
-- [Apps](#apps)
 
 ## Why?
 
@@ -106,10 +105,6 @@ $: npm run test
 - [`@samples/console`](./samples/console/README.md)
 - [`@samples/auth`](./samples/auth/README.md)
 - [`@samples/lights`](./samples/lights/README.md)
-
-## Apps
-
-- [`@apps/copilot`](./apps/copilot/README.md)
 
 ## Links
 
