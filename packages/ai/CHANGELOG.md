@@ -1,5 +1,13 @@
 # @teams.sdk/ai
 
+## 0.1.18
+
+### Patch Changes
+
+- update botbuilder and add cli templates
+- Updated dependencies
+    - @teams.sdk/common@0.1.18
+
 ## 0.1.17
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @teams.sdk/client
 
+## 0.1.18
+
+### Patch Changes
+
+- update botbuilder and add cli templates
+- Updated dependencies
+    - @teams.sdk/api@0.1.18
+    - @teams.sdk/common@0.1.18
+
 ## 0.1.17
 
 ### Patch Changes
