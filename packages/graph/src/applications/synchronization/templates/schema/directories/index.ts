@@ -1,0 +1,218 @@
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { DiscoverClient } from './discover';
+
+type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+
+interface Param {
+  readonly in: string;
+  readonly name: string;
+}
+
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+  for (const param of params) {
+    if (param.in !== 'path') continue;
+    url = url.replace(`{${param.name}}`, data[param.name]);
+  }
+
+  return url;
+}
+
+/**
+ * /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories
+ * Provides operations to manage the directories property of the microsoft.graph.synchronizationSchema entity.
+ */
+export class DirectoriesClient {
+  protected baseUrl =
+    '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories';
+  protected http: AxiosInstance;
+
+  constructor(options?: GraphClientOptions) {
+    if (!options) {
+      this.http = axios.create({
+        baseURL: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
+    } else if ('get' in options) {
+      this.http = options;
+    } else {
+      this.http = axios.create({
+        ...options,
+        baseURL: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+          ...options.headers,
+        },
+      });
+    }
+  }
+
+  /**
+   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/count`
+   *
+   * Provides operations to count the resources in the collection.
+   */
+  get count() {
+    return new CountClient(this.http);
+  }
+
+  /**
+   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}/discover`
+   *
+   * Provides operations to call the discover method.
+   */
+  discover(directoryDefinitionId: string) {
+    return new DiscoverClient(directoryDefinitionId, this.http);
+  }
+
+  /**
+   * `DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}`
+   *
+   */
+  async delete(
+    body: Endpoints['DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}']['body'],
+    params?: Endpoints['DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}']['parameters']
+  ) {
+    const url = getInjectedUrl(
+      '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}',
+      [
+        { name: 'If-Match', in: 'header' },
+        { name: 'application-id', in: 'path' },
+        { name: 'synchronizationTemplate-id', in: 'path' },
+        { name: 'directoryDefinition-id', in: 'path' },
+      ],
+      {
+        ...(params || {}),
+      }
+    );
+
+    return this.http
+      .delete(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints['DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}']['response']
+      );
+  }
+
+  /**
+   * `GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories`
+   *
+   * Contains the collection of directories and all of their objects.
+   */
+  async list(
+    params?: Endpoints['GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories']['parameters']
+  ) {
+    const url = getInjectedUrl(
+      '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories',
+      [
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
+        { name: 'synchronizationTemplate-id', in: 'path' },
+      ],
+      {
+        ...(params || {}),
+      }
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints['GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories']['response']
+      );
+  }
+
+  /**
+   * `GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}`
+   *
+   * Contains the collection of directories and all of their objects.
+   */
+  async get(
+    params?: Endpoints['GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}']['parameters']
+  ) {
+    const url = getInjectedUrl(
+      '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}',
+      [
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
+        { name: 'synchronizationTemplate-id', in: 'path' },
+        { name: 'directoryDefinition-id', in: 'path' },
+      ],
+      {
+        ...(params || {}),
+      }
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints['GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}']['response']
+      );
+  }
+
+  /**
+   * `PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}`
+   *
+   */
+  async update(
+    body: Endpoints['PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}']['body'],
+    params?: Endpoints['PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}']['parameters']
+  ) {
+    const url = getInjectedUrl(
+      '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}',
+      [
+        { name: 'application-id', in: 'path' },
+        { name: 'synchronizationTemplate-id', in: 'path' },
+        { name: 'directoryDefinition-id', in: 'path' },
+      ],
+      {
+        ...(params || {}),
+      }
+    );
+
+    return this.http
+      .patch(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints['PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}']['response']
+      );
+  }
+
+  /**
+   * `POST /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories`
+   *
+   */
+  async create(
+    body: Endpoints['POST /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories']['body'],
+    params?: Endpoints['POST /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories']['parameters']
+  ) {
+    const url = getInjectedUrl(
+      '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories',
+      [
+        { name: 'application-id', in: 'path' },
+        { name: 'synchronizationTemplate-id', in: 'path' },
+      ],
+      {
+        ...(params || {}),
+      }
+    );
+
+    return this.http
+      .post(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints['POST /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories']['response']
+      );
+  }
+}

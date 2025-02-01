@@ -1,0 +1,184 @@
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { DirectoriesClient } from './directories';
+import { FilterOperatorsClient } from './filterOperators';
+import { FunctionsClient } from './functions';
+import { ParseExpressionClient } from './parseExpression';
+
+type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+
+interface Param {
+  readonly in: string;
+  readonly name: string;
+}
+
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+  for (const param of params) {
+    if (param.in !== 'path') continue;
+    url = url.replace(`{${param.name}}`, data[param.name]);
+  }
+
+  return url;
+}
+
+/**
+ * /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema
+ * Provides operations to manage the schema property of the microsoft.graph.synchronizationTemplate entity.
+ */
+export class SchemaClient {
+  protected baseUrl =
+    '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema';
+  protected http: AxiosInstance;
+
+  constructor(
+    protected readonly synchronizationTemplateId: string,
+    options?: GraphClientOptions
+  ) {
+    if (!options) {
+      this.http = axios.create({
+        baseURL: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
+    } else if ('get' in options) {
+      this.http = options;
+    } else {
+      this.http = axios.create({
+        ...options,
+        baseURL: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+          ...options.headers,
+        },
+      });
+    }
+  }
+
+  /**
+   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories`
+   *
+   * Provides operations to manage the directories property of the microsoft.graph.synchronizationSchema entity.
+   */
+  get directories() {
+    return new DirectoriesClient(this.http);
+  }
+
+  /**
+   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/filterOperators`
+   *
+   * Provides operations to call the filterOperators method.
+   */
+  get filterOperators() {
+    return new FilterOperatorsClient(this.http);
+  }
+
+  /**
+   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/functions`
+   *
+   * Provides operations to call the functions method.
+   */
+  get functions() {
+    return new FunctionsClient(this.http);
+  }
+
+  /**
+   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/parseExpression`
+   *
+   * Provides operations to call the parseExpression method.
+   */
+  get parseExpression() {
+    return new ParseExpressionClient(this.http);
+  }
+
+  /**
+   * `DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema`
+   *
+   */
+  async delete(
+    body: Endpoints['DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema']['body'],
+    params?: Endpoints['DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema']['parameters']
+  ) {
+    const url = getInjectedUrl(
+      '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema',
+      [
+        { name: 'If-Match', in: 'header' },
+        { name: 'application-id', in: 'path' },
+        { name: 'synchronizationTemplate-id', in: 'path' },
+      ],
+      {
+        ...(params || {}),
+        'synchronizationTemplate-id': this.synchronizationTemplateId,
+      }
+    );
+
+    return this.http
+      .delete(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints['DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema']['response']
+      );
+  }
+
+  /**
+   * `GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema`
+   *
+   * Default synchronization schema for the jobs based on this template.
+   */
+  async get(
+    params?: Endpoints['GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema']['parameters']
+  ) {
+    const url = getInjectedUrl(
+      '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema',
+      [
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
+        { name: 'synchronizationTemplate-id', in: 'path' },
+      ],
+      {
+        ...(params || {}),
+        'synchronizationTemplate-id': this.synchronizationTemplateId,
+      }
+    );
+
+    return this.http
+      .get(url)
+      .then(
+        (res) =>
+          res.data as Endpoints['GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema']['response']
+      );
+  }
+
+  /**
+   * `PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema`
+   *
+   */
+  async update(
+    body: Endpoints['PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema']['body'],
+    params?: Endpoints['PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema']['parameters']
+  ) {
+    const url = getInjectedUrl(
+      '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema',
+      [
+        { name: 'application-id', in: 'path' },
+        { name: 'synchronizationTemplate-id', in: 'path' },
+      ],
+      {
+        ...(params || {}),
+        'synchronizationTemplate-id': this.synchronizationTemplateId,
+      }
+    );
+
+    return this.http
+      .patch(url, body)
+      .then(
+        (res) =>
+          res.data as Endpoints['PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema']['response']
+      );
+  }
+}
