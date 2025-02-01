@@ -13,7 +13,7 @@ app.on('message', async ({ signin }) => {
 });
 
 app.event('signin', async ({ send, api }) => {
-  const me = await api.graph.me.get({ $select: ['id'] });
+  const me = await api.graph.me.get();
   const [meta, photo] = await Promise.all([
     api.graph.me.photo.get(),
     api.graph.me.photo.value.get({ }, { responseType: 'arraybuffer' }) as Promise<ArrayBuffer>,
