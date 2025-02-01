@@ -6,9 +6,9 @@
 
 - update auth sample and handle user auth state management for msgraph
 - Updated dependencies
-  - @teams.sdk/ai@0.1.17
-  - @teams.sdk/common@0.1.17
-  - @teams.sdk/openai@0.1.17
+    - @teams.sdk/ai@0.1.17
+    - @teams.sdk/common@0.1.17
+    - @teams.sdk/openai@0.1.17
 
 ## 0.1.16
 
@@ -16,9 +16,9 @@
 
 - make graph package smaller
 - Updated dependencies
-  - @teams.sdk/ai@0.1.16
-  - @teams.sdk/common@0.1.16
-  - @teams.sdk/openai@0.1.16
+    - @teams.sdk/ai@0.1.16
+    - @teams.sdk/common@0.1.16
+    - @teams.sdk/openai@0.1.16
 
 ## 0.1.15
 
@@ -26,9 +26,9 @@
 
 - add graph package
 - Updated dependencies
-  - @teams.sdk/ai@0.1.15
-  - @teams.sdk/common@0.1.15
-  - @teams.sdk/openai@0.1.15
+    - @teams.sdk/ai@0.1.15
+    - @teams.sdk/common@0.1.15
+    - @teams.sdk/openai@0.1.15
 
 ## 0.1.14
 
@@ -36,9 +36,9 @@
 
 - add activity builder
 - Updated dependencies
-  - @teams.sdk/ai@0.1.14
-  - @teams.sdk/common@0.1.14
-  - @teams.sdk/openai@0.1.14
+    - @teams.sdk/ai@0.1.14
+    - @teams.sdk/common@0.1.14
+    - @teams.sdk/openai@0.1.14
 
 ## 0.1.13
 
@@ -46,9 +46,9 @@
 
 - update devtools
 - Updated dependencies
-  - @teams.sdk/ai@0.1.13
-  - @teams.sdk/common@0.1.13
-  - @teams.sdk/openai@0.1.13
+    - @teams.sdk/ai@0.1.13
+    - @teams.sdk/common@0.1.13
+    - @teams.sdk/openai@0.1.13
 
 ## 0.1.12
 
@@ -56,9 +56,9 @@
 
 - updates to cli
 - Updated dependencies
-  - @teams.sdk/ai@0.1.12
-  - @teams.sdk/common@0.1.12
-  - @teams.sdk/openai@0.1.12
+    - @teams.sdk/ai@0.1.12
+    - @teams.sdk/common@0.1.12
+    - @teams.sdk/openai@0.1.12
 
 ## 0.1.11
 
@@ -66,9 +66,9 @@
 
 - latest changes to cli and common
 - Updated dependencies
-  - @teams.sdk/ai@0.1.11
-  - @teams.sdk/common@0.1.11
-  - @teams.sdk/openai@0.1.11
+    - @teams.sdk/ai@0.1.11
+    - @teams.sdk/common@0.1.11
+    - @teams.sdk/openai@0.1.11
 
 ## 0.1.10
 

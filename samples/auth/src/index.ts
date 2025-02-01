@@ -5,12 +5,11 @@ import { Card, CodeBlock, Column, ColumnSet, Image, TextBlock } from '@teams.sdk
 
 const app = new App({
   logger: new ConsoleLogger('@samples/auth', { level: 'debug' }),
-  oauth: { graph: 'graph-connection' },
 });
 
 app.on('message', async ({ log, signin, isSignedIn }) => {
   if (!isSignedIn) {
-    await signin('graph-connection');
+    await signin();
     return;
   }
 

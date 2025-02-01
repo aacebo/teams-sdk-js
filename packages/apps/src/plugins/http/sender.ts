@@ -65,7 +65,7 @@ export class HttpSender implements Sender {
       });
   }
 
-  async signin(name: string, text = 'Please Sign In...') {
+  async signin(name = 'graph', text = 'Please Sign In...') {
     let convo = { ...this.ctx.ref };
 
     try {

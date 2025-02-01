@@ -37,10 +37,10 @@ export interface MiddlewareContext<T extends Activity = Activity> extends Activi
 
   /**
    * trigger user signin flow for the activity sender
-   * @param name auth connection name
+   * @param name auth connection name, defaults to `graph`
    * @param text card text to display
    */
-  signin: (name: string, text?: string) => Promise<string | undefined>;
+  signin: (name?: string, text?: string) => Promise<string | undefined>;
 }
 
 export interface MentionMiddlewareContext extends MiddlewareContext<MessageSendActivity> {
