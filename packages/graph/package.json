@@ -25,7 +25,7 @@
   ],
   "scripts": {
     "clean": "npx rimraf ./dist",
-    "build": "NODE_OPTIONS='--max-old-space-size=16384' npx tsup",
+    "build": "NODE_OPTIONS='--max-old-space-size=16384' npx tsup && npx rimraf ./dist/index.d.mts",
     "test": "npx jest",
     "gen": "npm run gen:types && npm run gen:endpoints",
     "gen:types": "npx ts-node ./scripts/gen-types.ts",
