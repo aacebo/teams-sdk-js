@@ -20,7 +20,8 @@
     "@teams.sdk/api": "*",
     "@teams.sdk/apps": "*",
     "@teams.sdk/cards": "*",
-    "@teams.sdk/common": "*"
+    "@teams.sdk/common": "*",
+    "@teams.sdk/graph": "*"
   },
   "devDependencies": {
     "@microsoft/microsoft-graph-types": "^2.40.0",

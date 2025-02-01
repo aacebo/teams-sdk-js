@@ -1,7 +1,11 @@
 import * as graph from '@teams.sdk/graph';
 
 import { BotClient, ConversationClient, MeetingClient, TeamClient, UserClient } from './clients';
-import { ClientBase, ClientOptions } from './clients/client-base';
+import { ClientBase, ClientOptions as ClientBaseOptions } from './clients/client-base';
+
+export interface ClientOptions<D = any> extends ClientBaseOptions<D> {
+  readonly graph?: Omit<ClientBaseOptions<D>, 'children'>;
+}
 
 export class Client extends ClientBase {
   readonly bots: BotClient;
@@ -36,6 +40,6 @@ export class Client extends ClientBase {
     this.conversations = conversations;
     this.teams = teams;
     this.meetings = meetings;
-    this.graph = new graph.Client(this.http);
+    this.graph = new graph.Client(options?.graph);
   }
 }

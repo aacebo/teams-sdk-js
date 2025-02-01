@@ -41,7 +41,8 @@
   "peerDependencies": {
     "@teams.sdk/api": "*",
     "@teams.sdk/apps": "*",
-    "@teams.sdk/common": "*"
+    "@teams.sdk/common": "*",
+    "@teams.sdk/graph": "*"
   },
   "devDependencies": {
     "@teams.sdk/config": "*",

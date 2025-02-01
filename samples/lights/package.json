@@ -22,7 +22,8 @@
     "@teams.sdk/common": "*",
     "@teams.sdk/openai": "*",
     "@teams.sdk/dev": "*",
-    "@teams.sdk/devtools": "*"
+    "@teams.sdk/devtools": "*",
+    "@teams.sdk/graph": "*"
   },
   "devDependencies": {
     "@teams.sdk/config": "*",

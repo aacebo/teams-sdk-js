@@ -12,7 +12,8 @@
         "@teams.sdk/common#build",
         "@teams.sdk/openai#build",
         "@teams.sdk/dev#build",
-        "@teams.sdk/devtools#build"
+        "@teams.sdk/devtools#build",
+        "@teams.sdk/graph#build"
       ]
     }
   }

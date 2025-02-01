@@ -261,6 +261,12 @@ export class App {
         'User-Agent': `teams[apps]/${pkg.version}`,
         Authorization: `Bearer ${this.tokens.bot}`,
       },
+      graph: {
+        headers: {
+          'User-Agent': `teams[apps]/${pkg.version}`,
+          Authorization: `Bearer ${this.tokens.graph}`,
+        }
+      }
     });
 
     const conversation: ConversationReference = {
