@@ -71,9 +71,9 @@ export interface ProcessActivityArgs {
  * The orchestrator for receiving/sending activities
  */
 export class App {
-  readonly api: Client;
-  readonly log: Logger;
-  readonly storage: Storage;
+  api: Client;
+  log: Logger;
+  storage: Storage;
 
   get tokens() {
     return this._tokens;
@@ -160,6 +160,21 @@ export class App {
           bot: new JsonWebToken(bot.access_token),
           graph: new JsonWebToken(graph.access_token),
         };
+
+        this.api = new Client({
+          ...this.options.http,
+          headers: {
+            ...this.options.http?.headers,
+            'User-Agent': `teams[apps]/${pkg.version}`,
+            Authorization: `Bearer ${this.tokens.bot}`,
+          },
+          graph: {
+            headers: {
+              'User-Agent': `teams[apps]/${pkg.version}`,
+              Authorization: `Bearer ${this.tokens.graph}`,
+            },
+          },
+        });
       }
 
       for (const plugin of this.plugins) {
