@@ -38,6 +38,11 @@
     "@teams.sdk/cards": "*",
     "@teams.sdk/graph": "*"
   },
+  "peerDependenciesMeta": {
+    "@teams.sdk/graph": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@teams.sdk/config": "*",
     "@types/jest": "^29.5.12",

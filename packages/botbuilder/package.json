@@ -39,6 +39,11 @@
     "@teams.sdk/graph": "*",
     "botbuilder": "4.23.1"
   },
+  "peerDependenciesMeta": {
+    "@teams.sdk/graph": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@teams.sdk/config": "*",
     "@types/jest": "^29.5.12",

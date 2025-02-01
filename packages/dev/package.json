@@ -44,6 +44,11 @@
     "@teams.sdk/common": "*",
     "@teams.sdk/graph": "*"
   },
+  "peerDependenciesMeta": {
+    "@teams.sdk/graph": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@teams.sdk/config": "*",
     "@types/express": "^5.0.0",
