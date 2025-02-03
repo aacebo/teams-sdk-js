@@ -183,6 +183,9 @@ export class ActivityBuilder {
     return this;
   }
 
+  /**
+   * Build the activity
+   */
   build() {
     return this.activity;
   }
