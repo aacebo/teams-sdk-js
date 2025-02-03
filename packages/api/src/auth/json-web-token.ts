@@ -55,10 +55,6 @@ export class JsonWebToken implements Token {
       return `${CallerIds.bot}:${this.appId}`;
     }
 
-    if (this.from === 'gov') {
-      return CallerIds.gov;
-    }
-
     return CallerIds.azure;
   }
 

@@ -46,6 +46,16 @@ export class MessageReactionActivityBuilder extends ActivityBuilder {
       this.activity.reactionsRemoved = [];
     }
 
+    if (this.activity.reactionsAdded) {
+      const i = this.activity.reactionsAdded.findIndex(
+        (r) => r.type === reaction.type && r.user?.id === reaction.user?.id
+      );
+
+      if (i > -1) {
+        this.activity.reactionsAdded.splice(i, 1);
+      }
+    }
+
     this.activity.reactionsRemoved.push(reaction);
     return this;
   }

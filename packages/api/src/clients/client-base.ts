@@ -33,7 +33,7 @@ export abstract class ClientBase {
 
   protected children: Array<ClientBase>;
   protected interceptors: Record<
-    number,
+    string,
     Array<{
       readonly index: number;
       readonly id: number;
@@ -61,10 +61,10 @@ export abstract class ClientBase {
       interceptor.options
     );
 
-    this.interceptors[id] = [];
+    this.interceptors[`${type}-${id}`] = [];
 
     for (let i = 0; i < this.children.length; i++) {
-      this.interceptors[id].push({
+      this.interceptors[`${type}-${id}`].push({
         index: i,
         id: this.children[i].use(type, interceptor),
       });
@@ -76,12 +76,12 @@ export abstract class ClientBase {
   eject<T extends keyof ClientInterceptorParams>(type: T, id: number) {
     this.http.interceptors[type].eject(id);
 
-    for (const interceptor of this.interceptors[id]) {
+    for (const interceptor of this.interceptors[`${type}-${id}`]) {
       const child = this.children[interceptor.index];
       child.eject(type, interceptor.id);
     }
 
-    delete this.interceptors[id];
+    delete this.interceptors[`${type}-${id}`];
   }
 
   clear<T extends keyof ClientInterceptorParams>(type: T) {
