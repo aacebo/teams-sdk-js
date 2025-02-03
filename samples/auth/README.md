@@ -1,6 +1,6 @@
 # Samples: Auth
 
-a bot that signs in the user and sends a card with their info.
+A bot that signs in the user and sends a card with their info.
 
 ## Run
 

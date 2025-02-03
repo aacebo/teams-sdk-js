@@ -1,6 +1,6 @@
 # Samples: Console
 
-a bot that uses the console as the input/output instead of Teams.
+A bot that uses the console as the input/output instead of Teams.
 
 ## Run
 
