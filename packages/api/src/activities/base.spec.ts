@@ -5,18 +5,18 @@ describe('ActivityBuilder', () => {
   const user: Account = {
     id: '1',
     name: 'test',
-    role: 'user'
+    role: 'user',
   };
 
   const bot: Account = {
     id: '2',
     name: 'test-bot',
-    role: 'bot'
+    role: 'bot',
   };
 
   const chat: ConversationAccount = {
     id: '1',
-    conversationType: 'personal'
+    conversationType: 'personal',
   };
 
   it('should build', () => {
@@ -29,7 +29,7 @@ describe('ActivityBuilder', () => {
         channelId: 'msteams',
         serviceUrl: 'http://localhost',
         bot,
-        conversation: chat
+        conversation: chat,
       })
       .recipient(bot)
       .replyToId('3')
@@ -45,17 +45,19 @@ describe('ActivityBuilder', () => {
       channelId: 'msteams',
       serviceUrl: 'http://localhost',
       bot,
-      conversation: chat
+      conversation: chat,
     });
 
     expect(activity.recipient).toEqual(bot);
     expect(activity.replyToId).toEqual('3');
-    expect(activity.entities).toStrictEqual([{
-      type: 'https://schema.org/Message',
-      '@type': 'Message',
-      '@context': 'https://schema.org',
-      additionalType: ['AIGeneratedContent'],
-    }]);
+    expect(activity.entities).toStrictEqual([
+      {
+        type: 'https://schema.org/Message',
+        '@type': 'Message',
+        '@context': 'https://schema.org',
+        additionalType: ['AIGeneratedContent'],
+      },
+    ]);
 
     expect(activity.channelData?.feedbackLoopEnabled).toEqual(true);
   });
