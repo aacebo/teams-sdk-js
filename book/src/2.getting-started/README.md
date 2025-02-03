@@ -6,10 +6,13 @@ First lets initialize an app.
 npx '@teams.sdk/cli' new hello-world
 ```
 
-![Getting Started CLI](https://github.com/aacebo/teams-sdk-js/blob/main/assets/screenshots/getting_started_cli.png?raw=true)
+Here is what your terminal should look like:
 
-this will provide you with a starter template that will look something like this:
+&nbsp;&nbsp;&nbsp;&nbsp;![Getting Started CLI](https://github.com/aacebo/teams-sdk-js/blob/main/assets/screenshots/getting_started_cli.png?raw=true)
 
+---
+
+This will use the `@teams.sdk/cli` to install a starter template and build then run the bot server. The starter code will look something like this:
 ```typescript
 import { App, HttpPlugin } from '@teams.sdk/apps';
 import { DevtoolsPlugin } from '@teams.sdk/dev';
@@ -32,3 +35,5 @@ app.on('message', async ({ send, activity, next }) => {
     await app.start();
 })();
 ```
+
+And with just one command, you have a functioning echo bot! Visit `http://localhost:3001/devtools` to interact with the bot.
