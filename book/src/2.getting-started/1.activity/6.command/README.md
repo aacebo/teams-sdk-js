@@ -4,6 +4,9 @@ Command activities communicate a request to perform a specific action.
 
 Commands look similar in structure to events but have different semantics. Commands are requests to perform an action and receivers typically respond with one or more commandResult activities. Receivers are also expected to explicitly reject unsupported command activities.
 
+> [NOTE]
+> This event type is not applicable to Teams.
+
 ```typescript
 app.on('command', async ({ activity }) => {});
 ```
@@ -18,7 +21,7 @@ Command activities are identified by a `type` value of `command` and specific va
 
 `A6302`: Command activities outside the `application/*` are considered reserved for Activity Protocol.
 
-The list of Activity Protocol command activities is included in [Appendix VI](#appendix-vi---protocols-using-the-command-activity).
+The list of Activity Protocol command activities is included in [Appendix VI](https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#appendix-vi---protocols-using-the-command-activity).
 
 ### Name
 
@@ -30,11 +33,11 @@ The `name` field defines the meaning of the command activity. The value of the `
 
 `A6312`: Receivers MUST ignore command activities with missing or invalid `name` field.
 
-The recommended patterns for rejecting command activities are included in [Appendix VI](#appendix-vi---protocols-using-the-command-activity).
+The recommended patterns for rejecting command activities are included in [Appendix VI](https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#appendix-vi---protocols-using-the-command-activity).
 
 ### Value
 
-The `value` field contains the command metadata and parameters specific to a command, as defined by the command `name`. The `value` field is a complex object of the [command value](#command-value) type.
+The `value` field contains the command metadata and parameters specific to a command, as defined by the command `name`. The `value` field is a complex object of the [command value](https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#command-value) type.
 
 `A6321`: Command activities MUST contain a `value` field.
 
