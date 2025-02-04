@@ -146,7 +146,10 @@ Activities with a `deliveryMode` of `expectReplies` differ only in their require
 
 ### Listen for
 
-The `listenFor` field contains a list of terms or references to term sources that speech and language processing systems can listen for. The value of the `listenFor` field is an array of strings whose format is defined in [Appendix IV](#appendix-iv---priming-format).
+The `listenFor` field contains a list of terms or references to term sources that speech and language processing systems can listen for. It can also be referred to as [priming format](https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#appendix-iv---priming-format). The value of the `listenFor` field is an array of strings whose format allows:
+
+1. Phrases, including single-term phrases (e.g. "house", "open the doors")
+2. Sources of phrases (e.g. from an LLM)
 
 A missing `listenFor` field indicates default priming behavior should be used. The default is defined by the channel and may depend on variables such as the identity of the user and the bot.
 
@@ -158,7 +161,7 @@ A missing `listenFor` field indicates default priming behavior should be used. T
 
 The `semanticAction` field contains an optional programmatic action accompanying the user request. The semantic action field is populated by the channel and bot based on some understanding of what the user is trying to accomplish; this understanding may be achieved with natural language processing, additional user interface elements tied specifically to these actions, through a process of conversational refinement, or contextually via other means. The meaning and structure of the semantic action is agreed ahead of time between the channel and the bot.
 
-The value of the `semanticAction` field is a complex object of the [semantic action](#semantic-action-type) type.
+The value of the `semanticAction` field is a complex object of the [semantic action](https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#semantic-action-type) type.
 
 `A3130`: Channels and bots MAY populate the `semanticAction` field. Other senders SHOULD NOT populate the `semanticAction` field.
 
@@ -170,8 +173,8 @@ Information within the semantic action field is meant to augment, not replace, e
 
 `A3133`: Receivers MUST ignore `semanticAction` fields they cannot parse or do not understand.
 
-Semantic actions are sometimes used to indicate a change in which participant controls the conversation. For example, a channel may use actions during an exchange with a skill. When so defined, skills can relinquish control through the [handoff activity](#handoff-activity) after the final `semanticAction` `state` is `done`.
+Semantic actions are sometimes used to indicate a change in which participant controls the conversation. For example, a channel may use actions during an exchange with a skill. When so defined, skills can relinquish control through the [handoff activity](https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#handoff-activity) after the final `semanticAction` `state` is `done`.
 
-`A3135`: Channels MAY define the use of [handoff activity](#handoff-activity) in conjunction with semantic actions.
+`A3135`: Channels MAY define the use of handoff activity in conjunction with semantic actions.
 
-`A3136`: Bots MAY use semantic action and [handoff activity](#handoff-activity) internally to coordinate conversational focus between components of the bot.
+`A3136`: Bots MAY use semantic action and handoff activity internally to coordinate conversational focus between components of the bot.

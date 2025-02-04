@@ -21,3 +21,8 @@ Typing activities are identified by a `type` value of `typing`.
 `A6002`: If a channel assigns an [`id`](#id) to a typing activity, it MAY allow bots and clients to delete the typing activity before its expiration.
 
 `A6003`: If able, channels SHOULD send typing activities to bots.
+
+
+## Typing indicator UI in Teams
+
+The typing indicator is a small animation that appears in the bottom left corner of the chat window above the message input field when a user or bot is typing.

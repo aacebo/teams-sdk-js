@@ -1,6 +1,8 @@
 # Activity
 
-An application-level representation of conversational actions made by humans and automated software.
+<!--  The Activity protocol is defined by the [Agents SDK Activity Protocol](https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#introduction). -->
+
+An activity is an application-level representation of conversational actions made by humans and automated software.
 
 ```typescript
 app.on('activity', async ({ activity }) => {});
@@ -8,7 +10,7 @@ app.on('activity', async ({ activity }) => {});
 
 ## Schema
 
-Activity objects include a flat list of name/value pairs, called fields. Fields may be primitive types. JSON is used as the common interchange format and although not all activities must be serialized to JSON at all times, they must be serializable to it. This allows implementations to rely on a simple set of conventions for handling known and unknown activity fields.
+Activity objects include a flat list of name/value pairs, called fields. Fields may be primitive and complex types. JSON is used as the common interchange format and although not all activities must be serialized to JSON at all times, they must be serializable to it. This allows implementations to rely on a simple set of conventions for handling known and unknown activity fields.
 
 `A2001`: Activities MUST be serializable to the JSON format defined in [RFC 4627](http://www.ietf.org/rfc/rfc4627.txt) [[14](#references)], including adherence to e.g. field uniqueness constraints.
 
@@ -43,6 +45,8 @@ The `type` field controls the meaning of each activity, and are by convention sh
 ### Channel ID
 
 The `channelId` field establishes the channel and authoritative store for the activity. The value of the `channelId` field is of type string.
+
+> For Teams, the `channelId` is `'msteams'`.
 
 `A2020`: Channel Activities MUST include a `channelId` field, with string value type.
 
