@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\tabs
+ * /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs
  * Provides operations to manage the tabs property of the microsoft.graph.channel entity.
  */
 export class TabsClient {
   protected baseUrl =
-    "\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\tabs";
+    "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class TabsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\tabs\count`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -79,7 +79,7 @@ export class TabsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\tabs\{teamsTab-id}\teamsApp`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}/teamsApp`
    *
    * Provides operations to manage the teamsApp property of the microsoft.graph.teamsTab entity.
    */
@@ -122,7 +122,7 @@ export class TabsClient {
    *
    * A collection of all the tabs in the channel. A navigation property.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -154,7 +154,7 @@ export class TabsClient {
    *
    * A collection of all the tabs in the channel. A navigation property.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

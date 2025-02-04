@@ -36,11 +36,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions
+ * /solutions
  * Provides operations to manage the solutionsRoot singleton.
  */
 export class SolutionsClient {
-  protected baseUrl = "\solutions";
+  protected baseUrl = "/solutions";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -68,7 +68,7 @@ export class SolutionsClient {
   }
 
   /**
-   * `\solutions\backupRestore`
+   * `/solutions/backupRestore`
    *
    * Provides operations to manage the backupRestore property of the microsoft.graph.solutionsRoot entity.
    */
@@ -77,7 +77,7 @@ export class SolutionsClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses`
+   * `/solutions/bookingBusinesses`
    *
    * Provides operations to manage the bookingBusinesses property of the microsoft.graph.solutionsRoot entity.
    */
@@ -86,7 +86,7 @@ export class SolutionsClient {
   }
 
   /**
-   * `\solutions\bookingCurrencies`
+   * `/solutions/bookingCurrencies`
    *
    * Provides operations to manage the bookingCurrencies property of the microsoft.graph.solutionsRoot entity.
    */
@@ -95,7 +95,7 @@ export class SolutionsClient {
   }
 
   /**
-   * `\solutions\virtualEvents`
+   * `/solutions/virtualEvents`
    *
    * Provides operations to manage the virtualEvents property of the microsoft.graph.solutionsRoot entity.
    */
@@ -107,7 +107,7 @@ export class SolutionsClient {
    * `GET /solutions`
    *
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions"]["parameters"],
     config?: http.RequestConfig,
   ) {

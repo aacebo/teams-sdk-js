@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\getAllMessages
+ * /teams/getAllMessages
  * Provides operations to call the getAllMessages method.
  */
 export class GetAllMessagesClient {
-  protected baseUrl = "\teams\getAllMessages";
+  protected baseUrl = "/teams/getAllMessages";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

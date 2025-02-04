@@ -35,12 +35,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\oneDriveForBusinessProtectionPolicies
+ * /solutions/backupRestore/oneDriveForBusinessProtectionPolicies
  * Provides operations to manage the oneDriveForBusinessProtectionPolicies property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class OneDriveForBusinessProtectionPoliciesClient {
   protected baseUrl =
-    "\solutions\backupRestore\oneDriveForBusinessProtectionPolicies";
+    "/solutions/backupRestore/oneDriveForBusinessProtectionPolicies";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -68,7 +68,7 @@ export class OneDriveForBusinessProtectionPoliciesClient {
   }
 
   /**
-   * `\solutions\backupRestore\oneDriveForBusinessProtectionPolicies\count`
+   * `/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -77,7 +77,7 @@ export class OneDriveForBusinessProtectionPoliciesClient {
   }
 
   /**
-   * `\solutions\backupRestore\oneDriveForBusinessProtectionPolicies\{oneDriveForBusinessProtectionPolicy-id}\driveInclusionRules`
+   * `/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveInclusionRules`
    *
    * Provides operations to manage the driveInclusionRules property of the microsoft.graph.oneDriveForBusinessProtectionPolicy entity.
    */
@@ -89,7 +89,7 @@ export class OneDriveForBusinessProtectionPoliciesClient {
   }
 
   /**
-   * `\solutions\backupRestore\oneDriveForBusinessProtectionPolicies\{oneDriveForBusinessProtectionPolicy-id}\driveProtectionUnits`
+   * `/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits`
    *
    * Provides operations to manage the driveProtectionUnits property of the microsoft.graph.oneDriveForBusinessProtectionPolicy entity.
    */
@@ -132,7 +132,7 @@ export class OneDriveForBusinessProtectionPoliciesClient {
    *
    * The list of OneDrive for Business protection policies in the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -161,7 +161,7 @@ export class OneDriveForBusinessProtectionPoliciesClient {
    *
    * The list of OneDrive for Business protection policies in the tenant.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

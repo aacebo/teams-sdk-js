@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\getAllRetainedMessages
+ * /chats/getAllRetainedMessages
  * Provides operations to call the getAllRetainedMessages method.
  */
 export class GetAllRetainedMessagesClient {
-  protected baseUrl = "\chats\getAllRetainedMessages";
+  protected baseUrl = "/chats/getAllRetainedMessages";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

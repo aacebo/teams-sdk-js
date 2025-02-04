@@ -2,7 +2,7 @@ import readline from 'readline';
 import express from 'express';
 
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
-import { App, ActivityContext, PluginEvents, Plugin } from '@teams.sdk/apps';
+import { App, PluginEvents, Plugin } from '@teams.sdk/apps';
 import { MessageSendActivity, Token } from '@teams.sdk/api';
 import { EventEmitter } from '@teams.sdk/common/events';
 
@@ -24,7 +24,6 @@ export interface ConsoleOptions {
  */
 export class ConsolePlugin extends EventEmitter<PluginEvents> implements Plugin {
   readonly name = 'console';
-  readonly version = '0.0.0';
 
   protected app?: App;
   protected log: Logger;
@@ -46,10 +45,6 @@ export class ConsolePlugin extends EventEmitter<PluginEvents> implements Plugin 
   register(app: App) {
     this.app = app;
     this.log = app.log.child('console');
-  }
-
-  sender(ctx: ActivityContext) {
-    return new ConsoleSender(ctx);
   }
 
   async start(port?: number) {
@@ -90,7 +85,11 @@ export class ConsolePlugin extends EventEmitter<PluginEvents> implements Plugin 
         };
 
         try {
-          const res = await this.app!.process({ token, activity });
+          const res = await this.app!.process({
+            token,
+            activity,
+            sender: (ctx) => new ConsoleSender(ctx),
+          });
 
           if (res.body) {
             this.log.debug(res);

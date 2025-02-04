@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\schedule\shifts
+ * /teams/{team-id}/schedule/shifts
  * Provides operations to manage the shifts property of the microsoft.graph.schedule entity.
  */
 export class ShiftsClient {
-  protected baseUrl = "\teams\{team-id}\schedule\shifts";
+  protected baseUrl = "/teams/{team-id}/schedule/shifts";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class ShiftsClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\shifts\count`
+   * `/teams/{team-id}/schedule/shifts/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -107,7 +107,7 @@ export class ShiftsClient {
    *
    * Get the list of shift instances in a schedule.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/schedule/shifts"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -137,7 +137,7 @@ export class ShiftsClient {
    *
    * Retrieve the properties and relationships of a shift object by ID.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/schedule/shifts/{shift-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

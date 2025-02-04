@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\enable
+ * /solutions/backupRestore/enable
  * Provides operations to call the enable method.
  */
 export class EnableClient {
-  protected baseUrl = "\solutions\backupRestore\enable";
+  protected baseUrl = "/solutions/backupRestore/enable";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

@@ -34,11 +34,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\tokenIssuancePolicies
+ * /applications/{application-id}/tokenIssuancePolicies
  * Provides operations to manage the tokenIssuancePolicies property of the microsoft.graph.application entity.
  */
 export class TokenIssuancePoliciesClient {
-  protected baseUrl = "\applications\{application-id}\tokenIssuancePolicies";
+  protected baseUrl = "/applications/{application-id}/tokenIssuancePolicies";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class TokenIssuancePoliciesClient {
   }
 
   /**
-   * `\applications\{application-id}\tokenIssuancePolicies\count`
+   * `/applications/{application-id}/tokenIssuancePolicies/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -78,7 +78,7 @@ export class TokenIssuancePoliciesClient {
   }
 
   /**
-   * `\applications\{application-id}\tokenIssuancePolicies\{tokenIssuancePolicy-id}\ref`
+   * `/applications/{application-id}/tokenIssuancePolicies/{tokenIssuancePolicy-id}/ref`
    *
    * Provides operations to manage the collection of application entities.
    */
@@ -91,7 +91,7 @@ export class TokenIssuancePoliciesClient {
    *
    * List the tokenIssuancePolicy objects that are assigned to an application.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /applications/{application-id}/tokenIssuancePolicies"]["parameters"],
     config?: http.RequestConfig,
   ) {

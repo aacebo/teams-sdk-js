@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\operations
+ * /communications/calls/{call-id}/operations
  * Provides operations to manage the operations property of the microsoft.graph.call entity.
  */
 export class OperationsClient {
-  protected baseUrl = "\communications\calls\{call-id}\operations";
+  protected baseUrl = "/communications/calls/{call-id}/operations";
   protected http: http.Client;
 
   constructor(
@@ -68,7 +68,7 @@ export class OperationsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\operations\count`
+   * `/communications/calls/{call-id}/operations/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -110,7 +110,7 @@ export class OperationsClient {
    *
    * Get the status of an operation that adds the large gallery view to a call.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /communications/calls/{call-id}/operations"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -141,7 +141,7 @@ export class OperationsClient {
    *
    * Get the status of an operation that adds the large gallery view to a call.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /communications/calls/{call-id}/operations/{commsOperation-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

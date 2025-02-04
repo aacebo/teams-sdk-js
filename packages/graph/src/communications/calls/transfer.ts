@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\transfer
+ * /communications/calls/{call-id}/transfer
  * Provides operations to call the transfer method.
  */
 export class TransferClient {
-  protected baseUrl = "\communications\calls\{call-id}\transfer";
+  protected baseUrl = "/communications/calls/{call-id}/transfer";
   protected http: http.Client;
 
   constructor(

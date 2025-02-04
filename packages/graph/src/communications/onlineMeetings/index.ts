@@ -43,11 +43,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\onlineMeetings
+ * /communications/onlineMeetings
  * Provides operations to manage the onlineMeetings property of the microsoft.graph.cloudCommunications entity.
  */
 export class OnlineMeetingsClient {
-  protected baseUrl = "\communications\onlineMeetings";
+  protected baseUrl = "/communications/onlineMeetings";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -75,7 +75,7 @@ export class OnlineMeetingsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\{onlineMeeting-id}\attendanceReports`
+   * `/communications/onlineMeetings/{onlineMeeting-id}/attendanceReports`
    *
    * Provides operations to manage the attendanceReports property of the microsoft.graph.onlineMeetingBase entity.
    */
@@ -84,7 +84,7 @@ export class OnlineMeetingsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\{onlineMeeting-id}\attendeeReport`
+   * `/communications/onlineMeetings/{onlineMeeting-id}/attendeeReport`
    *
    * Provides operations to manage the media for the cloudCommunications entity.
    */
@@ -93,7 +93,7 @@ export class OnlineMeetingsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\count`
+   * `/communications/onlineMeetings/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -102,7 +102,7 @@ export class OnlineMeetingsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\createOrGet`
+   * `/communications/onlineMeetings/createOrGet`
    *
    * Provides operations to call the createOrGet method.
    */
@@ -111,7 +111,7 @@ export class OnlineMeetingsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\getAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime`
+   * `/communications/onlineMeetings/getAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime`
    *
    * Provides operations to call the getAllRecordings method.
    */
@@ -122,7 +122,7 @@ export class OnlineMeetingsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\getAllTranscriptsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime`
+   * `/communications/onlineMeetings/getAllTranscriptsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime`
    *
    * Provides operations to call the getAllTranscripts method.
    */
@@ -133,7 +133,7 @@ export class OnlineMeetingsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\{onlineMeeting-id}\getVirtualAppointmentJoinWebUrl`
+   * `/communications/onlineMeetings/{onlineMeeting-id}/getVirtualAppointmentJoinWebUrl`
    *
    * Provides operations to call the getVirtualAppointmentJoinWebUrl method.
    */
@@ -145,7 +145,7 @@ export class OnlineMeetingsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\{onlineMeeting-id}\recordings`
+   * `/communications/onlineMeetings/{onlineMeeting-id}/recordings`
    *
    * Provides operations to manage the recordings property of the microsoft.graph.onlineMeeting entity.
    */
@@ -154,7 +154,7 @@ export class OnlineMeetingsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\{onlineMeeting-id}\sendVirtualAppointmentReminderSms`
+   * `/communications/onlineMeetings/{onlineMeeting-id}/sendVirtualAppointmentReminderSms`
    *
    * Provides operations to call the sendVirtualAppointmentReminderSms method.
    */
@@ -166,7 +166,7 @@ export class OnlineMeetingsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\{onlineMeeting-id}\sendVirtualAppointmentSms`
+   * `/communications/onlineMeetings/{onlineMeeting-id}/sendVirtualAppointmentSms`
    *
    * Provides operations to call the sendVirtualAppointmentSms method.
    */
@@ -175,7 +175,7 @@ export class OnlineMeetingsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\{onlineMeeting-id}\transcripts`
+   * `/communications/onlineMeetings/{onlineMeeting-id}/transcripts`
    *
    * Provides operations to manage the transcripts property of the microsoft.graph.onlineMeeting entity.
    */
@@ -215,7 +215,7 @@ export class OnlineMeetingsClient {
    *
    * Retrieve the properties and relationships of an onlineMeeting object. For example, you can: Teams live event attendee report (deprecated) is an online meeting artifact. For details, see Online meeting artifacts and permissions.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /communications/onlineMeetings"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -243,7 +243,7 @@ export class OnlineMeetingsClient {
    * `GET /communications/onlineMeetings/{onlineMeeting-id}`
    *
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /communications/onlineMeetings/{onlineMeeting-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -37,11 +37,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\presence
+ * /me/presence
  * Provides operations to manage the presence property of the microsoft.graph.user entity.
  */
 export class PresenceClient {
-  protected baseUrl = "\me\presence";
+  protected baseUrl = "/me/presence";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -69,7 +69,7 @@ export class PresenceClient {
   }
 
   /**
-   * `\me\presence\clearPresence`
+   * `/me/presence/clearPresence`
    *
    * Provides operations to call the clearPresence method.
    */
@@ -78,7 +78,7 @@ export class PresenceClient {
   }
 
   /**
-   * `\me\presence\clearUserPreferredPresence`
+   * `/me/presence/clearUserPreferredPresence`
    *
    * Provides operations to call the clearUserPreferredPresence method.
    */
@@ -87,7 +87,7 @@ export class PresenceClient {
   }
 
   /**
-   * `\me\presence\setPresence`
+   * `/me/presence/setPresence`
    *
    * Provides operations to call the setPresence method.
    */
@@ -96,7 +96,7 @@ export class PresenceClient {
   }
 
   /**
-   * `\me\presence\setStatusMessage`
+   * `/me/presence/setStatusMessage`
    *
    * Provides operations to call the setStatusMessage method.
    */
@@ -105,7 +105,7 @@ export class PresenceClient {
   }
 
   /**
-   * `\me\presence\setUserPreferredPresence`
+   * `/me/presence/setUserPreferredPresence`
    *
    * Provides operations to call the setUserPreferredPresence method.
    */

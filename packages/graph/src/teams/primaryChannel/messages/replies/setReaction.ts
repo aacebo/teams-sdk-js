@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\primaryChannel\messages\{chatMessage-id}\replies\{chatMessage-id1}\setReaction
+ * /teams/{team-id}/primaryChannel/messages/{chatMessage-id}/replies/{chatMessage-id1}/setReaction
  * Provides operations to call the setReaction method.
  */
 export class SetReactionClient {
   protected baseUrl =
-    "\teams\{team-id}\primaryChannel\messages\{chatMessage-id}\replies\{chatMessage-id1}\setReaction";
+    "/teams/{team-id}/primaryChannel/messages/{chatMessage-id}/replies/{chatMessage-id1}/setReaction";
   protected http: http.Client;
 
   constructor(

@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendarGroups\count
+ * /me/calendarGroups/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
-  protected baseUrl = "\me\calendarGroups\count";
+  protected baseUrl = "/me/calendarGroups/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

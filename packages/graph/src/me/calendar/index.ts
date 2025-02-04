@@ -36,11 +36,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendar
+ * /me/calendar
  * Provides operations to call the allowedCalendarSharingRoles method.
  */
 export class CalendarClient {
-  protected baseUrl = "\me\calendar";
+  protected baseUrl = "/me/calendar";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -68,7 +68,7 @@ export class CalendarClient {
   }
 
   /**
-   * `\me\calendar\calendarPermissions`
+   * `/me/calendar/calendarPermissions`
    *
    * Provides operations to manage the calendarPermissions property of the microsoft.graph.calendar entity.
    */
@@ -77,7 +77,7 @@ export class CalendarClient {
   }
 
   /**
-   * `\me\calendar\calendarView`
+   * `/me/calendar/calendarView`
    *
    * Provides operations to manage the calendarView property of the microsoft.graph.calendar entity.
    */
@@ -86,7 +86,7 @@ export class CalendarClient {
   }
 
   /**
-   * `\me\calendar\events`
+   * `/me/calendar/events`
    *
    * Provides operations to manage the events property of the microsoft.graph.calendar entity.
    */
@@ -95,7 +95,7 @@ export class CalendarClient {
   }
 
   /**
-   * `\me\calendar\getSchedule`
+   * `/me/calendar/getSchedule`
    *
    * Provides operations to call the getSchedule method.
    */

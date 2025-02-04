@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\primaryChannel\provisionEmail
+ * /teams/{team-id}/primaryChannel/provisionEmail
  * Provides operations to call the provisionEmail method.
  */
 export class ProvisionEmailClient {
-  protected baseUrl = "\teams\{team-id}\primaryChannel\provisionEmail";
+  protected baseUrl = "/teams/{team-id}/primaryChannel/provisionEmail";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

@@ -47,11 +47,11 @@ function getInjectedUrl(
 }
 
 /**
- * \chats
+ * /chats
  * Provides operations to manage the collection of chat entities.
  */
 export class ChatsClient {
-  protected baseUrl = "\chats";
+  protected baseUrl = "/chats";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -79,7 +79,7 @@ export class ChatsClient {
   }
 
   /**
-   * `\chats\count`
+   * `/chats/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -88,7 +88,7 @@ export class ChatsClient {
   }
 
   /**
-   * `\chats\getAllMessages`
+   * `/chats/getAllMessages`
    *
    * Provides operations to call the getAllMessages method.
    */
@@ -97,7 +97,7 @@ export class ChatsClient {
   }
 
   /**
-   * `\chats\getAllRetainedMessages`
+   * `/chats/getAllRetainedMessages`
    *
    * Provides operations to call the getAllRetainedMessages method.
    */
@@ -106,7 +106,7 @@ export class ChatsClient {
   }
 
   /**
-   * `\chats\{chat-id}\hideForUser`
+   * `/chats/{chat-id}/hideForUser`
    *
    * Provides operations to call the hideForUser method.
    */
@@ -115,7 +115,7 @@ export class ChatsClient {
   }
 
   /**
-   * `\chats\{chat-id}\installedApps`
+   * `/chats/{chat-id}/installedApps`
    *
    * Provides operations to manage the installedApps property of the microsoft.graph.chat entity.
    */
@@ -124,7 +124,7 @@ export class ChatsClient {
   }
 
   /**
-   * `\chats\{chat-id}\lastMessagePreview`
+   * `/chats/{chat-id}/lastMessagePreview`
    *
    * Provides operations to manage the lastMessagePreview property of the microsoft.graph.chat entity.
    */
@@ -133,7 +133,7 @@ export class ChatsClient {
   }
 
   /**
-   * `\chats\{chat-id}\markChatReadForUser`
+   * `/chats/{chat-id}/markChatReadForUser`
    *
    * Provides operations to call the markChatReadForUser method.
    */
@@ -142,7 +142,7 @@ export class ChatsClient {
   }
 
   /**
-   * `\chats\{chat-id}\markChatUnreadForUser`
+   * `/chats/{chat-id}/markChatUnreadForUser`
    *
    * Provides operations to call the markChatUnreadForUser method.
    */
@@ -151,7 +151,7 @@ export class ChatsClient {
   }
 
   /**
-   * `\chats\{chat-id}\members`
+   * `/chats/{chat-id}/members`
    *
    * Provides operations to manage the members property of the microsoft.graph.chat entity.
    */
@@ -160,7 +160,7 @@ export class ChatsClient {
   }
 
   /**
-   * `\chats\{chat-id}\messages`
+   * `/chats/{chat-id}/messages`
    *
    * Provides operations to manage the messages property of the microsoft.graph.chat entity.
    */
@@ -169,7 +169,7 @@ export class ChatsClient {
   }
 
   /**
-   * `\chats\{chat-id}\permissionGrants`
+   * `/chats/{chat-id}/permissionGrants`
    *
    * Provides operations to manage the permissionGrants property of the microsoft.graph.chat entity.
    */
@@ -178,7 +178,7 @@ export class ChatsClient {
   }
 
   /**
-   * `\chats\{chat-id}\pinnedMessages`
+   * `/chats/{chat-id}/pinnedMessages`
    *
    * Provides operations to manage the pinnedMessages property of the microsoft.graph.chat entity.
    */
@@ -187,7 +187,7 @@ export class ChatsClient {
   }
 
   /**
-   * `\chats\{chat-id}\sendActivityNotification`
+   * `/chats/{chat-id}/sendActivityNotification`
    *
    * Provides operations to call the sendActivityNotification method.
    */
@@ -196,7 +196,7 @@ export class ChatsClient {
   }
 
   /**
-   * `\chats\{chat-id}\tabs`
+   * `/chats/{chat-id}/tabs`
    *
    * Provides operations to manage the tabs property of the microsoft.graph.chat entity.
    */
@@ -205,7 +205,7 @@ export class ChatsClient {
   }
 
   /**
-   * `\chats\{chat-id}\unhideForUser`
+   * `/chats/{chat-id}/unhideForUser`
    *
    * Provides operations to call the unhideForUser method.
    */
@@ -245,7 +245,7 @@ export class ChatsClient {
    *
    * Retrieve the list of chats that the user is part of. This method supports federation. When a user ID is provided, the calling application must belong to the same tenant that the user belongs to.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /chats"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -271,7 +271,7 @@ export class ChatsClient {
    *
    * Retrieve a single chat (without its messages). This method supports federation. To access a chat, at least one chat member must belong to the tenant the request initiated from.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /chats/{chat-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\changeScreenSharingRole
+ * /communications/calls/{call-id}/changeScreenSharingRole
  * Provides operations to call the changeScreenSharingRole method.
  */
 export class ChangeScreenSharingRoleClient {
-  protected baseUrl = "\communications\calls\{call-id}\changeScreenSharingRole";
+  protected baseUrl = "/communications/calls/{call-id}/changeScreenSharingRole";
   protected http: http.Client;
 
   constructor(

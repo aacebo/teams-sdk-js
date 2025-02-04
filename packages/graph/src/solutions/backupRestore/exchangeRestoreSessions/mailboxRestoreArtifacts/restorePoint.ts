@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\exchangeRestoreSessions\{exchangeRestoreSession-id}\mailboxRestoreArtifacts\{mailboxRestoreArtifact-id}\restorePoint
+ * /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/mailboxRestoreArtifacts/{mailboxRestoreArtifact-id}/restorePoint
  * Provides operations to manage the restorePoint property of the microsoft.graph.restoreArtifactBase entity.
  */
 export class RestorePointClient {
   protected baseUrl =
-    "\solutions\backupRestore\exchangeRestoreSessions\{exchangeRestoreSession-id}\mailboxRestoreArtifacts\{mailboxRestoreArtifact-id}\restorePoint";
+    "/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/mailboxRestoreArtifacts/{mailboxRestoreArtifact-id}/restorePoint";
   protected http: http.Client;
 
   constructor(

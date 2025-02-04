@@ -34,11 +34,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\sharePointRestoreSessions
+ * /solutions/backupRestore/sharePointRestoreSessions
  * Provides operations to manage the sharePointRestoreSessions property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class SharePointRestoreSessionsClient {
-  protected baseUrl = "\solutions\backupRestore\sharePointRestoreSessions";
+  protected baseUrl = "/solutions/backupRestore/sharePointRestoreSessions";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -66,7 +66,7 @@ export class SharePointRestoreSessionsClient {
   }
 
   /**
-   * `\solutions\backupRestore\sharePointRestoreSessions\count`
+   * `/solutions/backupRestore/sharePointRestoreSessions/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -75,7 +75,7 @@ export class SharePointRestoreSessionsClient {
   }
 
   /**
-   * `\solutions\backupRestore\sharePointRestoreSessions\{sharePointRestoreSession-id}\siteRestoreArtifacts`
+   * `/solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}/siteRestoreArtifacts`
    *
    * Provides operations to manage the siteRestoreArtifacts property of the microsoft.graph.sharePointRestoreSession entity.
    */
@@ -118,7 +118,7 @@ export class SharePointRestoreSessionsClient {
    *
    * The list of SharePoint restore sessions available in the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/sharePointRestoreSessions"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -147,7 +147,7 @@ export class SharePointRestoreSessionsClient {
    *
    * The list of SharePoint restore sessions available in the tenant.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

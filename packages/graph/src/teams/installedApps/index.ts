@@ -36,11 +36,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\installedApps
+ * /teams/{team-id}/installedApps
  * Provides operations to manage the installedApps property of the microsoft.graph.team entity.
  */
 export class InstalledAppsClient {
-  protected baseUrl = "\teams\{team-id}\installedApps";
+  protected baseUrl = "/teams/{team-id}/installedApps";
   protected http: http.Client;
 
   constructor(
@@ -71,7 +71,7 @@ export class InstalledAppsClient {
   }
 
   /**
-   * `\teams\{team-id}\installedApps\count`
+   * `/teams/{team-id}/installedApps/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -80,7 +80,7 @@ export class InstalledAppsClient {
   }
 
   /**
-   * `\teams\{team-id}\installedApps\{teamsAppInstallation-id}\teamsApp`
+   * `/teams/{team-id}/installedApps/{teamsAppInstallation-id}/teamsApp`
    *
    * Provides operations to manage the teamsApp property of the microsoft.graph.teamsAppInstallation entity.
    */
@@ -89,7 +89,7 @@ export class InstalledAppsClient {
   }
 
   /**
-   * `\teams\{team-id}\installedApps\{teamsAppInstallation-id}\teamsAppDefinition`
+   * `/teams/{team-id}/installedApps/{teamsAppInstallation-id}/teamsAppDefinition`
    *
    * Provides operations to manage the teamsAppDefinition property of the microsoft.graph.teamsAppInstallation entity.
    */
@@ -98,7 +98,7 @@ export class InstalledAppsClient {
   }
 
   /**
-   * `\teams\{team-id}\installedApps\{teamsAppInstallation-id}\upgrade`
+   * `/teams/{team-id}/installedApps/{teamsAppInstallation-id}/upgrade`
    *
    * Provides operations to call the upgrade method.
    */
@@ -141,7 +141,7 @@ export class InstalledAppsClient {
    *
    * Retrieve a list of apps installed in the specified team.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/installedApps"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -172,7 +172,7 @@ export class InstalledAppsClient {
    *
    * Retrieve the app installed in the specified team.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/installedApps/{teamsAppInstallation-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

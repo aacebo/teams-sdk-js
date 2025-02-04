@@ -38,11 +38,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\presences
+ * /communications/presences
  * Provides operations to manage the presences property of the microsoft.graph.cloudCommunications entity.
  */
 export class PresencesClient {
-  protected baseUrl = "\communications\presences";
+  protected baseUrl = "/communications/presences";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -70,7 +70,7 @@ export class PresencesClient {
   }
 
   /**
-   * `\communications\presences\{presence-id}\clearPresence`
+   * `/communications/presences/{presence-id}/clearPresence`
    *
    * Provides operations to call the clearPresence method.
    */
@@ -79,7 +79,7 @@ export class PresencesClient {
   }
 
   /**
-   * `\communications\presences\{presence-id}\clearUserPreferredPresence`
+   * `/communications/presences/{presence-id}/clearUserPreferredPresence`
    *
    * Provides operations to call the clearUserPreferredPresence method.
    */
@@ -88,7 +88,7 @@ export class PresencesClient {
   }
 
   /**
-   * `\communications\presences\count`
+   * `/communications/presences/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -97,7 +97,7 @@ export class PresencesClient {
   }
 
   /**
-   * `\communications\presences\{presence-id}\setPresence`
+   * `/communications/presences/{presence-id}/setPresence`
    *
    * Provides operations to call the setPresence method.
    */
@@ -106,7 +106,7 @@ export class PresencesClient {
   }
 
   /**
-   * `\communications\presences\{presence-id}\setStatusMessage`
+   * `/communications/presences/{presence-id}/setStatusMessage`
    *
    * Provides operations to call the setStatusMessage method.
    */
@@ -115,7 +115,7 @@ export class PresencesClient {
   }
 
   /**
-   * `\communications\presences\{presence-id}\setUserPreferredPresence`
+   * `/communications/presences/{presence-id}/setUserPreferredPresence`
    *
    * Provides operations to call the setUserPreferredPresence method.
    */
@@ -155,7 +155,7 @@ export class PresencesClient {
    *
    * Get a user&#x27;s presence information.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /communications/presences"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -184,7 +184,7 @@ export class PresencesClient {
    *
    * Get a user&#x27;s presence information.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /communications/presences/{presence-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

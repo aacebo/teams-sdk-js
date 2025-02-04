@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\installedApps\{teamsAppInstallation-id}\teamsApp
+ * /chats/{chat-id}/installedApps/{teamsAppInstallation-id}/teamsApp
  * Provides operations to manage the teamsApp property of the microsoft.graph.teamsAppInstallation entity.
  */
 export class TeamsAppClient {
   protected baseUrl =
-    "\chats\{chat-id}\installedApps\{teamsAppInstallation-id}\teamsApp";
+    "/chats/{chat-id}/installedApps/{teamsAppInstallation-id}/teamsApp";
   protected http: http.Client;
 
   constructor(

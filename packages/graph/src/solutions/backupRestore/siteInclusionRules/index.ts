@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\siteInclusionRules
+ * /solutions/backupRestore/siteInclusionRules
  * Provides operations to manage the siteInclusionRules property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class SiteInclusionRulesClient {
-  protected baseUrl = "\solutions\backupRestore\siteInclusionRules";
+  protected baseUrl = "/solutions/backupRestore/siteInclusionRules";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class SiteInclusionRulesClient {
   }
 
   /**
-   * `\solutions\backupRestore\siteInclusionRules\count`
+   * `/solutions/backupRestore/siteInclusionRules/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -105,7 +105,7 @@ export class SiteInclusionRulesClient {
    *
    * The list of site inclusion rules applied to the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/siteInclusionRules"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -134,7 +134,7 @@ export class SiteInclusionRulesClient {
    *
    * The list of site inclusion rules applied to the tenant.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/siteInclusionRules/{siteProtectionRule-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

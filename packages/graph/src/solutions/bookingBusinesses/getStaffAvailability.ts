@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\bookingBusinesses\{bookingBusiness-id}\getStaffAvailability
+ * /solutions/bookingBusinesses/{bookingBusiness-id}/getStaffAvailability
  * Provides operations to call the getStaffAvailability method.
  */
 export class GetStaffAvailabilityClient {
   protected baseUrl =
-    "\solutions\bookingBusinesses\{bookingBusiness-id}\getStaffAvailability";
+    "/solutions/bookingBusinesses/{bookingBusiness-id}/getStaffAvailability";
   protected http: http.Client;
 
   constructor(

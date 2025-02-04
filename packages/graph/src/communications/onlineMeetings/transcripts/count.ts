@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\onlineMeetings\{onlineMeeting-id}\transcripts\count
+ * /communications/onlineMeetings/{onlineMeeting-id}/transcripts/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
   protected baseUrl =
-    "\communications\onlineMeetings\{onlineMeeting-id}\transcripts\count";
+    "/communications/onlineMeetings/{onlineMeeting-id}/transcripts/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

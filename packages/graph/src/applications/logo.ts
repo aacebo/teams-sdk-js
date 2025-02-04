@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\logo
+ * /applications/{application-id}/logo
  * Provides operations to manage the media for the application entity.
  */
 export class LogoClient {
-  protected baseUrl = "\applications\{application-id}\logo";
+  protected baseUrl = "/applications/{application-id}/logo";
   protected http: http.Client;
 
   constructor(

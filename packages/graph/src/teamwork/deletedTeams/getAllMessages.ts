@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\deletedTeams\getAllMessages
+ * /teamwork/deletedTeams/getAllMessages
  * Provides operations to call the getAllMessages method.
  */
 export class GetAllMessagesClient {
-  protected baseUrl = "\teamwork\deletedTeams\getAllMessages";
+  protected baseUrl = "/teamwork/deletedTeams/getAllMessages";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

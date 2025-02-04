@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\oneDriveForBusinessProtectionPolicies\{oneDriveForBusinessProtectionPolicy-id}\driveProtectionUnits
+ * /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits
  * Provides operations to manage the driveProtectionUnits property of the microsoft.graph.oneDriveForBusinessProtectionPolicy entity.
  */
 export class DriveProtectionUnitsClient {
   protected baseUrl =
-    "\solutions\backupRestore\oneDriveForBusinessProtectionPolicies\{oneDriveForBusinessProtectionPolicy-id}\driveProtectionUnits";
+    "/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class DriveProtectionUnitsClient {
   }
 
   /**
-   * `\solutions\backupRestore\oneDriveForBusinessProtectionPolicies\{oneDriveForBusinessProtectionPolicy-id}\driveProtectionUnits\count`
+   * `/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -82,7 +82,7 @@ export class DriveProtectionUnitsClient {
    *
    * Get a list of the driveProtectionUnit objects that are associated with a oneDriveForBusinessProtectionPolicy.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -114,7 +114,7 @@ export class DriveProtectionUnitsClient {
    *
    * Contains the protection units associated with a  OneDrive for Business protection policy.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits/{driveProtectionUnit-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

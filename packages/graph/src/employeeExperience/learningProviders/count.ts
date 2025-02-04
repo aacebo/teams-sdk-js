@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \employeeExperience\learningProviders\count
+ * /employeeExperience/learningProviders/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
-  protected baseUrl = "\employeeExperience\learningProviders\count";
+  protected baseUrl = "/employeeExperience/learningProviders/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

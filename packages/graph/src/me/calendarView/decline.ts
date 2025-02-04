@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendarView\{event-id}\decline
+ * /me/calendarView/{event-id}/decline
  * Provides operations to call the decline method.
  */
 export class DeclineClient {
-  protected baseUrl = "\me\calendarView\{event-id}\decline";
+  protected baseUrl = "/me/calendarView/{event-id}/decline";
   protected http: http.Client;
 
   constructor(

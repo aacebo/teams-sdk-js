@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\restart
+ * /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/restart
  * Provides operations to call the restart method.
  */
 export class RestartClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\restart";
+    "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/restart";
   protected http: http.Client;
 
   constructor(

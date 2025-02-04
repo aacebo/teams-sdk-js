@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\schedule\swapShiftsChangeRequests\count
+ * /teams/{team-id}/schedule/swapShiftsChangeRequests/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
   protected baseUrl =
-    "\teams\{team-id}\schedule\swapShiftsChangeRequests\count";
+    "/teams/{team-id}/schedule/swapShiftsChangeRequests/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

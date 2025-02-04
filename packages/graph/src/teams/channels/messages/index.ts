@@ -40,11 +40,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\channels\{channel-id}\messages
+ * /teams/{team-id}/channels/{channel-id}/messages
  * Provides operations to manage the messages property of the microsoft.graph.channel entity.
  */
 export class MessagesClient {
-  protected baseUrl = "\teams\{team-id}\channels\{channel-id}\messages";
+  protected baseUrl = "/teams/{team-id}/channels/{channel-id}/messages";
   protected http: http.Client;
 
   constructor(
@@ -75,7 +75,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\messages\count`
+   * `/teams/{team-id}/channels/{channel-id}/messages/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -84,7 +84,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\messages\delta`
+   * `/teams/{team-id}/channels/{channel-id}/messages/delta`
    *
    * Provides operations to call the delta method.
    */
@@ -93,7 +93,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\messages\{chatMessage-id}\hostedContents`
+   * `/teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents`
    *
    * Provides operations to manage the hostedContents property of the microsoft.graph.chatMessage entity.
    */
@@ -102,7 +102,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\messages\{chatMessage-id}\replies`
+   * `/teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/replies`
    *
    * Provides operations to manage the replies property of the microsoft.graph.chatMessage entity.
    */
@@ -111,7 +111,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\messages\{chatMessage-id}\setReaction`
+   * `/teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/setReaction`
    *
    * Provides operations to call the setReaction method.
    */
@@ -120,7 +120,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\messages\{chatMessage-id}\softDelete`
+   * `/teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/softDelete`
    *
    * Provides operations to call the softDelete method.
    */
@@ -129,7 +129,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\messages\{chatMessage-id}\undoSoftDelete`
+   * `/teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/undoSoftDelete`
    *
    * Provides operations to call the undoSoftDelete method.
    */
@@ -138,7 +138,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\messages\{chatMessage-id}\unsetReaction`
+   * `/teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/unsetReaction`
    *
    * Provides operations to call the unsetReaction method.
    */
@@ -181,7 +181,7 @@ export class MessagesClient {
    *
    * Retrieve the list of messages (without the replies) in a channel of a team.  To get the replies for a message, call the list message replies or the get message reply API.  This method supports federation. To list channel messages in application context, the request must be made from the tenant that the channel owner belongs to (represented by the tenantId property on the channel).
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/channels/{channel-id}/messages"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -213,7 +213,7 @@ export class MessagesClient {
    *
    * Retrieve a single message or a message reply in a channel or a chat.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

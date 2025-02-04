@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\restorePoints\search
+ * /solutions/backupRestore/restorePoints/search
  * Provides operations to call the search method.
  */
 export class SearchClient {
-  protected baseUrl = "\solutions\backupRestore\restorePoints\search";
+  protected baseUrl = "/solutions/backupRestore/restorePoints/search";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

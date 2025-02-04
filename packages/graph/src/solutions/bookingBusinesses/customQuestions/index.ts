@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\bookingBusinesses\{bookingBusiness-id}\customQuestions
+ * /solutions/bookingBusinesses/{bookingBusiness-id}/customQuestions
  * Provides operations to manage the customQuestions property of the microsoft.graph.bookingBusiness entity.
  */
 export class CustomQuestionsClient {
   protected baseUrl =
-    "\solutions\bookingBusinesses\{bookingBusiness-id}\customQuestions";
+    "/solutions/bookingBusinesses/{bookingBusiness-id}/customQuestions";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class CustomQuestionsClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\{bookingBusiness-id}\customQuestions\count`
+   * `/solutions/bookingBusinesses/{bookingBusiness-id}/customQuestions/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -112,7 +112,7 @@ export class CustomQuestionsClient {
    *
    * Get the bookingCustomQuestion resources associated with a bookingBusiness.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/bookingBusinesses/{bookingBusiness-id}/customQuestions"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -143,7 +143,7 @@ export class CustomQuestionsClient {
    *
    * Read the properties and relationships of a bookingCustomQuestion object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/bookingBusinesses/{bookingBusiness-id}/customQuestions/{bookingCustomQuestion-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

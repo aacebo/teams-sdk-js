@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\template
+ * /teams/{team-id}/template
  * Provides operations to manage the template property of the microsoft.graph.team entity.
  */
 export class TemplateClient {
-  protected baseUrl = "\teams\{team-id}\template";
+  protected baseUrl = "/teams/{team-id}/template";
   protected http: http.Client;
 
   constructor(

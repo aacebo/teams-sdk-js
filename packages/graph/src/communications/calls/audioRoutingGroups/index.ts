@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\audioRoutingGroups
+ * /communications/calls/{call-id}/audioRoutingGroups
  * Provides operations to manage the audioRoutingGroups property of the microsoft.graph.call entity.
  */
 export class AudioRoutingGroupsClient {
-  protected baseUrl = "\communications\calls\{call-id}\audioRoutingGroups";
+  protected baseUrl = "/communications/calls/{call-id}/audioRoutingGroups";
   protected http: http.Client;
 
   constructor(
@@ -68,7 +68,7 @@ export class AudioRoutingGroupsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\audioRoutingGroups\count`
+   * `/communications/calls/{call-id}/audioRoutingGroups/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -111,7 +111,7 @@ export class AudioRoutingGroupsClient {
    *
    * Retrieve a list of audioRoutingGroup objects.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /communications/calls/{call-id}/audioRoutingGroups"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -142,7 +142,7 @@ export class AudioRoutingGroupsClient {
    *
    * Retrieve the properties and relationships of an audioRoutingGroup object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /communications/calls/{call-id}/audioRoutingGroups/{audioRoutingGroup-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

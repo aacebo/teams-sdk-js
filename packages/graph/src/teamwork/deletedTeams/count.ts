@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\deletedTeams\count
+ * /teamwork/deletedTeams/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
-  protected baseUrl = "\teamwork\deletedTeams\count";
+  protected baseUrl = "/teamwork/deletedTeams/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

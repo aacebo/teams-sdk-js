@@ -38,11 +38,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\owners
+ * /applications/{application-id}/owners
  * Provides operations to manage the owners property of the microsoft.graph.application entity.
  */
 export class OwnersClient {
-  protected baseUrl = "\applications\{application-id}\owners";
+  protected baseUrl = "/applications/{application-id}/owners";
   protected http: http.Client;
 
   constructor(
@@ -73,7 +73,7 @@ export class OwnersClient {
   }
 
   /**
-   * `\applications\{application-id}\owners\count`
+   * `/applications/{application-id}/owners/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -82,7 +82,7 @@ export class OwnersClient {
   }
 
   /**
-   * `\applications\{application-id}\owners\{directoryObject-id}\graphappRoleAssignment`
+   * `/applications/{application-id}/owners/{directoryObject-id}/graphappRoleAssignment`
    *
    * Casts the previous resource to appRoleAssignment.
    */
@@ -91,7 +91,7 @@ export class OwnersClient {
   }
 
   /**
-   * `\applications\{application-id}\owners\{directoryObject-id}\graphendpoint`
+   * `/applications/{application-id}/owners/{directoryObject-id}/graphendpoint`
    *
    * Casts the previous resource to endpoint.
    */
@@ -100,7 +100,7 @@ export class OwnersClient {
   }
 
   /**
-   * `\applications\{application-id}\owners\{directoryObject-id}\graphservicePrincipal`
+   * `/applications/{application-id}/owners/{directoryObject-id}/graphservicePrincipal`
    *
    * Casts the previous resource to servicePrincipal.
    */
@@ -109,7 +109,7 @@ export class OwnersClient {
   }
 
   /**
-   * `\applications\{application-id}\owners\{directoryObject-id}\graphuser`
+   * `/applications/{application-id}/owners/{directoryObject-id}/graphuser`
    *
    * Casts the previous resource to user.
    */
@@ -118,7 +118,7 @@ export class OwnersClient {
   }
 
   /**
-   * `\applications\{application-id}\owners\{directoryObject-id}\ref`
+   * `/applications/{application-id}/owners/{directoryObject-id}/ref`
    *
    * Provides operations to manage the collection of application entities.
    */
@@ -131,7 +131,7 @@ export class OwnersClient {
    *
    * Retrieve a list of owners for an application that are directoryObject types.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /applications/{application-id}/owners"]["parameters"],
     config?: http.RequestConfig,
   ) {

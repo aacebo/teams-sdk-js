@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\mute
+ * /communications/calls/{call-id}/mute
  * Provides operations to call the mute method.
  */
 export class MuteClient {
-  protected baseUrl = "\communications\calls\{call-id}\mute";
+  protected baseUrl = "/communications/calls/{call-id}/mute";
   protected http: http.Client;
 
   constructor(

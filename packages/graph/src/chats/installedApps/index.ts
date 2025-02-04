@@ -36,11 +36,11 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\installedApps
+ * /chats/{chat-id}/installedApps
  * Provides operations to manage the installedApps property of the microsoft.graph.chat entity.
  */
 export class InstalledAppsClient {
-  protected baseUrl = "\chats\{chat-id}\installedApps";
+  protected baseUrl = "/chats/{chat-id}/installedApps";
   protected http: http.Client;
 
   constructor(
@@ -71,7 +71,7 @@ export class InstalledAppsClient {
   }
 
   /**
-   * `\chats\{chat-id}\installedApps\count`
+   * `/chats/{chat-id}/installedApps/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -80,7 +80,7 @@ export class InstalledAppsClient {
   }
 
   /**
-   * `\chats\{chat-id}\installedApps\{teamsAppInstallation-id}\teamsApp`
+   * `/chats/{chat-id}/installedApps/{teamsAppInstallation-id}/teamsApp`
    *
    * Provides operations to manage the teamsApp property of the microsoft.graph.teamsAppInstallation entity.
    */
@@ -89,7 +89,7 @@ export class InstalledAppsClient {
   }
 
   /**
-   * `\chats\{chat-id}\installedApps\{teamsAppInstallation-id}\teamsAppDefinition`
+   * `/chats/{chat-id}/installedApps/{teamsAppInstallation-id}/teamsAppDefinition`
    *
    * Provides operations to manage the teamsAppDefinition property of the microsoft.graph.teamsAppInstallation entity.
    */
@@ -98,7 +98,7 @@ export class InstalledAppsClient {
   }
 
   /**
-   * `\chats\{chat-id}\installedApps\{teamsAppInstallation-id}\upgrade`
+   * `/chats/{chat-id}/installedApps/{teamsAppInstallation-id}/upgrade`
    *
    * Provides operations to call the upgrade method.
    */
@@ -141,7 +141,7 @@ export class InstalledAppsClient {
    *
    * List all app installations within a chat.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /chats/{chat-id}/installedApps"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -172,7 +172,7 @@ export class InstalledAppsClient {
    *
    * Get an app installed in a chat.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /chats/{chat-id}/installedApps/{teamsAppInstallation-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

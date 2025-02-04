@@ -39,12 +39,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\primaryChannel\messages\{chatMessage-id}\replies
+ * /teams/{team-id}/primaryChannel/messages/{chatMessage-id}/replies
  * Provides operations to manage the replies property of the microsoft.graph.chatMessage entity.
  */
 export class RepliesClient {
   protected baseUrl =
-    "\teams\{team-id}\primaryChannel\messages\{chatMessage-id}\replies";
+    "/teams/{team-id}/primaryChannel/messages/{chatMessage-id}/replies";
   protected http: http.Client;
 
   constructor(
@@ -75,7 +75,7 @@ export class RepliesClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\messages\{chatMessage-id}\replies\count`
+   * `/teams/{team-id}/primaryChannel/messages/{chatMessage-id}/replies/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -84,7 +84,7 @@ export class RepliesClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\messages\{chatMessage-id}\replies\delta`
+   * `/teams/{team-id}/primaryChannel/messages/{chatMessage-id}/replies/delta`
    *
    * Provides operations to call the delta method.
    */
@@ -93,7 +93,7 @@ export class RepliesClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\messages\{chatMessage-id}\replies\{chatMessage-id1}\hostedContents`
+   * `/teams/{team-id}/primaryChannel/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents`
    *
    * Provides operations to manage the hostedContents property of the microsoft.graph.chatMessage entity.
    */
@@ -102,7 +102,7 @@ export class RepliesClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\messages\{chatMessage-id}\replies\{chatMessage-id1}\setReaction`
+   * `/teams/{team-id}/primaryChannel/messages/{chatMessage-id}/replies/{chatMessage-id1}/setReaction`
    *
    * Provides operations to call the setReaction method.
    */
@@ -111,7 +111,7 @@ export class RepliesClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\messages\{chatMessage-id}\replies\{chatMessage-id1}\softDelete`
+   * `/teams/{team-id}/primaryChannel/messages/{chatMessage-id}/replies/{chatMessage-id1}/softDelete`
    *
    * Provides operations to call the softDelete method.
    */
@@ -120,7 +120,7 @@ export class RepliesClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\messages\{chatMessage-id}\replies\{chatMessage-id1}\undoSoftDelete`
+   * `/teams/{team-id}/primaryChannel/messages/{chatMessage-id}/replies/{chatMessage-id1}/undoSoftDelete`
    *
    * Provides operations to call the undoSoftDelete method.
    */
@@ -129,7 +129,7 @@ export class RepliesClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\messages\{chatMessage-id}\replies\{chatMessage-id1}\unsetReaction`
+   * `/teams/{team-id}/primaryChannel/messages/{chatMessage-id}/replies/{chatMessage-id1}/unsetReaction`
    *
    * Provides operations to call the unsetReaction method.
    */
@@ -172,7 +172,7 @@ export class RepliesClient {
    *
    * Replies for a specified message. Supports $expand for channel messages.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/primaryChannel/messages/{chatMessage-id}/replies"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -204,7 +204,7 @@ export class RepliesClient {
    *
    * Replies for a specified message. Supports $expand for channel messages.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/primaryChannel/messages/{chatMessage-id}/replies/{chatMessage-id1}"]["parameters"],
     config?: http.RequestConfig,
   ) {

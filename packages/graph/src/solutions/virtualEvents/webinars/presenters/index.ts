@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\webinars\{virtualEventWebinar-id}\presenters
+ * /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/presenters
  * Provides operations to manage the presenters property of the microsoft.graph.virtualEvent entity.
  */
 export class PresentersClient {
   protected baseUrl =
-    "\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\presenters";
+    "/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/presenters";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class PresentersClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\presenters\count`
+   * `/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/presenters/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -111,7 +111,7 @@ export class PresentersClient {
    *
    * The virtual event presenters.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/presenters"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -142,7 +142,7 @@ export class PresentersClient {
    *
    * The virtual event presenters.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/presenters/{virtualEventPresenter-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

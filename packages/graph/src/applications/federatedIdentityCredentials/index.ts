@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\federatedIdentityCredentials
+ * /applications/{application-id}/federatedIdentityCredentials
  * Provides operations to manage the federatedIdentityCredentials property of the microsoft.graph.application entity.
  */
 export class FederatedIdentityCredentialsClient {
   protected baseUrl =
-    "\applications\{application-id}\federatedIdentityCredentials";
+    "/applications/{application-id}/federatedIdentityCredentials";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class FederatedIdentityCredentialsClient {
   }
 
   /**
-   * `\applications\{application-id}\federatedIdentityCredentials\count`
+   * `/applications/{application-id}/federatedIdentityCredentials/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -112,7 +112,7 @@ export class FederatedIdentityCredentialsClient {
    *
    * Get a list of the federatedIdentityCredential objects and their properties.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /applications/{application-id}/federatedIdentityCredentials"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -143,7 +143,7 @@ export class FederatedIdentityCredentialsClient {
    *
    * Read the properties and relationships of a federatedIdentityCredential object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

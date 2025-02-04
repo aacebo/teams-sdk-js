@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\completeMigration
+ * /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/completeMigration
  * Provides operations to call the completeMigration method.
  */
 export class CompleteMigrationClient {
   protected baseUrl =
-    "\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\completeMigration";
+    "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/completeMigration";
   protected http: http.Client;
 
   constructor(

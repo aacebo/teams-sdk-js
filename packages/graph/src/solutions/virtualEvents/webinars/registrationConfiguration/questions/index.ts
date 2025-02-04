@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrationConfiguration\questions
+ * /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationConfiguration/questions
  * Provides operations to manage the questions property of the microsoft.graph.virtualEventRegistrationConfiguration entity.
  */
 export class QuestionsClient {
   protected baseUrl =
-    "\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrationConfiguration\questions";
+    "/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationConfiguration/questions";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -66,7 +66,7 @@ export class QuestionsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrationConfiguration\questions\count`
+   * `/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationConfiguration/questions/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -108,7 +108,7 @@ export class QuestionsClient {
    *
    * Get a list of all registration questions for a webinar. The list can include either predefined registration questions or custom registration questions.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationConfiguration/questions"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -138,7 +138,7 @@ export class QuestionsClient {
    *
    * Registration questions.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationConfiguration/questions/{virtualEventRegistrationQuestionBase-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

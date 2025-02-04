@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\owners\{directoryObject-id}\graphuser
+ * /applications/{application-id}/owners/{directoryObject-id}/graphuser
  * Casts the previous resource to user.
  */
 export class GraphuserClient {
   protected baseUrl =
-    "\applications\{application-id}\owners\{directoryObject-id}\graphuser";
+    "/applications/{application-id}/owners/{directoryObject-id}/graphuser";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class GraphuserClient {
   }
 
   /**
-   * `\applications\{application-id}\owners\{directoryObject-id}\graphuser\count`
+   * `/applications/{application-id}/owners/{directoryObject-id}/graphuser/count`
    *
    * Provides operations to count the resources in the collection.
    */

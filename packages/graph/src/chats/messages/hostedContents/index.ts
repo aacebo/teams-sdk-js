@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\messages\{chatMessage-id}\hostedContents
+ * /chats/{chat-id}/messages/{chatMessage-id}/hostedContents
  * Provides operations to manage the hostedContents property of the microsoft.graph.chatMessage entity.
  */
 export class HostedContentsClient {
   protected baseUrl =
-    "\chats\{chat-id}\messages\{chatMessage-id}\hostedContents";
+    "/chats/{chat-id}/messages/{chatMessage-id}/hostedContents";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class HostedContentsClient {
   }
 
   /**
-   * `\chats\{chat-id}\messages\{chatMessage-id}\hostedContents\count`
+   * `/chats/{chat-id}/messages/{chatMessage-id}/hostedContents/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -79,7 +79,7 @@ export class HostedContentsClient {
   }
 
   /**
-   * `\chats\{chat-id}\messages\{chatMessage-id}\hostedContents\{chatMessageHostedContent-id}\value`
+   * `/chats/{chat-id}/messages/{chatMessage-id}/hostedContents/{chatMessageHostedContent-id}/value`
    *
    * Provides operations to manage the media for the chat entity.
    */
@@ -122,7 +122,7 @@ export class HostedContentsClient {
    *
    * Retrieve the list of chatMessageHostedContent objects from a message. This API only lists the hosted content objects. To get the content bytes, see get chatmessage hosted content.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /chats/{chat-id}/messages/{chatMessage-id}/hostedContents"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -154,7 +154,7 @@ export class HostedContentsClient {
    *
    * Retrieve the properties and relationships of chatMessageHostedContent object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /chats/{chat-id}/messages/{chatMessage-id}/hostedContents/{chatMessageHostedContent-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\bookingCurrencies
+ * /solutions/bookingCurrencies
  * Provides operations to manage the bookingCurrencies property of the microsoft.graph.solutionsRoot entity.
  */
 export class BookingCurrenciesClient {
-  protected baseUrl = "\solutions\bookingCurrencies";
+  protected baseUrl = "/solutions/bookingCurrencies";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class BookingCurrenciesClient {
   }
 
   /**
-   * `\solutions\bookingCurrencies\count`
+   * `/solutions/bookingCurrencies/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -105,7 +105,7 @@ export class BookingCurrenciesClient {
    *
    * Get a list of bookingCurrency objects available to a Microsoft Bookings business.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/bookingCurrencies"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -134,7 +134,7 @@ export class BookingCurrenciesClient {
    *
    * Get the properties of a bookingCurrency object that is available to a Microsoft Bookings business. Use the id property, which is the currency code, to specify the currency.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/bookingCurrencies/{bookingCurrency-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

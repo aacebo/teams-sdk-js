@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\primaryChannel\sharedWithTeams\{sharedWithChannelTeamInfo-id}\allowedMembers\count
+ * /teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}/allowedMembers/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
   protected baseUrl =
-    "\teams\{team-id}\primaryChannel\sharedWithTeams\{sharedWithChannelTeamInfo-id}\allowedMembers\count";
+    "/teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}/allowedMembers/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

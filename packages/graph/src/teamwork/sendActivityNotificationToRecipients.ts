@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\sendActivityNotificationToRecipients
+ * /teamwork/sendActivityNotificationToRecipients
  * Provides operations to call the sendActivityNotificationToRecipients method.
  */
 export class SendActivityNotificationToRecipientsClient {
-  protected baseUrl = "\teamwork\sendActivityNotificationToRecipients";
+  protected baseUrl = "/teamwork/sendActivityNotificationToRecipients";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

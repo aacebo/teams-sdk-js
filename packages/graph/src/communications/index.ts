@@ -37,11 +37,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications
+ * /communications
  * Provides operations to manage the cloudCommunications singleton.
  */
 export class CommunicationsClient {
-  protected baseUrl = "\communications";
+  protected baseUrl = "/communications";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -69,7 +69,7 @@ export class CommunicationsClient {
   }
 
   /**
-   * `\communications\callRecords`
+   * `/communications/callRecords`
    *
    * Provides operations to call the getPstnCalls method.
    */
@@ -78,7 +78,7 @@ export class CommunicationsClient {
   }
 
   /**
-   * `\communications\calls`
+   * `/communications/calls`
    *
    * Provides operations to manage the calls property of the microsoft.graph.cloudCommunications entity.
    */
@@ -87,7 +87,7 @@ export class CommunicationsClient {
   }
 
   /**
-   * `\communications\getPresencesByUserId`
+   * `/communications/getPresencesByUserId`
    *
    * Provides operations to call the getPresencesByUserId method.
    */
@@ -96,7 +96,7 @@ export class CommunicationsClient {
   }
 
   /**
-   * `\communications\onlineMeetings`
+   * `/communications/onlineMeetings`
    *
    * Provides operations to manage the onlineMeetings property of the microsoft.graph.cloudCommunications entity.
    */
@@ -105,7 +105,7 @@ export class CommunicationsClient {
   }
 
   /**
-   * `\communications\presences`
+   * `/communications/presences`
    *
    * Provides operations to manage the presences property of the microsoft.graph.cloudCommunications entity.
    */
@@ -117,7 +117,7 @@ export class CommunicationsClient {
    * `GET /communications`
    *
    */
-  async get(
+  async list(
     params?: Endpoints["GET /communications"]["parameters"],
     config?: http.RequestConfig,
   ) {

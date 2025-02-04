@@ -37,11 +37,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendars
+ * /me/calendars
  * Provides operations to call the allowedCalendarSharingRoles method.
  */
 export class CalendarsClient {
-  protected baseUrl = "\me\calendars";
+  protected baseUrl = "/me/calendars";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -69,7 +69,7 @@ export class CalendarsClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\calendarPermissions`
+   * `/me/calendars/{calendar-id}/calendarPermissions`
    *
    * Provides operations to manage the calendarPermissions property of the microsoft.graph.calendar entity.
    */
@@ -78,7 +78,7 @@ export class CalendarsClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\calendarView`
+   * `/me/calendars/{calendar-id}/calendarView`
    *
    * Provides operations to manage the calendarView property of the microsoft.graph.calendar entity.
    */
@@ -87,7 +87,7 @@ export class CalendarsClient {
   }
 
   /**
-   * `\me\calendars\count`
+   * `/me/calendars/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -96,7 +96,7 @@ export class CalendarsClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\events`
+   * `/me/calendars/{calendar-id}/events`
    *
    * Provides operations to manage the events property of the microsoft.graph.calendar entity.
    */
@@ -105,7 +105,7 @@ export class CalendarsClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\getSchedule`
+   * `/me/calendars/{calendar-id}/getSchedule`
    *
    * Provides operations to call the getSchedule method.
    */
@@ -145,7 +145,7 @@ export class CalendarsClient {
    *
    * Get all the user&#x27;s calendars (/calendars navigation property), get the calendars from the default calendar group or from a specific calendar group.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /me/calendars"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -171,7 +171,7 @@ export class CalendarsClient {
    *
    * The user&#x27;s calendars. Read-only. Nullable.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /me/calendars/{calendar-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -199,7 +199,7 @@ export class CalendarsClient {
    * `GET /me/calendars/{calendar-id}/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)`
    *
    */
-  async get$2(
+  async get$1(
     params?: Endpoints["GET /me/calendars/{calendar-id}/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\start
+ * /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/start
  * Provides operations to call the start method.
  */
 export class StartClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\start";
+    "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/start";
   protected http: http.Client;
 
   constructor(

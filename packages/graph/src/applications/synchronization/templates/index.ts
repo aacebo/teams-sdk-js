@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\templates
+ * /applications/{application-id}/synchronization/templates
  * Provides operations to manage the templates property of the microsoft.graph.synchronization entity.
  */
 export class TemplatesClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\templates";
+    "/applications/{application-id}/synchronization/templates";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -67,7 +67,7 @@ export class TemplatesClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\templates\count`
+   * `/applications/{application-id}/synchronization/templates/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -76,7 +76,7 @@ export class TemplatesClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema`
+   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema`
    *
    * Provides operations to manage the schema property of the microsoft.graph.synchronizationTemplate entity.
    */
@@ -117,7 +117,7 @@ export class TemplatesClient {
    *
    * Preconfigured synchronization settings for a particular application.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /applications/{application-id}/synchronization/templates"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -147,7 +147,7 @@ export class TemplatesClient {
    *
    * Preconfigured synchronization settings for a particular application.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

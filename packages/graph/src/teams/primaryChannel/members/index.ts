@@ -35,11 +35,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\primaryChannel\members
+ * /teams/{team-id}/primaryChannel/members
  * Provides operations to manage the members property of the microsoft.graph.channel entity.
  */
 export class MembersClient {
-  protected baseUrl = "\teams\{team-id}\primaryChannel\members";
+  protected baseUrl = "/teams/{team-id}/primaryChannel/members";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -67,7 +67,7 @@ export class MembersClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\members\add`
+   * `/teams/{team-id}/primaryChannel/members/add`
    *
    * Provides operations to call the add method.
    */
@@ -76,7 +76,7 @@ export class MembersClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\members\count`
+   * `/teams/{team-id}/primaryChannel/members/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -85,7 +85,7 @@ export class MembersClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\members\remove`
+   * `/teams/{team-id}/primaryChannel/members/remove`
    *
    * Provides operations to call the remove method.
    */
@@ -126,7 +126,7 @@ export class MembersClient {
    *
    * A collection of membership records associated with the channel.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/primaryChannel/members"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -156,7 +156,7 @@ export class MembersClient {
    *
    * A collection of membership records associated with the channel.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/primaryChannel/members/{conversationMember-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\workforceIntegrations\count
+ * /teamwork/workforceIntegrations/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
-  protected baseUrl = "\teamwork\workforceIntegrations\count";
+  protected baseUrl = "/teamwork/workforceIntegrations/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

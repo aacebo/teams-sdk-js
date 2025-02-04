@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\presence\setUserPreferredPresence
+ * /me/presence/setUserPreferredPresence
  * Provides operations to call the setUserPreferredPresence method.
  */
 export class SetUserPreferredPresenceClient {
-  protected baseUrl = "\me\presence\setUserPreferredPresence";
+  protected baseUrl = "/me/presence/setUserPreferredPresence";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

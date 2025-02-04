@@ -1,8 +1,4 @@
-import {
-  AxiosInterceptorOptions,
-  InternalAxiosRequestConfig,
-  AxiosResponse,
-} from 'axios';
+import { AxiosInterceptorOptions, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 
 import { Logger } from '../logging';
 
@@ -45,7 +41,9 @@ export interface RequestContext<D = any> {
 /**
  * A method called to intercept a successful request
  */
-export type RequestInterceptor<D = any> = (ctx: RequestContext<D>) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>;
+export type RequestInterceptor<D = any> = (
+  ctx: RequestContext<D>
+) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>;
 
 export interface ResponseContext<T = any, D = any> {
   /**
@@ -62,4 +60,6 @@ export interface ResponseContext<T = any, D = any> {
 /**
  * A method called to intercept a successful response
  */
-export type ResponseInterceptor<T = any, D = any> = (ctx: ResponseContext<T, D>) => AxiosResponse | Promise<AxiosResponse>;
+export type ResponseInterceptor<T = any, D = any> = (
+  ctx: ResponseContext<T, D>
+) => AxiosResponse | Promise<AxiosResponse>;

@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendar\calendarView\{event-id}\instances\{event-id1}\attachments\createUploadSession
+ * /me/calendar/calendarView/{event-id}/instances/{event-id1}/attachments/createUploadSession
  * Provides operations to call the createUploadSession method.
  */
 export class CreateUploadSessionClient {
   protected baseUrl =
-    "\me\calendar\calendarView\{event-id}\instances\{event-id1}\attachments\createUploadSession";
+    "/me/calendar/calendarView/{event-id}/instances/{event-id1}/attachments/createUploadSession";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

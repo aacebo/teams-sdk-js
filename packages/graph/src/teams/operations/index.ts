@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\operations
+ * /teams/{team-id}/operations
  * Provides operations to manage the operations property of the microsoft.graph.team entity.
  */
 export class OperationsClient {
-  protected baseUrl = "\teams\{team-id}\operations";
+  protected baseUrl = "/teams/{team-id}/operations";
   protected http: http.Client;
 
   constructor(
@@ -68,7 +68,7 @@ export class OperationsClient {
   }
 
   /**
-   * `\teams\{team-id}\operations\count`
+   * `/teams/{team-id}/operations/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -110,7 +110,7 @@ export class OperationsClient {
    *
    * The async operations that ran or are running on this team.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/operations"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -141,7 +141,7 @@ export class OperationsClient {
    *
    * The async operations that ran or are running on this team.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/operations/{teamsAsyncOperation-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

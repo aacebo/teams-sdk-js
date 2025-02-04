@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\primaryChannel\filesFolder
+ * /teams/{team-id}/primaryChannel/filesFolder
  * Provides operations to manage the filesFolder property of the microsoft.graph.channel entity.
  */
 export class FilesFolderClient {
-  protected baseUrl = "\teams\{team-id}\primaryChannel\filesFolder";
+  protected baseUrl = "/teams/{team-id}/primaryChannel/filesFolder";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class FilesFolderClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\filesFolder\content`
+   * `/teams/{team-id}/primaryChannel/filesFolder/content`
    *
    * Provides operations to manage the media for the team entity.
    */

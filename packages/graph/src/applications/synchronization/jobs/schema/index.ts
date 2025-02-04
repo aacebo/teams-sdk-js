@@ -36,12 +36,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\schema
+ * /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema
  * Provides operations to manage the schema property of the microsoft.graph.synchronizationJob entity.
  */
 export class SchemaClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\schema";
+    "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema";
   protected http: http.Client;
 
   constructor(
@@ -72,7 +72,7 @@ export class SchemaClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\schema\directories`
+   * `/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories`
    *
    * Provides operations to manage the directories property of the microsoft.graph.synchronizationSchema entity.
    */
@@ -81,7 +81,7 @@ export class SchemaClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\schema\filterOperators`
+   * `/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/filterOperators`
    *
    * Provides operations to call the filterOperators method.
    */
@@ -90,7 +90,7 @@ export class SchemaClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\schema\functions`
+   * `/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/functions`
    *
    * Provides operations to call the functions method.
    */
@@ -99,7 +99,7 @@ export class SchemaClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\schema\parseExpression`
+   * `/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/parseExpression`
    *
    * Provides operations to call the parseExpression method.
    */

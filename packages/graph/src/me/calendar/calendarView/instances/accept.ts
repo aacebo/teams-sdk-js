@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendar\calendarView\{event-id}\instances\{event-id1}\accept
+ * /me/calendar/calendarView/{event-id}/instances/{event-id1}/accept
  * Provides operations to call the accept method.
  */
 export class AcceptClient {
   protected baseUrl =
-    "\me\calendar\calendarView\{event-id}\instances\{event-id1}\accept";
+    "/me/calendar/calendarView/{event-id}/instances/{event-id1}/accept";
   protected http: http.Client;
 
   constructor(

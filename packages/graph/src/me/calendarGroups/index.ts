@@ -34,11 +34,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendarGroups
+ * /me/calendarGroups
  * Provides operations to manage the calendarGroups property of the microsoft.graph.user entity.
  */
 export class CalendarGroupsClient {
-  protected baseUrl = "\me\calendarGroups";
+  protected baseUrl = "/me/calendarGroups";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -66,7 +66,7 @@ export class CalendarGroupsClient {
   }
 
   /**
-   * `\me\calendarGroups\{calendarGroup-id}\calendars`
+   * `/me/calendarGroups/{calendarGroup-id}/calendars`
    *
    * Provides operations to call the allowedCalendarSharingRoles method.
    */
@@ -75,7 +75,7 @@ export class CalendarGroupsClient {
   }
 
   /**
-   * `\me\calendarGroups\count`
+   * `/me/calendarGroups/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -116,7 +116,7 @@ export class CalendarGroupsClient {
    *
    * Get the user&#x27;s calendar groups.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /me/calendarGroups"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -144,7 +144,7 @@ export class CalendarGroupsClient {
    *
    * Retrieve the properties and relationships of a calendar group object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /me/calendarGroups/{calendarGroup-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

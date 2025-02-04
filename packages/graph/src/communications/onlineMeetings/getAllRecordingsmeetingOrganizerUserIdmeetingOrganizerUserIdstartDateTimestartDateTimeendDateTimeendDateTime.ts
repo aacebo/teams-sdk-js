@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\onlineMeetings\getAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime
+ * /communications/onlineMeetings/getAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime
  * Provides operations to call the getAllRecordings method.
  */
 export class GetAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTimeClient {
   protected baseUrl =
-    "\communications\onlineMeetings\getAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime";
+    "/communications/onlineMeetings/getAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

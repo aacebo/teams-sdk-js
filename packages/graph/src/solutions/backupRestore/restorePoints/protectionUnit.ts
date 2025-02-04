@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\restorePoints\{restorePoint-id}\protectionUnit
+ * /solutions/backupRestore/restorePoints/{restorePoint-id}/protectionUnit
  * Provides operations to manage the protectionUnit property of the microsoft.graph.restorePoint entity.
  */
 export class ProtectionUnitClient {
   protected baseUrl =
-    "\solutions\backupRestore\restorePoints\{restorePoint-id}\protectionUnit";
+    "/solutions/backupRestore/restorePoints/{restorePoint-id}/protectionUnit";
   protected http: http.Client;
 
   constructor(

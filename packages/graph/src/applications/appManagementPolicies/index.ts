@@ -34,11 +34,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\appManagementPolicies
+ * /applications/{application-id}/appManagementPolicies
  * Provides operations to manage the appManagementPolicies property of the microsoft.graph.application entity.
  */
 export class AppManagementPoliciesClient {
-  protected baseUrl = "\applications\{application-id}\appManagementPolicies";
+  protected baseUrl = "/applications/{application-id}/appManagementPolicies";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class AppManagementPoliciesClient {
   }
 
   /**
-   * `\applications\{application-id}\appManagementPolicies\count`
+   * `/applications/{application-id}/appManagementPolicies/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -78,7 +78,7 @@ export class AppManagementPoliciesClient {
   }
 
   /**
-   * `\applications\{application-id}\appManagementPolicies\{appManagementPolicy-id}\ref`
+   * `/applications/{application-id}/appManagementPolicies/{appManagementPolicy-id}/ref`
    *
    * Provides operations to manage the collection of application entities.
    */
@@ -91,7 +91,7 @@ export class AppManagementPoliciesClient {
    *
    * The appManagementPolicy applied to this application.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /applications/{application-id}/appManagementPolicies"]["parameters"],
     config?: http.RequestConfig,
   ) {

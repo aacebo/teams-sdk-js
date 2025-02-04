@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applicationsuniqueNameuniqueName
+ * /applicationsuniqueNameuniqueName
  * Provides operations to manage the collection of application entities.
  */
 export class ApplicationsuniqueNameuniqueNameClient {
-  protected baseUrl = "\applicationsuniqueNameuniqueName";
+  protected baseUrl = "/applicationsuniqueNameuniqueName";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

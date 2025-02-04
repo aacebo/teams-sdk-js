@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\members\remove
+ * /chats/{chat-id}/members/remove
  * Provides operations to call the remove method.
  */
 export class RemoveClient {
-  protected baseUrl = "\chats\{chat-id}\members\remove";
+  protected baseUrl = "/chats/{chat-id}/members/remove";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

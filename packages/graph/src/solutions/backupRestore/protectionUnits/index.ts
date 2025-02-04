@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\protectionUnits
+ * /solutions/backupRestore/protectionUnits
  * Provides operations to manage the protectionUnits property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class ProtectionUnitsClient {
-  protected baseUrl = "\solutions\backupRestore\protectionUnits";
+  protected baseUrl = "/solutions/backupRestore/protectionUnits";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class ProtectionUnitsClient {
   }
 
   /**
-   * `\solutions\backupRestore\protectionUnits\count`
+   * `/solutions/backupRestore/protectionUnits/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -78,7 +78,7 @@ export class ProtectionUnitsClient {
    *
    * Read the properties and relationships of a protectionUnitBase object.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/protectionUnits"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -107,7 +107,7 @@ export class ProtectionUnitsClient {
    *
    * Read the properties and relationships of a protectionUnitBase object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/protectionUnits/{protectionUnitBase-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

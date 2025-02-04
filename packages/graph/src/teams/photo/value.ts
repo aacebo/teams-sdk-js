@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\photo\value
+ * /teams/{team-id}/photo/value
  * Provides operations to manage the media for the team entity.
  */
 export class ValueClient {
-  protected baseUrl = "\teams\{team-id}\photo\value";
+  protected baseUrl = "/teams/{team-id}/photo/value";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

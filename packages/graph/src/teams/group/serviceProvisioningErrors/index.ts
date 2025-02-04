@@ -33,10 +33,10 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\group\serviceProvisioningErrors
+ * /teams/{team-id}/group/serviceProvisioningErrors
  */
 export class ServiceProvisioningErrorsClient {
-  protected baseUrl = "\teams\{team-id}\group\serviceProvisioningErrors";
+  protected baseUrl = "/teams/{team-id}/group/serviceProvisioningErrors";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -64,7 +64,7 @@ export class ServiceProvisioningErrorsClient {
   }
 
   /**
-   * `\teams\{team-id}\group\serviceProvisioningErrors\count`
+   * `/teams/{team-id}/group/serviceProvisioningErrors/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -77,7 +77,7 @@ export class ServiceProvisioningErrorsClient {
    *
    * Errors published by a federated service describing a nontransient, service-specific error regarding the properties or link from a group object.  Supports $filter (eq, not, for isResolved and serviceInstance).
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/group/serviceProvisioningErrors"]["parameters"],
     config?: http.RequestConfig,
   ) {

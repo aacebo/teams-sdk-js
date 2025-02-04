@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\schedule\timesOff
+ * /teams/{team-id}/schedule/timesOff
  * Provides operations to manage the timesOff property of the microsoft.graph.schedule entity.
  */
 export class TimesOffClient {
-  protected baseUrl = "\teams\{team-id}\schedule\timesOff";
+  protected baseUrl = "/teams/{team-id}/schedule/timesOff";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class TimesOffClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\timesOff\count`
+   * `/teams/{team-id}/schedule/timesOff/count`
    *
    * Provides operations to count the resources in the collection.
    */

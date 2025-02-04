@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\exchangeRestoreSessions\count
+ * /solutions/backupRestore/exchangeRestoreSessions/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
-  protected baseUrl = "\solutions\backupRestore\exchangeRestoreSessions\count";
+  protected baseUrl = "/solutions/backupRestore/exchangeRestoreSessions/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

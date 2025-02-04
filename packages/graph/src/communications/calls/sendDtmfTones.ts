@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\sendDtmfTones
+ * /communications/calls/{call-id}/sendDtmfTones
  * Provides operations to call the sendDtmfTones method.
  */
 export class SendDtmfTonesClient {
-  protected baseUrl = "\communications\calls\{call-id}\sendDtmfTones";
+  protected baseUrl = "/communications/calls/{call-id}/sendDtmfTones";
   protected http: http.Client;
 
   constructor(

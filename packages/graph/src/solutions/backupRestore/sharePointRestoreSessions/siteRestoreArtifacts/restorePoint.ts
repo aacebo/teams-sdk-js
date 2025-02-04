@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\sharePointRestoreSessions\{sharePointRestoreSession-id}\siteRestoreArtifacts\{siteRestoreArtifact-id}\restorePoint
+ * /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}/siteRestoreArtifacts/{siteRestoreArtifact-id}/restorePoint
  * Provides operations to manage the restorePoint property of the microsoft.graph.restoreArtifactBase entity.
  */
 export class RestorePointClient {
   protected baseUrl =
-    "\solutions\backupRestore\sharePointRestoreSessions\{sharePointRestoreSession-id}\siteRestoreArtifacts\{siteRestoreArtifact-id}\restorePoint";
+    "/solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}/siteRestoreArtifacts/{siteRestoreArtifact-id}/restorePoint";
   protected http: http.Client;
 
   constructor(

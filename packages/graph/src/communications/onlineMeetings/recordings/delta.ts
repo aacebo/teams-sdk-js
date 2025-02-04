@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\onlineMeetings\{onlineMeeting-id}\recordings\delta
+ * /communications/onlineMeetings/{onlineMeeting-id}/recordings/delta
  * Provides operations to call the delta method.
  */
 export class DeltaClient {
   protected baseUrl =
-    "\communications\onlineMeetings\{onlineMeeting-id}\recordings\delta";
+    "/communications/onlineMeetings/{onlineMeeting-id}/recordings/delta";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

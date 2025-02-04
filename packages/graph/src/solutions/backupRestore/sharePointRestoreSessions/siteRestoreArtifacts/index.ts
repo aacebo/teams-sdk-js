@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\sharePointRestoreSessions\{sharePointRestoreSession-id}\siteRestoreArtifacts
+ * /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}/siteRestoreArtifacts
  * Provides operations to manage the siteRestoreArtifacts property of the microsoft.graph.sharePointRestoreSession entity.
  */
 export class SiteRestoreArtifactsClient {
   protected baseUrl =
-    "\solutions\backupRestore\sharePointRestoreSessions\{sharePointRestoreSession-id}\siteRestoreArtifacts";
+    "/solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}/siteRestoreArtifacts";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class SiteRestoreArtifactsClient {
   }
 
   /**
-   * `\solutions\backupRestore\sharePointRestoreSessions\{sharePointRestoreSession-id}\siteRestoreArtifacts\count`
+   * `/solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}/siteRestoreArtifacts/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -79,7 +79,7 @@ export class SiteRestoreArtifactsClient {
   }
 
   /**
-   * `\solutions\backupRestore\sharePointRestoreSessions\{sharePointRestoreSession-id}\siteRestoreArtifacts\{siteRestoreArtifact-id}\restorePoint`
+   * `/solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}/siteRestoreArtifacts/{siteRestoreArtifact-id}/restorePoint`
    *
    * Provides operations to manage the restorePoint property of the microsoft.graph.restoreArtifactBase entity.
    */
@@ -121,7 +121,7 @@ export class SiteRestoreArtifactsClient {
    *
    * List all the siteRestoreArtifact objects for a sharePointRestoreSession for the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}/siteRestoreArtifacts"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -152,7 +152,7 @@ export class SiteRestoreArtifactsClient {
    *
    * A collection of restore points and destination details that can be used to restore SharePoint sites.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}/siteRestoreArtifacts/{siteRestoreArtifact-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

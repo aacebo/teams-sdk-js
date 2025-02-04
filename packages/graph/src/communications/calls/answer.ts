@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\answer
+ * /communications/calls/{call-id}/answer
  * Provides operations to call the answer method.
  */
 export class AnswerClient {
-  protected baseUrl = "\communications\calls\{call-id}\answer";
+  protected baseUrl = "/communications/calls/{call-id}/answer";
   protected http: http.Client;
 
   constructor(

@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\sharePointProtectionPolicies\{sharePointProtectionPolicy-id}\siteProtectionUnits
+ * /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}/siteProtectionUnits
  * Provides operations to manage the siteProtectionUnits property of the microsoft.graph.sharePointProtectionPolicy entity.
  */
 export class SiteProtectionUnitsClient {
   protected baseUrl =
-    "\solutions\backupRestore\sharePointProtectionPolicies\{sharePointProtectionPolicy-id}\siteProtectionUnits";
+    "/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}/siteProtectionUnits";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class SiteProtectionUnitsClient {
   }
 
   /**
-   * `\solutions\backupRestore\sharePointProtectionPolicies\{sharePointProtectionPolicy-id}\siteProtectionUnits\count`
+   * `/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}/siteProtectionUnits/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -82,7 +82,7 @@ export class SiteProtectionUnitsClient {
    *
    * Get a list of the siteProtectionUnit objects that are associated with a sharePointProtectionPolicy.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}/siteProtectionUnits"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -113,7 +113,7 @@ export class SiteProtectionUnitsClient {
    *
    * The protection units (sites) that are protected under the site protection policy.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}/siteProtectionUnits/{siteProtectionUnit-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

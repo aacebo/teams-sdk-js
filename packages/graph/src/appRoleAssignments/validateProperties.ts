@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \appRoleAssignments\validateProperties
+ * /appRoleAssignments/validateProperties
  * Provides operations to call the validateProperties method.
  */
 export class ValidatePropertiesClient {
-  protected baseUrl = "\appRoleAssignments\validateProperties";
+  protected baseUrl = "/appRoleAssignments/validateProperties";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\redirect
+ * /communications/calls/{call-id}/redirect
  * Provides operations to call the redirect method.
  */
 export class RedirectClient {
-  protected baseUrl = "\communications\calls\{call-id}\redirect";
+  protected baseUrl = "/communications/calls/{call-id}/redirect";
   protected http: http.Client;
 
   constructor(

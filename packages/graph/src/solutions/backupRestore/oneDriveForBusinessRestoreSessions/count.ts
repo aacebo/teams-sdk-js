@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\oneDriveForBusinessRestoreSessions\count
+ * /solutions/backupRestore/oneDriveForBusinessRestoreSessions/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
   protected baseUrl =
-    "\solutions\backupRestore\oneDriveForBusinessRestoreSessions\count";
+    "/solutions/backupRestore/oneDriveForBusinessRestoreSessions/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

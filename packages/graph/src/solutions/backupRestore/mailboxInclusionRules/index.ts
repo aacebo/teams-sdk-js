@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\mailboxInclusionRules
+ * /solutions/backupRestore/mailboxInclusionRules
  * Provides operations to manage the mailboxInclusionRules property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class MailboxInclusionRulesClient {
-  protected baseUrl = "\solutions\backupRestore\mailboxInclusionRules";
+  protected baseUrl = "/solutions/backupRestore/mailboxInclusionRules";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class MailboxInclusionRulesClient {
   }
 
   /**
-   * `\solutions\backupRestore\mailboxInclusionRules\count`
+   * `/solutions/backupRestore/mailboxInclusionRules/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -105,7 +105,7 @@ export class MailboxInclusionRulesClient {
    *
    * The list of mailbox inclusion rules applied to the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/mailboxInclusionRules"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -134,7 +134,7 @@ export class MailboxInclusionRulesClient {
    *
    * The list of mailbox inclusion rules applied to the tenant.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/mailboxInclusionRules/{mailboxProtectionRule-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

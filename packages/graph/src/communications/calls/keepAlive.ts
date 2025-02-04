@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\keepAlive
+ * /communications/calls/{call-id}/keepAlive
  * Provides operations to call the keepAlive method.
  */
 export class KeepAliveClient {
-  protected baseUrl = "\communications\calls\{call-id}\keepAlive";
+  protected baseUrl = "/communications/calls/{call-id}/keepAlive";
   protected http: http.Client;
 
   constructor(

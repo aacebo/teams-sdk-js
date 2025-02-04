@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\calendarView\{event-id}\attachments
+ * /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/attachments
  * Provides operations to manage the attachments property of the microsoft.graph.event entity.
  */
 export class AttachmentsClient {
   protected baseUrl =
-    "\me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\calendarView\{event-id}\attachments";
+    "/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/attachments";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class AttachmentsClient {
   }
 
   /**
-   * `\me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\calendarView\{event-id}\attachments\count`
+   * `/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/attachments/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -79,7 +79,7 @@ export class AttachmentsClient {
   }
 
   /**
-   * `\me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\calendarView\{event-id}\attachments\createUploadSession`
+   * `/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/attachments/createUploadSession`
    *
    * Provides operations to call the createUploadSession method.
    */
@@ -123,7 +123,7 @@ export class AttachmentsClient {
    *
    * The collection of FileAttachment, ItemAttachment, and referenceAttachment attachments for the event. Navigation property. Read-only. Nullable.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/attachments"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -156,7 +156,7 @@ export class AttachmentsClient {
    *
    * The collection of FileAttachment, ItemAttachment, and referenceAttachment attachments for the event. Navigation property. Read-only. Nullable.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/attachments/{attachment-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

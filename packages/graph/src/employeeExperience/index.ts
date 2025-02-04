@@ -4,10 +4,10 @@ import pkg from "src/../package.json";
 import { LearningProvidersClient } from "./learningProviders";
 
 /**
- * \employeeExperience
+ * /employeeExperience
  */
 export class EmployeeExperienceClient {
-  protected baseUrl = "\employeeExperience";
+  protected baseUrl = "/employeeExperience";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -35,7 +35,7 @@ export class EmployeeExperienceClient {
   }
 
   /**
-   * `\employeeExperience\learningProviders`
+   * `/employeeExperience/learningProviders`
    *
    * Provides operations to manage the learningCourseActivities property of the microsoft.graph.learningProvider entity.
    */

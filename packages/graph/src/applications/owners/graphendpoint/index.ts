@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\owners\{directoryObject-id}\graphendpoint
+ * /applications/{application-id}/owners/{directoryObject-id}/graphendpoint
  * Casts the previous resource to endpoint.
  */
 export class GraphendpointClient {
   protected baseUrl =
-    "\applications\{application-id}\owners\{directoryObject-id}\graphendpoint";
+    "/applications/{application-id}/owners/{directoryObject-id}/graphendpoint";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class GraphendpointClient {
   }
 
   /**
-   * `\applications\{application-id}\owners\{directoryObject-id}\graphendpoint\count`
+   * `/applications/{application-id}/owners/{directoryObject-id}/graphendpoint/count`
    *
    * Provides operations to count the resources in the collection.
    */

@@ -45,11 +45,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendar\events
+ * /me/calendar/events
  * Provides operations to manage the events property of the microsoft.graph.calendar entity.
  */
 export class EventsClient {
-  protected baseUrl = "\me\calendar\events";
+  protected baseUrl = "/me/calendar/events";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -77,7 +77,7 @@ export class EventsClient {
   }
 
   /**
-   * `\me\calendar\events\{event-id}\accept`
+   * `/me/calendar/events/{event-id}/accept`
    *
    * Provides operations to call the accept method.
    */
@@ -86,7 +86,7 @@ export class EventsClient {
   }
 
   /**
-   * `\me\calendar\events\{event-id}\attachments`
+   * `/me/calendar/events/{event-id}/attachments`
    *
    * Provides operations to manage the attachments property of the microsoft.graph.event entity.
    */
@@ -95,7 +95,7 @@ export class EventsClient {
   }
 
   /**
-   * `\me\calendar\events\{event-id}\calendar`
+   * `/me/calendar/events/{event-id}/calendar`
    *
    * Provides operations to manage the calendar property of the microsoft.graph.event entity.
    */
@@ -104,7 +104,7 @@ export class EventsClient {
   }
 
   /**
-   * `\me\calendar\events\{event-id}\cancel`
+   * `/me/calendar/events/{event-id}/cancel`
    *
    * Provides operations to call the cancel method.
    */
@@ -113,7 +113,7 @@ export class EventsClient {
   }
 
   /**
-   * `\me\calendar\events\count`
+   * `/me/calendar/events/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -122,7 +122,7 @@ export class EventsClient {
   }
 
   /**
-   * `\me\calendar\events\{event-id}\decline`
+   * `/me/calendar/events/{event-id}/decline`
    *
    * Provides operations to call the decline method.
    */
@@ -131,7 +131,7 @@ export class EventsClient {
   }
 
   /**
-   * `\me\calendar\events\delta`
+   * `/me/calendar/events/delta`
    *
    * Provides operations to call the delta method.
    */
@@ -140,7 +140,7 @@ export class EventsClient {
   }
 
   /**
-   * `\me\calendar\events\{event-id}\dismissReminder`
+   * `/me/calendar/events/{event-id}/dismissReminder`
    *
    * Provides operations to call the dismissReminder method.
    */
@@ -149,7 +149,7 @@ export class EventsClient {
   }
 
   /**
-   * `\me\calendar\events\{event-id}\extensions`
+   * `/me/calendar/events/{event-id}/extensions`
    *
    * Provides operations to manage the extensions property of the microsoft.graph.event entity.
    */
@@ -158,7 +158,7 @@ export class EventsClient {
   }
 
   /**
-   * `\me\calendar\events\{event-id}\forward`
+   * `/me/calendar/events/{event-id}/forward`
    *
    * Provides operations to call the forward method.
    */
@@ -167,7 +167,7 @@ export class EventsClient {
   }
 
   /**
-   * `\me\calendar\events\{event-id}\instances`
+   * `/me/calendar/events/{event-id}/instances`
    *
    * Provides operations to manage the instances property of the microsoft.graph.event entity.
    */
@@ -176,7 +176,7 @@ export class EventsClient {
   }
 
   /**
-   * `\me\calendar\events\{event-id}\snoozeReminder`
+   * `/me/calendar/events/{event-id}/snoozeReminder`
    *
    * Provides operations to call the snoozeReminder method.
    */
@@ -185,7 +185,7 @@ export class EventsClient {
   }
 
   /**
-   * `\me\calendar\events\{event-id}\tentativelyAccept`
+   * `/me/calendar/events/{event-id}/tentativelyAccept`
    *
    * Provides operations to call the tentativelyAccept method.
    */
@@ -226,7 +226,7 @@ export class EventsClient {
    * Retrieve a list of events in a calendar. The calendar can be one for a user, or the default calendar of a Microsoft 365 group. The list of events contains single instance meetings and series masters. To get expanded event instances, you can get the calendar view, or
 get the instances of an event.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /me/calendar/events"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -254,7 +254,7 @@ get the instances of an event.
    *
    * The events in the calendar. Navigation property. Read-only.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /me/calendar/events/{event-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

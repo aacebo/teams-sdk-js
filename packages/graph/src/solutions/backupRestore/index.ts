@@ -50,11 +50,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore
+ * /solutions/backupRestore
  * Provides operations to manage the backupRestore property of the microsoft.graph.solutionsRoot entity.
  */
 export class BackupRestoreClient {
-  protected baseUrl = "\solutions\backupRestore";
+  protected baseUrl = "/solutions/backupRestore";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -82,7 +82,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\driveInclusionRules`
+   * `/solutions/backupRestore/driveInclusionRules`
    *
    * Provides operations to manage the driveInclusionRules property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -91,7 +91,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\driveProtectionUnits`
+   * `/solutions/backupRestore/driveProtectionUnits`
    *
    * Provides operations to manage the driveProtectionUnits property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -100,7 +100,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\enable`
+   * `/solutions/backupRestore/enable`
    *
    * Provides operations to call the enable method.
    */
@@ -109,7 +109,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\exchangeProtectionPolicies`
+   * `/solutions/backupRestore/exchangeProtectionPolicies`
    *
    * Provides operations to manage the exchangeProtectionPolicies property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -118,7 +118,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\exchangeRestoreSessions`
+   * `/solutions/backupRestore/exchangeRestoreSessions`
    *
    * Provides operations to manage the exchangeRestoreSessions property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -127,7 +127,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\mailboxInclusionRules`
+   * `/solutions/backupRestore/mailboxInclusionRules`
    *
    * Provides operations to manage the mailboxInclusionRules property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -136,7 +136,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\mailboxProtectionUnits`
+   * `/solutions/backupRestore/mailboxProtectionUnits`
    *
    * Provides operations to manage the mailboxProtectionUnits property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -145,7 +145,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\oneDriveForBusinessProtectionPolicies`
+   * `/solutions/backupRestore/oneDriveForBusinessProtectionPolicies`
    *
    * Provides operations to manage the oneDriveForBusinessProtectionPolicies property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -154,7 +154,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\oneDriveForBusinessRestoreSessions`
+   * `/solutions/backupRestore/oneDriveForBusinessRestoreSessions`
    *
    * Provides operations to manage the oneDriveForBusinessRestoreSessions property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -163,7 +163,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\protectionPolicies`
+   * `/solutions/backupRestore/protectionPolicies`
    *
    * Provides operations to manage the protectionPolicies property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -172,7 +172,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\protectionUnits`
+   * `/solutions/backupRestore/protectionUnits`
    *
    * Provides operations to manage the protectionUnits property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -181,7 +181,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\restorePoints`
+   * `/solutions/backupRestore/restorePoints`
    *
    * Provides operations to manage the restorePoints property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -190,7 +190,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\restoreSessions`
+   * `/solutions/backupRestore/restoreSessions`
    *
    * Provides operations to manage the restoreSessions property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -199,7 +199,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\serviceApps`
+   * `/solutions/backupRestore/serviceApps`
    *
    * Provides operations to manage the serviceApps property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -208,7 +208,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\sharePointProtectionPolicies`
+   * `/solutions/backupRestore/sharePointProtectionPolicies`
    *
    * Provides operations to manage the sharePointProtectionPolicies property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -217,7 +217,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\sharePointRestoreSessions`
+   * `/solutions/backupRestore/sharePointRestoreSessions`
    *
    * Provides operations to manage the sharePointRestoreSessions property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -226,7 +226,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\siteInclusionRules`
+   * `/solutions/backupRestore/siteInclusionRules`
    *
    * Provides operations to manage the siteInclusionRules property of the microsoft.graph.backupRestoreRoot entity.
    */
@@ -235,7 +235,7 @@ export class BackupRestoreClient {
   }
 
   /**
-   * `\solutions\backupRestore\siteProtectionUnits`
+   * `/solutions/backupRestore/siteProtectionUnits`
    *
    * Provides operations to manage the siteProtectionUnits property of the microsoft.graph.backupRestoreRoot entity.
    */

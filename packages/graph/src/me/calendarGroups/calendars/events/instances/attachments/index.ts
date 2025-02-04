@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\events\{event-id}\instances\{event-id1}\attachments
+ * /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/attachments
  * Provides operations to manage the attachments property of the microsoft.graph.event entity.
  */
 export class AttachmentsClient {
   protected baseUrl =
-    "\me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\events\{event-id}\instances\{event-id1}\attachments";
+    "/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/attachments";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class AttachmentsClient {
   }
 
   /**
-   * `\me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\events\{event-id}\instances\{event-id1}\attachments\count`
+   * `/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/attachments/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -79,7 +79,7 @@ export class AttachmentsClient {
   }
 
   /**
-   * `\me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\events\{event-id}\instances\{event-id1}\attachments\createUploadSession`
+   * `/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/attachments/createUploadSession`
    *
    * Provides operations to call the createUploadSession method.
    */
@@ -124,7 +124,7 @@ export class AttachmentsClient {
    *
    * The collection of FileAttachment, ItemAttachment, and referenceAttachment attachments for the event. Navigation property. Read-only. Nullable.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/attachments"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -158,7 +158,7 @@ export class AttachmentsClient {
    *
    * The collection of FileAttachment, ItemAttachment, and referenceAttachment attachments for the event. Navigation property. Read-only. Nullable.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/attachments/{attachment-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -63,7 +63,13 @@ export class Client {
         },
       });
     } else if ("request" in options) {
-      this.http = options;
+      this.http = options.clone({
+        baseUrl: "https://graph.microsoft.com/v1.0",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
       this.http = new http.Client({
         ...options,
@@ -78,7 +84,7 @@ export class Client {
   }
 
   /**
-   * `\appCatalogs`
+   * `/appCatalogs`
    *
    * Provides operations to manage the appCatalogs singleton.
    */
@@ -87,7 +93,7 @@ export class Client {
   }
 
   /**
-   * `\appRoleAssignments`
+   * `/appRoleAssignments`
    *
    * Provides operations to manage the collection of appRoleAssignment entities.
    */
@@ -96,7 +102,7 @@ export class Client {
   }
 
   /**
-   * `\applicationTemplates`
+   * `/applicationTemplates`
    *
    * Provides operations to manage the collection of applicationTemplate entities.
    */
@@ -105,7 +111,7 @@ export class Client {
   }
 
   /**
-   * `\applications`
+   * `/applications`
    *
    * Provides operations to manage the federatedIdentityCredentials property of the microsoft.graph.application entity.
    */
@@ -114,7 +120,7 @@ export class Client {
   }
 
   /**
-   * `\applicationsuniqueNameuniqueName`
+   * `/applicationsuniqueNameuniqueName`
    *
    * Provides operations to manage the collection of application entities.
    */
@@ -123,7 +129,7 @@ export class Client {
   }
 
   /**
-   * `\chats`
+   * `/chats`
    *
    * Provides operations to manage the collection of chat entities.
    */
@@ -132,7 +138,7 @@ export class Client {
   }
 
   /**
-   * `\communications`
+   * `/communications`
    *
    * Provides operations to manage the cloudCommunications singleton.
    */
@@ -141,7 +147,7 @@ export class Client {
   }
 
   /**
-   * `\employeeExperience`
+   * `/employeeExperience`
    *
    */
   get employeeExperience() {
@@ -149,7 +155,7 @@ export class Client {
   }
 
   /**
-   * `\me`
+   * `/me`
    *
    * Provides operations to manage the user singleton.
    */
@@ -158,7 +164,7 @@ export class Client {
   }
 
   /**
-   * `\solutions`
+   * `/solutions`
    *
    * Provides operations to manage the solutionsRoot singleton.
    */
@@ -167,7 +173,7 @@ export class Client {
   }
 
   /**
-   * `\teams`
+   * `/teams`
    *
    * Provides operations to manage the collection of team entities.
    */
@@ -176,7 +182,7 @@ export class Client {
   }
 
   /**
-   * `\teamsTemplates`
+   * `/teamsTemplates`
    *
    * Provides operations to manage the collection of teamsTemplate entities.
    */
@@ -185,7 +191,7 @@ export class Client {
   }
 
   /**
-   * `\teamwork`
+   * `/teamwork`
    *
    * Provides operations to manage the teamwork singleton.
    */
@@ -194,7 +200,7 @@ export class Client {
   }
 
   /**
-   * `\users`
+   * `/users`
    *
    */
   get users() {

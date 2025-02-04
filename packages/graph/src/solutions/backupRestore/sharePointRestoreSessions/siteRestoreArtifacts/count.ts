@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\sharePointRestoreSessions\{sharePointRestoreSession-id}\siteRestoreArtifacts\count
+ * /solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}/siteRestoreArtifacts/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
   protected baseUrl =
-    "\solutions\backupRestore\sharePointRestoreSessions\{sharePointRestoreSession-id}\siteRestoreArtifacts\count";
+    "/solutions/backupRestore/sharePointRestoreSessions/{sharePointRestoreSession-id}/siteRestoreArtifacts/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

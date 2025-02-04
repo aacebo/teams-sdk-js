@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\callRecords\{callRecord-id}\participantsv2
+ * /communications/callRecords/{callRecord-id}/participantsv2
  * Provides operations to manage the participants_v2 property of the microsoft.graph.callRecords.callRecord entity.
  */
 export class Participantsv2Client {
   protected baseUrl =
-    "\communications\callRecords\{callRecord-id}\participantsv2";
+    "/communications/callRecords/{callRecord-id}/participantsv2";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class Participantsv2Client {
   }
 
   /**
-   * `\communications\callRecords\{callRecord-id}\participantsv2\count`
+   * `/communications/callRecords/{callRecord-id}/participantsv2/count`
    *
    * Provides operations to count the resources in the collection.
    */

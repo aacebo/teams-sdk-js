@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \employeeExperience\learningProviders\{learningProvider-id}\learningContents
+ * /employeeExperience/learningProviders/{learningProvider-id}/learningContents
  * Provides operations to manage the learningContents property of the microsoft.graph.learningProvider entity.
  */
 export class LearningContentsClient {
   protected baseUrl =
-    "\employeeExperience\learningProviders\{learningProvider-id}\learningContents";
+    "/employeeExperience/learningProviders/{learningProvider-id}/learningContents";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class LearningContentsClient {
   }
 
   /**
-   * `\employeeExperience\learningProviders\{learningProvider-id}\learningContents\count`
+   * `/employeeExperience/learningProviders/{learningProvider-id}/learningContents/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -112,7 +112,7 @@ export class LearningContentsClient {
    *
    * Get a list of the learningContent resources and their properties. This list represents the metadata of the specified provider&#x27;s content in Viva Learning.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -143,7 +143,7 @@ export class LearningContentsClient {
    *
    * Get the specified learningContent resource which represents the metadata of the specified provider&#x27;s ingested content.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents/{learningContent-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

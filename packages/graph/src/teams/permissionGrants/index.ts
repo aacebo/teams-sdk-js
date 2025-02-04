@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\permissionGrants
+ * /teams/{team-id}/permissionGrants
  * Provides operations to manage the permissionGrants property of the microsoft.graph.team entity.
  */
 export class PermissionGrantsClient {
-  protected baseUrl = "\teams\{team-id}\permissionGrants";
+  protected baseUrl = "/teams/{team-id}/permissionGrants";
   protected http: http.Client;
 
   constructor(
@@ -68,7 +68,7 @@ export class PermissionGrantsClient {
   }
 
   /**
-   * `\teams\{team-id}\permissionGrants\count`
+   * `/teams/{team-id}/permissionGrants/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -110,7 +110,7 @@ export class PermissionGrantsClient {
    *
    * List all resource-specific permission grants on the team. This list specifies the Microsoft Entra apps that have access to the team, along with each app&#x27;s corresponding type of resource-specific access.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/permissionGrants"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -141,7 +141,7 @@ export class PermissionGrantsClient {
    *
    * A collection of permissions granted to apps to access the team.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

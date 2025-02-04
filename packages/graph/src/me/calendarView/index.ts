@@ -45,11 +45,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendarView
+ * /me/calendarView
  * Provides operations to manage the calendarView property of the microsoft.graph.user entity.
  */
 export class CalendarViewClient {
-  protected baseUrl = "\me\calendarView";
+  protected baseUrl = "/me/calendarView";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -77,7 +77,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `\me\calendarView\{event-id}\accept`
+   * `/me/calendarView/{event-id}/accept`
    *
    * Provides operations to call the accept method.
    */
@@ -86,7 +86,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `\me\calendarView\{event-id}\attachments`
+   * `/me/calendarView/{event-id}/attachments`
    *
    * Provides operations to manage the attachments property of the microsoft.graph.event entity.
    */
@@ -95,7 +95,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `\me\calendarView\{event-id}\calendar`
+   * `/me/calendarView/{event-id}/calendar`
    *
    * Provides operations to manage the calendar property of the microsoft.graph.event entity.
    */
@@ -104,7 +104,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `\me\calendarView\{event-id}\cancel`
+   * `/me/calendarView/{event-id}/cancel`
    *
    * Provides operations to call the cancel method.
    */
@@ -113,7 +113,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `\me\calendarView\count`
+   * `/me/calendarView/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -122,7 +122,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `\me\calendarView\{event-id}\decline`
+   * `/me/calendarView/{event-id}/decline`
    *
    * Provides operations to call the decline method.
    */
@@ -131,7 +131,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `\me\calendarView\delta`
+   * `/me/calendarView/delta`
    *
    * Provides operations to call the delta method.
    */
@@ -140,7 +140,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `\me\calendarView\{event-id}\dismissReminder`
+   * `/me/calendarView/{event-id}/dismissReminder`
    *
    * Provides operations to call the dismissReminder method.
    */
@@ -149,7 +149,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `\me\calendarView\{event-id}\extensions`
+   * `/me/calendarView/{event-id}/extensions`
    *
    * Provides operations to manage the extensions property of the microsoft.graph.event entity.
    */
@@ -158,7 +158,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `\me\calendarView\{event-id}\forward`
+   * `/me/calendarView/{event-id}/forward`
    *
    * Provides operations to call the forward method.
    */
@@ -167,7 +167,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `\me\calendarView\{event-id}\instances`
+   * `/me/calendarView/{event-id}/instances`
    *
    * Provides operations to manage the instances property of the microsoft.graph.event entity.
    */
@@ -176,7 +176,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `\me\calendarView\{event-id}\snoozeReminder`
+   * `/me/calendarView/{event-id}/snoozeReminder`
    *
    * Provides operations to call the snoozeReminder method.
    */
@@ -185,7 +185,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `\me\calendarView\{event-id}\tentativelyAccept`
+   * `/me/calendarView/{event-id}/tentativelyAccept`
    *
    * Provides operations to call the tentativelyAccept method.
    */

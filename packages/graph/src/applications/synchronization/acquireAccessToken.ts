@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\acquireAccessToken
+ * /applications/{application-id}/synchronization/acquireAccessToken
  * Provides operations to call the acquireAccessToken method.
  */
 export class AcquireAccessTokenClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\acquireAccessToken";
+    "/applications/{application-id}/synchronization/acquireAccessToken";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

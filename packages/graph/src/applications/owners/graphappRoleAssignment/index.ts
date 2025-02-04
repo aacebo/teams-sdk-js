@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\owners\{directoryObject-id}\graphappRoleAssignment
+ * /applications/{application-id}/owners/{directoryObject-id}/graphappRoleAssignment
  * Casts the previous resource to appRoleAssignment.
  */
 export class GraphappRoleAssignmentClient {
   protected baseUrl =
-    "\applications\{application-id}\owners\{directoryObject-id}\graphappRoleAssignment";
+    "/applications/{application-id}/owners/{directoryObject-id}/graphappRoleAssignment";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class GraphappRoleAssignmentClient {
   }
 
   /**
-   * `\applications\{application-id}\owners\{directoryObject-id}\graphappRoleAssignment\count`
+   * `/applications/{application-id}/owners/{directoryObject-id}/graphappRoleAssignment/count`
    *
    * Provides operations to count the resources in the collection.
    */

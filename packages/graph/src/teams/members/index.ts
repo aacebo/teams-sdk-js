@@ -35,11 +35,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\members
+ * /teams/{team-id}/members
  * Provides operations to manage the members property of the microsoft.graph.team entity.
  */
 export class MembersClient {
-  protected baseUrl = "\teams\{team-id}\members";
+  protected baseUrl = "/teams/{team-id}/members";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class MembersClient {
   }
 
   /**
-   * `\teams\{team-id}\members\add`
+   * `/teams/{team-id}/members/add`
    *
    * Provides operations to call the add method.
    */
@@ -79,7 +79,7 @@ export class MembersClient {
   }
 
   /**
-   * `\teams\{team-id}\members\count`
+   * `/teams/{team-id}/members/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -88,7 +88,7 @@ export class MembersClient {
   }
 
   /**
-   * `\teams\{team-id}\members\remove`
+   * `/teams/{team-id}/members/remove`
    *
    * Provides operations to call the remove method.
    */
@@ -131,7 +131,7 @@ export class MembersClient {
    *
    * Get the conversationMember collection of a team. The membership IDs returned by the server must be treated as opaque strings. The client shouldn&#x27;t try to parse or make assumptions about these resource IDs. In the future, membership results can include users from various tenants, as indicated in the response. Clients should avoid assuming that all members exclusively belong to the current tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/members"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -162,7 +162,7 @@ export class MembersClient {
    *
    * Get a conversationMember from a team.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/members/{conversationMember-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

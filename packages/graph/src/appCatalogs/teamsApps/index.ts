@@ -34,11 +34,11 @@ function getInjectedUrl(
 }
 
 /**
- * \appCatalogs\teamsApps
+ * /appCatalogs/teamsApps
  * Provides operations to manage the teamsApps property of the microsoft.graph.appCatalogs entity.
  */
 export class TeamsAppsClient {
-  protected baseUrl = "\appCatalogs\teamsApps";
+  protected baseUrl = "/appCatalogs/teamsApps";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -66,7 +66,7 @@ export class TeamsAppsClient {
   }
 
   /**
-   * `\appCatalogs\teamsApps\{teamsApp-id}\appDefinitions`
+   * `/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions`
    *
    * Provides operations to manage the appDefinitions property of the microsoft.graph.teamsApp entity.
    */
@@ -75,7 +75,7 @@ export class TeamsAppsClient {
   }
 
   /**
-   * `\appCatalogs\teamsApps\count`
+   * `/appCatalogs/teamsApps/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -116,7 +116,7 @@ export class TeamsAppsClient {
    *
    * List apps from the Microsoft Teams app catalog, including apps from the Microsoft Teams store and apps from your organization&#x27;s app catalog (the tenant app catalog). To get apps from your organization&#x27;s app catalog only, specify organization as the distributionMethod in the request.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /appCatalogs/teamsApps"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -144,7 +144,7 @@ export class TeamsAppsClient {
    * `GET /appCatalogs/teamsApps/{teamsApp-id}`
    *
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /appCatalogs/teamsApps/{teamsApp-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\extensionProperties
+ * /applications/{application-id}/extensionProperties
  * Provides operations to manage the extensionProperties property of the microsoft.graph.application entity.
  */
 export class ExtensionPropertiesClient {
-  protected baseUrl = "\applications\{application-id}\extensionProperties";
+  protected baseUrl = "/applications/{application-id}/extensionProperties";
   protected http: http.Client;
 
   constructor(
@@ -68,7 +68,7 @@ export class ExtensionPropertiesClient {
   }
 
   /**
-   * `\applications\{application-id}\extensionProperties\count`
+   * `/applications/{application-id}/extensionProperties/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -111,7 +111,7 @@ export class ExtensionPropertiesClient {
    *
    * Retrieve the list of directory extension definitions, represented by extensionProperty objects on an application.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /applications/{application-id}/extensionProperties"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -142,7 +142,7 @@ export class ExtensionPropertiesClient {
    *
    * Read a directory extension definition represented by an extensionProperty object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /applications/{application-id}/extensionProperties/{extensionProperty-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\schedule\share
+ * /teams/{team-id}/schedule/share
  * Provides operations to call the share method.
  */
 export class ShareClient {
-  protected baseUrl = "\teams\{team-id}\schedule\share";
+  protected baseUrl = "/teams/{team-id}/schedule/share";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

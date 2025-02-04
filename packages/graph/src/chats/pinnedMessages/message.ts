@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\pinnedMessages\{pinnedChatMessageInfo-id}\message
+ * /chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}/message
  * Provides operations to manage the message property of the microsoft.graph.pinnedChatMessageInfo entity.
  */
 export class MessageClient {
   protected baseUrl =
-    "\chats\{chat-id}\pinnedMessages\{pinnedChatMessageInfo-id}\message";
+    "/chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}/message";
   protected http: http.Client;
 
   constructor(

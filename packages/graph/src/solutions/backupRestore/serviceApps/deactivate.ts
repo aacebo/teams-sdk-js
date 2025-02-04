@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\serviceApps\{serviceApp-id}\deactivate
+ * /solutions/backupRestore/serviceApps/{serviceApp-id}/deactivate
  * Provides operations to call the deactivate method.
  */
 export class DeactivateClient {
   protected baseUrl =
-    "\solutions\backupRestore\serviceApps\{serviceApp-id}\deactivate";
+    "/solutions/backupRestore/serviceApps/{serviceApp-id}/deactivate";
   protected http: http.Client;
 
   constructor(

@@ -37,11 +37,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendarGroups\{calendarGroup-id}\calendars
+ * /me/calendarGroups/{calendarGroup-id}/calendars
  * Provides operations to call the allowedCalendarSharingRoles method.
  */
 export class CalendarsClient {
-  protected baseUrl = "\me\calendarGroups\{calendarGroup-id}\calendars";
+  protected baseUrl = "/me/calendarGroups/{calendarGroup-id}/calendars";
   protected http: http.Client;
 
   constructor(
@@ -72,7 +72,7 @@ export class CalendarsClient {
   }
 
   /**
-   * `\me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\calendarPermissions`
+   * `/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarPermissions`
    *
    * Provides operations to manage the calendarPermissions property of the microsoft.graph.calendar entity.
    */
@@ -81,7 +81,7 @@ export class CalendarsClient {
   }
 
   /**
-   * `\me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\calendarView`
+   * `/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView`
    *
    * Provides operations to manage the calendarView property of the microsoft.graph.calendar entity.
    */
@@ -90,7 +90,7 @@ export class CalendarsClient {
   }
 
   /**
-   * `\me\calendarGroups\{calendarGroup-id}\calendars\count`
+   * `/me/calendarGroups/{calendarGroup-id}/calendars/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -99,7 +99,7 @@ export class CalendarsClient {
   }
 
   /**
-   * `\me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\events`
+   * `/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events`
    *
    * Provides operations to manage the events property of the microsoft.graph.calendar entity.
    */
@@ -108,7 +108,7 @@ export class CalendarsClient {
   }
 
   /**
-   * `\me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\getSchedule`
+   * `/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/getSchedule`
    *
    * Provides operations to call the getSchedule method.
    */
@@ -150,7 +150,7 @@ export class CalendarsClient {
    *
    * Retrieve a list of calendars belonging to a calendar group.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /me/calendarGroups/{calendarGroup-id}/calendars"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -181,7 +181,7 @@ export class CalendarsClient {
    *
    * The calendars in the calendar group. Navigation property. Read-only. Nullable.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -211,7 +211,7 @@ export class CalendarsClient {
    * `GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)`
    *
    */
-  async get$2(
+  async get$1(
     params?: Endpoints["GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)"]["parameters"],
     config?: http.RequestConfig,
   ) {

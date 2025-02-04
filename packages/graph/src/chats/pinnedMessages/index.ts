@@ -34,11 +34,11 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\pinnedMessages
+ * /chats/{chat-id}/pinnedMessages
  * Provides operations to manage the pinnedMessages property of the microsoft.graph.chat entity.
  */
 export class PinnedMessagesClient {
-  protected baseUrl = "\chats\{chat-id}\pinnedMessages";
+  protected baseUrl = "/chats/{chat-id}/pinnedMessages";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class PinnedMessagesClient {
   }
 
   /**
-   * `\chats\{chat-id}\pinnedMessages\count`
+   * `/chats/{chat-id}/pinnedMessages/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -78,7 +78,7 @@ export class PinnedMessagesClient {
   }
 
   /**
-   * `\chats\{chat-id}\pinnedMessages\{pinnedChatMessageInfo-id}\message`
+   * `/chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}/message`
    *
    * Provides operations to manage the message property of the microsoft.graph.pinnedChatMessageInfo entity.
    */
@@ -121,7 +121,7 @@ export class PinnedMessagesClient {
    *
    * Get a list of pinnedChatMessages in a chat.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /chats/{chat-id}/pinnedMessages"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -152,7 +152,7 @@ export class PinnedMessagesClient {
    *
    * A collection of all the pinned messages in the chat. Nullable.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

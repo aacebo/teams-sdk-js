@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\bookingBusinesses\{bookingBusiness-id}\customQuestions\count
+ * /solutions/bookingBusinesses/{bookingBusiness-id}/customQuestions/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
   protected baseUrl =
-    "\solutions\bookingBusinesses\{bookingBusiness-id}\customQuestions\count";
+    "/solutions/bookingBusinesses/{bookingBusiness-id}/customQuestions/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

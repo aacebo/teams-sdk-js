@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\schedule\openShifts
+ * /teams/{team-id}/schedule/openShifts
  * Provides operations to manage the openShifts property of the microsoft.graph.schedule entity.
  */
 export class OpenShiftsClient {
-  protected baseUrl = "\teams\{team-id}\schedule\openShifts";
+  protected baseUrl = "/teams/{team-id}/schedule/openShifts";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class OpenShiftsClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\openShifts\count`
+   * `/teams/{team-id}/schedule/openShifts/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -107,7 +107,7 @@ export class OpenShiftsClient {
    *
    * List openShift objects in a team.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/schedule/openShifts"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -137,7 +137,7 @@ export class OpenShiftsClient {
    *
    * Retrieve the properties and relationships of an openshift object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/schedule/openShifts/{openShift-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

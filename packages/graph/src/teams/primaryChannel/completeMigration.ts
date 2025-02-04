@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\primaryChannel\completeMigration
+ * /teams/{team-id}/primaryChannel/completeMigration
  * Provides operations to call the completeMigration method.
  */
 export class CompleteMigrationClient {
-  protected baseUrl = "\teams\{team-id}\primaryChannel\completeMigration";
+  protected baseUrl = "/teams/{team-id}/primaryChannel/completeMigration";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

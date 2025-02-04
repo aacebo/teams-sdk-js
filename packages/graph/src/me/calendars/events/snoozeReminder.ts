@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendars\{calendar-id}\events\{event-id}\snoozeReminder
+ * /me/calendars/{calendar-id}/events/{event-id}/snoozeReminder
  * Provides operations to call the snoozeReminder method.
  */
 export class SnoozeReminderClient {
   protected baseUrl =
-    "\me\calendars\{calendar-id}\events\{event-id}\snoozeReminder";
+    "/me/calendars/{calendar-id}/events/{event-id}/snoozeReminder";
   protected http: http.Client;
 
   constructor(

@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\bookingBusinesses\{bookingBusiness-id}\services
+ * /solutions/bookingBusinesses/{bookingBusiness-id}/services
  * Provides operations to manage the services property of the microsoft.graph.bookingBusiness entity.
  */
 export class ServicesClient {
   protected baseUrl =
-    "\solutions\bookingBusinesses\{bookingBusiness-id}\services";
+    "/solutions/bookingBusinesses/{bookingBusiness-id}/services";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class ServicesClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\{bookingBusiness-id}\services\count`
+   * `/solutions/bookingBusinesses/{bookingBusiness-id}/services/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -112,7 +112,7 @@ export class ServicesClient {
    *
    * Get a list of bookingService objects in the specified bookingBusiness.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/bookingBusinesses/{bookingBusiness-id}/services"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -143,7 +143,7 @@ export class ServicesClient {
    *
    * Get the properties and relationships of a bookingService object in the specified bookingBusiness.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/bookingBusinesses/{bookingBusiness-id}/services/{bookingService-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

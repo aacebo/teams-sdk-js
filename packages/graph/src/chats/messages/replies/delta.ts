@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\messages\{chatMessage-id}\replies\delta
+ * /chats/{chat-id}/messages/{chatMessage-id}/replies/delta
  * Provides operations to call the delta method.
  */
 export class DeltaClient {
   protected baseUrl =
-    "\chats\{chat-id}\messages\{chatMessage-id}\replies\delta";
+    "/chats/{chat-id}/messages/{chatMessage-id}/replies/delta";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

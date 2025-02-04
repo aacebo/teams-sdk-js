@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\sharePointProtectionPolicies\{sharePointProtectionPolicy-id}\siteProtectionUnits\count
+ * /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}/siteProtectionUnits/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
   protected baseUrl =
-    "\solutions\backupRestore\sharePointProtectionPolicies\{sharePointProtectionPolicy-id}\siteProtectionUnits\count";
+    "/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}/siteProtectionUnits/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

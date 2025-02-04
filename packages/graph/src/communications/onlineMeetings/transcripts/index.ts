@@ -36,12 +36,12 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\onlineMeetings\{onlineMeeting-id}\transcripts
+ * /communications/onlineMeetings/{onlineMeeting-id}/transcripts
  * Provides operations to manage the transcripts property of the microsoft.graph.onlineMeeting entity.
  */
 export class TranscriptsClient {
   protected baseUrl =
-    "\communications\onlineMeetings\{onlineMeeting-id}\transcripts";
+    "/communications/onlineMeetings/{onlineMeeting-id}/transcripts";
   protected http: http.Client;
 
   constructor(
@@ -72,7 +72,7 @@ export class TranscriptsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\{onlineMeeting-id}\transcripts\{callTranscript-id}\content`
+   * `/communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/content`
    *
    * Provides operations to manage the media for the cloudCommunications entity.
    */
@@ -81,7 +81,7 @@ export class TranscriptsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\{onlineMeeting-id}\transcripts\count`
+   * `/communications/onlineMeetings/{onlineMeeting-id}/transcripts/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -90,7 +90,7 @@ export class TranscriptsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\{onlineMeeting-id}\transcripts\delta`
+   * `/communications/onlineMeetings/{onlineMeeting-id}/transcripts/delta`
    *
    * Provides operations to call the delta method.
    */
@@ -99,7 +99,7 @@ export class TranscriptsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\{onlineMeeting-id}\transcripts\{callTranscript-id}\metadataContent`
+   * `/communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent`
    *
    * Provides operations to manage the media for the cloudCommunications entity.
    */
@@ -141,7 +141,7 @@ export class TranscriptsClient {
    *
    * The transcripts of an online meeting. Read-only.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /communications/onlineMeetings/{onlineMeeting-id}/transcripts"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -172,7 +172,7 @@ export class TranscriptsClient {
    *
    * The transcripts of an online meeting. Read-only.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

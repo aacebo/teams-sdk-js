@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\owners\{directoryObject-id}\ref
+ * /applications/{application-id}/owners/{directoryObject-id}/ref
  * Provides operations to manage the collection of application entities.
  */
 export class RefClient {
   protected baseUrl =
-    "\applications\{application-id}\owners\{directoryObject-id}\ref";
+    "/applications/{application-id}/owners/{directoryObject-id}/ref";
   protected http: http.Client;
 
   constructor(

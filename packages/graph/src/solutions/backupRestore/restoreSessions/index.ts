@@ -34,11 +34,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\restoreSessions
+ * /solutions/backupRestore/restoreSessions
  * Provides operations to manage the restoreSessions property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class RestoreSessionsClient {
-  protected baseUrl = "\solutions\backupRestore\restoreSessions";
+  protected baseUrl = "/solutions/backupRestore/restoreSessions";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -66,7 +66,7 @@ export class RestoreSessionsClient {
   }
 
   /**
-   * `\solutions\backupRestore\restoreSessions\{restoreSessionBase-id}\activate`
+   * `/solutions/backupRestore/restoreSessions/{restoreSessionBase-id}/activate`
    *
    * Provides operations to call the activate method.
    */
@@ -75,7 +75,7 @@ export class RestoreSessionsClient {
   }
 
   /**
-   * `\solutions\backupRestore\restoreSessions\count`
+   * `/solutions/backupRestore/restoreSessions/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -116,7 +116,7 @@ export class RestoreSessionsClient {
    *
    * Get a list of restoreSession objects and their properties.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/restoreSessions"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -145,7 +145,7 @@ export class RestoreSessionsClient {
    *
    * Get the properties of a restoreSession object by ID.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

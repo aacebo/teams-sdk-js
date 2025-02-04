@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\subscribeToTone
+ * /communications/calls/{call-id}/subscribeToTone
  * Provides operations to call the subscribeToTone method.
  */
 export class SubscribeToToneClient {
-  protected baseUrl = "\communications\calls\{call-id}\subscribeToTone";
+  protected baseUrl = "/communications/calls/{call-id}/subscribeToTone";
   protected http: http.Client;
 
   constructor(

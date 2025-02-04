@@ -35,12 +35,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrations
+ * /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations
  * Provides operations to manage the registrations property of the microsoft.graph.virtualEventWebinar entity.
  */
 export class RegistrationsClient {
   protected baseUrl =
-    "\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrations";
+    "/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations";
   protected http: http.Client;
 
   constructor(
@@ -71,7 +71,7 @@ export class RegistrationsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrations\{virtualEventRegistration-id}\cancel`
+   * `/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations/{virtualEventRegistration-id}/cancel`
    *
    * Provides operations to call the cancel method.
    */
@@ -80,7 +80,7 @@ export class RegistrationsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrations\count`
+   * `/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -89,7 +89,7 @@ export class RegistrationsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrations\{virtualEventRegistration-id}\sessions`
+   * `/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations/{virtualEventRegistration-id}/sessions`
    *
    * Provides operations to manage the sessions property of the microsoft.graph.virtualEventRegistration entity.
    */
@@ -131,7 +131,7 @@ export class RegistrationsClient {
    *
    * Get a list of all registration records of a webinar.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -162,7 +162,7 @@ export class RegistrationsClient {
    *
    * Get the properties and relationships of a virtualEventRegistration object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations/{virtualEventRegistration-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

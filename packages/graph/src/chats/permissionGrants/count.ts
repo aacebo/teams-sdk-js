@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\permissionGrants\count
+ * /chats/{chat-id}/permissionGrants/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
-  protected baseUrl = "\chats\{chat-id}\permissionGrants\count";
+  protected baseUrl = "/chats/{chat-id}/permissionGrants/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

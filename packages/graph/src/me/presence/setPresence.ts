@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\presence\setPresence
+ * /me/presence/setPresence
  * Provides operations to call the setPresence method.
  */
 export class SetPresenceClient {
-  protected baseUrl = "\me\presence\setPresence";
+  protected baseUrl = "/me/presence/setPresence";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

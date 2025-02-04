@@ -37,11 +37,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\participants
+ * /communications/calls/{call-id}/participants
  * Provides operations to manage the participants property of the microsoft.graph.call entity.
  */
 export class ParticipantsClient {
-  protected baseUrl = "\communications\calls\{call-id}\participants";
+  protected baseUrl = "/communications/calls/{call-id}/participants";
   protected http: http.Client;
 
   constructor(
@@ -72,7 +72,7 @@ export class ParticipantsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\participants\count`
+   * `/communications/calls/{call-id}/participants/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -81,7 +81,7 @@ export class ParticipantsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\participants\invite`
+   * `/communications/calls/{call-id}/participants/invite`
    *
    * Provides operations to call the invite method.
    */
@@ -90,7 +90,7 @@ export class ParticipantsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\participants\{participant-id}\mute`
+   * `/communications/calls/{call-id}/participants/{participant-id}/mute`
    *
    * Provides operations to call the mute method.
    */
@@ -99,7 +99,7 @@ export class ParticipantsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\participants\{participant-id}\startHoldMusic`
+   * `/communications/calls/{call-id}/participants/{participant-id}/startHoldMusic`
    *
    * Provides operations to call the startHoldMusic method.
    */
@@ -108,7 +108,7 @@ export class ParticipantsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\participants\{participant-id}\stopHoldMusic`
+   * `/communications/calls/{call-id}/participants/{participant-id}/stopHoldMusic`
    *
    * Provides operations to call the stopHoldMusic method.
    */
@@ -151,7 +151,7 @@ export class ParticipantsClient {
    *
    * Retrieve a list of participant objects in the call.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /communications/calls/{call-id}/participants"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -182,7 +182,7 @@ export class ParticipantsClient {
    *
    * Retrieve the properties and relationships of a participant object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /communications/calls/{call-id}/participants/{participant-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

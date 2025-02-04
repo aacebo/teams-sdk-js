@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applicationTemplates\{applicationTemplate-id}\instantiate
+ * /applicationTemplates/{applicationTemplate-id}/instantiate
  * Provides operations to call the instantiate method.
  */
 export class InstantiateClient {
   protected baseUrl =
-    "\applicationTemplates\{applicationTemplate-id}\instantiate";
+    "/applicationTemplates/{applicationTemplate-id}/instantiate";
   protected http: http.Client;
 
   constructor(

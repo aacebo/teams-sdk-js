@@ -19,17 +19,23 @@ export class ConversationMemberClient {
   }
 
   async get(conversationId: string) {
-    const res = await this.http.get<Account[]>(`${this.serviceUrl}/v3/conversations/${conversationId}/members`);
+    const res = await this.http.get<Account[]>(
+      `${this.serviceUrl}/v3/conversations/${conversationId}/members`
+    );
     return res.data;
   }
 
   async getById(conversationId: string, id: string) {
-    const res = await this.http.get<Account>(`${this.serviceUrl}/v3/conversations/${conversationId}/members/${id}`);
+    const res = await this.http.get<Account>(
+      `${this.serviceUrl}/v3/conversations/${conversationId}/members/${id}`
+    );
     return res.data;
   }
 
   async delete(conversationId: string, id: string) {
-    const res = await this.http.delete<void>(`${this.serviceUrl}/v3/conversations/${conversationId}/members/${id}`);
+    const res = await this.http.delete<void>(
+      `${this.serviceUrl}/v3/conversations/${conversationId}/members/${id}`
+    );
     return res.data;
   }
 }

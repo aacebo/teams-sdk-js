@@ -34,11 +34,11 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\tabs
+ * /chats/{chat-id}/tabs
  * Provides operations to manage the tabs property of the microsoft.graph.chat entity.
  */
 export class TabsClient {
-  protected baseUrl = "\chats\{chat-id}\tabs";
+  protected baseUrl = "/chats/{chat-id}/tabs";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class TabsClient {
   }
 
   /**
-   * `\chats\{chat-id}\tabs\count`
+   * `/chats/{chat-id}/tabs/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -78,7 +78,7 @@ export class TabsClient {
   }
 
   /**
-   * `\chats\{chat-id}\tabs\{teamsTab-id}\teamsApp`
+   * `/chats/{chat-id}/tabs/{teamsTab-id}/teamsApp`
    *
    * Provides operations to manage the teamsApp property of the microsoft.graph.teamsTab entity.
    */
@@ -121,7 +121,7 @@ export class TabsClient {
    *
    * Retrieve the list of tabs in the specified chat.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /chats/{chat-id}/tabs"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -151,7 +151,7 @@ export class TabsClient {
    *
    * Retrieve the properties and relationships of the specified tab in a chat.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /chats/{chat-id}/tabs/{teamsTab-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

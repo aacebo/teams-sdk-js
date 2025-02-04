@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\photos
+ * /me/photos
  * Provides operations to manage the photos property of the microsoft.graph.user entity.
  */
 export class PhotosClient {
-  protected baseUrl = "\me\photos";
+  protected baseUrl = "/me/photos";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class PhotosClient {
   }
 
   /**
-   * `\me\photos\{profilePhoto-id}\value`
+   * `/me/photos/{profilePhoto-id}/value`
    *
    * Provides operations to manage the media for the user entity.
    */
@@ -78,7 +78,7 @@ export class PhotosClient {
    *
    * The collection of the user&#x27;s profile photos in different sizes. Read-only.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /me/photos"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -104,7 +104,7 @@ export class PhotosClient {
    *
    * The collection of the user&#x27;s profile photos in different sizes. Read-only.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /me/photos/{profilePhoto-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

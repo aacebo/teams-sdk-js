@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\primaryChannel\archive
+ * /teams/{team-id}/primaryChannel/archive
  * Provides operations to call the archive method.
  */
 export class ArchiveClient {
-  protected baseUrl = "\teams\{team-id}\primaryChannel\archive";
+  protected baseUrl = "/teams/{team-id}/primaryChannel/archive";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

@@ -35,11 +35,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\channels\{channel-id}\sharedWithTeams
+ * /teams/{team-id}/channels/{channel-id}/sharedWithTeams
  * Provides operations to manage the sharedWithTeams property of the microsoft.graph.channel entity.
  */
 export class SharedWithTeamsClient {
-  protected baseUrl = "\teams\{team-id}\channels\{channel-id}\sharedWithTeams";
+  protected baseUrl = "/teams/{team-id}/channels/{channel-id}/sharedWithTeams";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class SharedWithTeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\sharedWithTeams\{sharedWithChannelTeamInfo-id}\allowedMembers`
+   * `/teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}/allowedMembers`
    *
    * Provides operations to manage the allowedMembers property of the microsoft.graph.sharedWithChannelTeamInfo entity.
    */
@@ -79,7 +79,7 @@ export class SharedWithTeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\sharedWithTeams\count`
+   * `/teams/{team-id}/channels/{channel-id}/sharedWithTeams/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -88,7 +88,7 @@ export class SharedWithTeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\sharedWithTeams\{sharedWithChannelTeamInfo-id}\team`
+   * `/teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}/team`
    *
    * Provides operations to manage the team property of the microsoft.graph.teamInfo entity.
    */
@@ -132,7 +132,7 @@ export class SharedWithTeamsClient {
    *
    * Get the list of teams that has been shared a specified channel. This operation is allowed only for channels with a membershipType value of shared.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/channels/{channel-id}/sharedWithTeams"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -164,7 +164,7 @@ export class SharedWithTeamsClient {
    *
    * Get a team that has been shared with a specified channel. This operation is allowed only for channels with a membershipType value of shared.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

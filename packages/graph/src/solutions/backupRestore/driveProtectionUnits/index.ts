@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\driveProtectionUnits
+ * /solutions/backupRestore/driveProtectionUnits
  * Provides operations to manage the driveProtectionUnits property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class DriveProtectionUnitsClient {
-  protected baseUrl = "\solutions\backupRestore\driveProtectionUnits";
+  protected baseUrl = "/solutions/backupRestore/driveProtectionUnits";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class DriveProtectionUnitsClient {
   }
 
   /**
-   * `\solutions\backupRestore\driveProtectionUnits\count`
+   * `/solutions/backupRestore/driveProtectionUnits/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -105,7 +105,7 @@ export class DriveProtectionUnitsClient {
    *
    * The list of drive protection units in the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/driveProtectionUnits"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -134,7 +134,7 @@ export class DriveProtectionUnitsClient {
    *
    * The list of drive protection units in the tenant.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/driveProtectionUnits/{driveProtectionUnit-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

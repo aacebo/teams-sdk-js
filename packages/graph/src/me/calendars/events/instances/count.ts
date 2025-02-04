@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendars\{calendar-id}\events\{event-id}\instances\count
+ * /me/calendars/{calendar-id}/events/{event-id}/instances/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
   protected baseUrl =
-    "\me\calendars\{calendar-id}\events\{event-id}\instances\count";
+    "/me/calendars/{calendar-id}/events/{event-id}/instances/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

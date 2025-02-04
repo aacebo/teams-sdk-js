@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrations\{virtualEventRegistration-id}\cancel
+ * /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations/{virtualEventRegistration-id}/cancel
  * Provides operations to call the cancel method.
  */
 export class CancelClient {
   protected baseUrl =
-    "\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrations\{virtualEventRegistration-id}\cancel";
+    "/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations/{virtualEventRegistration-id}/cancel";
   protected http: http.Client;
 
   constructor(

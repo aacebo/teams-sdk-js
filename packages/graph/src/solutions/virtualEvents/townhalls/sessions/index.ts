@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\townhalls\{virtualEventTownhall-id}\sessions
+ * /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions
  * Provides operations to manage the sessions property of the microsoft.graph.virtualEvent entity.
  */
 export class SessionsClient {
   protected baseUrl =
-    "\solutions\virtualEvents\townhalls\{virtualEventTownhall-id}\sessions";
+    "/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class SessionsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\townhalls\{virtualEventTownhall-id}\sessions\{virtualEventSession-id}\attendanceReports`
+   * `/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports`
    *
    * Provides operations to manage the attendanceReports property of the microsoft.graph.onlineMeetingBase entity.
    */
@@ -79,7 +79,7 @@ export class SessionsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\townhalls\{virtualEventTownhall-id}\sessions\count`
+   * `/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -121,7 +121,7 @@ export class SessionsClient {
    *
    * The sessions for the virtual event.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -152,7 +152,7 @@ export class SessionsClient {
    *
    * The sessions for the virtual event.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

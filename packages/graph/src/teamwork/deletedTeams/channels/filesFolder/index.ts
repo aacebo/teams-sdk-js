@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\filesFolder
+ * /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder
  * Provides operations to manage the filesFolder property of the microsoft.graph.channel entity.
  */
 export class FilesFolderClient {
   protected baseUrl =
-    "\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\filesFolder";
+    "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class FilesFolderClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\filesFolder\content`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content`
    *
    * Provides operations to manage the media for the teamwork entity.
    */

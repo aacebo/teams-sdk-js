@@ -34,11 +34,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\tokenLifetimePolicies
+ * /applications/{application-id}/tokenLifetimePolicies
  * Provides operations to manage the tokenLifetimePolicies property of the microsoft.graph.application entity.
  */
 export class TokenLifetimePoliciesClient {
-  protected baseUrl = "\applications\{application-id}\tokenLifetimePolicies";
+  protected baseUrl = "/applications/{application-id}/tokenLifetimePolicies";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class TokenLifetimePoliciesClient {
   }
 
   /**
-   * `\applications\{application-id}\tokenLifetimePolicies\count`
+   * `/applications/{application-id}/tokenLifetimePolicies/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -78,7 +78,7 @@ export class TokenLifetimePoliciesClient {
   }
 
   /**
-   * `\applications\{application-id}\tokenLifetimePolicies\{tokenLifetimePolicy-id}\ref`
+   * `/applications/{application-id}/tokenLifetimePolicies/{tokenLifetimePolicy-id}/ref`
    *
    * Provides operations to manage the collection of application entities.
    */
@@ -91,7 +91,7 @@ export class TokenLifetimePoliciesClient {
    *
    * List the tokenLifetimePolicy objects that are assigned to an application. Only one object is returned in the collection because only one tokenLifetimePolicy can be assigned to an application.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /applications/{application-id}/tokenLifetimePolicies"]["parameters"],
     config?: http.RequestConfig,
   ) {

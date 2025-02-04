@@ -35,11 +35,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\sharePointProtectionPolicies
+ * /solutions/backupRestore/sharePointProtectionPolicies
  * Provides operations to manage the sharePointProtectionPolicies property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class SharePointProtectionPoliciesClient {
-  protected baseUrl = "\solutions\backupRestore\sharePointProtectionPolicies";
+  protected baseUrl = "/solutions/backupRestore/sharePointProtectionPolicies";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -67,7 +67,7 @@ export class SharePointProtectionPoliciesClient {
   }
 
   /**
-   * `\solutions\backupRestore\sharePointProtectionPolicies\count`
+   * `/solutions/backupRestore/sharePointProtectionPolicies/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -76,7 +76,7 @@ export class SharePointProtectionPoliciesClient {
   }
 
   /**
-   * `\solutions\backupRestore\sharePointProtectionPolicies\{sharePointProtectionPolicy-id}\siteInclusionRules`
+   * `/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}/siteInclusionRules`
    *
    * Provides operations to manage the siteInclusionRules property of the microsoft.graph.sharePointProtectionPolicy entity.
    */
@@ -88,7 +88,7 @@ export class SharePointProtectionPoliciesClient {
   }
 
   /**
-   * `\solutions\backupRestore\sharePointProtectionPolicies\{sharePointProtectionPolicy-id}\siteProtectionUnits`
+   * `/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}/siteProtectionUnits`
    *
    * Provides operations to manage the siteProtectionUnits property of the microsoft.graph.sharePointProtectionPolicy entity.
    */
@@ -131,7 +131,7 @@ export class SharePointProtectionPoliciesClient {
    *
    * The list of SharePoint protection policies in the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/sharePointProtectionPolicies"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -160,7 +160,7 @@ export class SharePointProtectionPoliciesClient {
    *
    * The list of SharePoint protection policies in the tenant.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

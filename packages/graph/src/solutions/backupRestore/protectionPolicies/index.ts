@@ -35,11 +35,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\protectionPolicies
+ * /solutions/backupRestore/protectionPolicies
  * Provides operations to manage the protectionPolicies property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class ProtectionPoliciesClient {
-  protected baseUrl = "\solutions\backupRestore\protectionPolicies";
+  protected baseUrl = "/solutions/backupRestore/protectionPolicies";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -67,7 +67,7 @@ export class ProtectionPoliciesClient {
   }
 
   /**
-   * `\solutions\backupRestore\protectionPolicies\{protectionPolicyBase-id}\activate`
+   * `/solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}/activate`
    *
    * Provides operations to call the activate method.
    */
@@ -76,7 +76,7 @@ export class ProtectionPoliciesClient {
   }
 
   /**
-   * `\solutions\backupRestore\protectionPolicies\count`
+   * `/solutions/backupRestore/protectionPolicies/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -85,7 +85,7 @@ export class ProtectionPoliciesClient {
   }
 
   /**
-   * `\solutions\backupRestore\protectionPolicies\{protectionPolicyBase-id}\deactivate`
+   * `/solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}/deactivate`
    *
    * Provides operations to call the deactivate method.
    */
@@ -126,7 +126,7 @@ export class ProtectionPoliciesClient {
    *
    * List of protection policies in the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/protectionPolicies"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -155,7 +155,7 @@ export class ProtectionPoliciesClient {
    *
    * List of protection policies in the tenant.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

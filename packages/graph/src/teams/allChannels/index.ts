@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\allChannels
+ * /teams/{team-id}/allChannels
  * Provides operations to manage the allChannels property of the microsoft.graph.team entity.
  */
 export class AllChannelsClient {
-  protected baseUrl = "\teams\{team-id}\allChannels";
+  protected baseUrl = "/teams/{team-id}/allChannels";
   protected http: http.Client;
 
   constructor(
@@ -68,7 +68,7 @@ export class AllChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\allChannels\count`
+   * `/teams/{team-id}/allChannels/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -81,7 +81,7 @@ export class AllChannelsClient {
    *
    * Get the list of channels either in this team or shared with this team (incoming channels).
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/allChannels"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -112,7 +112,7 @@ export class AllChannelsClient {
    *
    * List of channels either hosted in or shared with the team (incoming channels).
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/allChannels/{channel-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendars\{calendar-id}\calendarView\{event-id}\instances\{event-id1}\extensions
+ * /me/calendars/{calendar-id}/calendarView/{event-id}/instances/{event-id1}/extensions
  * Provides operations to manage the extensions property of the microsoft.graph.event entity.
  */
 export class ExtensionsClient {
   protected baseUrl =
-    "\me\calendars\{calendar-id}\calendarView\{event-id}\instances\{event-id1}\extensions";
+    "/me/calendars/{calendar-id}/calendarView/{event-id}/instances/{event-id1}/extensions";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class ExtensionsClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\calendarView\{event-id}\instances\{event-id1}\extensions\count`
+   * `/me/calendars/{calendar-id}/calendarView/{event-id}/instances/{event-id1}/extensions/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -113,7 +113,7 @@ export class ExtensionsClient {
    *
    * The collection of open extensions defined for the event. Nullable.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /me/calendars/{calendar-id}/calendarView/{event-id}/instances/{event-id1}/extensions"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -146,7 +146,7 @@ export class ExtensionsClient {
    *
    * The collection of open extensions defined for the event. Nullable.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /me/calendars/{calendar-id}/calendarView/{event-id}/instances/{event-id1}/extensions/{extension-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

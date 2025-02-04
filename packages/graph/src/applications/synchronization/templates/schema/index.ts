@@ -36,12 +36,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema
+ * /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema
  * Provides operations to manage the schema property of the microsoft.graph.synchronizationTemplate entity.
  */
 export class SchemaClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema";
+    "/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema";
   protected http: http.Client;
 
   constructor(
@@ -72,7 +72,7 @@ export class SchemaClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\directories`
+   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories`
    *
    * Provides operations to manage the directories property of the microsoft.graph.synchronizationSchema entity.
    */
@@ -81,7 +81,7 @@ export class SchemaClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\filterOperators`
+   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/filterOperators`
    *
    * Provides operations to call the filterOperators method.
    */
@@ -90,7 +90,7 @@ export class SchemaClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\functions`
+   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/functions`
    *
    * Provides operations to call the functions method.
    */
@@ -99,7 +99,7 @@ export class SchemaClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\parseExpression`
+   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/parseExpression`
    *
    * Provides operations to call the parseExpression method.
    */

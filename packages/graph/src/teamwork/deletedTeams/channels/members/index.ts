@@ -35,12 +35,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\members
+ * /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members
  * Provides operations to manage the members property of the microsoft.graph.channel entity.
  */
 export class MembersClient {
   protected baseUrl =
-    "\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\members";
+    "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members";
   protected http: http.Client;
 
   constructor(
@@ -71,7 +71,7 @@ export class MembersClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\members\add`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/add`
    *
    * Provides operations to call the add method.
    */
@@ -80,7 +80,7 @@ export class MembersClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\members\count`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -89,7 +89,7 @@ export class MembersClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\members\remove`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/remove`
    *
    * Provides operations to call the remove method.
    */
@@ -132,7 +132,7 @@ export class MembersClient {
    *
    * A collection of membership records associated with the channel.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -164,7 +164,7 @@ export class MembersClient {
    *
    * A collection of membership records associated with the channel.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members/{conversationMember-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

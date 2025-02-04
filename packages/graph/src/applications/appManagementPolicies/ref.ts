@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\appManagementPolicies\{appManagementPolicy-id}\ref
+ * /applications/{application-id}/appManagementPolicies/{appManagementPolicy-id}/ref
  * Provides operations to manage the collection of application entities.
  */
 export class RefClient {
   protected baseUrl =
-    "\applications\{application-id}\appManagementPolicies\{appManagementPolicy-id}\ref";
+    "/applications/{application-id}/appManagementPolicies/{appManagementPolicy-id}/ref";
   protected http: http.Client;
 
   constructor(

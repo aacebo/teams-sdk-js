@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\markChatReadForUser
+ * /chats/{chat-id}/markChatReadForUser
  * Provides operations to call the markChatReadForUser method.
  */
 export class MarkChatReadForUserClient {
-  protected baseUrl = "\chats\{chat-id}\markChatReadForUser";
+  protected baseUrl = "/chats/{chat-id}/markChatReadForUser";
   protected http: http.Client;
 
   constructor(

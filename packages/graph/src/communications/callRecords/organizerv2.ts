@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\callRecords\{callRecord-id}\organizerv2
+ * /communications/callRecords/{callRecord-id}/organizerv2
  * Provides operations to manage the organizer_v2 property of the microsoft.graph.callRecords.callRecord entity.
  */
 export class Organizerv2Client {
-  protected baseUrl = "\communications\callRecords\{callRecord-id}\organizerv2";
+  protected baseUrl = "/communications/callRecords/{callRecord-id}/organizerv2";
   protected http: http.Client;
 
   constructor(

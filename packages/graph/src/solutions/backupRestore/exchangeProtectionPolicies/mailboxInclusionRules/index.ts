@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\exchangeProtectionPolicies\{exchangeProtectionPolicy-id}\mailboxInclusionRules
+ * /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}/mailboxInclusionRules
  * Provides operations to manage the mailboxInclusionRules property of the microsoft.graph.exchangeProtectionPolicy entity.
  */
 export class MailboxInclusionRulesClient {
   protected baseUrl =
-    "\solutions\backupRestore\exchangeProtectionPolicies\{exchangeProtectionPolicy-id}\mailboxInclusionRules";
+    "/solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}/mailboxInclusionRules";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class MailboxInclusionRulesClient {
   }
 
   /**
-   * `\solutions\backupRestore\exchangeProtectionPolicies\{exchangeProtectionPolicy-id}\mailboxInclusionRules\count`
+   * `/solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}/mailboxInclusionRules/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -82,7 +82,7 @@ export class MailboxInclusionRulesClient {
    *
    * Get a list of mailboxProtectionRule objects associated with an exchangeProtectionPolicy. An inclusion rule indicates that a protection policy should contain protection units that match the specified rule criteria. The initial status of a protection rule upon creation is active. After the rule is applied, the state is either completed or completedWithErrors.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}/mailboxInclusionRules"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -113,7 +113,7 @@ export class MailboxInclusionRulesClient {
    *
    * Get a protection rule that&#x27;s associated with a protection policy. You can use this operation to get mailbox, drive, and site protection rules. An inclusion rule indicates that a protection policy should contain protection units that match the specified rule criteria. The initial status of a protection rule upon creation is active. After the rule is applied, the state is either completed or completedWithErrors.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}/mailboxInclusionRules/{mailboxProtectionRule-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

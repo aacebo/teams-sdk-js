@@ -58,11 +58,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications
+ * /applications
  * Provides operations to manage the federatedIdentityCredentials property of the microsoft.graph.application entity.
  */
 export class ApplicationsClient {
-  protected baseUrl = "\applications";
+  protected baseUrl = "/applications";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -90,7 +90,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\addKey`
+   * `/applications/{application-id}/addKey`
    *
    * Provides operations to call the addKey method.
    */
@@ -99,7 +99,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\addPassword`
+   * `/applications/{application-id}/addPassword`
    *
    * Provides operations to call the addPassword method.
    */
@@ -108,7 +108,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\appManagementPolicies`
+   * `/applications/{application-id}/appManagementPolicies`
    *
    * Provides operations to manage the appManagementPolicies property of the microsoft.graph.application entity.
    */
@@ -117,7 +117,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\checkMemberGroups`
+   * `/applications/{application-id}/checkMemberGroups`
    *
    * Provides operations to call the checkMemberGroups method.
    */
@@ -126,7 +126,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\checkMemberObjects`
+   * `/applications/{application-id}/checkMemberObjects`
    *
    * Provides operations to call the checkMemberObjects method.
    */
@@ -135,7 +135,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\count`
+   * `/applications/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -144,7 +144,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\createdOnBehalfOf`
+   * `/applications/{application-id}/createdOnBehalfOf`
    *
    * Provides operations to manage the createdOnBehalfOf property of the microsoft.graph.application entity.
    */
@@ -153,7 +153,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\delta`
+   * `/applications/delta`
    *
    * Provides operations to call the delta method.
    */
@@ -162,7 +162,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\extensionProperties`
+   * `/applications/{application-id}/extensionProperties`
    *
    * Provides operations to manage the extensionProperties property of the microsoft.graph.application entity.
    */
@@ -171,7 +171,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\federatedIdentityCredentials`
+   * `/applications/{application-id}/federatedIdentityCredentials`
    *
    * Provides operations to manage the federatedIdentityCredentials property of the microsoft.graph.application entity.
    */
@@ -180,7 +180,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\getAvailableExtensionProperties`
+   * `/applications/getAvailableExtensionProperties`
    *
    * Provides operations to call the getAvailableExtensionProperties method.
    */
@@ -189,7 +189,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\getByIds`
+   * `/applications/getByIds`
    *
    * Provides operations to call the getByIds method.
    */
@@ -198,7 +198,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\getMemberGroups`
+   * `/applications/{application-id}/getMemberGroups`
    *
    * Provides operations to call the getMemberGroups method.
    */
@@ -207,7 +207,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\getMemberObjects`
+   * `/applications/{application-id}/getMemberObjects`
    *
    * Provides operations to call the getMemberObjects method.
    */
@@ -216,7 +216,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\homeRealmDiscoveryPolicies`
+   * `/applications/{application-id}/homeRealmDiscoveryPolicies`
    *
    * Provides operations to manage the homeRealmDiscoveryPolicies property of the microsoft.graph.application entity.
    */
@@ -225,7 +225,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\logo`
+   * `/applications/{application-id}/logo`
    *
    * Provides operations to manage the media for the application entity.
    */
@@ -234,7 +234,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\owners`
+   * `/applications/{application-id}/owners`
    *
    * Provides operations to manage the owners property of the microsoft.graph.application entity.
    */
@@ -243,7 +243,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\removeKey`
+   * `/applications/{application-id}/removeKey`
    *
    * Provides operations to call the removeKey method.
    */
@@ -252,7 +252,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\removePassword`
+   * `/applications/{application-id}/removePassword`
    *
    * Provides operations to call the removePassword method.
    */
@@ -261,7 +261,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\restore`
+   * `/applications/{application-id}/restore`
    *
    * Provides operations to call the restore method.
    */
@@ -270,7 +270,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\setVerifiedPublisher`
+   * `/applications/{application-id}/setVerifiedPublisher`
    *
    * Provides operations to call the setVerifiedPublisher method.
    */
@@ -279,7 +279,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization`
+   * `/applications/{application-id}/synchronization`
    *
    * Provides operations to manage the synchronization property of the microsoft.graph.application entity.
    */
@@ -288,7 +288,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\tokenIssuancePolicies`
+   * `/applications/{application-id}/tokenIssuancePolicies`
    *
    * Provides operations to manage the tokenIssuancePolicies property of the microsoft.graph.application entity.
    */
@@ -297,7 +297,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\tokenLifetimePolicies`
+   * `/applications/{application-id}/tokenLifetimePolicies`
    *
    * Provides operations to manage the tokenLifetimePolicies property of the microsoft.graph.application entity.
    */
@@ -306,7 +306,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\{application-id}\unsetVerifiedPublisher`
+   * `/applications/{application-id}/unsetVerifiedPublisher`
    *
    * Provides operations to call the unsetVerifiedPublisher method.
    */
@@ -315,7 +315,7 @@ export class ApplicationsClient {
   }
 
   /**
-   * `\applications\validateProperties`
+   * `/applications/validateProperties`
    *
    * Provides operations to call the validateProperties method.
    */
@@ -385,7 +385,7 @@ export class ApplicationsClient {
    *
    * Get the list of applications in this organization.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /applications"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -412,7 +412,7 @@ export class ApplicationsClient {
    *
    * Get the properties and relationships of an application object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /applications/{application-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -441,7 +441,7 @@ export class ApplicationsClient {
    *
    * Read the properties and relationships of a federatedIdentityCredential object.
    */
-  async get$2(
+  async get$1(
     params?: Endpoints["GET /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)"]["parameters"],
     config?: http.RequestConfig,
   ) {

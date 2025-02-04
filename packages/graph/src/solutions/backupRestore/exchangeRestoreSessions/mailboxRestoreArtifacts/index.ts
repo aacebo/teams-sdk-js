@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\exchangeRestoreSessions\{exchangeRestoreSession-id}\mailboxRestoreArtifacts
+ * /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/mailboxRestoreArtifacts
  * Provides operations to manage the mailboxRestoreArtifacts property of the microsoft.graph.exchangeRestoreSession entity.
  */
 export class MailboxRestoreArtifactsClient {
   protected baseUrl =
-    "\solutions\backupRestore\exchangeRestoreSessions\{exchangeRestoreSession-id}\mailboxRestoreArtifacts";
+    "/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/mailboxRestoreArtifacts";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class MailboxRestoreArtifactsClient {
   }
 
   /**
-   * `\solutions\backupRestore\exchangeRestoreSessions\{exchangeRestoreSession-id}\mailboxRestoreArtifacts\count`
+   * `/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/mailboxRestoreArtifacts/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -79,7 +79,7 @@ export class MailboxRestoreArtifactsClient {
   }
 
   /**
-   * `\solutions\backupRestore\exchangeRestoreSessions\{exchangeRestoreSession-id}\mailboxRestoreArtifacts\{mailboxRestoreArtifact-id}\restorePoint`
+   * `/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/mailboxRestoreArtifacts/{mailboxRestoreArtifact-id}/restorePoint`
    *
    * Provides operations to manage the restorePoint property of the microsoft.graph.restoreArtifactBase entity.
    */
@@ -121,7 +121,7 @@ export class MailboxRestoreArtifactsClient {
    *
    * Get a list of the mailboxRestoreArtifact objects that are associated with an exchangeRestoreSession in a tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/mailboxRestoreArtifacts"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -152,7 +152,7 @@ export class MailboxRestoreArtifactsClient {
    *
    * A collection of restore points and destination details that can be used to restore Exchange mailboxes.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/mailboxRestoreArtifacts/{mailboxRestoreArtifact-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

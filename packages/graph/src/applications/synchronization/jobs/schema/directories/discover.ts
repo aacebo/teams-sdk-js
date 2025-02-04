@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\schema\directories\{directoryDefinition-id}\discover
+ * /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}/discover
  * Provides operations to call the discover method.
  */
 export class DiscoverClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\schema\directories\{directoryDefinition-id}\discover";
+    "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/directories/{directoryDefinition-id}/discover";
   protected http: http.Client;
 
   constructor(

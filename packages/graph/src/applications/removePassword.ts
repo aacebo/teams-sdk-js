@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\removePassword
+ * /applications/{application-id}/removePassword
  * Provides operations to call the removePassword method.
  */
 export class RemovePasswordClient {
-  protected baseUrl = "\applications\{application-id}\removePassword";
+  protected baseUrl = "/applications/{application-id}/removePassword";
   protected http: http.Client;
 
   constructor(

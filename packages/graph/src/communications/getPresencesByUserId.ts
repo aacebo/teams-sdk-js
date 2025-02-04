@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\getPresencesByUserId
+ * /communications/getPresencesByUserId
  * Provides operations to call the getPresencesByUserId method.
  */
 export class GetPresencesByUserIdClient {
-  protected baseUrl = "\communications\getPresencesByUserId";
+  protected baseUrl = "/communications/getPresencesByUserId";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\driveInclusionRules
+ * /solutions/backupRestore/driveInclusionRules
  * Provides operations to manage the driveInclusionRules property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class DriveInclusionRulesClient {
-  protected baseUrl = "\solutions\backupRestore\driveInclusionRules";
+  protected baseUrl = "/solutions/backupRestore/driveInclusionRules";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class DriveInclusionRulesClient {
   }
 
   /**
-   * `\solutions\backupRestore\driveInclusionRules\count`
+   * `/solutions/backupRestore/driveInclusionRules/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -105,7 +105,7 @@ export class DriveInclusionRulesClient {
    *
    * The list of drive inclusion rules applied to the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/driveInclusionRules"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -134,7 +134,7 @@ export class DriveInclusionRulesClient {
    *
    * The list of drive inclusion rules applied to the tenant.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

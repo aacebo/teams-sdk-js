@@ -42,11 +42,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\bookingBusinesses
+ * /solutions/bookingBusinesses
  * Provides operations to manage the bookingBusinesses property of the microsoft.graph.solutionsRoot entity.
  */
 export class BookingBusinessesClient {
-  protected baseUrl = "\solutions\bookingBusinesses";
+  protected baseUrl = "/solutions/bookingBusinesses";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -74,7 +74,7 @@ export class BookingBusinessesClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\{bookingBusiness-id}\appointments`
+   * `/solutions/bookingBusinesses/{bookingBusiness-id}/appointments`
    *
    * Provides operations to manage the appointments property of the microsoft.graph.bookingBusiness entity.
    */
@@ -83,7 +83,7 @@ export class BookingBusinessesClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\{bookingBusiness-id}\calendarView`
+   * `/solutions/bookingBusinesses/{bookingBusiness-id}/calendarView`
    *
    * Provides operations to manage the calendarView property of the microsoft.graph.bookingBusiness entity.
    */
@@ -92,7 +92,7 @@ export class BookingBusinessesClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\count`
+   * `/solutions/bookingBusinesses/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -101,7 +101,7 @@ export class BookingBusinessesClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\{bookingBusiness-id}\customQuestions`
+   * `/solutions/bookingBusinesses/{bookingBusiness-id}/customQuestions`
    *
    * Provides operations to manage the customQuestions property of the microsoft.graph.bookingBusiness entity.
    */
@@ -110,7 +110,7 @@ export class BookingBusinessesClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\{bookingBusiness-id}\customers`
+   * `/solutions/bookingBusinesses/{bookingBusiness-id}/customers`
    *
    * Provides operations to manage the customers property of the microsoft.graph.bookingBusiness entity.
    */
@@ -119,7 +119,7 @@ export class BookingBusinessesClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\{bookingBusiness-id}\getStaffAvailability`
+   * `/solutions/bookingBusinesses/{bookingBusiness-id}/getStaffAvailability`
    *
    * Provides operations to call the getStaffAvailability method.
    */
@@ -128,7 +128,7 @@ export class BookingBusinessesClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\{bookingBusiness-id}\publish`
+   * `/solutions/bookingBusinesses/{bookingBusiness-id}/publish`
    *
    * Provides operations to call the publish method.
    */
@@ -137,7 +137,7 @@ export class BookingBusinessesClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\{bookingBusiness-id}\services`
+   * `/solutions/bookingBusinesses/{bookingBusiness-id}/services`
    *
    * Provides operations to manage the services property of the microsoft.graph.bookingBusiness entity.
    */
@@ -146,7 +146,7 @@ export class BookingBusinessesClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\{bookingBusiness-id}\staffMembers`
+   * `/solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers`
    *
    * Provides operations to manage the staffMembers property of the microsoft.graph.bookingBusiness entity.
    */
@@ -155,7 +155,7 @@ export class BookingBusinessesClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\{bookingBusiness-id}\unpublish`
+   * `/solutions/bookingBusinesses/{bookingBusiness-id}/unpublish`
    *
    * Provides operations to call the unpublish method.
    */
@@ -196,7 +196,7 @@ export class BookingBusinessesClient {
    *
    * Get a collection of bookingBusiness objects that has been created for the tenant. This operation returns only the id and displayName of each Microsoft Bookings business in the collection. For performance considerations, it does not return other properties. You can get the other properties of a Bookings business by specifying its id in a GET operation.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/bookingBusinesses"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -225,7 +225,7 @@ export class BookingBusinessesClient {
    *
    * Get the properties and relationships of a bookingBusiness object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/bookingBusinesses/{bookingBusiness-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

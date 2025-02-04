@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\onlineMeetings\createOrGet
+ * /communications/onlineMeetings/createOrGet
  * Provides operations to call the createOrGet method.
  */
 export class CreateOrGetClient {
-  protected baseUrl = "\communications\onlineMeetings\createOrGet";
+  protected baseUrl = "/communications/onlineMeetings/createOrGet";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

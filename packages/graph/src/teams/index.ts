@@ -52,11 +52,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams
+ * /teams
  * Provides operations to manage the collection of team entities.
  */
 export class TeamsClient {
-  protected baseUrl = "\teams";
+  protected baseUrl = "/teams";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -84,7 +84,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\allChannels`
+   * `/teams/{team-id}/allChannels`
    *
    * Provides operations to manage the allChannels property of the microsoft.graph.team entity.
    */
@@ -93,7 +93,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\archive`
+   * `/teams/{team-id}/archive`
    *
    * Provides operations to call the archive method.
    */
@@ -102,7 +102,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels`
+   * `/teams/{team-id}/channels`
    *
    * Provides operations to manage the channels property of the microsoft.graph.team entity.
    */
@@ -111,7 +111,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\clone`
+   * `/teams/{team-id}/clone`
    *
    * Provides operations to call the clone method.
    */
@@ -120,7 +120,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\completeMigration`
+   * `/teams/{team-id}/completeMigration`
    *
    * Provides operations to call the completeMigration method.
    */
@@ -129,7 +129,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\count`
+   * `/teams/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -138,7 +138,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\getAllMessages`
+   * `/teams/getAllMessages`
    *
    * Provides operations to call the getAllMessages method.
    */
@@ -147,7 +147,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\group`
+   * `/teams/{team-id}/group`
    *
    * Provides operations to manage the group property of the microsoft.graph.team entity.
    */
@@ -156,7 +156,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\incomingChannels`
+   * `/teams/{team-id}/incomingChannels`
    *
    * Provides operations to manage the incomingChannels property of the microsoft.graph.team entity.
    */
@@ -165,7 +165,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\installedApps`
+   * `/teams/{team-id}/installedApps`
    *
    * Provides operations to manage the installedApps property of the microsoft.graph.team entity.
    */
@@ -174,7 +174,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\members`
+   * `/teams/{team-id}/members`
    *
    * Provides operations to manage the members property of the microsoft.graph.team entity.
    */
@@ -183,7 +183,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\operations`
+   * `/teams/{team-id}/operations`
    *
    * Provides operations to manage the operations property of the microsoft.graph.team entity.
    */
@@ -192,7 +192,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\permissionGrants`
+   * `/teams/{team-id}/permissionGrants`
    *
    * Provides operations to manage the permissionGrants property of the microsoft.graph.team entity.
    */
@@ -201,7 +201,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\photo`
+   * `/teams/{team-id}/photo`
    *
    * Provides operations to manage the photo property of the microsoft.graph.team entity.
    */
@@ -210,7 +210,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel`
+   * `/teams/{team-id}/primaryChannel`
    *
    * Provides operations to manage the primaryChannel property of the microsoft.graph.team entity.
    */
@@ -219,7 +219,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule`
+   * `/teams/{team-id}/schedule`
    *
    * Provides operations to manage the schedule property of the microsoft.graph.team entity.
    */
@@ -228,7 +228,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\sendActivityNotification`
+   * `/teams/{team-id}/sendActivityNotification`
    *
    * Provides operations to call the sendActivityNotification method.
    */
@@ -237,7 +237,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\tags`
+   * `/teams/{team-id}/tags`
    *
    * Provides operations to manage the tags property of the microsoft.graph.team entity.
    */
@@ -246,7 +246,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\template`
+   * `/teams/{team-id}/template`
    *
    * Provides operations to manage the template property of the microsoft.graph.team entity.
    */
@@ -255,7 +255,7 @@ export class TeamsClient {
   }
 
   /**
-   * `\teams\{team-id}\unarchive`
+   * `/teams/{team-id}/unarchive`
    *
    * Provides operations to call the unarchive method.
    */
@@ -294,7 +294,7 @@ export class TeamsClient {
    *
    * List all teams in an organization.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -320,7 +320,7 @@ export class TeamsClient {
    *
    * Retrieve the properties and relationships of the specified team.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -35,11 +35,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\restorePoints
+ * /solutions/backupRestore/restorePoints
  * Provides operations to manage the restorePoints property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class RestorePointsClient {
-  protected baseUrl = "\solutions\backupRestore\restorePoints";
+  protected baseUrl = "/solutions/backupRestore/restorePoints";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -67,7 +67,7 @@ export class RestorePointsClient {
   }
 
   /**
-   * `\solutions\backupRestore\restorePoints\count`
+   * `/solutions/backupRestore/restorePoints/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -76,7 +76,7 @@ export class RestorePointsClient {
   }
 
   /**
-   * `\solutions\backupRestore\restorePoints\{restorePoint-id}\protectionUnit`
+   * `/solutions/backupRestore/restorePoints/{restorePoint-id}/protectionUnit`
    *
    * Provides operations to manage the protectionUnit property of the microsoft.graph.restorePoint entity.
    */
@@ -85,7 +85,7 @@ export class RestorePointsClient {
   }
 
   /**
-   * `\solutions\backupRestore\restorePoints\search`
+   * `/solutions/backupRestore/restorePoints/search`
    *
    * Provides operations to call the search method.
    */
@@ -125,7 +125,7 @@ export class RestorePointsClient {
    *
    * List of restore points in the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/restorePoints"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -154,7 +154,7 @@ export class RestorePointsClient {
    *
    * List of restore points in the tenant.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/restorePoints/{restorePoint-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

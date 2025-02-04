@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\schedule\openShiftChangeRequests
+ * /teams/{team-id}/schedule/openShiftChangeRequests
  * Provides operations to manage the openShiftChangeRequests property of the microsoft.graph.schedule entity.
  */
 export class OpenShiftChangeRequestsClient {
-  protected baseUrl = "\teams\{team-id}\schedule\openShiftChangeRequests";
+  protected baseUrl = "/teams/{team-id}/schedule/openShiftChangeRequests";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class OpenShiftChangeRequestsClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\openShiftChangeRequests\count`
+   * `/teams/{team-id}/schedule/openShiftChangeRequests/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -106,7 +106,7 @@ export class OpenShiftChangeRequestsClient {
    *
    * Retrieve a list of openShiftChangeRequest objects in a team.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/schedule/openShiftChangeRequests"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -136,7 +136,7 @@ export class OpenShiftChangeRequestsClient {
    *
    * Retrieve the properties and relationships of an openShiftChangeRequest object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/schedule/openShiftChangeRequests/{openShiftChangeRequest-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

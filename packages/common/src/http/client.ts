@@ -1,12 +1,9 @@
-import axios, {
-  AxiosInstance,
-  AxiosRequestConfig,
-  RawAxiosRequestHeaders,
-} from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, RawAxiosRequestHeaders } from 'axios';
 
 import { ConsoleLogger, Logger } from '../logging';
 
 import { Interceptor } from './interceptor';
+import { Token } from './token';
 
 export interface ClientOptions {
   /**
@@ -17,7 +14,7 @@ export interface ClientOptions {
   /**
    * The authorization token to use
    */
-  readonly token?: string | ((config: AxiosRequestConfig) => string | Promise<string>);
+  readonly token?: Token;
 
   /**
    * Logger instance to use
@@ -50,7 +47,7 @@ export interface RequestConfig<D = any> extends AxiosRequestConfig<D> {
    * If provided, this token will be used instead of
    * the default token provided in the `ClientOptions`
    */
-  readonly token?: string | ((config: AxiosRequestConfig) => string | Promise<string>);
+  readonly token?: Token;
 }
 
 interface InterceptorRegistry {
@@ -59,7 +56,7 @@ interface InterceptorRegistry {
 }
 
 export class Client {
-  token?: string | ((config: AxiosRequestConfig) => string | Promise<string>);
+  token?: Token;
   readonly name: string;
 
   protected options: ClientOptions;
@@ -68,7 +65,7 @@ export class Client {
   protected seq: number = 0;
   protected interceptors: Map<number, InterceptorRegistry>;
 
-  constructor(options: ClientOptions = { }) {
+  constructor(options: ClientOptions = {}) {
     this.options = options;
     this.name = options.name || 'http';
     this.token = options.token;
@@ -77,6 +74,7 @@ export class Client {
     this.http = axios.create({
       baseURL: options.baseUrl,
       timeout: options.timeout,
+      headers: options.headers,
     });
 
     for (const interceptor of options.interceptors || []) {
@@ -88,19 +86,34 @@ export class Client {
     return this.http.get<T, R, D>(url, await this.withConfig(config));
   }
 
-  async post<T = any, R = axios.AxiosResponse<T>, D = any>(url: string, data?: D, config?: RequestConfig<D>) {
+  async post<T = any, R = axios.AxiosResponse<T>, D = any>(
+    url: string,
+    data?: D,
+    config?: RequestConfig<D>
+  ) {
     return this.http.post<T, R, D>(url, data, await this.withConfig(config));
   }
 
-  async put<T = any, R = axios.AxiosResponse<T>, D = any>(url: string, data?: D, config?: RequestConfig<D>) {
+  async put<T = any, R = axios.AxiosResponse<T>, D = any>(
+    url: string,
+    data?: D,
+    config?: RequestConfig<D>
+  ) {
     return this.http.put<T, R, D>(url, data, await this.withConfig(config));
   }
 
-  async patch<T = any, R = axios.AxiosResponse<T>, D = any>(url: string, data?: D, config?: RequestConfig<D>) {
+  async patch<T = any, R = axios.AxiosResponse<T>, D = any>(
+    url: string,
+    data?: D,
+    config?: RequestConfig<D>
+  ) {
     return this.http.patch<T, R, D>(url, data, await this.withConfig(config));
   }
 
-  async delete<T = any, R = axios.AxiosResponse<T>, D = any>(url: string, config?: RequestConfig<D>) {
+  async delete<T = any, R = axios.AxiosResponse<T>, D = any>(
+    url: string,
+    config?: RequestConfig<D>
+  ) {
     return this.http.delete<T, R, D>(url, await this.withConfig(config));
   }
 
@@ -118,21 +131,27 @@ export class Client {
     let responseId: number | undefined = undefined;
 
     if (interceptor.request) {
-      requestId = this.http.interceptors.request.use((config) => {
-        return interceptor.request!({ config, log: this.log });
-      }, (error: any) => {
-        if (!interceptor.error) return error;
-        return interceptor.error({ error, log: this.log });
-      });
+      requestId = this.http.interceptors.request.use(
+        (config) => {
+          return interceptor.request!({ config, log: this.log });
+        },
+        (error: any) => {
+          if (!interceptor.error) return error;
+          return interceptor.error({ error, log: this.log });
+        }
+      );
     }
 
     if (interceptor.response) {
-      responseId = this.http.interceptors.response.use((res) => {
-        return interceptor.response!({ res, log: this.log });
-      }, (error: any) => {
-        if (!interceptor.error) return error;
-        return interceptor.error({ error, log: this.log });
-      });
+      responseId = this.http.interceptors.response.use(
+        (res) => {
+          return interceptor.response!({ res, log: this.log });
+        },
+        (error: any) => {
+          if (!interceptor.error) return error;
+          return interceptor.error({ error, log: this.log });
+        }
+      );
     }
 
     this.interceptors.set(id, {
@@ -171,20 +190,34 @@ export class Client {
     }
   }
 
-  protected async withConfig(config: RequestConfig = { }) {
+  /**
+   * Create a copy of the client
+   */
+  clone(options?: ClientOptions) {
+    return new Client({
+      ...this.options,
+      ...options,
+    });
+  }
+
+  protected async withConfig(config: RequestConfig = {}) {
     let token = config.token || this.token;
 
     if (!config.headers) {
-      config.headers = { };
+      config.headers = {};
     }
 
-    for (const key in this.options.headers || { }) {
-      config.headers[key] = (this.options.headers || { })[key];
+    for (const key in this.options.headers || {}) {
+      config.headers[key] = (this.options.headers || {})[key];
     }
 
     if (token) {
-      if (typeof token !== 'string') {
+      if (typeof token === 'function') {
         token = await token(config);
+      }
+
+      if (token && typeof token === 'object') {
+        token = token.toString();
       }
 
       config.headers['Authorization'] = `Bearer ${token}`;

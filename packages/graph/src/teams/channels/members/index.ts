@@ -35,11 +35,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\channels\{channel-id}\members
+ * /teams/{team-id}/channels/{channel-id}/members
  * Provides operations to manage the members property of the microsoft.graph.channel entity.
  */
 export class MembersClient {
-  protected baseUrl = "\teams\{team-id}\channels\{channel-id}\members";
+  protected baseUrl = "/teams/{team-id}/channels/{channel-id}/members";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class MembersClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\members\add`
+   * `/teams/{team-id}/channels/{channel-id}/members/add`
    *
    * Provides operations to call the add method.
    */
@@ -79,7 +79,7 @@ export class MembersClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\members\count`
+   * `/teams/{team-id}/channels/{channel-id}/members/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -88,7 +88,7 @@ export class MembersClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\members\remove`
+   * `/teams/{team-id}/channels/{channel-id}/members/remove`
    *
    * Provides operations to call the remove method.
    */
@@ -132,7 +132,7 @@ export class MembersClient {
    *
    * Retrieve a list of conversationMembers from a channel. This method supports federation. Only a user who is a member of the shared channel can retrieve the channel member list.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/channels/{channel-id}/members"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -164,7 +164,7 @@ export class MembersClient {
    *
    * Get a conversationMember from a channel.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

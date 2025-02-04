@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\townhalls\{virtualEventTownhall-id}\sessions\{virtualEventSession-id}\attendanceReports
+ * /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports
  * Provides operations to manage the attendanceReports property of the microsoft.graph.onlineMeetingBase entity.
  */
 export class AttendanceReportsClient {
   protected baseUrl =
-    "\solutions\virtualEvents\townhalls\{virtualEventTownhall-id}\sessions\{virtualEventSession-id}\attendanceReports";
+    "/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class AttendanceReportsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\townhalls\{virtualEventTownhall-id}\sessions\{virtualEventSession-id}\attendanceReports\{meetingAttendanceReport-id}\attendanceRecords`
+   * `/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords`
    *
    * Provides operations to manage the attendanceRecords property of the microsoft.graph.meetingAttendanceReport entity.
    */
@@ -79,7 +79,7 @@ export class AttendanceReportsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\townhalls\{virtualEventTownhall-id}\sessions\{virtualEventSession-id}\attendanceReports\count`
+   * `/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -122,7 +122,7 @@ export class AttendanceReportsClient {
    *
    * The attendance reports of an online meeting. Read-only.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -154,7 +154,7 @@ export class AttendanceReportsClient {
    *
    * The attendance reports of an online meeting. Read-only.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\directories
+ * /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories
  * Provides operations to manage the directories property of the microsoft.graph.synchronizationSchema entity.
  */
 export class DirectoriesClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\directories";
+    "/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -67,7 +67,7 @@ export class DirectoriesClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\directories\count`
+   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -76,7 +76,7 @@ export class DirectoriesClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\directories\{directoryDefinition-id}\discover`
+   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}/discover`
    *
    * Provides operations to call the discover method.
    */
@@ -118,7 +118,7 @@ export class DirectoriesClient {
    *
    * Contains the collection of directories and all of their objects.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -149,7 +149,7 @@ export class DirectoriesClient {
    *
    * Contains the collection of directories and all of their objects.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories/{directoryDefinition-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\channels\{channel-id}\messages\delta
+ * /teams/{team-id}/channels/{channel-id}/messages/delta
  * Provides operations to call the delta method.
  */
 export class DeltaClient {
-  protected baseUrl = "\teams\{team-id}\channels\{channel-id}\messages\delta";
+  protected baseUrl = "/teams/{team-id}/channels/{channel-id}/messages/delta";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

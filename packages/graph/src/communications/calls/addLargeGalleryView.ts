@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\addLargeGalleryView
+ * /communications/calls/{call-id}/addLargeGalleryView
  * Provides operations to call the addLargeGalleryView method.
  */
 export class AddLargeGalleryViewClient {
-  protected baseUrl = "\communications\calls\{call-id}\addLargeGalleryView";
+  protected baseUrl = "/communications/calls/{call-id}/addLargeGalleryView";
   protected http: http.Client;
 
   constructor(

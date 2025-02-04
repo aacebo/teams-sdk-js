@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\primaryChannel\messages\{chatMessage-id}\replies\{chatMessage-id1}\hostedContents\count
+ * /teams/{team-id}/primaryChannel/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
   protected baseUrl =
-    "\teams\{team-id}\primaryChannel\messages\{chatMessage-id}\replies\{chatMessage-id1}\hostedContents\count";
+    "/teams/{team-id}/primaryChannel/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

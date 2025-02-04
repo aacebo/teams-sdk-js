@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\schedule\schedulingGroups
+ * /teams/{team-id}/schedule/schedulingGroups
  * Provides operations to manage the schedulingGroups property of the microsoft.graph.schedule entity.
  */
 export class SchedulingGroupsClient {
-  protected baseUrl = "\teams\{team-id}\schedule\schedulingGroups";
+  protected baseUrl = "/teams/{team-id}/schedule/schedulingGroups";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class SchedulingGroupsClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\schedulingGroups\count`
+   * `/teams/{team-id}/schedule/schedulingGroups/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -108,7 +108,7 @@ This method does not remove the schedulingGroup from the schedule. Existing shif
    *
    * Get the list of schedulingGroups in this schedule.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/schedule/schedulingGroups"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -138,7 +138,7 @@ This method does not remove the schedulingGroup from the schedule. Existing shif
    *
    * Retrieve the properties and relationships of a schedulingGroup by ID.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

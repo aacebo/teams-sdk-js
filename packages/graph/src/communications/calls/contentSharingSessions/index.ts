@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\contentSharingSessions
+ * /communications/calls/{call-id}/contentSharingSessions
  * Provides operations to manage the contentSharingSessions property of the microsoft.graph.call entity.
  */
 export class ContentSharingSessionsClient {
-  protected baseUrl = "\communications\calls\{call-id}\contentSharingSessions";
+  protected baseUrl = "/communications/calls/{call-id}/contentSharingSessions";
   protected http: http.Client;
 
   constructor(
@@ -68,7 +68,7 @@ export class ContentSharingSessionsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\contentSharingSessions\count`
+   * `/communications/calls/{call-id}/contentSharingSessions/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -110,7 +110,7 @@ export class ContentSharingSessionsClient {
    *
    * Retrieve a list of contentSharingSession objects in a call.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /communications/calls/{call-id}/contentSharingSessions"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -141,7 +141,7 @@ export class ContentSharingSessionsClient {
    *
    * Retrieve the properties of a contentSharingSession object in a call.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /communications/calls/{call-id}/contentSharingSessions/{contentSharingSession-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

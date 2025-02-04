@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\driveInclusionRules\count
+ * /solutions/backupRestore/driveInclusionRules/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
-  protected baseUrl = "\solutions\backupRestore\driveInclusionRules\count";
+  protected baseUrl = "/solutions/backupRestore/driveInclusionRules/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

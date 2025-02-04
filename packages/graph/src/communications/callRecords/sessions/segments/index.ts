@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\callRecords\{callRecord-id}\sessions\{session-id}\segments
+ * /communications/callRecords/{callRecord-id}/sessions/{session-id}/segments
  * Provides operations to manage the segments property of the microsoft.graph.callRecords.session entity.
  */
 export class SegmentsClient {
   protected baseUrl =
-    "\communications\callRecords\{callRecord-id}\sessions\{session-id}\segments";
+    "/communications/callRecords/{callRecord-id}/sessions/{session-id}/segments";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class SegmentsClient {
   }
 
   /**
-   * `\communications\callRecords\{callRecord-id}\sessions\{session-id}\segments\count`
+   * `/communications/callRecords/{callRecord-id}/sessions/{session-id}/segments/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -112,7 +112,7 @@ export class SegmentsClient {
    *
    * The list of segments involved in the session. Read-only. Nullable.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /communications/callRecords/{callRecord-id}/sessions/{session-id}/segments"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -144,7 +144,7 @@ export class SegmentsClient {
    *
    * The list of segments involved in the session. Read-only. Nullable.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /communications/callRecords/{callRecord-id}/sessions/{session-id}/segments/{segment-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\sharePointProtectionPolicies\{sharePointProtectionPolicy-id}\siteInclusionRules
+ * /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}/siteInclusionRules
  * Provides operations to manage the siteInclusionRules property of the microsoft.graph.sharePointProtectionPolicy entity.
  */
 export class SiteInclusionRulesClient {
   protected baseUrl =
-    "\solutions\backupRestore\sharePointProtectionPolicies\{sharePointProtectionPolicy-id}\siteInclusionRules";
+    "/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}/siteInclusionRules";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class SiteInclusionRulesClient {
   }
 
   /**
-   * `\solutions\backupRestore\sharePointProtectionPolicies\{sharePointProtectionPolicy-id}\siteInclusionRules\count`
+   * `/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}/siteInclusionRules/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -82,7 +82,7 @@ export class SiteInclusionRulesClient {
    *
    * Get a list of siteProtectionRule objects associated with a sharePointProtectionPolicy. An inclusion rule indicates that a protection policy should contain protection units that match the specified rule criteria. The initial status of a protection rule upon creation is active. After the rule is applied, the state is either completed or completedWithErrors.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}/siteInclusionRules"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -113,7 +113,7 @@ export class SiteInclusionRulesClient {
    *
    * Get a protection rule that&#x27;s associated with a protection policy. You can use this operation to get mailbox, drive, and site protection rules. An inclusion rule indicates that a protection policy should contain protection units that match the specified rule criteria. The initial status of a protection rule upon creation is active. After the rule is applied, the state is either completed or completedWithErrors.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}/siteInclusionRules/{siteProtectionRule-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

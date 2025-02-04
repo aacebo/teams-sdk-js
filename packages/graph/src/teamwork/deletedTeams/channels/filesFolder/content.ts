@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\filesFolder\content
+ * /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content
  * Provides operations to manage the media for the teamwork entity.
  */
 export class ContentClient {
   protected baseUrl =
-    "\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\filesFolder\content";
+    "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\lastMessagePreview
+ * /chats/{chat-id}/lastMessagePreview
  * Provides operations to manage the lastMessagePreview property of the microsoft.graph.chat entity.
  */
 export class LastMessagePreviewClient {
-  protected baseUrl = "\chats\{chat-id}\lastMessagePreview";
+  protected baseUrl = "/chats/{chat-id}/lastMessagePreview";
   protected http: http.Client;
 
   constructor(

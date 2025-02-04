@@ -39,11 +39,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\webinars
+ * /solutions/virtualEvents/webinars
  * Provides operations to call the getByUserRole method.
  */
 export class WebinarsClient {
-  protected baseUrl = "\solutions\virtualEvents\webinars";
+  protected baseUrl = "/solutions/virtualEvents/webinars";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -71,7 +71,7 @@ export class WebinarsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars\count`
+   * `/solutions/virtualEvents/webinars/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -80,7 +80,7 @@ export class WebinarsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\presenters`
+   * `/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/presenters`
    *
    * Provides operations to manage the presenters property of the microsoft.graph.virtualEvent entity.
    */
@@ -89,7 +89,7 @@ export class WebinarsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrationConfiguration`
+   * `/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationConfiguration`
    *
    * Provides operations to manage the registrationConfiguration property of the microsoft.graph.virtualEventWebinar entity.
    */
@@ -101,7 +101,7 @@ export class WebinarsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrations`
+   * `/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations`
    *
    * Provides operations to manage the registrations property of the microsoft.graph.virtualEventWebinar entity.
    */
@@ -110,7 +110,7 @@ export class WebinarsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrationsemailemail`
+   * `/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationsemailemail`
    *
    * Provides operations to manage the registrations property of the microsoft.graph.virtualEventWebinar entity.
    */
@@ -119,7 +119,7 @@ export class WebinarsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrationsuserIduserId`
+   * `/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationsuserIduserId`
    *
    * Provides operations to manage the registrations property of the microsoft.graph.virtualEventWebinar entity.
    */
@@ -131,7 +131,7 @@ export class WebinarsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\sessions`
+   * `/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/sessions`
    *
    * Provides operations to manage the sessions property of the microsoft.graph.virtualEvent entity.
    */
@@ -171,7 +171,7 @@ export class WebinarsClient {
    *
    * Get the list of all virtualEventWebinar objects created in a tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/virtualEvents/webinars"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -200,7 +200,7 @@ export class WebinarsClient {
    *
    * Get a virtualEventWebinar collection where the specified user is either the organizer or a coorganizer.
    */
-  async get$2(
+  async get$1(
     params?: Endpoints["GET /solutions/virtualEvents/webinars/getByUserIdAndRole(userId&#x3D;&#x27;{userId}&#x27;,role&#x3D;&#x27;{role}&#x27;)"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -231,7 +231,7 @@ export class WebinarsClient {
    *
    * Get a virtualEventWebinar collection where the signed-in user is either the organizer or a coorganizer.
    */
-  async get$3(
+  async get$2(
     params?: Endpoints["GET /solutions/virtualEvents/webinars/getByUserRole(role&#x3D;&#x27;{role}&#x27;)"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -261,7 +261,7 @@ export class WebinarsClient {
    *
    * Read the properties and relationships of a virtualEventWebinar object. All roles can get the details of a webinar event.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

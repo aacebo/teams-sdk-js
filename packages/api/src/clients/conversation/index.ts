@@ -71,18 +71,23 @@ export class ConversationClient {
     return {
       get: () => this._members.get(conversationId),
       getById: (id: string) => this._members.getById(conversationId, id),
-      delete: (id: string) => this._members.delete(conversationId, id)
+      delete: (id: string) => this._members.delete(conversationId, id),
     };
   }
 
   async get(params: GetConversationsParams) {
     const q = qs.stringify(params, { addQueryPrefix: true });
-    const res = await this.http.get<GetConversationsResponse>(`${this.serviceUrl}/v3/conversations${q}`);
+    const res = await this.http.get<GetConversationsResponse>(
+      `${this.serviceUrl}/v3/conversations${q}`
+    );
     return res.data;
   }
 
   async create(params: CreateConversationParams) {
-    const res = await this.http.post<ConversationResource>(`${this.serviceUrl}/v3/conversations`, params);
+    const res = await this.http.post<ConversationResource>(
+      `${this.serviceUrl}/v3/conversations`,
+      params
+    );
     return res.data;
   }
 }

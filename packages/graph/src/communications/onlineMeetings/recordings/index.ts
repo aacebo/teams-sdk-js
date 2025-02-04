@@ -35,12 +35,12 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\onlineMeetings\{onlineMeeting-id}\recordings
+ * /communications/onlineMeetings/{onlineMeeting-id}/recordings
  * Provides operations to manage the recordings property of the microsoft.graph.onlineMeeting entity.
  */
 export class RecordingsClient {
   protected baseUrl =
-    "\communications\onlineMeetings\{onlineMeeting-id}\recordings";
+    "/communications/onlineMeetings/{onlineMeeting-id}/recordings";
   protected http: http.Client;
 
   constructor(
@@ -71,7 +71,7 @@ export class RecordingsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\{onlineMeeting-id}\recordings\{callRecording-id}\content`
+   * `/communications/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}/content`
    *
    * Provides operations to manage the media for the cloudCommunications entity.
    */
@@ -80,7 +80,7 @@ export class RecordingsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\{onlineMeeting-id}\recordings\count`
+   * `/communications/onlineMeetings/{onlineMeeting-id}/recordings/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -89,7 +89,7 @@ export class RecordingsClient {
   }
 
   /**
-   * `\communications\onlineMeetings\{onlineMeeting-id}\recordings\delta`
+   * `/communications/onlineMeetings/{onlineMeeting-id}/recordings/delta`
    *
    * Provides operations to call the delta method.
    */
@@ -131,7 +131,7 @@ export class RecordingsClient {
    *
    * The recordings of an online meeting. Read-only.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /communications/onlineMeetings/{onlineMeeting-id}/recordings"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -162,7 +162,7 @@ export class RecordingsClient {
    *
    * The recordings of an online meeting. Read-only.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /communications/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

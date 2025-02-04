@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\sendActivityNotification
+ * /chats/{chat-id}/sendActivityNotification
  * Provides operations to call the sendActivityNotification method.
  */
 export class SendActivityNotificationClient {
-  protected baseUrl = "\chats\{chat-id}\sendActivityNotification";
+  protected baseUrl = "/chats/{chat-id}/sendActivityNotification";
   protected http: http.Client;
 
   constructor(

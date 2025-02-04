@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\extensionProperties\count
+ * /applications/{application-id}/extensionProperties/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
   protected baseUrl =
-    "\applications\{application-id}\extensionProperties\count";
+    "/applications/{application-id}/extensionProperties/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

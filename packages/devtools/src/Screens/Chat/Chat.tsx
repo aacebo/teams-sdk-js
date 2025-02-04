@@ -26,8 +26,8 @@ import FeedbackDialog from '../../Components/FeedbackDialog';
 import Message from './Message';
 import './Chat.css';
 
-const api = new Client({
-  headers: { 'x-teams-devtools': true },
+const api = new Client('', {
+  headers: { 'x-teams-devtools': 'true' },
 });
 
 export default function Chat() {

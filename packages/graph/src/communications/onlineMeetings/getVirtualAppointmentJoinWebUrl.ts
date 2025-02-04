@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\onlineMeetings\{onlineMeeting-id}\getVirtualAppointmentJoinWebUrl
+ * /communications/onlineMeetings/{onlineMeeting-id}/getVirtualAppointmentJoinWebUrl
  * Provides operations to call the getVirtualAppointmentJoinWebUrl method.
  */
 export class GetVirtualAppointmentJoinWebUrlClient {
   protected baseUrl =
-    "\communications\onlineMeetings\{onlineMeeting-id}\getVirtualAppointmentJoinWebUrl";
+    "/communications/onlineMeetings/{onlineMeeting-id}/getVirtualAppointmentJoinWebUrl";
   protected http: http.Client;
 
   constructor(

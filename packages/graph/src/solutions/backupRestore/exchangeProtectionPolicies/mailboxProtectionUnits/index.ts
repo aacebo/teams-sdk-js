@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\exchangeProtectionPolicies\{exchangeProtectionPolicy-id}\mailboxProtectionUnits
+ * /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}/mailboxProtectionUnits
  * Provides operations to manage the mailboxProtectionUnits property of the microsoft.graph.exchangeProtectionPolicy entity.
  */
 export class MailboxProtectionUnitsClient {
   protected baseUrl =
-    "\solutions\backupRestore\exchangeProtectionPolicies\{exchangeProtectionPolicy-id}\mailboxProtectionUnits";
+    "/solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}/mailboxProtectionUnits";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class MailboxProtectionUnitsClient {
   }
 
   /**
-   * `\solutions\backupRestore\exchangeProtectionPolicies\{exchangeProtectionPolicy-id}\mailboxProtectionUnits\count`
+   * `/solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}/mailboxProtectionUnits/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -82,7 +82,7 @@ export class MailboxProtectionUnitsClient {
    *
    * The protection units (mailboxes) that are  protected under the Exchange protection policy.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}/mailboxProtectionUnits"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -113,7 +113,7 @@ export class MailboxProtectionUnitsClient {
    *
    * The protection units (mailboxes) that are  protected under the Exchange protection policy.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}/mailboxProtectionUnits/{mailboxProtectionUnit-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

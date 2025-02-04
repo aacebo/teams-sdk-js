@@ -35,11 +35,11 @@ function getInjectedUrl(
 }
 
 /**
- * \employeeExperience\learningProviders
+ * /employeeExperience/learningProviders
  * Provides operations to manage the learningCourseActivities property of the microsoft.graph.learningProvider entity.
  */
 export class LearningProvidersClient {
-  protected baseUrl = "\employeeExperience\learningProviders";
+  protected baseUrl = "/employeeExperience/learningProviders";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -67,7 +67,7 @@ export class LearningProvidersClient {
   }
 
   /**
-   * `\employeeExperience\learningProviders\count`
+   * `/employeeExperience/learningProviders/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -76,7 +76,7 @@ export class LearningProvidersClient {
   }
 
   /**
-   * `\employeeExperience\learningProviders\{learningProvider-id}\learningContents`
+   * `/employeeExperience/learningProviders/{learningProvider-id}/learningContents`
    *
    * Provides operations to manage the learningContents property of the microsoft.graph.learningProvider entity.
    */
@@ -85,7 +85,7 @@ export class LearningProvidersClient {
   }
 
   /**
-   * `\employeeExperience\learningProviders\{learningProvider-id}\learningCourseActivities`
+   * `/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities`
    *
    * Provides operations to manage the learningCourseActivities property of the microsoft.graph.learningProvider entity.
    */
@@ -184,7 +184,7 @@ export class LearningProvidersClient {
    *
    * Get a list of the learningProvider resources registered in Viva Learning for a tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /employeeExperience/learningProviders"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -213,7 +213,7 @@ export class LearningProvidersClient {
    *
    * Read the properties and relationships of a learningProvider object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -242,7 +242,7 @@ export class LearningProvidersClient {
    *
    * Get the specified learningContent resource which represents the metadata of the specified provider&#x27;s ingested content.
    */
-  async get$2(
+  async get$1(
     params?: Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -271,7 +271,7 @@ export class LearningProvidersClient {
    * `GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)`
    *
    */
-  async get$3(
+  async get$2(
     params?: Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)"]["parameters"],
     config?: http.RequestConfig,
   ) {

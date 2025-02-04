@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\logTeleconferenceDeviceQuality
+ * /communications/calls/logTeleconferenceDeviceQuality
  * Provides operations to call the logTeleconferenceDeviceQuality method.
  */
 export class LogTeleconferenceDeviceQualityClient {
-  protected baseUrl = "\communications\calls\logTeleconferenceDeviceQuality";
+  protected baseUrl = "/communications/calls/logTeleconferenceDeviceQuality";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

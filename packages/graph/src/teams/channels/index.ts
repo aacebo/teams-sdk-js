@@ -46,11 +46,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\channels
+ * /teams/{team-id}/channels
  * Provides operations to manage the channels property of the microsoft.graph.team entity.
  */
 export class ChannelsClient {
-  protected baseUrl = "\teams\{team-id}\channels";
+  protected baseUrl = "/teams/{team-id}/channels";
   protected http: http.Client;
 
   constructor(
@@ -81,7 +81,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\archive`
+   * `/teams/{team-id}/channels/{channel-id}/archive`
    *
    * Provides operations to call the archive method.
    */
@@ -90,7 +90,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\completeMigration`
+   * `/teams/{team-id}/channels/{channel-id}/completeMigration`
    *
    * Provides operations to call the completeMigration method.
    */
@@ -99,7 +99,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\count`
+   * `/teams/{team-id}/channels/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -108,7 +108,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName`
+   * `/teams/{team-id}/channels/{channel-id}/doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName`
    *
    * Provides operations to call the doesUserHaveAccess method.
    */
@@ -122,7 +122,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\filesFolder`
+   * `/teams/{team-id}/channels/{channel-id}/filesFolder`
    *
    * Provides operations to manage the filesFolder property of the microsoft.graph.channel entity.
    */
@@ -131,7 +131,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\getAllMessages`
+   * `/teams/{team-id}/channels/getAllMessages`
    *
    * Provides operations to call the getAllMessages method.
    */
@@ -140,7 +140,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\getAllRetainedMessages`
+   * `/teams/{team-id}/channels/getAllRetainedMessages`
    *
    * Provides operations to call the getAllRetainedMessages method.
    */
@@ -149,7 +149,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\members`
+   * `/teams/{team-id}/channels/{channel-id}/members`
    *
    * Provides operations to manage the members property of the microsoft.graph.channel entity.
    */
@@ -158,7 +158,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\messages`
+   * `/teams/{team-id}/channels/{channel-id}/messages`
    *
    * Provides operations to manage the messages property of the microsoft.graph.channel entity.
    */
@@ -167,7 +167,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\provisionEmail`
+   * `/teams/{team-id}/channels/{channel-id}/provisionEmail`
    *
    * Provides operations to call the provisionEmail method.
    */
@@ -176,7 +176,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\removeEmail`
+   * `/teams/{team-id}/channels/{channel-id}/removeEmail`
    *
    * Provides operations to call the removeEmail method.
    */
@@ -185,7 +185,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\sharedWithTeams`
+   * `/teams/{team-id}/channels/{channel-id}/sharedWithTeams`
    *
    * Provides operations to manage the sharedWithTeams property of the microsoft.graph.channel entity.
    */
@@ -194,7 +194,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\tabs`
+   * `/teams/{team-id}/channels/{channel-id}/tabs`
    *
    * Provides operations to manage the tabs property of the microsoft.graph.channel entity.
    */
@@ -203,7 +203,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\unarchive`
+   * `/teams/{team-id}/channels/{channel-id}/unarchive`
    *
    * Provides operations to call the unarchive method.
    */
@@ -246,7 +246,7 @@ export class ChannelsClient {
    *
    * Retrieve the list of channels in this team.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/channels"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -277,7 +277,7 @@ export class ChannelsClient {
    *
    * Retrieve the properties and relationships of a channel. This method supports federation. Only a user who is a member of the shared channel can retrieve channel information.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/channels/{channel-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

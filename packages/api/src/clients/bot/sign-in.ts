@@ -32,14 +32,18 @@ export class BotSignInClient {
 
   async getUrl(params: GetBotSignInUrlParams) {
     const q = qs.stringify(params);
-    const res = await this.http.get<string>(`https://token.botframework.com/api/botsignin/GetSignInUrl?${q}`);
+    const res = await this.http.get<string>(
+      `https://token.botframework.com/api/botsignin/GetSignInUrl?${q}`
+    );
 
     return res.data;
   }
 
   async getResource(params: GetBotSignInResourceParams) {
     const q = qs.stringify(params);
-    const res = await this.http.get<SignInUrlResponse>(`https://token.botframework.com/api/botsignin/GetSignInResource?${q}`);
+    const res = await this.http.get<SignInUrlResponse>(
+      `https://token.botframework.com/api/botsignin/GetSignInResource?${q}`
+    );
 
     return res.data;
   }

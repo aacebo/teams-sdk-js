@@ -7,14 +7,14 @@ import { TeamClient } from './team';
 import { MeetingClient } from './meeting';
 
 export class Client {
+  readonly serviceUrl: string;
+  readonly http: http.Client;
+
   readonly bots: BotClient;
   readonly users: UserClient;
   readonly conversations: ConversationClient;
   readonly teams: TeamClient;
   readonly meetings: MeetingClient;
-
-  protected serviceUrl: string;
-  protected http: http.Client;
 
   constructor(serviceUrl: string, options?: http.Client | http.ClientOptions) {
     this.serviceUrl = serviceUrl;

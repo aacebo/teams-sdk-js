@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\onlineMeetings\{onlineMeeting-id}\transcripts\{callTranscript-id}\metadataContent
+ * /communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent
  * Provides operations to manage the media for the cloudCommunications entity.
  */
 export class MetadataContentClient {
   protected baseUrl =
-    "\communications\onlineMeetings\{onlineMeeting-id}\transcripts\{callTranscript-id}\metadataContent";
+    "/communications/onlineMeetings/{onlineMeeting-id}/transcripts/{callTranscript-id}/metadataContent";
   protected http: http.Client;
 
   constructor(

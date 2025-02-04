@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\cancelMediaProcessing
+ * /communications/calls/{call-id}/cancelMediaProcessing
  * Provides operations to call the cancelMediaProcessing method.
  */
 export class CancelMediaProcessingClient {
-  protected baseUrl = "\communications\calls\{call-id}\cancelMediaProcessing";
+  protected baseUrl = "/communications/calls/{call-id}/cancelMediaProcessing";
   protected http: http.Client;
 
   constructor(

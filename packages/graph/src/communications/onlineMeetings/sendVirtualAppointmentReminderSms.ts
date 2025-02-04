@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\onlineMeetings\{onlineMeeting-id}\sendVirtualAppointmentReminderSms
+ * /communications/onlineMeetings/{onlineMeeting-id}/sendVirtualAppointmentReminderSms
  * Provides operations to call the sendVirtualAppointmentReminderSms method.
  */
 export class SendVirtualAppointmentReminderSmsClient {
   protected baseUrl =
-    "\communications\onlineMeetings\{onlineMeeting-id}\sendVirtualAppointmentReminderSms";
+    "/communications/onlineMeetings/{onlineMeeting-id}/sendVirtualAppointmentReminderSms";
   protected http: http.Client;
 
   constructor(

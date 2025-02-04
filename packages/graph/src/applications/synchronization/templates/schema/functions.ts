@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\functions
+ * /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/functions
  * Provides operations to call the functions method.
  */
 export class FunctionsClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\functions";
+    "/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/functions";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

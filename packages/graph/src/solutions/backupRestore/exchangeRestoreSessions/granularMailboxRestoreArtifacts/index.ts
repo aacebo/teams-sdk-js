@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\exchangeRestoreSessions\{exchangeRestoreSession-id}\granularMailboxRestoreArtifacts
+ * /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts
  * Provides operations to manage the granularMailboxRestoreArtifacts property of the microsoft.graph.exchangeRestoreSession entity.
  */
 export class GranularMailboxRestoreArtifactsClient {
   protected baseUrl =
-    "\solutions\backupRestore\exchangeRestoreSessions\{exchangeRestoreSession-id}\granularMailboxRestoreArtifacts";
+    "/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class GranularMailboxRestoreArtifactsClient {
   }
 
   /**
-   * `\solutions\backupRestore\exchangeRestoreSessions\{exchangeRestoreSession-id}\granularMailboxRestoreArtifacts\count`
+   * `/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -79,7 +79,7 @@ export class GranularMailboxRestoreArtifactsClient {
   }
 
   /**
-   * `\solutions\backupRestore\exchangeRestoreSessions\{exchangeRestoreSession-id}\granularMailboxRestoreArtifacts\{granularMailboxRestoreArtifact-id}\restorePoint`
+   * `/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}/restorePoint`
    *
    * Provides operations to manage the restorePoint property of the microsoft.graph.restoreArtifactBase entity.
    */
@@ -120,7 +120,7 @@ export class GranularMailboxRestoreArtifactsClient {
    * `GET /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts`
    *
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -150,7 +150,7 @@ export class GranularMailboxRestoreArtifactsClient {
    * `GET /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}`
    *
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/{granularMailboxRestoreArtifact-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

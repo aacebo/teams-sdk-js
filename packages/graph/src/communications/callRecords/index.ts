@@ -36,11 +36,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\callRecords
+ * /communications/callRecords
  * Provides operations to call the getPstnCalls method.
  */
 export class CallRecordsClient {
-  protected baseUrl = "\communications\callRecords";
+  protected baseUrl = "/communications/callRecords";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -68,7 +68,7 @@ export class CallRecordsClient {
   }
 
   /**
-   * `\communications\callRecords\count`
+   * `/communications/callRecords/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -77,7 +77,7 @@ export class CallRecordsClient {
   }
 
   /**
-   * `\communications\callRecords\{callRecord-id}\organizerv2`
+   * `/communications/callRecords/{callRecord-id}/organizerv2`
    *
    * Provides operations to manage the organizer_v2 property of the microsoft.graph.callRecords.callRecord entity.
    */
@@ -86,7 +86,7 @@ export class CallRecordsClient {
   }
 
   /**
-   * `\communications\callRecords\{callRecord-id}\participantsv2`
+   * `/communications/callRecords/{callRecord-id}/participantsv2`
    *
    * Provides operations to manage the participants_v2 property of the microsoft.graph.callRecords.callRecord entity.
    */
@@ -95,7 +95,7 @@ export class CallRecordsClient {
   }
 
   /**
-   * `\communications\callRecords\{callRecord-id}\sessions`
+   * `/communications/callRecords/{callRecord-id}/sessions`
    *
    * Provides operations to manage the sessions property of the microsoft.graph.callRecords.callRecord entity.
    */
@@ -135,7 +135,7 @@ export class CallRecordsClient {
    *
    * Get the list of callRecord objects and their properties. The results can be optionally filtered using the $filter query parameter on the startDateTime and participant id properties. Note that the listed call records don&#x27;t include expandable relationships such as sessions and participants_v2. You can expand these relationships using Get callRecord for a specific record.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /communications/callRecords"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -164,7 +164,7 @@ export class CallRecordsClient {
    *
    * Get a log of direct routing calls as a collection of directRoutingLogRow entries.
    */
-  async get$2(
+  async get$1(
     params?: Endpoints["GET /communications/callRecords/microsoft.graph.callRecords.getDirectRoutingCalls(fromDateTime&#x3D;{fromDateTime},toDateTime&#x3D;{toDateTime})"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -192,7 +192,7 @@ export class CallRecordsClient {
    *
    * Get a log of PSTN calls as a collection of pstnCallLogRow entries.
    */
-  async get$3(
+  async get$2(
     params?: Endpoints["GET /communications/callRecords/microsoft.graph.callRecords.getPstnCalls(fromDateTime&#x3D;{fromDateTime},toDateTime&#x3D;{toDateTime})"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -222,7 +222,7 @@ export class CallRecordsClient {
    * Subscribe to change notifications to the /communications/callRecords endpoint.
    * Use the callChainId property of a call. The call record is available only after the associated call is completed.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /communications/callRecords/{callRecord-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

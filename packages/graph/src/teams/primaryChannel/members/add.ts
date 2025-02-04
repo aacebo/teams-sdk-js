@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\primaryChannel\members\add
+ * /teams/{team-id}/primaryChannel/members/add
  * Provides operations to call the add method.
  */
 export class AddClient {
-  protected baseUrl = "\teams\{team-id}\primaryChannel\members\add";
+  protected baseUrl = "/teams/{team-id}/primaryChannel/members/add";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

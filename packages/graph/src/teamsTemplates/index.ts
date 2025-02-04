@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teamsTemplates
+ * /teamsTemplates
  * Provides operations to manage the collection of teamsTemplate entities.
  */
 export class TeamsTemplatesClient {
-  protected baseUrl = "\teamsTemplates";
+  protected baseUrl = "/teamsTemplates";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class TeamsTemplatesClient {
   }
 
   /**
-   * `\teamsTemplates\count`
+   * `/teamsTemplates/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -104,7 +104,7 @@ export class TeamsTemplatesClient {
    * `GET /teamsTemplates`
    *
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teamsTemplates"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -129,7 +129,7 @@ export class TeamsTemplatesClient {
    * `GET /teamsTemplates/{teamsTemplate-id}`
    *
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teamsTemplates/{teamsTemplate-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

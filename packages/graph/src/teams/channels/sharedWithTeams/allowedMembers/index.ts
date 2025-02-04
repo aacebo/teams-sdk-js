@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\channels\{channel-id}\sharedWithTeams\{sharedWithChannelTeamInfo-id}\allowedMembers
+ * /teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}/allowedMembers
  * Provides operations to manage the allowedMembers property of the microsoft.graph.sharedWithChannelTeamInfo entity.
  */
 export class AllowedMembersClient {
   protected baseUrl =
-    "\teams\{team-id}\channels\{channel-id}\sharedWithTeams\{sharedWithChannelTeamInfo-id}\allowedMembers";
+    "/teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}/allowedMembers";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class AllowedMembersClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\sharedWithTeams\{sharedWithChannelTeamInfo-id}\allowedMembers\count`
+   * `/teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}/allowedMembers/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -84,7 +84,7 @@ export class AllowedMembersClient {
 - Users with Guest role
 - Users who are externally authenticated in the tenant
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}/allowedMembers"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -117,7 +117,7 @@ export class AllowedMembersClient {
    *
    * A collection of team members who have access to the shared channel.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}/allowedMembers/{conversationMember-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

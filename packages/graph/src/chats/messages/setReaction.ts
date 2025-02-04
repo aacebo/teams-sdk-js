@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\messages\{chatMessage-id}\setReaction
+ * /chats/{chat-id}/messages/{chatMessage-id}/setReaction
  * Provides operations to call the setReaction method.
  */
 export class SetReactionClient {
-  protected baseUrl = "\chats\{chat-id}\messages\{chatMessage-id}\setReaction";
+  protected baseUrl = "/chats/{chat-id}/messages/{chatMessage-id}/setReaction";
   protected http: http.Client;
 
   constructor(

@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \appCatalogs\teamsApps\{teamsApp-id}\appDefinitions\{teamsAppDefinition-id}\bot
+ * /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot
  * Provides operations to manage the bot property of the microsoft.graph.teamsAppDefinition entity.
  */
 export class BotClient {
   protected baseUrl =
-    "\appCatalogs\teamsApps\{teamsApp-id}\appDefinitions\{teamsAppDefinition-id}\bot";
+    "/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot";
   protected http: http.Client;
 
   constructor(

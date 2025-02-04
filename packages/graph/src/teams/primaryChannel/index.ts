@@ -43,11 +43,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\primaryChannel
+ * /teams/{team-id}/primaryChannel
  * Provides operations to manage the primaryChannel property of the microsoft.graph.team entity.
  */
 export class PrimaryChannelClient {
-  protected baseUrl = "\teams\{team-id}\primaryChannel";
+  protected baseUrl = "/teams/{team-id}/primaryChannel";
   protected http: http.Client;
 
   constructor(
@@ -78,7 +78,7 @@ export class PrimaryChannelClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\archive`
+   * `/teams/{team-id}/primaryChannel/archive`
    *
    * Provides operations to call the archive method.
    */
@@ -87,7 +87,7 @@ export class PrimaryChannelClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\completeMigration`
+   * `/teams/{team-id}/primaryChannel/completeMigration`
    *
    * Provides operations to call the completeMigration method.
    */
@@ -96,7 +96,7 @@ export class PrimaryChannelClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName`
+   * `/teams/{team-id}/primaryChannel/doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName`
    *
    * Provides operations to call the doesUserHaveAccess method.
    */
@@ -107,7 +107,7 @@ export class PrimaryChannelClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\filesFolder`
+   * `/teams/{team-id}/primaryChannel/filesFolder`
    *
    * Provides operations to manage the filesFolder property of the microsoft.graph.channel entity.
    */
@@ -116,7 +116,7 @@ export class PrimaryChannelClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\members`
+   * `/teams/{team-id}/primaryChannel/members`
    *
    * Provides operations to manage the members property of the microsoft.graph.channel entity.
    */
@@ -125,7 +125,7 @@ export class PrimaryChannelClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\messages`
+   * `/teams/{team-id}/primaryChannel/messages`
    *
    * Provides operations to manage the messages property of the microsoft.graph.channel entity.
    */
@@ -134,7 +134,7 @@ export class PrimaryChannelClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\provisionEmail`
+   * `/teams/{team-id}/primaryChannel/provisionEmail`
    *
    * Provides operations to call the provisionEmail method.
    */
@@ -143,7 +143,7 @@ export class PrimaryChannelClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\removeEmail`
+   * `/teams/{team-id}/primaryChannel/removeEmail`
    *
    * Provides operations to call the removeEmail method.
    */
@@ -152,7 +152,7 @@ export class PrimaryChannelClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\sharedWithTeams`
+   * `/teams/{team-id}/primaryChannel/sharedWithTeams`
    *
    * Provides operations to manage the sharedWithTeams property of the microsoft.graph.channel entity.
    */
@@ -161,7 +161,7 @@ export class PrimaryChannelClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\tabs`
+   * `/teams/{team-id}/primaryChannel/tabs`
    *
    * Provides operations to manage the tabs property of the microsoft.graph.channel entity.
    */
@@ -170,7 +170,7 @@ export class PrimaryChannelClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\unarchive`
+   * `/teams/{team-id}/primaryChannel/unarchive`
    *
    * Provides operations to call the unarchive method.
    */

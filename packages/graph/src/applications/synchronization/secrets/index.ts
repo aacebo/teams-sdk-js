@@ -33,10 +33,10 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\secrets
+ * /applications/{application-id}/synchronization/secrets
  */
 export class SecretsClient {
-  protected baseUrl = "\applications\{application-id}\synchronization\secrets";
+  protected baseUrl = "/applications/{application-id}/synchronization/secrets";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -64,7 +64,7 @@ export class SecretsClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\secrets\count`
+   * `/applications/{application-id}/synchronization/secrets/count`
    *
    * Provides operations to count the resources in the collection.
    */

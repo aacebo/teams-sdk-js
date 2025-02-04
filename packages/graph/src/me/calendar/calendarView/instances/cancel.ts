@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendar\calendarView\{event-id}\instances\{event-id1}\cancel
+ * /me/calendar/calendarView/{event-id}/instances/{event-id1}/cancel
  * Provides operations to call the cancel method.
  */
 export class CancelClient {
   protected baseUrl =
-    "\me\calendar\calendarView\{event-id}\instances\{event-id1}\cancel";
+    "/me/calendar/calendarView/{event-id}/instances/{event-id1}/cancel";
   protected http: http.Client;
 
   constructor(

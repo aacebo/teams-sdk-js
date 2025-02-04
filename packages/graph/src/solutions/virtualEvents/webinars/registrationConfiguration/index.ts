@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrationConfiguration
+ * /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationConfiguration
  * Provides operations to manage the registrationConfiguration property of the microsoft.graph.virtualEventWebinar entity.
  */
 export class RegistrationConfigurationClient {
   protected baseUrl =
-    "\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrationConfiguration";
+    "/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationConfiguration";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class RegistrationConfigurationClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrationConfiguration\questions`
+   * `/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationConfiguration/questions`
    *
    * Provides operations to manage the questions property of the microsoft.graph.virtualEventRegistrationConfiguration entity.
    */

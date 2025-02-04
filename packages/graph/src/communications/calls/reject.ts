@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\reject
+ * /communications/calls/{call-id}/reject
  * Provides operations to call the reject method.
  */
 export class RejectClient {
-  protected baseUrl = "\communications\calls\{call-id}\reject";
+  protected baseUrl = "/communications/calls/{call-id}/reject";
   protected http: http.Client;
 
   constructor(

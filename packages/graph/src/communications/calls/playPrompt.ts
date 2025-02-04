@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\playPrompt
+ * /communications/calls/{call-id}/playPrompt
  * Provides operations to call the playPrompt method.
  */
 export class PlayPromptClient {
-  protected baseUrl = "\communications\calls\{call-id}\playPrompt";
+  protected baseUrl = "/communications/calls/{call-id}/playPrompt";
   protected http: http.Client;
 
   constructor(

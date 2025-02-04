@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\schedule\timeOffRequests
+ * /teams/{team-id}/schedule/timeOffRequests
  * Provides operations to manage the timeOffRequests property of the microsoft.graph.schedule entity.
  */
 export class TimeOffRequestsClient {
-  protected baseUrl = "\teams\{team-id}\schedule\timeOffRequests";
+  protected baseUrl = "/teams/{team-id}/schedule/timeOffRequests";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class TimeOffRequestsClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\timeOffRequests\count`
+   * `/teams/{team-id}/schedule/timeOffRequests/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -107,7 +107,7 @@ export class TimeOffRequestsClient {
    *
    * Retrieve a list of timeOffRequest objects in the team.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/schedule/timeOffRequests"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -137,7 +137,7 @@ export class TimeOffRequestsClient {
    *
    * Retrieve the properties and relationships of a timeoffrequest object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/schedule/timeOffRequests/{timeOffRequest-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

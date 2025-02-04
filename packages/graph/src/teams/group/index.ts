@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\group
+ * /teams/{team-id}/group
  * Provides operations to manage the group property of the microsoft.graph.team entity.
  */
 export class GroupClient {
-  protected baseUrl = "\teams\{team-id}\group";
+  protected baseUrl = "/teams/{team-id}/group";
   protected http: http.Client;
 
   constructor(
@@ -68,7 +68,7 @@ export class GroupClient {
   }
 
   /**
-   * `\teams\{team-id}\group\serviceProvisioningErrors`
+   * `/teams/{team-id}/group/serviceProvisioningErrors`
    *
    */
   get serviceProvisioningErrors() {

@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\photo
+ * /me/photo
  * Provides operations to manage the photo property of the microsoft.graph.user entity.
  */
 export class PhotoClient {
-  protected baseUrl = "\me\photo";
+  protected baseUrl = "/me/photo";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class PhotoClient {
   }
 
   /**
-   * `\me\photo\value`
+   * `/me/photo/value`
    *
    * Provides operations to manage the media for the user entity.
    */

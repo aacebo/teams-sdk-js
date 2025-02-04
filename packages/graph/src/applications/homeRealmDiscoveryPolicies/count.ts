@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\homeRealmDiscoveryPolicies\count
+ * /applications/{application-id}/homeRealmDiscoveryPolicies/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
   protected baseUrl =
-    "\applications\{application-id}\homeRealmDiscoveryPolicies\count";
+    "/applications/{application-id}/homeRealmDiscoveryPolicies/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\oneDriveForBusinessRestoreSessions\{oneDriveForBusinessRestoreSession-id}\driveRestoreArtifacts
+ * /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}/driveRestoreArtifacts
  * Provides operations to manage the driveRestoreArtifacts property of the microsoft.graph.oneDriveForBusinessRestoreSession entity.
  */
 export class DriveRestoreArtifactsClient {
   protected baseUrl =
-    "\solutions\backupRestore\oneDriveForBusinessRestoreSessions\{oneDriveForBusinessRestoreSession-id}\driveRestoreArtifacts";
+    "/solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}/driveRestoreArtifacts";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class DriveRestoreArtifactsClient {
   }
 
   /**
-   * `\solutions\backupRestore\oneDriveForBusinessRestoreSessions\{oneDriveForBusinessRestoreSession-id}\driveRestoreArtifacts\count`
+   * `/solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}/driveRestoreArtifacts/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -79,7 +79,7 @@ export class DriveRestoreArtifactsClient {
   }
 
   /**
-   * `\solutions\backupRestore\oneDriveForBusinessRestoreSessions\{oneDriveForBusinessRestoreSession-id}\driveRestoreArtifacts\{driveRestoreArtifact-id}\restorePoint`
+   * `/solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}/driveRestoreArtifacts/{driveRestoreArtifact-id}/restorePoint`
    *
    * Provides operations to manage the restorePoint property of the microsoft.graph.restoreArtifactBase entity.
    */
@@ -122,7 +122,7 @@ export class DriveRestoreArtifactsClient {
    *
    * Get a list of the driveRestoreArtifact objects and their properties for a oneDriveForBusinessRestoreSession for a tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}/driveRestoreArtifacts"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -154,7 +154,7 @@ export class DriveRestoreArtifactsClient {
    *
    * A collection of restore points and destination details that can be used to restore a OneDrive for Business drive.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}/driveRestoreArtifacts/{driveRestoreArtifact-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

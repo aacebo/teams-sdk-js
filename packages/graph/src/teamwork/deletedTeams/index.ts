@@ -35,11 +35,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\deletedTeams
+ * /teamwork/deletedTeams
  * Provides operations to manage the deletedTeams property of the microsoft.graph.teamwork entity.
  */
 export class DeletedTeamsClient {
-  protected baseUrl = "\teamwork\deletedTeams";
+  protected baseUrl = "/teamwork/deletedTeams";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -67,7 +67,7 @@ export class DeletedTeamsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels`
    *
    * Provides operations to manage the channels property of the microsoft.graph.deletedTeam entity.
    */
@@ -76,7 +76,7 @@ export class DeletedTeamsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\count`
+   * `/teamwork/deletedTeams/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -85,7 +85,7 @@ export class DeletedTeamsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\getAllMessages`
+   * `/teamwork/deletedTeams/getAllMessages`
    *
    * Provides operations to call the getAllMessages method.
    */
@@ -125,7 +125,7 @@ export class DeletedTeamsClient {
    *
    * Get a list of the deletedTeam objects and their properties.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teamwork/deletedTeams"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -154,7 +154,7 @@ export class DeletedTeamsClient {
    *
    * The deleted team.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

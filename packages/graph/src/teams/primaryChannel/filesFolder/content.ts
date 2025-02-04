@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\primaryChannel\filesFolder\content
+ * /teams/{team-id}/primaryChannel/filesFolder/content
  * Provides operations to manage the media for the team entity.
  */
 export class ContentClient {
-  protected baseUrl = "\teams\{team-id}\primaryChannel\filesFolder\content";
+  protected baseUrl = "/teams/{team-id}/primaryChannel/filesFolder/content";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

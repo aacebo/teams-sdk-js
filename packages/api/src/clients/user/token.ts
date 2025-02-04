@@ -51,27 +51,37 @@ export class UserTokenClient {
 
   async get(params: GetUserTokenParams) {
     const q = qs.stringify(params);
-    const res = await this.http.get<TokenResponse>(`https://token.botframework.com/api/usertoken/GetToken?${q}`);
+    const res = await this.http.get<TokenResponse>(
+      `https://token.botframework.com/api/usertoken/GetToken?${q}`
+    );
 
     return res.data;
   }
 
   async getAad(params: GetUserAADTokenParams) {
     const q = qs.stringify(params);
-    const res = await this.http.post<Record<string, TokenResponse>>(`https://token.botframework.com/api/usertoken/GetAadTokens?${q}`, params);
+    const res = await this.http.post<Record<string, TokenResponse>>(
+      `https://token.botframework.com/api/usertoken/GetAadTokens?${q}`,
+      params
+    );
 
     return res.data;
   }
 
   async getStatus(params: GetUserTokenStatusParams) {
     const q = qs.stringify(params);
-    const res = await this.http.get<TokenStatus[]>(`https://token.botframework.com/api/usertoken/GetTokenStatus?${q}`);
+    const res = await this.http.get<TokenStatus[]>(
+      `https://token.botframework.com/api/usertoken/GetTokenStatus?${q}`
+    );
 
     return res.data;
   }
 
   async signOut(params: SignOutUserParams) {
-    const res = await this.http.delete<void>('https://token.botframework.com/api/usertoken/SignOut', { data: params });
+    const res = await this.http.delete<void>(
+      'https://token.botframework.com/api/usertoken/SignOut',
+      { data: params }
+    );
 
     return res.data;
   }
@@ -83,9 +93,12 @@ export class UserTokenClient {
       channelId: params.channelId,
     });
 
-    const res = await this.http.post<TokenResponse>(`https://token.botframework.com/api/usertoken/exchange?${q}`, {
-      exchangeRequest: params.exchangeRequest,
-    });
+    const res = await this.http.post<TokenResponse>(
+      `https://token.botframework.com/api/usertoken/exchange?${q}`,
+      {
+        exchangeRequest: params.exchangeRequest,
+      }
+    );
 
     return res.data;
   }

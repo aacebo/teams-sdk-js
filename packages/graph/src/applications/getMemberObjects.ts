@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\getMemberObjects
+ * /applications/{application-id}/getMemberObjects
  * Provides operations to call the getMemberObjects method.
  */
 export class GetMemberObjectsClient {
-  protected baseUrl = "\applications\{application-id}\getMemberObjects";
+  protected baseUrl = "/applications/{application-id}/getMemberObjects";
   protected http: http.Client;
 
   constructor(

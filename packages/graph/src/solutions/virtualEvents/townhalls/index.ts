@@ -35,11 +35,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\townhalls
+ * /solutions/virtualEvents/townhalls
  * Provides operations to call the getByUserRole method.
  */
 export class TownhallsClient {
-  protected baseUrl = "\solutions\virtualEvents\townhalls";
+  protected baseUrl = "/solutions/virtualEvents/townhalls";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -67,7 +67,7 @@ export class TownhallsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\townhalls\count`
+   * `/solutions/virtualEvents/townhalls/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -76,7 +76,7 @@ export class TownhallsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\townhalls\{virtualEventTownhall-id}\presenters`
+   * `/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters`
    *
    * Provides operations to manage the presenters property of the microsoft.graph.virtualEvent entity.
    */
@@ -85,7 +85,7 @@ export class TownhallsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\townhalls\{virtualEventTownhall-id}\sessions`
+   * `/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/sessions`
    *
    * Provides operations to manage the sessions property of the microsoft.graph.virtualEvent entity.
    */
@@ -125,7 +125,7 @@ export class TownhallsClient {
    *
    * Read the properties and relationships of a virtualEventTownhall object. All roles can get the details of a townhall event.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/virtualEvents/townhalls"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -154,7 +154,7 @@ export class TownhallsClient {
    *
    * Get a list of virtualEventTownhall objects where the specified user is either the organizer or a coorganizer.
    */
-  async get$2(
+  async get$1(
     params?: Endpoints["GET /solutions/virtualEvents/townhalls/getByUserIdAndRole(userId&#x3D;&#x27;{userId}&#x27;,role&#x3D;&#x27;{role}&#x27;)"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -185,7 +185,7 @@ export class TownhallsClient {
    *
    * Get a list of virtualEventTownhall objects where the signed-in user is either the organizer or a coorganizer.
    */
-  async get$3(
+  async get$2(
     params?: Endpoints["GET /solutions/virtualEvents/townhalls/getByUserRole(role&#x3D;&#x27;{role}&#x27;)"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -215,7 +215,7 @@ export class TownhallsClient {
    *
    * Read the properties and relationships of a virtualEventTownhall object. All roles can get the details of a townhall event.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

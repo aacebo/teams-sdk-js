@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\tokenLifetimePolicies\{tokenLifetimePolicy-id}\ref
+ * /applications/{application-id}/tokenLifetimePolicies/{tokenLifetimePolicy-id}/ref
  * Provides operations to manage the collection of application entities.
  */
 export class RefClient {
   protected baseUrl =
-    "\applications\{application-id}\tokenLifetimePolicies\{tokenLifetimePolicy-id}\ref";
+    "/applications/{application-id}/tokenLifetimePolicies/{tokenLifetimePolicy-id}/ref";
   protected http: http.Client;
 
   constructor(

@@ -38,11 +38,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\events
+ * /solutions/virtualEvents/events
  * Provides operations to manage the events property of the microsoft.graph.virtualEventsRoot entity.
  */
 export class EventsClient {
-  protected baseUrl = "\solutions\virtualEvents\events";
+  protected baseUrl = "/solutions/virtualEvents/events";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -70,7 +70,7 @@ export class EventsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\events\{virtualEvent-id}\cancel`
+   * `/solutions/virtualEvents/events/{virtualEvent-id}/cancel`
    *
    * Provides operations to call the cancel method.
    */
@@ -79,7 +79,7 @@ export class EventsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\events\count`
+   * `/solutions/virtualEvents/events/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -88,7 +88,7 @@ export class EventsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\events\{virtualEvent-id}\presenters`
+   * `/solutions/virtualEvents/events/{virtualEvent-id}/presenters`
    *
    * Provides operations to manage the presenters property of the microsoft.graph.virtualEvent entity.
    */
@@ -97,7 +97,7 @@ export class EventsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\events\{virtualEvent-id}\publish`
+   * `/solutions/virtualEvents/events/{virtualEvent-id}/publish`
    *
    * Provides operations to call the publish method.
    */
@@ -106,7 +106,7 @@ export class EventsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\events\{virtualEvent-id}\sessions`
+   * `/solutions/virtualEvents/events/{virtualEvent-id}/sessions`
    *
    * Provides operations to manage the sessions property of the microsoft.graph.virtualEvent entity.
    */
@@ -115,7 +115,7 @@ export class EventsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\events\{virtualEvent-id}\setExternalEventInformation`
+   * `/solutions/virtualEvents/events/{virtualEvent-id}/setExternalEventInformation`
    *
    * Provides operations to call the setExternalEventInformation method.
    */
@@ -154,7 +154,7 @@ export class EventsClient {
    * `GET /solutions/virtualEvents/events`
    *
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/virtualEvents/events"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -182,7 +182,7 @@ export class EventsClient {
    * `GET /solutions/virtualEvents/events/{virtualEvent-id}`
    *
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/virtualEvents/events/{virtualEvent-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

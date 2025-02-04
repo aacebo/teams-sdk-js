@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\recordResponse
+ * /communications/calls/{call-id}/recordResponse
  * Provides operations to call the recordResponse method.
  */
 export class RecordResponseClient {
-  protected baseUrl = "\communications\calls\{call-id}\recordResponse";
+  protected baseUrl = "/communications/calls/{call-id}/recordResponse";
   protected http: http.Client;
 
   constructor(

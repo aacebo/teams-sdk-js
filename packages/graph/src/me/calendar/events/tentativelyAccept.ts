@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendar\events\{event-id}\tentativelyAccept
+ * /me/calendar/events/{event-id}/tentativelyAccept
  * Provides operations to call the tentativelyAccept method.
  */
 export class TentativelyAcceptClient {
-  protected baseUrl = "\me\calendar\events\{event-id}\tentativelyAccept";
+  protected baseUrl = "/me/calendar/events/{event-id}/tentativelyAccept";
   protected http: http.Client;
 
   constructor(

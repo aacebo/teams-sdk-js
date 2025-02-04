@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\addKey
+ * /applications/{application-id}/addKey
  * Provides operations to call the addKey method.
  */
 export class AddKeyClient {
-  protected baseUrl = "\applications\{application-id}\addKey";
+  protected baseUrl = "/applications/{application-id}/addKey";
   protected http: http.Client;
 
   constructor(

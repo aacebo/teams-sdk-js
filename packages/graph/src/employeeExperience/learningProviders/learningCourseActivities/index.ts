@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \employeeExperience\learningProviders\{learningProvider-id}\learningCourseActivities
+ * /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities
  * Provides operations to manage the learningCourseActivities property of the microsoft.graph.learningProvider entity.
  */
 export class LearningCourseActivitiesClient {
   protected baseUrl =
-    "\employeeExperience\learningProviders\{learningProvider-id}\learningCourseActivities";
+    "/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class LearningCourseActivitiesClient {
   }
 
   /**
-   * `\employeeExperience\learningProviders\{learningProvider-id}\learningCourseActivities\count`
+   * `/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -112,7 +112,7 @@ export class LearningCourseActivitiesClient {
    *
    * Get the specified learningCourseActivity object using either an ID or an externalCourseActivityId of the learning provider, or a courseActivityId of a user.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -142,7 +142,7 @@ export class LearningCourseActivitiesClient {
    * `GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}`
    *
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -34,11 +34,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\tags
+ * /teams/{team-id}/tags
  * Provides operations to manage the tags property of the microsoft.graph.team entity.
  */
 export class TagsClient {
-  protected baseUrl = "\teams\{team-id}\tags";
+  protected baseUrl = "/teams/{team-id}/tags";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class TagsClient {
   }
 
   /**
-   * `\teams\{team-id}\tags\count`
+   * `/teams/{team-id}/tags/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -78,7 +78,7 @@ export class TagsClient {
   }
 
   /**
-   * `\teams\{team-id}\tags\{teamworkTag-id}\members`
+   * `/teams/{team-id}/tags/{teamworkTag-id}/members`
    *
    * Provides operations to manage the members property of the microsoft.graph.teamworkTag entity.
    */
@@ -121,7 +121,7 @@ export class TagsClient {
    *
    * Get a list of the tag objects and their properties.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/tags"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -151,7 +151,7 @@ export class TagsClient {
    *
    * Read the properties and relationships of a tag object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/tags/{teamworkTag-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

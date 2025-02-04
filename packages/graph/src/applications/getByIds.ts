@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\getByIds
+ * /applications/getByIds
  * Provides operations to call the getByIds method.
  */
 export class GetByIdsClient {
-  protected baseUrl = "\applications\getByIds";
+  protected baseUrl = "/applications/getByIds";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

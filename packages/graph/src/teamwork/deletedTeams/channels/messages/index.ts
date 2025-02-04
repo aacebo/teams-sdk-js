@@ -40,12 +40,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\messages
+ * /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages
  * Provides operations to manage the messages property of the microsoft.graph.channel entity.
  */
 export class MessagesClient {
   protected baseUrl =
-    "\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\messages";
+    "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages";
   protected http: http.Client;
 
   constructor(
@@ -76,7 +76,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\messages\count`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -85,7 +85,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\messages\delta`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/delta`
    *
    * Provides operations to call the delta method.
    */
@@ -94,7 +94,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\messages\{chatMessage-id}\hostedContents`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents`
    *
    * Provides operations to manage the hostedContents property of the microsoft.graph.chatMessage entity.
    */
@@ -103,7 +103,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\messages\{chatMessage-id}\replies`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/replies`
    *
    * Provides operations to manage the replies property of the microsoft.graph.chatMessage entity.
    */
@@ -112,7 +112,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\messages\{chatMessage-id}\setReaction`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/setReaction`
    *
    * Provides operations to call the setReaction method.
    */
@@ -121,7 +121,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\messages\{chatMessage-id}\softDelete`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/softDelete`
    *
    * Provides operations to call the softDelete method.
    */
@@ -130,7 +130,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\messages\{chatMessage-id}\undoSoftDelete`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/undoSoftDelete`
    *
    * Provides operations to call the undoSoftDelete method.
    */
@@ -139,7 +139,7 @@ export class MessagesClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\messages\{chatMessage-id}\unsetReaction`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/unsetReaction`
    *
    * Provides operations to call the unsetReaction method.
    */
@@ -182,7 +182,7 @@ export class MessagesClient {
    *
    * A collection of all the messages in the channel. A navigation property. Nullable.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -214,7 +214,7 @@ export class MessagesClient {
    *
    * A collection of all the messages in the channel. A navigation property. Nullable.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

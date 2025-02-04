@@ -46,11 +46,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\deletedTeams\{deletedTeam-id}\channels
+ * /teamwork/deletedTeams/{deletedTeam-id}/channels
  * Provides operations to manage the channels property of the microsoft.graph.deletedTeam entity.
  */
 export class ChannelsClient {
-  protected baseUrl = "\teamwork\deletedTeams\{deletedTeam-id}\channels";
+  protected baseUrl = "/teamwork/deletedTeams/{deletedTeam-id}/channels";
   protected http: http.Client;
 
   constructor(
@@ -81,7 +81,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\archive`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/archive`
    *
    * Provides operations to call the archive method.
    */
@@ -90,7 +90,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\completeMigration`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/completeMigration`
    *
    * Provides operations to call the completeMigration method.
    */
@@ -99,7 +99,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\count`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -108,7 +108,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName`
    *
    * Provides operations to call the doesUserHaveAccess method.
    */
@@ -122,7 +122,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\filesFolder`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder`
    *
    * Provides operations to manage the filesFolder property of the microsoft.graph.channel entity.
    */
@@ -131,7 +131,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\getAllMessages`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/getAllMessages`
    *
    * Provides operations to call the getAllMessages method.
    */
@@ -140,7 +140,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\getAllRetainedMessages`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/getAllRetainedMessages`
    *
    * Provides operations to call the getAllRetainedMessages method.
    */
@@ -149,7 +149,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\members`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/members`
    *
    * Provides operations to manage the members property of the microsoft.graph.channel entity.
    */
@@ -158,7 +158,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\messages`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages`
    *
    * Provides operations to manage the messages property of the microsoft.graph.channel entity.
    */
@@ -167,7 +167,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\provisionEmail`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/provisionEmail`
    *
    * Provides operations to call the provisionEmail method.
    */
@@ -176,7 +176,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\removeEmail`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/removeEmail`
    *
    * Provides operations to call the removeEmail method.
    */
@@ -185,7 +185,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\sharedWithTeams`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/sharedWithTeams`
    *
    * Provides operations to manage the sharedWithTeams property of the microsoft.graph.channel entity.
    */
@@ -194,7 +194,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\tabs`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs`
    *
    * Provides operations to manage the tabs property of the microsoft.graph.channel entity.
    */
@@ -203,7 +203,7 @@ export class ChannelsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\unarchive`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/unarchive`
    *
    * Provides operations to call the unarchive method.
    */
@@ -245,7 +245,7 @@ export class ChannelsClient {
    *
    * The channels that are either shared with this deleted team or created in this deleted team.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -276,7 +276,7 @@ export class ChannelsClient {
    *
    * The channels that are either shared with this deleted team or created in this deleted team.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

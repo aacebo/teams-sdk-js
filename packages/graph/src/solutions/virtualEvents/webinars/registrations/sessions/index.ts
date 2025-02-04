@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrations\{virtualEventRegistration-id}\sessions
+ * /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations/{virtualEventRegistration-id}/sessions
  * Provides operations to manage the sessions property of the microsoft.graph.virtualEventRegistration entity.
  */
 export class SessionsClient {
   protected baseUrl =
-    "\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrations\{virtualEventRegistration-id}\sessions";
+    "/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations/{virtualEventRegistration-id}/sessions";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class SessionsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrations\{virtualEventRegistration-id}\sessions\count`
+   * `/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations/{virtualEventRegistration-id}/sessions/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -82,7 +82,7 @@ export class SessionsClient {
    *
    * Get a list of sessions summaries that a registrant registered for in a webinar. A session summary contains only the endDateTime, id, joinWebUrl, startDateTime, and subject of a virtual event session. The rest of session properties will be null. To get all the properties of a virtualEventSession, use the Get virtualEventSession method.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations/{virtualEventRegistration-id}/sessions"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -114,7 +114,7 @@ export class SessionsClient {
    *
    * Sessions for a registration.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrations/{virtualEventRegistration-id}/sessions/{virtualEventSession-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\bulkUpload\value
+ * /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/bulkUpload/value
  * Provides operations to manage the media for the application entity.
  */
 export class ValueClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\bulkUpload\value";
+    "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/bulkUpload/value";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

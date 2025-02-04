@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\clone
+ * /teams/{team-id}/clone
  * Provides operations to call the clone method.
  */
 export class CloneClient {
-  protected baseUrl = "\teams\{team-id}\clone";
+  protected baseUrl = "/teams/{team-id}/clone";
   protected http: http.Client;
 
   constructor(

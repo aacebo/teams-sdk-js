@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\homeRealmDiscoveryPolicies
+ * /applications/{application-id}/homeRealmDiscoveryPolicies
  * Provides operations to manage the homeRealmDiscoveryPolicies property of the microsoft.graph.application entity.
  */
 export class HomeRealmDiscoveryPoliciesClient {
   protected baseUrl =
-    "\applications\{application-id}\homeRealmDiscoveryPolicies";
+    "/applications/{application-id}/homeRealmDiscoveryPolicies";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class HomeRealmDiscoveryPoliciesClient {
   }
 
   /**
-   * `\applications\{application-id}\homeRealmDiscoveryPolicies\count`
+   * `/applications/{application-id}/homeRealmDiscoveryPolicies/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -81,7 +81,7 @@ export class HomeRealmDiscoveryPoliciesClient {
    * `GET /applications/{application-id}/homeRealmDiscoveryPolicies`
    *
    */
-  async get(
+  async list(
     params?: Endpoints["GET /applications/{application-id}/homeRealmDiscoveryPolicies"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -111,7 +111,7 @@ export class HomeRealmDiscoveryPoliciesClient {
    * `GET /applications/{application-id}/homeRealmDiscoveryPolicies/{homeRealmDiscoveryPolicy-id}`
    *
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /applications/{application-id}/homeRealmDiscoveryPolicies/{homeRealmDiscoveryPolicy-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\sharedWithTeams\{sharedWithChannelTeamInfo-id}\team
+ * /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}/team
  * Provides operations to manage the team property of the microsoft.graph.teamInfo entity.
  */
 export class TeamClient {
   protected baseUrl =
-    "\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\sharedWithTeams\{sharedWithChannelTeamInfo-id}\team";
+    "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}/team";
   protected http: http.Client;
 
   constructor(

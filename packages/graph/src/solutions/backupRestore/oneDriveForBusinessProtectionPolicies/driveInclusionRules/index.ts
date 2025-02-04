@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\oneDriveForBusinessProtectionPolicies\{oneDriveForBusinessProtectionPolicy-id}\driveInclusionRules
+ * /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveInclusionRules
  * Provides operations to manage the driveInclusionRules property of the microsoft.graph.oneDriveForBusinessProtectionPolicy entity.
  */
 export class DriveInclusionRulesClient {
   protected baseUrl =
-    "\solutions\backupRestore\oneDriveForBusinessProtectionPolicies\{oneDriveForBusinessProtectionPolicy-id}\driveInclusionRules";
+    "/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveInclusionRules";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class DriveInclusionRulesClient {
   }
 
   /**
-   * `\solutions\backupRestore\oneDriveForBusinessProtectionPolicies\{oneDriveForBusinessProtectionPolicy-id}\driveInclusionRules\count`
+   * `/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveInclusionRules/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -82,7 +82,7 @@ export class DriveInclusionRulesClient {
    *
    * Get a list of the driveProtectionRule objects that are associated with a OneDrive for Business protection policy. An inclusion rule indicates that a protection policy should contain protection units that match the specified rule criteria. The initial status of a protection rule upon creation is active. After the rule is applied, the state is either completed or completedWithErrors.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveInclusionRules"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -114,7 +114,7 @@ export class DriveInclusionRulesClient {
    *
    * Get a protection rule that&#x27;s associated with a protection policy. You can use this operation to get mailbox, drive, and site protection rules. An inclusion rule indicates that a protection policy should contain protection units that match the specified rule criteria. The initial status of a protection rule upon creation is active. After the rule is applied, the state is either completed or completedWithErrors.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveInclusionRules/{driveProtectionRule-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

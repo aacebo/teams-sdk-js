@@ -40,11 +40,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\jobs
+ * /applications/{application-id}/synchronization/jobs
  * Provides operations to manage the jobs property of the microsoft.graph.synchronization entity.
  */
 export class JobsClient {
-  protected baseUrl = "\applications\{application-id}\synchronization\jobs";
+  protected baseUrl = "/applications/{application-id}/synchronization/jobs";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -72,7 +72,7 @@ export class JobsClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\bulkUpload`
+   * `/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/bulkUpload`
    *
    * Provides operations to manage the bulkUpload property of the microsoft.graph.synchronizationJob entity.
    */
@@ -81,7 +81,7 @@ export class JobsClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\jobs\count`
+   * `/applications/{application-id}/synchronization/jobs/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -90,7 +90,7 @@ export class JobsClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\pause`
+   * `/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/pause`
    *
    * Provides operations to call the pause method.
    */
@@ -99,7 +99,7 @@ export class JobsClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\provisionOnDemand`
+   * `/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/provisionOnDemand`
    *
    * Provides operations to call the provisionOnDemand method.
    */
@@ -108,7 +108,7 @@ export class JobsClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\restart`
+   * `/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/restart`
    *
    * Provides operations to call the restart method.
    */
@@ -117,7 +117,7 @@ export class JobsClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\schema`
+   * `/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema`
    *
    * Provides operations to manage the schema property of the microsoft.graph.synchronizationJob entity.
    */
@@ -126,7 +126,7 @@ export class JobsClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\start`
+   * `/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/start`
    *
    * Provides operations to call the start method.
    */
@@ -135,7 +135,7 @@ export class JobsClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\validateCredentials`
+   * `/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/validateCredentials`
    *
    * Provides operations to call the validateCredentials method.
    */
@@ -176,7 +176,7 @@ export class JobsClient {
    *
    * Performs synchronization by periodically running in the background, polling for changes in one directory, and pushing them to another directory.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /applications/{application-id}/synchronization/jobs"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -206,7 +206,7 @@ export class JobsClient {
    *
    * Performs synchronization by periodically running in the background, polling for changes in one directory, and pushing them to another directory.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

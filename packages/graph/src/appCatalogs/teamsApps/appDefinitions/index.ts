@@ -34,11 +34,11 @@ function getInjectedUrl(
 }
 
 /**
- * \appCatalogs\teamsApps\{teamsApp-id}\appDefinitions
+ * /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions
  * Provides operations to manage the appDefinitions property of the microsoft.graph.teamsApp entity.
  */
 export class AppDefinitionsClient {
-  protected baseUrl = "\appCatalogs\teamsApps\{teamsApp-id}\appDefinitions";
+  protected baseUrl = "/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class AppDefinitionsClient {
   }
 
   /**
-   * `\appCatalogs\teamsApps\{teamsApp-id}\appDefinitions\{teamsAppDefinition-id}\bot`
+   * `/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}/bot`
    *
    * Provides operations to manage the bot property of the microsoft.graph.teamsAppDefinition entity.
    */
@@ -78,7 +78,7 @@ export class AppDefinitionsClient {
   }
 
   /**
-   * `\appCatalogs\teamsApps\{teamsApp-id}\appDefinitions\count`
+   * `/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -120,7 +120,7 @@ export class AppDefinitionsClient {
    *
    * The details for each version of the app.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -151,7 +151,7 @@ export class AppDefinitionsClient {
    *
    * The details for each version of the app.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

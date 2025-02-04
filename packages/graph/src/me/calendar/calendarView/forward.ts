@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendar\calendarView\{event-id}\forward
+ * /me/calendar/calendarView/{event-id}/forward
  * Provides operations to call the forward method.
  */
 export class ForwardClient {
-  protected baseUrl = "\me\calendar\calendarView\{event-id}\forward";
+  protected baseUrl = "/me/calendar/calendarView/{event-id}/forward";
   protected http: http.Client;
 
   constructor(

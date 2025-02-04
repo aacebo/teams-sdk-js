@@ -35,11 +35,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\exchangeProtectionPolicies
+ * /solutions/backupRestore/exchangeProtectionPolicies
  * Provides operations to manage the exchangeProtectionPolicies property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class ExchangeProtectionPoliciesClient {
-  protected baseUrl = "\solutions\backupRestore\exchangeProtectionPolicies";
+  protected baseUrl = "/solutions/backupRestore/exchangeProtectionPolicies";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -67,7 +67,7 @@ export class ExchangeProtectionPoliciesClient {
   }
 
   /**
-   * `\solutions\backupRestore\exchangeProtectionPolicies\count`
+   * `/solutions/backupRestore/exchangeProtectionPolicies/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -76,7 +76,7 @@ export class ExchangeProtectionPoliciesClient {
   }
 
   /**
-   * `\solutions\backupRestore\exchangeProtectionPolicies\{exchangeProtectionPolicy-id}\mailboxInclusionRules`
+   * `/solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}/mailboxInclusionRules`
    *
    * Provides operations to manage the mailboxInclusionRules property of the microsoft.graph.exchangeProtectionPolicy entity.
    */
@@ -88,7 +88,7 @@ export class ExchangeProtectionPoliciesClient {
   }
 
   /**
-   * `\solutions\backupRestore\exchangeProtectionPolicies\{exchangeProtectionPolicy-id}\mailboxProtectionUnits`
+   * `/solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}/mailboxProtectionUnits`
    *
    * Provides operations to manage the mailboxProtectionUnits property of the microsoft.graph.exchangeProtectionPolicy entity.
    */
@@ -131,7 +131,7 @@ export class ExchangeProtectionPoliciesClient {
    *
    * The list of Exchange protection policies in the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/exchangeProtectionPolicies"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -160,7 +160,7 @@ export class ExchangeProtectionPoliciesClient {
    *
    * The list of Exchange protection policies in the tenant.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

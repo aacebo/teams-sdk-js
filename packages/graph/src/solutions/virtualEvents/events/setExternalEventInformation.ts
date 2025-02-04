@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\events\{virtualEvent-id}\setExternalEventInformation
+ * /solutions/virtualEvents/events/{virtualEvent-id}/setExternalEventInformation
  * Provides operations to call the setExternalEventInformation method.
  */
 export class SetExternalEventInformationClient {
   protected baseUrl =
-    "\solutions\virtualEvents\events\{virtualEvent-id}\setExternalEventInformation";
+    "/solutions/virtualEvents/events/{virtualEvent-id}/setExternalEventInformation";
   protected http: http.Client;
 
   constructor(

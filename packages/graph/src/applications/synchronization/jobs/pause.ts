@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\pause
+ * /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/pause
  * Provides operations to call the pause method.
  */
 export class PauseClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\pause";
+    "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/pause";
   protected http: http.Client;
 
   constructor(

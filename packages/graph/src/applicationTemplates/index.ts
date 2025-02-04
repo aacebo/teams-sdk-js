@@ -34,11 +34,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applicationTemplates
+ * /applicationTemplates
  * Provides operations to manage the collection of applicationTemplate entities.
  */
 export class ApplicationTemplatesClient {
-  protected baseUrl = "\applicationTemplates";
+  protected baseUrl = "/applicationTemplates";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -66,7 +66,7 @@ export class ApplicationTemplatesClient {
   }
 
   /**
-   * `\applicationTemplates\count`
+   * `/applicationTemplates/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -75,7 +75,7 @@ export class ApplicationTemplatesClient {
   }
 
   /**
-   * `\applicationTemplates\{applicationTemplate-id}\instantiate`
+   * `/applicationTemplates/{applicationTemplate-id}/instantiate`
    *
    * Provides operations to call the instantiate method.
    */
@@ -88,7 +88,7 @@ export class ApplicationTemplatesClient {
    *
    * Retrieve a list of applicationTemplate objects from the Microsoft Entra application gallery.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /applicationTemplates"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -116,7 +116,7 @@ export class ApplicationTemplatesClient {
    *
    * Retrieve the properties of an applicationTemplate object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /applicationTemplates/{applicationTemplate-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

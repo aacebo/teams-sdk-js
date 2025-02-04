@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\channels\{channel-id}\messages\{chatMessage-id}\replies\{chatMessage-id1}\hostedContents
+ * /teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents
  * Provides operations to manage the hostedContents property of the microsoft.graph.chatMessage entity.
  */
 export class HostedContentsClient {
   protected baseUrl =
-    "\teams\{team-id}\channels\{channel-id}\messages\{chatMessage-id}\replies\{chatMessage-id1}\hostedContents";
+    "/teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class HostedContentsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\messages\{chatMessage-id}\replies\{chatMessage-id1}\hostedContents\count`
+   * `/teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -79,7 +79,7 @@ export class HostedContentsClient {
   }
 
   /**
-   * `\teams\{team-id}\channels\{channel-id}\messages\{chatMessage-id}\replies\{chatMessage-id1}\hostedContents\{chatMessageHostedContent-id}\value`
+   * `/teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}/value`
    *
    * Provides operations to manage the media for the team entity.
    */
@@ -124,7 +124,7 @@ export class HostedContentsClient {
    *
    * Retrieve the list of chatMessageHostedContent objects from a message. This API only lists the hosted content objects. To get the content bytes, see get chatmessage hosted content.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -158,7 +158,7 @@ export class HostedContentsClient {
    *
    * Content in a message hosted by Microsoft Teams - for example, images or code snippets.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}/hostedContents/{chatMessageHostedContent-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

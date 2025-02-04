@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\restore
+ * /applications/{application-id}/restore
  * Provides operations to call the restore method.
  */
 export class RestoreClient {
-  protected baseUrl = "\applications\{application-id}\restore";
+  protected baseUrl = "/applications/{application-id}/restore";
   protected http: http.Client;
 
   constructor(

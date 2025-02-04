@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\channels\{channel-id}\messages\{chatMessage-id}\hostedContents\{chatMessageHostedContent-id}\value
+ * /teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents/{chatMessageHostedContent-id}/value
  * Provides operations to manage the media for the team entity.
  */
 export class ValueClient {
   protected baseUrl =
-    "\teams\{team-id}\channels\{channel-id}\messages\{chatMessage-id}\hostedContents\{chatMessageHostedContent-id}\value";
+    "/teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents/{chatMessageHostedContent-id}/value";
   protected http: http.Client;
 
   constructor(

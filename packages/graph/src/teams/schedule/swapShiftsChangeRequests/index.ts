@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\schedule\swapShiftsChangeRequests
+ * /teams/{team-id}/schedule/swapShiftsChangeRequests
  * Provides operations to manage the swapShiftsChangeRequests property of the microsoft.graph.schedule entity.
  */
 export class SwapShiftsChangeRequestsClient {
-  protected baseUrl = "\teams\{team-id}\schedule\swapShiftsChangeRequests";
+  protected baseUrl = "/teams/{team-id}/schedule/swapShiftsChangeRequests";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class SwapShiftsChangeRequestsClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\swapShiftsChangeRequests\count`
+   * `/teams/{team-id}/schedule/swapShiftsChangeRequests/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -106,7 +106,7 @@ export class SwapShiftsChangeRequestsClient {
    *
    * Retrieve a list of swapShiftsChangeRequest objects in the team.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/schedule/swapShiftsChangeRequests"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -136,7 +136,7 @@ export class SwapShiftsChangeRequestsClient {
    *
    * Retrieve the properties and relationships of a swapShiftsChangeRequest object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

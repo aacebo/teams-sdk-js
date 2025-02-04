@@ -36,11 +36,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization
+ * /applications/{application-id}/synchronization
  * Provides operations to manage the synchronization property of the microsoft.graph.application entity.
  */
 export class SynchronizationClient {
-  protected baseUrl = "\applications\{application-id}\synchronization";
+  protected baseUrl = "/applications/{application-id}/synchronization";
   protected http: http.Client;
 
   constructor(
@@ -71,7 +71,7 @@ export class SynchronizationClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\acquireAccessToken`
+   * `/applications/{application-id}/synchronization/acquireAccessToken`
    *
    * Provides operations to call the acquireAccessToken method.
    */
@@ -80,7 +80,7 @@ export class SynchronizationClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\jobs`
+   * `/applications/{application-id}/synchronization/jobs`
    *
    * Provides operations to manage the jobs property of the microsoft.graph.synchronization entity.
    */
@@ -89,7 +89,7 @@ export class SynchronizationClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\secrets`
+   * `/applications/{application-id}/synchronization/secrets`
    *
    */
   get secrets() {
@@ -97,7 +97,7 @@ export class SynchronizationClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\templates`
+   * `/applications/{application-id}/synchronization/templates`
    *
    * Provides operations to manage the templates property of the microsoft.graph.synchronization entity.
    */

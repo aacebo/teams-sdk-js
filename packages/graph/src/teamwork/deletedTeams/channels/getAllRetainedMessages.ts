@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\deletedTeams\{deletedTeam-id}\channels\getAllRetainedMessages
+ * /teamwork/deletedTeams/{deletedTeam-id}/channels/getAllRetainedMessages
  * Provides operations to call the getAllRetainedMessages method.
  */
 export class GetAllRetainedMessagesClient {
   protected baseUrl =
-    "\teamwork\deletedTeams\{deletedTeam-id}\channels\getAllRetainedMessages";
+    "/teamwork/deletedTeams/{deletedTeam-id}/channels/getAllRetainedMessages";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

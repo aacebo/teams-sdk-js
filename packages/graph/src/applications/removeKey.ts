@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\removeKey
+ * /applications/{application-id}/removeKey
  * Provides operations to call the removeKey method.
  */
 export class RemoveKeyClient {
-  protected baseUrl = "\applications\{application-id}\removeKey";
+  protected baseUrl = "/applications/{application-id}/removeKey";
   protected http: http.Client;
 
   constructor(

@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\webinars\{virtualEventWebinar-id}\sessions\{virtualEventSession-id}\attendanceReports\{meetingAttendanceReport-id}\attendanceRecords\count
+ * /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
   protected baseUrl =
-    "\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\sessions\{virtualEventSession-id}\attendanceReports\{meetingAttendanceReport-id}\attendanceRecords\count";
+    "/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

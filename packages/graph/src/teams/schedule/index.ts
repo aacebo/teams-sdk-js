@@ -42,11 +42,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\schedule
+ * /teams/{team-id}/schedule
  * Provides operations to manage the schedule property of the microsoft.graph.team entity.
  */
 export class ScheduleClient {
-  protected baseUrl = "\teams\{team-id}\schedule";
+  protected baseUrl = "/teams/{team-id}/schedule";
   protected http: http.Client;
 
   constructor(
@@ -77,7 +77,7 @@ export class ScheduleClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\offerShiftRequests`
+   * `/teams/{team-id}/schedule/offerShiftRequests`
    *
    * Provides operations to manage the offerShiftRequests property of the microsoft.graph.schedule entity.
    */
@@ -86,7 +86,7 @@ export class ScheduleClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\openShiftChangeRequests`
+   * `/teams/{team-id}/schedule/openShiftChangeRequests`
    *
    * Provides operations to manage the openShiftChangeRequests property of the microsoft.graph.schedule entity.
    */
@@ -95,7 +95,7 @@ export class ScheduleClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\openShifts`
+   * `/teams/{team-id}/schedule/openShifts`
    *
    * Provides operations to manage the openShifts property of the microsoft.graph.schedule entity.
    */
@@ -104,7 +104,7 @@ export class ScheduleClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\schedulingGroups`
+   * `/teams/{team-id}/schedule/schedulingGroups`
    *
    * Provides operations to manage the schedulingGroups property of the microsoft.graph.schedule entity.
    */
@@ -113,7 +113,7 @@ export class ScheduleClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\share`
+   * `/teams/{team-id}/schedule/share`
    *
    * Provides operations to call the share method.
    */
@@ -122,7 +122,7 @@ export class ScheduleClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\shifts`
+   * `/teams/{team-id}/schedule/shifts`
    *
    * Provides operations to manage the shifts property of the microsoft.graph.schedule entity.
    */
@@ -131,7 +131,7 @@ export class ScheduleClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\swapShiftsChangeRequests`
+   * `/teams/{team-id}/schedule/swapShiftsChangeRequests`
    *
    * Provides operations to manage the swapShiftsChangeRequests property of the microsoft.graph.schedule entity.
    */
@@ -140,7 +140,7 @@ export class ScheduleClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\timeOffReasons`
+   * `/teams/{team-id}/schedule/timeOffReasons`
    *
    * Provides operations to manage the timeOffReasons property of the microsoft.graph.schedule entity.
    */
@@ -149,7 +149,7 @@ export class ScheduleClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\timeOffRequests`
+   * `/teams/{team-id}/schedule/timeOffRequests`
    *
    * Provides operations to manage the timeOffRequests property of the microsoft.graph.schedule entity.
    */
@@ -158,7 +158,7 @@ export class ScheduleClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\timesOff`
+   * `/teams/{team-id}/schedule/timesOff`
    *
    * Provides operations to manage the timesOff property of the microsoft.graph.schedule entity.
    */

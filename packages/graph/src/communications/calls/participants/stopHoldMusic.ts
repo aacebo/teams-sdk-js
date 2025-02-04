@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\participants\{participant-id}\stopHoldMusic
+ * /communications/calls/{call-id}/participants/{participant-id}/stopHoldMusic
  * Provides operations to call the stopHoldMusic method.
  */
 export class StopHoldMusicClient {
   protected baseUrl =
-    "\communications\calls\{call-id}\participants\{participant-id}\stopHoldMusic";
+    "/communications/calls/{call-id}/participants/{participant-id}/stopHoldMusic";
   protected http: http.Client;
 
   constructor(

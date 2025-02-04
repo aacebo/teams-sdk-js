@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\mailboxProtectionUnits
+ * /solutions/backupRestore/mailboxProtectionUnits
  * Provides operations to manage the mailboxProtectionUnits property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class MailboxProtectionUnitsClient {
-  protected baseUrl = "\solutions\backupRestore\mailboxProtectionUnits";
+  protected baseUrl = "/solutions/backupRestore/mailboxProtectionUnits";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class MailboxProtectionUnitsClient {
   }
 
   /**
-   * `\solutions\backupRestore\mailboxProtectionUnits\count`
+   * `/solutions/backupRestore/mailboxProtectionUnits/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -105,7 +105,7 @@ export class MailboxProtectionUnitsClient {
    *
    * The list of mailbox protection units in the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/mailboxProtectionUnits"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -134,7 +134,7 @@ export class MailboxProtectionUnitsClient {
    *
    * The list of mailbox protection units in the tenant.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/mailboxProtectionUnits/{mailboxProtectionUnit-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

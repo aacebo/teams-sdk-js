@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\createdOnBehalfOf
+ * /applications/{application-id}/createdOnBehalfOf
  * Provides operations to manage the createdOnBehalfOf property of the microsoft.graph.application entity.
  */
 export class CreatedOnBehalfOfClient {
-  protected baseUrl = "\applications\{application-id}\createdOnBehalfOf";
+  protected baseUrl = "/applications/{application-id}/createdOnBehalfOf";
   protected http: http.Client;
 
   constructor(

@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\onlineMeetings\{onlineMeeting-id}\attendeeReport
+ * /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport
  * Provides operations to manage the media for the cloudCommunications entity.
  */
 export class AttendeeReportClient {
   protected baseUrl =
-    "\communications\onlineMeetings\{onlineMeeting-id}\attendeeReport";
+    "/communications/onlineMeetings/{onlineMeeting-id}/attendeeReport";
   protected http: http.Client;
 
   constructor(

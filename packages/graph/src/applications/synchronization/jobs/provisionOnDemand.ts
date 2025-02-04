@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\provisionOnDemand
+ * /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/provisionOnDemand
  * Provides operations to call the provisionOnDemand method.
  */
 export class ProvisionOnDemandClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\provisionOnDemand";
+    "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/provisionOnDemand";
   protected http: http.Client;
 
   constructor(

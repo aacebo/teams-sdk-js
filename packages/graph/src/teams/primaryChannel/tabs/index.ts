@@ -34,11 +34,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\primaryChannel\tabs
+ * /teams/{team-id}/primaryChannel/tabs
  * Provides operations to manage the tabs property of the microsoft.graph.channel entity.
  */
 export class TabsClient {
-  protected baseUrl = "\teams\{team-id}\primaryChannel\tabs";
+  protected baseUrl = "/teams/{team-id}/primaryChannel/tabs";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -66,7 +66,7 @@ export class TabsClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\tabs\count`
+   * `/teams/{team-id}/primaryChannel/tabs/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -75,7 +75,7 @@ export class TabsClient {
   }
 
   /**
-   * `\teams\{team-id}\primaryChannel\tabs\{teamsTab-id}\teamsApp`
+   * `/teams/{team-id}/primaryChannel/tabs/{teamsTab-id}/teamsApp`
    *
    * Provides operations to manage the teamsApp property of the microsoft.graph.teamsTab entity.
    */
@@ -116,7 +116,7 @@ export class TabsClient {
    *
    * A collection of all the tabs in the channel. A navigation property.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/primaryChannel/tabs"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -146,7 +146,7 @@ export class TabsClient {
    *
    * A collection of all the tabs in the channel. A navigation property.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/primaryChannel/tabs/{teamsTab-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

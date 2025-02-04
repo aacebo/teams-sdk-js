@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \appCatalogs\teamsApps\{teamsApp-id}\appDefinitions\count
+ * /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
   protected baseUrl =
-    "\appCatalogs\teamsApps\{teamsApp-id}\appDefinitions\count";
+    "/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

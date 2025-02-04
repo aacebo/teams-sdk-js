@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\bulkUpload
+ * /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/bulkUpload
  * Provides operations to manage the bulkUpload property of the microsoft.graph.synchronizationJob entity.
  */
 export class BulkUploadClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\bulkUpload";
+    "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/bulkUpload";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class BulkUploadClient {
   }
 
   /**
-   * `\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\bulkUpload\value`
+   * `/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/bulkUpload/value`
    *
    * Provides operations to manage the media for the application entity.
    */

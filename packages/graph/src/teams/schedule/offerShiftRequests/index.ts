@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\schedule\offerShiftRequests
+ * /teams/{team-id}/schedule/offerShiftRequests
  * Provides operations to manage the offerShiftRequests property of the microsoft.graph.schedule entity.
  */
 export class OfferShiftRequestsClient {
-  protected baseUrl = "\teams\{team-id}\schedule\offerShiftRequests";
+  protected baseUrl = "/teams/{team-id}/schedule/offerShiftRequests";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class OfferShiftRequestsClient {
   }
 
   /**
-   * `\teams\{team-id}\schedule\offerShiftRequests\count`
+   * `/teams/{team-id}/schedule/offerShiftRequests/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -106,7 +106,7 @@ export class OfferShiftRequestsClient {
    *
    * Retrieve the properties and relationships of all offerShiftRequest objects in a team.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/schedule/offerShiftRequests"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -136,7 +136,7 @@ export class OfferShiftRequestsClient {
    *
    * Retrieve the properties and relationships of an offerShiftRequest object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\presences\{presence-id}\setPresence
+ * /communications/presences/{presence-id}/setPresence
  * Provides operations to call the setPresence method.
  */
 export class SetPresenceClient {
-  protected baseUrl = "\communications\presences\{presence-id}\setPresence";
+  protected baseUrl = "/communications/presences/{presence-id}/setPresence";
   protected http: http.Client;
 
   constructor(

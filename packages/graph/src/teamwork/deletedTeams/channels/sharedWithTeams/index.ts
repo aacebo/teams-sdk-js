@@ -35,12 +35,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\sharedWithTeams
+ * /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/sharedWithTeams
  * Provides operations to manage the sharedWithTeams property of the microsoft.graph.channel entity.
  */
 export class SharedWithTeamsClient {
   protected baseUrl =
-    "\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\sharedWithTeams";
+    "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/sharedWithTeams";
   protected http: http.Client;
 
   constructor(
@@ -71,7 +71,7 @@ export class SharedWithTeamsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\sharedWithTeams\{sharedWithChannelTeamInfo-id}\allowedMembers`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}/allowedMembers`
    *
    * Provides operations to manage the allowedMembers property of the microsoft.graph.sharedWithChannelTeamInfo entity.
    */
@@ -80,7 +80,7 @@ export class SharedWithTeamsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\sharedWithTeams\count`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/sharedWithTeams/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -89,7 +89,7 @@ export class SharedWithTeamsClient {
   }
 
   /**
-   * `\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\sharedWithTeams\{sharedWithChannelTeamInfo-id}\team`
+   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}/team`
    *
    * Provides operations to manage the team property of the microsoft.graph.teamInfo entity.
    */
@@ -132,7 +132,7 @@ export class SharedWithTeamsClient {
    *
    * A collection of teams with which a channel is shared.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/sharedWithTeams"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -164,7 +164,7 @@ export class SharedWithTeamsClient {
    *
    * A collection of teams with which a channel is shared.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

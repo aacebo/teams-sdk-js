@@ -5,11 +5,7 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"],
       "cache": false,
-      "dependsOn": [
-        "@teams.sdk/cards#build",
-        "@teams.sdk/common#build",
-        "@teams.sdk/graph#build"
-      ]
+      "dependsOn": ["@teams.sdk/cards#build", "@teams.sdk/common#build", "@teams.sdk/graph#build"]
     }
   }
 }

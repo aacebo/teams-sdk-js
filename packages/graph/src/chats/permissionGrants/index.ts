@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\permissionGrants
+ * /chats/{chat-id}/permissionGrants
  * Provides operations to manage the permissionGrants property of the microsoft.graph.chat entity.
  */
 export class PermissionGrantsClient {
-  protected baseUrl = "\chats\{chat-id}\permissionGrants";
+  protected baseUrl = "/chats/{chat-id}/permissionGrants";
   protected http: http.Client;
 
   constructor(
@@ -68,7 +68,7 @@ export class PermissionGrantsClient {
   }
 
   /**
-   * `\chats\{chat-id}\permissionGrants\count`
+   * `/chats/{chat-id}/permissionGrants/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -110,7 +110,7 @@ export class PermissionGrantsClient {
    *
    * List all resource-specific permission grants on the chat. This list specifies the Microsoft Entra apps that have access to the chat, along with the corresponding resource-specific access that each app has.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /chats/{chat-id}/permissionGrants"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -141,7 +141,7 @@ export class PermissionGrantsClient {
    *
    * A collection of permissions granted to apps for the chat.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /chats/{chat-id}/permissionGrants/{resourceSpecificPermissionGrant-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

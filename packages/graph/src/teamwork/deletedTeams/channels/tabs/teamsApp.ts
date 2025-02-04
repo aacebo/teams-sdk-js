@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\tabs\{teamsTab-id}\teamsApp
+ * /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}/teamsApp
  * Provides operations to manage the teamsApp property of the microsoft.graph.teamsTab entity.
  */
 export class TeamsAppClient {
   protected baseUrl =
-    "\teamwork\deletedTeams\{deletedTeam-id}\channels\{channel-id}\tabs\{teamsTab-id}\teamsApp";
+    "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}/teamsApp";
   protected http: http.Client;
 
   constructor(

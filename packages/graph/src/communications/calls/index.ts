@@ -53,11 +53,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls
+ * /communications/calls
  * Provides operations to manage the calls property of the microsoft.graph.cloudCommunications entity.
  */
 export class CallsClient {
-  protected baseUrl = "\communications\calls";
+  protected baseUrl = "/communications/calls";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -85,7 +85,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\addLargeGalleryView`
+   * `/communications/calls/{call-id}/addLargeGalleryView`
    *
    * Provides operations to call the addLargeGalleryView method.
    */
@@ -94,7 +94,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\answer`
+   * `/communications/calls/{call-id}/answer`
    *
    * Provides operations to call the answer method.
    */
@@ -103,7 +103,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\audioRoutingGroups`
+   * `/communications/calls/{call-id}/audioRoutingGroups`
    *
    * Provides operations to manage the audioRoutingGroups property of the microsoft.graph.call entity.
    */
@@ -112,7 +112,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\cancelMediaProcessing`
+   * `/communications/calls/{call-id}/cancelMediaProcessing`
    *
    * Provides operations to call the cancelMediaProcessing method.
    */
@@ -121,7 +121,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\changeScreenSharingRole`
+   * `/communications/calls/{call-id}/changeScreenSharingRole`
    *
    * Provides operations to call the changeScreenSharingRole method.
    */
@@ -130,7 +130,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\contentSharingSessions`
+   * `/communications/calls/{call-id}/contentSharingSessions`
    *
    * Provides operations to manage the contentSharingSessions property of the microsoft.graph.call entity.
    */
@@ -139,7 +139,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\count`
+   * `/communications/calls/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -148,7 +148,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\keepAlive`
+   * `/communications/calls/{call-id}/keepAlive`
    *
    * Provides operations to call the keepAlive method.
    */
@@ -157,7 +157,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\logTeleconferenceDeviceQuality`
+   * `/communications/calls/logTeleconferenceDeviceQuality`
    *
    * Provides operations to call the logTeleconferenceDeviceQuality method.
    */
@@ -166,7 +166,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\mute`
+   * `/communications/calls/{call-id}/mute`
    *
    * Provides operations to call the mute method.
    */
@@ -175,7 +175,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\operations`
+   * `/communications/calls/{call-id}/operations`
    *
    * Provides operations to manage the operations property of the microsoft.graph.call entity.
    */
@@ -184,7 +184,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\participants`
+   * `/communications/calls/{call-id}/participants`
    *
    * Provides operations to manage the participants property of the microsoft.graph.call entity.
    */
@@ -193,7 +193,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\playPrompt`
+   * `/communications/calls/{call-id}/playPrompt`
    *
    * Provides operations to call the playPrompt method.
    */
@@ -202,7 +202,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\recordResponse`
+   * `/communications/calls/{call-id}/recordResponse`
    *
    * Provides operations to call the recordResponse method.
    */
@@ -211,7 +211,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\redirect`
+   * `/communications/calls/{call-id}/redirect`
    *
    * Provides operations to call the redirect method.
    */
@@ -220,7 +220,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\reject`
+   * `/communications/calls/{call-id}/reject`
    *
    * Provides operations to call the reject method.
    */
@@ -229,7 +229,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\sendDtmfTones`
+   * `/communications/calls/{call-id}/sendDtmfTones`
    *
    * Provides operations to call the sendDtmfTones method.
    */
@@ -238,7 +238,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\subscribeToTone`
+   * `/communications/calls/{call-id}/subscribeToTone`
    *
    * Provides operations to call the subscribeToTone method.
    */
@@ -247,7 +247,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\transfer`
+   * `/communications/calls/{call-id}/transfer`
    *
    * Provides operations to call the transfer method.
    */
@@ -256,7 +256,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\unmute`
+   * `/communications/calls/{call-id}/unmute`
    *
    * Provides operations to call the unmute method.
    */
@@ -265,7 +265,7 @@ export class CallsClient {
   }
 
   /**
-   * `\communications\calls\{call-id}\updateRecordingStatus`
+   * `/communications/calls/{call-id}/updateRecordingStatus`
    *
    * Provides operations to call the updateRecordingStatus method.
    */
@@ -306,7 +306,7 @@ export class CallsClient {
    *
    * Retrieve the properties and relationships of a call object.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /communications/calls"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -334,7 +334,7 @@ export class CallsClient {
    *
    * Retrieve the properties and relationships of a call object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /communications/calls/{call-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

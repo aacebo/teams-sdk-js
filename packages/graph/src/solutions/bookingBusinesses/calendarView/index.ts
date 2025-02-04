@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\bookingBusinesses\{bookingBusiness-id}\calendarView
+ * /solutions/bookingBusinesses/{bookingBusiness-id}/calendarView
  * Provides operations to manage the calendarView property of the microsoft.graph.bookingBusiness entity.
  */
 export class CalendarViewClient {
   protected baseUrl =
-    "\solutions\bookingBusinesses\{bookingBusiness-id}\calendarView";
+    "/solutions/bookingBusinesses/{bookingBusiness-id}/calendarView";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\{bookingBusiness-id}\calendarView\{bookingAppointment-id}\cancel`
+   * `/solutions/bookingBusinesses/{bookingBusiness-id}/calendarView/{bookingAppointment-id}/cancel`
    *
    * Provides operations to call the cancel method.
    */
@@ -79,7 +79,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\{bookingBusiness-id}\calendarView\count`
+   * `/solutions/bookingBusinesses/{bookingBusiness-id}/calendarView/count`
    *
    * Provides operations to count the resources in the collection.
    */

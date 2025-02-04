@@ -34,11 +34,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\deletedChats
+ * /teamwork/deletedChats
  * Provides operations to manage the deletedChats property of the microsoft.graph.teamwork entity.
  */
 export class DeletedChatsClient {
-  protected baseUrl = "\teamwork\deletedChats";
+  protected baseUrl = "/teamwork/deletedChats";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -66,7 +66,7 @@ export class DeletedChatsClient {
   }
 
   /**
-   * `\teamwork\deletedChats\count`
+   * `/teamwork/deletedChats/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -75,7 +75,7 @@ export class DeletedChatsClient {
   }
 
   /**
-   * `\teamwork\deletedChats\{deletedChat-id}\undoDelete`
+   * `/teamwork/deletedChats/{deletedChat-id}/undoDelete`
    *
    * Provides operations to call the undoDelete method.
    */
@@ -115,7 +115,7 @@ export class DeletedChatsClient {
    *
    * Read the properties and relationships of a deletedChat object.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teamwork/deletedChats"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -144,7 +144,7 @@ export class DeletedChatsClient {
    *
    * Read the properties and relationships of a deletedChat object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teamwork/deletedChats/{deletedChat-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

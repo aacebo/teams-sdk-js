@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\incomingChannels
+ * /teams/{team-id}/incomingChannels
  * Provides operations to manage the incomingChannels property of the microsoft.graph.team entity.
  */
 export class IncomingChannelsClient {
-  protected baseUrl = "\teams\{team-id}\incomingChannels";
+  protected baseUrl = "/teams/{team-id}/incomingChannels";
   protected http: http.Client;
 
   constructor(
@@ -68,7 +68,7 @@ export class IncomingChannelsClient {
   }
 
   /**
-   * `\teams\{team-id}\incomingChannels\count`
+   * `/teams/{team-id}/incomingChannels/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -81,7 +81,7 @@ export class IncomingChannelsClient {
    *
    * Get the list of incoming channels (channels shared with a team).
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teams/{team-id}/incomingChannels"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -112,7 +112,7 @@ export class IncomingChannelsClient {
    *
    * List of channels shared with the team.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teams/{team-id}/incomingChannels/{channel-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

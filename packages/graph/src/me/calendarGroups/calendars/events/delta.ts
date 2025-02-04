@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\events\delta
+ * /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/delta
  * Provides operations to call the delta method.
  */
 export class DeltaClient {
   protected baseUrl =
-    "\me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\events\delta";
+    "/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/delta";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

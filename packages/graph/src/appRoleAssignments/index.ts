@@ -42,11 +42,11 @@ function getInjectedUrl(
 }
 
 /**
- * \appRoleAssignments
+ * /appRoleAssignments
  * Provides operations to manage the collection of appRoleAssignment entities.
  */
 export class AppRoleAssignmentsClient {
-  protected baseUrl = "\appRoleAssignments";
+  protected baseUrl = "/appRoleAssignments";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -74,7 +74,7 @@ export class AppRoleAssignmentsClient {
   }
 
   /**
-   * `\appRoleAssignments\{appRoleAssignment-id}\checkMemberGroups`
+   * `/appRoleAssignments/{appRoleAssignment-id}/checkMemberGroups`
    *
    * Provides operations to call the checkMemberGroups method.
    */
@@ -83,7 +83,7 @@ export class AppRoleAssignmentsClient {
   }
 
   /**
-   * `\appRoleAssignments\{appRoleAssignment-id}\checkMemberObjects`
+   * `/appRoleAssignments/{appRoleAssignment-id}/checkMemberObjects`
    *
    * Provides operations to call the checkMemberObjects method.
    */
@@ -92,7 +92,7 @@ export class AppRoleAssignmentsClient {
   }
 
   /**
-   * `\appRoleAssignments\count`
+   * `/appRoleAssignments/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -101,7 +101,7 @@ export class AppRoleAssignmentsClient {
   }
 
   /**
-   * `\appRoleAssignments\delta`
+   * `/appRoleAssignments/delta`
    *
    * Provides operations to call the delta method.
    */
@@ -110,7 +110,7 @@ export class AppRoleAssignmentsClient {
   }
 
   /**
-   * `\appRoleAssignments\getAvailableExtensionProperties`
+   * `/appRoleAssignments/getAvailableExtensionProperties`
    *
    * Provides operations to call the getAvailableExtensionProperties method.
    */
@@ -119,7 +119,7 @@ export class AppRoleAssignmentsClient {
   }
 
   /**
-   * `\appRoleAssignments\getByIds`
+   * `/appRoleAssignments/getByIds`
    *
    * Provides operations to call the getByIds method.
    */
@@ -128,7 +128,7 @@ export class AppRoleAssignmentsClient {
   }
 
   /**
-   * `\appRoleAssignments\{appRoleAssignment-id}\getMemberGroups`
+   * `/appRoleAssignments/{appRoleAssignment-id}/getMemberGroups`
    *
    * Provides operations to call the getMemberGroups method.
    */
@@ -137,7 +137,7 @@ export class AppRoleAssignmentsClient {
   }
 
   /**
-   * `\appRoleAssignments\{appRoleAssignment-id}\getMemberObjects`
+   * `/appRoleAssignments/{appRoleAssignment-id}/getMemberObjects`
    *
    * Provides operations to call the getMemberObjects method.
    */
@@ -146,7 +146,7 @@ export class AppRoleAssignmentsClient {
   }
 
   /**
-   * `\appRoleAssignments\{appRoleAssignment-id}\restore`
+   * `/appRoleAssignments/{appRoleAssignment-id}/restore`
    *
    * Provides operations to call the restore method.
    */
@@ -155,7 +155,7 @@ export class AppRoleAssignmentsClient {
   }
 
   /**
-   * `\appRoleAssignments\validateProperties`
+   * `/appRoleAssignments/validateProperties`
    *
    * Provides operations to call the validateProperties method.
    */
@@ -194,7 +194,7 @@ export class AppRoleAssignmentsClient {
    * `GET /appRoleAssignments`
    *
    */
-  async get(
+  async list(
     params?: Endpoints["GET /appRoleAssignments"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -221,7 +221,7 @@ export class AppRoleAssignmentsClient {
    * `GET /appRoleAssignments/{appRoleAssignment-id}`
    *
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /appRoleAssignments/{appRoleAssignment-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

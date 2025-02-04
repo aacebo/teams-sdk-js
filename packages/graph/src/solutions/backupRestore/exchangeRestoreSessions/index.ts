@@ -35,11 +35,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\exchangeRestoreSessions
+ * /solutions/backupRestore/exchangeRestoreSessions
  * Provides operations to manage the exchangeRestoreSessions property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class ExchangeRestoreSessionsClient {
-  protected baseUrl = "\solutions\backupRestore\exchangeRestoreSessions";
+  protected baseUrl = "/solutions/backupRestore/exchangeRestoreSessions";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -67,7 +67,7 @@ export class ExchangeRestoreSessionsClient {
   }
 
   /**
-   * `\solutions\backupRestore\exchangeRestoreSessions\count`
+   * `/solutions/backupRestore/exchangeRestoreSessions/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -76,7 +76,7 @@ export class ExchangeRestoreSessionsClient {
   }
 
   /**
-   * `\solutions\backupRestore\exchangeRestoreSessions\{exchangeRestoreSession-id}\granularMailboxRestoreArtifacts`
+   * `/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts`
    *
    * Provides operations to manage the granularMailboxRestoreArtifacts property of the microsoft.graph.exchangeRestoreSession entity.
    */
@@ -88,7 +88,7 @@ export class ExchangeRestoreSessionsClient {
   }
 
   /**
-   * `\solutions\backupRestore\exchangeRestoreSessions\{exchangeRestoreSession-id}\mailboxRestoreArtifacts`
+   * `/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/mailboxRestoreArtifacts`
    *
    * Provides operations to manage the mailboxRestoreArtifacts property of the microsoft.graph.exchangeRestoreSession entity.
    */
@@ -131,7 +131,7 @@ export class ExchangeRestoreSessionsClient {
    *
    * The list of Exchange restore sessions available in the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/exchangeRestoreSessions"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -160,7 +160,7 @@ export class ExchangeRestoreSessionsClient {
    *
    * The list of Exchange restore sessions available in the tenant.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

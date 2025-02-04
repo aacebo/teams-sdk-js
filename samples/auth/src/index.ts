@@ -7,20 +7,21 @@ const app = new App({
   logger: new ConsoleLogger('@samples/auth', { level: 'debug' }),
 });
 
-app.on('message', async ({ log, signin, isSignedIn }) => {
+app.on('message', async ({ log, signin, graph, isSignedIn }) => {
   if (!isSignedIn) {
     await signin();
     return;
   }
 
-  log.info('user already signed in!');
+  const me = await graph.me.get();
+  log.info(`user "${me.displayName}" already signed in!`);
 });
 
-app.event('signin', async ({ send, api }) => {
-  const me = await api.graph.me.get();
+app.event('signin', async ({ send, graph }) => {
+  const me = await graph.me.get();
   const [meta, photo] = await Promise.all([
-    api.graph.me.photo.get(),
-    api.graph.me.photo.value.get({}, { responseType: 'arraybuffer' }) as Promise<ArrayBuffer>,
+    graph.me.photo.get(),
+    graph.me.photo.value.get({}, { responseType: 'arraybuffer' }) as Promise<ArrayBuffer>,
   ]);
 
   const photoUrl = `data:${(meta as any)['@odata.mediaContentType']};base64,${Buffer.from(photo).toString('base64')}`;

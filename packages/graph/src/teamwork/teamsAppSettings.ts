@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\teamsAppSettings
+ * /teamwork/teamsAppSettings
  * Provides operations to manage the teamsAppSettings property of the microsoft.graph.teamwork entity.
  */
 export class TeamsAppSettingsClient {
-  protected baseUrl = "\teamwork\teamsAppSettings";
+  protected baseUrl = "/teamwork/teamsAppSettings";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -92,7 +92,7 @@ export class TeamsAppSettingsClient {
    *
    * Get the tenant-wide teamsAppSettings for all Teams apps in the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teamwork/teamsAppSettings"]["parameters"],
     config?: http.RequestConfig,
   ) {

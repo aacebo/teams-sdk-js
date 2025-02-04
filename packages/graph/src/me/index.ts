@@ -39,11 +39,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me
+ * /me
  * Provides operations to manage the user singleton.
  */
 export class MeClient {
-  protected baseUrl = "\me";
+  protected baseUrl = "/me";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -71,7 +71,7 @@ export class MeClient {
   }
 
   /**
-   * `\me\calendar`
+   * `/me/calendar`
    *
    * Provides operations to call the allowedCalendarSharingRoles method.
    */
@@ -80,7 +80,7 @@ export class MeClient {
   }
 
   /**
-   * `\me\calendarGroups`
+   * `/me/calendarGroups`
    *
    * Provides operations to manage the calendarGroups property of the microsoft.graph.user entity.
    */
@@ -89,7 +89,7 @@ export class MeClient {
   }
 
   /**
-   * `\me\calendarView`
+   * `/me/calendarView`
    *
    * Provides operations to manage the calendarView property of the microsoft.graph.user entity.
    */
@@ -98,7 +98,7 @@ export class MeClient {
   }
 
   /**
-   * `\me\calendars`
+   * `/me/calendars`
    *
    * Provides operations to call the allowedCalendarSharingRoles method.
    */
@@ -107,7 +107,7 @@ export class MeClient {
   }
 
   /**
-   * `\me\photo`
+   * `/me/photo`
    *
    * Provides operations to manage the photo property of the microsoft.graph.user entity.
    */
@@ -116,7 +116,7 @@ export class MeClient {
   }
 
   /**
-   * `\me\photos`
+   * `/me/photos`
    *
    * Provides operations to manage the photos property of the microsoft.graph.user entity.
    */
@@ -125,7 +125,7 @@ export class MeClient {
   }
 
   /**
-   * `\me\presence`
+   * `/me/presence`
    *
    * Provides operations to manage the presence property of the microsoft.graph.user entity.
    */

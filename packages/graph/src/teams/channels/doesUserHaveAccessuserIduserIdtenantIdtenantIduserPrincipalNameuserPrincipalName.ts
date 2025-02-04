@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\channels\{channel-id}\doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName
+ * /teams/{team-id}/channels/{channel-id}/doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName
  * Provides operations to call the doesUserHaveAccess method.
  */
 export class DoesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalNameClient {
   protected baseUrl =
-    "\teams\{team-id}\channels\{channel-id}\doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName";
+    "/teams/{team-id}/channels/{channel-id}/doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName";
   protected http: http.Client;
 
   constructor(

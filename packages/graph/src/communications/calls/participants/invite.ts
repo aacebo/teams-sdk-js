@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\calls\{call-id}\participants\invite
+ * /communications/calls/{call-id}/participants/invite
  * Provides operations to call the invite method.
  */
 export class InviteClient {
-  protected baseUrl = "\communications\calls\{call-id}\participants\invite";
+  protected baseUrl = "/communications/calls/{call-id}/participants/invite";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

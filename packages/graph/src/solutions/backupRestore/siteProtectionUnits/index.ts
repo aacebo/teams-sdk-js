@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\siteProtectionUnits
+ * /solutions/backupRestore/siteProtectionUnits
  * Provides operations to manage the siteProtectionUnits property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class SiteProtectionUnitsClient {
-  protected baseUrl = "\solutions\backupRestore\siteProtectionUnits";
+  protected baseUrl = "/solutions/backupRestore/siteProtectionUnits";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class SiteProtectionUnitsClient {
   }
 
   /**
-   * `\solutions\backupRestore\siteProtectionUnits\count`
+   * `/solutions/backupRestore/siteProtectionUnits/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -105,7 +105,7 @@ export class SiteProtectionUnitsClient {
    *
    * The list of site protection units in the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/siteProtectionUnits"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -134,7 +134,7 @@ export class SiteProtectionUnitsClient {
    *
    * The list of site protection units in the tenant.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/siteProtectionUnits/{siteProtectionUnit-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\primaryChannel\removeEmail
+ * /teams/{team-id}/primaryChannel/removeEmail
  * Provides operations to call the removeEmail method.
  */
 export class RemoveEmailClient {
-  protected baseUrl = "\teams\{team-id}\primaryChannel\removeEmail";
+  protected baseUrl = "/teams/{team-id}/primaryChannel/removeEmail";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

@@ -35,11 +35,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents
+ * /solutions/virtualEvents
  * Provides operations to manage the virtualEvents property of the microsoft.graph.solutionsRoot entity.
  */
 export class VirtualEventsClient {
-  protected baseUrl = "\solutions\virtualEvents";
+  protected baseUrl = "/solutions/virtualEvents";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -67,7 +67,7 @@ export class VirtualEventsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\events`
+   * `/solutions/virtualEvents/events`
    *
    * Provides operations to manage the events property of the microsoft.graph.virtualEventsRoot entity.
    */
@@ -76,7 +76,7 @@ export class VirtualEventsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\townhalls`
+   * `/solutions/virtualEvents/townhalls`
    *
    * Provides operations to call the getByUserRole method.
    */
@@ -85,7 +85,7 @@ export class VirtualEventsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars`
+   * `/solutions/virtualEvents/webinars`
    *
    * Provides operations to call the getByUserRole method.
    */
@@ -121,7 +121,7 @@ export class VirtualEventsClient {
    * `GET /solutions/virtualEvents`
    *
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/virtualEvents"]["parameters"],
     config?: http.RequestConfig,
   ) {

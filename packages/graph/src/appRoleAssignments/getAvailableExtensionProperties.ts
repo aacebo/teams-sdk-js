@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \appRoleAssignments\getAvailableExtensionProperties
+ * /appRoleAssignments/getAvailableExtensionProperties
  * Provides operations to call the getAvailableExtensionProperties method.
  */
 export class GetAvailableExtensionPropertiesClient {
-  protected baseUrl = "\appRoleAssignments\getAvailableExtensionProperties";
+  protected baseUrl = "/appRoleAssignments/getAvailableExtensionProperties";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

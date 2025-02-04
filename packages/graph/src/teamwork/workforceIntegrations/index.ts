@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork\workforceIntegrations
+ * /teamwork/workforceIntegrations
  * Provides operations to manage the workforceIntegrations property of the microsoft.graph.teamwork entity.
  */
 export class WorkforceIntegrationsClient {
-  protected baseUrl = "\teamwork\workforceIntegrations";
+  protected baseUrl = "/teamwork/workforceIntegrations";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class WorkforceIntegrationsClient {
   }
 
   /**
-   * `\teamwork\workforceIntegrations\count`
+   * `/teamwork/workforceIntegrations/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -106,7 +106,7 @@ export class WorkforceIntegrationsClient {
    *
    * Retrieve a list of workforceIntegration objects.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /teamwork/workforceIntegrations"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -135,7 +135,7 @@ export class WorkforceIntegrationsClient {
    *
    * Retrieve the properties and relationships of a workforceIntegration object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /teamwork/workforceIntegrations/{workforceIntegration-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

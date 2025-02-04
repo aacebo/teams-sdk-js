@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\mailboxProtectionUnits\count
+ * /solutions/backupRestore/mailboxProtectionUnits/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
-  protected baseUrl = "\solutions\backupRestore\mailboxProtectionUnits\count";
+  protected baseUrl = "/solutions/backupRestore/mailboxProtectionUnits/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\bookingBusinesses\{bookingBusiness-id}\publish
+ * /solutions/bookingBusinesses/{bookingBusiness-id}/publish
  * Provides operations to call the publish method.
  */
 export class PublishClient {
   protected baseUrl =
-    "\solutions\bookingBusinesses\{bookingBusiness-id}\publish";
+    "/solutions/bookingBusinesses/{bookingBusiness-id}/publish";
   protected http: http.Client;
 
   constructor(

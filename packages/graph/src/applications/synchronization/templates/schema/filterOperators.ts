@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\filterOperators
+ * /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/filterOperators
  * Provides operations to call the filterOperators method.
  */
 export class FilterOperatorsClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\filterOperators";
+    "/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/filterOperators";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

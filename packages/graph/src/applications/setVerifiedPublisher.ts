@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\setVerifiedPublisher
+ * /applications/{application-id}/setVerifiedPublisher
  * Provides operations to call the setVerifiedPublisher method.
  */
 export class SetVerifiedPublisherClient {
-  protected baseUrl = "\applications\{application-id}\setVerifiedPublisher";
+  protected baseUrl = "/applications/{application-id}/setVerifiedPublisher";
   protected http: http.Client;
 
   constructor(

@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\channels\{channel-id}\messages\{chatMessage-id}\softDelete
+ * /teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/softDelete
  * Provides operations to call the softDelete method.
  */
 export class SoftDeleteClient {
   protected baseUrl =
-    "\teams\{team-id}\channels\{channel-id}\messages\{chatMessage-id}\softDelete";
+    "/teams/{team-id}/channels/{channel-id}/messages/{chatMessage-id}/softDelete";
   protected http: http.Client;
 
   constructor(

@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \appRoleAssignments\delta
+ * /appRoleAssignments/delta
  * Provides operations to call the delta method.
  */
 export class DeltaClient {
-  protected baseUrl = "\appRoleAssignments\delta";
+  protected baseUrl = "/appRoleAssignments/delta";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

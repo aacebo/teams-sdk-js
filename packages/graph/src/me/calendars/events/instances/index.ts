@@ -44,11 +44,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendars\{calendar-id}\events\{event-id}\instances
+ * /me/calendars/{calendar-id}/events/{event-id}/instances
  * Provides operations to manage the instances property of the microsoft.graph.event entity.
  */
 export class InstancesClient {
-  protected baseUrl = "\me\calendars\{calendar-id}\events\{event-id}\instances";
+  protected baseUrl = "/me/calendars/{calendar-id}/events/{event-id}/instances";
   protected http: http.Client;
 
   constructor(
@@ -79,7 +79,7 @@ export class InstancesClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\events\{event-id}\instances\{event-id1}\accept`
+   * `/me/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/accept`
    *
    * Provides operations to call the accept method.
    */
@@ -88,7 +88,7 @@ export class InstancesClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\events\{event-id}\instances\{event-id1}\attachments`
+   * `/me/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/attachments`
    *
    * Provides operations to manage the attachments property of the microsoft.graph.event entity.
    */
@@ -97,7 +97,7 @@ export class InstancesClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\events\{event-id}\instances\{event-id1}\calendar`
+   * `/me/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/calendar`
    *
    * Provides operations to manage the calendar property of the microsoft.graph.event entity.
    */
@@ -106,7 +106,7 @@ export class InstancesClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\events\{event-id}\instances\{event-id1}\cancel`
+   * `/me/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/cancel`
    *
    * Provides operations to call the cancel method.
    */
@@ -115,7 +115,7 @@ export class InstancesClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\events\{event-id}\instances\count`
+   * `/me/calendars/{calendar-id}/events/{event-id}/instances/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -124,7 +124,7 @@ export class InstancesClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\events\{event-id}\instances\{event-id1}\decline`
+   * `/me/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/decline`
    *
    * Provides operations to call the decline method.
    */
@@ -133,7 +133,7 @@ export class InstancesClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\events\{event-id}\instances\delta`
+   * `/me/calendars/{calendar-id}/events/{event-id}/instances/delta`
    *
    * Provides operations to call the delta method.
    */
@@ -142,7 +142,7 @@ export class InstancesClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\events\{event-id}\instances\{event-id1}\dismissReminder`
+   * `/me/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/dismissReminder`
    *
    * Provides operations to call the dismissReminder method.
    */
@@ -151,7 +151,7 @@ export class InstancesClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\events\{event-id}\instances\{event-id1}\extensions`
+   * `/me/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/extensions`
    *
    * Provides operations to manage the extensions property of the microsoft.graph.event entity.
    */
@@ -160,7 +160,7 @@ export class InstancesClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\events\{event-id}\instances\{event-id1}\forward`
+   * `/me/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/forward`
    *
    * Provides operations to call the forward method.
    */
@@ -169,7 +169,7 @@ export class InstancesClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\events\{event-id}\instances\{event-id1}\snoozeReminder`
+   * `/me/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/snoozeReminder`
    *
    * Provides operations to call the snoozeReminder method.
    */
@@ -178,7 +178,7 @@ export class InstancesClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\events\{event-id}\instances\{event-id1}\tentativelyAccept`
+   * `/me/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}/tentativelyAccept`
    *
    * Provides operations to call the tentativelyAccept method.
    */
@@ -191,7 +191,7 @@ export class InstancesClient {
    *
    * The occurrences of a recurring series, if the event is a series master. This property includes occurrences that are part of the recurrence pattern, and exceptions that have been modified, but does not include occurrences that have been cancelled from the series. Navigation property. Read-only. Nullable.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /me/calendars/{calendar-id}/events/{event-id}/instances"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -225,7 +225,7 @@ export class InstancesClient {
    *
    * The occurrences of a recurring series, if the event is a series master. This property includes occurrences that are part of the recurrence pattern, and exceptions that have been modified, but does not include occurrences that have been cancelled from the series. Navigation property. Read-only. Nullable.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /me/calendars/{calendar-id}/events/{event-id}/instances/{event-id1}"]["parameters"],
     config?: http.RequestConfig,
   ) {

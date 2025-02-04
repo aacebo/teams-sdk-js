@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendars\{calendar-id}\calendarView\{event-id}\tentativelyAccept
+ * /me/calendars/{calendar-id}/calendarView/{event-id}/tentativelyAccept
  * Provides operations to call the tentativelyAccept method.
  */
 export class TentativelyAcceptClient {
   protected baseUrl =
-    "\me\calendars\{calendar-id}\calendarView\{event-id}\tentativelyAccept";
+    "/me/calendars/{calendar-id}/calendarView/{event-id}/tentativelyAccept";
   protected http: http.Client;
 
   constructor(

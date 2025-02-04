@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\serviceApps\{serviceApp-id}\activate
+ * /solutions/backupRestore/serviceApps/{serviceApp-id}/activate
  * Provides operations to call the activate method.
  */
 export class ActivateClient {
   protected baseUrl =
-    "\solutions\backupRestore\serviceApps\{serviceApp-id}\activate";
+    "/solutions/backupRestore/serviceApps/{serviceApp-id}/activate";
   protected http: http.Client;
 
   constructor(

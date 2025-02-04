@@ -37,11 +37,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teamwork
+ * /teamwork
  * Provides operations to manage the teamwork singleton.
  */
 export class TeamworkClient {
-  protected baseUrl = "\teamwork";
+  protected baseUrl = "/teamwork";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -69,7 +69,7 @@ export class TeamworkClient {
   }
 
   /**
-   * `\teamwork\deletedChats`
+   * `/teamwork/deletedChats`
    *
    * Provides operations to manage the deletedChats property of the microsoft.graph.teamwork entity.
    */
@@ -78,7 +78,7 @@ export class TeamworkClient {
   }
 
   /**
-   * `\teamwork\deletedTeams`
+   * `/teamwork/deletedTeams`
    *
    * Provides operations to manage the deletedTeams property of the microsoft.graph.teamwork entity.
    */
@@ -87,7 +87,7 @@ export class TeamworkClient {
   }
 
   /**
-   * `\teamwork\sendActivityNotificationToRecipients`
+   * `/teamwork/sendActivityNotificationToRecipients`
    *
    * Provides operations to call the sendActivityNotificationToRecipients method.
    */
@@ -96,7 +96,7 @@ export class TeamworkClient {
   }
 
   /**
-   * `\teamwork\teamsAppSettings`
+   * `/teamwork/teamsAppSettings`
    *
    * Provides operations to manage the teamsAppSettings property of the microsoft.graph.teamwork entity.
    */
@@ -105,7 +105,7 @@ export class TeamworkClient {
   }
 
   /**
-   * `\teamwork\workforceIntegrations`
+   * `/teamwork/workforceIntegrations`
    *
    * Provides operations to manage the workforceIntegrations property of the microsoft.graph.teamwork entity.
    */

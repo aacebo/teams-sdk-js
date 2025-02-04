@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\oneDriveForBusinessRestoreSessions
+ * /solutions/backupRestore/oneDriveForBusinessRestoreSessions
  * Provides operations to manage the oneDriveForBusinessRestoreSessions property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class OneDriveForBusinessRestoreSessionsClient {
   protected baseUrl =
-    "\solutions\backupRestore\oneDriveForBusinessRestoreSessions";
+    "/solutions/backupRestore/oneDriveForBusinessRestoreSessions";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -67,7 +67,7 @@ export class OneDriveForBusinessRestoreSessionsClient {
   }
 
   /**
-   * `\solutions\backupRestore\oneDriveForBusinessRestoreSessions\count`
+   * `/solutions/backupRestore/oneDriveForBusinessRestoreSessions/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -76,7 +76,7 @@ export class OneDriveForBusinessRestoreSessionsClient {
   }
 
   /**
-   * `\solutions\backupRestore\oneDriveForBusinessRestoreSessions\{oneDriveForBusinessRestoreSession-id}\driveRestoreArtifacts`
+   * `/solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}/driveRestoreArtifacts`
    *
    * Provides operations to manage the driveRestoreArtifacts property of the microsoft.graph.oneDriveForBusinessRestoreSession entity.
    */
@@ -119,7 +119,7 @@ export class OneDriveForBusinessRestoreSessionsClient {
    *
    * The list of OneDrive for Business restore sessions available in the tenant.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessRestoreSessions"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -148,7 +148,7 @@ export class OneDriveForBusinessRestoreSessionsClient {
    *
    * The list of OneDrive for Business restore sessions available in the tenant.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

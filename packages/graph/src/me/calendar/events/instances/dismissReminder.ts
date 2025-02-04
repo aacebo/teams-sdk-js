@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendar\events\{event-id}\instances\{event-id1}\dismissReminder
+ * /me/calendar/events/{event-id}/instances/{event-id1}/dismissReminder
  * Provides operations to call the dismissReminder method.
  */
 export class DismissReminderClient {
   protected baseUrl =
-    "\me\calendar\events\{event-id}\instances\{event-id1}\dismissReminder";
+    "/me/calendar/events/{event-id}/instances/{event-id1}/dismissReminder";
   protected http: http.Client;
 
   constructor(

@@ -32,11 +32,11 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\hideForUser
+ * /chats/{chat-id}/hideForUser
  * Provides operations to call the hideForUser method.
  */
 export class HideForUserClient {
-  protected baseUrl = "\chats\{chat-id}\hideForUser";
+  protected baseUrl = "/chats/{chat-id}/hideForUser";
   protected http: http.Client;
 
   constructor(

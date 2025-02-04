@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\validateCredentials
+ * /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/validateCredentials
  * Provides operations to call the validateCredentials method.
  */
 export class ValidateCredentialsClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\jobs\{synchronizationJob-id}\validateCredentials";
+    "/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/validateCredentials";
   protected http: http.Client;
 
   constructor(

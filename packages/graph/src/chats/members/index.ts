@@ -35,11 +35,11 @@ function getInjectedUrl(
 }
 
 /**
- * \chats\{chat-id}\members
+ * /chats/{chat-id}/members
  * Provides operations to manage the members property of the microsoft.graph.chat entity.
  */
 export class MembersClient {
-  protected baseUrl = "\chats\{chat-id}\members";
+  protected baseUrl = "/chats/{chat-id}/members";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class MembersClient {
   }
 
   /**
-   * `\chats\{chat-id}\members\add`
+   * `/chats/{chat-id}/members/add`
    *
    * Provides operations to call the add method.
    */
@@ -79,7 +79,7 @@ export class MembersClient {
   }
 
   /**
-   * `\chats\{chat-id}\members\count`
+   * `/chats/{chat-id}/members/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -88,7 +88,7 @@ export class MembersClient {
   }
 
   /**
-   * `\chats\{chat-id}\members\remove`
+   * `/chats/{chat-id}/members/remove`
    *
    * Provides operations to call the remove method.
    */
@@ -131,7 +131,7 @@ export class MembersClient {
    *
    * List all conversation members in a chat or channel.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /chats/{chat-id}/members"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -162,7 +162,7 @@ export class MembersClient {
    *
    * Retrieve a conversationMember from a chat or channel.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /chats/{chat-id}/members/{conversationMember-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

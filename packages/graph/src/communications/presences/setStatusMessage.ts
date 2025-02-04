@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\presences\{presence-id}\setStatusMessage
+ * /communications/presences/{presence-id}/setStatusMessage
  * Provides operations to call the setStatusMessage method.
  */
 export class SetStatusMessageClient {
   protected baseUrl =
-    "\communications\presences\{presence-id}\setStatusMessage";
+    "/communications/presences/{presence-id}/setStatusMessage";
   protected http: http.Client;
 
   constructor(

@@ -1,37 +1,35 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import { OnlineMeetingsClient } from './onlineMeetings';
-import { PresenceClient } from './presence';
-import { TeamworkClient } from './teamwork';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import { OnlineMeetingsClient } from "./onlineMeetings";
+import { PresenceClient } from "./presence";
+import { TeamworkClient } from "./teamwork";
 
 /**
  * /users
  */
 export class UsersClient {
-  protected baseUrl = '/users';
-  protected http: AxiosInstance;
+  protected baseUrl = "/users";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });

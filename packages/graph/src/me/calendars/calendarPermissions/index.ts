@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendars\{calendar-id}\calendarPermissions
+ * /me/calendars/{calendar-id}/calendarPermissions
  * Provides operations to manage the calendarPermissions property of the microsoft.graph.calendar entity.
  */
 export class CalendarPermissionsClient {
-  protected baseUrl = "\me\calendars\{calendar-id}\calendarPermissions";
+  protected baseUrl = "/me/calendars/{calendar-id}/calendarPermissions";
   protected http: http.Client;
 
   constructor(
@@ -68,7 +68,7 @@ export class CalendarPermissionsClient {
   }
 
   /**
-   * `\me\calendars\{calendar-id}\calendarPermissions\count`
+   * `/me/calendars/{calendar-id}/calendarPermissions/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -110,7 +110,7 @@ export class CalendarPermissionsClient {
    *
    * The permissions of the users with whom the calendar is shared.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /me/calendars/{calendar-id}/calendarPermissions"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -141,7 +141,7 @@ export class CalendarPermissionsClient {
    *
    * The permissions of the users with whom the calendar is shared.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

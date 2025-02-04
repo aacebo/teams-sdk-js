@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\events\{virtualEvent-id}\publish
+ * /solutions/virtualEvents/events/{virtualEvent-id}/publish
  * Provides operations to call the publish method.
  */
 export class PublishClient {
   protected baseUrl =
-    "\solutions\virtualEvents\events\{virtualEvent-id}\publish";
+    "/solutions/virtualEvents/events/{virtualEvent-id}/publish";
   protected http: http.Client;
 
   constructor(

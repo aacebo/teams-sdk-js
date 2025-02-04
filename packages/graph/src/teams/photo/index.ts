@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\photo
+ * /teams/{team-id}/photo
  * Provides operations to manage the photo property of the microsoft.graph.team entity.
  */
 export class PhotoClient {
-  protected baseUrl = "\teams\{team-id}\photo";
+  protected baseUrl = "/teams/{team-id}/photo";
   protected http: http.Client;
 
   constructor(
@@ -68,7 +68,7 @@ export class PhotoClient {
   }
 
   /**
-   * `\teams\{team-id}\photo\value`
+   * `/teams/{team-id}/photo/value`
    *
    * Provides operations to manage the media for the team entity.
    */

@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendar\events\{event-id}\instances\{event-id1}\calendar
+ * /me/calendar/events/{event-id}/instances/{event-id1}/calendar
  * Provides operations to manage the calendar property of the microsoft.graph.event entity.
  */
 export class CalendarClient {
   protected baseUrl =
-    "\me\calendar\events\{event-id}\instances\{event-id1}\calendar";
+    "/me/calendar/events/{event-id}/instances/{event-id1}/calendar";
   protected http: http.Client;
 
   constructor(

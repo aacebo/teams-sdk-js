@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\getSchedule
+ * /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/getSchedule
  * Provides operations to call the getSchedule method.
  */
 export class GetScheduleClient {
   protected baseUrl =
-    "\me\calendarGroups\{calendarGroup-id}\calendars\{calendar-id}\getSchedule";
+    "/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/getSchedule";
   protected http: http.Client;
 
   constructor(

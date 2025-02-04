@@ -34,12 +34,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\bookingBusinesses\{bookingBusiness-id}\appointments
+ * /solutions/bookingBusinesses/{bookingBusiness-id}/appointments
  * Provides operations to manage the appointments property of the microsoft.graph.bookingBusiness entity.
  */
 export class AppointmentsClient {
   protected baseUrl =
-    "\solutions\bookingBusinesses\{bookingBusiness-id}\appointments";
+    "/solutions/bookingBusinesses/{bookingBusiness-id}/appointments";
   protected http: http.Client;
 
   constructor(
@@ -70,7 +70,7 @@ export class AppointmentsClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\{bookingBusiness-id}\appointments\{bookingAppointment-id}\cancel`
+   * `/solutions/bookingBusinesses/{bookingBusiness-id}/appointments/{bookingAppointment-id}/cancel`
    *
    * Provides operations to call the cancel method.
    */
@@ -79,7 +79,7 @@ export class AppointmentsClient {
   }
 
   /**
-   * `\solutions\bookingBusinesses\{bookingBusiness-id}\appointments\count`
+   * `/solutions/bookingBusinesses/{bookingBusiness-id}/appointments/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -122,7 +122,7 @@ export class AppointmentsClient {
    *
    * Get a list of bookingAppointment objects for the specified bookingBusiness.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/bookingBusinesses/{bookingBusiness-id}/appointments"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -153,7 +153,7 @@ export class AppointmentsClient {
    *
    * Get the properties and relationships of a bookingAppointment object in the specified bookingBusiness. The start and end properties are always returned in UTC.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/bookingBusinesses/{bookingBusiness-id}/appointments/{bookingAppointment-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrationsuserIduserId
+ * /solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationsuserIduserId
  * Provides operations to manage the registrations property of the microsoft.graph.virtualEventWebinar entity.
  */
 export class RegistrationsuserIduserIdClient {
   protected baseUrl =
-    "\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrationsuserIduserId";
+    "/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationsuserIduserId";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class RegistrationsuserIduserIdClient {
   }
 
   /**
-   * `\solutions\virtualEvents\webinars\{virtualEventWebinar-id}\registrationsuserIduserId\cancel`
+   * `/solutions/virtualEvents/webinars/{virtualEventWebinar-id}/registrationsuserIduserId/cancel`
    *
    * Provides operations to call the cancel method.
    */

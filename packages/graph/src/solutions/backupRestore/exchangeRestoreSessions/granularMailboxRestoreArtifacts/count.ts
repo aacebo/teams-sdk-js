@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\exchangeRestoreSessions\{exchangeRestoreSession-id}\granularMailboxRestoreArtifacts\count
+ * /solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/count
  * Provides operations to count the resources in the collection.
  */
 export class CountClient {
   protected baseUrl =
-    "\solutions\backupRestore\exchangeRestoreSessions\{exchangeRestoreSession-id}\granularMailboxRestoreArtifacts\count";
+    "/solutions/backupRestore/exchangeRestoreSessions/{exchangeRestoreSession-id}/granularMailboxRestoreArtifacts/count";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {

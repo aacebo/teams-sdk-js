@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \teams\{team-id}\channels\{channel-id}\sharedWithTeams\{sharedWithChannelTeamInfo-id}\team
+ * /teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}/team
  * Provides operations to manage the team property of the microsoft.graph.teamInfo entity.
  */
 export class TeamClient {
   protected baseUrl =
-    "\teams\{team-id}\channels\{channel-id}\sharedWithTeams\{sharedWithChannelTeamInfo-id}\team";
+    "/teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}/team";
   protected http: http.Client;
 
   constructor(

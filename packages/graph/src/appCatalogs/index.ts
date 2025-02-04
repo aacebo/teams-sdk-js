@@ -33,11 +33,11 @@ function getInjectedUrl(
 }
 
 /**
- * \appCatalogs
+ * /appCatalogs
  * Provides operations to manage the appCatalogs singleton.
  */
 export class AppCatalogsClient {
-  protected baseUrl = "\appCatalogs";
+  protected baseUrl = "/appCatalogs";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -65,7 +65,7 @@ export class AppCatalogsClient {
   }
 
   /**
-   * `\appCatalogs\teamsApps`
+   * `/appCatalogs/teamsApps`
    *
    * Provides operations to manage the teamsApps property of the microsoft.graph.appCatalogs entity.
    */
@@ -77,7 +77,7 @@ export class AppCatalogsClient {
    * `GET /appCatalogs`
    *
    */
-  async get(
+  async list(
     params?: Endpoints["GET /appCatalogs"]["parameters"],
     config?: http.RequestConfig,
   ) {

@@ -33,12 +33,12 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\virtualEvents\events\{virtualEvent-id}\sessions\{virtualEventSession-id}\attendanceReports\{meetingAttendanceReport-id}\attendanceRecords
+ * /solutions/virtualEvents/events/{virtualEvent-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords
  * Provides operations to manage the attendanceRecords property of the microsoft.graph.meetingAttendanceReport entity.
  */
 export class AttendanceRecordsClient {
   protected baseUrl =
-    "\solutions\virtualEvents\events\{virtualEvent-id}\sessions\{virtualEventSession-id}\attendanceReports\{meetingAttendanceReport-id}\attendanceRecords";
+    "/solutions/virtualEvents/events/{virtualEvent-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class AttendanceRecordsClient {
   }
 
   /**
-   * `\solutions\virtualEvents\events\{virtualEvent-id}\sessions\{virtualEventSession-id}\attendanceReports\{meetingAttendanceReport-id}\attendanceRecords\count`
+   * `/solutions/virtualEvents/events/{virtualEvent-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -113,7 +113,7 @@ export class AttendanceRecordsClient {
    *
    * List of attendance records of an attendance report. Read-only.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/virtualEvents/events/{virtualEvent-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -146,7 +146,7 @@ export class AttendanceRecordsClient {
    *
    * List of attendance records of an attendance report. Read-only.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/virtualEvents/events/{virtualEvent-id}/sessions/{virtualEventSession-id}/attendanceReports/{meetingAttendanceReport-id}/attendanceRecords/{attendanceRecord-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

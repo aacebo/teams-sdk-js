@@ -34,11 +34,11 @@ function getInjectedUrl(
 }
 
 /**
- * \communications\callRecords\{callRecord-id}\sessions
+ * /communications/callRecords/{callRecord-id}/sessions
  * Provides operations to manage the sessions property of the microsoft.graph.callRecords.callRecord entity.
  */
 export class SessionsClient {
-  protected baseUrl = "\communications\callRecords\{callRecord-id}\sessions";
+  protected baseUrl = "/communications/callRecords/{callRecord-id}/sessions";
   protected http: http.Client;
 
   constructor(
@@ -69,7 +69,7 @@ export class SessionsClient {
   }
 
   /**
-   * `\communications\callRecords\{callRecord-id}\sessions\count`
+   * `/communications/callRecords/{callRecord-id}/sessions/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -78,7 +78,7 @@ export class SessionsClient {
   }
 
   /**
-   * `\communications\callRecords\{callRecord-id}\sessions\{session-id}\segments`
+   * `/communications/callRecords/{callRecord-id}/sessions/{session-id}/segments`
    *
    * Provides operations to manage the segments property of the microsoft.graph.callRecords.session entity.
    */
@@ -120,7 +120,7 @@ export class SessionsClient {
    *
    * Retrieve the list of sessions associated with a callRecord object. If the sessions list is truncated, a sessions@odata.nextLink value will be provided to retrieve the next page of sessions. The maximum page size for sessions is 60 entries.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /communications/callRecords/{callRecord-id}/sessions"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -151,7 +151,7 @@ export class SessionsClient {
    *
    * List of sessions involved in the call. Peer-to-peer calls typically only have one session, whereas group calls typically have at least one session per participant. Read-only. Nullable.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /communications/callRecords/{callRecord-id}/sessions/{session-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

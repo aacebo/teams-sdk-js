@@ -35,11 +35,11 @@ function getInjectedUrl(
 }
 
 /**
- * \solutions\backupRestore\serviceApps
+ * /solutions/backupRestore/serviceApps
  * Provides operations to manage the serviceApps property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class ServiceAppsClient {
-  protected baseUrl = "\solutions\backupRestore\serviceApps";
+  protected baseUrl = "/solutions/backupRestore/serviceApps";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
@@ -67,7 +67,7 @@ export class ServiceAppsClient {
   }
 
   /**
-   * `\solutions\backupRestore\serviceApps\{serviceApp-id}\activate`
+   * `/solutions/backupRestore/serviceApps/{serviceApp-id}/activate`
    *
    * Provides operations to call the activate method.
    */
@@ -76,7 +76,7 @@ export class ServiceAppsClient {
   }
 
   /**
-   * `\solutions\backupRestore\serviceApps\count`
+   * `/solutions/backupRestore/serviceApps/count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -85,7 +85,7 @@ export class ServiceAppsClient {
   }
 
   /**
-   * `\solutions\backupRestore\serviceApps\{serviceApp-id}\deactivate`
+   * `/solutions/backupRestore/serviceApps/{serviceApp-id}/deactivate`
    *
    * Provides operations to call the deactivate method.
    */
@@ -126,7 +126,7 @@ export class ServiceAppsClient {
    *
    * Get a list of serviceApp objects and their properties.
    */
-  async get(
+  async list(
     params?: Endpoints["GET /solutions/backupRestore/serviceApps"]["parameters"],
     config?: http.RequestConfig,
   ) {
@@ -155,7 +155,7 @@ export class ServiceAppsClient {
    *
    * Read the properties and relationships of a serviceApp object.
    */
-  async get$1(
+  async get(
     params?: Endpoints["GET /solutions/backupRestore/serviceApps/{serviceApp-id}"]["parameters"],
     config?: http.RequestConfig,
   ) {

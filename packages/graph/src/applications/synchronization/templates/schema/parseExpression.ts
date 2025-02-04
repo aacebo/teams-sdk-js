@@ -32,12 +32,12 @@ function getInjectedUrl(
 }
 
 /**
- * \applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\parseExpression
+ * /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/parseExpression
  * Provides operations to call the parseExpression method.
  */
 export class ParseExpressionClient {
   protected baseUrl =
-    "\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\parseExpression";
+    "/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/parseExpression";
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
