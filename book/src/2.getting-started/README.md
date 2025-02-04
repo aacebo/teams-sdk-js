@@ -13,6 +13,7 @@ Here is what your terminal should look like:
 ---
 
 This will use the `@teams.sdk/cli` to install a starter template and build then run the bot server. The starter code will look something like this:
+
 ```typescript
 import { App, HttpPlugin } from '@teams.sdk/apps';
 import { DevtoolsPlugin } from '@teams.sdk/dev';
