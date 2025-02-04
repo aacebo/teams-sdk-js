@@ -1,25 +1,27 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './clone-types.d.ts';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./clone-types.d.ts";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -30,34 +32,34 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /teams/{team-id}/clone
+ * \teams\{team-id}\clone
  * Provides operations to call the clone method.
  */
 export class CloneClient {
-  protected baseUrl = '/teams/{team-id}/clone';
-  protected http: AxiosInstance;
+  protected baseUrl = "\teams\{team-id}\clone";
+  protected http: http.Client;
 
   constructor(
     protected readonly teamId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions,
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -72,17 +74,24 @@ You can specify which parts of the team to clone: When tabs are cloned, they are
 If the user who opens the tab doesn&#x27;t have permission to configure apps, they see a message that says that the tab isn&#x27;t configured. Cloning is a long-running operation. After the POST clone returns, you need to GET the operation returned by the Location: header to see if it&#x27;s running, succeeded, or failed. You should continue to GET until the status isn&#x27;t running. The recommended delay between GETs is 5 seconds.
    */
   async create(
-    body: Endpoints['POST /teams/{team-id}/clone']['body'],
-    params?: Endpoints['POST /teams/{team-id}/clone']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /teams/{team-id}/clone"]["body"],
+    params?: Endpoints["POST /teams/{team-id}/clone"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/teams/{team-id}/clone', [{ name: 'team-id', in: 'path' }], {
-      ...(params || {}),
-      'team-id': this.teamId,
-    });
+    const url = getInjectedUrl(
+      "/teams/{team-id}/clone",
+      [{ name: "team-id", in: "path" }],
+      {
+        ...(params || {}),
+        "team-id": this.teamId,
+      },
+    );
 
     return this.http
       .post(url, body, config)
-      .then((res) => res.data as Endpoints['POST /teams/{team-id}/clone']['response']);
+      .then(
+        (res) =>
+          res.data as Endpoints["POST /teams/{team-id}/clone"]["response"],
+      );
   }
 }

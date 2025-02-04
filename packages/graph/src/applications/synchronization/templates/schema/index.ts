@@ -1,29 +1,31 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { DirectoriesClient } from './directories';
-import { FilterOperatorsClient } from './filterOperators';
-import { FunctionsClient } from './functions';
-import { ParseExpressionClient } from './parseExpression';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { DirectoriesClient } from "./directories";
+import { FilterOperatorsClient } from "./filterOperators";
+import { FunctionsClient } from "./functions";
+import { ParseExpressionClient } from "./parseExpression";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -34,35 +36,35 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema
+ * \applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema
  * Provides operations to manage the schema property of the microsoft.graph.synchronizationTemplate entity.
  */
 export class SchemaClient {
   protected baseUrl =
-    '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema';
-  protected http: AxiosInstance;
+    "\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema";
+  protected http: http.Client;
 
   constructor(
     protected readonly synchronizationTemplateId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions,
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -70,7 +72,7 @@ export class SchemaClient {
   }
 
   /**
-   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/directories`
+   * `\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\directories`
    *
    * Provides operations to manage the directories property of the microsoft.graph.synchronizationSchema entity.
    */
@@ -79,7 +81,7 @@ export class SchemaClient {
   }
 
   /**
-   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/filterOperators`
+   * `\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\filterOperators`
    *
    * Provides operations to call the filterOperators method.
    */
@@ -88,7 +90,7 @@ export class SchemaClient {
   }
 
   /**
-   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/functions`
+   * `\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\functions`
    *
    * Provides operations to call the functions method.
    */
@@ -97,7 +99,7 @@ export class SchemaClient {
   }
 
   /**
-   * `/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema/parseExpression`
+   * `\applications\{application-id}\synchronization\templates\{synchronizationTemplate-id}\schema\parseExpression`
    *
    * Provides operations to call the parseExpression method.
    */
@@ -110,27 +112,27 @@ export class SchemaClient {
    *
    */
   async delete(
-    params?: Endpoints['DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema',
+      "/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'application-id', in: 'path' },
-        { name: 'synchronizationTemplate-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "application-id", in: "path" },
+        { name: "synchronizationTemplate-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'synchronizationTemplate-id': this.synchronizationTemplateId,
-      }
+        "synchronizationTemplate-id": this.synchronizationTemplateId,
+      },
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema']['response']
+          res.data as Endpoints["DELETE /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema"]["response"],
       );
   }
 
@@ -140,28 +142,28 @@ export class SchemaClient {
    * Default synchronization schema for the jobs based on this template.
    */
   async get(
-    params?: Endpoints['GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema',
+      "/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'application-id', in: 'path' },
-        { name: 'synchronizationTemplate-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "application-id", in: "path" },
+        { name: "synchronizationTemplate-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'synchronizationTemplate-id': this.synchronizationTemplateId,
-      }
+        "synchronizationTemplate-id": this.synchronizationTemplateId,
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema']['response']
+          res.data as Endpoints["GET /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema"]["response"],
       );
   }
 
@@ -170,27 +172,27 @@ export class SchemaClient {
    *
    */
   async update(
-    body: Endpoints['PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema']['body'],
-    params?: Endpoints['PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema"]["body"],
+    params?: Endpoints["PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema',
+      "/applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema",
       [
-        { name: 'application-id', in: 'path' },
-        { name: 'synchronizationTemplate-id', in: 'path' },
+        { name: "application-id", in: "path" },
+        { name: "synchronizationTemplate-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'synchronizationTemplate-id': this.synchronizationTemplateId,
-      }
+        "synchronizationTemplate-id": this.synchronizationTemplateId,
+      },
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema']['response']
+          res.data as Endpoints["PATCH /applications/{application-id}/synchronization/templates/{synchronizationTemplate-id}/schema"]["response"],
       );
   }
 }

@@ -1,25 +1,27 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './decline-types.d.ts';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./decline-types.d.ts";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -30,34 +32,35 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /me/calendars/{calendar-id}/calendarView/{event-id}/decline
+ * \me\calendars\{calendar-id}\calendarView\{event-id}\decline
  * Provides operations to call the decline method.
  */
 export class DeclineClient {
-  protected baseUrl = '/me/calendars/{calendar-id}/calendarView/{event-id}/decline';
-  protected http: AxiosInstance;
+  protected baseUrl =
+    "\me\calendars\{calendar-id}\calendarView\{event-id}\decline";
+  protected http: http.Client;
 
   constructor(
     protected readonly eventId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions,
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -70,27 +73,27 @@ export class DeclineClient {
    * Decline invitation to the specified event in a user calendar. If the event allows proposals for new times, on declining the event, an invitee can choose to suggest an alternative time by including the proposedNewTime parameter. For more information on how to propose a time, and how to receive and accept a new time proposal, see Propose new meeting times.
    */
   async create(
-    body: Endpoints['POST /me/calendars/{calendar-id}/calendarView/{event-id}/decline']['body'],
-    params?: Endpoints['POST /me/calendars/{calendar-id}/calendarView/{event-id}/decline']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /me/calendars/{calendar-id}/calendarView/{event-id}/decline"]["body"],
+    params?: Endpoints["POST /me/calendars/{calendar-id}/calendarView/{event-id}/decline"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/me/calendars/{calendar-id}/calendarView/{event-id}/decline',
+      "/me/calendars/{calendar-id}/calendarView/{event-id}/decline",
       [
-        { name: 'calendar-id', in: 'path' },
-        { name: 'event-id', in: 'path' },
+        { name: "calendar-id", in: "path" },
+        { name: "event-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'event-id': this.eventId,
-      }
+        "event-id": this.eventId,
+      },
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /me/calendars/{calendar-id}/calendarView/{event-id}/decline']['response']
+          res.data as Endpoints["POST /me/calendars/{calendar-id}/calendarView/{event-id}/decline"]["response"],
       );
   }
 }

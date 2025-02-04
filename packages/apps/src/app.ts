@@ -2,6 +2,9 @@ import axios, { AxiosError } from 'axios';
 
 import { Logger, ConsoleLogger } from '@teams.sdk/common/logging';
 import { LocalStorage, Storage } from '@teams.sdk/common/storage';
+import * as http from '@teams.sdk/common/http';
+import * as graph from '@teams.sdk/graph';
+
 import {
   Client,
   Activity,
@@ -13,6 +16,7 @@ import {
   SignInVerifyStateInvokeActivity,
   InvokeResponse,
   JsonWebToken,
+  BotClient,
 } from '@teams.sdk/api';
 
 import pkg from '../package.json';
@@ -31,9 +35,9 @@ import { OAuthSettings } from './oauth';
  */
 export type AppOptions = Partial<Credentials> & {
   /**
-   * http client options used to make api requests
+   * http client or client options used to make api requests
    */
-  readonly http?: axios.CreateAxiosDefaults;
+  readonly http?: http.Client | http.ClientOptions | (() => http.Client);
 
   /**
    * logger instance to use
@@ -77,10 +81,10 @@ export interface ProcessActivityArgs {
  * The orchestrator for receiving/sending activities
  */
 export class App {
-  api: Client;
   log: Logger;
   storage: Storage;
   credentials?: Credentials;
+  graph: graph.Client;
 
   get tokens() {
     return this._tokens;
@@ -98,24 +102,36 @@ export class App {
   } = {};
 
   protected plugins: Array<Plugin>;
-  protected sender: Plugin;
+  protected api: BotClient;
+  protected http: http.Client;
   protected router = new Router();
 
   private readonly _events = DEFAULT_EVENTS;
+  private readonly _userAgent = `teams[apps]/${pkg.version}`;
 
   constructor(readonly options: AppOptions) {
     this.log = this.options.logger || new ConsoleLogger('@teams.sdk/app');
-    this.api = new Client({
-      ...this.options.http,
-      headers: {
-        ...this.options.http?.headers,
-        'User-Agent': `teams[apps]/${pkg.version}`,
-      },
-    });
-
     this.storage = this.options.storage || new LocalStorage();
-    this.plugins = this.options.plugins || [];
+    this.plugins = this.options.plugins || [new HttpPlugin()];
 
+    if (!options.http) {
+      this.http = new http.Client();
+    } else if (typeof options.http === 'function') {
+      this.http = options.http();
+    } else if ('request' in options.http) {
+      this.http = options.http;
+    } else {
+      this.http = new http.Client({
+        ...options.http,
+        headers: {
+          ...options.http.headers,
+          'User-Agent': this._userAgent
+        }
+      });
+    }
+
+    this.api = new BotClient(this.http);
+    this.graph = new graph.Client(this.http);
     const clientId = this.options.clientId || process.env.CLIENT_ID;
     const clientSecret = this.options.clientSecret || process.env.CLIENT_SECRET;
     const tenantId = this.options.tenantId || process.env.TENANT_ID;
@@ -127,16 +143,6 @@ export class App {
         tenantId: tenantId,
       };
     }
-
-    const http = new HttpPlugin();
-    let sender = this.plugins.find((p) => !!p.sender);
-
-    if (!sender) {
-      sender = http;
-      this.plugin(http);
-    }
-
-    this.sender = sender;
 
     for (const plugin of this.plugins) {
       plugin.register(this);
@@ -160,8 +166,8 @@ export class App {
   async start(port = 3000) {
     try {
       if (this.credentials) {
-        const bot = await this.api.bots.token.get(this.credentials);
-        const graph = await this.api.bots.token.getGraph(this.credentials);
+        const bot = await this.api.token.get(this.credentials);
+        const graph = await this.api.token.getGraph(this.credentials);
         this._tokens = {
           bot: new JsonWebToken(bot.access_token),
           graph: new JsonWebToken(graph.access_token),

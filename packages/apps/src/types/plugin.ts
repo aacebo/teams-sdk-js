@@ -15,7 +15,6 @@ export interface PluginEvents {
 export interface Plugin<Events extends PluginEvents = PluginEvents>
   extends Omit<EventEmitter<Events>, 'emit'> {
   readonly name: string;
-  readonly version: string;
 
   /**
    * lifecycle method called by the `App`

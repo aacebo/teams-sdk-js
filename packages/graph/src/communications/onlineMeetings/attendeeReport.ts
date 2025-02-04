@@ -1,25 +1,27 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './attendeeReport-types.d.ts';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./attendeeReport-types.d.ts";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -30,34 +32,35 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport
+ * \communications\onlineMeetings\{onlineMeeting-id}\attendeeReport
  * Provides operations to manage the media for the cloudCommunications entity.
  */
 export class AttendeeReportClient {
-  protected baseUrl = '/communications/onlineMeetings/{onlineMeeting-id}/attendeeReport';
-  protected http: AxiosInstance;
+  protected baseUrl =
+    "\communications\onlineMeetings\{onlineMeeting-id}\attendeeReport";
+  protected http: http.Client;
 
   constructor(
     protected readonly onlineMeetingId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions,
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -70,26 +73,26 @@ export class AttendeeReportClient {
    * The content stream of the attendee report of a Microsoft Teams live event. Read-only.
    */
   async delete(
-    params?: Endpoints['DELETE /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/communications/onlineMeetings/{onlineMeeting-id}/attendeeReport',
+      "/communications/onlineMeetings/{onlineMeeting-id}/attendeeReport",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'onlineMeeting-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "onlineMeeting-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'onlineMeeting-id': this.onlineMeetingId,
-      }
+        "onlineMeeting-id": this.onlineMeetingId,
+      },
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport']['response']
+          res.data as Endpoints["DELETE /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport"]["response"],
       );
   }
 
@@ -99,23 +102,23 @@ export class AttendeeReportClient {
    * The content stream of the attendee report of a Microsoft Teams live event. Read-only.
    */
   async get(
-    params?: Endpoints['GET /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["GET /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/communications/onlineMeetings/{onlineMeeting-id}/attendeeReport',
-      [{ name: 'onlineMeeting-id', in: 'path' }],
+      "/communications/onlineMeetings/{onlineMeeting-id}/attendeeReport",
+      [{ name: "onlineMeeting-id", in: "path" }],
       {
         ...(params || {}),
-        'onlineMeeting-id': this.onlineMeetingId,
-      }
+        "onlineMeeting-id": this.onlineMeetingId,
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport']['response']
+          res.data as Endpoints["GET /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport"]["response"],
       );
   }
 
@@ -125,24 +128,24 @@ export class AttendeeReportClient {
    * The content stream of the attendee report of a Microsoft Teams live event. Read-only.
    */
   async set(
-    body: Endpoints['PUT /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport']['body'],
-    params?: Endpoints['PUT /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PUT /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport"]["body"],
+    params?: Endpoints["PUT /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/communications/onlineMeetings/{onlineMeeting-id}/attendeeReport',
-      [{ name: 'onlineMeeting-id', in: 'path' }],
+      "/communications/onlineMeetings/{onlineMeeting-id}/attendeeReport",
+      [{ name: "onlineMeeting-id", in: "path" }],
       {
         ...(params || {}),
-        'onlineMeeting-id': this.onlineMeetingId,
-      }
+        "onlineMeeting-id": this.onlineMeetingId,
+      },
     );
 
     return this.http
       .put(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PUT /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport']['response']
+          res.data as Endpoints["PUT /communications/onlineMeetings/{onlineMeeting-id}/attendeeReport"]["response"],
       );
   }
 }

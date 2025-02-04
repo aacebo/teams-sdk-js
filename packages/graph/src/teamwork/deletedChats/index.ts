@@ -1,27 +1,29 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-import { UndoDeleteClient } from './undoDelete';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
+import { UndoDeleteClient } from "./undoDelete";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -32,31 +34,31 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /teamwork/deletedChats
+ * \teamwork\deletedChats
  * Provides operations to manage the deletedChats property of the microsoft.graph.teamwork entity.
  */
 export class DeletedChatsClient {
-  protected baseUrl = '/teamwork/deletedChats';
-  protected http: AxiosInstance;
+  protected baseUrl = "\teamwork\deletedChats";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -64,7 +66,7 @@ export class DeletedChatsClient {
   }
 
   /**
-   * `/teamwork/deletedChats/count`
+   * `\teamwork\deletedChats\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -73,7 +75,7 @@ export class DeletedChatsClient {
   }
 
   /**
-   * `/teamwork/deletedChats/{deletedChat-id}/undoDelete`
+   * `\teamwork\deletedChats\{deletedChat-id}\undoDelete`
    *
    * Provides operations to call the undoDelete method.
    */
@@ -86,24 +88,25 @@ export class DeletedChatsClient {
    *
    */
   async delete(
-    params?: Endpoints['DELETE /teamwork/deletedChats/{deletedChat-id}']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /teamwork/deletedChats/{deletedChat-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teamwork/deletedChats/{deletedChat-id}',
+      "/teamwork/deletedChats/{deletedChat-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'deletedChat-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "deletedChat-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .delete(url, config)
       .then(
-        (res) => res.data as Endpoints['DELETE /teamwork/deletedChats/{deletedChat-id}']['response']
+        (res) =>
+          res.data as Endpoints["DELETE /teamwork/deletedChats/{deletedChat-id}"]["response"],
       );
   }
 
@@ -112,25 +115,28 @@ export class DeletedChatsClient {
    *
    * Read the properties and relationships of a deletedChat object.
    */
-  async list(
-    params?: Endpoints['GET /teamwork/deletedChats']['parameters'],
-    config?: AxiosRequestConfig
+  async get(
+    params?: Endpoints["GET /teamwork/deletedChats"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teamwork/deletedChats',
+      "/teamwork/deletedChats",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints['GET /teamwork/deletedChats']['response']);
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /teamwork/deletedChats"]["response"],
+      );
   }
 
   /**
@@ -138,26 +144,27 @@ export class DeletedChatsClient {
    *
    * Read the properties and relationships of a deletedChat object.
    */
-  async get(
-    params?: Endpoints['GET /teamwork/deletedChats/{deletedChat-id}']['parameters'],
-    config?: AxiosRequestConfig
+  async get$1(
+    params?: Endpoints["GET /teamwork/deletedChats/{deletedChat-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teamwork/deletedChats/{deletedChat-id}',
+      "/teamwork/deletedChats/{deletedChat-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'deletedChat-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "deletedChat-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
-        (res) => res.data as Endpoints['GET /teamwork/deletedChats/{deletedChat-id}']['response']
+        (res) =>
+          res.data as Endpoints["GET /teamwork/deletedChats/{deletedChat-id}"]["response"],
       );
   }
 
@@ -166,22 +173,23 @@ export class DeletedChatsClient {
    *
    */
   async update(
-    body: Endpoints['PATCH /teamwork/deletedChats/{deletedChat-id}']['body'],
-    params?: Endpoints['PATCH /teamwork/deletedChats/{deletedChat-id}']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /teamwork/deletedChats/{deletedChat-id}"]["body"],
+    params?: Endpoints["PATCH /teamwork/deletedChats/{deletedChat-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teamwork/deletedChats/{deletedChat-id}',
-      [{ name: 'deletedChat-id', in: 'path' }],
+      "/teamwork/deletedChats/{deletedChat-id}",
+      [{ name: "deletedChat-id", in: "path" }],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .patch(url, body, config)
       .then(
-        (res) => res.data as Endpoints['PATCH /teamwork/deletedChats/{deletedChat-id}']['response']
+        (res) =>
+          res.data as Endpoints["PATCH /teamwork/deletedChats/{deletedChat-id}"]["response"],
       );
   }
 
@@ -190,16 +198,19 @@ export class DeletedChatsClient {
    *
    */
   async create(
-    body: Endpoints['POST /teamwork/deletedChats']['body'],
-    params?: Endpoints['POST /teamwork/deletedChats']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /teamwork/deletedChats"]["body"],
+    params?: Endpoints["POST /teamwork/deletedChats"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/teamwork/deletedChats', [], {
+    const url = getInjectedUrl("/teamwork/deletedChats", [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body, config)
-      .then((res) => res.data as Endpoints['POST /teamwork/deletedChats']['response']);
+      .then(
+        (res) =>
+          res.data as Endpoints["POST /teamwork/deletedChats"]["response"],
+      );
   }
 }

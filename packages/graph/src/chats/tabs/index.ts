@@ -1,27 +1,29 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-import { TeamsAppClient } from './teamsApp';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
+import { TeamsAppClient } from "./teamsApp";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -32,34 +34,34 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /chats/{chat-id}/tabs
+ * \chats\{chat-id}\tabs
  * Provides operations to manage the tabs property of the microsoft.graph.chat entity.
  */
 export class TabsClient {
-  protected baseUrl = '/chats/{chat-id}/tabs';
-  protected http: AxiosInstance;
+  protected baseUrl = "\chats\{chat-id}\tabs";
+  protected http: http.Client;
 
   constructor(
     protected readonly chatId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions,
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -67,7 +69,7 @@ export class TabsClient {
   }
 
   /**
-   * `/chats/{chat-id}/tabs/count`
+   * `\chats\{chat-id}\tabs\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -76,7 +78,7 @@ export class TabsClient {
   }
 
   /**
-   * `/chats/{chat-id}/tabs/{teamsTab-id}/teamsApp`
+   * `\chats\{chat-id}\tabs\{teamsTab-id}\teamsApp`
    *
    * Provides operations to manage the teamsApp property of the microsoft.graph.teamsTab entity.
    */
@@ -90,26 +92,27 @@ export class TabsClient {
    * Remove (unpin) a tab from the specified chat.
    */
   async delete(
-    params?: Endpoints['DELETE /chats/{chat-id}/tabs/{teamsTab-id}']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /chats/{chat-id}/tabs/{teamsTab-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/chats/{chat-id}/tabs/{teamsTab-id}',
+      "/chats/{chat-id}/tabs/{teamsTab-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'chat-id', in: 'path' },
-        { name: 'teamsTab-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "chat-id", in: "path" },
+        { name: "teamsTab-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'chat-id': this.chatId,
-      }
+        "chat-id": this.chatId,
+      },
     );
 
     return this.http
       .delete(url, config)
       .then(
-        (res) => res.data as Endpoints['DELETE /chats/{chat-id}/tabs/{teamsTab-id}']['response']
+        (res) =>
+          res.data as Endpoints["DELETE /chats/{chat-id}/tabs/{teamsTab-id}"]["response"],
       );
   }
 
@@ -118,27 +121,29 @@ export class TabsClient {
    *
    * Retrieve the list of tabs in the specified chat.
    */
-  async list(
-    params?: Endpoints['GET /chats/{chat-id}/tabs']['parameters'],
-    config?: AxiosRequestConfig
+  async get(
+    params?: Endpoints["GET /chats/{chat-id}/tabs"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/chats/{chat-id}/tabs',
+      "/chats/{chat-id}/tabs",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'chat-id', in: 'path' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "chat-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'chat-id': this.chatId,
-      }
+        "chat-id": this.chatId,
+      },
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints['GET /chats/{chat-id}/tabs']['response']);
+      .then(
+        (res) => res.data as Endpoints["GET /chats/{chat-id}/tabs"]["response"],
+      );
   }
 
   /**
@@ -146,27 +151,30 @@ export class TabsClient {
    *
    * Retrieve the properties and relationships of the specified tab in a chat.
    */
-  async get(
-    params?: Endpoints['GET /chats/{chat-id}/tabs/{teamsTab-id}']['parameters'],
-    config?: AxiosRequestConfig
+  async get$1(
+    params?: Endpoints["GET /chats/{chat-id}/tabs/{teamsTab-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/chats/{chat-id}/tabs/{teamsTab-id}',
+      "/chats/{chat-id}/tabs/{teamsTab-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'chat-id', in: 'path' },
-        { name: 'teamsTab-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "chat-id", in: "path" },
+        { name: "teamsTab-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'chat-id': this.chatId,
-      }
+        "chat-id": this.chatId,
+      },
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints['GET /chats/{chat-id}/tabs/{teamsTab-id}']['response']);
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /chats/{chat-id}/tabs/{teamsTab-id}"]["response"],
+      );
   }
 
   /**
@@ -176,26 +184,27 @@ export class TabsClient {
 This can be used to configure the content of the tab.
    */
   async update(
-    body: Endpoints['PATCH /chats/{chat-id}/tabs/{teamsTab-id}']['body'],
-    params?: Endpoints['PATCH /chats/{chat-id}/tabs/{teamsTab-id}']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /chats/{chat-id}/tabs/{teamsTab-id}"]["body"],
+    params?: Endpoints["PATCH /chats/{chat-id}/tabs/{teamsTab-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/chats/{chat-id}/tabs/{teamsTab-id}',
+      "/chats/{chat-id}/tabs/{teamsTab-id}",
       [
-        { name: 'chat-id', in: 'path' },
-        { name: 'teamsTab-id', in: 'path' },
+        { name: "chat-id", in: "path" },
+        { name: "teamsTab-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'chat-id': this.chatId,
-      }
+        "chat-id": this.chatId,
+      },
     );
 
     return this.http
       .patch(url, body, config)
       .then(
-        (res) => res.data as Endpoints['PATCH /chats/{chat-id}/tabs/{teamsTab-id}']['response']
+        (res) =>
+          res.data as Endpoints["PATCH /chats/{chat-id}/tabs/{teamsTab-id}"]["response"],
       );
   }
 
@@ -206,17 +215,24 @@ This can be used to configure the content of the tab.
 The corresponding app must already be installed in the chat.
    */
   async create(
-    body: Endpoints['POST /chats/{chat-id}/tabs']['body'],
-    params?: Endpoints['POST /chats/{chat-id}/tabs']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /chats/{chat-id}/tabs"]["body"],
+    params?: Endpoints["POST /chats/{chat-id}/tabs"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/chats/{chat-id}/tabs', [{ name: 'chat-id', in: 'path' }], {
-      ...(params || {}),
-      'chat-id': this.chatId,
-    });
+    const url = getInjectedUrl(
+      "/chats/{chat-id}/tabs",
+      [{ name: "chat-id", in: "path" }],
+      {
+        ...(params || {}),
+        "chat-id": this.chatId,
+      },
+    );
 
     return this.http
       .post(url, body, config)
-      .then((res) => res.data as Endpoints['POST /chats/{chat-id}/tabs']['response']);
+      .then(
+        (res) =>
+          res.data as Endpoints["POST /chats/{chat-id}/tabs"]["response"],
+      );
   }
 }

@@ -1,25 +1,27 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './getMemberGroups-types.d.ts';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./getMemberGroups-types.d.ts";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -30,34 +32,34 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /applications/{application-id}/getMemberGroups
+ * \applications\{application-id}\getMemberGroups
  * Provides operations to call the getMemberGroups method.
  */
 export class GetMemberGroupsClient {
-  protected baseUrl = '/applications/{application-id}/getMemberGroups';
-  protected http: AxiosInstance;
+  protected baseUrl = "\applications\{application-id}\getMemberGroups";
+  protected http: http.Client;
 
   constructor(
     protected readonly applicationId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions,
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -70,24 +72,24 @@ export class GetMemberGroupsClient {
    * Return all the group IDs for the groups that the specified user, group, service principal, organizational contact, device, or directory object is a member of. This function is transitive. This API returns up to 11,000 group IDs. If more than 11,000 results are available, it returns a 400 Bad Request error with the DirectoryResultSizeLimitExceeded error code. If you get the DirectoryResultSizeLimitExceeded error code, use the List group transitive memberOf API instead.
    */
   async create(
-    body: Endpoints['POST /applications/{application-id}/getMemberGroups']['body'],
-    params?: Endpoints['POST /applications/{application-id}/getMemberGroups']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /applications/{application-id}/getMemberGroups"]["body"],
+    params?: Endpoints["POST /applications/{application-id}/getMemberGroups"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications/{application-id}/getMemberGroups',
-      [{ name: 'application-id', in: 'path' }],
+      "/applications/{application-id}/getMemberGroups",
+      [{ name: "application-id", in: "path" }],
       {
         ...(params || {}),
-        'application-id': this.applicationId,
-      }
+        "application-id": this.applicationId,
+      },
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /applications/{application-id}/getMemberGroups']['response']
+          res.data as Endpoints["POST /applications/{application-id}/getMemberGroups"]["response"],
       );
   }
 }

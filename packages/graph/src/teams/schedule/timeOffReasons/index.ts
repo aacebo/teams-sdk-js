@@ -1,26 +1,28 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -31,31 +33,31 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /teams/{team-id}/schedule/timeOffReasons
+ * \teams\{team-id}\schedule\timeOffReasons
  * Provides operations to manage the timeOffReasons property of the microsoft.graph.schedule entity.
  */
 export class TimeOffReasonsClient {
-  protected baseUrl = '/teams/{team-id}/schedule/timeOffReasons';
-  protected http: AxiosInstance;
+  protected baseUrl = "\teams\{team-id}\schedule\timeOffReasons";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -63,7 +65,7 @@ export class TimeOffReasonsClient {
   }
 
   /**
-   * `/teams/{team-id}/schedule/timeOffReasons/count`
+   * `\teams\{team-id}\schedule\timeOffReasons\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -77,26 +79,26 @@ export class TimeOffReasonsClient {
    * Mark a timeOffReason as inactive by setting the isActive property. Every team must include at least one timeoff reason. This method doesn&#x27;t remove the specified timeOffReason instance. timeOffItem instances that have been assigned this reason remain assigned to this reason.
    */
   async delete(
-    params?: Endpoints['DELETE /teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}',
+      "/teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'team-id', in: 'path' },
-        { name: 'timeOffReason-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "team-id", in: "path" },
+        { name: "timeOffReason-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}']['response']
+          res.data as Endpoints["DELETE /teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}"]["response"],
       );
   }
 
@@ -105,27 +107,28 @@ export class TimeOffReasonsClient {
    *
    * Get the list of timeOffReasons in a schedule.
    */
-  async list(
-    params?: Endpoints['GET /teams/{team-id}/schedule/timeOffReasons']['parameters'],
-    config?: AxiosRequestConfig
+  async get(
+    params?: Endpoints["GET /teams/{team-id}/schedule/timeOffReasons"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/schedule/timeOffReasons',
+      "/teams/{team-id}/schedule/timeOffReasons",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'team-id', in: 'path' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "team-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
-        (res) => res.data as Endpoints['GET /teams/{team-id}/schedule/timeOffReasons']['response']
+        (res) =>
+          res.data as Endpoints["GET /teams/{team-id}/schedule/timeOffReasons"]["response"],
       );
   }
 
@@ -134,28 +137,28 @@ export class TimeOffReasonsClient {
    *
    * Retrieve the properties and relationships of a timeOffReason object by ID.
    */
-  async get(
-    params?: Endpoints['GET /teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}']['parameters'],
-    config?: AxiosRequestConfig
+  async get$1(
+    params?: Endpoints["GET /teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}',
+      "/teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'team-id', in: 'path' },
-        { name: 'timeOffReason-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "team-id", in: "path" },
+        { name: "timeOffReason-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}']['response']
+          res.data as Endpoints["GET /teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}"]["response"],
       );
   }
 
@@ -165,26 +168,26 @@ export class TimeOffReasonsClient {
    * Replace an existing timeOffReason. If the specified timeOffReason doesn&#x27;t exist, this method returns 404 Not found.
    */
   async update(
-    body: Endpoints['PATCH /teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}']['body'],
-    params?: Endpoints['PATCH /teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}"]["body"],
+    params?: Endpoints["PATCH /teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}',
+      "/teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}",
       [
-        { name: 'team-id', in: 'path' },
-        { name: 'timeOffReason-id', in: 'path' },
+        { name: "team-id", in: "path" },
+        { name: "timeOffReason-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PATCH /teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}']['response']
+          res.data as Endpoints["PATCH /teams/{team-id}/schedule/timeOffReasons/{timeOffReason-id}"]["response"],
       );
   }
 
@@ -194,22 +197,23 @@ export class TimeOffReasonsClient {
    * Create a new timeOffReason.
    */
   async create(
-    body: Endpoints['POST /teams/{team-id}/schedule/timeOffReasons']['body'],
-    params?: Endpoints['POST /teams/{team-id}/schedule/timeOffReasons']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /teams/{team-id}/schedule/timeOffReasons"]["body"],
+    params?: Endpoints["POST /teams/{team-id}/schedule/timeOffReasons"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/schedule/timeOffReasons',
-      [{ name: 'team-id', in: 'path' }],
+      "/teams/{team-id}/schedule/timeOffReasons",
+      [{ name: "team-id", in: "path" }],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .post(url, body, config)
       .then(
-        (res) => res.data as Endpoints['POST /teams/{team-id}/schedule/timeOffReasons']['response']
+        (res) =>
+          res.data as Endpoints["POST /teams/{team-id}/schedule/timeOffReasons"]["response"],
       );
   }
 }

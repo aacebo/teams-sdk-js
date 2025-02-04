@@ -1,25 +1,27 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './getMemberObjects-types.d.ts';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./getMemberObjects-types.d.ts";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -30,34 +32,35 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /appRoleAssignments/{appRoleAssignment-id}/getMemberObjects
+ * \appRoleAssignments\{appRoleAssignment-id}\getMemberObjects
  * Provides operations to call the getMemberObjects method.
  */
 export class GetMemberObjectsClient {
-  protected baseUrl = '/appRoleAssignments/{appRoleAssignment-id}/getMemberObjects';
-  protected http: AxiosInstance;
+  protected baseUrl =
+    "\appRoleAssignments\{appRoleAssignment-id}\getMemberObjects";
+  protected http: http.Client;
 
   constructor(
     protected readonly appRoleAssignmentId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions,
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -76,24 +79,24 @@ export class GetMemberObjectsClient {
 - directory object This function is transitive. Only users and role-enabled groups can be members of directory roles.
    */
   async create(
-    body: Endpoints['POST /appRoleAssignments/{appRoleAssignment-id}/getMemberObjects']['body'],
-    params?: Endpoints['POST /appRoleAssignments/{appRoleAssignment-id}/getMemberObjects']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /appRoleAssignments/{appRoleAssignment-id}/getMemberObjects"]["body"],
+    params?: Endpoints["POST /appRoleAssignments/{appRoleAssignment-id}/getMemberObjects"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/appRoleAssignments/{appRoleAssignment-id}/getMemberObjects',
-      [{ name: 'appRoleAssignment-id', in: 'path' }],
+      "/appRoleAssignments/{appRoleAssignment-id}/getMemberObjects",
+      [{ name: "appRoleAssignment-id", in: "path" }],
       {
         ...(params || {}),
-        'appRoleAssignment-id': this.appRoleAssignmentId,
-      }
+        "appRoleAssignment-id": this.appRoleAssignmentId,
+      },
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /appRoleAssignments/{appRoleAssignment-id}/getMemberObjects']['response']
+          res.data as Endpoints["POST /appRoleAssignments/{appRoleAssignment-id}/getMemberObjects"]["response"],
       );
   }
 }

@@ -1,26 +1,28 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -31,35 +33,35 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits
+ * \solutions\backupRestore\oneDriveForBusinessProtectionPolicies\{oneDriveForBusinessProtectionPolicy-id}\driveProtectionUnits
  * Provides operations to manage the driveProtectionUnits property of the microsoft.graph.oneDriveForBusinessProtectionPolicy entity.
  */
 export class DriveProtectionUnitsClient {
   protected baseUrl =
-    '/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits';
-  protected http: AxiosInstance;
+    "\solutions\backupRestore\oneDriveForBusinessProtectionPolicies\{oneDriveForBusinessProtectionPolicy-id}\driveProtectionUnits";
+  protected http: http.Client;
 
   constructor(
     protected readonly oneDriveForBusinessProtectionPolicyId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions,
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -67,7 +69,7 @@ export class DriveProtectionUnitsClient {
   }
 
   /**
-   * `/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits/count`
+   * `\solutions\backupRestore\oneDriveForBusinessProtectionPolicies\{oneDriveForBusinessProtectionPolicy-id}\driveProtectionUnits\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -80,29 +82,30 @@ export class DriveProtectionUnitsClient {
    *
    * Get a list of the driveProtectionUnit objects that are associated with a oneDriveForBusinessProtectionPolicy.
    */
-  async list(
-    params?: Endpoints['GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits']['parameters'],
-    config?: AxiosRequestConfig
+  async get(
+    params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits',
+      "/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'oneDriveForBusinessProtectionPolicy-id', in: 'path' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "oneDriveForBusinessProtectionPolicy-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'oneDriveForBusinessProtectionPolicy-id': this.oneDriveForBusinessProtectionPolicyId,
-      }
+        "oneDriveForBusinessProtectionPolicy-id":
+          this.oneDriveForBusinessProtectionPolicyId,
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits']['response']
+          res.data as Endpoints["GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits"]["response"],
       );
   }
 
@@ -111,29 +114,30 @@ export class DriveProtectionUnitsClient {
    *
    * Contains the protection units associated with a  OneDrive for Business protection policy.
    */
-  async get(
-    params?: Endpoints['GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits/{driveProtectionUnit-id}']['parameters'],
-    config?: AxiosRequestConfig
+  async get$1(
+    params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits/{driveProtectionUnit-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits/{driveProtectionUnit-id}',
+      "/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits/{driveProtectionUnit-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'oneDriveForBusinessProtectionPolicy-id', in: 'path' },
-        { name: 'driveProtectionUnit-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "oneDriveForBusinessProtectionPolicy-id", in: "path" },
+        { name: "driveProtectionUnit-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'oneDriveForBusinessProtectionPolicy-id': this.oneDriveForBusinessProtectionPolicyId,
-      }
+        "oneDriveForBusinessProtectionPolicy-id":
+          this.oneDriveForBusinessProtectionPolicyId,
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits/{driveProtectionUnit-id}']['response']
+          res.data as Endpoints["GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}/driveProtectionUnits/{driveProtectionUnit-id}"]["response"],
       );
   }
 }

@@ -1,25 +1,27 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './validateProperties-types.d.ts';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./validateProperties-types.d.ts";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -30,31 +32,31 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /applications/validateProperties
+ * \applications\validateProperties
  * Provides operations to call the validateProperties method.
  */
 export class ValidatePropertiesClient {
-  protected baseUrl = '/applications/validateProperties';
-  protected http: AxiosInstance;
+  protected baseUrl = "\applications\validateProperties";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -70,16 +72,19 @@ export class ValidatePropertiesClient {
 3. Validate that the mail nickname is unique This API only returns the first validation failure that is encountered. If the properties fail multiple validations, only the first validation failure is returned. However, you can validate both the mail nickname and the display name and receive a collection of validation errors if you are only validating the prefix and suffix naming policy. To learn more about configuring naming policies, see Configure naming policy.
    */
   async create(
-    body: Endpoints['POST /applications/validateProperties']['body'],
-    params?: Endpoints['POST /applications/validateProperties']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /applications/validateProperties"]["body"],
+    params?: Endpoints["POST /applications/validateProperties"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/applications/validateProperties', [], {
+    const url = getInjectedUrl("/applications/validateProperties", [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body, config)
-      .then((res) => res.data as Endpoints['POST /applications/validateProperties']['response']);
+      .then(
+        (res) =>
+          res.data as Endpoints["POST /applications/validateProperties"]["response"],
+      );
   }
 }

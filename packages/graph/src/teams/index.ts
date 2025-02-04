@@ -1,45 +1,47 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { AllChannelsClient } from './allChannels';
-import { ArchiveClient } from './archive';
-import { ChannelsClient } from './channels';
-import { CloneClient } from './clone';
-import { CompleteMigrationClient } from './completeMigration';
-import { CountClient } from './count';
-import { GetAllMessagesClient } from './getAllMessages';
-import { GroupClient } from './group';
-import { IncomingChannelsClient } from './incomingChannels';
-import { InstalledAppsClient } from './installedApps';
-import { MembersClient } from './members';
-import { OperationsClient } from './operations';
-import { PermissionGrantsClient } from './permissionGrants';
-import { PhotoClient } from './photo';
-import { PrimaryChannelClient } from './primaryChannel';
-import { ScheduleClient } from './schedule';
-import { SendActivityNotificationClient } from './sendActivityNotification';
-import { TagsClient } from './tags';
-import { TemplateClient } from './template';
-import { UnarchiveClient } from './unarchive';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { AllChannelsClient } from "./allChannels";
+import { ArchiveClient } from "./archive";
+import { ChannelsClient } from "./channels";
+import { CloneClient } from "./clone";
+import { CompleteMigrationClient } from "./completeMigration";
+import { CountClient } from "./count";
+import { GetAllMessagesClient } from "./getAllMessages";
+import { GroupClient } from "./group";
+import { IncomingChannelsClient } from "./incomingChannels";
+import { InstalledAppsClient } from "./installedApps";
+import { MembersClient } from "./members";
+import { OperationsClient } from "./operations";
+import { PermissionGrantsClient } from "./permissionGrants";
+import { PhotoClient } from "./photo";
+import { PrimaryChannelClient } from "./primaryChannel";
+import { ScheduleClient } from "./schedule";
+import { SendActivityNotificationClient } from "./sendActivityNotification";
+import { TagsClient } from "./tags";
+import { TemplateClient } from "./template";
+import { UnarchiveClient } from "./unarchive";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -50,31 +52,31 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /teams
+ * \teams
  * Provides operations to manage the collection of team entities.
  */
 export class TeamsClient {
-  protected baseUrl = '/teams';
-  protected http: AxiosInstance;
+  protected baseUrl = "\teams";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -82,7 +84,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/allChannels`
+   * `\teams\{team-id}\allChannels`
    *
    * Provides operations to manage the allChannels property of the microsoft.graph.team entity.
    */
@@ -91,7 +93,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/archive`
+   * `\teams\{team-id}\archive`
    *
    * Provides operations to call the archive method.
    */
@@ -100,7 +102,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/channels`
+   * `\teams\{team-id}\channels`
    *
    * Provides operations to manage the channels property of the microsoft.graph.team entity.
    */
@@ -109,7 +111,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/clone`
+   * `\teams\{team-id}\clone`
    *
    * Provides operations to call the clone method.
    */
@@ -118,7 +120,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/completeMigration`
+   * `\teams\{team-id}\completeMigration`
    *
    * Provides operations to call the completeMigration method.
    */
@@ -127,7 +129,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/count`
+   * `\teams\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -136,7 +138,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/getAllMessages`
+   * `\teams\getAllMessages`
    *
    * Provides operations to call the getAllMessages method.
    */
@@ -145,7 +147,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/group`
+   * `\teams\{team-id}\group`
    *
    * Provides operations to manage the group property of the microsoft.graph.team entity.
    */
@@ -154,7 +156,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/incomingChannels`
+   * `\teams\{team-id}\incomingChannels`
    *
    * Provides operations to manage the incomingChannels property of the microsoft.graph.team entity.
    */
@@ -163,7 +165,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/installedApps`
+   * `\teams\{team-id}\installedApps`
    *
    * Provides operations to manage the installedApps property of the microsoft.graph.team entity.
    */
@@ -172,7 +174,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/members`
+   * `\teams\{team-id}\members`
    *
    * Provides operations to manage the members property of the microsoft.graph.team entity.
    */
@@ -181,7 +183,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/operations`
+   * `\teams\{team-id}\operations`
    *
    * Provides operations to manage the operations property of the microsoft.graph.team entity.
    */
@@ -190,7 +192,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/permissionGrants`
+   * `\teams\{team-id}\permissionGrants`
    *
    * Provides operations to manage the permissionGrants property of the microsoft.graph.team entity.
    */
@@ -199,7 +201,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/photo`
+   * `\teams\{team-id}\photo`
    *
    * Provides operations to manage the photo property of the microsoft.graph.team entity.
    */
@@ -208,7 +210,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/primaryChannel`
+   * `\teams\{team-id}\primaryChannel`
    *
    * Provides operations to manage the primaryChannel property of the microsoft.graph.team entity.
    */
@@ -217,7 +219,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/schedule`
+   * `\teams\{team-id}\schedule`
    *
    * Provides operations to manage the schedule property of the microsoft.graph.team entity.
    */
@@ -226,7 +228,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/sendActivityNotification`
+   * `\teams\{team-id}\sendActivityNotification`
    *
    * Provides operations to call the sendActivityNotification method.
    */
@@ -235,7 +237,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/tags`
+   * `\teams\{team-id}\tags`
    *
    * Provides operations to manage the tags property of the microsoft.graph.team entity.
    */
@@ -244,7 +246,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/template`
+   * `\teams\{team-id}\template`
    *
    * Provides operations to manage the template property of the microsoft.graph.team entity.
    */
@@ -253,7 +255,7 @@ export class TeamsClient {
   }
 
   /**
-   * `/teams/{team-id}/unarchive`
+   * `\teams\{team-id}\unarchive`
    *
    * Provides operations to call the unarchive method.
    */
@@ -266,23 +268,25 @@ export class TeamsClient {
    *
    */
   async delete(
-    params?: Endpoints['DELETE /teams/{team-id}']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /teams/{team-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}',
+      "/teams/{team-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'team-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "team-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .delete(url, config)
-      .then((res) => res.data as Endpoints['DELETE /teams/{team-id}']['response']);
+      .then(
+        (res) => res.data as Endpoints["DELETE /teams/{team-id}"]["response"],
+      );
   }
 
   /**
@@ -290,22 +294,25 @@ export class TeamsClient {
    *
    * List all teams in an organization.
    */
-  async list(params?: Endpoints['GET /teams']['parameters'], config?: AxiosRequestConfig) {
+  async get(
+    params?: Endpoints["GET /teams"]["parameters"],
+    config?: http.RequestConfig,
+  ) {
     const url = getInjectedUrl(
-      '/teams',
+      "/teams",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints['GET /teams']['response']);
+      .then((res) => res.data as Endpoints["GET /teams"]["response"]);
   }
 
   /**
@@ -313,22 +320,25 @@ export class TeamsClient {
    *
    * Retrieve the properties and relationships of the specified team.
    */
-  async get(params?: Endpoints['GET /teams/{team-id}']['parameters'], config?: AxiosRequestConfig) {
+  async get$1(
+    params?: Endpoints["GET /teams/{team-id}"]["parameters"],
+    config?: http.RequestConfig,
+  ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}',
+      "/teams/{team-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'team-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "team-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints['GET /teams/{team-id}']['response']);
+      .then((res) => res.data as Endpoints["GET /teams/{team-id}"]["response"]);
   }
 
   /**
@@ -337,17 +347,23 @@ export class TeamsClient {
    * Update the properties of the specified team.
    */
   async update(
-    body: Endpoints['PATCH /teams/{team-id}']['body'],
-    params?: Endpoints['PATCH /teams/{team-id}']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /teams/{team-id}"]["body"],
+    params?: Endpoints["PATCH /teams/{team-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/teams/{team-id}', [{ name: 'team-id', in: 'path' }], {
-      ...(params || {}),
-    });
+    const url = getInjectedUrl(
+      "/teams/{team-id}",
+      [{ name: "team-id", in: "path" }],
+      {
+        ...(params || {}),
+      },
+    );
 
     return this.http
       .patch(url, body, config)
-      .then((res) => res.data as Endpoints['PATCH /teams/{team-id}']['response']);
+      .then(
+        (res) => res.data as Endpoints["PATCH /teams/{team-id}"]["response"],
+      );
   }
 
   /**
@@ -356,16 +372,16 @@ export class TeamsClient {
    * Create a new team.
    */
   async create(
-    body: Endpoints['POST /teams']['body'],
-    params?: Endpoints['POST /teams']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /teams"]["body"],
+    params?: Endpoints["POST /teams"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/teams', [], {
+    const url = getInjectedUrl("/teams", [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body, config)
-      .then((res) => res.data as Endpoints['POST /teams']['response']);
+      .then((res) => res.data as Endpoints["POST /teams"]["response"]);
   }
 }

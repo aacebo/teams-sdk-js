@@ -1,27 +1,29 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-import { DriveRestoreArtifactsClient } from './driveRestoreArtifacts';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
+import { DriveRestoreArtifactsClient } from "./driveRestoreArtifacts";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -32,31 +34,32 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /solutions/backupRestore/oneDriveForBusinessRestoreSessions
+ * \solutions\backupRestore\oneDriveForBusinessRestoreSessions
  * Provides operations to manage the oneDriveForBusinessRestoreSessions property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class OneDriveForBusinessRestoreSessionsClient {
-  protected baseUrl = '/solutions/backupRestore/oneDriveForBusinessRestoreSessions';
-  protected http: AxiosInstance;
+  protected baseUrl =
+    "\solutions\backupRestore\oneDriveForBusinessRestoreSessions";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -64,7 +67,7 @@ export class OneDriveForBusinessRestoreSessionsClient {
   }
 
   /**
-   * `/solutions/backupRestore/oneDriveForBusinessRestoreSessions/count`
+   * `\solutions\backupRestore\oneDriveForBusinessRestoreSessions\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -73,12 +76,15 @@ export class OneDriveForBusinessRestoreSessionsClient {
   }
 
   /**
-   * `/solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}/driveRestoreArtifacts`
+   * `\solutions\backupRestore\oneDriveForBusinessRestoreSessions\{oneDriveForBusinessRestoreSession-id}\driveRestoreArtifacts`
    *
    * Provides operations to manage the driveRestoreArtifacts property of the microsoft.graph.oneDriveForBusinessRestoreSession entity.
    */
   driveRestoreArtifacts(oneDriveForBusinessRestoreSessionId: string) {
-    return new DriveRestoreArtifactsClient(oneDriveForBusinessRestoreSessionId, this.http);
+    return new DriveRestoreArtifactsClient(
+      oneDriveForBusinessRestoreSessionId,
+      this.http,
+    );
   }
 
   /**
@@ -86,25 +92,25 @@ export class OneDriveForBusinessRestoreSessionsClient {
    *
    */
   async delete(
-    params?: Endpoints['DELETE /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}',
+      "/solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'oneDriveForBusinessRestoreSession-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "oneDriveForBusinessRestoreSession-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}']['response']
+          res.data as Endpoints["DELETE /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}"]["response"],
       );
   }
 
@@ -113,27 +119,27 @@ export class OneDriveForBusinessRestoreSessionsClient {
    *
    * The list of OneDrive for Business restore sessions available in the tenant.
    */
-  async list(
-    params?: Endpoints['GET /solutions/backupRestore/oneDriveForBusinessRestoreSessions']['parameters'],
-    config?: AxiosRequestConfig
+  async get(
+    params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessRestoreSessions"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/oneDriveForBusinessRestoreSessions',
+      "/solutions/backupRestore/oneDriveForBusinessRestoreSessions",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /solutions/backupRestore/oneDriveForBusinessRestoreSessions']['response']
+          res.data as Endpoints["GET /solutions/backupRestore/oneDriveForBusinessRestoreSessions"]["response"],
       );
   }
 
@@ -142,27 +148,27 @@ export class OneDriveForBusinessRestoreSessionsClient {
    *
    * The list of OneDrive for Business restore sessions available in the tenant.
    */
-  async get(
-    params?: Endpoints['GET /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}']['parameters'],
-    config?: AxiosRequestConfig
+  async get$1(
+    params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}',
+      "/solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'oneDriveForBusinessRestoreSession-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "oneDriveForBusinessRestoreSession-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}']['response']
+          res.data as Endpoints["GET /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}"]["response"],
       );
   }
 
@@ -172,23 +178,23 @@ export class OneDriveForBusinessRestoreSessionsClient {
    * Update the properties of a oneDriveForBusinessRestoreSession object.
    */
   async update(
-    body: Endpoints['PATCH /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}']['body'],
-    params?: Endpoints['PATCH /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}"]["body"],
+    params?: Endpoints["PATCH /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}',
-      [{ name: 'oneDriveForBusinessRestoreSession-id', in: 'path' }],
+      "/solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}",
+      [{ name: "oneDriveForBusinessRestoreSession-id", in: "path" }],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PATCH /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}']['response']
+          res.data as Endpoints["PATCH /solutions/backupRestore/oneDriveForBusinessRestoreSessions/{oneDriveForBusinessRestoreSession-id}"]["response"],
       );
   }
 
@@ -197,19 +203,23 @@ export class OneDriveForBusinessRestoreSessionsClient {
    *
    */
   async create(
-    body: Endpoints['POST /solutions/backupRestore/oneDriveForBusinessRestoreSessions']['body'],
-    params?: Endpoints['POST /solutions/backupRestore/oneDriveForBusinessRestoreSessions']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /solutions/backupRestore/oneDriveForBusinessRestoreSessions"]["body"],
+    params?: Endpoints["POST /solutions/backupRestore/oneDriveForBusinessRestoreSessions"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/solutions/backupRestore/oneDriveForBusinessRestoreSessions', [], {
-      ...(params || {}),
-    });
+    const url = getInjectedUrl(
+      "/solutions/backupRestore/oneDriveForBusinessRestoreSessions",
+      [],
+      {
+        ...(params || {}),
+      },
+    );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /solutions/backupRestore/oneDriveForBusinessRestoreSessions']['response']
+          res.data as Endpoints["POST /solutions/backupRestore/oneDriveForBusinessRestoreSessions"]["response"],
       );
   }
 }

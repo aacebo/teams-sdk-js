@@ -1,30 +1,32 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-import { InviteClient } from './invite';
-import { MuteClient } from './mute';
-import { StartHoldMusicClient } from './startHoldMusic';
-import { StopHoldMusicClient } from './stopHoldMusic';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
+import { InviteClient } from "./invite";
+import { MuteClient } from "./mute";
+import { StartHoldMusicClient } from "./startHoldMusic";
+import { StopHoldMusicClient } from "./stopHoldMusic";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -35,34 +37,34 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /communications/calls/{call-id}/participants
+ * \communications\calls\{call-id}\participants
  * Provides operations to manage the participants property of the microsoft.graph.call entity.
  */
 export class ParticipantsClient {
-  protected baseUrl = '/communications/calls/{call-id}/participants';
-  protected http: AxiosInstance;
+  protected baseUrl = "\communications\calls\{call-id}\participants";
+  protected http: http.Client;
 
   constructor(
     protected readonly callId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions,
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -70,7 +72,7 @@ export class ParticipantsClient {
   }
 
   /**
-   * `/communications/calls/{call-id}/participants/count`
+   * `\communications\calls\{call-id}\participants\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -79,7 +81,7 @@ export class ParticipantsClient {
   }
 
   /**
-   * `/communications/calls/{call-id}/participants/invite`
+   * `\communications\calls\{call-id}\participants\invite`
    *
    * Provides operations to call the invite method.
    */
@@ -88,7 +90,7 @@ export class ParticipantsClient {
   }
 
   /**
-   * `/communications/calls/{call-id}/participants/{participant-id}/mute`
+   * `\communications\calls\{call-id}\participants\{participant-id}\mute`
    *
    * Provides operations to call the mute method.
    */
@@ -97,7 +99,7 @@ export class ParticipantsClient {
   }
 
   /**
-   * `/communications/calls/{call-id}/participants/{participant-id}/startHoldMusic`
+   * `\communications\calls\{call-id}\participants\{participant-id}\startHoldMusic`
    *
    * Provides operations to call the startHoldMusic method.
    */
@@ -106,7 +108,7 @@ export class ParticipantsClient {
   }
 
   /**
-   * `/communications/calls/{call-id}/participants/{participant-id}/stopHoldMusic`
+   * `\communications\calls\{call-id}\participants\{participant-id}\stopHoldMusic`
    *
    * Provides operations to call the stopHoldMusic method.
    */
@@ -120,27 +122,27 @@ export class ParticipantsClient {
    * Delete a specific participant in a call. In some situations, it is appropriate for an application to remove a participant from an active call. This action can be done before or after the participant answers the call. When an active caller is removed, they are immediately dropped from the call with no pre- or post-removal notification. When an invited participant is removed, any outstanding add participant request is canceled.
    */
   async delete(
-    params?: Endpoints['DELETE /communications/calls/{call-id}/participants/{participant-id}']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /communications/calls/{call-id}/participants/{participant-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/communications/calls/{call-id}/participants/{participant-id}',
+      "/communications/calls/{call-id}/participants/{participant-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'call-id', in: 'path' },
-        { name: 'participant-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "call-id", in: "path" },
+        { name: "participant-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'call-id': this.callId,
-      }
+        "call-id": this.callId,
+      },
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /communications/calls/{call-id}/participants/{participant-id}']['response']
+          res.data as Endpoints["DELETE /communications/calls/{call-id}/participants/{participant-id}"]["response"],
       );
   }
 
@@ -149,29 +151,29 @@ export class ParticipantsClient {
    *
    * Retrieve a list of participant objects in the call.
    */
-  async list(
-    params?: Endpoints['GET /communications/calls/{call-id}/participants']['parameters'],
-    config?: AxiosRequestConfig
+  async get(
+    params?: Endpoints["GET /communications/calls/{call-id}/participants"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/communications/calls/{call-id}/participants',
+      "/communications/calls/{call-id}/participants",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'call-id', in: 'path' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "call-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'call-id': this.callId,
-      }
+        "call-id": this.callId,
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /communications/calls/{call-id}/participants']['response']
+          res.data as Endpoints["GET /communications/calls/{call-id}/participants"]["response"],
       );
   }
 
@@ -180,29 +182,29 @@ export class ParticipantsClient {
    *
    * Retrieve the properties and relationships of a participant object.
    */
-  async get(
-    params?: Endpoints['GET /communications/calls/{call-id}/participants/{participant-id}']['parameters'],
-    config?: AxiosRequestConfig
+  async get$1(
+    params?: Endpoints["GET /communications/calls/{call-id}/participants/{participant-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/communications/calls/{call-id}/participants/{participant-id}',
+      "/communications/calls/{call-id}/participants/{participant-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'call-id', in: 'path' },
-        { name: 'participant-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "call-id", in: "path" },
+        { name: "participant-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'call-id': this.callId,
-      }
+        "call-id": this.callId,
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /communications/calls/{call-id}/participants/{participant-id}']['response']
+          res.data as Endpoints["GET /communications/calls/{call-id}/participants/{participant-id}"]["response"],
       );
   }
 
@@ -211,27 +213,27 @@ export class ParticipantsClient {
    *
    */
   async update(
-    body: Endpoints['PATCH /communications/calls/{call-id}/participants/{participant-id}']['body'],
-    params?: Endpoints['PATCH /communications/calls/{call-id}/participants/{participant-id}']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /communications/calls/{call-id}/participants/{participant-id}"]["body"],
+    params?: Endpoints["PATCH /communications/calls/{call-id}/participants/{participant-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/communications/calls/{call-id}/participants/{participant-id}',
+      "/communications/calls/{call-id}/participants/{participant-id}",
       [
-        { name: 'call-id', in: 'path' },
-        { name: 'participant-id', in: 'path' },
+        { name: "call-id", in: "path" },
+        { name: "participant-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'call-id': this.callId,
-      }
+        "call-id": this.callId,
+      },
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PATCH /communications/calls/{call-id}/participants/{participant-id}']['response']
+          res.data as Endpoints["PATCH /communications/calls/{call-id}/participants/{participant-id}"]["response"],
       );
   }
 
@@ -240,24 +242,24 @@ export class ParticipantsClient {
    *
    */
   async create(
-    body: Endpoints['POST /communications/calls/{call-id}/participants']['body'],
-    params?: Endpoints['POST /communications/calls/{call-id}/participants']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /communications/calls/{call-id}/participants"]["body"],
+    params?: Endpoints["POST /communications/calls/{call-id}/participants"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/communications/calls/{call-id}/participants',
-      [{ name: 'call-id', in: 'path' }],
+      "/communications/calls/{call-id}/participants",
+      [{ name: "call-id", in: "path" }],
       {
         ...(params || {}),
-        'call-id': this.callId,
-      }
+        "call-id": this.callId,
+      },
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /communications/calls/{call-id}/participants']['response']
+          res.data as Endpoints["POST /communications/calls/{call-id}/participants"]["response"],
       );
   }
 }

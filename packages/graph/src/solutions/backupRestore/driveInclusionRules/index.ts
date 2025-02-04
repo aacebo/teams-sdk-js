@@ -1,26 +1,28 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -31,31 +33,31 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /solutions/backupRestore/driveInclusionRules
+ * \solutions\backupRestore\driveInclusionRules
  * Provides operations to manage the driveInclusionRules property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class DriveInclusionRulesClient {
-  protected baseUrl = '/solutions/backupRestore/driveInclusionRules';
-  protected http: AxiosInstance;
+  protected baseUrl = "\solutions\backupRestore\driveInclusionRules";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -63,7 +65,7 @@ export class DriveInclusionRulesClient {
   }
 
   /**
-   * `/solutions/backupRestore/driveInclusionRules/count`
+   * `\solutions\backupRestore\driveInclusionRules\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -76,25 +78,25 @@ export class DriveInclusionRulesClient {
    *
    */
   async delete(
-    params?: Endpoints['DELETE /solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}',
+      "/solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'driveProtectionRule-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "driveProtectionRule-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}']['response']
+          res.data as Endpoints["DELETE /solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}"]["response"],
       );
   }
 
@@ -103,27 +105,27 @@ export class DriveInclusionRulesClient {
    *
    * The list of drive inclusion rules applied to the tenant.
    */
-  async list(
-    params?: Endpoints['GET /solutions/backupRestore/driveInclusionRules']['parameters'],
-    config?: AxiosRequestConfig
+  async get(
+    params?: Endpoints["GET /solutions/backupRestore/driveInclusionRules"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/driveInclusionRules',
+      "/solutions/backupRestore/driveInclusionRules",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /solutions/backupRestore/driveInclusionRules']['response']
+          res.data as Endpoints["GET /solutions/backupRestore/driveInclusionRules"]["response"],
       );
   }
 
@@ -132,27 +134,27 @@ export class DriveInclusionRulesClient {
    *
    * The list of drive inclusion rules applied to the tenant.
    */
-  async get(
-    params?: Endpoints['GET /solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}']['parameters'],
-    config?: AxiosRequestConfig
+  async get$1(
+    params?: Endpoints["GET /solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}',
+      "/solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'driveProtectionRule-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "driveProtectionRule-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}']['response']
+          res.data as Endpoints["GET /solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}"]["response"],
       );
   }
 
@@ -161,23 +163,23 @@ export class DriveInclusionRulesClient {
    *
    */
   async update(
-    body: Endpoints['PATCH /solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}']['body'],
-    params?: Endpoints['PATCH /solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}"]["body"],
+    params?: Endpoints["PATCH /solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}',
-      [{ name: 'driveProtectionRule-id', in: 'path' }],
+      "/solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}",
+      [{ name: "driveProtectionRule-id", in: "path" }],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PATCH /solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}']['response']
+          res.data as Endpoints["PATCH /solutions/backupRestore/driveInclusionRules/{driveProtectionRule-id}"]["response"],
       );
   }
 
@@ -186,19 +188,23 @@ export class DriveInclusionRulesClient {
    *
    */
   async create(
-    body: Endpoints['POST /solutions/backupRestore/driveInclusionRules']['body'],
-    params?: Endpoints['POST /solutions/backupRestore/driveInclusionRules']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /solutions/backupRestore/driveInclusionRules"]["body"],
+    params?: Endpoints["POST /solutions/backupRestore/driveInclusionRules"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/solutions/backupRestore/driveInclusionRules', [], {
-      ...(params || {}),
-    });
+    const url = getInjectedUrl(
+      "/solutions/backupRestore/driveInclusionRules",
+      [],
+      {
+        ...(params || {}),
+      },
+    );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /solutions/backupRestore/driveInclusionRules']['response']
+          res.data as Endpoints["POST /solutions/backupRestore/driveInclusionRules"]["response"],
       );
   }
 }

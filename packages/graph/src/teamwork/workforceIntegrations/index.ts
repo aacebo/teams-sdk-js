@@ -1,26 +1,28 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -31,31 +33,31 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /teamwork/workforceIntegrations
+ * \teamwork\workforceIntegrations
  * Provides operations to manage the workforceIntegrations property of the microsoft.graph.teamwork entity.
  */
 export class WorkforceIntegrationsClient {
-  protected baseUrl = '/teamwork/workforceIntegrations';
-  protected http: AxiosInstance;
+  protected baseUrl = "\teamwork\workforceIntegrations";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -63,7 +65,7 @@ export class WorkforceIntegrationsClient {
   }
 
   /**
-   * `/teamwork/workforceIntegrations/count`
+   * `\teamwork\workforceIntegrations\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -77,25 +79,25 @@ export class WorkforceIntegrationsClient {
    * Delete an instance of a workforceIntegration.
    */
   async delete(
-    params?: Endpoints['DELETE /teamwork/workforceIntegrations/{workforceIntegration-id}']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /teamwork/workforceIntegrations/{workforceIntegration-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teamwork/workforceIntegrations/{workforceIntegration-id}',
+      "/teamwork/workforceIntegrations/{workforceIntegration-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'workforceIntegration-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "workforceIntegration-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /teamwork/workforceIntegrations/{workforceIntegration-id}']['response']
+          res.data as Endpoints["DELETE /teamwork/workforceIntegrations/{workforceIntegration-id}"]["response"],
       );
   }
 
@@ -104,25 +106,28 @@ export class WorkforceIntegrationsClient {
    *
    * Retrieve a list of workforceIntegration objects.
    */
-  async list(
-    params?: Endpoints['GET /teamwork/workforceIntegrations']['parameters'],
-    config?: AxiosRequestConfig
+  async get(
+    params?: Endpoints["GET /teamwork/workforceIntegrations"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teamwork/workforceIntegrations',
+      "/teamwork/workforceIntegrations",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints['GET /teamwork/workforceIntegrations']['response']);
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /teamwork/workforceIntegrations"]["response"],
+      );
   }
 
   /**
@@ -130,27 +135,27 @@ export class WorkforceIntegrationsClient {
    *
    * Retrieve the properties and relationships of a workforceIntegration object.
    */
-  async get(
-    params?: Endpoints['GET /teamwork/workforceIntegrations/{workforceIntegration-id}']['parameters'],
-    config?: AxiosRequestConfig
+  async get$1(
+    params?: Endpoints["GET /teamwork/workforceIntegrations/{workforceIntegration-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teamwork/workforceIntegrations/{workforceIntegration-id}',
+      "/teamwork/workforceIntegrations/{workforceIntegration-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'workforceIntegration-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "workforceIntegration-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /teamwork/workforceIntegrations/{workforceIntegration-id}']['response']
+          res.data as Endpoints["GET /teamwork/workforceIntegrations/{workforceIntegration-id}"]["response"],
       );
   }
 
@@ -160,23 +165,23 @@ export class WorkforceIntegrationsClient {
    * Update the properties of a workforceIntegration object.
    */
   async update(
-    body: Endpoints['PATCH /teamwork/workforceIntegrations/{workforceIntegration-id}']['body'],
-    params?: Endpoints['PATCH /teamwork/workforceIntegrations/{workforceIntegration-id}']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /teamwork/workforceIntegrations/{workforceIntegration-id}"]["body"],
+    params?: Endpoints["PATCH /teamwork/workforceIntegrations/{workforceIntegration-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teamwork/workforceIntegrations/{workforceIntegration-id}',
-      [{ name: 'workforceIntegration-id', in: 'path' }],
+      "/teamwork/workforceIntegrations/{workforceIntegration-id}",
+      [{ name: "workforceIntegration-id", in: "path" }],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PATCH /teamwork/workforceIntegrations/{workforceIntegration-id}']['response']
+          res.data as Endpoints["PATCH /teamwork/workforceIntegrations/{workforceIntegration-id}"]["response"],
       );
   }
 
@@ -187,16 +192,19 @@ export class WorkforceIntegrationsClient {
 You can set up which entities you want to receive Shifts synchronous change notifications on and set entities to configure filtering by WFM rules eligibility for, including swap requests.
    */
   async create(
-    body: Endpoints['POST /teamwork/workforceIntegrations']['body'],
-    params?: Endpoints['POST /teamwork/workforceIntegrations']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /teamwork/workforceIntegrations"]["body"],
+    params?: Endpoints["POST /teamwork/workforceIntegrations"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/teamwork/workforceIntegrations', [], {
+    const url = getInjectedUrl("/teamwork/workforceIntegrations", [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body, config)
-      .then((res) => res.data as Endpoints['POST /teamwork/workforceIntegrations']['response']);
+      .then(
+        (res) =>
+          res.data as Endpoints["POST /teamwork/workforceIntegrations"]["response"],
+      );
   }
 }

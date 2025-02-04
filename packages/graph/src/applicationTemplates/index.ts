@@ -1,27 +1,29 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-import { InstantiateClient } from './instantiate';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
+import { InstantiateClient } from "./instantiate";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -32,31 +34,31 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /applicationTemplates
+ * \applicationTemplates
  * Provides operations to manage the collection of applicationTemplate entities.
  */
 export class ApplicationTemplatesClient {
-  protected baseUrl = '/applicationTemplates';
-  protected http: AxiosInstance;
+  protected baseUrl = "\applicationTemplates";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -64,7 +66,7 @@ export class ApplicationTemplatesClient {
   }
 
   /**
-   * `/applicationTemplates/count`
+   * `\applicationTemplates\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -73,7 +75,7 @@ export class ApplicationTemplatesClient {
   }
 
   /**
-   * `/applicationTemplates/{applicationTemplate-id}/instantiate`
+   * `\applicationTemplates\{applicationTemplate-id}\instantiate`
    *
    * Provides operations to call the instantiate method.
    */
@@ -86,25 +88,27 @@ export class ApplicationTemplatesClient {
    *
    * Retrieve a list of applicationTemplate objects from the Microsoft Entra application gallery.
    */
-  async list(
-    params?: Endpoints['GET /applicationTemplates']['parameters'],
-    config?: AxiosRequestConfig
+  async get(
+    params?: Endpoints["GET /applicationTemplates"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applicationTemplates',
+      "/applicationTemplates",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints['GET /applicationTemplates']['response']);
+      .then(
+        (res) => res.data as Endpoints["GET /applicationTemplates"]["response"],
+      );
   }
 
   /**
@@ -112,27 +116,27 @@ export class ApplicationTemplatesClient {
    *
    * Retrieve the properties of an applicationTemplate object.
    */
-  async get(
-    params?: Endpoints['GET /applicationTemplates/{applicationTemplate-id}']['parameters'],
-    config?: AxiosRequestConfig
+  async get$1(
+    params?: Endpoints["GET /applicationTemplates/{applicationTemplate-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applicationTemplates/{applicationTemplate-id}',
+      "/applicationTemplates/{applicationTemplate-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'applicationTemplate-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "applicationTemplate-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /applicationTemplates/{applicationTemplate-id}']['response']
+          res.data as Endpoints["GET /applicationTemplates/{applicationTemplate-id}"]["response"],
       );
   }
 }

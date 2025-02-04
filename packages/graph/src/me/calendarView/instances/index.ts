@@ -1,37 +1,39 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { AcceptClient } from './accept';
-import { AttachmentsClient } from './attachments';
-import { CalendarClient } from './calendar';
-import { CancelClient } from './cancel';
-import { CountClient } from './count';
-import { DeclineClient } from './decline';
-import { DeltaClient } from './delta';
-import { DismissReminderClient } from './dismissReminder';
-import { ExtensionsClient } from './extensions';
-import { ForwardClient } from './forward';
-import { SnoozeReminderClient } from './snoozeReminder';
-import { TentativelyAcceptClient } from './tentativelyAccept';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { AcceptClient } from "./accept";
+import { AttachmentsClient } from "./attachments";
+import { CalendarClient } from "./calendar";
+import { CancelClient } from "./cancel";
+import { CountClient } from "./count";
+import { DeclineClient } from "./decline";
+import { DeltaClient } from "./delta";
+import { DismissReminderClient } from "./dismissReminder";
+import { ExtensionsClient } from "./extensions";
+import { ForwardClient } from "./forward";
+import { SnoozeReminderClient } from "./snoozeReminder";
+import { TentativelyAcceptClient } from "./tentativelyAccept";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -42,34 +44,34 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /me/calendarView/{event-id}/instances
+ * \me\calendarView\{event-id}\instances
  * Provides operations to manage the instances property of the microsoft.graph.event entity.
  */
 export class InstancesClient {
-  protected baseUrl = '/me/calendarView/{event-id}/instances';
-  protected http: AxiosInstance;
+  protected baseUrl = "\me\calendarView\{event-id}\instances";
+  protected http: http.Client;
 
   constructor(
     protected readonly eventId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions,
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -77,7 +79,7 @@ export class InstancesClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/instances/{event-id1}/accept`
+   * `\me\calendarView\{event-id}\instances\{event-id1}\accept`
    *
    * Provides operations to call the accept method.
    */
@@ -86,7 +88,7 @@ export class InstancesClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/instances/{event-id1}/attachments`
+   * `\me\calendarView\{event-id}\instances\{event-id1}\attachments`
    *
    * Provides operations to manage the attachments property of the microsoft.graph.event entity.
    */
@@ -95,7 +97,7 @@ export class InstancesClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/instances/{event-id1}/calendar`
+   * `\me\calendarView\{event-id}\instances\{event-id1}\calendar`
    *
    * Provides operations to manage the calendar property of the microsoft.graph.event entity.
    */
@@ -104,7 +106,7 @@ export class InstancesClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/instances/{event-id1}/cancel`
+   * `\me\calendarView\{event-id}\instances\{event-id1}\cancel`
    *
    * Provides operations to call the cancel method.
    */
@@ -113,7 +115,7 @@ export class InstancesClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/instances/count`
+   * `\me\calendarView\{event-id}\instances\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -122,7 +124,7 @@ export class InstancesClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/instances/{event-id1}/decline`
+   * `\me\calendarView\{event-id}\instances\{event-id1}\decline`
    *
    * Provides operations to call the decline method.
    */
@@ -131,7 +133,7 @@ export class InstancesClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/instances/delta`
+   * `\me\calendarView\{event-id}\instances\delta`
    *
    * Provides operations to call the delta method.
    */
@@ -140,7 +142,7 @@ export class InstancesClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/instances/{event-id1}/dismissReminder`
+   * `\me\calendarView\{event-id}\instances\{event-id1}\dismissReminder`
    *
    * Provides operations to call the dismissReminder method.
    */
@@ -149,7 +151,7 @@ export class InstancesClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/instances/{event-id1}/extensions`
+   * `\me\calendarView\{event-id}\instances\{event-id1}\extensions`
    *
    * Provides operations to manage the extensions property of the microsoft.graph.event entity.
    */
@@ -158,7 +160,7 @@ export class InstancesClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/instances/{event-id1}/forward`
+   * `\me\calendarView\{event-id}\instances\{event-id1}\forward`
    *
    * Provides operations to call the forward method.
    */
@@ -167,7 +169,7 @@ export class InstancesClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/instances/{event-id1}/snoozeReminder`
+   * `\me\calendarView\{event-id}\instances\{event-id1}\snoozeReminder`
    *
    * Provides operations to call the snoozeReminder method.
    */
@@ -176,7 +178,7 @@ export class InstancesClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/instances/{event-id1}/tentativelyAccept`
+   * `\me\calendarView\{event-id}\instances\{event-id1}\tentativelyAccept`
    *
    * Provides operations to call the tentativelyAccept method.
    */
@@ -189,30 +191,31 @@ export class InstancesClient {
    *
    * The occurrences of a recurring series, if the event is a series master. This property includes occurrences that are part of the recurrence pattern, and exceptions that have been modified, but does not include occurrences that have been cancelled from the series. Navigation property. Read-only. Nullable.
    */
-  async list(
-    params?: Endpoints['GET /me/calendarView/{event-id}/instances']['parameters'],
-    config?: AxiosRequestConfig
+  async get(
+    params?: Endpoints["GET /me/calendarView/{event-id}/instances"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/me/calendarView/{event-id}/instances',
+      "/me/calendarView/{event-id}/instances",
       [
-        { name: 'startDateTime', in: 'query' },
-        { name: 'endDateTime', in: 'query' },
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'event-id', in: 'path' },
+        { name: "startDateTime", in: "query" },
+        { name: "endDateTime", in: "query" },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "event-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'event-id': this.eventId,
-      }
+        "event-id": this.eventId,
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
-        (res) => res.data as Endpoints['GET /me/calendarView/{event-id}/instances']['response']
+        (res) =>
+          res.data as Endpoints["GET /me/calendarView/{event-id}/instances"]["response"],
       );
   }
 
@@ -221,31 +224,31 @@ export class InstancesClient {
    *
    * The occurrences of a recurring series, if the event is a series master. This property includes occurrences that are part of the recurrence pattern, and exceptions that have been modified, but does not include occurrences that have been cancelled from the series. Navigation property. Read-only. Nullable.
    */
-  async get(
-    params?: Endpoints['GET /me/calendarView/{event-id}/instances/{event-id1}']['parameters'],
-    config?: AxiosRequestConfig
+  async get$1(
+    params?: Endpoints["GET /me/calendarView/{event-id}/instances/{event-id1}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/me/calendarView/{event-id}/instances/{event-id1}',
+      "/me/calendarView/{event-id}/instances/{event-id1}",
       [
-        { name: 'startDateTime', in: 'query' },
-        { name: 'endDateTime', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'event-id', in: 'path' },
-        { name: 'event-id1', in: 'path' },
+        { name: "startDateTime", in: "query" },
+        { name: "endDateTime", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "event-id", in: "path" },
+        { name: "event-id1", in: "path" },
       ],
       {
         ...(params || {}),
-        'event-id': this.eventId,
-      }
+        "event-id": this.eventId,
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /me/calendarView/{event-id}/instances/{event-id1}']['response']
+          res.data as Endpoints["GET /me/calendarView/{event-id}/instances/{event-id1}"]["response"],
       );
   }
 }

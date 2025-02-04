@@ -1,26 +1,28 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -31,31 +33,31 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /teams/{team-id}/schedule/offerShiftRequests
+ * \teams\{team-id}\schedule\offerShiftRequests
  * Provides operations to manage the offerShiftRequests property of the microsoft.graph.schedule entity.
  */
 export class OfferShiftRequestsClient {
-  protected baseUrl = '/teams/{team-id}/schedule/offerShiftRequests';
-  protected http: AxiosInstance;
+  protected baseUrl = "\teams\{team-id}\schedule\offerShiftRequests";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -63,7 +65,7 @@ export class OfferShiftRequestsClient {
   }
 
   /**
-   * `/teams/{team-id}/schedule/offerShiftRequests/count`
+   * `\teams\{team-id}\schedule\offerShiftRequests\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -76,26 +78,26 @@ export class OfferShiftRequestsClient {
    *
    */
   async delete(
-    params?: Endpoints['DELETE /teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}',
+      "/teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'team-id', in: 'path' },
-        { name: 'offerShiftRequest-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "team-id", in: "path" },
+        { name: "offerShiftRequest-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}']['response']
+          res.data as Endpoints["DELETE /teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}"]["response"],
       );
   }
 
@@ -104,28 +106,28 @@ export class OfferShiftRequestsClient {
    *
    * Retrieve the properties and relationships of all offerShiftRequest objects in a team.
    */
-  async list(
-    params?: Endpoints['GET /teams/{team-id}/schedule/offerShiftRequests']['parameters'],
-    config?: AxiosRequestConfig
+  async get(
+    params?: Endpoints["GET /teams/{team-id}/schedule/offerShiftRequests"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/schedule/offerShiftRequests',
+      "/teams/{team-id}/schedule/offerShiftRequests",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'team-id', in: 'path' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "team-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /teams/{team-id}/schedule/offerShiftRequests']['response']
+          res.data as Endpoints["GET /teams/{team-id}/schedule/offerShiftRequests"]["response"],
       );
   }
 
@@ -134,28 +136,28 @@ export class OfferShiftRequestsClient {
    *
    * Retrieve the properties and relationships of an offerShiftRequest object.
    */
-  async get(
-    params?: Endpoints['GET /teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}']['parameters'],
-    config?: AxiosRequestConfig
+  async get$1(
+    params?: Endpoints["GET /teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}',
+      "/teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'team-id', in: 'path' },
-        { name: 'offerShiftRequest-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "team-id", in: "path" },
+        { name: "offerShiftRequest-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}']['response']
+          res.data as Endpoints["GET /teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}"]["response"],
       );
   }
 
@@ -164,26 +166,26 @@ export class OfferShiftRequestsClient {
    *
    */
   async update(
-    body: Endpoints['PATCH /teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}']['body'],
-    params?: Endpoints['PATCH /teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}"]["body"],
+    params?: Endpoints["PATCH /teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}',
+      "/teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}",
       [
-        { name: 'team-id', in: 'path' },
-        { name: 'offerShiftRequest-id', in: 'path' },
+        { name: "team-id", in: "path" },
+        { name: "offerShiftRequest-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PATCH /teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}']['response']
+          res.data as Endpoints["PATCH /teams/{team-id}/schedule/offerShiftRequests/{offerShiftRequest-id}"]["response"],
       );
   }
 
@@ -193,23 +195,23 @@ export class OfferShiftRequestsClient {
    * Create an instance of an offerShiftRequest.
    */
   async create(
-    body: Endpoints['POST /teams/{team-id}/schedule/offerShiftRequests']['body'],
-    params?: Endpoints['POST /teams/{team-id}/schedule/offerShiftRequests']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /teams/{team-id}/schedule/offerShiftRequests"]["body"],
+    params?: Endpoints["POST /teams/{team-id}/schedule/offerShiftRequests"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/schedule/offerShiftRequests',
-      [{ name: 'team-id', in: 'path' }],
+      "/teams/{team-id}/schedule/offerShiftRequests",
+      [{ name: "team-id", in: "path" }],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /teams/{team-id}/schedule/offerShiftRequests']['response']
+          res.data as Endpoints["POST /teams/{team-id}/schedule/offerShiftRequests"]["response"],
       );
   }
 }

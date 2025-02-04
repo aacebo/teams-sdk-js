@@ -1,39 +1,41 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { AppCatalogsClient } from './appCatalogs';
-import { AppRoleAssignmentsClient } from './appRoleAssignments';
-import { ApplicationTemplatesClient } from './applicationTemplates';
-import { ApplicationsClient } from './applications';
-import { ApplicationsuniqueNameuniqueNameClient } from './applicationsuniqueNameuniqueName';
-import { ChatsClient } from './chats';
-import { CommunicationsClient } from './communications';
-import { EmployeeExperienceClient } from './employeeExperience';
-import { MeClient } from './me';
-import { SolutionsClient } from './solutions';
-import { TeamsClient } from './teams';
-import { TeamsTemplatesClient } from './teamsTemplates';
-import { TeamworkClient } from './teamwork';
-import { UsersClient } from './users';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { AppCatalogsClient } from "./appCatalogs";
+import { AppRoleAssignmentsClient } from "./appRoleAssignments";
+import { ApplicationTemplatesClient } from "./applicationTemplates";
+import { ApplicationsClient } from "./applications";
+import { ApplicationsuniqueNameuniqueNameClient } from "./applicationsuniqueNameuniqueName";
+import { ChatsClient } from "./chats";
+import { CommunicationsClient } from "./communications";
+import { EmployeeExperienceClient } from "./employeeExperience";
+import { MeClient } from "./me";
+import { SolutionsClient } from "./solutions";
+import { TeamsClient } from "./teams";
+import { TeamsTemplatesClient } from "./teamsTemplates";
+import { TeamworkClient } from "./teamwork";
+import { UsersClient } from "./users";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -48,27 +50,27 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  * Provides operations to manage the collection of application entities.
  */
 export class Client {
-  protected baseUrl = '/';
-  protected http: AxiosInstance;
+  protected baseUrl = "/";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -76,7 +78,7 @@ export class Client {
   }
 
   /**
-   * `/appCatalogs`
+   * `\appCatalogs`
    *
    * Provides operations to manage the appCatalogs singleton.
    */
@@ -85,7 +87,7 @@ export class Client {
   }
 
   /**
-   * `/appRoleAssignments`
+   * `\appRoleAssignments`
    *
    * Provides operations to manage the collection of appRoleAssignment entities.
    */
@@ -94,7 +96,7 @@ export class Client {
   }
 
   /**
-   * `/applicationTemplates`
+   * `\applicationTemplates`
    *
    * Provides operations to manage the collection of applicationTemplate entities.
    */
@@ -103,7 +105,7 @@ export class Client {
   }
 
   /**
-   * `/applications`
+   * `\applications`
    *
    * Provides operations to manage the federatedIdentityCredentials property of the microsoft.graph.application entity.
    */
@@ -112,7 +114,7 @@ export class Client {
   }
 
   /**
-   * `/applicationsuniqueNameuniqueName`
+   * `\applicationsuniqueNameuniqueName`
    *
    * Provides operations to manage the collection of application entities.
    */
@@ -121,7 +123,7 @@ export class Client {
   }
 
   /**
-   * `/chats`
+   * `\chats`
    *
    * Provides operations to manage the collection of chat entities.
    */
@@ -130,7 +132,7 @@ export class Client {
   }
 
   /**
-   * `/communications`
+   * `\communications`
    *
    * Provides operations to manage the cloudCommunications singleton.
    */
@@ -139,7 +141,7 @@ export class Client {
   }
 
   /**
-   * `/employeeExperience`
+   * `\employeeExperience`
    *
    */
   get employeeExperience() {
@@ -147,7 +149,7 @@ export class Client {
   }
 
   /**
-   * `/me`
+   * `\me`
    *
    * Provides operations to manage the user singleton.
    */
@@ -156,7 +158,7 @@ export class Client {
   }
 
   /**
-   * `/solutions`
+   * `\solutions`
    *
    * Provides operations to manage the solutionsRoot singleton.
    */
@@ -165,7 +167,7 @@ export class Client {
   }
 
   /**
-   * `/teams`
+   * `\teams`
    *
    * Provides operations to manage the collection of team entities.
    */
@@ -174,7 +176,7 @@ export class Client {
   }
 
   /**
-   * `/teamsTemplates`
+   * `\teamsTemplates`
    *
    * Provides operations to manage the collection of teamsTemplate entities.
    */
@@ -183,7 +185,7 @@ export class Client {
   }
 
   /**
-   * `/teamwork`
+   * `\teamwork`
    *
    * Provides operations to manage the teamwork singleton.
    */
@@ -192,7 +194,7 @@ export class Client {
   }
 
   /**
-   * `/users`
+   * `\users`
    *
    */
   get users() {
@@ -205,25 +207,25 @@ export class Client {
    * Delete an application object. When deleted, apps are moved to a temporary container and can be restored within 30 days. After that time, they are permanently deleted.
    */
   async delete(
-    params?: Endpoints['DELETE /applications(appId&#x3D;&#x27;{appId}&#x27;)']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /applications(appId&#x3D;&#x27;{appId}&#x27;)"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications(appId&#x3D;&#x27;{appId}&#x27;)',
+      "/applications(appId&#x3D;&#x27;{appId}&#x27;)",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'appId', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "appId", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /applications(appId&#x3D;&#x27;{appId}&#x27;)']['response']
+          res.data as Endpoints["DELETE /applications(appId&#x3D;&#x27;{appId}&#x27;)"]["response"],
       );
   }
 
@@ -233,26 +235,26 @@ export class Client {
    * Get the properties and relationships of an application object.
    */
   async get(
-    params?: Endpoints['GET /applications(appId&#x3D;&#x27;{appId}&#x27;)']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["GET /applications(appId&#x3D;&#x27;{appId}&#x27;)"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications(appId&#x3D;&#x27;{appId}&#x27;)',
+      "/applications(appId&#x3D;&#x27;{appId}&#x27;)",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'appId', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "appId", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /applications(appId&#x3D;&#x27;{appId}&#x27;)']['response']
+          res.data as Endpoints["GET /applications(appId&#x3D;&#x27;{appId}&#x27;)"]["response"],
       );
   }
 
@@ -262,23 +264,23 @@ export class Client {
    * Create a new application object if it doesn&#x27;t exist, or update the properties of an existing application object.
    */
   async update(
-    body: Endpoints['PATCH /applications(appId&#x3D;&#x27;{appId}&#x27;)']['body'],
-    params?: Endpoints['PATCH /applications(appId&#x3D;&#x27;{appId}&#x27;)']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /applications(appId&#x3D;&#x27;{appId}&#x27;)"]["body"],
+    params?: Endpoints["PATCH /applications(appId&#x3D;&#x27;{appId}&#x27;)"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications(appId&#x3D;&#x27;{appId}&#x27;)',
-      [{ name: 'appId', in: 'path' }],
+      "/applications(appId&#x3D;&#x27;{appId}&#x27;)",
+      [{ name: "appId", in: "path" }],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PATCH /applications(appId&#x3D;&#x27;{appId}&#x27;)']['response']
+          res.data as Endpoints["PATCH /applications(appId&#x3D;&#x27;{appId}&#x27;)"]["response"],
       );
   }
 }

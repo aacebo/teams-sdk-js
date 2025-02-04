@@ -1,26 +1,28 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -31,34 +33,34 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /me/calendars/{calendar-id}/calendarPermissions
+ * \me\calendars\{calendar-id}\calendarPermissions
  * Provides operations to manage the calendarPermissions property of the microsoft.graph.calendar entity.
  */
 export class CalendarPermissionsClient {
-  protected baseUrl = '/me/calendars/{calendar-id}/calendarPermissions';
-  protected http: AxiosInstance;
+  protected baseUrl = "\me\calendars\{calendar-id}\calendarPermissions";
+  protected http: http.Client;
 
   constructor(
     protected readonly calendarId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions,
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -66,7 +68,7 @@ export class CalendarPermissionsClient {
   }
 
   /**
-   * `/me/calendars/{calendar-id}/calendarPermissions/count`
+   * `\me\calendars\{calendar-id}\calendarPermissions\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -79,27 +81,27 @@ export class CalendarPermissionsClient {
    *
    */
   async delete(
-    params?: Endpoints['DELETE /me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}',
+      "/me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'calendar-id', in: 'path' },
-        { name: 'calendarPermission-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "calendar-id", in: "path" },
+        { name: "calendarPermission-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'calendar-id': this.calendarId,
-      }
+        "calendar-id": this.calendarId,
+      },
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}']['response']
+          res.data as Endpoints["DELETE /me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}"]["response"],
       );
   }
 
@@ -108,29 +110,29 @@ export class CalendarPermissionsClient {
    *
    * The permissions of the users with whom the calendar is shared.
    */
-  async list(
-    params?: Endpoints['GET /me/calendars/{calendar-id}/calendarPermissions']['parameters'],
-    config?: AxiosRequestConfig
+  async get(
+    params?: Endpoints["GET /me/calendars/{calendar-id}/calendarPermissions"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/me/calendars/{calendar-id}/calendarPermissions',
+      "/me/calendars/{calendar-id}/calendarPermissions",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'calendar-id', in: 'path' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "calendar-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'calendar-id': this.calendarId,
-      }
+        "calendar-id": this.calendarId,
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /me/calendars/{calendar-id}/calendarPermissions']['response']
+          res.data as Endpoints["GET /me/calendars/{calendar-id}/calendarPermissions"]["response"],
       );
   }
 
@@ -139,29 +141,29 @@ export class CalendarPermissionsClient {
    *
    * The permissions of the users with whom the calendar is shared.
    */
-  async get(
-    params?: Endpoints['GET /me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}']['parameters'],
-    config?: AxiosRequestConfig
+  async get$1(
+    params?: Endpoints["GET /me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}',
+      "/me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'calendar-id', in: 'path' },
-        { name: 'calendarPermission-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "calendar-id", in: "path" },
+        { name: "calendarPermission-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'calendar-id': this.calendarId,
-      }
+        "calendar-id": this.calendarId,
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}']['response']
+          res.data as Endpoints["GET /me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}"]["response"],
       );
   }
 
@@ -170,27 +172,27 @@ export class CalendarPermissionsClient {
    *
    */
   async update(
-    body: Endpoints['PATCH /me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}']['body'],
-    params?: Endpoints['PATCH /me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}"]["body"],
+    params?: Endpoints["PATCH /me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}',
+      "/me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}",
       [
-        { name: 'calendar-id', in: 'path' },
-        { name: 'calendarPermission-id', in: 'path' },
+        { name: "calendar-id", in: "path" },
+        { name: "calendarPermission-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'calendar-id': this.calendarId,
-      }
+        "calendar-id": this.calendarId,
+      },
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PATCH /me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}']['response']
+          res.data as Endpoints["PATCH /me/calendars/{calendar-id}/calendarPermissions/{calendarPermission-id}"]["response"],
       );
   }
 
@@ -199,24 +201,24 @@ export class CalendarPermissionsClient {
    *
    */
   async create(
-    body: Endpoints['POST /me/calendars/{calendar-id}/calendarPermissions']['body'],
-    params?: Endpoints['POST /me/calendars/{calendar-id}/calendarPermissions']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /me/calendars/{calendar-id}/calendarPermissions"]["body"],
+    params?: Endpoints["POST /me/calendars/{calendar-id}/calendarPermissions"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/me/calendars/{calendar-id}/calendarPermissions',
-      [{ name: 'calendar-id', in: 'path' }],
+      "/me/calendars/{calendar-id}/calendarPermissions",
+      [{ name: "calendar-id", in: "path" }],
       {
         ...(params || {}),
-        'calendar-id': this.calendarId,
-      }
+        "calendar-id": this.calendarId,
+      },
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /me/calendars/{calendar-id}/calendarPermissions']['response']
+          res.data as Endpoints["POST /me/calendars/{calendar-id}/calendarPermissions"]["response"],
       );
   }
 }

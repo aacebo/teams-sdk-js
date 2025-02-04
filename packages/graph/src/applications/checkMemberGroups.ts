@@ -1,25 +1,27 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './checkMemberGroups-types.d.ts';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./checkMemberGroups-types.d.ts";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -30,34 +32,34 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /applications/{application-id}/checkMemberGroups
+ * \applications\{application-id}\checkMemberGroups
  * Provides operations to call the checkMemberGroups method.
  */
 export class CheckMemberGroupsClient {
-  protected baseUrl = '/applications/{application-id}/checkMemberGroups';
-  protected http: AxiosInstance;
+  protected baseUrl = "\applications\{application-id}\checkMemberGroups";
+  protected http: http.Client;
 
   constructor(
     protected readonly applicationId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions,
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -76,24 +78,24 @@ export class CheckMemberGroupsClient {
 - directory object This function is transitive. You can check up to a maximum of 20 groups per request. This function supports all groups provisioned in Microsoft Entra ID. Because Microsoft 365 groups cannot contain other groups, membership in a Microsoft 365 group is always direct.
    */
   async create(
-    body: Endpoints['POST /applications/{application-id}/checkMemberGroups']['body'],
-    params?: Endpoints['POST /applications/{application-id}/checkMemberGroups']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /applications/{application-id}/checkMemberGroups"]["body"],
+    params?: Endpoints["POST /applications/{application-id}/checkMemberGroups"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/applications/{application-id}/checkMemberGroups',
-      [{ name: 'application-id', in: 'path' }],
+      "/applications/{application-id}/checkMemberGroups",
+      [{ name: "application-id", in: "path" }],
       {
         ...(params || {}),
-        'application-id': this.applicationId,
-      }
+        "application-id": this.applicationId,
+      },
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /applications/{application-id}/checkMemberGroups']['response']
+          res.data as Endpoints["POST /applications/{application-id}/checkMemberGroups"]["response"],
       );
   }
 }

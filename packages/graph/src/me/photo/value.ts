@@ -1,25 +1,27 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './value-types.d.ts';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./value-types.d.ts";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -30,31 +32,31 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /me/photo/value
+ * \me\photo\value
  * Provides operations to manage the media for the user entity.
  */
 export class ValueClient {
-  protected baseUrl = '/me/photo/value';
-  protected http: AxiosInstance;
+  protected baseUrl = "\me\photo\value";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -67,16 +69,22 @@ export class ValueClient {
    * Delete the photo for the signed-in user or the specified group.
    */
   async delete(
-    params?: Endpoints['DELETE /me/photo/$value']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /me/photo/$value"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/me/photo/$value', [{ name: 'If-Match', in: 'header' }], {
-      ...(params || {}),
-    });
+    const url = getInjectedUrl(
+      "/me/photo/$value",
+      [{ name: "If-Match", in: "header" }],
+      {
+        ...(params || {}),
+      },
+    );
 
     return this.http
       .delete(url, config)
-      .then((res) => res.data as Endpoints['DELETE /me/photo/$value']['response']);
+      .then(
+        (res) => res.data as Endpoints["DELETE /me/photo/$value"]["response"],
+      );
   }
 
   /**
@@ -87,14 +95,17 @@ export class ValueClient {
 If the size you request is unavailable, you can still get a smaller size that the user has uploaded and made available.
 For example, if the user uploads a photo that is 504x504 pixels, all but the 648x648 size of the photo is available for download.
    */
-  async get(params?: Endpoints['GET /me/photo/$value']['parameters'], config?: AxiosRequestConfig) {
-    const url = getInjectedUrl('/me/photo/$value', [], {
+  async get(
+    params?: Endpoints["GET /me/photo/$value"]["parameters"],
+    config?: http.RequestConfig,
+  ) {
+    const url = getInjectedUrl("/me/photo/$value", [], {
       ...(params || {}),
     });
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints['GET /me/photo/$value']['response']);
+      .then((res) => res.data as Endpoints["GET /me/photo/$value"]["response"]);
   }
 
   /**
@@ -103,16 +114,16 @@ For example, if the user uploads a photo that is 504x504 pixels, all but the 648
    * Update the photo for the specified contact, group, team, or user in a tenant. The size of the photo you can update to is limited to 4 MB. You can use either PATCH or PUT for this operation.
    */
   async set(
-    body: Endpoints['PUT /me/photo/$value']['body'],
-    params?: Endpoints['PUT /me/photo/$value']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PUT /me/photo/$value"]["body"],
+    params?: Endpoints["PUT /me/photo/$value"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/me/photo/$value', [], {
+    const url = getInjectedUrl("/me/photo/$value", [], {
       ...(params || {}),
     });
 
     return this.http
       .put(url, body, config)
-      .then((res) => res.data as Endpoints['PUT /me/photo/$value']['response']);
+      .then((res) => res.data as Endpoints["PUT /me/photo/$value"]["response"]);
   }
 }

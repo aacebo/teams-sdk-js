@@ -1,25 +1,27 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './lastMessagePreview-types.d.ts';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./lastMessagePreview-types.d.ts";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -30,34 +32,34 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /chats/{chat-id}/lastMessagePreview
+ * \chats\{chat-id}\lastMessagePreview
  * Provides operations to manage the lastMessagePreview property of the microsoft.graph.chat entity.
  */
 export class LastMessagePreviewClient {
-  protected baseUrl = '/chats/{chat-id}/lastMessagePreview';
-  protected http: AxiosInstance;
+  protected baseUrl = "\chats\{chat-id}\lastMessagePreview";
+  protected http: http.Client;
 
   constructor(
     protected readonly chatId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions,
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -69,25 +71,26 @@ export class LastMessagePreviewClient {
    *
    */
   async delete(
-    params?: Endpoints['DELETE /chats/{chat-id}/lastMessagePreview']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /chats/{chat-id}/lastMessagePreview"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/chats/{chat-id}/lastMessagePreview',
+      "/chats/{chat-id}/lastMessagePreview",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'chat-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "chat-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'chat-id': this.chatId,
-      }
+        "chat-id": this.chatId,
+      },
     );
 
     return this.http
       .delete(url, config)
       .then(
-        (res) => res.data as Endpoints['DELETE /chats/{chat-id}/lastMessagePreview']['response']
+        (res) =>
+          res.data as Endpoints["DELETE /chats/{chat-id}/lastMessagePreview"]["response"],
       );
   }
 
@@ -97,25 +100,28 @@ export class LastMessagePreviewClient {
    * Preview of the last message sent in the chat. Null if no messages were sent in the chat. Currently, only the list chats operation supports this property.
    */
   async get(
-    params?: Endpoints['GET /chats/{chat-id}/lastMessagePreview']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["GET /chats/{chat-id}/lastMessagePreview"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/chats/{chat-id}/lastMessagePreview',
+      "/chats/{chat-id}/lastMessagePreview",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'chat-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "chat-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'chat-id': this.chatId,
-      }
+        "chat-id": this.chatId,
+      },
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints['GET /chats/{chat-id}/lastMessagePreview']['response']);
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /chats/{chat-id}/lastMessagePreview"]["response"],
+      );
   }
 
   /**
@@ -123,23 +129,24 @@ export class LastMessagePreviewClient {
    *
    */
   async update(
-    body: Endpoints['PATCH /chats/{chat-id}/lastMessagePreview']['body'],
-    params?: Endpoints['PATCH /chats/{chat-id}/lastMessagePreview']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /chats/{chat-id}/lastMessagePreview"]["body"],
+    params?: Endpoints["PATCH /chats/{chat-id}/lastMessagePreview"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/chats/{chat-id}/lastMessagePreview',
-      [{ name: 'chat-id', in: 'path' }],
+      "/chats/{chat-id}/lastMessagePreview",
+      [{ name: "chat-id", in: "path" }],
       {
         ...(params || {}),
-        'chat-id': this.chatId,
-      }
+        "chat-id": this.chatId,
+      },
     );
 
     return this.http
       .patch(url, body, config)
       .then(
-        (res) => res.data as Endpoints['PATCH /chats/{chat-id}/lastMessagePreview']['response']
+        (res) =>
+          res.data as Endpoints["PATCH /chats/{chat-id}/lastMessagePreview"]["response"],
       );
   }
 }

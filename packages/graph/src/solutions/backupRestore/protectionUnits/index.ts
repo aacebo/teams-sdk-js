@@ -1,26 +1,28 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -31,31 +33,31 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /solutions/backupRestore/protectionUnits
+ * \solutions\backupRestore\protectionUnits
  * Provides operations to manage the protectionUnits property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class ProtectionUnitsClient {
-  protected baseUrl = '/solutions/backupRestore/protectionUnits';
-  protected http: AxiosInstance;
+  protected baseUrl = "\solutions\backupRestore\protectionUnits";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -63,7 +65,7 @@ export class ProtectionUnitsClient {
   }
 
   /**
-   * `/solutions/backupRestore/protectionUnits/count`
+   * `\solutions\backupRestore\protectionUnits\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -76,26 +78,27 @@ export class ProtectionUnitsClient {
    *
    * Read the properties and relationships of a protectionUnitBase object.
    */
-  async list(
-    params?: Endpoints['GET /solutions/backupRestore/protectionUnits']['parameters'],
-    config?: AxiosRequestConfig
+  async get(
+    params?: Endpoints["GET /solutions/backupRestore/protectionUnits"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/protectionUnits',
+      "/solutions/backupRestore/protectionUnits",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
-        (res) => res.data as Endpoints['GET /solutions/backupRestore/protectionUnits']['response']
+        (res) =>
+          res.data as Endpoints["GET /solutions/backupRestore/protectionUnits"]["response"],
       );
   }
 
@@ -104,27 +107,27 @@ export class ProtectionUnitsClient {
    *
    * Read the properties and relationships of a protectionUnitBase object.
    */
-  async get(
-    params?: Endpoints['GET /solutions/backupRestore/protectionUnits/{protectionUnitBase-id}']['parameters'],
-    config?: AxiosRequestConfig
+  async get$1(
+    params?: Endpoints["GET /solutions/backupRestore/protectionUnits/{protectionUnitBase-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/protectionUnits/{protectionUnitBase-id}',
+      "/solutions/backupRestore/protectionUnits/{protectionUnitBase-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'protectionUnitBase-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "protectionUnitBase-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /solutions/backupRestore/protectionUnits/{protectionUnitBase-id}']['response']
+          res.data as Endpoints["GET /solutions/backupRestore/protectionUnits/{protectionUnitBase-id}"]["response"],
       );
   }
 }

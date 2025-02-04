@@ -1,26 +1,28 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { ValueClient } from './value';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { ValueClient } from "./value";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -31,34 +33,34 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /teams/{team-id}/photo
+ * \teams\{team-id}\photo
  * Provides operations to manage the photo property of the microsoft.graph.team entity.
  */
 export class PhotoClient {
-  protected baseUrl = '/teams/{team-id}/photo';
-  protected http: AxiosInstance;
+  protected baseUrl = "\teams\{team-id}\photo";
+  protected http: http.Client;
 
   constructor(
     protected readonly teamId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions,
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -66,7 +68,7 @@ export class PhotoClient {
   }
 
   /**
-   * `/teams/{team-id}/photo/value`
+   * `\teams\{team-id}\photo\value`
    *
    * Provides operations to manage the media for the team entity.
    */
@@ -83,25 +85,28 @@ If the size you request is unavailable, you can still get a smaller size that th
 For example, if the user uploads a photo that is 504x504 pixels, all but the 648x648 size of the photo is available for download.
    */
   async get(
-    params?: Endpoints['GET /teams/{team-id}/photo']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["GET /teams/{team-id}/photo"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/teams/{team-id}/photo',
+      "/teams/{team-id}/photo",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'team-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "team-id", in: "path" },
       ],
       {
         ...(params || {}),
-        'team-id': this.teamId,
-      }
+        "team-id": this.teamId,
+      },
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints['GET /teams/{team-id}/photo']['response']);
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /teams/{team-id}/photo"]["response"],
+      );
   }
 
   /**
@@ -110,17 +115,24 @@ For example, if the user uploads a photo that is 504x504 pixels, all but the 648
    * Update the photo for the specified contact, group, team, or user in a tenant. The size of the photo you can update to is limited to 4 MB. You can use either PATCH or PUT for this operation.
    */
   async update(
-    body: Endpoints['PATCH /teams/{team-id}/photo']['body'],
-    params?: Endpoints['PATCH /teams/{team-id}/photo']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /teams/{team-id}/photo"]["body"],
+    params?: Endpoints["PATCH /teams/{team-id}/photo"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/teams/{team-id}/photo', [{ name: 'team-id', in: 'path' }], {
-      ...(params || {}),
-      'team-id': this.teamId,
-    });
+    const url = getInjectedUrl(
+      "/teams/{team-id}/photo",
+      [{ name: "team-id", in: "path" }],
+      {
+        ...(params || {}),
+        "team-id": this.teamId,
+      },
+    );
 
     return this.http
       .patch(url, body, config)
-      .then((res) => res.data as Endpoints['PATCH /teams/{team-id}/photo']['response']);
+      .then(
+        (res) =>
+          res.data as Endpoints["PATCH /teams/{team-id}/photo"]["response"],
+      );
   }
 }

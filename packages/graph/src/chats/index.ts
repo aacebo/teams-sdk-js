@@ -1,40 +1,42 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-import { GetAllMessagesClient } from './getAllMessages';
-import { GetAllRetainedMessagesClient } from './getAllRetainedMessages';
-import { HideForUserClient } from './hideForUser';
-import { InstalledAppsClient } from './installedApps';
-import { LastMessagePreviewClient } from './lastMessagePreview';
-import { MarkChatReadForUserClient } from './markChatReadForUser';
-import { MarkChatUnreadForUserClient } from './markChatUnreadForUser';
-import { MembersClient } from './members';
-import { MessagesClient } from './messages';
-import { PermissionGrantsClient } from './permissionGrants';
-import { PinnedMessagesClient } from './pinnedMessages';
-import { SendActivityNotificationClient } from './sendActivityNotification';
-import { TabsClient } from './tabs';
-import { UnhideForUserClient } from './unhideForUser';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { CountClient } from "./count";
+import { GetAllMessagesClient } from "./getAllMessages";
+import { GetAllRetainedMessagesClient } from "./getAllRetainedMessages";
+import { HideForUserClient } from "./hideForUser";
+import { InstalledAppsClient } from "./installedApps";
+import { LastMessagePreviewClient } from "./lastMessagePreview";
+import { MarkChatReadForUserClient } from "./markChatReadForUser";
+import { MarkChatUnreadForUserClient } from "./markChatUnreadForUser";
+import { MembersClient } from "./members";
+import { MessagesClient } from "./messages";
+import { PermissionGrantsClient } from "./permissionGrants";
+import { PinnedMessagesClient } from "./pinnedMessages";
+import { SendActivityNotificationClient } from "./sendActivityNotification";
+import { TabsClient } from "./tabs";
+import { UnhideForUserClient } from "./unhideForUser";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -45,31 +47,31 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /chats
+ * \chats
  * Provides operations to manage the collection of chat entities.
  */
 export class ChatsClient {
-  protected baseUrl = '/chats';
-  protected http: AxiosInstance;
+  protected baseUrl = "\chats";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -77,7 +79,7 @@ export class ChatsClient {
   }
 
   /**
-   * `/chats/count`
+   * `\chats\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -86,7 +88,7 @@ export class ChatsClient {
   }
 
   /**
-   * `/chats/getAllMessages`
+   * `\chats\getAllMessages`
    *
    * Provides operations to call the getAllMessages method.
    */
@@ -95,7 +97,7 @@ export class ChatsClient {
   }
 
   /**
-   * `/chats/getAllRetainedMessages`
+   * `\chats\getAllRetainedMessages`
    *
    * Provides operations to call the getAllRetainedMessages method.
    */
@@ -104,7 +106,7 @@ export class ChatsClient {
   }
 
   /**
-   * `/chats/{chat-id}/hideForUser`
+   * `\chats\{chat-id}\hideForUser`
    *
    * Provides operations to call the hideForUser method.
    */
@@ -113,7 +115,7 @@ export class ChatsClient {
   }
 
   /**
-   * `/chats/{chat-id}/installedApps`
+   * `\chats\{chat-id}\installedApps`
    *
    * Provides operations to manage the installedApps property of the microsoft.graph.chat entity.
    */
@@ -122,7 +124,7 @@ export class ChatsClient {
   }
 
   /**
-   * `/chats/{chat-id}/lastMessagePreview`
+   * `\chats\{chat-id}\lastMessagePreview`
    *
    * Provides operations to manage the lastMessagePreview property of the microsoft.graph.chat entity.
    */
@@ -131,7 +133,7 @@ export class ChatsClient {
   }
 
   /**
-   * `/chats/{chat-id}/markChatReadForUser`
+   * `\chats\{chat-id}\markChatReadForUser`
    *
    * Provides operations to call the markChatReadForUser method.
    */
@@ -140,7 +142,7 @@ export class ChatsClient {
   }
 
   /**
-   * `/chats/{chat-id}/markChatUnreadForUser`
+   * `\chats\{chat-id}\markChatUnreadForUser`
    *
    * Provides operations to call the markChatUnreadForUser method.
    */
@@ -149,7 +151,7 @@ export class ChatsClient {
   }
 
   /**
-   * `/chats/{chat-id}/members`
+   * `\chats\{chat-id}\members`
    *
    * Provides operations to manage the members property of the microsoft.graph.chat entity.
    */
@@ -158,7 +160,7 @@ export class ChatsClient {
   }
 
   /**
-   * `/chats/{chat-id}/messages`
+   * `\chats\{chat-id}\messages`
    *
    * Provides operations to manage the messages property of the microsoft.graph.chat entity.
    */
@@ -167,7 +169,7 @@ export class ChatsClient {
   }
 
   /**
-   * `/chats/{chat-id}/permissionGrants`
+   * `\chats\{chat-id}\permissionGrants`
    *
    * Provides operations to manage the permissionGrants property of the microsoft.graph.chat entity.
    */
@@ -176,7 +178,7 @@ export class ChatsClient {
   }
 
   /**
-   * `/chats/{chat-id}/pinnedMessages`
+   * `\chats\{chat-id}\pinnedMessages`
    *
    * Provides operations to manage the pinnedMessages property of the microsoft.graph.chat entity.
    */
@@ -185,7 +187,7 @@ export class ChatsClient {
   }
 
   /**
-   * `/chats/{chat-id}/sendActivityNotification`
+   * `\chats\{chat-id}\sendActivityNotification`
    *
    * Provides operations to call the sendActivityNotification method.
    */
@@ -194,7 +196,7 @@ export class ChatsClient {
   }
 
   /**
-   * `/chats/{chat-id}/tabs`
+   * `\chats\{chat-id}\tabs`
    *
    * Provides operations to manage the tabs property of the microsoft.graph.chat entity.
    */
@@ -203,7 +205,7 @@ export class ChatsClient {
   }
 
   /**
-   * `/chats/{chat-id}/unhideForUser`
+   * `\chats\{chat-id}\unhideForUser`
    *
    * Provides operations to call the unhideForUser method.
    */
@@ -217,23 +219,25 @@ export class ChatsClient {
    * Soft-delete a chat. When invoked with delegated permissions, this operation only works for tenant admins and Teams service admins.
    */
   async delete(
-    params?: Endpoints['DELETE /chats/{chat-id}']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /chats/{chat-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/chats/{chat-id}',
+      "/chats/{chat-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'chat-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "chat-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .delete(url, config)
-      .then((res) => res.data as Endpoints['DELETE /chats/{chat-id}']['response']);
+      .then(
+        (res) => res.data as Endpoints["DELETE /chats/{chat-id}"]["response"],
+      );
   }
 
   /**
@@ -241,22 +245,25 @@ export class ChatsClient {
    *
    * Retrieve the list of chats that the user is part of. This method supports federation. When a user ID is provided, the calling application must belong to the same tenant that the user belongs to.
    */
-  async list(params?: Endpoints['GET /chats']['parameters'], config?: AxiosRequestConfig) {
+  async get(
+    params?: Endpoints["GET /chats"]["parameters"],
+    config?: http.RequestConfig,
+  ) {
     const url = getInjectedUrl(
-      '/chats',
+      "/chats",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints['GET /chats']['response']);
+      .then((res) => res.data as Endpoints["GET /chats"]["response"]);
   }
 
   /**
@@ -264,22 +271,25 @@ export class ChatsClient {
    *
    * Retrieve a single chat (without its messages). This method supports federation. To access a chat, at least one chat member must belong to the tenant the request initiated from.
    */
-  async get(params?: Endpoints['GET /chats/{chat-id}']['parameters'], config?: AxiosRequestConfig) {
+  async get$1(
+    params?: Endpoints["GET /chats/{chat-id}"]["parameters"],
+    config?: http.RequestConfig,
+  ) {
     const url = getInjectedUrl(
-      '/chats/{chat-id}',
+      "/chats/{chat-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'chat-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "chat-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints['GET /chats/{chat-id}']['response']);
+      .then((res) => res.data as Endpoints["GET /chats/{chat-id}"]["response"]);
   }
 
   /**
@@ -288,17 +298,23 @@ export class ChatsClient {
    * Update the properties of a chat object.
    */
   async update(
-    body: Endpoints['PATCH /chats/{chat-id}']['body'],
-    params?: Endpoints['PATCH /chats/{chat-id}']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /chats/{chat-id}"]["body"],
+    params?: Endpoints["PATCH /chats/{chat-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/chats/{chat-id}', [{ name: 'chat-id', in: 'path' }], {
-      ...(params || {}),
-    });
+    const url = getInjectedUrl(
+      "/chats/{chat-id}",
+      [{ name: "chat-id", in: "path" }],
+      {
+        ...(params || {}),
+      },
+    );
 
     return this.http
       .patch(url, body, config)
-      .then((res) => res.data as Endpoints['PATCH /chats/{chat-id}']['response']);
+      .then(
+        (res) => res.data as Endpoints["PATCH /chats/{chat-id}"]["response"],
+      );
   }
 
   /**
@@ -307,16 +323,16 @@ export class ChatsClient {
    * Create a new chat object.
    */
   async create(
-    body: Endpoints['POST /chats']['body'],
-    params?: Endpoints['POST /chats']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /chats"]["body"],
+    params?: Endpoints["POST /chats"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/chats', [], {
+    const url = getInjectedUrl("/chats", [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body, config)
-      .then((res) => res.data as Endpoints['POST /chats']['response']);
+      .then((res) => res.data as Endpoints["POST /chats"]["response"]);
   }
 }

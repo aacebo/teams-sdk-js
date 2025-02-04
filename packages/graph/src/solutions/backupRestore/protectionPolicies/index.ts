@@ -1,28 +1,30 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { ActivateClient } from './activate';
-import { CountClient } from './count';
-import { DeactivateClient } from './deactivate';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { ActivateClient } from "./activate";
+import { CountClient } from "./count";
+import { DeactivateClient } from "./deactivate";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -33,31 +35,31 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /solutions/backupRestore/protectionPolicies
+ * \solutions\backupRestore\protectionPolicies
  * Provides operations to manage the protectionPolicies property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class ProtectionPoliciesClient {
-  protected baseUrl = '/solutions/backupRestore/protectionPolicies';
-  protected http: AxiosInstance;
+  protected baseUrl = "\solutions\backupRestore\protectionPolicies";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -65,7 +67,7 @@ export class ProtectionPoliciesClient {
   }
 
   /**
-   * `/solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}/activate`
+   * `\solutions\backupRestore\protectionPolicies\{protectionPolicyBase-id}\activate`
    *
    * Provides operations to call the activate method.
    */
@@ -74,7 +76,7 @@ export class ProtectionPoliciesClient {
   }
 
   /**
-   * `/solutions/backupRestore/protectionPolicies/count`
+   * `\solutions\backupRestore\protectionPolicies\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -83,7 +85,7 @@ export class ProtectionPoliciesClient {
   }
 
   /**
-   * `/solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}/deactivate`
+   * `\solutions\backupRestore\protectionPolicies\{protectionPolicyBase-id}\deactivate`
    *
    * Provides operations to call the deactivate method.
    */
@@ -97,25 +99,25 @@ export class ProtectionPoliciesClient {
    * Delete a protection policy. Read the properties and relationships of a protectionPolicyBase object.
    */
   async delete(
-    params?: Endpoints['DELETE /solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["DELETE /solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}',
+      "/solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}",
       [
-        { name: 'If-Match', in: 'header' },
-        { name: 'protectionPolicyBase-id', in: 'path' },
+        { name: "If-Match", in: "header" },
+        { name: "protectionPolicyBase-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['DELETE /solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}']['response']
+          res.data as Endpoints["DELETE /solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}"]["response"],
       );
   }
 
@@ -124,27 +126,27 @@ export class ProtectionPoliciesClient {
    *
    * List of protection policies in the tenant.
    */
-  async list(
-    params?: Endpoints['GET /solutions/backupRestore/protectionPolicies']['parameters'],
-    config?: AxiosRequestConfig
+  async get(
+    params?: Endpoints["GET /solutions/backupRestore/protectionPolicies"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/protectionPolicies',
+      "/solutions/backupRestore/protectionPolicies",
       [
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /solutions/backupRestore/protectionPolicies']['response']
+          res.data as Endpoints["GET /solutions/backupRestore/protectionPolicies"]["response"],
       );
   }
 
@@ -153,27 +155,27 @@ export class ProtectionPoliciesClient {
    *
    * List of protection policies in the tenant.
    */
-  async get(
-    params?: Endpoints['GET /solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}']['parameters'],
-    config?: AxiosRequestConfig
+  async get$1(
+    params?: Endpoints["GET /solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}',
+      "/solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}",
       [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'protectionPolicyBase-id', in: 'path' },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "protectionPolicyBase-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints['GET /solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}']['response']
+          res.data as Endpoints["GET /solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}"]["response"],
       );
   }
 
@@ -182,23 +184,23 @@ export class ProtectionPoliciesClient {
    *
    */
   async update(
-    body: Endpoints['PATCH /solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}']['body'],
-    params?: Endpoints['PATCH /solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["PATCH /solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}"]["body"],
+    params?: Endpoints["PATCH /solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}',
-      [{ name: 'protectionPolicyBase-id', in: 'path' }],
+      "/solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}",
+      [{ name: "protectionPolicyBase-id", in: "path" }],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['PATCH /solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}']['response']
+          res.data as Endpoints["PATCH /solutions/backupRestore/protectionPolicies/{protectionPolicyBase-id}"]["response"],
       );
   }
 
@@ -207,19 +209,23 @@ export class ProtectionPoliciesClient {
    *
    */
   async create(
-    body: Endpoints['POST /solutions/backupRestore/protectionPolicies']['body'],
-    params?: Endpoints['POST /solutions/backupRestore/protectionPolicies']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /solutions/backupRestore/protectionPolicies"]["body"],
+    params?: Endpoints["POST /solutions/backupRestore/protectionPolicies"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/solutions/backupRestore/protectionPolicies', [], {
-      ...(params || {}),
-    });
+    const url = getInjectedUrl(
+      "/solutions/backupRestore/protectionPolicies",
+      [],
+      {
+        ...(params || {}),
+      },
+    );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /solutions/backupRestore/protectionPolicies']['response']
+          res.data as Endpoints["POST /solutions/backupRestore/protectionPolicies"]["response"],
       );
   }
 }

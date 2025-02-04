@@ -1,38 +1,40 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { AcceptClient } from './accept';
-import { AttachmentsClient } from './attachments';
-import { CalendarClient } from './calendar';
-import { CancelClient } from './cancel';
-import { CountClient } from './count';
-import { DeclineClient } from './decline';
-import { DeltaClient } from './delta';
-import { DismissReminderClient } from './dismissReminder';
-import { ExtensionsClient } from './extensions';
-import { ForwardClient } from './forward';
-import { InstancesClient } from './instances';
-import { SnoozeReminderClient } from './snoozeReminder';
-import { TentativelyAcceptClient } from './tentativelyAccept';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./index-types.d.ts";
+import { AcceptClient } from "./accept";
+import { AttachmentsClient } from "./attachments";
+import { CalendarClient } from "./calendar";
+import { CancelClient } from "./cancel";
+import { CountClient } from "./count";
+import { DeclineClient } from "./decline";
+import { DeltaClient } from "./delta";
+import { DismissReminderClient } from "./dismissReminder";
+import { ExtensionsClient } from "./extensions";
+import { ForwardClient } from "./forward";
+import { InstancesClient } from "./instances";
+import { SnoozeReminderClient } from "./snoozeReminder";
+import { TentativelyAcceptClient } from "./tentativelyAccept";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -43,31 +45,31 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /me/calendarView
+ * \me\calendarView
  * Provides operations to manage the calendarView property of the microsoft.graph.user entity.
  */
 export class CalendarViewClient {
-  protected baseUrl = '/me/calendarView';
-  protected http: AxiosInstance;
+  protected baseUrl = "\me\calendarView";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -75,7 +77,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/accept`
+   * `\me\calendarView\{event-id}\accept`
    *
    * Provides operations to call the accept method.
    */
@@ -84,7 +86,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/attachments`
+   * `\me\calendarView\{event-id}\attachments`
    *
    * Provides operations to manage the attachments property of the microsoft.graph.event entity.
    */
@@ -93,7 +95,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/calendar`
+   * `\me\calendarView\{event-id}\calendar`
    *
    * Provides operations to manage the calendar property of the microsoft.graph.event entity.
    */
@@ -102,7 +104,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/cancel`
+   * `\me\calendarView\{event-id}\cancel`
    *
    * Provides operations to call the cancel method.
    */
@@ -111,7 +113,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `/me/calendarView/count`
+   * `\me\calendarView\count`
    *
    * Provides operations to count the resources in the collection.
    */
@@ -120,7 +122,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/decline`
+   * `\me\calendarView\{event-id}\decline`
    *
    * Provides operations to call the decline method.
    */
@@ -129,7 +131,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `/me/calendarView/delta`
+   * `\me\calendarView\delta`
    *
    * Provides operations to call the delta method.
    */
@@ -138,7 +140,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/dismissReminder`
+   * `\me\calendarView\{event-id}\dismissReminder`
    *
    * Provides operations to call the dismissReminder method.
    */
@@ -147,7 +149,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/extensions`
+   * `\me\calendarView\{event-id}\extensions`
    *
    * Provides operations to manage the extensions property of the microsoft.graph.event entity.
    */
@@ -156,7 +158,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/forward`
+   * `\me\calendarView\{event-id}\forward`
    *
    * Provides operations to call the forward method.
    */
@@ -165,7 +167,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/instances`
+   * `\me\calendarView\{event-id}\instances`
    *
    * Provides operations to manage the instances property of the microsoft.graph.event entity.
    */
@@ -174,7 +176,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/snoozeReminder`
+   * `\me\calendarView\{event-id}\snoozeReminder`
    *
    * Provides operations to call the snoozeReminder method.
    */
@@ -183,7 +185,7 @@ export class CalendarViewClient {
   }
 
   /**
-   * `/me/calendarView/{event-id}/tentativelyAccept`
+   * `\me\calendarView\{event-id}\tentativelyAccept`
    *
    * Provides operations to call the tentativelyAccept method.
    */
@@ -197,24 +199,27 @@ export class CalendarViewClient {
    * Get the occurrences, exceptions, and single instances of events in a calendar view defined by a time range, from the user&#x27;s default calendar,
 or from some other calendar of the user.
    */
-  async get(params?: Endpoints['GET /me/calendarView']['parameters'], config?: AxiosRequestConfig) {
+  async get(
+    params?: Endpoints["GET /me/calendarView"]["parameters"],
+    config?: http.RequestConfig,
+  ) {
     const url = getInjectedUrl(
-      '/me/calendarView',
+      "/me/calendarView",
       [
-        { name: 'startDateTime', in: 'query' },
-        { name: 'endDateTime', in: 'query' },
-        { name: '$orderby', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
+        { name: "startDateTime", in: "query" },
+        { name: "endDateTime", in: "query" },
+        { name: "$orderby", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints['GET /me/calendarView']['response']);
+      .then((res) => res.data as Endpoints["GET /me/calendarView"]["response"]);
   }
 
   /**
@@ -223,25 +228,28 @@ or from some other calendar of the user.
    * The calendar view for the calendar. Read-only. Nullable.
    */
   async get$1(
-    params?: Endpoints['GET /me/calendarView/{event-id}']['parameters'],
-    config?: AxiosRequestConfig
+    params?: Endpoints["GET /me/calendarView/{event-id}"]["parameters"],
+    config?: http.RequestConfig,
   ) {
     const url = getInjectedUrl(
-      '/me/calendarView/{event-id}',
+      "/me/calendarView/{event-id}",
       [
-        { name: 'startDateTime', in: 'query' },
-        { name: 'endDateTime', in: 'query' },
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'event-id', in: 'path' },
+        { name: "startDateTime", in: "query" },
+        { name: "endDateTime", in: "query" },
+        { name: "$select", in: "query" },
+        { name: "$expand", in: "query" },
+        { name: "event-id", in: "path" },
       ],
       {
         ...(params || {}),
-      }
+      },
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints['GET /me/calendarView/{event-id}']['response']);
+      .then(
+        (res) =>
+          res.data as Endpoints["GET /me/calendarView/{event-id}"]["response"],
+      );
   }
 }

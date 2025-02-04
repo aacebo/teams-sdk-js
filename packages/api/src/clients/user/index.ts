@@ -1,18 +1,12 @@
-import { UserTokenClient } from './token';
-import { ClientBase, ClientOptions } from '../client-base';
+import { Client, ClientOptions } from '@teams.sdk/common/http';
 
-export class UserClient extends ClientBase {
+import { UserTokenClient } from './token';
+
+export class UserClient {
   readonly token: UserTokenClient;
 
-  constructor(options?: ClientOptions) {
-    const token = new UserTokenClient(options);
-
-    super({
-      ...options,
-      children: [token],
-    });
-
-    this.token = token;
+  constructor(options?: Client | ClientOptions) {
+    this.token = new UserTokenClient(options);
   }
 }
 

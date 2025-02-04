@@ -1,25 +1,27 @@
-import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import qs from "qs";
+import * as http from "@teams.sdk/common/http";
 
-import pkg from 'src/../package.json';
-import type { Endpoints } from './getAvailableExtensionProperties-types.d.ts';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
+import pkg from "src/../package.json";
+import type { Endpoints } from "./getAvailableExtensionProperties-types.d.ts";
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
+function getInjectedUrl(
+  url: string,
+  params: Array<Param>,
+  data: Record<string, any>,
+) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === 'query') {
+    if (param.in === "query") {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== 'path') {
+    if (param.in !== "path") {
       continue;
     }
 
@@ -30,31 +32,31 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 }
 
 /**
- * /applications/getAvailableExtensionProperties
+ * \applications\getAvailableExtensionProperties
  * Provides operations to call the getAvailableExtensionProperties method.
  */
 export class GetAvailableExtensionPropertiesClient {
-  protected baseUrl = '/applications/getAvailableExtensionProperties';
-  protected http: AxiosInstance;
+  protected baseUrl = "\applications\getAvailableExtensionProperties";
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
+    } else if ("request" in options) {
       this.http = options;
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: "https://graph.microsoft.com/v1.0",
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': `teams[graph]/${pkg.version}`,
+          "Content-Type": "application/json",
+          "User-Agent": `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -67,19 +69,23 @@ export class GetAvailableExtensionPropertiesClient {
    * Return all directory extension definitions that have been registered in a directory, including through multi-tenant apps. The following entities support extension properties:
    */
   async create(
-    body: Endpoints['POST /applications/getAvailableExtensionProperties']['body'],
-    params?: Endpoints['POST /applications/getAvailableExtensionProperties']['parameters'],
-    config?: AxiosRequestConfig
+    body: Endpoints["POST /applications/getAvailableExtensionProperties"]["body"],
+    params?: Endpoints["POST /applications/getAvailableExtensionProperties"]["parameters"],
+    config?: http.RequestConfig,
   ) {
-    const url = getInjectedUrl('/applications/getAvailableExtensionProperties', [], {
-      ...(params || {}),
-    });
+    const url = getInjectedUrl(
+      "/applications/getAvailableExtensionProperties",
+      [],
+      {
+        ...(params || {}),
+      },
+    );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints['POST /applications/getAvailableExtensionProperties']['response']
+          res.data as Endpoints["POST /applications/getAvailableExtensionProperties"]["response"],
       );
   }
 }
