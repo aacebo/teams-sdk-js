@@ -1,7 +1,7 @@
 # Summary
 
 - [👋 Welcome](./1.welcome.md)
-- [Getting Started](./2.getting-started/README.md)
+- [🚀 Getting Started](./2.getting-started/README.md)
     - [Activity](./2.getting-started/1.activity/README.md)
         - [Message](./2.getting-started/1.activity/1.message/README.md)
             - [Message Update](./2.getting-started/1.activity/1.message/1.message-update.md)
@@ -94,3 +94,5 @@
     - [🧠 Memory](./8.ai/5.memory/README.md)
         - [📓 Short Term](./8.ai/5.memory/1.short-term.md)
         - [📚 Long Term](./8.ai/5.memory/2.long-term.md)
+- [🛠️ Contributing](./9.contributing/README.md)
+    - [✍ Writing Documentation](./9.contributing/1.documentation/README.md)
