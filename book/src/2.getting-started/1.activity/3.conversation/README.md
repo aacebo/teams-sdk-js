@@ -1,18 +1,7 @@
 # Activity: Conversation
 
-Teams has several unique conversation update activities that is not found in the original Agents protocol. Those activities are:
+Teams has several unique conversation update activities that are not found in the original Agents protocol. Please see the Conversation Update Events section for more information.
 
-- `channelCreated`
-- `channelDeleted`
-- `channelRenamed`
-- `channelRestored`
-- `historyDisclosed`
-- `membersAdded`
-- `membersRemoved`
-- `teamArchived`
-- `teamDeleted`
-- `teamHardDeleted`
-- `teamRenamed`
-- `teamRestored`
-- `teamUnarchived`
-- `topicName`
+## Resources
+
+- [Microsoft Learn: Conversation Update Events](https://learn.microsoft.com/en-us/microsoftteams/platform/bots/how-to/conversations/subscribe-to-conversation-events#conversation-update-events)
