@@ -20,7 +20,7 @@ The `text` field contains text content, either in the Markdown format, XML, or a
 
 ### Text format
 
-The `textFormat` field denotes whether the [`text`](#text) field should be interpreted as [Markdown](https://daringfireball.net/projects/markdown/) [[3](#references)], plain text, or XML. The value of the `textFormat` field is of type string, with defined values of `markdown`, `plain`, and `xml`. The default value is `plain`. This field is not designed to be extended with arbitrary values.
+The `textFormat` field denotes whether the [`text`](#text) field should be interpreted as [Markdown](https://daringfireball.net/projects/markdown/) [[3](https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#references)], plain text, or XML. The value of the `textFormat` field is of type string, with defined values of `markdown`, `plain`, and `xml`. The default value is `plain`. This field is not designed to be extended with arbitrary values.
 
 The `textFormat` field controls additional fields within attachments etc. This relationship is described within those fields, elsewhere in this document.
 
@@ -40,7 +40,7 @@ The `textFormat` field controls additional fields within attachments etc. This r
 
 ### Locale
 
-The `locale` field communicates the language code of the [`text`](#text) field. The value of the `locale` field is an [IETF BCP-47](https://tools.ietf.org/html/bcp47) [[18](#references)] language tag within a string.
+The `locale` field communicates the language code of the [`text`](#text) field. The value of the `locale` field is an [IETF BCP-47](https://tools.ietf.org/html/bcp47) [[18](https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#references)] language tag within a string.
 
 `A3020`: Receivers SHOULD treat missing and unknown values of the `locale` field as unknown.
 
@@ -72,7 +72,7 @@ The `inputHint` field indicates whether or not the generator of the activity is 
 
 ### Attachments
 
-The `attachments` field contains a flat list of objects to be displayed as part of this activity. The value of each `attachments` list element is a complex object of the [Attachment](#attachment) type.
+The `attachments` field contains a flat list of objects to be displayed as part of this activity. The value of each `attachments` list element is a complex object of the [Attachment](https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#attachment) type.
 
 `A3050`: Senders SHOULD omit the `attachments` field if it contains no elements.
 
@@ -102,7 +102,7 @@ The `summary` field contains text used to replace [`attachments`](#attachments) 
 
 ### Suggested actions
 
-The `suggestedActions` field contains a payload of interactive actions that may be displayed to the user. Support for `suggestedActions` and their manifestation depends heavily on the channel. The value of the `suggestedActions` field is a complex object of the [Suggested actions](#suggested-actions-2) type.
+The `suggestedActions` field contains a payload of interactive actions that may be displayed to the user. Support for `suggestedActions` and their manifestation depends heavily on the channel. The value of the `suggestedActions` field is a complex object of the [Suggested actions](https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#suggested-actions-2) type.
 
 ### Value
 
@@ -178,3 +178,8 @@ Semantic actions are sometimes used to indicate a change in which participant co
 `A3135`: Channels MAY define the use of handoff activity in conjunction with semantic actions.
 
 `A3136`: Bots MAY use semantic action and handoff activity internally to coordinate conversational focus between components of the bot.
+
+## Resources
+
+- [Agents Activity Protocol Schema](https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md)
+- [Microsoft Learn: Message](https://learn.microsoft.com/en-us/microsoftteams/platform/resources/bot-v3/bot-conversations/bots-conversations#conversation-basics)

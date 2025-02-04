@@ -38,3 +38,7 @@ app.on('message', async ({ send, activity, next }) => {
 ```
 
 And with just one command, you have a functioning echo bot! Visit `http://localhost:3001/devtools` to interact with the bot.
+
+## Next
+
+The upcoming subsections on the activity types will cover the different types of activities that can be used in a bot. The definition of activities follow the Agents Protocol, and activities specific to Teams are also indicated.
