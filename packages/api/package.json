@@ -35,11 +35,10 @@
   },
   "peerDependencies": {
     "@teams.sdk/cards": "*",
-    "@teams.sdk/common": "*",
-    "@teams.sdk/graph": "*"
+    "@teams.sdk/common": "*"
   },
   "peerDependenciesMeta": {
-    "@teams.sdk/graph": {
+    "@teams.sdk/cards": {
       "optional": true
     }
   },
