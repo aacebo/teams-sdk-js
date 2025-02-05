@@ -1,5 +1,11 @@
 # @teams.sdk/config
 
+## 0.1.19
+
+### Patch Changes
+
+- refactor http clients to common package
+
 ## 0.1.18
 
 ### Patch Changes
