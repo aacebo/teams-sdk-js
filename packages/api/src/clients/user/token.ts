@@ -78,8 +78,9 @@ export class UserTokenClient {
   }
 
   async signOut(params: SignOutUserParams) {
+    const q = qs.stringify(params);
     const res = await this.http.delete<void>(
-      'https://token.botframework.com/api/usertoken/SignOut',
+      `https://token.botframework.com/api/usertoken/SignOut?${q}`,
       { data: params }
     );
 

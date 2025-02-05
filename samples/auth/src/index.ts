@@ -7,6 +7,12 @@ const app = new App({
   logger: new ConsoleLogger('@samples/auth', { level: 'debug' }),
 });
 
+app.message('/signout', async ({ send, signout, isSignedIn }) => {
+  if (!isSignedIn) return;
+  await signout();
+  await send('you have been signed out!');
+});
+
 app.on('message', async ({ log, signin, graph, isSignedIn }) => {
   if (!isSignedIn) {
     await signin();

@@ -47,7 +47,5 @@ export class ConsoleSender implements Sender {
     return;
   }
 
-  async signout() {
-
-  }
+  async signout() {}
 }

@@ -99,13 +99,16 @@ describe('UserTokenClient', () => {
       userId: '1',
     });
 
-    expect(spy).toHaveBeenCalledWith('https://token.botframework.com/api/usertoken/SignOut', {
-      data: {
-        channelId: 'msteams',
-        connectionName: 'graph',
-        userId: '1',
-      },
-    });
+    expect(spy).toHaveBeenCalledWith(
+      'https://token.botframework.com/api/usertoken/SignOut?channelId=msteams&connectionName=graph&userId=1',
+      {
+        data: {
+          channelId: 'msteams',
+          connectionName: 'graph',
+          userId: '1',
+        },
+      }
+    );
   });
 
   it('should exchange token', async () => {

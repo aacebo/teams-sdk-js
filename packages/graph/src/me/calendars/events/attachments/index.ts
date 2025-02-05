@@ -50,7 +50,13 @@ export class AttachmentsClient {
         },
       });
     } else if ('request' in options) {
-      this.http = options;
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
       this.http = new http.Client({
         ...options,
