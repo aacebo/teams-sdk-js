@@ -127,4 +127,12 @@ export class HttpSender implements Sender {
       ],
     });
   }
+
+  async signout(name = 'graph') {
+    await this.ctx.api.users.token.signOut({
+      channelId: this.ctx.activity.channelId,
+      userId: this.ctx.activity.from.id,
+      connectionName: name,
+    });
+  }
 }

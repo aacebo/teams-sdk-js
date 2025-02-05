@@ -389,6 +389,7 @@ export class App {
       send: sender.send.bind(sender),
       reply: sender.reply.bind(sender),
       signin: sender.signin.bind(sender),
+      signout: sender.signout.bind(sender)
     };
 
     const res = await routes[0](routeCtx);

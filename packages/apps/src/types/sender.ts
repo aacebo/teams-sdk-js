@@ -27,6 +27,12 @@ export interface Sender {
    * @param text card text to display
    */
   signin(name?: string, text?: string): Promise<string | undefined>;
+
+  /**
+   * sign the activity sender out
+   * @param name auth connection name, defaults to `graph`
+   */
+  signout: (name?: string) => Promise<void>;
 }
 
 /**

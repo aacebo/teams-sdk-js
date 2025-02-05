@@ -46,4 +46,8 @@ export class ConsoleSender implements Sender {
     await open(`https://login.microsoftonline.com/${this.ctx.tenantId}/oauth2/v2.0/authorize?${q}`);
     return;
   }
+
+  async signout() {
+
+  }
 }
