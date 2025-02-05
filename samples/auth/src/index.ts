@@ -7,13 +7,20 @@ const app = new App({
   logger: new ConsoleLogger('@samples/auth', { level: 'debug' }),
 });
 
-app.on('message', async ({ log, signin, isSignedIn }) => {
+app.message('/signout', async ({ send, signout, isSignedIn }) => {
+  if (!isSignedIn) return;
+  await signout();
+  await send('you have been signed out!');
+});
+
+app.on('message', async ({ log, signin, api, isSignedIn }) => {
   if (!isSignedIn) {
     await signin();
     return;
   }
 
-  log.info('user already signed in!');
+  const me = await api.graph.me.get();
+  log.info(`user "${me.displayName}" already signed in!`);
 });
 
 app.event('signin', async ({ send, api }) => {

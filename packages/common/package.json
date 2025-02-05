@@ -45,6 +45,16 @@
         "default": "./dist/events/index.js"
       }
     },
+    "./http": {
+      "import": {
+        "types": "./dist/http/index.d.mts",
+        "default": "./dist/http/index.mjs"
+      },
+      "require": {
+        "types": "./dist/http/index.d.ts",
+        "default": "./dist/http/index.js"
+      }
+    },
     "./logging": {
       "import": {
         "types": "./dist/logging/index.d.mts",
@@ -70,6 +80,9 @@
     "clean": "npx rimraf ./dist",
     "build": "npx tsup",
     "test": "npx jest"
+  },
+  "dependencies": {
+    "axios": "^1.7.7"
   },
   "devDependencies": {
     "@teams.sdk/config": "*",

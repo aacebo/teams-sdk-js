@@ -1,11 +1,9 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
 import { CountClient } from './count';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -37,26 +35,32 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 export class ExtensionsClient {
   protected baseUrl =
     '/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/extensions';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
   constructor(
     protected readonly eventId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -81,7 +85,7 @@ export class ExtensionsClient {
    */
   async delete(
     params?: Endpoints['DELETE /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/extensions/{extension-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/extensions/{extension-id}',
@@ -113,7 +117,7 @@ export class ExtensionsClient {
    */
   async list(
     params?: Endpoints['GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/extensions']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/extensions',
@@ -146,7 +150,7 @@ export class ExtensionsClient {
    */
   async get(
     params?: Endpoints['GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/extensions/{extension-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/extensions/{extension-id}',
@@ -179,7 +183,7 @@ export class ExtensionsClient {
   async update(
     body: Endpoints['PATCH /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/extensions/{extension-id}']['body'],
     params?: Endpoints['PATCH /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/extensions/{extension-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/extensions/{extension-id}',
@@ -210,7 +214,7 @@ export class ExtensionsClient {
   async create(
     body: Endpoints['POST /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/extensions']['body'],
     params?: Endpoints['POST /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/extensions']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/events/{event-id}/extensions',

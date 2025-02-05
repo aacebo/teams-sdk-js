@@ -1,11 +1,9 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
 import { CountClient } from './count';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -36,23 +34,29 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class WorkforceIntegrationsClient {
   protected baseUrl = '/teamwork/workforceIntegrations';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -78,7 +82,7 @@ export class WorkforceIntegrationsClient {
    */
   async delete(
     params?: Endpoints['DELETE /teamwork/workforceIntegrations/{workforceIntegration-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teamwork/workforceIntegrations/{workforceIntegration-id}',
@@ -106,7 +110,7 @@ export class WorkforceIntegrationsClient {
    */
   async list(
     params?: Endpoints['GET /teamwork/workforceIntegrations']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teamwork/workforceIntegrations',
@@ -132,7 +136,7 @@ export class WorkforceIntegrationsClient {
    */
   async get(
     params?: Endpoints['GET /teamwork/workforceIntegrations/{workforceIntegration-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teamwork/workforceIntegrations/{workforceIntegration-id}',
@@ -162,7 +166,7 @@ export class WorkforceIntegrationsClient {
   async update(
     body: Endpoints['PATCH /teamwork/workforceIntegrations/{workforceIntegration-id}']['body'],
     params?: Endpoints['PATCH /teamwork/workforceIntegrations/{workforceIntegration-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teamwork/workforceIntegrations/{workforceIntegration-id}',
@@ -189,7 +193,7 @@ You can set up which entities you want to receive Shifts synchronous change noti
   async create(
     body: Endpoints['POST /teamwork/workforceIntegrations']['body'],
     params?: Endpoints['POST /teamwork/workforceIntegrations']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl('/teamwork/workforceIntegrations', [], {
       ...(params || {}),

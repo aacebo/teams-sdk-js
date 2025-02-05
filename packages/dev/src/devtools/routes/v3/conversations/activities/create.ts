@@ -24,8 +24,8 @@ export function create({ port, log, process }: RouteContext) {
     }
 
     try {
-      process({
-        token: new JsonWebToken(
+      process(
+        new JsonWebToken(
           jwt.sign(
             {
               serviceurl: `http://localhost:${port}`,
@@ -33,7 +33,7 @@ export function create({ port, log, process }: RouteContext) {
             'secret'
           )
         ),
-        activity: {
+        {
           ...req.body,
           id: req.body.id || uuid.v4(),
           channelId: 'msteams',
@@ -47,10 +47,9 @@ export function create({ port, log, process }: RouteContext) {
             conversationType: 'oneOnOne',
             isGroup: false,
             name: 'default',
-            role: 'user',
           },
-        },
-      });
+        }
+      );
 
       res.status(201).send({ id });
     } catch (err: any) {

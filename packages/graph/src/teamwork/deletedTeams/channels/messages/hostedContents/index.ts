@@ -1,12 +1,10 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
 import { CountClient } from './count';
 import { ValueClient } from './value';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -38,26 +36,32 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 export class HostedContentsClient {
   protected baseUrl =
     '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
   constructor(
     protected readonly chatMessageId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -91,7 +95,7 @@ export class HostedContentsClient {
    */
   async delete(
     params?: Endpoints['DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents/{chatMessageHostedContent-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents/{chatMessageHostedContent-id}',
@@ -123,7 +127,7 @@ export class HostedContentsClient {
    */
   async list(
     params?: Endpoints['GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents',
@@ -156,7 +160,7 @@ export class HostedContentsClient {
    */
   async get(
     params?: Endpoints['GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents/{chatMessageHostedContent-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents/{chatMessageHostedContent-id}',
@@ -189,7 +193,7 @@ export class HostedContentsClient {
   async update(
     body: Endpoints['PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents/{chatMessageHostedContent-id}']['body'],
     params?: Endpoints['PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents/{chatMessageHostedContent-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents/{chatMessageHostedContent-id}',
@@ -220,7 +224,7 @@ export class HostedContentsClient {
   async create(
     body: Endpoints['POST /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents']['body'],
     params?: Endpoints['POST /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/messages/{chatMessage-id}/hostedContents',

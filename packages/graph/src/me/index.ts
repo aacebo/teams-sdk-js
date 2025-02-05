@@ -1,5 +1,5 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
@@ -10,8 +10,6 @@ import { CalendarsClient } from './calendars';
 import { PhotoClient } from './photo';
 import { PhotosClient } from './photos';
 import { PresenceClient } from './presence';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -42,23 +40,29 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class MeClient {
   protected baseUrl = '/me';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -136,7 +140,7 @@ export class MeClient {
    *
    * Retrieve the properties and relationships of user object. This operation returns by default only a subset of the more commonly used properties for each user. These default properties are noted in the Properties section. To get properties that are not returned by default, do a GET operation for the user and specify the properties in a $select OData query option. Because the user resource supports extensions, you can also use the GET operation to get custom properties and extension data in a user instance. Customers through Microsoft Entra ID for customers can also use this API operation to retrieve their details.
    */
-  async get(params?: Endpoints['GET /me']['parameters'], config?: AxiosRequestConfig) {
+  async get(params?: Endpoints['GET /me']['parameters'], config?: http.RequestConfig) {
     const url = getInjectedUrl(
       '/me',
       [
@@ -160,7 +164,7 @@ export class MeClient {
   async update(
     body: Endpoints['PATCH /me']['body'],
     params?: Endpoints['PATCH /me']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl('/me', [], {
       ...(params || {}),

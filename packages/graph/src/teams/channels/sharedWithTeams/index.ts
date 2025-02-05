@@ -1,13 +1,11 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
 import { AllowedMembersClient } from './allowedMembers';
 import { CountClient } from './count';
 import { TeamClient } from './team';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -38,26 +36,32 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class SharedWithTeamsClient {
   protected baseUrl = '/teams/{team-id}/channels/{channel-id}/sharedWithTeams';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
   constructor(
     protected readonly channelId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -101,7 +105,7 @@ export class SharedWithTeamsClient {
    */
   async delete(
     params?: Endpoints['DELETE /teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}',
@@ -132,7 +136,7 @@ export class SharedWithTeamsClient {
    */
   async list(
     params?: Endpoints['GET /teams/{team-id}/channels/{channel-id}/sharedWithTeams']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/channels/{channel-id}/sharedWithTeams',
@@ -164,7 +168,7 @@ export class SharedWithTeamsClient {
    */
   async get(
     params?: Endpoints['GET /teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}',
@@ -196,7 +200,7 @@ export class SharedWithTeamsClient {
   async update(
     body: Endpoints['PATCH /teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}']['body'],
     params?: Endpoints['PATCH /teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/channels/{channel-id}/sharedWithTeams/{sharedWithChannelTeamInfo-id}',
@@ -226,7 +230,7 @@ export class SharedWithTeamsClient {
   async create(
     body: Endpoints['POST /teams/{team-id}/channels/{channel-id}/sharedWithTeams']['body'],
     params?: Endpoints['POST /teams/{team-id}/channels/{channel-id}/sharedWithTeams']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/channels/{channel-id}/sharedWithTeams',

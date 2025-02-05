@@ -1,5 +1,5 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
@@ -10,8 +10,6 @@ import { SetReactionClient } from './setReaction';
 import { SoftDeleteClient } from './softDelete';
 import { UndoSoftDeleteClient } from './undoSoftDelete';
 import { UnsetReactionClient } from './unsetReaction';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -42,26 +40,32 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class RepliesClient {
   protected baseUrl = '/chats/{chat-id}/messages/{chatMessage-id}/replies';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
   constructor(
     protected readonly chatMessageId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -140,7 +144,7 @@ export class RepliesClient {
    */
   async delete(
     params?: Endpoints['DELETE /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}',
@@ -171,7 +175,7 @@ export class RepliesClient {
    */
   async list(
     params?: Endpoints['GET /chats/{chat-id}/messages/{chatMessage-id}/replies']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/chats/{chat-id}/messages/{chatMessage-id}/replies',
@@ -203,7 +207,7 @@ export class RepliesClient {
    */
   async get(
     params?: Endpoints['GET /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}',
@@ -235,7 +239,7 @@ export class RepliesClient {
   async update(
     body: Endpoints['PATCH /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}']['body'],
     params?: Endpoints['PATCH /chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/chats/{chat-id}/messages/{chatMessage-id}/replies/{chatMessage-id1}',
@@ -265,7 +269,7 @@ export class RepliesClient {
   async create(
     body: Endpoints['POST /chats/{chat-id}/messages/{chatMessage-id}/replies']['body'],
     params?: Endpoints['POST /chats/{chat-id}/messages/{chatMessage-id}/replies']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/chats/{chat-id}/messages/{chatMessage-id}/replies',

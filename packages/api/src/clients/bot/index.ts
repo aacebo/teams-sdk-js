@@ -1,23 +1,15 @@
-import { ClientBase, ClientOptions } from '../client-base';
+import { Client, ClientOptions } from '@teams.sdk/common/http';
 
 import { BotSignInClient } from './sign-in';
 import { BotTokenClient } from './token';
 
-export class BotClient extends ClientBase {
+export class BotClient {
   readonly token: BotTokenClient;
   readonly signIn: BotSignInClient;
 
-  constructor(options?: ClientOptions) {
-    const token = new BotTokenClient(options);
-    const signIn = new BotSignInClient(options);
-
-    super({
-      ...options,
-      children: [token, signIn],
-    });
-
-    this.token = token;
-    this.signIn = signIn;
+  constructor(options?: Client | ClientOptions) {
+    this.token = new BotTokenClient(options);
+    this.signIn = new BotSignInClient(options);
   }
 }
 

@@ -1,9 +1,11 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
 import { Logger, ConsoleLogger } from '@teams.sdk/common/logging';
 import { LocalStorage, Storage } from '@teams.sdk/common/storage';
+import * as http from '@teams.sdk/common/http';
+import * as graph from '@teams.sdk/graph';
+
 import {
-  Client,
   Activity,
   Token,
   Credentials,
@@ -13,27 +15,30 @@ import {
   SignInVerifyStateInvokeActivity,
   InvokeResponse,
   JsonWebToken,
+  BotClient,
+  UserClient,
 } from '@teams.sdk/api';
 
 import pkg from '../package.json';
 
 import { Routes } from './routes';
 import { Router } from './router';
-import { Plugin, RouteHandler } from './types';
+import { Plugin, RouteHandler, Sender } from './types';
 import { DEFAULT_EVENTS, Events } from './events';
 import { ActivityContext } from './activity-context';
 import { MiddlewareContext } from './middleware-context';
 import { HttpPlugin } from './plugins';
 import { OAuthSettings } from './oauth';
+import { Api } from './api';
 
 /**
  * App initialization options
  */
 export type AppOptions = Partial<Credentials> & {
   /**
-   * http client options used to make api requests
+   * http client or client options used to make api requests
    */
-  readonly http?: axios.CreateAxiosDefaults;
+  readonly http?: http.Client | http.ClientOptions | (() => http.Client);
 
   /**
    * logger instance to use
@@ -68,6 +73,11 @@ export interface ProcessActivityArgs {
   readonly activity: Activity;
 
   /**
+   *
+   */
+  readonly sender: (ctx: ActivityContext) => Sender | Promise<Sender>;
+
+  /**
    * other
    */
   [key: string]: any;
@@ -77,10 +87,16 @@ export interface ProcessActivityArgs {
  * The orchestrator for receiving/sending activities
  */
 export class App {
-  api: Client;
   log: Logger;
   storage: Storage;
   credentials?: Credentials;
+
+  /**
+   * The apps graph client
+   * @remak this client uses the apps/bots
+   * graph token.
+   */
+  graph: graph.Client;
 
   get tokens() {
     return this._tokens;
@@ -97,24 +113,65 @@ export class App {
     graph?: Token;
   } = {};
 
+  protected http: http.Client;
+  protected bot: BotClient;
+  protected user: UserClient;
   protected plugins: Array<Plugin>;
-  protected sender: Plugin;
   protected router = new Router();
 
   private readonly _events = DEFAULT_EVENTS;
+  private readonly _userAgent = `teams[apps]/${pkg.version}`;
 
-  constructor(readonly options: AppOptions) {
+  constructor(readonly options: AppOptions = {}) {
     this.log = this.options.logger || new ConsoleLogger('@teams.sdk/app');
-    this.api = new Client({
-      ...this.options.http,
-      headers: {
-        ...this.options.http?.headers,
-        'User-Agent': `teams[apps]/${pkg.version}`,
-      },
-    });
-
     this.storage = this.options.storage || new LocalStorage();
-    this.plugins = this.options.plugins || [];
+    this.plugins = this.options.plugins || [new HttpPlugin()];
+
+    if (!options.http) {
+      this.http = new http.Client({
+        headers: {
+          'User-Agent': this._userAgent,
+        },
+      });
+    } else if (typeof options.http === 'function') {
+      this.http = options.http().clone({
+        headers: {
+          'User-Agent': this._userAgent,
+        },
+      });
+    } else if ('request' in options.http) {
+      this.http = options.http.clone({
+        headers: {
+          'User-Agent': this._userAgent,
+        },
+      });
+    } else {
+      this.http = new http.Client({
+        ...options.http,
+        headers: {
+          ...options.http.headers,
+          'User-Agent': this._userAgent,
+        },
+      });
+    }
+
+    this.bot = new BotClient(
+      this.http.clone({
+        token: () => this._tokens.bot,
+      })
+    );
+
+    this.user = new UserClient(
+      this.http.clone({
+        token: () => this._tokens.bot,
+      })
+    );
+
+    this.graph = new graph.Client(
+      this.http.clone({
+        token: () => this._tokens.graph,
+      })
+    );
 
     const clientId = this.options.clientId || process.env.CLIENT_ID;
     const clientSecret = this.options.clientSecret || process.env.CLIENT_SECRET;
@@ -127,16 +184,6 @@ export class App {
         tenantId: tenantId,
       };
     }
-
-    const http = new HttpPlugin();
-    let sender = this.plugins.find((p) => !!p.sender);
-
-    if (!sender) {
-      sender = http;
-      this.plugin(http);
-    }
-
-    this.sender = sender;
 
     for (const plugin of this.plugins) {
       plugin.register(this);
@@ -160,27 +207,12 @@ export class App {
   async start(port = 3000) {
     try {
       if (this.credentials) {
-        const bot = await this.api.bots.token.get(this.credentials);
-        const graph = await this.api.bots.token.getGraph(this.credentials);
+        const botResponse = await this.bot.token.get(this.credentials);
+        const graphResponse = await this.bot.token.getGraph(this.credentials);
         this._tokens = {
-          bot: new JsonWebToken(bot.access_token),
-          graph: new JsonWebToken(graph.access_token),
+          bot: new JsonWebToken(botResponse.access_token),
+          graph: new JsonWebToken(graphResponse.access_token),
         };
-
-        this.api = new Client({
-          ...this.options.http,
-          headers: {
-            ...this.options.http?.headers,
-            'User-Agent': `teams[apps]/${pkg.version}`,
-            Authorization: `Bearer ${this.tokens.bot}`,
-          },
-          graph: {
-            headers: {
-              'User-Agent': `teams[apps]/${pkg.version}`,
-              Authorization: `Bearer ${this.tokens.graph}`,
-            },
-          },
-        });
       }
 
       for (const plugin of this.plugins) {
@@ -277,7 +309,7 @@ export class App {
     let userToken: string | undefined;
 
     try {
-      const res = await this.api.users.token.get({
+      const res = await this.user.token.get({
         channelId: activity.channelId,
         userId: activity.from.id,
         connectionName: this.options.oauth?.graph || 'graph',
@@ -286,21 +318,18 @@ export class App {
       userToken = res.token;
     } catch (err) {}
 
-    const api = new Client({
-      ...this.options.http,
-      baseURL: serviceUrl,
-      headers: {
-        ...this.options.http?.headers,
-        'User-Agent': `teams[apps]/${pkg.version}`,
-        Authorization: `Bearer ${this.tokens.bot}`,
-      },
-      graph: {
-        headers: {
-          'User-Agent': `teams[apps]/${pkg.version}`,
-          Authorization: `Bearer ${userToken || this.tokens.graph}`,
-        },
-      },
-    });
+    const api = new Api(
+      serviceUrl,
+      this.http.clone({
+        token: () => this.tokens.bot,
+      })
+    );
+
+    api.graph = new graph.Client(
+      this.http.clone({
+        token: userToken,
+      })
+    );
 
     const conversation: ConversationReference = {
       serviceUrl,
@@ -327,6 +356,7 @@ export class App {
     const ctx: ActivityContext<Activity> & Credentials = {
       ...args,
       ...creds,
+      sender: undefined,
       appId: this._tokens.bot?.appId || '',
       api,
       log: this.log,
@@ -337,7 +367,7 @@ export class App {
     };
 
     let i = 0;
-    const sender = this.sender.sender!(ctx);
+    const sender = await args.sender(ctx);
     const stream = sender.stream || {
       emit: () => {},
       close: () => {},
@@ -358,6 +388,7 @@ export class App {
       send: sender.send.bind(sender),
       reply: sender.reply.bind(sender),
       signin: sender.signin.bind(sender),
+      signout: sender.signout.bind(sender),
     };
 
     const res = await routes[0](routeCtx);
@@ -380,21 +411,11 @@ export class App {
         },
       });
 
-      ctx.api = new Client({
-        ...this.options.http,
-        baseURL: ctx.ref.serviceUrl,
-        headers: {
-          ...this.options.http?.headers,
-          'User-Agent': `teams[apps]/${pkg.version}`,
-          Authorization: `Bearer ${this.tokens.bot}`,
-        },
-        graph: {
-          headers: {
-            'User-Agent': `teams[apps]/${pkg.version}`,
-            Authorization: `Bearer ${token.token}`,
-          },
-        },
-      });
+      ctx.api.graph = new graph.Client(
+        this.http.clone({
+          token: token.token,
+        })
+      );
 
       this._events.signin({ ...ctx, token });
       return { status: 200 };
@@ -441,21 +462,11 @@ export class App {
       await storage.delete(key);
       await storage.set(`${activity.conversation.id}/${activity.from.id}/token`, token);
 
-      ctx.api = new Client({
-        ...this.options.http,
-        baseURL: ctx.ref.serviceUrl,
-        headers: {
-          ...this.options.http?.headers,
-          'User-Agent': `teams[apps]/${pkg.version}`,
-          Authorization: `Bearer ${this.tokens.bot}`,
-        },
-        graph: {
-          headers: {
-            'User-Agent': `teams[apps]/${pkg.version}`,
-            Authorization: `Bearer ${token.token}`,
-          },
-        },
-      });
+      ctx.api.graph = new graph.Client(
+        this.http.clone({
+          token: token.token,
+        })
+      );
 
       this._events.signin({ ...ctx, token });
       return { status: 200 };

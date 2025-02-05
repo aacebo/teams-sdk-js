@@ -1,12 +1,10 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
 import { ActivateClient } from './activate';
 import { CountClient } from './count';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -37,23 +35,29 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class RestoreSessionsClient {
   protected baseUrl = '/solutions/backupRestore/restoreSessions';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -88,7 +92,7 @@ export class RestoreSessionsClient {
    */
   async delete(
     params?: Endpoints['DELETE /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/backupRestore/restoreSessions/{restoreSessionBase-id}',
@@ -116,7 +120,7 @@ export class RestoreSessionsClient {
    */
   async list(
     params?: Endpoints['GET /solutions/backupRestore/restoreSessions']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/backupRestore/restoreSessions',
@@ -144,7 +148,7 @@ export class RestoreSessionsClient {
    */
   async get(
     params?: Endpoints['GET /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/backupRestore/restoreSessions/{restoreSessionBase-id}',
@@ -173,7 +177,7 @@ export class RestoreSessionsClient {
   async update(
     body: Endpoints['PATCH /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}']['body'],
     params?: Endpoints['PATCH /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/backupRestore/restoreSessions/{restoreSessionBase-id}',
@@ -198,7 +202,7 @@ export class RestoreSessionsClient {
   async create(
     body: Endpoints['POST /solutions/backupRestore/restoreSessions']['body'],
     params?: Endpoints['POST /solutions/backupRestore/restoreSessions']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl('/solutions/backupRestore/restoreSessions', [], {
       ...(params || {}),

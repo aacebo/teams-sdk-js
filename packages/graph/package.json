@@ -28,11 +28,11 @@
     "build": "npx cross-env NODE_OPTIONS='--max-old-space-size=16384' npx tsup && npx rimraf ./dist/index.d.mts",
     "test": "npx jest",
     "gen": "npm run gen:types && npm run gen:endpoints",
-    "gen:types": "npx ts-node ./scripts/gen-types.ts",
-    "gen:endpoints": "npx ts-node ./scripts/gen-endpoints.ts"
+    "gen:types": "npx ts-node ./scripts/types.ts",
+    "gen:endpoints": "npx ts-node ./scripts/endpoints.ts"
   },
   "dependencies": {
-    "axios": "^1.7.9",
+    "@teams.sdk/common": "*",
     "qs": "^6.13.0"
   },
   "devDependencies": {

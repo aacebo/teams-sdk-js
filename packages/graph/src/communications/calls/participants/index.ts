@@ -1,5 +1,5 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
@@ -8,8 +8,6 @@ import { InviteClient } from './invite';
 import { MuteClient } from './mute';
 import { StartHoldMusicClient } from './startHoldMusic';
 import { StopHoldMusicClient } from './stopHoldMusic';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -40,26 +38,32 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class ParticipantsClient {
   protected baseUrl = '/communications/calls/{call-id}/participants';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
   constructor(
     protected readonly callId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -121,7 +125,7 @@ export class ParticipantsClient {
    */
   async delete(
     params?: Endpoints['DELETE /communications/calls/{call-id}/participants/{participant-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/communications/calls/{call-id}/participants/{participant-id}',
@@ -151,7 +155,7 @@ export class ParticipantsClient {
    */
   async list(
     params?: Endpoints['GET /communications/calls/{call-id}/participants']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/communications/calls/{call-id}/participants',
@@ -182,7 +186,7 @@ export class ParticipantsClient {
    */
   async get(
     params?: Endpoints['GET /communications/calls/{call-id}/participants/{participant-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/communications/calls/{call-id}/participants/{participant-id}',
@@ -213,7 +217,7 @@ export class ParticipantsClient {
   async update(
     body: Endpoints['PATCH /communications/calls/{call-id}/participants/{participant-id}']['body'],
     params?: Endpoints['PATCH /communications/calls/{call-id}/participants/{participant-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/communications/calls/{call-id}/participants/{participant-id}',
@@ -242,7 +246,7 @@ export class ParticipantsClient {
   async create(
     body: Endpoints['POST /communications/calls/{call-id}/participants']['body'],
     params?: Endpoints['POST /communications/calls/{call-id}/participants']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/communications/calls/{call-id}/participants',

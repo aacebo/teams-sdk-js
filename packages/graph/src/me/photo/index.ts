@@ -1,11 +1,9 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
 import { ValueClient } from './value';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -36,23 +34,29 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class PhotoClient {
   protected baseUrl = '/me/photo';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -76,7 +80,7 @@ export class PhotoClient {
    *
    * Delete the photo for the signed-in user or the specified group.
    */
-  async delete(params?: Endpoints['DELETE /me/photo']['parameters'], config?: AxiosRequestConfig) {
+  async delete(params?: Endpoints['DELETE /me/photo']['parameters'], config?: http.RequestConfig) {
     const url = getInjectedUrl('/me/photo', [{ name: 'If-Match', in: 'header' }], {
       ...(params || {}),
     });
@@ -94,7 +98,7 @@ export class PhotoClient {
 If the size you request is unavailable, you can still get a smaller size that the user has uploaded and made available.
 For example, if the user uploads a photo that is 504x504 pixels, all but the 648x648 size of the photo is available for download.
    */
-  async get(params?: Endpoints['GET /me/photo']['parameters'], config?: AxiosRequestConfig) {
+  async get(params?: Endpoints['GET /me/photo']['parameters'], config?: http.RequestConfig) {
     const url = getInjectedUrl(
       '/me/photo',
       [
@@ -119,7 +123,7 @@ For example, if the user uploads a photo that is 504x504 pixels, all but the 648
   async update(
     body: Endpoints['PATCH /me/photo']['body'],
     params?: Endpoints['PATCH /me/photo']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl('/me/photo', [], {
       ...(params || {}),

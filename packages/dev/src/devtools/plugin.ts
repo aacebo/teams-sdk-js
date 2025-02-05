@@ -19,7 +19,6 @@ export interface DevtoolsOptions {
 
 export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin {
   readonly name = 'devtools';
-  readonly version = '0.0.0';
 
   protected log: Logger;
   protected http: http.Server;
@@ -56,7 +55,13 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
       router({
         port: this.options.port || 3001,
         log: this.log,
-        process: app.process.bind(app),
+        process: (token, activity) => {
+          return app.process({
+            token,
+            activity,
+            sender: (ctx) => this.sender(ctx),
+          });
+        },
       })
     );
 
@@ -74,8 +79,8 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
   }
 
   sender(ctx: ActivityContext) {
-    ctx.api.use('request', {
-      onSuccess: (config) => {
+    ctx.api.http.use({
+      request: ({ config }) => {
         const id = uuid.v4();
         const sentAt = new Date();
 
@@ -92,10 +97,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
 
         return config;
       },
-    });
-
-    ctx.api.use('response', {
-      onSuccess: (res) => {
+      response: ({ res }) => {
         const id = res.config.headers.get('x-devtools-request-id')?.toString();
         const sentAt = res.config.headers.get('x-devtools-sent-at')?.toString();
 
@@ -114,24 +116,24 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
 
         return res;
       },
-      onError: (err) => {
-        if (!(err instanceof AxiosError)) return Promise.reject(err);
+      error: ({ error }) => {
+        if (!(error instanceof AxiosError)) return Promise.reject(error);
 
-        const id = err.config?.headers.get('x-devtools-request-id')?.toString();
-        const sentAt = err.config?.headers.get('x-devtools-sent-at')?.toString();
+        const id = error.config?.headers.get('x-devtools-request-id')?.toString();
+        const sentAt = error.config?.headers.get('x-devtools-sent-at')?.toString();
 
         if (id && sentAt) {
           this.sendActivity({
             id,
             type: 'activity.error',
             chat: ctx.activity.conversation,
-            body: err.config?.data,
-            error: err.response?.data,
+            body: error.config?.data,
+            error: error.response?.data,
             sentAt: new Date(sentAt),
           });
         }
 
-        return Promise.reject(err);
+        return Promise.reject(error);
       },
     });
 

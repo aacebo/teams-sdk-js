@@ -1,5 +1,5 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
@@ -7,8 +7,6 @@ import { CountClient } from './count';
 import { Organizerv2Client } from './organizerv2';
 import { Participantsv2Client } from './participantsv2';
 import { SessionsClient } from './sessions';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -39,23 +37,29 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class CallRecordsClient {
   protected baseUrl = '/communications/callRecords';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -107,7 +111,7 @@ export class CallRecordsClient {
    */
   async delete(
     params?: Endpoints['DELETE /communications/callRecords/{callRecord-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/communications/callRecords/{callRecord-id}',
@@ -135,7 +139,7 @@ export class CallRecordsClient {
    */
   async list(
     params?: Endpoints['GET /communications/callRecords']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/communications/callRecords',
@@ -161,7 +165,7 @@ export class CallRecordsClient {
    */
   async get$1(
     params?: Endpoints['GET /communications/callRecords/microsoft.graph.callRecords.getDirectRoutingCalls(fromDateTime&#x3D;{fromDateTime},toDateTime&#x3D;{toDateTime})']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/communications/callRecords/microsoft.graph.callRecords.getDirectRoutingCalls(fromDateTime&#x3D;{fromDateTime},toDateTime&#x3D;{toDateTime})',
@@ -189,7 +193,7 @@ export class CallRecordsClient {
    */
   async get$2(
     params?: Endpoints['GET /communications/callRecords/microsoft.graph.callRecords.getPstnCalls(fromDateTime&#x3D;{fromDateTime},toDateTime&#x3D;{toDateTime})']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/communications/callRecords/microsoft.graph.callRecords.getPstnCalls(fromDateTime&#x3D;{fromDateTime},toDateTime&#x3D;{toDateTime})',
@@ -219,7 +223,7 @@ export class CallRecordsClient {
    */
   async get(
     params?: Endpoints['GET /communications/callRecords/{callRecord-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/communications/callRecords/{callRecord-id}',
@@ -248,7 +252,7 @@ export class CallRecordsClient {
   async update(
     body: Endpoints['PATCH /communications/callRecords/{callRecord-id}']['body'],
     params?: Endpoints['PATCH /communications/callRecords/{callRecord-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/communications/callRecords/{callRecord-id}',
@@ -273,7 +277,7 @@ export class CallRecordsClient {
   async create(
     body: Endpoints['POST /communications/callRecords']['body'],
     params?: Endpoints['POST /communications/callRecords']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl('/communications/callRecords', [], {
       ...(params || {}),

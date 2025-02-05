@@ -1,5 +1,5 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
@@ -10,8 +10,6 @@ import { RegistrationsClient } from './registrations';
 import { RegistrationsemailemailClient } from './registrationsemailemail';
 import { RegistrationsuserIduserIdClient } from './registrationsuserIduserId';
 import { SessionsClient } from './sessions';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -42,23 +40,29 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class WebinarsClient {
   protected baseUrl = '/solutions/virtualEvents/webinars';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -137,7 +141,7 @@ export class WebinarsClient {
    */
   async delete(
     params?: Endpoints['DELETE /solutions/virtualEvents/webinars/{virtualEventWebinar-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/virtualEvents/webinars/{virtualEventWebinar-id}',
@@ -165,7 +169,7 @@ export class WebinarsClient {
    */
   async list(
     params?: Endpoints['GET /solutions/virtualEvents/webinars']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/virtualEvents/webinars',
@@ -191,7 +195,7 @@ export class WebinarsClient {
    */
   async get$1(
     params?: Endpoints['GET /solutions/virtualEvents/webinars/getByUserIdAndRole(userId&#x3D;&#x27;{userId}&#x27;,role&#x3D;&#x27;{role}&#x27;)']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/virtualEvents/webinars/getByUserIdAndRole(userId&#x3D;&#x27;{userId}&#x27;,role&#x3D;&#x27;{role}&#x27;)',
@@ -222,7 +226,7 @@ export class WebinarsClient {
    */
   async get$2(
     params?: Endpoints['GET /solutions/virtualEvents/webinars/getByUserRole(role&#x3D;&#x27;{role}&#x27;)']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/virtualEvents/webinars/getByUserRole(role&#x3D;&#x27;{role}&#x27;)',
@@ -252,7 +256,7 @@ export class WebinarsClient {
    */
   async get(
     params?: Endpoints['GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/virtualEvents/webinars/{virtualEventWebinar-id}',
@@ -282,7 +286,7 @@ export class WebinarsClient {
   async update(
     body: Endpoints['PATCH /solutions/virtualEvents/webinars/{virtualEventWebinar-id}']['body'],
     params?: Endpoints['PATCH /solutions/virtualEvents/webinars/{virtualEventWebinar-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/virtualEvents/webinars/{virtualEventWebinar-id}',
@@ -308,7 +312,7 @@ export class WebinarsClient {
   async create(
     body: Endpoints['POST /solutions/virtualEvents/webinars']['body'],
     params?: Endpoints['POST /solutions/virtualEvents/webinars']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl('/solutions/virtualEvents/webinars', [], {
       ...(params || {}),

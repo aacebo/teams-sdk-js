@@ -1,7 +1,7 @@
 {{#if (notEmpty endpoints)}}
 import qs from 'qs';
 {{/if}}
-import axios, { AxiosInstance, CreateAxiosDefaults, {{#if (notEmpty endpoints)}}AxiosRequestConfig{{/if}} } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 {{#if (notEmpty endpoints)}}
@@ -10,10 +10,6 @@ import type { Endpoints } from './{{types}}-types.d.ts';
 {{#each clients}}
 import { {{capitalize @key}}Client } from './{{@key}}';
 {{/each}}
-
-type GraphClientOptions =
-  CreateAxiosDefaults |
-  AxiosInstance;
 
 {{#if (notEmpty endpoints)}}
 interface Param {
@@ -50,30 +46,36 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class {{capitalize name}}Client {
   protected baseUrl = '{{url}}';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
   {{#if (notEmpty parameters)}}
   constructor(
     {{#each parameters}}protected readonly {{camelcase this}}: string,{{/each}}
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions
   ) {
   {{else}}
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
   {{/if}}
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`
         }
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        }
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -115,7 +117,7 @@ export class {{capitalize name}}Client {
   {{/if}}
    */
   {{#if (eq method "get")}}
-  async {{name}}(params?: Endpoints['{{@key}}']['parameters'], config?: AxiosRequestConfig) {
+  async {{name}}(params?: Endpoints['{{@key}}']['parameters'], config?: http.RequestConfig) {
     const url = getInjectedUrl(
       '{{url}}',
       [
@@ -136,7 +138,7 @@ export class {{capitalize name}}Client {
     return this.http.get(url, config).then(res => res.data as Endpoints['{{@key}}']['response']);
   }
   {{else if (eq method "delete")}}
-  async {{name}}(params?: Endpoints['{{@key}}']['parameters'], config?: AxiosRequestConfig) {
+  async {{name}}(params?: Endpoints['{{@key}}']['parameters'], config?: http.RequestConfig) {
     const url = getInjectedUrl(
       '{{url}}',
       [
@@ -160,7 +162,7 @@ export class {{capitalize name}}Client {
   async {{name}}(
     body: Endpoints['{{@key}}']['body'],
     params?: Endpoints['{{@key}}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '{{url}}',

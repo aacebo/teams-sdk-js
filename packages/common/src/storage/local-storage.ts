@@ -5,11 +5,6 @@ export interface LocalStorageOptions {
    * max number of records.
    */
   readonly max?: number;
-
-  /**
-   * time to live in ms.
-   */
-  readonly ttl?: number;
 }
 
 export class LocalStorage<T = any> implements Storage<T> {
@@ -65,7 +60,17 @@ export class LocalStorage<T = any> implements Storage<T> {
   }
 
   toString() {
-    return JSON.stringify(this._store, null, 2);
+    return JSON.stringify(
+      this._store
+        .entries()
+        .map(([key, value]) => ({
+          key,
+          value,
+        }))
+        .toArray(),
+      null,
+      2
+    );
   }
 
   protected _hit(key: string) {
@@ -74,6 +79,7 @@ export class LocalStorage<T = any> implements Storage<T> {
 
     const idx = this._keys.findIndex((k) => key === k);
 
+    /* istanbul ignore next */
     if (idx < 0) return false;
 
     for (let i = idx + 1; i < this._keys.length; i++) {

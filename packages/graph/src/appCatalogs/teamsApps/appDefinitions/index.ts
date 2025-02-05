@@ -1,12 +1,10 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
 import { BotClient } from './bot';
 import { CountClient } from './count';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -37,26 +35,32 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class AppDefinitionsClient {
   protected baseUrl = '/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
   constructor(
     protected readonly teamsAppId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -90,7 +94,7 @@ export class AppDefinitionsClient {
    */
   async delete(
     params?: Endpoints['DELETE /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}',
@@ -120,7 +124,7 @@ export class AppDefinitionsClient {
    */
   async list(
     params?: Endpoints['GET /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions',
@@ -151,7 +155,7 @@ export class AppDefinitionsClient {
    */
   async get(
     params?: Endpoints['GET /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}',
@@ -185,7 +189,7 @@ the created resource has a distributionMethod property value of organization. Th
   async update(
     body: Endpoints['PATCH /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}']['body'],
     params?: Endpoints['PATCH /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions/{teamsAppDefinition-id}',
@@ -215,7 +219,7 @@ the created resource has a distributionMethod property value of organization. Th
   async create(
     body: Endpoints['POST /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions']['body'],
     params?: Endpoints['POST /appCatalogs/teamsApps/{teamsApp-id}/appDefinitions']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/appCatalogs/teamsApps/{teamsApp-id}/appDefinitions',

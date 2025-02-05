@@ -1,11 +1,9 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
 import { CountClient } from './count';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -36,26 +34,32 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class ServicesClient {
   protected baseUrl = '/solutions/bookingBusinesses/{bookingBusiness-id}/services';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
   constructor(
     protected readonly bookingBusinessId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -81,7 +85,7 @@ export class ServicesClient {
    */
   async delete(
     params?: Endpoints['DELETE /solutions/bookingBusinesses/{bookingBusiness-id}/services/{bookingService-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/bookingBusinesses/{bookingBusiness-id}/services/{bookingService-id}',
@@ -111,7 +115,7 @@ export class ServicesClient {
    */
   async list(
     params?: Endpoints['GET /solutions/bookingBusinesses/{bookingBusiness-id}/services']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/bookingBusinesses/{bookingBusiness-id}/services',
@@ -142,7 +146,7 @@ export class ServicesClient {
    */
   async get(
     params?: Endpoints['GET /solutions/bookingBusinesses/{bookingBusiness-id}/services/{bookingService-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/bookingBusinesses/{bookingBusiness-id}/services/{bookingService-id}',
@@ -179,7 +183,7 @@ export class ServicesClient {
   async update(
     body: Endpoints['PATCH /solutions/bookingBusinesses/{bookingBusiness-id}/services/{bookingService-id}']['body'],
     params?: Endpoints['PATCH /solutions/bookingBusinesses/{bookingBusiness-id}/services/{bookingService-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/bookingBusinesses/{bookingBusiness-id}/services/{bookingService-id}',
@@ -209,7 +213,7 @@ export class ServicesClient {
   async create(
     body: Endpoints['POST /solutions/bookingBusinesses/{bookingBusiness-id}/services']['body'],
     params?: Endpoints['POST /solutions/bookingBusinesses/{bookingBusiness-id}/services']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/bookingBusinesses/{bookingBusiness-id}/services',

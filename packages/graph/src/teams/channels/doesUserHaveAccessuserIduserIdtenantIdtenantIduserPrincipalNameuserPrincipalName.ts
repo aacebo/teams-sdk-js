@@ -1,10 +1,8 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName-types.d.ts';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -36,26 +34,32 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 export class DoesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalNameClient {
   protected baseUrl =
     '/teams/{team-id}/channels/{channel-id}/doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
   constructor(
     protected readonly channelId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -72,7 +76,7 @@ export class DoesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuser
    */
   async get(
     params?: Endpoints['GET /teams/{team-id}/channels/{channel-id}/doesUserHaveAccess(userId&#x3D;&#x27;@userId&#x27;,tenantId&#x3D;&#x27;@tenantId&#x27;,userPrincipalName&#x3D;&#x27;@userPrincipalName&#x27;)']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/channels/{channel-id}/doesUserHaveAccess(userId&#x3D;&#x27;@userId&#x27;,tenantId&#x3D;&#x27;@tenantId&#x27;,userPrincipalName&#x3D;&#x27;@userPrincipalName&#x27;)',

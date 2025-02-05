@@ -1,5 +1,5 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
@@ -11,8 +11,6 @@ import { RestartClient } from './restart';
 import { SchemaClient } from './schema';
 import { StartClient } from './start';
 import { ValidateCredentialsClient } from './validateCredentials';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -43,23 +41,29 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class JobsClient {
   protected baseUrl = '/applications/{application-id}/synchronization/jobs';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -147,7 +151,7 @@ export class JobsClient {
    */
   async delete(
     params?: Endpoints['DELETE /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}',
@@ -176,7 +180,7 @@ export class JobsClient {
    */
   async list(
     params?: Endpoints['GET /applications/{application-id}/synchronization/jobs']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/applications/{application-id}/synchronization/jobs',
@@ -206,7 +210,7 @@ export class JobsClient {
    */
   async get(
     params?: Endpoints['GET /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}',
@@ -236,7 +240,7 @@ export class JobsClient {
   async update(
     body: Endpoints['PATCH /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}']['body'],
     params?: Endpoints['PATCH /applications/{application-id}/synchronization/jobs/{synchronizationJob-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}',
@@ -264,7 +268,7 @@ export class JobsClient {
   async create(
     body: Endpoints['POST /applications/{application-id}/synchronization/jobs']['body'],
     params?: Endpoints['POST /applications/{application-id}/synchronization/jobs']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/applications/{application-id}/synchronization/jobs',

@@ -1,12 +1,10 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
 import { CountClient } from './count';
 import { MessageClient } from './message';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -37,26 +35,32 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class PinnedMessagesClient {
   protected baseUrl = '/chats/{chat-id}/pinnedMessages';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
   constructor(
     protected readonly chatId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -91,7 +95,7 @@ export class PinnedMessagesClient {
    */
   async delete(
     params?: Endpoints['DELETE /chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}',
@@ -121,7 +125,7 @@ export class PinnedMessagesClient {
    */
   async list(
     params?: Endpoints['GET /chats/{chat-id}/pinnedMessages']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/chats/{chat-id}/pinnedMessages',
@@ -149,7 +153,7 @@ export class PinnedMessagesClient {
    */
   async get(
     params?: Endpoints['GET /chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}',
@@ -180,7 +184,7 @@ export class PinnedMessagesClient {
   async update(
     body: Endpoints['PATCH /chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}']['body'],
     params?: Endpoints['PATCH /chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/chats/{chat-id}/pinnedMessages/{pinnedChatMessageInfo-id}',
@@ -210,7 +214,7 @@ export class PinnedMessagesClient {
   async create(
     body: Endpoints['POST /chats/{chat-id}/pinnedMessages']['body'],
     params?: Endpoints['POST /chats/{chat-id}/pinnedMessages']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/chats/{chat-id}/pinnedMessages',

@@ -1,13 +1,11 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
 import { CountClient } from './count';
 import { LearningContentsClient } from './learningContents';
 import { LearningCourseActivitiesClient } from './learningCourseActivities';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -38,23 +36,29 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class LearningProvidersClient {
   protected baseUrl = '/employeeExperience/learningProviders';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -98,7 +102,7 @@ export class LearningProvidersClient {
    */
   async delete(
     params?: Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/employeeExperience/learningProviders/{learningProvider-id}',
@@ -126,7 +130,7 @@ export class LearningProvidersClient {
    */
   async delete$1(
     params?: Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)',
@@ -155,7 +159,7 @@ export class LearningProvidersClient {
    */
   async delete$2(
     params?: Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)',
@@ -184,7 +188,7 @@ export class LearningProvidersClient {
    */
   async list(
     params?: Endpoints['GET /employeeExperience/learningProviders']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/employeeExperience/learningProviders',
@@ -212,7 +216,7 @@ export class LearningProvidersClient {
    */
   async get(
     params?: Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/employeeExperience/learningProviders/{learningProvider-id}',
@@ -241,7 +245,7 @@ export class LearningProvidersClient {
    */
   async get$1(
     params?: Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)',
@@ -270,7 +274,7 @@ export class LearningProvidersClient {
    */
   async get$2(
     params?: Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)',
@@ -301,7 +305,7 @@ export class LearningProvidersClient {
   async update(
     body: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}']['body'],
     params?: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/employeeExperience/learningProviders/{learningProvider-id}',
@@ -326,7 +330,7 @@ export class LearningProvidersClient {
   async update$1(
     body: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['body'],
     params?: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)',
@@ -355,7 +359,7 @@ export class LearningProvidersClient {
   async update$2(
     body: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['body'],
     params?: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)',
@@ -384,7 +388,7 @@ export class LearningProvidersClient {
   async create(
     body: Endpoints['POST /employeeExperience/learningProviders']['body'],
     params?: Endpoints['POST /employeeExperience/learningProviders']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl('/employeeExperience/learningProviders', [], {
       ...(params || {}),

@@ -1,12 +1,10 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
 import { CountClient } from './count';
 import { TeamsAppClient } from './teamsApp';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -37,26 +35,32 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class TabsClient {
   protected baseUrl = '/teams/{team-id}/channels/{channel-id}/tabs';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
   constructor(
     protected readonly channelId: string,
-    options?: GraphClientOptions
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -91,7 +95,7 @@ export class TabsClient {
    */
   async delete(
     params?: Endpoints['DELETE /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}',
@@ -122,7 +126,7 @@ export class TabsClient {
    */
   async list(
     params?: Endpoints['GET /teams/{team-id}/channels/{channel-id}/tabs']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/channels/{channel-id}/tabs',
@@ -154,7 +158,7 @@ export class TabsClient {
    */
   async get(
     params?: Endpoints['GET /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}',
@@ -188,7 +192,7 @@ This API can be used to configure the content of the tab.
   async update(
     body: Endpoints['PATCH /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}']['body'],
     params?: Endpoints['PATCH /teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/channels/{channel-id}/tabs/{teamsTab-id}',
@@ -219,7 +223,7 @@ This API can be used to configure the content of the tab.
   async create(
     body: Endpoints['POST /teams/{team-id}/channels/{channel-id}/tabs']['body'],
     params?: Endpoints['POST /teams/{team-id}/channels/{channel-id}/tabs']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/channels/{channel-id}/tabs',

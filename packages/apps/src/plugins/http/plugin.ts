@@ -6,7 +6,6 @@ import { EventEmitter } from '@teams.sdk/common/events';
 
 import { Plugin, PluginEvents } from '../../types';
 import { App } from '../../app';
-import { ActivityContext } from '../../activity-context';
 import { HttpSender } from './sender';
 
 export interface HttpEvents extends PluginEvents {
@@ -23,7 +22,6 @@ export interface HttpEvents extends PluginEvents {
  */
 export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
   readonly name = 'http';
-  readonly version = '0.0.0';
 
   readonly get: express.Application['get'];
   readonly post: express.Application['post'];
@@ -53,10 +51,6 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
   register(app: App) {
     this.app = app;
     this.log = app.log.child('http');
-  }
-
-  sender(ctx: ActivityContext) {
-    return new HttpSender(ctx);
   }
 
   /**
@@ -119,6 +113,7 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
         req,
         token,
         activity,
+        sender: (ctx) => new HttpSender(ctx),
       });
 
       this.emit('response', {

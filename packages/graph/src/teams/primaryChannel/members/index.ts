@@ -1,13 +1,11 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
 import { AddClient } from './add';
 import { CountClient } from './count';
 import { RemoveClient } from './remove';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -38,23 +36,29 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class MembersClient {
   protected baseUrl = '/teams/{team-id}/primaryChannel/members';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -97,7 +101,7 @@ export class MembersClient {
    */
   async delete(
     params?: Endpoints['DELETE /teams/{team-id}/primaryChannel/members/{conversationMember-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/primaryChannel/members/{conversationMember-id}',
@@ -126,7 +130,7 @@ export class MembersClient {
    */
   async list(
     params?: Endpoints['GET /teams/{team-id}/primaryChannel/members']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/primaryChannel/members',
@@ -155,7 +159,7 @@ export class MembersClient {
    */
   async get(
     params?: Endpoints['GET /teams/{team-id}/primaryChannel/members/{conversationMember-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/primaryChannel/members/{conversationMember-id}',
@@ -185,7 +189,7 @@ export class MembersClient {
   async update(
     body: Endpoints['PATCH /teams/{team-id}/primaryChannel/members/{conversationMember-id}']['body'],
     params?: Endpoints['PATCH /teams/{team-id}/primaryChannel/members/{conversationMember-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/primaryChannel/members/{conversationMember-id}',
@@ -213,7 +217,7 @@ export class MembersClient {
   async create(
     body: Endpoints['POST /teams/{team-id}/primaryChannel/members']['body'],
     params?: Endpoints['POST /teams/{team-id}/primaryChannel/members']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/teams/{team-id}/primaryChannel/members',

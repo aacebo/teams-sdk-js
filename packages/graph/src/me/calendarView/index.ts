@@ -1,5 +1,5 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
@@ -16,8 +16,6 @@ import { ForwardClient } from './forward';
 import { InstancesClient } from './instances';
 import { SnoozeReminderClient } from './snoozeReminder';
 import { TentativelyAcceptClient } from './tentativelyAccept';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -48,23 +46,29 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class CalendarViewClient {
   protected baseUrl = '/me/calendarView';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -197,7 +201,7 @@ export class CalendarViewClient {
    * Get the occurrences, exceptions, and single instances of events in a calendar view defined by a time range, from the user&#x27;s default calendar,
 or from some other calendar of the user.
    */
-  async get(params?: Endpoints['GET /me/calendarView']['parameters'], config?: AxiosRequestConfig) {
+  async get(params?: Endpoints['GET /me/calendarView']['parameters'], config?: http.RequestConfig) {
     const url = getInjectedUrl(
       '/me/calendarView',
       [
@@ -224,7 +228,7 @@ or from some other calendar of the user.
    */
   async get$1(
     params?: Endpoints['GET /me/calendarView/{event-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/me/calendarView/{event-id}',

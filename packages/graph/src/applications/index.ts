@@ -1,5 +1,5 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
@@ -30,8 +30,6 @@ import { TokenLifetimePoliciesClient } from './tokenLifetimePolicies';
 import { UnsetVerifiedPublisherClient } from './unsetVerifiedPublisher';
 import { ValidatePropertiesClient } from './validateProperties';
 
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
-
 interface Param {
   readonly in: string;
   readonly name: string;
@@ -61,23 +59,29 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class ApplicationsClient {
   protected baseUrl = '/applications';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -328,7 +332,7 @@ export class ApplicationsClient {
    */
   async delete(
     params?: Endpoints['DELETE /applications/{application-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/applications/{application-id}',
@@ -353,7 +357,7 @@ export class ApplicationsClient {
    */
   async delete$1(
     params?: Endpoints['DELETE /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)',
@@ -380,7 +384,7 @@ export class ApplicationsClient {
    *
    * Get the list of applications in this organization.
    */
-  async list(params?: Endpoints['GET /applications']['parameters'], config?: AxiosRequestConfig) {
+  async list(params?: Endpoints['GET /applications']['parameters'], config?: http.RequestConfig) {
     const url = getInjectedUrl(
       '/applications',
       [
@@ -406,7 +410,7 @@ export class ApplicationsClient {
    */
   async get(
     params?: Endpoints['GET /applications/{application-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/applications/{application-id}',
@@ -432,7 +436,7 @@ export class ApplicationsClient {
    */
   async get$1(
     params?: Endpoints['GET /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)',
@@ -463,7 +467,7 @@ export class ApplicationsClient {
   async update(
     body: Endpoints['PATCH /applications/{application-id}']['body'],
     params?: Endpoints['PATCH /applications/{application-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/applications/{application-id}',
@@ -486,7 +490,7 @@ export class ApplicationsClient {
   async update$1(
     body: Endpoints['PATCH /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['body'],
     params?: Endpoints['PATCH /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)',
@@ -515,7 +519,7 @@ export class ApplicationsClient {
   async create(
     body: Endpoints['POST /applications']['body'],
     params?: Endpoints['POST /applications']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl('/applications', [], {
       ...(params || {}),

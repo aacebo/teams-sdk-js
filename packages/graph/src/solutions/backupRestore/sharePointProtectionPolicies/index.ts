@@ -1,13 +1,11 @@
 import qs from 'qs';
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig } from 'axios';
+import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 import type { Endpoints } from './index-types.d.ts';
 import { CountClient } from './count';
 import { SiteInclusionRulesClient } from './siteInclusionRules';
 import { SiteProtectionUnitsClient } from './siteProtectionUnits';
-
-type GraphClientOptions = CreateAxiosDefaults | AxiosInstance;
 
 interface Param {
   readonly in: string;
@@ -38,23 +36,29 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
  */
 export class SharePointProtectionPoliciesClient {
   protected baseUrl = '/solutions/backupRestore/sharePointProtectionPolicies';
-  protected http: AxiosInstance;
+  protected http: http.Client;
 
-  constructor(options?: GraphClientOptions) {
+  constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
-      this.http = axios.create({
-        baseURL: 'https://graph.microsoft.com/v1.0',
+      this.http = new http.Client({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ('get' in options) {
-      this.http = options;
+    } else if ('request' in options) {
+      this.http = options.clone({
+        baseUrl: 'https://graph.microsoft.com/v1.0',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
+        },
+      });
     } else {
-      this.http = axios.create({
+      this.http = new http.Client({
         ...options,
-        baseURL: 'https://graph.microsoft.com/v1.0',
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': `teams[graph]/${pkg.version}`,
@@ -97,7 +101,7 @@ export class SharePointProtectionPoliciesClient {
    */
   async delete(
     params?: Endpoints['DELETE /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}',
@@ -125,7 +129,7 @@ export class SharePointProtectionPoliciesClient {
    */
   async list(
     params?: Endpoints['GET /solutions/backupRestore/sharePointProtectionPolicies']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/backupRestore/sharePointProtectionPolicies',
@@ -154,7 +158,7 @@ export class SharePointProtectionPoliciesClient {
    */
   async get(
     params?: Endpoints['GET /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}',
@@ -184,7 +188,7 @@ export class SharePointProtectionPoliciesClient {
   async update(
     body: Endpoints['PATCH /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}']['body'],
     params?: Endpoints['PATCH /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
       '/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}',
@@ -210,7 +214,7 @@ export class SharePointProtectionPoliciesClient {
   async create(
     body: Endpoints['POST /solutions/backupRestore/sharePointProtectionPolicies']['body'],
     params?: Endpoints['POST /solutions/backupRestore/sharePointProtectionPolicies']['parameters'],
-    config?: AxiosRequestConfig
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl('/solutions/backupRestore/sharePointProtectionPolicies', [], {
       ...(params || {}),

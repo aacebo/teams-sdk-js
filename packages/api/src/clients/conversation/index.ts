@@ -1,8 +1,8 @@
 import qs from 'qs';
+import { Client, ClientOptions } from '@teams.sdk/common/http';
 
 import { Account, Conversation, ConversationResource } from '../../models';
 import { Activity } from '../../activities';
-import { ClientBase, ClientOptions } from '../client-base';
 
 import { ConversationMemberClient } from './member';
 import { ActivityParams, ConversationActivityClient } from './activity';
@@ -33,18 +33,26 @@ export interface GetConversationsResponse {
   conversations: Conversation[];
 }
 
-export class ConversationClient extends ClientBase {
-  protected readonly _activities: ConversationActivityClient;
+export class ConversationClient {
+  readonly serviceUrl: string;
+  readonly http: Client;
 
-  constructor(options?: ClientOptions) {
-    const activities = new ConversationActivityClient(options);
+  protected _activities: ConversationActivityClient;
+  protected _members: ConversationMemberClient;
 
-    super({
-      ...options,
-      children: [activities],
-    });
+  constructor(serviceUrl: string, options?: Client | ClientOptions) {
+    this.serviceUrl = serviceUrl;
 
-    this._activities = activities;
+    if (!options) {
+      this.http = new Client();
+    } else if ('request' in options) {
+      this.http = options;
+    } else {
+      this.http = new Client(options);
+    }
+
+    this._activities = new ConversationActivityClient(serviceUrl, options);
+    this._members = new ConversationMemberClient(serviceUrl, options);
   }
 
   activities(conversationId: string) {
@@ -55,22 +63,31 @@ export class ConversationClient extends ClientBase {
       reply: (id: string, params: ActivityParams) =>
         this._activities.reply(conversationId, id, params),
       delete: (id: string) => this._activities.delete(conversationId, id),
-      members: (activityId: string) => this._activities.members(conversationId, activityId),
+      members: (activityId: string) => this._activities.getMembers(conversationId, activityId),
     };
   }
 
   members(conversationId: string) {
-    return new ConversationMemberClient(conversationId, this.options);
+    return {
+      get: () => this._members.get(conversationId),
+      getById: (id: string) => this._members.getById(conversationId, id),
+      delete: (id: string) => this._members.delete(conversationId, id),
+    };
   }
 
   async get(params: GetConversationsParams) {
     const q = qs.stringify(params, { addQueryPrefix: true });
-    const res = await this.http.get<GetConversationsResponse>(`/v3/conversations${q}`);
+    const res = await this.http.get<GetConversationsResponse>(
+      `${this.serviceUrl}/v3/conversations${q}`
+    );
     return res.data;
   }
 
   async create(params: CreateConversationParams) {
-    const res = await this.http.post<ConversationResource>('/v3/conversations', params);
+    const res = await this.http.post<ConversationResource>(
+      `${this.serviceUrl}/v3/conversations`,
+      params
+    );
     return res.data;
   }
 }

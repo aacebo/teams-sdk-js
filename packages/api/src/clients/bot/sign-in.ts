@@ -1,7 +1,7 @@
 import qs from 'qs';
+import { Client, ClientOptions } from '@teams.sdk/common/http';
 
 import { SignInUrlResponse } from '../../models';
-import { ClientBase, ClientOptions } from '../client-base';
 
 export interface GetBotSignInUrlParams {
   state: string;
@@ -17,25 +17,33 @@ export interface GetBotSignInResourceParams {
   finalRedirect?: string;
 }
 
-export class BotSignInClient extends ClientBase {
-  constructor(options?: ClientOptions) {
-    super({
-      ...options,
-      baseURL: 'https://token.botframework.com',
-      children: [],
-    });
+export class BotSignInClient {
+  readonly http: Client;
+
+  constructor(options?: Client | ClientOptions) {
+    if (!options) {
+      this.http = new Client();
+    } else if ('request' in options) {
+      this.http = options;
+    } else {
+      this.http = new Client(options);
+    }
   }
 
   async getUrl(params: GetBotSignInUrlParams) {
     const q = qs.stringify(params);
-    const res = await this.http.get<string>(`/api/botsignin/GetSignInUrl?${q}`);
+    const res = await this.http.get<string>(
+      `https://token.botframework.com/api/botsignin/GetSignInUrl?${q}`
+    );
 
     return res.data;
   }
 
   async getResource(params: GetBotSignInResourceParams) {
     const q = qs.stringify(params);
-    const res = await this.http.get<SignInUrlResponse>(`/api/botsignin/GetSignInResource?${q}`);
+    const res = await this.http.get<SignInUrlResponse>(
+      `https://token.botframework.com/api/botsignin/GetSignInResource?${q}`
+    );
 
     return res.data;
   }
