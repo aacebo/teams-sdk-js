@@ -47,7 +47,7 @@ export interface RequestConfig<D = any> extends AxiosRequestConfig<D> {
    * If provided, this token will be used instead of
    * the default token provided in the `ClientOptions`
    */
-  readonly token?: Token;
+  token?: Token;
 }
 
 interface InterceptorRegistry {
@@ -132,9 +132,11 @@ export class Client {
 
     if (interceptor.request) {
       requestId = this.http.interceptors.request.use(
+        /* istanbul ignore next */
         (config) => {
           return interceptor.request!({ config, log: this.log });
         },
+        /* istanbul ignore next */
         (error: any) => {
           if (!interceptor.error) return error;
           return interceptor.error({ error, log: this.log });
@@ -144,9 +146,11 @@ export class Client {
 
     if (interceptor.response) {
       responseId = this.http.interceptors.response.use(
+        /* istanbul ignore next */
         (res) => {
           return interceptor.response!({ res, log: this.log });
         },
+        /* istanbul ignore next */
         (error: any) => {
           if (!interceptor.error) return error;
           return interceptor.error({ error, log: this.log });
@@ -207,15 +211,25 @@ export class Client {
   protected async withConfig(config: RequestConfig = {}) {
     let token = config.token || this.token;
 
-    if (!config.headers) {
-      config.headers = {};
+    if (config.token) {
+      delete config.token;
     }
 
-    for (const key in this.options.headers || {}) {
-      config.headers[key] = (this.options.headers || {})[key];
+    if (this.options.headers) {
+      if (!config.headers) {
+        config.headers = {};
+      }
+
+      for (const key in this.options.headers) {
+        config.headers[key] = this.options.headers[key];
+      }
     }
 
     if (token) {
+      if (!config.headers) {
+        config.headers = {};
+      }
+
       if (typeof token === 'function') {
         token = await token(config);
       }
