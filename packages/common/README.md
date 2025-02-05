@@ -18,7 +18,7 @@
     </a>
 </p>
 
-common modules used to provide utility functionality to the other packages while
+Common modules used to provide utility functionality to the other packages while
 minimizing external dependencies.
 
 <a href="https://aacebo.github.io/teams-sdk-js/2.getting-started/index.html" target="_blank">
