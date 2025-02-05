@@ -1,29 +1,25 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { ActivateClient } from "./activate";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { ActivateClient } from './activate';
+import { CountClient } from './count';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -38,27 +34,27 @@ function getInjectedUrl(
  * Provides operations to manage the restoreSessions property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class RestoreSessionsClient {
-  protected baseUrl = "/solutions/backupRestore/restoreSessions";
+  protected baseUrl = '/solutions/backupRestore/restoreSessions';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -89,25 +85,25 @@ export class RestoreSessionsClient {
    * Delete a draft restoreSessionBase object.
    */
   async delete(
-    params?: Endpoints["DELETE /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/restoreSessions/{restoreSessionBase-id}",
+      '/solutions/backupRestore/restoreSessions/{restoreSessionBase-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "restoreSessionBase-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'restoreSessionBase-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}"]["response"],
+          res.data as Endpoints['DELETE /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}']['response']
       );
   }
 
@@ -117,26 +113,25 @@ export class RestoreSessionsClient {
    * Get a list of restoreSession objects and their properties.
    */
   async list(
-    params?: Endpoints["GET /solutions/backupRestore/restoreSessions"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/backupRestore/restoreSessions']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/restoreSessions",
+      '/solutions/backupRestore/restoreSessions',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
-        (res) =>
-          res.data as Endpoints["GET /solutions/backupRestore/restoreSessions"]["response"],
+        (res) => res.data as Endpoints['GET /solutions/backupRestore/restoreSessions']['response']
       );
   }
 
@@ -146,26 +141,26 @@ export class RestoreSessionsClient {
    * Get the properties of a restoreSession object by ID.
    */
   async get(
-    params?: Endpoints["GET /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/restoreSessions/{restoreSessionBase-id}",
+      '/solutions/backupRestore/restoreSessions/{restoreSessionBase-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "restoreSessionBase-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'restoreSessionBase-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}"]["response"],
+          res.data as Endpoints['GET /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}']['response']
       );
   }
 
@@ -174,23 +169,23 @@ export class RestoreSessionsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}"]["body"],
-    params?: Endpoints["PATCH /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}']['body'],
+    params?: Endpoints['PATCH /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/restoreSessions/{restoreSessionBase-id}",
-      [{ name: "restoreSessionBase-id", in: "path" }],
+      '/solutions/backupRestore/restoreSessions/{restoreSessionBase-id}',
+      [{ name: 'restoreSessionBase-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}"]["response"],
+          res.data as Endpoints['PATCH /solutions/backupRestore/restoreSessions/{restoreSessionBase-id}']['response']
       );
   }
 
@@ -199,19 +194,18 @@ export class RestoreSessionsClient {
    *
    */
   async create(
-    body: Endpoints["POST /solutions/backupRestore/restoreSessions"]["body"],
-    params?: Endpoints["POST /solutions/backupRestore/restoreSessions"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /solutions/backupRestore/restoreSessions']['body'],
+    params?: Endpoints['POST /solutions/backupRestore/restoreSessions']['parameters'],
+    config?: http.RequestConfig
   ) {
-    const url = getInjectedUrl("/solutions/backupRestore/restoreSessions", [], {
+    const url = getInjectedUrl('/solutions/backupRestore/restoreSessions', [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body, config)
       .then(
-        (res) =>
-          res.data as Endpoints["POST /solutions/backupRestore/restoreSessions"]["response"],
+        (res) => res.data as Endpoints['POST /solutions/backupRestore/restoreSessions']['response']
       );
   }
 }

@@ -1,28 +1,24 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -37,27 +33,27 @@ function getInjectedUrl(
  * Provides operations to manage the swapShiftsChangeRequests property of the microsoft.graph.schedule entity.
  */
 export class SwapShiftsChangeRequestsClient {
-  protected baseUrl = "/teams/{team-id}/schedule/swapShiftsChangeRequests";
+  protected baseUrl = '/teams/{team-id}/schedule/swapShiftsChangeRequests';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -78,26 +74,26 @@ export class SwapShiftsChangeRequestsClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}",
+      '/teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "team-id", in: "path" },
-        { name: "swapShiftsChangeRequest-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'team-id', in: 'path' },
+        { name: 'swapShiftsChangeRequest-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}"]["response"],
+          res.data as Endpoints['DELETE /teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}']['response']
       );
   }
 
@@ -107,27 +103,27 @@ export class SwapShiftsChangeRequestsClient {
    * Retrieve a list of swapShiftsChangeRequest objects in the team.
    */
   async list(
-    params?: Endpoints["GET /teams/{team-id}/schedule/swapShiftsChangeRequests"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /teams/{team-id}/schedule/swapShiftsChangeRequests']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/swapShiftsChangeRequests",
+      '/teams/{team-id}/schedule/swapShiftsChangeRequests',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/schedule/swapShiftsChangeRequests"]["response"],
+          res.data as Endpoints['GET /teams/{team-id}/schedule/swapShiftsChangeRequests']['response']
       );
   }
 
@@ -137,27 +133,27 @@ export class SwapShiftsChangeRequestsClient {
    * Retrieve the properties and relationships of a swapShiftsChangeRequest object.
    */
   async get(
-    params?: Endpoints["GET /teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}",
+      '/teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
-        { name: "swapShiftsChangeRequest-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
+        { name: 'swapShiftsChangeRequest-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}"]["response"],
+          res.data as Endpoints['GET /teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}']['response']
       );
   }
 
@@ -166,26 +162,26 @@ export class SwapShiftsChangeRequestsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}"]["body"],
-    params?: Endpoints["PATCH /teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}']['body'],
+    params?: Endpoints['PATCH /teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}",
+      '/teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}',
       [
-        { name: "team-id", in: "path" },
-        { name: "swapShiftsChangeRequest-id", in: "path" },
+        { name: 'team-id', in: 'path' },
+        { name: 'swapShiftsChangeRequest-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}"]["response"],
+          res.data as Endpoints['PATCH /teams/{team-id}/schedule/swapShiftsChangeRequests/{swapShiftsChangeRequest-id}']['response']
       );
   }
 
@@ -195,23 +191,23 @@ export class SwapShiftsChangeRequestsClient {
    * Create an instance of a swapShiftsChangeRequest object.
    */
   async create(
-    body: Endpoints["POST /teams/{team-id}/schedule/swapShiftsChangeRequests"]["body"],
-    params?: Endpoints["POST /teams/{team-id}/schedule/swapShiftsChangeRequests"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /teams/{team-id}/schedule/swapShiftsChangeRequests']['body'],
+    params?: Endpoints['POST /teams/{team-id}/schedule/swapShiftsChangeRequests']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/swapShiftsChangeRequests",
-      [{ name: "team-id", in: "path" }],
+      '/teams/{team-id}/schedule/swapShiftsChangeRequests',
+      [{ name: 'team-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /teams/{team-id}/schedule/swapShiftsChangeRequests"]["response"],
+          res.data as Endpoints['POST /teams/{team-id}/schedule/swapShiftsChangeRequests']['response']
       );
   }
 }

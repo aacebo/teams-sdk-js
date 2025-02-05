@@ -1,30 +1,26 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { AllowedMembersClient } from "./allowedMembers";
-import { CountClient } from "./count";
-import { TeamClient } from "./team";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { AllowedMembersClient } from './allowedMembers';
+import { CountClient } from './count';
+import { TeamClient } from './team';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -39,27 +35,27 @@ function getInjectedUrl(
  * Provides operations to manage the sharedWithTeams property of the microsoft.graph.channel entity.
  */
 export class SharedWithTeamsClient {
-  protected baseUrl = "/teams/{team-id}/primaryChannel/sharedWithTeams";
+  protected baseUrl = '/teams/{team-id}/primaryChannel/sharedWithTeams';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -98,26 +94,26 @@ export class SharedWithTeamsClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}",
+      '/teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "team-id", in: "path" },
-        { name: "sharedWithChannelTeamInfo-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'team-id', in: 'path' },
+        { name: 'sharedWithChannelTeamInfo-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}"]["response"],
+          res.data as Endpoints['DELETE /teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}']['response']
       );
   }
 
@@ -127,27 +123,27 @@ export class SharedWithTeamsClient {
    * A collection of teams with which a channel is shared.
    */
   async list(
-    params?: Endpoints["GET /teams/{team-id}/primaryChannel/sharedWithTeams"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /teams/{team-id}/primaryChannel/sharedWithTeams']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/primaryChannel/sharedWithTeams",
+      '/teams/{team-id}/primaryChannel/sharedWithTeams',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/primaryChannel/sharedWithTeams"]["response"],
+          res.data as Endpoints['GET /teams/{team-id}/primaryChannel/sharedWithTeams']['response']
       );
   }
 
@@ -157,27 +153,27 @@ export class SharedWithTeamsClient {
    * A collection of teams with which a channel is shared.
    */
   async get(
-    params?: Endpoints["GET /teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}",
+      '/teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
-        { name: "sharedWithChannelTeamInfo-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
+        { name: 'sharedWithChannelTeamInfo-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}"]["response"],
+          res.data as Endpoints['GET /teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}']['response']
       );
   }
 
@@ -186,26 +182,26 @@ export class SharedWithTeamsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}"]["body"],
-    params?: Endpoints["PATCH /teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}']['body'],
+    params?: Endpoints['PATCH /teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}",
+      '/teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}',
       [
-        { name: "team-id", in: "path" },
-        { name: "sharedWithChannelTeamInfo-id", in: "path" },
+        { name: 'team-id', in: 'path' },
+        { name: 'sharedWithChannelTeamInfo-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}"]["response"],
+          res.data as Endpoints['PATCH /teams/{team-id}/primaryChannel/sharedWithTeams/{sharedWithChannelTeamInfo-id}']['response']
       );
   }
 
@@ -214,23 +210,23 @@ export class SharedWithTeamsClient {
    *
    */
   async create(
-    body: Endpoints["POST /teams/{team-id}/primaryChannel/sharedWithTeams"]["body"],
-    params?: Endpoints["POST /teams/{team-id}/primaryChannel/sharedWithTeams"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /teams/{team-id}/primaryChannel/sharedWithTeams']['body'],
+    params?: Endpoints['POST /teams/{team-id}/primaryChannel/sharedWithTeams']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/primaryChannel/sharedWithTeams",
-      [{ name: "team-id", in: "path" }],
+      '/teams/{team-id}/primaryChannel/sharedWithTeams',
+      [{ name: 'team-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /teams/{team-id}/primaryChannel/sharedWithTeams"]["response"],
+          res.data as Endpoints['POST /teams/{team-id}/primaryChannel/sharedWithTeams']['response']
       );
   }
 }

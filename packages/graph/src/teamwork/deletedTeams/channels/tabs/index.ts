@@ -1,29 +1,25 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { TeamsAppClient } from "./teamsApp";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { TeamsAppClient } from './teamsApp';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -38,31 +34,30 @@ function getInjectedUrl(
  * Provides operations to manage the tabs property of the microsoft.graph.channel entity.
  */
 export class TabsClient {
-  protected baseUrl =
-    "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs";
+  protected baseUrl = '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs';
   protected http: http.Client;
 
   constructor(
     protected readonly channelId: string,
-    options?: http.Client | http.ClientOptions,
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -92,28 +87,28 @@ export class TabsClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
-        { name: "teamsTab-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
+        { name: 'teamsTab-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "channel-id": this.channelId,
-      },
+        'channel-id': this.channelId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}"]["response"],
+          res.data as Endpoints['DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}']['response']
       );
   }
 
@@ -123,29 +118,29 @@ export class TabsClient {
    * A collection of all the tabs in the channel. A navigation property.
    */
   async list(
-    params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "channel-id": this.channelId,
-      },
+        'channel-id': this.channelId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs"]["response"],
+          res.data as Endpoints['GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs']['response']
       );
   }
 
@@ -155,29 +150,29 @@ export class TabsClient {
    * A collection of all the tabs in the channel. A navigation property.
    */
   async get(
-    params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
-        { name: "teamsTab-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
+        { name: 'teamsTab-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "channel-id": this.channelId,
-      },
+        'channel-id': this.channelId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}"]["response"],
+          res.data as Endpoints['GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}']['response']
       );
   }
 
@@ -186,28 +181,28 @@ export class TabsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}"]["body"],
-    params?: Endpoints["PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}']['body'],
+    params?: Endpoints['PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}',
       [
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
-        { name: "teamsTab-id", in: "path" },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
+        { name: 'teamsTab-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "channel-id": this.channelId,
-      },
+        'channel-id': this.channelId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}"]["response"],
+          res.data as Endpoints['PATCH /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs/{teamsTab-id}']['response']
       );
   }
 
@@ -216,27 +211,27 @@ export class TabsClient {
    *
    */
   async create(
-    body: Endpoints["POST /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs"]["body"],
-    params?: Endpoints["POST /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs']['body'],
+    params?: Endpoints['POST /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs',
       [
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "channel-id": this.channelId,
-      },
+        'channel-id': this.channelId,
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs"]["response"],
+          res.data as Endpoints['POST /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/tabs']['response']
       );
   }
 }

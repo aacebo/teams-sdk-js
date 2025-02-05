@@ -1,28 +1,24 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -37,27 +33,27 @@ function getInjectedUrl(
  * Provides operations to manage the schedulingGroups property of the microsoft.graph.schedule entity.
  */
 export class SchedulingGroupsClient {
-  protected baseUrl = "/teams/{team-id}/schedule/schedulingGroups";
+  protected baseUrl = '/teams/{team-id}/schedule/schedulingGroups';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -80,26 +76,26 @@ export class SchedulingGroupsClient {
 This method does not remove the schedulingGroup from the schedule. Existing shift instances assigned to the scheduling group remain part of the group.
    */
   async delete(
-    params?: Endpoints["DELETE /teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}",
+      '/teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "team-id", in: "path" },
-        { name: "schedulingGroup-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'team-id', in: 'path' },
+        { name: 'schedulingGroup-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}"]["response"],
+          res.data as Endpoints['DELETE /teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}']['response']
       );
   }
 
@@ -109,27 +105,26 @@ This method does not remove the schedulingGroup from the schedule. Existing shif
    * Get the list of schedulingGroups in this schedule.
    */
   async list(
-    params?: Endpoints["GET /teams/{team-id}/schedule/schedulingGroups"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /teams/{team-id}/schedule/schedulingGroups']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/schedulingGroups",
+      '/teams/{team-id}/schedule/schedulingGroups',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
-        (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/schedule/schedulingGroups"]["response"],
+        (res) => res.data as Endpoints['GET /teams/{team-id}/schedule/schedulingGroups']['response']
       );
   }
 
@@ -139,27 +134,27 @@ This method does not remove the schedulingGroup from the schedule. Existing shif
    * Retrieve the properties and relationships of a schedulingGroup by ID.
    */
   async get(
-    params?: Endpoints["GET /teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}",
+      '/teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
-        { name: "schedulingGroup-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
+        { name: 'schedulingGroup-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}"]["response"],
+          res.data as Endpoints['GET /teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}']['response']
       );
   }
 
@@ -169,26 +164,26 @@ This method does not remove the schedulingGroup from the schedule. Existing shif
    * Replace an existing schedulingGroup. If the specified schedulingGroup doesn&#x27;t exist, this method returns 404 Not found.
    */
   async update(
-    body: Endpoints["PATCH /teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}"]["body"],
-    params?: Endpoints["PATCH /teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}']['body'],
+    params?: Endpoints['PATCH /teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}",
+      '/teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}',
       [
-        { name: "team-id", in: "path" },
-        { name: "schedulingGroup-id", in: "path" },
+        { name: 'team-id', in: 'path' },
+        { name: 'schedulingGroup-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}"]["response"],
+          res.data as Endpoints['PATCH /teams/{team-id}/schedule/schedulingGroups/{schedulingGroup-id}']['response']
       );
   }
 
@@ -198,23 +193,23 @@ This method does not remove the schedulingGroup from the schedule. Existing shif
    * Create a new schedulingGroup.
    */
   async create(
-    body: Endpoints["POST /teams/{team-id}/schedule/schedulingGroups"]["body"],
-    params?: Endpoints["POST /teams/{team-id}/schedule/schedulingGroups"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /teams/{team-id}/schedule/schedulingGroups']['body'],
+    params?: Endpoints['POST /teams/{team-id}/schedule/schedulingGroups']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/schedulingGroups",
-      [{ name: "team-id", in: "path" }],
+      '/teams/{team-id}/schedule/schedulingGroups',
+      [{ name: 'team-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /teams/{team-id}/schedule/schedulingGroups"]["response"],
+          res.data as Endpoints['POST /teams/{team-id}/schedule/schedulingGroups']['response']
       );
   }
 }

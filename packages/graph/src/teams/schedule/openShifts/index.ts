@@ -1,28 +1,24 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -37,27 +33,27 @@ function getInjectedUrl(
  * Provides operations to manage the openShifts property of the microsoft.graph.schedule entity.
  */
 export class OpenShiftsClient {
-  protected baseUrl = "/teams/{team-id}/schedule/openShifts";
+  protected baseUrl = '/teams/{team-id}/schedule/openShifts';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -79,26 +75,26 @@ export class OpenShiftsClient {
    * Delete an openShift object.
    */
   async delete(
-    params?: Endpoints["DELETE /teams/{team-id}/schedule/openShifts/{openShift-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /teams/{team-id}/schedule/openShifts/{openShift-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/openShifts/{openShift-id}",
+      '/teams/{team-id}/schedule/openShifts/{openShift-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "team-id", in: "path" },
-        { name: "openShift-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'team-id', in: 'path' },
+        { name: 'openShift-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /teams/{team-id}/schedule/openShifts/{openShift-id}"]["response"],
+          res.data as Endpoints['DELETE /teams/{team-id}/schedule/openShifts/{openShift-id}']['response']
       );
   }
 
@@ -108,28 +104,25 @@ export class OpenShiftsClient {
    * List openShift objects in a team.
    */
   async list(
-    params?: Endpoints["GET /teams/{team-id}/schedule/openShifts"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /teams/{team-id}/schedule/openShifts']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/openShifts",
+      '/teams/{team-id}/schedule/openShifts',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/schedule/openShifts"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /teams/{team-id}/schedule/openShifts']['response']);
   }
 
   /**
@@ -138,27 +131,27 @@ export class OpenShiftsClient {
    * Retrieve the properties and relationships of an openshift object.
    */
   async get(
-    params?: Endpoints["GET /teams/{team-id}/schedule/openShifts/{openShift-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /teams/{team-id}/schedule/openShifts/{openShift-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/openShifts/{openShift-id}",
+      '/teams/{team-id}/schedule/openShifts/{openShift-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
-        { name: "openShift-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
+        { name: 'openShift-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/schedule/openShifts/{openShift-id}"]["response"],
+          res.data as Endpoints['GET /teams/{team-id}/schedule/openShifts/{openShift-id}']['response']
       );
   }
 
@@ -168,26 +161,26 @@ export class OpenShiftsClient {
    * Update the properties of an openShift object.
    */
   async update(
-    body: Endpoints["PATCH /teams/{team-id}/schedule/openShifts/{openShift-id}"]["body"],
-    params?: Endpoints["PATCH /teams/{team-id}/schedule/openShifts/{openShift-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /teams/{team-id}/schedule/openShifts/{openShift-id}']['body'],
+    params?: Endpoints['PATCH /teams/{team-id}/schedule/openShifts/{openShift-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/openShifts/{openShift-id}",
+      '/teams/{team-id}/schedule/openShifts/{openShift-id}',
       [
-        { name: "team-id", in: "path" },
-        { name: "openShift-id", in: "path" },
+        { name: 'team-id', in: 'path' },
+        { name: 'openShift-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /teams/{team-id}/schedule/openShifts/{openShift-id}"]["response"],
+          res.data as Endpoints['PATCH /teams/{team-id}/schedule/openShifts/{openShift-id}']['response']
       );
   }
 
@@ -197,23 +190,22 @@ export class OpenShiftsClient {
    * Create an instance of an openShift object.
    */
   async create(
-    body: Endpoints["POST /teams/{team-id}/schedule/openShifts"]["body"],
-    params?: Endpoints["POST /teams/{team-id}/schedule/openShifts"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /teams/{team-id}/schedule/openShifts']['body'],
+    params?: Endpoints['POST /teams/{team-id}/schedule/openShifts']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/schedule/openShifts",
-      [{ name: "team-id", in: "path" }],
+      '/teams/{team-id}/schedule/openShifts',
+      [{ name: 'team-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
-        (res) =>
-          res.data as Endpoints["POST /teams/{team-id}/schedule/openShifts"]["response"],
+        (res) => res.data as Endpoints['POST /teams/{team-id}/schedule/openShifts']['response']
       );
   }
 }

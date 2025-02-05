@@ -1,47 +1,43 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { AllChannelsClient } from "./allChannels";
-import { ArchiveClient } from "./archive";
-import { ChannelsClient } from "./channels";
-import { CloneClient } from "./clone";
-import { CompleteMigrationClient } from "./completeMigration";
-import { CountClient } from "./count";
-import { GetAllMessagesClient } from "./getAllMessages";
-import { GroupClient } from "./group";
-import { IncomingChannelsClient } from "./incomingChannels";
-import { InstalledAppsClient } from "./installedApps";
-import { MembersClient } from "./members";
-import { OperationsClient } from "./operations";
-import { PermissionGrantsClient } from "./permissionGrants";
-import { PhotoClient } from "./photo";
-import { PrimaryChannelClient } from "./primaryChannel";
-import { ScheduleClient } from "./schedule";
-import { SendActivityNotificationClient } from "./sendActivityNotification";
-import { TagsClient } from "./tags";
-import { TemplateClient } from "./template";
-import { UnarchiveClient } from "./unarchive";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { AllChannelsClient } from './allChannels';
+import { ArchiveClient } from './archive';
+import { ChannelsClient } from './channels';
+import { CloneClient } from './clone';
+import { CompleteMigrationClient } from './completeMigration';
+import { CountClient } from './count';
+import { GetAllMessagesClient } from './getAllMessages';
+import { GroupClient } from './group';
+import { IncomingChannelsClient } from './incomingChannels';
+import { InstalledAppsClient } from './installedApps';
+import { MembersClient } from './members';
+import { OperationsClient } from './operations';
+import { PermissionGrantsClient } from './permissionGrants';
+import { PhotoClient } from './photo';
+import { PrimaryChannelClient } from './primaryChannel';
+import { ScheduleClient } from './schedule';
+import { SendActivityNotificationClient } from './sendActivityNotification';
+import { TagsClient } from './tags';
+import { TemplateClient } from './template';
+import { UnarchiveClient } from './unarchive';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -56,27 +52,27 @@ function getInjectedUrl(
  * Provides operations to manage the collection of team entities.
  */
 export class TeamsClient {
-  protected baseUrl = "/teams";
+  protected baseUrl = '/teams';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -268,25 +264,23 @@ export class TeamsClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /teams/{team-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /teams/{team-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}",
+      '/teams/{team-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "team-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'team-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
-      .then(
-        (res) => res.data as Endpoints["DELETE /teams/{team-id}"]["response"],
-      );
+      .then((res) => res.data as Endpoints['DELETE /teams/{team-id}']['response']);
   }
 
   /**
@@ -294,25 +288,22 @@ export class TeamsClient {
    *
    * List all teams in an organization.
    */
-  async list(
-    params?: Endpoints["GET /teams"]["parameters"],
-    config?: http.RequestConfig,
-  ) {
+  async list(params?: Endpoints['GET /teams']['parameters'], config?: http.RequestConfig) {
     const url = getInjectedUrl(
-      "/teams",
+      '/teams',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints["GET /teams"]["response"]);
+      .then((res) => res.data as Endpoints['GET /teams']['response']);
   }
 
   /**
@@ -320,25 +311,22 @@ export class TeamsClient {
    *
    * Retrieve the properties and relationships of the specified team.
    */
-  async get(
-    params?: Endpoints["GET /teams/{team-id}"]["parameters"],
-    config?: http.RequestConfig,
-  ) {
+  async get(params?: Endpoints['GET /teams/{team-id}']['parameters'], config?: http.RequestConfig) {
     const url = getInjectedUrl(
-      "/teams/{team-id}",
+      '/teams/{team-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints["GET /teams/{team-id}"]["response"]);
+      .then((res) => res.data as Endpoints['GET /teams/{team-id}']['response']);
   }
 
   /**
@@ -347,23 +335,17 @@ export class TeamsClient {
    * Update the properties of the specified team.
    */
   async update(
-    body: Endpoints["PATCH /teams/{team-id}"]["body"],
-    params?: Endpoints["PATCH /teams/{team-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /teams/{team-id}']['body'],
+    params?: Endpoints['PATCH /teams/{team-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
-    const url = getInjectedUrl(
-      "/teams/{team-id}",
-      [{ name: "team-id", in: "path" }],
-      {
-        ...(params || {}),
-      },
-    );
+    const url = getInjectedUrl('/teams/{team-id}', [{ name: 'team-id', in: 'path' }], {
+      ...(params || {}),
+    });
 
     return this.http
       .patch(url, body, config)
-      .then(
-        (res) => res.data as Endpoints["PATCH /teams/{team-id}"]["response"],
-      );
+      .then((res) => res.data as Endpoints['PATCH /teams/{team-id}']['response']);
   }
 
   /**
@@ -372,16 +354,16 @@ export class TeamsClient {
    * Create a new team.
    */
   async create(
-    body: Endpoints["POST /teams"]["body"],
-    params?: Endpoints["POST /teams"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /teams']['body'],
+    params?: Endpoints['POST /teams']['parameters'],
+    config?: http.RequestConfig
   ) {
-    const url = getInjectedUrl("/teams", [], {
+    const url = getInjectedUrl('/teams', [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body, config)
-      .then((res) => res.data as Endpoints["POST /teams"]["response"]);
+      .then((res) => res.data as Endpoints['POST /teams']['response']);
   }
 }

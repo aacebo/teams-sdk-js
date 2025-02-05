@@ -1,30 +1,26 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { SiteInclusionRulesClient } from "./siteInclusionRules";
-import { SiteProtectionUnitsClient } from "./siteProtectionUnits";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { SiteInclusionRulesClient } from './siteInclusionRules';
+import { SiteProtectionUnitsClient } from './siteProtectionUnits';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -39,27 +35,27 @@ function getInjectedUrl(
  * Provides operations to manage the sharePointProtectionPolicies property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class SharePointProtectionPoliciesClient {
-  protected baseUrl = "/solutions/backupRestore/sharePointProtectionPolicies";
+  protected baseUrl = '/solutions/backupRestore/sharePointProtectionPolicies';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -81,10 +77,7 @@ export class SharePointProtectionPoliciesClient {
    * Provides operations to manage the siteInclusionRules property of the microsoft.graph.sharePointProtectionPolicy entity.
    */
   siteInclusionRules(sharePointProtectionPolicyId: string) {
-    return new SiteInclusionRulesClient(
-      sharePointProtectionPolicyId,
-      this.http,
-    );
+    return new SiteInclusionRulesClient(sharePointProtectionPolicyId, this.http);
   }
 
   /**
@@ -93,10 +86,7 @@ export class SharePointProtectionPoliciesClient {
    * Provides operations to manage the siteProtectionUnits property of the microsoft.graph.sharePointProtectionPolicy entity.
    */
   siteProtectionUnits(sharePointProtectionPolicyId: string) {
-    return new SiteProtectionUnitsClient(
-      sharePointProtectionPolicyId,
-      this.http,
-    );
+    return new SiteProtectionUnitsClient(sharePointProtectionPolicyId, this.http);
   }
 
   /**
@@ -104,25 +94,25 @@ export class SharePointProtectionPoliciesClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}",
+      '/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "sharePointProtectionPolicy-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'sharePointProtectionPolicy-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}"]["response"],
+          res.data as Endpoints['DELETE /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}']['response']
       );
   }
 
@@ -132,26 +122,26 @@ export class SharePointProtectionPoliciesClient {
    * The list of SharePoint protection policies in the tenant.
    */
   async list(
-    params?: Endpoints["GET /solutions/backupRestore/sharePointProtectionPolicies"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/backupRestore/sharePointProtectionPolicies']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/sharePointProtectionPolicies",
+      '/solutions/backupRestore/sharePointProtectionPolicies',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/backupRestore/sharePointProtectionPolicies"]["response"],
+          res.data as Endpoints['GET /solutions/backupRestore/sharePointProtectionPolicies']['response']
       );
   }
 
@@ -161,26 +151,26 @@ export class SharePointProtectionPoliciesClient {
    * The list of SharePoint protection policies in the tenant.
    */
   async get(
-    params?: Endpoints["GET /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}",
+      '/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "sharePointProtectionPolicy-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'sharePointProtectionPolicy-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}"]["response"],
+          res.data as Endpoints['GET /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}']['response']
       );
   }
 
@@ -190,23 +180,23 @@ export class SharePointProtectionPoliciesClient {
    * Update a SharePoint protection policy. This method adds a siteprotectionunit to or removes it from the protection policy.
    */
   async update(
-    body: Endpoints["PATCH /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}"]["body"],
-    params?: Endpoints["PATCH /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}']['body'],
+    params?: Endpoints['PATCH /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}",
-      [{ name: "sharePointProtectionPolicy-id", in: "path" }],
+      '/solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}',
+      [{ name: 'sharePointProtectionPolicy-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}"]["response"],
+          res.data as Endpoints['PATCH /solutions/backupRestore/sharePointProtectionPolicies/{sharePointProtectionPolicy-id}']['response']
       );
   }
 
@@ -216,23 +206,19 @@ export class SharePointProtectionPoliciesClient {
    * Create a protection policy for a M365 service SharePoint. Policy will be created in inactive state. User can also provide a list of protection units under the policy.
    */
   async create(
-    body: Endpoints["POST /solutions/backupRestore/sharePointProtectionPolicies"]["body"],
-    params?: Endpoints["POST /solutions/backupRestore/sharePointProtectionPolicies"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /solutions/backupRestore/sharePointProtectionPolicies']['body'],
+    params?: Endpoints['POST /solutions/backupRestore/sharePointProtectionPolicies']['parameters'],
+    config?: http.RequestConfig
   ) {
-    const url = getInjectedUrl(
-      "/solutions/backupRestore/sharePointProtectionPolicies",
-      [],
-      {
-        ...(params || {}),
-      },
-    );
+    const url = getInjectedUrl('/solutions/backupRestore/sharePointProtectionPolicies', [], {
+      ...(params || {}),
+    });
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /solutions/backupRestore/sharePointProtectionPolicies"]["response"],
+          res.data as Endpoints['POST /solutions/backupRestore/sharePointProtectionPolicies']['response']
       );
   }
 }

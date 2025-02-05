@@ -1,27 +1,23 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./getAvailableExtensionProperties-types.d.ts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './getAvailableExtensionProperties-types.d.ts';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -36,27 +32,27 @@ function getInjectedUrl(
  * Provides operations to call the getAvailableExtensionProperties method.
  */
 export class GetAvailableExtensionPropertiesClient {
-  protected baseUrl = "/applications/getAvailableExtensionProperties";
+  protected baseUrl = '/applications/getAvailableExtensionProperties';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -69,23 +65,19 @@ export class GetAvailableExtensionPropertiesClient {
    * Return all directory extension definitions that have been registered in a directory, including through multi-tenant apps. The following entities support extension properties:
    */
   async create(
-    body: Endpoints["POST /applications/getAvailableExtensionProperties"]["body"],
-    params?: Endpoints["POST /applications/getAvailableExtensionProperties"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /applications/getAvailableExtensionProperties']['body'],
+    params?: Endpoints['POST /applications/getAvailableExtensionProperties']['parameters'],
+    config?: http.RequestConfig
   ) {
-    const url = getInjectedUrl(
-      "/applications/getAvailableExtensionProperties",
-      [],
-      {
-        ...(params || {}),
-      },
-    );
+    const url = getInjectedUrl('/applications/getAvailableExtensionProperties', [], {
+      ...(params || {}),
+    });
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /applications/getAvailableExtensionProperties"]["response"],
+          res.data as Endpoints['POST /applications/getAvailableExtensionProperties']['response']
       );
   }
 }

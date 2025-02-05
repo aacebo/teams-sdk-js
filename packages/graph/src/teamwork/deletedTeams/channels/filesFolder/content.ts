@@ -1,27 +1,23 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./content-types.d.ts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './content-types.d.ts';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -37,27 +33,27 @@ function getInjectedUrl(
  */
 export class ContentClient {
   protected baseUrl =
-    "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content";
+    '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -70,26 +66,26 @@ export class ContentClient {
    * The content stream, if the item represents a file.
    */
   async delete(
-    params?: Endpoints["DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content',
       [
-        { name: "If-Match", in: "header" },
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content"]["response"],
+          res.data as Endpoints['DELETE /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content']['response']
       );
   }
 
@@ -99,26 +95,26 @@ export class ContentClient {
    * The content stream, if the item represents a file.
    */
   async get(
-    params?: Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content',
       [
-        { name: "$format", in: "query" },
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
+        { name: '$format', in: 'query' },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content"]["response"],
+          res.data as Endpoints['GET /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content']['response']
       );
   }
 
@@ -128,26 +124,26 @@ export class ContentClient {
    * The content stream, if the item represents a file.
    */
   async set(
-    body: Endpoints["PUT /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content"]["body"],
-    params?: Endpoints["PUT /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PUT /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content']['body'],
+    params?: Endpoints['PUT /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content",
+      '/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content',
       [
-        { name: "deletedTeam-id", in: "path" },
-        { name: "channel-id", in: "path" },
+        { name: 'deletedTeam-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .put(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PUT /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content"]["response"],
+          res.data as Endpoints['PUT /teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/filesFolder/content']['response']
       );
   }
 }

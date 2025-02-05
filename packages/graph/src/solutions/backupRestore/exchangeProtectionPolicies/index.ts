@@ -1,30 +1,26 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { MailboxInclusionRulesClient } from "./mailboxInclusionRules";
-import { MailboxProtectionUnitsClient } from "./mailboxProtectionUnits";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { MailboxInclusionRulesClient } from './mailboxInclusionRules';
+import { MailboxProtectionUnitsClient } from './mailboxProtectionUnits';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -39,27 +35,27 @@ function getInjectedUrl(
  * Provides operations to manage the exchangeProtectionPolicies property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class ExchangeProtectionPoliciesClient {
-  protected baseUrl = "/solutions/backupRestore/exchangeProtectionPolicies";
+  protected baseUrl = '/solutions/backupRestore/exchangeProtectionPolicies';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -81,10 +77,7 @@ export class ExchangeProtectionPoliciesClient {
    * Provides operations to manage the mailboxInclusionRules property of the microsoft.graph.exchangeProtectionPolicy entity.
    */
   mailboxInclusionRules(exchangeProtectionPolicyId: string) {
-    return new MailboxInclusionRulesClient(
-      exchangeProtectionPolicyId,
-      this.http,
-    );
+    return new MailboxInclusionRulesClient(exchangeProtectionPolicyId, this.http);
   }
 
   /**
@@ -93,10 +86,7 @@ export class ExchangeProtectionPoliciesClient {
    * Provides operations to manage the mailboxProtectionUnits property of the microsoft.graph.exchangeProtectionPolicy entity.
    */
   mailboxProtectionUnits(exchangeProtectionPolicyId: string) {
-    return new MailboxProtectionUnitsClient(
-      exchangeProtectionPolicyId,
-      this.http,
-    );
+    return new MailboxProtectionUnitsClient(exchangeProtectionPolicyId, this.http);
   }
 
   /**
@@ -104,25 +94,25 @@ export class ExchangeProtectionPoliciesClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}",
+      '/solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "exchangeProtectionPolicy-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'exchangeProtectionPolicy-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}"]["response"],
+          res.data as Endpoints['DELETE /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}']['response']
       );
   }
 
@@ -132,26 +122,26 @@ export class ExchangeProtectionPoliciesClient {
    * The list of Exchange protection policies in the tenant.
    */
   async list(
-    params?: Endpoints["GET /solutions/backupRestore/exchangeProtectionPolicies"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/backupRestore/exchangeProtectionPolicies']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/exchangeProtectionPolicies",
+      '/solutions/backupRestore/exchangeProtectionPolicies',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/backupRestore/exchangeProtectionPolicies"]["response"],
+          res.data as Endpoints['GET /solutions/backupRestore/exchangeProtectionPolicies']['response']
       );
   }
 
@@ -161,26 +151,26 @@ export class ExchangeProtectionPoliciesClient {
    * The list of Exchange protection policies in the tenant.
    */
   async get(
-    params?: Endpoints["GET /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}",
+      '/solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "exchangeProtectionPolicy-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'exchangeProtectionPolicy-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}"]["response"],
+          res.data as Endpoints['GET /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}']['response']
       );
   }
 
@@ -190,23 +180,23 @@ export class ExchangeProtectionPoliciesClient {
    * Update an Exchange protection policy. This method adds a mailboxprotectionunit to or removes it from the protection policy.
    */
   async update(
-    body: Endpoints["PATCH /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}"]["body"],
-    params?: Endpoints["PATCH /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}']['body'],
+    params?: Endpoints['PATCH /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}",
-      [{ name: "exchangeProtectionPolicy-id", in: "path" }],
+      '/solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}',
+      [{ name: 'exchangeProtectionPolicy-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}"]["response"],
+          res.data as Endpoints['PATCH /solutions/backupRestore/exchangeProtectionPolicies/{exchangeProtectionPolicy-id}']['response']
       );
   }
 
@@ -216,23 +206,19 @@ export class ExchangeProtectionPoliciesClient {
    * Create a protection policy for the Exchange service in a Microsoft 365 tenant. The policy is set to inactive when it is created. Users can also provide a list of protection units under the policy.
    */
   async create(
-    body: Endpoints["POST /solutions/backupRestore/exchangeProtectionPolicies"]["body"],
-    params?: Endpoints["POST /solutions/backupRestore/exchangeProtectionPolicies"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /solutions/backupRestore/exchangeProtectionPolicies']['body'],
+    params?: Endpoints['POST /solutions/backupRestore/exchangeProtectionPolicies']['parameters'],
+    config?: http.RequestConfig
   ) {
-    const url = getInjectedUrl(
-      "/solutions/backupRestore/exchangeProtectionPolicies",
-      [],
-      {
-        ...(params || {}),
-      },
-    );
+    const url = getInjectedUrl('/solutions/backupRestore/exchangeProtectionPolicies', [], {
+      ...(params || {}),
+    });
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /solutions/backupRestore/exchangeProtectionPolicies"]["response"],
+          res.data as Endpoints['POST /solutions/backupRestore/exchangeProtectionPolicies']['response']
       );
   }
 }

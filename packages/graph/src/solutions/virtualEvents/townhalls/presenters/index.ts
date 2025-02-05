@@ -1,28 +1,24 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -37,31 +33,30 @@ function getInjectedUrl(
  * Provides operations to manage the presenters property of the microsoft.graph.virtualEvent entity.
  */
 export class PresentersClient {
-  protected baseUrl =
-    "/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters";
+  protected baseUrl = '/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters';
   protected http: http.Client;
 
   constructor(
     protected readonly virtualEventTownhallId: string,
-    options?: http.Client | http.ClientOptions,
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -85,27 +80,27 @@ export class PresentersClient {
 - virtualEventWebinar
    */
   async delete(
-    params?: Endpoints["DELETE /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}",
+      '/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "virtualEventTownhall-id", in: "path" },
-        { name: "virtualEventPresenter-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'virtualEventTownhall-id', in: 'path' },
+        { name: 'virtualEventPresenter-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "virtualEventTownhall-id": this.virtualEventTownhallId,
-      },
+        'virtualEventTownhall-id': this.virtualEventTownhallId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}"]["response"],
+          res.data as Endpoints['DELETE /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}']['response']
       );
   }
 
@@ -117,28 +112,28 @@ export class PresentersClient {
 - virtualEventWebinar
    */
   async list(
-    params?: Endpoints["GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters",
+      '/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "virtualEventTownhall-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'virtualEventTownhall-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "virtualEventTownhall-id": this.virtualEventTownhallId,
-      },
+        'virtualEventTownhall-id': this.virtualEventTownhallId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters"]["response"],
+          res.data as Endpoints['GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters']['response']
       );
   }
 
@@ -150,28 +145,28 @@ export class PresentersClient {
 - virtualEventWebinar
    */
   async get(
-    params?: Endpoints["GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}",
+      '/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "virtualEventTownhall-id", in: "path" },
-        { name: "virtualEventPresenter-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'virtualEventTownhall-id', in: 'path' },
+        { name: 'virtualEventPresenter-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "virtualEventTownhall-id": this.virtualEventTownhallId,
-      },
+        'virtualEventTownhall-id': this.virtualEventTownhallId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}"]["response"],
+          res.data as Endpoints['GET /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}']['response']
       );
   }
 
@@ -180,27 +175,27 @@ export class PresentersClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}"]["body"],
-    params?: Endpoints["PATCH /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}']['body'],
+    params?: Endpoints['PATCH /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}",
+      '/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}',
       [
-        { name: "virtualEventTownhall-id", in: "path" },
-        { name: "virtualEventPresenter-id", in: "path" },
+        { name: 'virtualEventTownhall-id', in: 'path' },
+        { name: 'virtualEventPresenter-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "virtualEventTownhall-id": this.virtualEventTownhallId,
-      },
+        'virtualEventTownhall-id': this.virtualEventTownhallId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}"]["response"],
+          res.data as Endpoints['PATCH /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters/{virtualEventPresenter-id}']['response']
       );
   }
 
@@ -212,24 +207,24 @@ export class PresentersClient {
 - virtualEventWebinar
    */
   async create(
-    body: Endpoints["POST /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters"]["body"],
-    params?: Endpoints["POST /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters']['body'],
+    params?: Endpoints['POST /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters",
-      [{ name: "virtualEventTownhall-id", in: "path" }],
+      '/solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters',
+      [{ name: 'virtualEventTownhall-id', in: 'path' }],
       {
         ...(params || {}),
-        "virtualEventTownhall-id": this.virtualEventTownhallId,
-      },
+        'virtualEventTownhall-id': this.virtualEventTownhallId,
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters"]["response"],
+          res.data as Endpoints['POST /solutions/virtualEvents/townhalls/{virtualEventTownhall-id}/presenters']['response']
       );
   }
 }

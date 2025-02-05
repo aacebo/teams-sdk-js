@@ -1,32 +1,28 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CalendarPermissionsClient } from "./calendarPermissions";
-import { CalendarViewClient } from "./calendarView";
-import { CountClient } from "./count";
-import { EventsClient } from "./events";
-import { GetScheduleClient } from "./getSchedule";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CalendarPermissionsClient } from './calendarPermissions';
+import { CalendarViewClient } from './calendarView';
+import { CountClient } from './count';
+import { EventsClient } from './events';
+import { GetScheduleClient } from './getSchedule';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -41,27 +37,27 @@ function getInjectedUrl(
  * Provides operations to call the allowedCalendarSharingRoles method.
  */
 export class CalendarsClient {
-  protected baseUrl = "/me/calendars";
+  protected baseUrl = '/me/calendars';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -118,26 +114,23 @@ export class CalendarsClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /me/calendars/{calendar-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /me/calendars/{calendar-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/me/calendars/{calendar-id}",
+      '/me/calendars/{calendar-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "calendar-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'calendar-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["DELETE /me/calendars/{calendar-id}"]["response"],
-      );
+      .then((res) => res.data as Endpoints['DELETE /me/calendars/{calendar-id}']['response']);
   }
 
   /**
@@ -145,25 +138,22 @@ export class CalendarsClient {
    *
    * Get all the user&#x27;s calendars (/calendars navigation property), get the calendars from the default calendar group or from a specific calendar group.
    */
-  async list(
-    params?: Endpoints["GET /me/calendars"]["parameters"],
-    config?: http.RequestConfig,
-  ) {
+  async list(params?: Endpoints['GET /me/calendars']['parameters'], config?: http.RequestConfig) {
     const url = getInjectedUrl(
-      "/me/calendars",
+      '/me/calendars',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints["GET /me/calendars"]["response"]);
+      .then((res) => res.data as Endpoints['GET /me/calendars']['response']);
   }
 
   /**
@@ -172,27 +162,24 @@ export class CalendarsClient {
    * The user&#x27;s calendars. Read-only. Nullable.
    */
   async get(
-    params?: Endpoints["GET /me/calendars/{calendar-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /me/calendars/{calendar-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/me/calendars/{calendar-id}",
+      '/me/calendars/{calendar-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "calendar-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'calendar-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /me/calendars/{calendar-id}"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /me/calendars/{calendar-id}']['response']);
   }
 
   /**
@@ -200,25 +187,25 @@ export class CalendarsClient {
    *
    */
   async get$1(
-    params?: Endpoints["GET /me/calendars/{calendar-id}/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /me/calendars/{calendar-id}/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/me/calendars/{calendar-id}/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)",
+      '/me/calendars/{calendar-id}/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)',
       [
-        { name: "calendar-id", in: "path" },
-        { name: "User", in: "path" },
+        { name: 'calendar-id', in: 'path' },
+        { name: 'User', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /me/calendars/{calendar-id}/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)"]["response"],
+          res.data as Endpoints['GET /me/calendars/{calendar-id}/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)']['response']
       );
   }
 
@@ -227,24 +214,21 @@ export class CalendarsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /me/calendars/{calendar-id}"]["body"],
-    params?: Endpoints["PATCH /me/calendars/{calendar-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /me/calendars/{calendar-id}']['body'],
+    params?: Endpoints['PATCH /me/calendars/{calendar-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/me/calendars/{calendar-id}",
-      [{ name: "calendar-id", in: "path" }],
+      '/me/calendars/{calendar-id}',
+      [{ name: 'calendar-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["PATCH /me/calendars/{calendar-id}"]["response"],
-      );
+      .then((res) => res.data as Endpoints['PATCH /me/calendars/{calendar-id}']['response']);
   }
 
   /**
@@ -253,16 +237,16 @@ export class CalendarsClient {
    * Create a new calendar for a user.
    */
   async create(
-    body: Endpoints["POST /me/calendars"]["body"],
-    params?: Endpoints["POST /me/calendars"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /me/calendars']['body'],
+    params?: Endpoints['POST /me/calendars']['parameters'],
+    config?: http.RequestConfig
   ) {
-    const url = getInjectedUrl("/me/calendars", [], {
+    const url = getInjectedUrl('/me/calendars', [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body, config)
-      .then((res) => res.data as Endpoints["POST /me/calendars"]["response"]);
+      .then((res) => res.data as Endpoints['POST /me/calendars']['response']);
   }
 }

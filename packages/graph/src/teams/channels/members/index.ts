@@ -1,30 +1,26 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { AddClient } from "./add";
-import { CountClient } from "./count";
-import { RemoveClient } from "./remove";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { AddClient } from './add';
+import { CountClient } from './count';
+import { RemoveClient } from './remove';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -39,30 +35,30 @@ function getInjectedUrl(
  * Provides operations to manage the members property of the microsoft.graph.channel entity.
  */
 export class MembersClient {
-  protected baseUrl = "/teams/{team-id}/channels/{channel-id}/members";
+  protected baseUrl = '/teams/{team-id}/channels/{channel-id}/members';
   protected http: http.Client;
 
   constructor(
     protected readonly channelId: string,
-    options?: http.Client | http.ClientOptions,
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -102,28 +98,28 @@ export class MembersClient {
    * Delete a conversationMember from a channel. This operation is allowed only for channels with a membershipType value of private or shared.
    */
   async delete(
-    params?: Endpoints["DELETE /teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}",
+      '/teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "team-id", in: "path" },
-        { name: "channel-id", in: "path" },
-        { name: "conversationMember-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'team-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
+        { name: 'conversationMember-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "channel-id": this.channelId,
-      },
+        'channel-id': this.channelId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}"]["response"],
+          res.data as Endpoints['DELETE /teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}']['response']
       );
   }
 
@@ -133,29 +129,29 @@ export class MembersClient {
    * Retrieve a list of conversationMembers from a channel. This method supports federation. Only a user who is a member of the shared channel can retrieve the channel member list.
    */
   async list(
-    params?: Endpoints["GET /teams/{team-id}/channels/{channel-id}/members"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /teams/{team-id}/channels/{channel-id}/members']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/channels/{channel-id}/members",
+      '/teams/{team-id}/channels/{channel-id}/members',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
-        { name: "channel-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "channel-id": this.channelId,
-      },
+        'channel-id': this.channelId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/channels/{channel-id}/members"]["response"],
+          res.data as Endpoints['GET /teams/{team-id}/channels/{channel-id}/members']['response']
       );
   }
 
@@ -165,29 +161,29 @@ export class MembersClient {
    * Get a conversationMember from a channel.
    */
   async get(
-    params?: Endpoints["GET /teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}",
+      '/teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
-        { name: "channel-id", in: "path" },
-        { name: "conversationMember-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
+        { name: 'conversationMember-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "channel-id": this.channelId,
-      },
+        'channel-id': this.channelId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}"]["response"],
+          res.data as Endpoints['GET /teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}']['response']
       );
   }
 
@@ -197,28 +193,28 @@ export class MembersClient {
    * Update the role of a conversationMember in a team or channel.
    */
   async update(
-    body: Endpoints["PATCH /teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}"]["body"],
-    params?: Endpoints["PATCH /teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}']['body'],
+    params?: Endpoints['PATCH /teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}",
+      '/teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}',
       [
-        { name: "team-id", in: "path" },
-        { name: "channel-id", in: "path" },
-        { name: "conversationMember-id", in: "path" },
+        { name: 'team-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
+        { name: 'conversationMember-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "channel-id": this.channelId,
-      },
+        'channel-id': this.channelId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}"]["response"],
+          res.data as Endpoints['PATCH /teams/{team-id}/channels/{channel-id}/members/{conversationMember-id}']['response']
       );
   }
 
@@ -228,27 +224,27 @@ export class MembersClient {
    * Add a conversationMember to a channel. This operation is allowed only for channels with a membershipType value of private or shared.
    */
   async create(
-    body: Endpoints["POST /teams/{team-id}/channels/{channel-id}/members"]["body"],
-    params?: Endpoints["POST /teams/{team-id}/channels/{channel-id}/members"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /teams/{team-id}/channels/{channel-id}/members']['body'],
+    params?: Endpoints['POST /teams/{team-id}/channels/{channel-id}/members']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/channels/{channel-id}/members",
+      '/teams/{team-id}/channels/{channel-id}/members',
       [
-        { name: "team-id", in: "path" },
-        { name: "channel-id", in: "path" },
+        { name: 'team-id', in: 'path' },
+        { name: 'channel-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "channel-id": this.channelId,
-      },
+        'channel-id': this.channelId,
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /teams/{team-id}/channels/{channel-id}/members"]["response"],
+          res.data as Endpoints['POST /teams/{team-id}/channels/{channel-id}/members']['response']
       );
   }
 }

@@ -1,37 +1,33 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CheckMemberGroupsClient } from "./checkMemberGroups";
-import { CheckMemberObjectsClient } from "./checkMemberObjects";
-import { CountClient } from "./count";
-import { DeltaClient } from "./delta";
-import { GetAvailableExtensionPropertiesClient } from "./getAvailableExtensionProperties";
-import { GetByIdsClient } from "./getByIds";
-import { GetMemberGroupsClient } from "./getMemberGroups";
-import { GetMemberObjectsClient } from "./getMemberObjects";
-import { RestoreClient } from "./restore";
-import { ValidatePropertiesClient } from "./validateProperties";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CheckMemberGroupsClient } from './checkMemberGroups';
+import { CheckMemberObjectsClient } from './checkMemberObjects';
+import { CountClient } from './count';
+import { DeltaClient } from './delta';
+import { GetAvailableExtensionPropertiesClient } from './getAvailableExtensionProperties';
+import { GetByIdsClient } from './getByIds';
+import { GetMemberGroupsClient } from './getMemberGroups';
+import { GetMemberObjectsClient } from './getMemberObjects';
+import { RestoreClient } from './restore';
+import { ValidatePropertiesClient } from './validateProperties';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -46,27 +42,27 @@ function getInjectedUrl(
  * Provides operations to manage the collection of appRoleAssignment entities.
  */
 export class AppRoleAssignmentsClient {
-  protected baseUrl = "/appRoleAssignments";
+  protected baseUrl = '/appRoleAssignments';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -168,25 +164,25 @@ export class AppRoleAssignmentsClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /appRoleAssignments/{appRoleAssignment-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /appRoleAssignments/{appRoleAssignment-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/appRoleAssignments/{appRoleAssignment-id}",
+      '/appRoleAssignments/{appRoleAssignment-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "appRoleAssignment-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'appRoleAssignment-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /appRoleAssignments/{appRoleAssignment-id}"]["response"],
+          res.data as Endpoints['DELETE /appRoleAssignments/{appRoleAssignment-id}']['response']
       );
   }
 
@@ -195,26 +191,24 @@ export class AppRoleAssignmentsClient {
    *
    */
   async list(
-    params?: Endpoints["GET /appRoleAssignments"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /appRoleAssignments']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/appRoleAssignments",
+      '/appRoleAssignments',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
-      .then(
-        (res) => res.data as Endpoints["GET /appRoleAssignments"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /appRoleAssignments']['response']);
   }
 
   /**
@@ -222,26 +216,25 @@ export class AppRoleAssignmentsClient {
    *
    */
   async get(
-    params?: Endpoints["GET /appRoleAssignments/{appRoleAssignment-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /appRoleAssignments/{appRoleAssignment-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/appRoleAssignments/{appRoleAssignment-id}",
+      '/appRoleAssignments/{appRoleAssignment-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "appRoleAssignment-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'appRoleAssignment-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
-        (res) =>
-          res.data as Endpoints["GET /appRoleAssignments/{appRoleAssignment-id}"]["response"],
+        (res) => res.data as Endpoints['GET /appRoleAssignments/{appRoleAssignment-id}']['response']
       );
   }
 
@@ -250,23 +243,23 @@ export class AppRoleAssignmentsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /appRoleAssignments/{appRoleAssignment-id}"]["body"],
-    params?: Endpoints["PATCH /appRoleAssignments/{appRoleAssignment-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /appRoleAssignments/{appRoleAssignment-id}']['body'],
+    params?: Endpoints['PATCH /appRoleAssignments/{appRoleAssignment-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/appRoleAssignments/{appRoleAssignment-id}",
-      [{ name: "appRoleAssignment-id", in: "path" }],
+      '/appRoleAssignments/{appRoleAssignment-id}',
+      [{ name: 'appRoleAssignment-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /appRoleAssignments/{appRoleAssignment-id}"]["response"],
+          res.data as Endpoints['PATCH /appRoleAssignments/{appRoleAssignment-id}']['response']
       );
   }
 
@@ -275,18 +268,16 @@ export class AppRoleAssignmentsClient {
    *
    */
   async create(
-    body: Endpoints["POST /appRoleAssignments"]["body"],
-    params?: Endpoints["POST /appRoleAssignments"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /appRoleAssignments']['body'],
+    params?: Endpoints['POST /appRoleAssignments']['parameters'],
+    config?: http.RequestConfig
   ) {
-    const url = getInjectedUrl("/appRoleAssignments", [], {
+    const url = getInjectedUrl('/appRoleAssignments', [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body, config)
-      .then(
-        (res) => res.data as Endpoints["POST /appRoleAssignments"]["response"],
-      );
+      .then((res) => res.data as Endpoints['POST /appRoleAssignments']['response']);
   }
 }

@@ -1,30 +1,26 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { ContentClient } from "./content";
-import { CountClient } from "./count";
-import { DeltaClient } from "./delta";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { ContentClient } from './content';
+import { CountClient } from './count';
+import { DeltaClient } from './delta';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -39,31 +35,30 @@ function getInjectedUrl(
  * Provides operations to manage the recordings property of the microsoft.graph.onlineMeeting entity.
  */
 export class RecordingsClient {
-  protected baseUrl =
-    "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings";
+  protected baseUrl = '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings';
   protected http: http.Client;
 
   constructor(
     protected readonly onlineMeetingId: string,
-    options?: http.Client | http.ClientOptions,
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -102,28 +97,28 @@ export class RecordingsClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}",
+      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "user-id", in: "path" },
-        { name: "onlineMeeting-id", in: "path" },
-        { name: "callRecording-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'user-id', in: 'path' },
+        { name: 'onlineMeeting-id', in: 'path' },
+        { name: 'callRecording-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "onlineMeeting-id": this.onlineMeetingId,
-      },
+        'onlineMeeting-id': this.onlineMeetingId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}"]["response"],
+          res.data as Endpoints['DELETE /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}']['response']
       );
   }
 
@@ -133,29 +128,29 @@ export class RecordingsClient {
    * Get a callRecording object associated with a scheduled onlineMeeting. This API doesn&#x27;t support getting call recordings from channel meetings. For a recording, this API returns the metadata of the single recording associated with the online meeting. For the content of a recording, this API returns the stream of bytes associated with the recording.
    */
   async list(
-    params?: Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings",
+      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "user-id", in: "path" },
-        { name: "onlineMeeting-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'user-id', in: 'path' },
+        { name: 'onlineMeeting-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "onlineMeeting-id": this.onlineMeetingId,
-      },
+        'onlineMeeting-id': this.onlineMeetingId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings"]["response"],
+          res.data as Endpoints['GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings']['response']
       );
   }
 
@@ -165,29 +160,29 @@ export class RecordingsClient {
    * Get a callRecording object associated with a scheduled onlineMeeting. This API doesn&#x27;t support getting call recordings from channel meetings. For a recording, this API returns the metadata of the single recording associated with the online meeting. For the content of a recording, this API returns the stream of bytes associated with the recording.
    */
   async get(
-    params?: Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}",
+      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "user-id", in: "path" },
-        { name: "onlineMeeting-id", in: "path" },
-        { name: "callRecording-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'user-id', in: 'path' },
+        { name: 'onlineMeeting-id', in: 'path' },
+        { name: 'callRecording-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "onlineMeeting-id": this.onlineMeetingId,
-      },
+        'onlineMeeting-id': this.onlineMeetingId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}"]["response"],
+          res.data as Endpoints['GET /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}']['response']
       );
   }
 
@@ -196,28 +191,28 @@ export class RecordingsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}"]["body"],
-    params?: Endpoints["PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}']['body'],
+    params?: Endpoints['PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}",
+      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}',
       [
-        { name: "user-id", in: "path" },
-        { name: "onlineMeeting-id", in: "path" },
-        { name: "callRecording-id", in: "path" },
+        { name: 'user-id', in: 'path' },
+        { name: 'onlineMeeting-id', in: 'path' },
+        { name: 'callRecording-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "onlineMeeting-id": this.onlineMeetingId,
-      },
+        'onlineMeeting-id': this.onlineMeetingId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}"]["response"],
+          res.data as Endpoints['PATCH /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/{callRecording-id}']['response']
       );
   }
 
@@ -226,27 +221,27 @@ export class RecordingsClient {
    *
    */
   async create(
-    body: Endpoints["POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings"]["body"],
-    params?: Endpoints["POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings']['body'],
+    params?: Endpoints['POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings",
+      '/users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings',
       [
-        { name: "user-id", in: "path" },
-        { name: "onlineMeeting-id", in: "path" },
+        { name: 'user-id', in: 'path' },
+        { name: 'onlineMeeting-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "onlineMeeting-id": this.onlineMeetingId,
-      },
+        'onlineMeeting-id': this.onlineMeetingId,
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings"]["response"],
+          res.data as Endpoints['POST /users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings']['response']
       );
   }
 }

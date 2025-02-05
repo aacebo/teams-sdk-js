@@ -1,35 +1,35 @@
-import * as http from "@teams.sdk/common/http";
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import { OnlineMeetingsClient } from "./onlineMeetings";
-import { PresenceClient } from "./presence";
-import { TeamworkClient } from "./teamwork";
+import pkg from 'src/../package.json';
+import { OnlineMeetingsClient } from './onlineMeetings';
+import { PresenceClient } from './presence';
+import { TeamworkClient } from './teamwork';
 
 /**
  * /users
  */
 export class UsersClient {
-  protected baseUrl = "/users";
+  protected baseUrl = '/users';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });

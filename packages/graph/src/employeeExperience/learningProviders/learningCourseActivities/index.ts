@@ -1,28 +1,24 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -38,30 +34,30 @@ function getInjectedUrl(
  */
 export class LearningCourseActivitiesClient {
   protected baseUrl =
-    "/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities";
+    '/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities';
   protected http: http.Client;
 
   constructor(
     protected readonly learningProviderId: string,
-    options?: http.Client | http.ClientOptions,
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -83,27 +79,27 @@ export class LearningCourseActivitiesClient {
    * Delete a learningCourseActivity object using the course activity ID of either an assignment or a self-initiated activity.
    */
   async delete(
-    params?: Endpoints["DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}",
+      '/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "learningProvider-id", in: "path" },
-        { name: "learningCourseActivity-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'learningProvider-id', in: 'path' },
+        { name: 'learningCourseActivity-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "learningProvider-id": this.learningProviderId,
-      },
+        'learningProvider-id': this.learningProviderId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}"]["response"],
+          res.data as Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}']['response']
       );
   }
 
@@ -113,28 +109,28 @@ export class LearningCourseActivitiesClient {
    * Get the specified learningCourseActivity object using either an ID or an externalCourseActivityId of the learning provider, or a courseActivityId of a user.
    */
   async list(
-    params?: Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities",
+      '/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "learningProvider-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'learningProvider-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "learningProvider-id": this.learningProviderId,
-      },
+        'learningProvider-id': this.learningProviderId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities"]["response"],
+          res.data as Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities']['response']
       );
   }
 
@@ -143,28 +139,28 @@ export class LearningCourseActivitiesClient {
    *
    */
   async get(
-    params?: Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}",
+      '/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "learningProvider-id", in: "path" },
-        { name: "learningCourseActivity-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'learningProvider-id', in: 'path' },
+        { name: 'learningCourseActivity-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "learningProvider-id": this.learningProviderId,
-      },
+        'learningProvider-id': this.learningProviderId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}"]["response"],
+          res.data as Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}']['response']
       );
   }
 
@@ -174,27 +170,27 @@ export class LearningCourseActivitiesClient {
    * Update the properties of a learningCourseActivity object.
    */
   async update(
-    body: Endpoints["PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}"]["body"],
-    params?: Endpoints["PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}']['body'],
+    params?: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}",
+      '/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}',
       [
-        { name: "learningProvider-id", in: "path" },
-        { name: "learningCourseActivity-id", in: "path" },
+        { name: 'learningProvider-id', in: 'path' },
+        { name: 'learningCourseActivity-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "learningProvider-id": this.learningProviderId,
-      },
+        'learningProvider-id': this.learningProviderId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}"]["response"],
+          res.data as Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities/{learningCourseActivity-id}']['response']
       );
   }
 
@@ -206,24 +202,24 @@ export class LearningCourseActivitiesClient {
 - Self-initiated Use this method to create either type of activity.
    */
   async create(
-    body: Endpoints["POST /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities"]["body"],
-    params?: Endpoints["POST /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities']['body'],
+    params?: Endpoints['POST /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities",
-      [{ name: "learningProvider-id", in: "path" }],
+      '/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities',
+      [{ name: 'learningProvider-id', in: 'path' }],
       {
         ...(params || {}),
-        "learningProvider-id": this.learningProviderId,
-      },
+        'learningProvider-id': this.learningProviderId,
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities"]["response"],
+          res.data as Endpoints['POST /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities']['response']
       );
   }
 }

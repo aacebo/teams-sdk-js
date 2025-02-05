@@ -1,28 +1,24 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -37,31 +33,30 @@ function getInjectedUrl(
  * Provides operations to manage the staffMembers property of the microsoft.graph.bookingBusiness entity.
  */
 export class StaffMembersClient {
-  protected baseUrl =
-    "/solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers";
+  protected baseUrl = '/solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers';
   protected http: http.Client;
 
   constructor(
     protected readonly bookingBusinessId: string,
-    options?: http.Client | http.ClientOptions,
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -83,27 +78,27 @@ export class StaffMembersClient {
    * Delete a bookingStaffMember in the specified bookingBusiness.
    */
   async delete(
-    params?: Endpoints["DELETE /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}",
+      '/solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "bookingBusiness-id", in: "path" },
-        { name: "bookingStaffMemberBase-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'bookingBusiness-id', in: 'path' },
+        { name: 'bookingStaffMemberBase-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "bookingBusiness-id": this.bookingBusinessId,
-      },
+        'bookingBusiness-id': this.bookingBusinessId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}"]["response"],
+          res.data as Endpoints['DELETE /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}']['response']
       );
   }
 
@@ -113,28 +108,28 @@ export class StaffMembersClient {
    * Get a list of bookingStaffMember objects in the specified bookingBusiness.
    */
   async list(
-    params?: Endpoints["GET /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers",
+      '/solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "bookingBusiness-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'bookingBusiness-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "bookingBusiness-id": this.bookingBusinessId,
-      },
+        'bookingBusiness-id': this.bookingBusinessId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers"]["response"],
+          res.data as Endpoints['GET /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers']['response']
       );
   }
 
@@ -144,28 +139,28 @@ export class StaffMembersClient {
    * Get the properties and relationships of a bookingStaffMember in the specified bookingBusiness.
    */
   async get(
-    params?: Endpoints["GET /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}",
+      '/solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "bookingBusiness-id", in: "path" },
-        { name: "bookingStaffMemberBase-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'bookingBusiness-id', in: 'path' },
+        { name: 'bookingStaffMemberBase-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "bookingBusiness-id": this.bookingBusinessId,
-      },
+        'bookingBusiness-id': this.bookingBusinessId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}"]["response"],
+          res.data as Endpoints['GET /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}']['response']
       );
   }
 
@@ -175,27 +170,27 @@ export class StaffMembersClient {
    * Update the properties of a bookingStaffMember in the specified bookingBusiness.
    */
   async update(
-    body: Endpoints["PATCH /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}"]["body"],
-    params?: Endpoints["PATCH /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}']['body'],
+    params?: Endpoints['PATCH /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}",
+      '/solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}',
       [
-        { name: "bookingBusiness-id", in: "path" },
-        { name: "bookingStaffMemberBase-id", in: "path" },
+        { name: 'bookingBusiness-id', in: 'path' },
+        { name: 'bookingStaffMemberBase-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "bookingBusiness-id": this.bookingBusinessId,
-      },
+        'bookingBusiness-id': this.bookingBusinessId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}"]["response"],
+          res.data as Endpoints['PATCH /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers/{bookingStaffMemberBase-id}']['response']
       );
   }
 
@@ -205,24 +200,24 @@ export class StaffMembersClient {
    * Create a new bookingStaffMember in the specified bookingBusiness.
    */
   async create(
-    body: Endpoints["POST /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers"]["body"],
-    params?: Endpoints["POST /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers']['body'],
+    params?: Endpoints['POST /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers",
-      [{ name: "bookingBusiness-id", in: "path" }],
+      '/solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers',
+      [{ name: 'bookingBusiness-id', in: 'path' }],
       {
         ...(params || {}),
-        "bookingBusiness-id": this.bookingBusinessId,
-      },
+        'bookingBusiness-id': this.bookingBusinessId,
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers"]["response"],
+          res.data as Endpoints['POST /solutions/bookingBusinesses/{bookingBusiness-id}/staffMembers']['response']
       );
   }
 }

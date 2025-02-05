@@ -1,28 +1,24 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -38,30 +34,30 @@ function getInjectedUrl(
  */
 export class ExtensionsClient {
   protected baseUrl =
-    "/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions";
+    '/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions';
   protected http: http.Client;
 
   constructor(
     protected readonly eventId: string,
-    options?: http.Client | http.ClientOptions,
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -82,29 +78,29 @@ export class ExtensionsClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}",
+      '/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "calendarGroup-id", in: "path" },
-        { name: "calendar-id", in: "path" },
-        { name: "event-id", in: "path" },
-        { name: "extension-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'calendarGroup-id', in: 'path' },
+        { name: 'calendar-id', in: 'path' },
+        { name: 'event-id', in: 'path' },
+        { name: 'extension-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "event-id": this.eventId,
-      },
+        'event-id': this.eventId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}"]["response"],
+          res.data as Endpoints['DELETE /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}']['response']
       );
   }
 
@@ -114,30 +110,30 @@ export class ExtensionsClient {
    * The collection of open extensions defined for the event. Nullable.
    */
   async list(
-    params?: Endpoints["GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions",
+      '/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "calendarGroup-id", in: "path" },
-        { name: "calendar-id", in: "path" },
-        { name: "event-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'calendarGroup-id', in: 'path' },
+        { name: 'calendar-id', in: 'path' },
+        { name: 'event-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "event-id": this.eventId,
-      },
+        'event-id': this.eventId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions"]["response"],
+          res.data as Endpoints['GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions']['response']
       );
   }
 
@@ -147,30 +143,30 @@ export class ExtensionsClient {
    * The collection of open extensions defined for the event. Nullable.
    */
   async get(
-    params?: Endpoints["GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}",
+      '/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "calendarGroup-id", in: "path" },
-        { name: "calendar-id", in: "path" },
-        { name: "event-id", in: "path" },
-        { name: "extension-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'calendarGroup-id', in: 'path' },
+        { name: 'calendar-id', in: 'path' },
+        { name: 'event-id', in: 'path' },
+        { name: 'extension-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "event-id": this.eventId,
-      },
+        'event-id': this.eventId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}"]["response"],
+          res.data as Endpoints['GET /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}']['response']
       );
   }
 
@@ -179,29 +175,29 @@ export class ExtensionsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}"]["body"],
-    params?: Endpoints["PATCH /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}']['body'],
+    params?: Endpoints['PATCH /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}",
+      '/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}',
       [
-        { name: "calendarGroup-id", in: "path" },
-        { name: "calendar-id", in: "path" },
-        { name: "event-id", in: "path" },
-        { name: "extension-id", in: "path" },
+        { name: 'calendarGroup-id', in: 'path' },
+        { name: 'calendar-id', in: 'path' },
+        { name: 'event-id', in: 'path' },
+        { name: 'extension-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "event-id": this.eventId,
-      },
+        'event-id': this.eventId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}"]["response"],
+          res.data as Endpoints['PATCH /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions/{extension-id}']['response']
       );
   }
 
@@ -210,28 +206,28 @@ export class ExtensionsClient {
    *
    */
   async create(
-    body: Endpoints["POST /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions"]["body"],
-    params?: Endpoints["POST /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions']['body'],
+    params?: Endpoints['POST /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions",
+      '/me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions',
       [
-        { name: "calendarGroup-id", in: "path" },
-        { name: "calendar-id", in: "path" },
-        { name: "event-id", in: "path" },
+        { name: 'calendarGroup-id', in: 'path' },
+        { name: 'calendar-id', in: 'path' },
+        { name: 'event-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "event-id": this.eventId,
-      },
+        'event-id': this.eventId,
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions"]["response"],
+          res.data as Endpoints['POST /me/calendarGroups/{calendarGroup-id}/calendars/{calendar-id}/calendarView/{event-id}/extensions']['response']
       );
   }
 }

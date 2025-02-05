@@ -7,6 +7,8 @@ import camelcase from 'camelcase';
 import * as prettier from 'prettier';
 import { OpenAPIV3 } from 'openapi-types';
 
+import prettierConfig from './prettier.config';
+
 const whitelist = [
   /^\/chats(.*)$/,
   /^\/teams(.*)$/,
@@ -195,7 +197,7 @@ class Client {
 
     fs.writeFileSync(
       npath.join(__dirname, '..', 'src', path, `${filename}.ts`),
-      await prettier.format(res, { parser: 'typescript' })
+      await prettier.format(res, { parser: 'typescript', ...prettierConfig })
     );
 
     res = typesTemplate({
@@ -208,7 +210,7 @@ class Client {
 
     fs.writeFileSync(
       npath.join(__dirname, '..', 'src', path, `${filename}-types.d.ts`),
-      await prettier.format(res, { parser: 'typescript' })
+      await prettier.format(res, { parser: 'typescript', ...prettierConfig })
     );
   }
 

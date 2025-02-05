@@ -1,34 +1,30 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { PresentersClient } from "./presenters";
-import { RegistrationConfigurationClient } from "./registrationConfiguration";
-import { RegistrationsClient } from "./registrations";
-import { RegistrationsemailemailClient } from "./registrationsemailemail";
-import { RegistrationsuserIduserIdClient } from "./registrationsuserIduserId";
-import { SessionsClient } from "./sessions";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { PresentersClient } from './presenters';
+import { RegistrationConfigurationClient } from './registrationConfiguration';
+import { RegistrationsClient } from './registrations';
+import { RegistrationsemailemailClient } from './registrationsemailemail';
+import { RegistrationsuserIduserIdClient } from './registrationsuserIduserId';
+import { SessionsClient } from './sessions';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -43,27 +39,27 @@ function getInjectedUrl(
  * Provides operations to call the getByUserRole method.
  */
 export class WebinarsClient {
-  protected baseUrl = "/solutions/virtualEvents/webinars";
+  protected baseUrl = '/solutions/virtualEvents/webinars';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -94,10 +90,7 @@ export class WebinarsClient {
    * Provides operations to manage the registrationConfiguration property of the microsoft.graph.virtualEventWebinar entity.
    */
   registrationConfiguration(virtualEventWebinarId: string) {
-    return new RegistrationConfigurationClient(
-      virtualEventWebinarId,
-      this.http,
-    );
+    return new RegistrationConfigurationClient(virtualEventWebinarId, this.http);
   }
 
   /**
@@ -124,10 +117,7 @@ export class WebinarsClient {
    * Provides operations to manage the registrations property of the microsoft.graph.virtualEventWebinar entity.
    */
   registrationsuserIduserId(virtualEventWebinarId: string) {
-    return new RegistrationsuserIduserIdClient(
-      virtualEventWebinarId,
-      this.http,
-    );
+    return new RegistrationsuserIduserIdClient(virtualEventWebinarId, this.http);
   }
 
   /**
@@ -144,25 +134,25 @@ export class WebinarsClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /solutions/virtualEvents/webinars/{virtualEventWebinar-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /solutions/virtualEvents/webinars/{virtualEventWebinar-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/webinars/{virtualEventWebinar-id}",
+      '/solutions/virtualEvents/webinars/{virtualEventWebinar-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "virtualEventWebinar-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'virtualEventWebinar-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /solutions/virtualEvents/webinars/{virtualEventWebinar-id}"]["response"],
+          res.data as Endpoints['DELETE /solutions/virtualEvents/webinars/{virtualEventWebinar-id}']['response']
       );
   }
 
@@ -172,27 +162,24 @@ export class WebinarsClient {
    * Get the list of all virtualEventWebinar objects created in a tenant.
    */
   async list(
-    params?: Endpoints["GET /solutions/virtualEvents/webinars"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/virtualEvents/webinars']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/webinars",
+      '/solutions/virtualEvents/webinars',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /solutions/virtualEvents/webinars"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /solutions/virtualEvents/webinars']['response']);
   }
 
   /**
@@ -201,28 +188,28 @@ export class WebinarsClient {
    * Get a virtualEventWebinar collection where the specified user is either the organizer or a coorganizer.
    */
   async get$1(
-    params?: Endpoints["GET /solutions/virtualEvents/webinars/getByUserIdAndRole(userId&#x3D;&#x27;{userId}&#x27;,role&#x3D;&#x27;{role}&#x27;)"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/virtualEvents/webinars/getByUserIdAndRole(userId&#x3D;&#x27;{userId}&#x27;,role&#x3D;&#x27;{role}&#x27;)']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/webinars/getByUserIdAndRole(userId&#x3D;&#x27;{userId}&#x27;,role&#x3D;&#x27;{role}&#x27;)",
+      '/solutions/virtualEvents/webinars/getByUserIdAndRole(userId&#x3D;&#x27;{userId}&#x27;,role&#x3D;&#x27;{role}&#x27;)',
       [
-        { name: "$select", in: "query" },
-        { name: "$orderby", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "userId", in: "path" },
-        { name: "role", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$orderby', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'userId', in: 'path' },
+        { name: 'role', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/virtualEvents/webinars/getByUserIdAndRole(userId&#x3D;&#x27;{userId}&#x27;,role&#x3D;&#x27;{role}&#x27;)"]["response"],
+          res.data as Endpoints['GET /solutions/virtualEvents/webinars/getByUserIdAndRole(userId&#x3D;&#x27;{userId}&#x27;,role&#x3D;&#x27;{role}&#x27;)']['response']
       );
   }
 
@@ -232,27 +219,27 @@ export class WebinarsClient {
    * Get a virtualEventWebinar collection where the signed-in user is either the organizer or a coorganizer.
    */
   async get$2(
-    params?: Endpoints["GET /solutions/virtualEvents/webinars/getByUserRole(role&#x3D;&#x27;{role}&#x27;)"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/virtualEvents/webinars/getByUserRole(role&#x3D;&#x27;{role}&#x27;)']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/webinars/getByUserRole(role&#x3D;&#x27;{role}&#x27;)",
+      '/solutions/virtualEvents/webinars/getByUserRole(role&#x3D;&#x27;{role}&#x27;)',
       [
-        { name: "$select", in: "query" },
-        { name: "$orderby", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "role", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$orderby', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'role', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/virtualEvents/webinars/getByUserRole(role&#x3D;&#x27;{role}&#x27;)"]["response"],
+          res.data as Endpoints['GET /solutions/virtualEvents/webinars/getByUserRole(role&#x3D;&#x27;{role}&#x27;)']['response']
       );
   }
 
@@ -262,26 +249,26 @@ export class WebinarsClient {
    * Read the properties and relationships of a virtualEventWebinar object. All roles can get the details of a webinar event.
    */
   async get(
-    params?: Endpoints["GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/webinars/{virtualEventWebinar-id}",
+      '/solutions/virtualEvents/webinars/{virtualEventWebinar-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "virtualEventWebinar-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'virtualEventWebinar-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}"]["response"],
+          res.data as Endpoints['GET /solutions/virtualEvents/webinars/{virtualEventWebinar-id}']['response']
       );
   }
 
@@ -291,23 +278,23 @@ export class WebinarsClient {
    * Update the properties of a virtualEventWebinar object. Only the Organizer and Co-organizer can make changes to a webinar event.
    */
   async update(
-    body: Endpoints["PATCH /solutions/virtualEvents/webinars/{virtualEventWebinar-id}"]["body"],
-    params?: Endpoints["PATCH /solutions/virtualEvents/webinars/{virtualEventWebinar-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /solutions/virtualEvents/webinars/{virtualEventWebinar-id}']['body'],
+    params?: Endpoints['PATCH /solutions/virtualEvents/webinars/{virtualEventWebinar-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/virtualEvents/webinars/{virtualEventWebinar-id}",
-      [{ name: "virtualEventWebinar-id", in: "path" }],
+      '/solutions/virtualEvents/webinars/{virtualEventWebinar-id}',
+      [{ name: 'virtualEventWebinar-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /solutions/virtualEvents/webinars/{virtualEventWebinar-id}"]["response"],
+          res.data as Endpoints['PATCH /solutions/virtualEvents/webinars/{virtualEventWebinar-id}']['response']
       );
   }
 
@@ -317,19 +304,16 @@ export class WebinarsClient {
    * Create a new virtualEventWebinar object in draft mode.
    */
   async create(
-    body: Endpoints["POST /solutions/virtualEvents/webinars"]["body"],
-    params?: Endpoints["POST /solutions/virtualEvents/webinars"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /solutions/virtualEvents/webinars']['body'],
+    params?: Endpoints['POST /solutions/virtualEvents/webinars']['parameters'],
+    config?: http.RequestConfig
   ) {
-    const url = getInjectedUrl("/solutions/virtualEvents/webinars", [], {
+    const url = getInjectedUrl('/solutions/virtualEvents/webinars', [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["POST /solutions/virtualEvents/webinars"]["response"],
-      );
+      .then((res) => res.data as Endpoints['POST /solutions/virtualEvents/webinars']['response']);
   }
 }

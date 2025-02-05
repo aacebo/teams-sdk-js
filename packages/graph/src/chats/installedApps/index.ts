@@ -1,31 +1,27 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { TeamsAppClient } from "./teamsApp";
-import { TeamsAppDefinitionClient } from "./teamsAppDefinition";
-import { UpgradeClient } from "./upgrade";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { TeamsAppClient } from './teamsApp';
+import { TeamsAppDefinitionClient } from './teamsAppDefinition';
+import { UpgradeClient } from './upgrade';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -40,30 +36,30 @@ function getInjectedUrl(
  * Provides operations to manage the installedApps property of the microsoft.graph.chat entity.
  */
 export class InstalledAppsClient {
-  protected baseUrl = "/chats/{chat-id}/installedApps";
+  protected baseUrl = '/chats/{chat-id}/installedApps';
   protected http: http.Client;
 
   constructor(
     protected readonly chatId: string,
-    options?: http.Client | http.ClientOptions,
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -112,27 +108,27 @@ export class InstalledAppsClient {
    * Uninstall an app installed within a chat.
    */
   async delete(
-    params?: Endpoints["DELETE /chats/{chat-id}/installedApps/{teamsAppInstallation-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /chats/{chat-id}/installedApps/{teamsAppInstallation-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/installedApps/{teamsAppInstallation-id}",
+      '/chats/{chat-id}/installedApps/{teamsAppInstallation-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "chat-id", in: "path" },
-        { name: "teamsAppInstallation-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'chat-id', in: 'path' },
+        { name: 'teamsAppInstallation-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /chats/{chat-id}/installedApps/{teamsAppInstallation-id}"]["response"],
+          res.data as Endpoints['DELETE /chats/{chat-id}/installedApps/{teamsAppInstallation-id}']['response']
       );
   }
 
@@ -142,29 +138,26 @@ export class InstalledAppsClient {
    * List all app installations within a chat.
    */
   async list(
-    params?: Endpoints["GET /chats/{chat-id}/installedApps"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /chats/{chat-id}/installedApps']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/installedApps",
+      '/chats/{chat-id}/installedApps',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "chat-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'chat-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /chats/{chat-id}/installedApps"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /chats/{chat-id}/installedApps']['response']);
   }
 
   /**
@@ -173,28 +166,28 @@ export class InstalledAppsClient {
    * Get an app installed in a chat.
    */
   async get(
-    params?: Endpoints["GET /chats/{chat-id}/installedApps/{teamsAppInstallation-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /chats/{chat-id}/installedApps/{teamsAppInstallation-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/installedApps/{teamsAppInstallation-id}",
+      '/chats/{chat-id}/installedApps/{teamsAppInstallation-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "chat-id", in: "path" },
-        { name: "teamsAppInstallation-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'chat-id', in: 'path' },
+        { name: 'teamsAppInstallation-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /chats/{chat-id}/installedApps/{teamsAppInstallation-id}"]["response"],
+          res.data as Endpoints['GET /chats/{chat-id}/installedApps/{teamsAppInstallation-id}']['response']
       );
   }
 
@@ -203,27 +196,27 @@ export class InstalledAppsClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /chats/{chat-id}/installedApps/{teamsAppInstallation-id}"]["body"],
-    params?: Endpoints["PATCH /chats/{chat-id}/installedApps/{teamsAppInstallation-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /chats/{chat-id}/installedApps/{teamsAppInstallation-id}']['body'],
+    params?: Endpoints['PATCH /chats/{chat-id}/installedApps/{teamsAppInstallation-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/installedApps/{teamsAppInstallation-id}",
+      '/chats/{chat-id}/installedApps/{teamsAppInstallation-id}',
       [
-        { name: "chat-id", in: "path" },
-        { name: "teamsAppInstallation-id", in: "path" },
+        { name: 'chat-id', in: 'path' },
+        { name: 'teamsAppInstallation-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /chats/{chat-id}/installedApps/{teamsAppInstallation-id}"]["response"],
+          res.data as Endpoints['PATCH /chats/{chat-id}/installedApps/{teamsAppInstallation-id}']['response']
       );
   }
 
@@ -233,24 +226,21 @@ export class InstalledAppsClient {
    * Install a teamsApp to the specified chat.
    */
   async create(
-    body: Endpoints["POST /chats/{chat-id}/installedApps"]["body"],
-    params?: Endpoints["POST /chats/{chat-id}/installedApps"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /chats/{chat-id}/installedApps']['body'],
+    params?: Endpoints['POST /chats/{chat-id}/installedApps']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/installedApps",
-      [{ name: "chat-id", in: "path" }],
+      '/chats/{chat-id}/installedApps',
+      [{ name: 'chat-id', in: 'path' }],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .post(url, body, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["POST /chats/{chat-id}/installedApps"]["response"],
-      );
+      .then((res) => res.data as Endpoints['POST /chats/{chat-id}/installedApps']['response']);
   }
 }

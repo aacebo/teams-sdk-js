@@ -1,27 +1,23 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./applicationsuniqueNameuniqueName-types.d.ts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './applicationsuniqueNameuniqueName-types.d.ts';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -36,27 +32,27 @@ function getInjectedUrl(
  * Provides operations to manage the collection of application entities.
  */
 export class ApplicationsuniqueNameuniqueNameClient {
-  protected baseUrl = "/applicationsuniqueNameuniqueName";
+  protected baseUrl = '/applicationsuniqueNameuniqueName';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -69,25 +65,25 @@ export class ApplicationsuniqueNameuniqueNameClient {
    * Delete an application object. When deleted, apps are moved to a temporary container and can be restored within 30 days. After that time, they are permanently deleted.
    */
   async delete(
-    params?: Endpoints["DELETE /applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)",
+      '/applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)',
       [
-        { name: "If-Match", in: "header" },
-        { name: "uniqueName", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'uniqueName', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)"]["response"],
+          res.data as Endpoints['DELETE /applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)']['response']
       );
   }
 
@@ -97,26 +93,26 @@ export class ApplicationsuniqueNameuniqueNameClient {
    * Get the properties and relationships of an application object.
    */
   async get(
-    params?: Endpoints["GET /applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)",
+      '/applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "uniqueName", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'uniqueName', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)"]["response"],
+          res.data as Endpoints['GET /applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)']['response']
       );
   }
 
@@ -126,23 +122,23 @@ export class ApplicationsuniqueNameuniqueNameClient {
    * Create a new application object if it doesn&#x27;t exist, or update the properties of an existing application object.
    */
   async update(
-    body: Endpoints["PATCH /applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)"]["body"],
-    params?: Endpoints["PATCH /applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)']['body'],
+    params?: Endpoints['PATCH /applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)",
-      [{ name: "uniqueName", in: "path" }],
+      '/applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)',
+      [{ name: 'uniqueName', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)"]["response"],
+          res.data as Endpoints['PATCH /applications(uniqueName&#x3D;&#x27;{uniqueName}&#x27;)']['response']
       );
   }
 }

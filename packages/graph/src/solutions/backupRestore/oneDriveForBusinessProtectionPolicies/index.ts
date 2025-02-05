@@ -1,30 +1,26 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
-import { DriveInclusionRulesClient } from "./driveInclusionRules";
-import { DriveProtectionUnitsClient } from "./driveProtectionUnits";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
+import { DriveInclusionRulesClient } from './driveInclusionRules';
+import { DriveProtectionUnitsClient } from './driveProtectionUnits';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -39,28 +35,27 @@ function getInjectedUrl(
  * Provides operations to manage the oneDriveForBusinessProtectionPolicies property of the microsoft.graph.backupRestoreRoot entity.
  */
 export class OneDriveForBusinessProtectionPoliciesClient {
-  protected baseUrl =
-    "/solutions/backupRestore/oneDriveForBusinessProtectionPolicies";
+  protected baseUrl = '/solutions/backupRestore/oneDriveForBusinessProtectionPolicies';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -82,10 +77,7 @@ export class OneDriveForBusinessProtectionPoliciesClient {
    * Provides operations to manage the driveInclusionRules property of the microsoft.graph.oneDriveForBusinessProtectionPolicy entity.
    */
   driveInclusionRules(oneDriveForBusinessProtectionPolicyId: string) {
-    return new DriveInclusionRulesClient(
-      oneDriveForBusinessProtectionPolicyId,
-      this.http,
-    );
+    return new DriveInclusionRulesClient(oneDriveForBusinessProtectionPolicyId, this.http);
   }
 
   /**
@@ -94,10 +86,7 @@ export class OneDriveForBusinessProtectionPoliciesClient {
    * Provides operations to manage the driveProtectionUnits property of the microsoft.graph.oneDriveForBusinessProtectionPolicy entity.
    */
   driveProtectionUnits(oneDriveForBusinessProtectionPolicyId: string) {
-    return new DriveProtectionUnitsClient(
-      oneDriveForBusinessProtectionPolicyId,
-      this.http,
-    );
+    return new DriveProtectionUnitsClient(oneDriveForBusinessProtectionPolicyId, this.http);
   }
 
   /**
@@ -105,25 +94,25 @@ export class OneDriveForBusinessProtectionPoliciesClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}",
+      '/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "oneDriveForBusinessProtectionPolicy-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'oneDriveForBusinessProtectionPolicy-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}"]["response"],
+          res.data as Endpoints['DELETE /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}']['response']
       );
   }
 
@@ -133,26 +122,26 @@ export class OneDriveForBusinessProtectionPoliciesClient {
    * The list of OneDrive for Business protection policies in the tenant.
    */
   async list(
-    params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/oneDriveForBusinessProtectionPolicies",
+      '/solutions/backupRestore/oneDriveForBusinessProtectionPolicies',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies"]["response"],
+          res.data as Endpoints['GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies']['response']
       );
   }
 
@@ -162,26 +151,26 @@ export class OneDriveForBusinessProtectionPoliciesClient {
    * The list of OneDrive for Business protection policies in the tenant.
    */
   async get(
-    params?: Endpoints["GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}",
+      '/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "oneDriveForBusinessProtectionPolicy-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'oneDriveForBusinessProtectionPolicy-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}"]["response"],
+          res.data as Endpoints['GET /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}']['response']
       );
   }
 
@@ -191,23 +180,23 @@ export class OneDriveForBusinessProtectionPoliciesClient {
    * Update the protection policy for the OneDrive service in Microsoft 365. This method adds a driveProtectionUnit to or removes it from a oneDriveForBusinessProtectionPolicy object.
    */
   async update(
-    body: Endpoints["PATCH /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}"]["body"],
-    params?: Endpoints["PATCH /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}']['body'],
+    params?: Endpoints['PATCH /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}",
-      [{ name: "oneDriveForBusinessProtectionPolicy-id", in: "path" }],
+      '/solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}',
+      [{ name: 'oneDriveForBusinessProtectionPolicy-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}"]["response"],
+          res.data as Endpoints['PATCH /solutions/backupRestore/oneDriveForBusinessProtectionPolicies/{oneDriveForBusinessProtectionPolicy-id}']['response']
       );
   }
 
@@ -217,23 +206,23 @@ export class OneDriveForBusinessProtectionPoliciesClient {
    * Create a protection policy for the OneDrive service in Microsoft 365. When the policy is created, its state is set to inactive. Users can also provide a list of protection units under the policy.
    */
   async create(
-    body: Endpoints["POST /solutions/backupRestore/oneDriveForBusinessProtectionPolicies"]["body"],
-    params?: Endpoints["POST /solutions/backupRestore/oneDriveForBusinessProtectionPolicies"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /solutions/backupRestore/oneDriveForBusinessProtectionPolicies']['body'],
+    params?: Endpoints['POST /solutions/backupRestore/oneDriveForBusinessProtectionPolicies']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore/oneDriveForBusinessProtectionPolicies",
+      '/solutions/backupRestore/oneDriveForBusinessProtectionPolicies',
       [],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /solutions/backupRestore/oneDriveForBusinessProtectionPolicies"]["response"],
+          res.data as Endpoints['POST /solutions/backupRestore/oneDriveForBusinessProtectionPolicies']['response']
       );
   }
 }

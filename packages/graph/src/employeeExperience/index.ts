@@ -1,33 +1,33 @@
-import * as http from "@teams.sdk/common/http";
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import { LearningProvidersClient } from "./learningProviders";
+import pkg from 'src/../package.json';
+import { LearningProvidersClient } from './learningProviders';
 
 /**
  * /employeeExperience
  */
 export class EmployeeExperienceClient {
-  protected baseUrl = "/employeeExperience";
+  protected baseUrl = '/employeeExperience';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });

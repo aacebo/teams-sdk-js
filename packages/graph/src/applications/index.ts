@@ -1,53 +1,49 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { AddKeyClient } from "./addKey";
-import { AddPasswordClient } from "./addPassword";
-import { AppManagementPoliciesClient } from "./appManagementPolicies";
-import { CheckMemberGroupsClient } from "./checkMemberGroups";
-import { CheckMemberObjectsClient } from "./checkMemberObjects";
-import { CountClient } from "./count";
-import { CreatedOnBehalfOfClient } from "./createdOnBehalfOf";
-import { DeltaClient } from "./delta";
-import { ExtensionPropertiesClient } from "./extensionProperties";
-import { FederatedIdentityCredentialsClient } from "./federatedIdentityCredentials";
-import { GetAvailableExtensionPropertiesClient } from "./getAvailableExtensionProperties";
-import { GetByIdsClient } from "./getByIds";
-import { GetMemberGroupsClient } from "./getMemberGroups";
-import { GetMemberObjectsClient } from "./getMemberObjects";
-import { HomeRealmDiscoveryPoliciesClient } from "./homeRealmDiscoveryPolicies";
-import { LogoClient } from "./logo";
-import { OwnersClient } from "./owners";
-import { RemoveKeyClient } from "./removeKey";
-import { RemovePasswordClient } from "./removePassword";
-import { RestoreClient } from "./restore";
-import { SetVerifiedPublisherClient } from "./setVerifiedPublisher";
-import { SynchronizationClient } from "./synchronization";
-import { TokenIssuancePoliciesClient } from "./tokenIssuancePolicies";
-import { TokenLifetimePoliciesClient } from "./tokenLifetimePolicies";
-import { UnsetVerifiedPublisherClient } from "./unsetVerifiedPublisher";
-import { ValidatePropertiesClient } from "./validateProperties";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { AddKeyClient } from './addKey';
+import { AddPasswordClient } from './addPassword';
+import { AppManagementPoliciesClient } from './appManagementPolicies';
+import { CheckMemberGroupsClient } from './checkMemberGroups';
+import { CheckMemberObjectsClient } from './checkMemberObjects';
+import { CountClient } from './count';
+import { CreatedOnBehalfOfClient } from './createdOnBehalfOf';
+import { DeltaClient } from './delta';
+import { ExtensionPropertiesClient } from './extensionProperties';
+import { FederatedIdentityCredentialsClient } from './federatedIdentityCredentials';
+import { GetAvailableExtensionPropertiesClient } from './getAvailableExtensionProperties';
+import { GetByIdsClient } from './getByIds';
+import { GetMemberGroupsClient } from './getMemberGroups';
+import { GetMemberObjectsClient } from './getMemberObjects';
+import { HomeRealmDiscoveryPoliciesClient } from './homeRealmDiscoveryPolicies';
+import { LogoClient } from './logo';
+import { OwnersClient } from './owners';
+import { RemoveKeyClient } from './removeKey';
+import { RemovePasswordClient } from './removePassword';
+import { RestoreClient } from './restore';
+import { SetVerifiedPublisherClient } from './setVerifiedPublisher';
+import { SynchronizationClient } from './synchronization';
+import { TokenIssuancePoliciesClient } from './tokenIssuancePolicies';
+import { TokenLifetimePoliciesClient } from './tokenLifetimePolicies';
+import { UnsetVerifiedPublisherClient } from './unsetVerifiedPublisher';
+import { ValidatePropertiesClient } from './validateProperties';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -62,27 +58,27 @@ function getInjectedUrl(
  * Provides operations to manage the federatedIdentityCredentials property of the microsoft.graph.application entity.
  */
 export class ApplicationsClient {
-  protected baseUrl = "/applications";
+  protected baseUrl = '/applications';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -329,26 +325,23 @@ export class ApplicationsClient {
    * Delete an application object. When deleted, apps are moved to a temporary container and can be restored within 30 days. After that time, they are permanently deleted.
    */
   async delete(
-    params?: Endpoints["DELETE /applications/{application-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /applications/{application-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}",
+      '/applications/{application-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "application-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'application-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["DELETE /applications/{application-id}"]["response"],
-      );
+      .then((res) => res.data as Endpoints['DELETE /applications/{application-id}']['response']);
   }
 
   /**
@@ -357,26 +350,26 @@ export class ApplicationsClient {
    * Delete a federatedIdentityCredential object from an application.
    */
   async delete$1(
-    params?: Endpoints["DELETE /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)",
+      '/applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)',
       [
-        { name: "If-Match", in: "header" },
-        { name: "application-id", in: "path" },
-        { name: "name", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'application-id', in: 'path' },
+        { name: 'name', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)"]["response"],
+          res.data as Endpoints['DELETE /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['response']
       );
   }
 
@@ -385,26 +378,23 @@ export class ApplicationsClient {
    *
    * Get the list of applications in this organization.
    */
-  async list(
-    params?: Endpoints["GET /applications"]["parameters"],
-    config?: http.RequestConfig,
-  ) {
+  async list(params?: Endpoints['GET /applications']['parameters'], config?: http.RequestConfig) {
     const url = getInjectedUrl(
-      "/applications",
+      '/applications',
       [
-        { name: "ConsistencyLevel", in: "header" },
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: 'ConsistencyLevel', in: 'header' },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
-      .then((res) => res.data as Endpoints["GET /applications"]["response"]);
+      .then((res) => res.data as Endpoints['GET /applications']['response']);
   }
 
   /**
@@ -413,27 +403,24 @@ export class ApplicationsClient {
    * Get the properties and relationships of an application object.
    */
   async get(
-    params?: Endpoints["GET /applications/{application-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /applications/{application-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}",
+      '/applications/{application-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "application-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /applications/{application-id}"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /applications/{application-id}']['response']);
   }
 
   /**
@@ -442,27 +429,27 @@ export class ApplicationsClient {
    * Read the properties and relationships of a federatedIdentityCredential object.
    */
   async get$1(
-    params?: Endpoints["GET /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)",
+      '/applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "application-id", in: "path" },
-        { name: "name", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
+        { name: 'name', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)"]["response"],
+          res.data as Endpoints['GET /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['response']
       );
   }
 
@@ -472,24 +459,21 @@ export class ApplicationsClient {
    * Create a new application object if it doesn&#x27;t exist, or update the properties of an existing application object.
    */
   async update(
-    body: Endpoints["PATCH /applications/{application-id}"]["body"],
-    params?: Endpoints["PATCH /applications/{application-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /applications/{application-id}']['body'],
+    params?: Endpoints['PATCH /applications/{application-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}",
-      [{ name: "application-id", in: "path" }],
+      '/applications/{application-id}',
+      [{ name: 'application-id', in: 'path' }],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["PATCH /applications/{application-id}"]["response"],
-      );
+      .then((res) => res.data as Endpoints['PATCH /applications/{application-id}']['response']);
   }
 
   /**
@@ -498,26 +482,26 @@ export class ApplicationsClient {
    * Create a new federatedIdentityCredential object for an application if it doesn&#x27;t exist, or update the properties of an existing federatedIdentityCredential object. By configuring a trust relationship between your Microsoft Entra application registration and the identity provider for your compute platform, you can use tokens issued by that platform to authenticate with Microsoft identity platform and call APIs in the Microsoft ecosystem. Maximum of 20 objects can be added to an application.
    */
   async update$1(
-    body: Endpoints["PATCH /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)"]["body"],
-    params?: Endpoints["PATCH /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['body'],
+    params?: Endpoints['PATCH /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)",
+      '/applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)',
       [
-        { name: "application-id", in: "path" },
-        { name: "name", in: "path" },
+        { name: 'application-id', in: 'path' },
+        { name: 'name', in: 'path' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)"]["response"],
+          res.data as Endpoints['PATCH /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['response']
       );
   }
 
@@ -527,16 +511,16 @@ export class ApplicationsClient {
    * Create a new application object.
    */
   async create(
-    body: Endpoints["POST /applications"]["body"],
-    params?: Endpoints["POST /applications"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /applications']['body'],
+    params?: Endpoints['POST /applications']['parameters'],
+    config?: http.RequestConfig
   ) {
-    const url = getInjectedUrl("/applications", [], {
+    const url = getInjectedUrl('/applications', [], {
       ...(params || {}),
     });
 
     return this.http
       .post(url, body, config)
-      .then((res) => res.data as Endpoints["POST /applications"]["response"]);
+      .then((res) => res.data as Endpoints['POST /applications']['response']);
   }
 }

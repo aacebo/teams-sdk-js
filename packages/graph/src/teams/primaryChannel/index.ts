@@ -1,38 +1,34 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { ArchiveClient } from "./archive";
-import { CompleteMigrationClient } from "./completeMigration";
-import { DoesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalNameClient } from "./doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName";
-import { FilesFolderClient } from "./filesFolder";
-import { MembersClient } from "./members";
-import { MessagesClient } from "./messages";
-import { ProvisionEmailClient } from "./provisionEmail";
-import { RemoveEmailClient } from "./removeEmail";
-import { SharedWithTeamsClient } from "./sharedWithTeams";
-import { TabsClient } from "./tabs";
-import { UnarchiveClient } from "./unarchive";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { ArchiveClient } from './archive';
+import { CompleteMigrationClient } from './completeMigration';
+import { DoesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalNameClient } from './doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName';
+import { FilesFolderClient } from './filesFolder';
+import { MembersClient } from './members';
+import { MessagesClient } from './messages';
+import { ProvisionEmailClient } from './provisionEmail';
+import { RemoveEmailClient } from './removeEmail';
+import { SharedWithTeamsClient } from './sharedWithTeams';
+import { TabsClient } from './tabs';
+import { UnarchiveClient } from './unarchive';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -47,30 +43,30 @@ function getInjectedUrl(
  * Provides operations to manage the primaryChannel property of the microsoft.graph.team entity.
  */
 export class PrimaryChannelClient {
-  protected baseUrl = "/teams/{team-id}/primaryChannel";
+  protected baseUrl = '/teams/{team-id}/primaryChannel';
   protected http: http.Client;
 
   constructor(
     protected readonly teamId: string,
-    options?: http.Client | http.ClientOptions,
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -102,7 +98,7 @@ export class PrimaryChannelClient {
    */
   get doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName() {
     return new DoesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalNameClient(
-      this.http,
+      this.http
     );
   }
 
@@ -183,27 +179,24 @@ export class PrimaryChannelClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /teams/{team-id}/primaryChannel"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /teams/{team-id}/primaryChannel']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/primaryChannel",
+      '/teams/{team-id}/primaryChannel',
       [
-        { name: "If-Match", in: "header" },
-        { name: "team-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'team-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "team-id": this.teamId,
-      },
+        'team-id': this.teamId,
+      }
     );
 
     return this.http
       .delete(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["DELETE /teams/{team-id}/primaryChannel"]["response"],
-      );
+      .then((res) => res.data as Endpoints['DELETE /teams/{team-id}/primaryChannel']['response']);
   }
 
   /**
@@ -212,28 +205,25 @@ export class PrimaryChannelClient {
    * Get the default channel, General, of a team.
    */
   async get(
-    params?: Endpoints["GET /teams/{team-id}/primaryChannel"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /teams/{team-id}/primaryChannel']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/primaryChannel",
+      '/teams/{team-id}/primaryChannel',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "team-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'team-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "team-id": this.teamId,
-      },
+        'team-id': this.teamId,
+      }
     );
 
     return this.http
       .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /teams/{team-id}/primaryChannel"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /teams/{team-id}/primaryChannel']['response']);
   }
 
   /**
@@ -241,24 +231,21 @@ export class PrimaryChannelClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /teams/{team-id}/primaryChannel"]["body"],
-    params?: Endpoints["PATCH /teams/{team-id}/primaryChannel"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /teams/{team-id}/primaryChannel']['body'],
+    params?: Endpoints['PATCH /teams/{team-id}/primaryChannel']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/teams/{team-id}/primaryChannel",
-      [{ name: "team-id", in: "path" }],
+      '/teams/{team-id}/primaryChannel',
+      [{ name: 'team-id', in: 'path' }],
       {
         ...(params || {}),
-        "team-id": this.teamId,
-      },
+        'team-id': this.teamId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["PATCH /teams/{team-id}/primaryChannel"]["response"],
-      );
+      .then((res) => res.data as Endpoints['PATCH /teams/{team-id}/primaryChannel']['response']);
   }
 }

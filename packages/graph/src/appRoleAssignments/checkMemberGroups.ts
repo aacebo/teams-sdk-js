@@ -1,27 +1,23 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./checkMemberGroups-types.d.ts";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './checkMemberGroups-types.d.ts';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -36,31 +32,30 @@ function getInjectedUrl(
  * Provides operations to call the checkMemberGroups method.
  */
 export class CheckMemberGroupsClient {
-  protected baseUrl =
-    "/appRoleAssignments/{appRoleAssignment-id}/checkMemberGroups";
+  protected baseUrl = '/appRoleAssignments/{appRoleAssignment-id}/checkMemberGroups';
   protected http: http.Client;
 
   constructor(
     protected readonly appRoleAssignmentId: string,
-    options?: http.Client | http.ClientOptions,
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -79,24 +74,24 @@ export class CheckMemberGroupsClient {
 - directory object This function is transitive. You can check up to a maximum of 20 groups per request. This function supports all groups provisioned in Microsoft Entra ID. Because Microsoft 365 groups cannot contain other groups, membership in a Microsoft 365 group is always direct.
    */
   async create(
-    body: Endpoints["POST /appRoleAssignments/{appRoleAssignment-id}/checkMemberGroups"]["body"],
-    params?: Endpoints["POST /appRoleAssignments/{appRoleAssignment-id}/checkMemberGroups"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /appRoleAssignments/{appRoleAssignment-id}/checkMemberGroups']['body'],
+    params?: Endpoints['POST /appRoleAssignments/{appRoleAssignment-id}/checkMemberGroups']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/appRoleAssignments/{appRoleAssignment-id}/checkMemberGroups",
-      [{ name: "appRoleAssignment-id", in: "path" }],
+      '/appRoleAssignments/{appRoleAssignment-id}/checkMemberGroups',
+      [{ name: 'appRoleAssignment-id', in: 'path' }],
       {
         ...(params || {}),
-        "appRoleAssignment-id": this.appRoleAssignmentId,
-      },
+        'appRoleAssignment-id': this.appRoleAssignmentId,
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /appRoleAssignments/{appRoleAssignment-id}/checkMemberGroups"]["response"],
+          res.data as Endpoints['POST /appRoleAssignments/{appRoleAssignment-id}/checkMemberGroups']['response']
       );
   }
 }

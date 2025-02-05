@@ -1,30 +1,26 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { AddClient } from "./add";
-import { CountClient } from "./count";
-import { RemoveClient } from "./remove";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { AddClient } from './add';
+import { CountClient } from './count';
+import { RemoveClient } from './remove';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -39,30 +35,30 @@ function getInjectedUrl(
  * Provides operations to manage the members property of the microsoft.graph.chat entity.
  */
 export class MembersClient {
-  protected baseUrl = "/chats/{chat-id}/members";
+  protected baseUrl = '/chats/{chat-id}/members';
   protected http: http.Client;
 
   constructor(
     protected readonly chatId: string,
-    options?: http.Client | http.ClientOptions,
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -102,27 +98,27 @@ export class MembersClient {
    * Remove a conversationMember from a chat.
    */
   async delete(
-    params?: Endpoints["DELETE /chats/{chat-id}/members/{conversationMember-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /chats/{chat-id}/members/{conversationMember-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/members/{conversationMember-id}",
+      '/chats/{chat-id}/members/{conversationMember-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "chat-id", in: "path" },
-        { name: "conversationMember-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'chat-id', in: 'path' },
+        { name: 'conversationMember-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /chats/{chat-id}/members/{conversationMember-id}"]["response"],
+          res.data as Endpoints['DELETE /chats/{chat-id}/members/{conversationMember-id}']['response']
       );
   }
 
@@ -132,29 +128,26 @@ export class MembersClient {
    * List all conversation members in a chat or channel.
    */
   async list(
-    params?: Endpoints["GET /chats/{chat-id}/members"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /chats/{chat-id}/members']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/members",
+      '/chats/{chat-id}/members',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "chat-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'chat-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /chats/{chat-id}/members"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /chats/{chat-id}/members']['response']);
   }
 
   /**
@@ -163,28 +156,28 @@ export class MembersClient {
    * Retrieve a conversationMember from a chat or channel.
    */
   async get(
-    params?: Endpoints["GET /chats/{chat-id}/members/{conversationMember-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /chats/{chat-id}/members/{conversationMember-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/members/{conversationMember-id}",
+      '/chats/{chat-id}/members/{conversationMember-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "chat-id", in: "path" },
-        { name: "conversationMember-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'chat-id', in: 'path' },
+        { name: 'conversationMember-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /chats/{chat-id}/members/{conversationMember-id}"]["response"],
+          res.data as Endpoints['GET /chats/{chat-id}/members/{conversationMember-id}']['response']
       );
   }
 
@@ -193,27 +186,27 @@ export class MembersClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /chats/{chat-id}/members/{conversationMember-id}"]["body"],
-    params?: Endpoints["PATCH /chats/{chat-id}/members/{conversationMember-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /chats/{chat-id}/members/{conversationMember-id}']['body'],
+    params?: Endpoints['PATCH /chats/{chat-id}/members/{conversationMember-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/chats/{chat-id}/members/{conversationMember-id}",
+      '/chats/{chat-id}/members/{conversationMember-id}',
       [
-        { name: "chat-id", in: "path" },
-        { name: "conversationMember-id", in: "path" },
+        { name: 'chat-id', in: 'path' },
+        { name: 'conversationMember-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "chat-id": this.chatId,
-      },
+        'chat-id': this.chatId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /chats/{chat-id}/members/{conversationMember-id}"]["response"],
+          res.data as Endpoints['PATCH /chats/{chat-id}/members/{conversationMember-id}']['response']
       );
   }
 
@@ -223,24 +216,17 @@ export class MembersClient {
    * Add a conversationMember to a chat.
    */
   async create(
-    body: Endpoints["POST /chats/{chat-id}/members"]["body"],
-    params?: Endpoints["POST /chats/{chat-id}/members"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /chats/{chat-id}/members']['body'],
+    params?: Endpoints['POST /chats/{chat-id}/members']['parameters'],
+    config?: http.RequestConfig
   ) {
-    const url = getInjectedUrl(
-      "/chats/{chat-id}/members",
-      [{ name: "chat-id", in: "path" }],
-      {
-        ...(params || {}),
-        "chat-id": this.chatId,
-      },
-    );
+    const url = getInjectedUrl('/chats/{chat-id}/members', [{ name: 'chat-id', in: 'path' }], {
+      ...(params || {}),
+      'chat-id': this.chatId,
+    });
 
     return this.http
       .post(url, body, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["POST /chats/{chat-id}/members"]["response"],
-      );
+      .then((res) => res.data as Endpoints['POST /chats/{chat-id}/members']['response']);
   }
 }

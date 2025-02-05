@@ -1,45 +1,41 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { DriveInclusionRulesClient } from "./driveInclusionRules";
-import { DriveProtectionUnitsClient } from "./driveProtectionUnits";
-import { EnableClient } from "./enable";
-import { ExchangeProtectionPoliciesClient } from "./exchangeProtectionPolicies";
-import { ExchangeRestoreSessionsClient } from "./exchangeRestoreSessions";
-import { MailboxInclusionRulesClient } from "./mailboxInclusionRules";
-import { MailboxProtectionUnitsClient } from "./mailboxProtectionUnits";
-import { OneDriveForBusinessProtectionPoliciesClient } from "./oneDriveForBusinessProtectionPolicies";
-import { OneDriveForBusinessRestoreSessionsClient } from "./oneDriveForBusinessRestoreSessions";
-import { ProtectionPoliciesClient } from "./protectionPolicies";
-import { ProtectionUnitsClient } from "./protectionUnits";
-import { RestorePointsClient } from "./restorePoints";
-import { RestoreSessionsClient } from "./restoreSessions";
-import { ServiceAppsClient } from "./serviceApps";
-import { SharePointProtectionPoliciesClient } from "./sharePointProtectionPolicies";
-import { SharePointRestoreSessionsClient } from "./sharePointRestoreSessions";
-import { SiteInclusionRulesClient } from "./siteInclusionRules";
-import { SiteProtectionUnitsClient } from "./siteProtectionUnits";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { DriveInclusionRulesClient } from './driveInclusionRules';
+import { DriveProtectionUnitsClient } from './driveProtectionUnits';
+import { EnableClient } from './enable';
+import { ExchangeProtectionPoliciesClient } from './exchangeProtectionPolicies';
+import { ExchangeRestoreSessionsClient } from './exchangeRestoreSessions';
+import { MailboxInclusionRulesClient } from './mailboxInclusionRules';
+import { MailboxProtectionUnitsClient } from './mailboxProtectionUnits';
+import { OneDriveForBusinessProtectionPoliciesClient } from './oneDriveForBusinessProtectionPolicies';
+import { OneDriveForBusinessRestoreSessionsClient } from './oneDriveForBusinessRestoreSessions';
+import { ProtectionPoliciesClient } from './protectionPolicies';
+import { ProtectionUnitsClient } from './protectionUnits';
+import { RestorePointsClient } from './restorePoints';
+import { RestoreSessionsClient } from './restoreSessions';
+import { ServiceAppsClient } from './serviceApps';
+import { SharePointProtectionPoliciesClient } from './sharePointProtectionPolicies';
+import { SharePointRestoreSessionsClient } from './sharePointRestoreSessions';
+import { SiteInclusionRulesClient } from './siteInclusionRules';
+import { SiteProtectionUnitsClient } from './siteProtectionUnits';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -54,27 +50,27 @@ function getInjectedUrl(
  * Provides operations to manage the backupRestore property of the microsoft.graph.solutionsRoot entity.
  */
 export class BackupRestoreClient {
-  protected baseUrl = "/solutions/backupRestore";
+  protected baseUrl = '/solutions/backupRestore';
   protected http: http.Client;
 
   constructor(options?: http.Client | http.ClientOptions) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -248,23 +244,16 @@ export class BackupRestoreClient {
    *
    */
   async delete(
-    params?: Endpoints["DELETE /solutions/backupRestore"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /solutions/backupRestore']['parameters'],
+    config?: http.RequestConfig
   ) {
-    const url = getInjectedUrl(
-      "/solutions/backupRestore",
-      [{ name: "If-Match", in: "header" }],
-      {
-        ...(params || {}),
-      },
-    );
+    const url = getInjectedUrl('/solutions/backupRestore', [{ name: 'If-Match', in: 'header' }], {
+      ...(params || {}),
+    });
 
     return this.http
       .delete(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["DELETE /solutions/backupRestore"]["response"],
-      );
+      .then((res) => res.data as Endpoints['DELETE /solutions/backupRestore']['response']);
   }
 
   /**
@@ -273,26 +262,23 @@ export class BackupRestoreClient {
    * Get the serviceStatus of the Microsoft 365 Backup Storage service in a tenant.
    */
   async get(
-    params?: Endpoints["GET /solutions/backupRestore"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /solutions/backupRestore']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/solutions/backupRestore",
+      '/solutions/backupRestore',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
       ],
       {
         ...(params || {}),
-      },
+      }
     );
 
     return this.http
       .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["GET /solutions/backupRestore"]["response"],
-      );
+      .then((res) => res.data as Endpoints['GET /solutions/backupRestore']['response']);
   }
 
   /**
@@ -300,19 +286,16 @@ export class BackupRestoreClient {
    *
    */
   async update(
-    body: Endpoints["PATCH /solutions/backupRestore"]["body"],
-    params?: Endpoints["PATCH /solutions/backupRestore"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /solutions/backupRestore']['body'],
+    params?: Endpoints['PATCH /solutions/backupRestore']['parameters'],
+    config?: http.RequestConfig
   ) {
-    const url = getInjectedUrl("/solutions/backupRestore", [], {
+    const url = getInjectedUrl('/solutions/backupRestore', [], {
       ...(params || {}),
     });
 
     return this.http
       .patch(url, body, config)
-      .then(
-        (res) =>
-          res.data as Endpoints["PATCH /solutions/backupRestore"]["response"],
-      );
+      .then((res) => res.data as Endpoints['PATCH /solutions/backupRestore']['response']);
   }
 }

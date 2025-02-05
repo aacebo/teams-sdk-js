@@ -1,28 +1,24 @@
-import qs from "qs";
-import * as http from "@teams.sdk/common/http";
+import qs from 'qs';
+import * as http from '@teams.sdk/common/http';
 
-import pkg from "src/../package.json";
-import type { Endpoints } from "./index-types.d.ts";
-import { CountClient } from "./count";
+import pkg from 'src/../package.json';
+import type { Endpoints } from './index-types.d.ts';
+import { CountClient } from './count';
 
 interface Param {
   readonly in: string;
   readonly name: string;
 }
 
-function getInjectedUrl(
-  url: string,
-  params: Array<Param>,
-  data: Record<string, any>,
-) {
+function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, any>) {
   const query: Record<string, any> = {};
 
   for (const param of params) {
-    if (param.in === "query") {
+    if (param.in === 'query') {
       query[param.name] = data[param.name];
     }
 
-    if (param.in !== "path") {
+    if (param.in !== 'path') {
       continue;
     }
 
@@ -37,31 +33,30 @@ function getInjectedUrl(
  * Provides operations to manage the federatedIdentityCredentials property of the microsoft.graph.application entity.
  */
 export class FederatedIdentityCredentialsClient {
-  protected baseUrl =
-    "/applications/{application-id}/federatedIdentityCredentials";
+  protected baseUrl = '/applications/{application-id}/federatedIdentityCredentials';
   protected http: http.Client;
 
   constructor(
     protected readonly applicationId: string,
-    options?: http.Client | http.ClientOptions,
+    options?: http.Client | http.ClientOptions
   ) {
     if (!options) {
       this.http = new http.Client({
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
         },
       });
-    } else if ("request" in options) {
+    } else if ('request' in options) {
       this.http = options;
     } else {
       this.http = new http.Client({
         ...options,
-        baseUrl: "https://graph.microsoft.com/v1.0",
+        baseUrl: 'https://graph.microsoft.com/v1.0',
         headers: {
-          "Content-Type": "application/json",
-          "User-Agent": `teams[graph]/${pkg.version}`,
+          'Content-Type': 'application/json',
+          'User-Agent': `teams[graph]/${pkg.version}`,
           ...options.headers,
         },
       });
@@ -83,27 +78,27 @@ export class FederatedIdentityCredentialsClient {
    * Delete a federatedIdentityCredential object from an application.
    */
   async delete(
-    params?: Endpoints["DELETE /applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['DELETE /applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}",
+      '/applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}',
       [
-        { name: "If-Match", in: "header" },
-        { name: "application-id", in: "path" },
-        { name: "federatedIdentityCredential-id", in: "path" },
+        { name: 'If-Match', in: 'header' },
+        { name: 'application-id', in: 'path' },
+        { name: 'federatedIdentityCredential-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "application-id": this.applicationId,
-      },
+        'application-id': this.applicationId,
+      }
     );
 
     return this.http
       .delete(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["DELETE /applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}"]["response"],
+          res.data as Endpoints['DELETE /applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}']['response']
       );
   }
 
@@ -113,28 +108,28 @@ export class FederatedIdentityCredentialsClient {
    * Get a list of the federatedIdentityCredential objects and their properties.
    */
   async list(
-    params?: Endpoints["GET /applications/{application-id}/federatedIdentityCredentials"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /applications/{application-id}/federatedIdentityCredentials']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/federatedIdentityCredentials",
+      '/applications/{application-id}/federatedIdentityCredentials',
       [
-        { name: "$orderby", in: "query" },
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "application-id", in: "path" },
+        { name: '$orderby', in: 'query' },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "application-id": this.applicationId,
-      },
+        'application-id': this.applicationId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications/{application-id}/federatedIdentityCredentials"]["response"],
+          res.data as Endpoints['GET /applications/{application-id}/federatedIdentityCredentials']['response']
       );
   }
 
@@ -144,28 +139,28 @@ export class FederatedIdentityCredentialsClient {
    * Read the properties and relationships of a federatedIdentityCredential object.
    */
   async get(
-    params?: Endpoints["GET /applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}"]["parameters"],
-    config?: http.RequestConfig,
+    params?: Endpoints['GET /applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}",
+      '/applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}',
       [
-        { name: "$select", in: "query" },
-        { name: "$expand", in: "query" },
-        { name: "application-id", in: "path" },
-        { name: "federatedIdentityCredential-id", in: "path" },
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'application-id', in: 'path' },
+        { name: 'federatedIdentityCredential-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "application-id": this.applicationId,
-      },
+        'application-id': this.applicationId,
+      }
     );
 
     return this.http
       .get(url, config)
       .then(
         (res) =>
-          res.data as Endpoints["GET /applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}"]["response"],
+          res.data as Endpoints['GET /applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}']['response']
       );
   }
 
@@ -175,27 +170,27 @@ export class FederatedIdentityCredentialsClient {
    * Create a new federatedIdentityCredential object for an application if it doesn&#x27;t exist, or update the properties of an existing federatedIdentityCredential object. By configuring a trust relationship between your Microsoft Entra application registration and the identity provider for your compute platform, you can use tokens issued by that platform to authenticate with Microsoft identity platform and call APIs in the Microsoft ecosystem. Maximum of 20 objects can be added to an application.
    */
   async update(
-    body: Endpoints["PATCH /applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}"]["body"],
-    params?: Endpoints["PATCH /applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['PATCH /applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}']['body'],
+    params?: Endpoints['PATCH /applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}",
+      '/applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}',
       [
-        { name: "application-id", in: "path" },
-        { name: "federatedIdentityCredential-id", in: "path" },
+        { name: 'application-id', in: 'path' },
+        { name: 'federatedIdentityCredential-id', in: 'path' },
       ],
       {
         ...(params || {}),
-        "application-id": this.applicationId,
-      },
+        'application-id': this.applicationId,
+      }
     );
 
     return this.http
       .patch(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["PATCH /applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}"]["response"],
+          res.data as Endpoints['PATCH /applications/{application-id}/federatedIdentityCredentials/{federatedIdentityCredential-id}']['response']
       );
   }
 
@@ -205,24 +200,24 @@ export class FederatedIdentityCredentialsClient {
    * Create a new federatedIdentityCredential object for an application. By configuring a trust relationship between your Microsoft Entra application registration and the identity provider for your compute platform, you can use tokens issued by that platform to authenticate with Microsoft identity platform and call APIs in the Microsoft ecosystem. Maximum of 20 objects can be added to an application.
    */
   async create(
-    body: Endpoints["POST /applications/{application-id}/federatedIdentityCredentials"]["body"],
-    params?: Endpoints["POST /applications/{application-id}/federatedIdentityCredentials"]["parameters"],
-    config?: http.RequestConfig,
+    body: Endpoints['POST /applications/{application-id}/federatedIdentityCredentials']['body'],
+    params?: Endpoints['POST /applications/{application-id}/federatedIdentityCredentials']['parameters'],
+    config?: http.RequestConfig
   ) {
     const url = getInjectedUrl(
-      "/applications/{application-id}/federatedIdentityCredentials",
-      [{ name: "application-id", in: "path" }],
+      '/applications/{application-id}/federatedIdentityCredentials',
+      [{ name: 'application-id', in: 'path' }],
       {
         ...(params || {}),
-        "application-id": this.applicationId,
-      },
+        'application-id': this.applicationId,
+      }
     );
 
     return this.http
       .post(url, body, config)
       .then(
         (res) =>
-          res.data as Endpoints["POST /applications/{application-id}/federatedIdentityCredentials"]["response"],
+          res.data as Endpoints['POST /applications/{application-id}/federatedIdentityCredentials']['response']
       );
   }
 }
