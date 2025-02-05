@@ -18,7 +18,7 @@ export interface GetBotSignInResourceParams {
 }
 
 export class BotSignInClient {
-  protected http: Client;
+  readonly http: Client;
 
   constructor(options?: Client | ClientOptions) {
     if (!options) {

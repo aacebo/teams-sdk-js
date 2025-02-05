@@ -122,17 +122,29 @@ export class App {
   private readonly _events = DEFAULT_EVENTS;
   private readonly _userAgent = `teams[apps]/${pkg.version}`;
 
-  constructor(readonly options: AppOptions) {
+  constructor(readonly options: AppOptions = {}) {
     this.log = this.options.logger || new ConsoleLogger('@teams.sdk/app');
     this.storage = this.options.storage || new LocalStorage();
     this.plugins = this.options.plugins || [new HttpPlugin()];
 
     if (!options.http) {
-      this.http = new http.Client();
+      this.http = new http.Client({
+        headers: {
+          'User-Agent': this._userAgent,
+        },
+      });
     } else if (typeof options.http === 'function') {
-      this.http = options.http();
+      this.http = options.http().clone({
+        headers: {
+          'User-Agent': this._userAgent,
+        },
+      });
     } else if ('request' in options.http) {
-      this.http = options.http;
+      this.http = options.http.clone({
+        headers: {
+          'User-Agent': this._userAgent,
+        },
+      });
     } else {
       this.http = new http.Client({
         ...options.http,
@@ -146,27 +158,18 @@ export class App {
     this.bot = new BotClient(
       this.http.clone({
         token: () => this._tokens.bot,
-        headers: {
-          'User-Agent': this._userAgent,
-        },
       })
     );
 
     this.user = new UserClient(
       this.http.clone({
         token: () => this._tokens.bot,
-        headers: {
-          'User-Agent': this._userAgent,
-        },
       })
     );
 
     this.graph = new graph.Client(
       this.http.clone({
         token: () => this._tokens.graph,
-        headers: {
-          'User-Agent': this._userAgent,
-        },
       })
     );
 
@@ -319,18 +322,12 @@ export class App {
       serviceUrl,
       this.http.clone({
         token: () => this.tokens.bot,
-        headers: {
-          'User-Agent': this._userAgent,
-        },
       })
     );
 
     const graphApi = new graph.Client(
       this.http.clone({
         token: userToken,
-        headers: {
-          'User-Agent': this._userAgent,
-        },
       })
     );
 
@@ -417,9 +414,6 @@ export class App {
       ctx.graph = new graph.Client(
         this.http.clone({
           token: token.token,
-          headers: {
-            'User-Agent': this._userAgent,
-          },
         })
       );
 
@@ -471,9 +465,6 @@ export class App {
       ctx.graph = new graph.Client(
         this.http.clone({
           token: token.token,
-          headers: {
-            'User-Agent': this._userAgent,
-          },
         })
       );
 

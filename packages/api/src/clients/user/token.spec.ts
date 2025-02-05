@@ -1,13 +1,27 @@
+import { Client } from '@teams.sdk/common/http';
+
 import { UserTokenClient } from './token';
 
 describe('UserTokenClient', () => {
-  let client: UserTokenClient;
+  it('should use existing client', async () => {
+    const http = new Client();
+    const client = new UserTokenClient(http);
+    const spy = jest.spyOn(http, 'get').mockResolvedValueOnce({});
 
-  beforeEach(() => {
-    client = new UserTokenClient();
+    await client.get({
+      connectionName: 'graph',
+      userId: '1',
+      channelId: 'msteams',
+      code: '123',
+    });
+
+    expect(spy).toHaveBeenCalledWith(
+      'https://token.botframework.com/api/usertoken/GetToken?connectionName=graph&userId=1&channelId=msteams&code=123'
+    );
   });
 
-  it('should get token', async () => {
+  it('should use client options', async () => {
+    const client = new UserTokenClient({});
     const spy = jest.spyOn(client.http, 'get').mockResolvedValueOnce({});
 
     await client.get({
@@ -18,11 +32,28 @@ describe('UserTokenClient', () => {
     });
 
     expect(spy).toHaveBeenCalledWith(
-      '/GetToken?connectionName=graph&userId=1&channelId=msteams&code=123'
+      'https://token.botframework.com/api/usertoken/GetToken?connectionName=graph&userId=1&channelId=msteams&code=123'
+    );
+  });
+
+  it('should get token', async () => {
+    const client = new UserTokenClient();
+    const spy = jest.spyOn(client.http, 'get').mockResolvedValueOnce({});
+
+    await client.get({
+      connectionName: 'graph',
+      userId: '1',
+      channelId: 'msteams',
+      code: '123',
+    });
+
+    expect(spy).toHaveBeenCalledWith(
+      'https://token.botframework.com/api/usertoken/GetToken?connectionName=graph&userId=1&channelId=msteams&code=123'
     );
   });
 
   it('should get AAD token', async () => {
+    const client = new UserTokenClient();
     const spy = jest.spyOn(client.http, 'post').mockResolvedValueOnce({});
 
     await client.getAad({
@@ -33,7 +64,7 @@ describe('UserTokenClient', () => {
     });
 
     expect(spy).toHaveBeenCalledWith(
-      '/GetAadTokens?connectionName=graph&userId=1&channelId=msteams',
+      'https://token.botframework.com/api/usertoken/GetAadTokens?connectionName=graph&userId=1&channelId=msteams',
       {
         connectionName: 'graph',
         userId: '1',
@@ -44,6 +75,7 @@ describe('UserTokenClient', () => {
   });
 
   it('should get token status', async () => {
+    const client = new UserTokenClient();
     const spy = jest.spyOn(client.http, 'get').mockResolvedValueOnce({});
 
     await client.getStatus({
@@ -52,10 +84,13 @@ describe('UserTokenClient', () => {
       includeFilter: '',
     });
 
-    expect(spy).toHaveBeenCalledWith('/GetTokenStatus?userId=1&channelId=msteams&includeFilter=');
+    expect(spy).toHaveBeenCalledWith(
+      'https://token.botframework.com/api/usertoken/GetTokenStatus?userId=1&channelId=msteams&includeFilter='
+    );
   });
 
   it('should delete token', async () => {
+    const client = new UserTokenClient();
     const spy = jest.spyOn(client.http, 'delete').mockResolvedValueOnce({});
 
     await client.signOut({
@@ -64,7 +99,7 @@ describe('UserTokenClient', () => {
       userId: '1',
     });
 
-    expect(spy).toHaveBeenCalledWith('/SignOut', {
+    expect(spy).toHaveBeenCalledWith('https://token.botframework.com/api/usertoken/SignOut', {
       data: {
         channelId: 'msteams',
         connectionName: 'graph',
@@ -74,6 +109,7 @@ describe('UserTokenClient', () => {
   });
 
   it('should exchange token', async () => {
+    const client = new UserTokenClient();
     const spy = jest.spyOn(client.http, 'post').mockResolvedValueOnce({});
 
     await client.exchange({
@@ -86,11 +122,14 @@ describe('UserTokenClient', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith('/exchange?userId=1&connectionName=graph&channelId=msteams', {
-      exchangeRequest: {
-        uri: 'http://localhost',
-        token: 'test',
-      },
-    });
+    expect(spy).toHaveBeenCalledWith(
+      'https://token.botframework.com/api/usertoken/exchange?userId=1&connectionName=graph&channelId=msteams',
+      {
+        exchangeRequest: {
+          uri: 'http://localhost',
+          token: 'test',
+        },
+      }
+    );
   });
 });

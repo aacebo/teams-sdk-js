@@ -197,6 +197,10 @@ export class Client {
     return new Client({
       ...this.options,
       ...options,
+      headers: {
+        ...this.options.headers,
+        ...options?.headers,
+      },
     });
   }
 

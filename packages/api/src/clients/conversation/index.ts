@@ -34,8 +34,8 @@ export interface GetConversationsResponse {
 }
 
 export class ConversationClient {
-  protected serviceUrl: string;
-  protected http: Client;
+  readonly serviceUrl: string;
+  readonly http: Client;
 
   protected _activities: ConversationActivityClient;
   protected _members: ConversationMemberClient;

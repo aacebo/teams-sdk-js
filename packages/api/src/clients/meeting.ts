@@ -3,8 +3,8 @@ import { Client, ClientOptions } from '@teams.sdk/common/http';
 import { MeetingInfo, MeetingParticipant } from '../models';
 
 export class MeetingClient {
-  protected serviceUrl: string;
-  protected http: Client;
+  readonly serviceUrl: string;
+  readonly http: Client;
 
   constructor(serviceUrl: string, options?: Client | ClientOptions) {
     this.serviceUrl = serviceUrl;

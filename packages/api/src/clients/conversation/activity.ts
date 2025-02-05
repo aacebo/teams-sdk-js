@@ -6,8 +6,8 @@ import { Activity } from '../../activities';
 export type ActivityParams = Pick<Activity, 'type'> & Partial<Activity>;
 
 export class ConversationActivityClient {
-  protected serviceUrl: string;
-  protected http: Client;
+  readonly serviceUrl: string;
+  readonly http: Client;
 
   constructor(serviceUrl: string, options?: Client | ClientOptions) {
     this.serviceUrl = serviceUrl;

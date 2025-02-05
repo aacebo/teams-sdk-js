@@ -8,8 +8,7 @@ module.exports = {
   preset: 'ts-jest',
   coverageDirectory: 'coverage',
   passWithNoTests: true,
-  detectOpenHandles: true,
-  detectLeaks: true,
+  clearMocks: true,
   collectCoverageFrom: [
     '**/*.ts',
     '!**/*.d.ts',

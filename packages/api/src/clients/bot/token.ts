@@ -13,7 +13,7 @@ export interface GetBotTokenResponse {
 }
 
 export class BotTokenClient {
-  protected http: Client;
+  readonly http: Client;
 
   constructor(options?: Client | ClientOptions) {
     if (!options) {

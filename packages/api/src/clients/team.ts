@@ -3,8 +3,8 @@ import { Client, ClientOptions } from '@teams.sdk/common/http';
 import { ChannelInfo, TeamDetails } from '../models';
 
 export class TeamClient {
-  protected serviceUrl: string;
-  protected http: Client;
+  readonly serviceUrl: string;
+  readonly http: Client;
 
   constructor(serviceUrl: string, options?: Client | ClientOptions) {
     this.serviceUrl = serviceUrl;
