@@ -6,7 +6,6 @@ import * as http from '@teams.sdk/common/http';
 import * as graph from '@teams.sdk/graph';
 
 import {
-  Client,
   Activity,
   Token,
   Credentials,
@@ -30,6 +29,7 @@ import { ActivityContext } from './activity-context';
 import { MiddlewareContext } from './middleware-context';
 import { HttpPlugin } from './plugins';
 import { OAuthSettings } from './oauth';
+import { Api } from './api';
 
 /**
  * App initialization options
@@ -318,14 +318,14 @@ export class App {
       userToken = res.token;
     } catch (err) {}
 
-    const api = new Client(
+    const api = new Api(
       serviceUrl,
       this.http.clone({
         token: () => this.tokens.bot,
       })
     );
 
-    const graphApi = new graph.Client(
+    api.graph = new graph.Client(
       this.http.clone({
         token: userToken,
       })
@@ -359,7 +359,6 @@ export class App {
       sender: undefined,
       appId: this._tokens.bot?.appId || '',
       api,
-      graph: graphApi,
       log: this.log,
       tokens: this.tokens,
       ref: conversation,
@@ -412,7 +411,7 @@ export class App {
         },
       });
 
-      ctx.graph = new graph.Client(
+      ctx.api.graph = new graph.Client(
         this.http.clone({
           token: token.token,
         })
@@ -463,7 +462,7 @@ export class App {
       await storage.delete(key);
       await storage.set(`${activity.conversation.id}/${activity.from.id}/token`, token);
 
-      ctx.graph = new graph.Client(
+      ctx.api.graph = new graph.Client(
         this.http.clone({
           token: token.token,
         })

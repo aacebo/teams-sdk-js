@@ -16,8 +16,8 @@ app.on('message', async ({ log, signin, isSignedIn }) => {
   log.info('user already signed in!');
 });
 
-app.event('signin', async ({ send, graph }) => {
-  const me = await graph.me.get();
+app.event('signin', async ({ send, api }) => {
+  const me = await api.graph.me.get();
 
   await send(
     MessageSendActivity(`hello ${me.displayName} 👋!`)

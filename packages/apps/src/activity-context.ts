@@ -1,7 +1,8 @@
 import { Logger } from '@teams.sdk/common/logging';
 import { Storage } from '@teams.sdk/common/storage';
-import { Activity, Client, ConversationReference } from '@teams.sdk/api';
-import * as graph from '@teams.sdk/graph';
+import { Activity, ConversationReference } from '@teams.sdk/api';
+
+import { Api } from './api';
 
 export interface ActivityContext<T extends Activity = Activity> {
   /**
@@ -27,12 +28,7 @@ export interface ActivityContext<T extends Activity = Activity> {
   /**
    * the bot api client
    */
-  api: Client;
-
-  /**
-   * the graph api client
-   */
-  graph: graph.Client;
+  api: Api;
 
   /**
    * app storage instance
