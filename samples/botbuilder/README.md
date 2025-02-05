@@ -1,6 +1,6 @@
 # Samples: Bot Builder
 
-a bot that implements a Bot Builder Adapter.
+A bot that implements a Bot Builder Adapter.
 
 ## Run
 

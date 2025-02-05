@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="ayu" dir="ltr">
+<html lang="en" class="ayu sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -29,15 +29,17 @@
 
         <!-- Custom theme stylesheets -->
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
+
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "../../../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "ayu";
         </script>
-
+        <!-- Start loading toc.js asap -->
+        <script src="../../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -59,19 +61,16 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('ayu')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
             var sidebar = null;
             var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
@@ -81,45 +80,25 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../../../1.welcome.html"><strong aria-hidden="true">1.</strong> 👋 Welcome</a></li><li class="chapter-item expanded "><a href="../../../2.getting-started/index.html"><strong aria-hidden="true">2.</strong> Getting Started</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../../2.getting-started/1.activity/index.html"><strong aria-hidden="true">2.1.</strong> Activity</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../../2.getting-started/1.activity/1.message/index.html" class="active"><strong aria-hidden="true">2.1.1.</strong> Message</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../2.getting-started/1.activity/1.message/1.message-update.html"><strong aria-hidden="true">2.1.1.1.</strong> Message Update</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/1.message/2.message-reaction.html"><strong aria-hidden="true">2.1.1.2.</strong> Message Reaction</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/1.message/3.message-delete.html"><strong aria-hidden="true">2.1.1.3.</strong> Message Delete</a></li></ol></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/2.typing/index.html"><strong aria-hidden="true">2.1.2.</strong> Typing</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/3.conversation/index.html"><strong aria-hidden="true">2.1.3.</strong> Conversation</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../2.getting-started/1.activity/3.conversation/1.conversation-update.html"><strong aria-hidden="true">2.1.3.1.</strong> Conversation Update</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/3.conversation/2.end-of-conversation.html"><strong aria-hidden="true">2.1.3.2.</strong> End Of Conversation</a></li></ol></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/4.install-update/index.html"><strong aria-hidden="true">2.1.4.</strong> Install Update</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../2.getting-started/1.activity/4.install-update/1.installed.html"><strong aria-hidden="true">2.1.4.1.</strong> Installed</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/4.install-update/2.uninstalled.html"><strong aria-hidden="true">2.1.4.2.</strong> UnInstalled</a></li></ol></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/5.event/index.html"><strong aria-hidden="true">2.1.5.</strong> Event</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../2.getting-started/1.activity/5.event/1.read-receipt.html"><strong aria-hidden="true">2.1.5.1.</strong> Read Receipt</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/5.event/2.meeting-start.html"><strong aria-hidden="true">2.1.5.2.</strong> Meeting Start</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/5.event/3.meeting-end.html"><strong aria-hidden="true">2.1.5.3.</strong> Meeting End</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/5.event/4.meeting-participant-join.html"><strong aria-hidden="true">2.1.5.4.</strong> Meeting Participant Join</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/5.event/5.meeting-participant-leave.html"><strong aria-hidden="true">2.1.5.5.</strong> Meeting Participant Leave</a></li></ol></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/6.command/index.html"><strong aria-hidden="true">2.1.6.</strong> Command</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../2.getting-started/1.activity/6.command/1.command-result.html"><strong aria-hidden="true">2.1.6.1.</strong> Command Result</a></li></ol></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/index.html"><strong aria-hidden="true">2.1.7.</strong> Invoke</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/1.adaptive-card/index.html"><strong aria-hidden="true">2.1.7.1.</strong> Adaptive Card</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/1.adaptive-card/1.action.html"><strong aria-hidden="true">2.1.7.1.1.</strong> Action</a></li></ol></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/2.config/index.html"><strong aria-hidden="true">2.1.7.2.</strong> Config</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/2.config/1.config-fetch.html"><strong aria-hidden="true">2.1.7.2.1.</strong> Fetch</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/2.config/2.config-submit.html"><strong aria-hidden="true">2.1.7.2.2.</strong> Submit</a></li></ol></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/3.message/index.html"><strong aria-hidden="true">2.1.7.3.</strong> Message</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/3.message/1.submit-action.html"><strong aria-hidden="true">2.1.7.3.1.</strong> Submit Action</a></li></ol></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/4.message-extension/index.html"><strong aria-hidden="true">2.1.7.4.</strong> Message Extension</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/4.message-extension/1.anon-query-link.html"><strong aria-hidden="true">2.1.7.4.1.</strong> Anon Query Link</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/4.message-extension/2.card-button-clicked.html"><strong aria-hidden="true">2.1.7.4.2.</strong> Card Button Clicked</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/4.message-extension/3.fetch-task.html"><strong aria-hidden="true">2.1.7.4.3.</strong> Fetch Task</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/4.message-extension/4.query-link.html"><strong aria-hidden="true">2.1.7.4.4.</strong> Query Link</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/4.message-extension/5.query-settings-url.html"><strong aria-hidden="true">2.1.7.4.5.</strong> Query Settings URL</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/4.message-extension/6.query.html"><strong aria-hidden="true">2.1.7.4.6.</strong> Query</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/4.message-extension/7.select-item.html"><strong aria-hidden="true">2.1.7.4.7.</strong> Select Item</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/4.message-extension/8.setting.html"><strong aria-hidden="true">2.1.7.4.8.</strong> Setting</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/4.message-extension/9.submit-action.html"><strong aria-hidden="true">2.1.7.4.9.</strong> Submit Action</a></li></ol></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/5.sign-in/index.html"><strong aria-hidden="true">2.1.7.5.</strong> Sign In</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/5.sign-in/1.token-exchange.html"><strong aria-hidden="true">2.1.7.5.1.</strong> Token Exchange</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/5.sign-in/2.verify-state.html"><strong aria-hidden="true">2.1.7.5.2.</strong> Verify State</a></li></ol></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/6.tab/index.html"><strong aria-hidden="true">2.1.7.6.</strong> Tab</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/6.tab/1.fetch.html"><strong aria-hidden="true">2.1.7.6.1.</strong> Fetch</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/6.tab/2.submit.html"><strong aria-hidden="true">2.1.7.6.2.</strong> Submit</a></li></ol></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/7.task/index.html"><strong aria-hidden="true">2.1.7.7.</strong> Task</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/7.task/1.fetch.html"><strong aria-hidden="true">2.1.7.7.1.</strong> Fetch</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/7.task/2.submit.html"><strong aria-hidden="true">2.1.7.7.2.</strong> Submit</a></li></ol></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/8.execute-action.html"><strong aria-hidden="true">2.1.7.8.</strong> Execute Action</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/9.file-consent.html"><strong aria-hidden="true">2.1.7.9.</strong> File Consent</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/7.invoke/10.handoff-action.html"><strong aria-hidden="true">2.1.7.10.</strong> Handoff Action</a></li></ol></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/8.handoff/index.html"><strong aria-hidden="true">2.1.8.</strong> Handoff</a></li><li class="chapter-item "><a href="../../../2.getting-started/1.activity/9.trace/index.html"><strong aria-hidden="true">2.1.9.</strong> Trace</a></li></ol></li><li class="chapter-item "><a href="../../../2.getting-started/2.copilot/index.html"><strong aria-hidden="true">2.2.</strong> Copilot</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../2.getting-started/2.copilot/1.new.html"><strong aria-hidden="true">2.2.1.</strong> New Project</a></li><li class="chapter-item "><a href="../../../2.getting-started/2.copilot/2.add-meeting-start.html"><strong aria-hidden="true">2.2.2.</strong> Add Meeting Start</a></li><li class="chapter-item "><a href="../../../2.getting-started/2.copilot/3.add-card.html"><strong aria-hidden="true">2.2.3.</strong> Add Card</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../../3.basics/index.html"><strong aria-hidden="true">3.</strong> Basics</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../3.basics/1.on-activity.html"><strong aria-hidden="true">3.1.</strong> Listening To Activities</a></li><li class="chapter-item "><a href="../../../3.basics/2.on-message.html"><strong aria-hidden="true">3.2.</strong> Listening To Messages</a></li><li class="chapter-item "><a href="../../../3.basics/3.sending-activities.html"><strong aria-hidden="true">3.3.</strong> Sending Activities</a></li><li class="chapter-item "><a href="../../../3.basics/4.on-event.html"><strong aria-hidden="true">3.4.</strong> Listening To Events</a></li><li class="chapter-item "><a href="../../../3.basics/5.middleware.html"><strong aria-hidden="true">3.5.</strong> Middleware</a></li><li class="chapter-item "><a href="../../../3.basics/6.api.html"><strong aria-hidden="true">3.6.</strong> Using The API Client</a></li><li class="chapter-item "><a href="../../../3.basics/7.auth.html"><strong aria-hidden="true">3.7.</strong> 🔒 User Authentication</a></li><li class="chapter-item "><a href="../../../3.basics/8.custom-logger.html"><strong aria-hidden="true">3.8.</strong> 🗃️ Custom Logger</a></li><li class="chapter-item "><a href="../../../3.basics/9.feedback.html"><strong aria-hidden="true">3.9.</strong> Feedback</a></li></ol></li><li class="chapter-item expanded "><a href="../../../4.dialogs/index.html"><strong aria-hidden="true">4.</strong> Dialogs (Task Modules)</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../4.dialogs/1.on-dialog.html"><strong aria-hidden="true">4.1.</strong> Listening To Dialogs</a></li><li class="chapter-item "><a href="../../../4.dialogs/2.on-dialog-submit.html"><strong aria-hidden="true">4.2.</strong> Dialog Submit</a></li></ol></li><li class="chapter-item expanded "><a href="../../../5.message-extensions/index.html"><strong aria-hidden="true">5.</strong> Message Extensions</a></li><li class="chapter-item expanded "><a href="../../../6.cards/index.html"><strong aria-hidden="true">6.</strong> 🪪 Cards</a></li><li class="chapter-item expanded "><a href="../../../7.devtools/index.html"><strong aria-hidden="true">7.</strong> 🛠️ DevTools</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../7.devtools/1.chat.html"><strong aria-hidden="true">7.1.</strong> 💬 Chat</a></li><li class="chapter-item "><a href="../../../7.devtools/2.inspect.html"><strong aria-hidden="true">7.2.</strong> 🔍 Inspect</a></li><li class="chapter-item "><a href="../../../7.devtools/3.cards.html"><strong aria-hidden="true">7.3.</strong> 🪪 Cards</a></li></ol></li><li class="chapter-item expanded "><a href="../../../8.ai/index.html"><strong aria-hidden="true">8.</strong> 🤖 AI</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../8.ai/1.chat/index.html"><strong aria-hidden="true">8.1.</strong> 💬 Chat</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../8.ai/1.chat/1.simple.html"><strong aria-hidden="true">8.1.1.</strong> Simple</a></li><li class="chapter-item "><a href="../../../8.ai/1.chat/2.streaming.html"><strong aria-hidden="true">8.1.2.</strong> Streaming</a></li><li class="chapter-item "><a href="../../../8.ai/1.chat/3.functions.html"><strong aria-hidden="true">8.1.3.</strong> Functions</a></li></ol></li><li class="chapter-item "><a href="../../../8.ai/2.audio/index.html"><strong aria-hidden="true">8.2.</strong> 🔈 Audio</a></li><li class="chapter-item "><a href="../../../8.ai/3.image/index.html"><strong aria-hidden="true">8.3.</strong> 📷 Image</a></li><li class="chapter-item "><a href="../../../8.ai/4.chaining/index.html"><strong aria-hidden="true">8.4.</strong> 🔗 Chaining</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../8.ai/4.chaining/1.assistants/index.html"><strong aria-hidden="true">8.4.1.</strong> 🧑‍🤝‍🧑 Assistants</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../8.ai/4.chaining/1.assistants/1.developer.html"><strong aria-hidden="true">8.4.1.1.</strong> Developer</a></li><li class="chapter-item "><a href="../../../8.ai/4.chaining/1.assistants/2.project.html"><strong aria-hidden="true">8.4.1.2.</strong> Project</a></li><li class="chapter-item "><a href="../../../8.ai/4.chaining/1.assistants/3.documentation.html"><strong aria-hidden="true">8.4.1.3.</strong> Documentation</a></li><li class="chapter-item "><a href="../../../8.ai/4.chaining/1.assistants/4.typescript.html"><strong aria-hidden="true">8.4.1.4.</strong> Typescript</a></li></ol></li><li class="chapter-item "><a href="../../../8.ai/4.chaining/2.multi-media.html"><strong aria-hidden="true">8.4.2.</strong> 💬 🔈 📷 Multi Media</a></li></ol></li><li class="chapter-item "><a href="../../../8.ai/5.memory/index.html"><strong aria-hidden="true">8.5.</strong> 🧠 Memory</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../8.ai/5.memory/1.short-term.html"><strong aria-hidden="true">8.5.1.</strong> 📓 Short Term</a></li><li class="chapter-item "><a href="../../../8.ai/5.memory/2.long-term.html"><strong aria-hidden="true">8.5.2.</strong> 📚 Long Term</a></li></ol></li></ol></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -174,9 +153,7 @@
                     <main>
                         <h1 id="activity-message"><a class="header" href="#activity-message">Activity: Message</a></h1>
 <p>Message activities represent content intended to be shown within a conversational interface. Message activities may contain text, speech, interactive cards, and binary or unknown attachments; typically channels require at most one of these for the message activity to be well-formed.</p>
-<pre><code class="language-typescript">app.on('message', async ({ activity }) =&gt; {
-
-});
+<pre><code class="language-typescript">app.on('message', async ({ activity }) =&gt; {});
 </code></pre>
 <h2 id="schema"><a class="header" href="#schema">Schema</a></h2>
 <p>Message activities are identified by a <code>type</code> value of <code>message</code>.</p>
@@ -185,7 +162,7 @@
 <p><code>A3000</code>: The <code>text</code> field MAY contain an empty string to indicate sending text without contents.</p>
 <p><code>A3001</code>: Channels SHOULD handle <code>markdown</code>-formatted text in a way that degrades gracefully for that channel.</p>
 <h3 id="text-format"><a class="header" href="#text-format">Text format</a></h3>
-<p>The <code>textFormat</code> field denotes whether the <a href="#text"><code>text</code></a> field should be interpreted as <a href="https://daringfireball.net/projects/markdown/">Markdown</a> [<a href="#references">3</a>], plain text, or XML. The value of the <code>textFormat</code> field is of type string, with defined values of <code>markdown</code>, <code>plain</code>, and <code>xml</code>. The default value is <code>plain</code>. This field is not designed to be extended with arbitrary values.</p>
+<p>The <code>textFormat</code> field denotes whether the <a href="#text"><code>text</code></a> field should be interpreted as <a href="https://daringfireball.net/projects/markdown/">Markdown</a> [<a href="https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#references">3</a>], plain text, or XML. The value of the <code>textFormat</code> field is of type string, with defined values of <code>markdown</code>, <code>plain</code>, and <code>xml</code>. The default value is <code>plain</code>. This field is not designed to be extended with arbitrary values.</p>
 <p>The <code>textFormat</code> field controls additional fields within attachments etc. This relationship is described within those fields, elsewhere in this document.</p>
 <p><code>A3010</code>: If a sender includes the <code>textFormat</code> field, it SHOULD only send defined values.</p>
 <p><code>A3011</code>: Senders SHOULD omit <code>textFormat</code> if the value is <code>plain</code>.</p>
@@ -195,7 +172,7 @@
 <p><code>A3015</code>: Channels SHOULD accept <code>textformat</code> values of at least <code>plain</code> and <code>markdown</code>.</p>
 <p><code>A3016</code>: Channels MAY reject <code>textformat</code> of value <code>xml</code>.</p>
 <h3 id="locale"><a class="header" href="#locale">Locale</a></h3>
-<p>The <code>locale</code> field communicates the language code of the <a href="#text"><code>text</code></a> field. The value of the <code>locale</code> field is an <a href="https://tools.ietf.org/html/bcp47">IETF BCP-47</a> [<a href="#references">18</a>] language tag within a string.</p>
+<p>The <code>locale</code> field communicates the language code of the <a href="#text"><code>text</code></a> field. The value of the <code>locale</code> field is an <a href="https://tools.ietf.org/html/bcp47">IETF BCP-47</a> [<a href="https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#references">18</a>] language tag within a string.</p>
 <p><code>A3020</code>: Receivers SHOULD treat missing and unknown values of the <code>locale</code> field as unknown.</p>
 <p><code>A3021</code>: Receivers SHOULD NOT reject activities with unknown locale.</p>
 <h3 id="speak"><a class="header" href="#speak">Speak</a></h3>
@@ -211,7 +188,7 @@
 <p><code>A3041</code>: If sending an activity to a channel where <code>inputHint</code> is used, bots SHOULD include the field, even when the value is <code>accepting</code>.</p>
 <p><code>A3042</code>: Receivers SHOULD interpret undefined values as <code>accepting</code>.</p>
 <h3 id="attachments"><a class="header" href="#attachments">Attachments</a></h3>
-<p>The <code>attachments</code> field contains a flat list of objects to be displayed as part of this activity. The value of each <code>attachments</code> list element is a complex object of the <a href="#attachment">Attachment</a> type.</p>
+<p>The <code>attachments</code> field contains a flat list of objects to be displayed as part of this activity. The value of each <code>attachments</code> list element is a complex object of the <a href="https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#attachment">Attachment</a> type.</p>
 <p><code>A3050</code>: Senders SHOULD omit the <code>attachments</code> field if it contains no elements.</p>
 <p><code>A3051</code>: Senders MAY send multiple entities of the same type.</p>
 <p><code>A3052</code>: Receivers MAY treat attachments of unknown types as downloadable documents.</p>
@@ -226,7 +203,7 @@
 <p><code>A3071</code>: Channels SHOULD NOT send the <code>summary</code> field to bots.</p>
 <p><code>A3072</code>: Channels able to process all attachments within an activity SHOULD ignore the <code>summary</code> field.</p>
 <h3 id="suggested-actions"><a class="header" href="#suggested-actions">Suggested actions</a></h3>
-<p>The <code>suggestedActions</code> field contains a payload of interactive actions that may be displayed to the user. Support for <code>suggestedActions</code> and their manifestation depends heavily on the channel. The value of the <code>suggestedActions</code> field is a complex object of the <a href="#suggested-actions-2">Suggested actions</a> type.</p>
+<p>The <code>suggestedActions</code> field contains a payload of interactive actions that may be displayed to the user. Support for <code>suggestedActions</code> and their manifestation depends heavily on the channel. The value of the <code>suggestedActions</code> field is a complex object of the <a href="https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#suggested-actions-2">Suggested actions</a> type.</p>
 <h3 id="value"><a class="header" href="#value">Value</a></h3>
 <p>The <code>value</code> field contains a programmatic payload specific to the activity being sent. Its meaning and format are defined in other sections of this document that describe its use.</p>
 <p><code>A3080</code>: Senders SHOULD NOT include <code>value</code> fields of primitive types (e.g. string, int). <code>value</code> fields SHOULD be complex types or omitted.</p>
@@ -248,21 +225,30 @@
 <p><code>A3115</code>: Senders MUST establish whether a receiver understands <code>deliveryMode</code> of <code>expectReplies</code> prior to sending activities with that value.</p>
 <p><code>A3116</code>: Bots SHOULD NOT send activities with <code>deliveryMode</code> of <code>expectReplies</code> to channels.</p>
 <h3 id="listen-for"><a class="header" href="#listen-for">Listen for</a></h3>
-<p>The <code>listenFor</code> field contains a list of terms or references to term sources that speech and language processing systems can listen for. The value of the <code>listenFor</code> field is an array of strings whose format is defined in <a href="#appendix-iv---priming-format">Appendix IV</a>.</p>
+<p>The <code>listenFor</code> field contains a list of terms or references to term sources that speech and language processing systems can listen for. It can also be referred to as <a href="https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#appendix-iv---priming-format">priming format</a>. The value of the <code>listenFor</code> field is an array of strings whose format allows:</p>
+<ol>
+<li>Phrases, including single-term phrases (e.g. "house", "open the doors")</li>
+<li>Sources of phrases (e.g. from an LLM)</li>
+</ol>
 <p>A missing <code>listenFor</code> field indicates default priming behavior should be used. The default is defined by the channel and may depend on variables such as the identity of the user and the bot.</p>
 <p><code>A3120</code>: Channels SHOULD NOT populate the <code>listenFor</code> field.</p>
 <p><code>A3121</code>: Bots SHOULD send <code>listenFor</code> contents that reflect the complete set of utterances expected from users, not just the utterances in response to the content in the message in which the <code>listenFor</code> is included.</p>
 <h3 id="semantic-action"><a class="header" href="#semantic-action">Semantic action</a></h3>
 <p>The <code>semanticAction</code> field contains an optional programmatic action accompanying the user request. The semantic action field is populated by the channel and bot based on some understanding of what the user is trying to accomplish; this understanding may be achieved with natural language processing, additional user interface elements tied specifically to these actions, through a process of conversational refinement, or contextually via other means. The meaning and structure of the semantic action is agreed ahead of time between the channel and the bot.</p>
-<p>The value of the <code>semanticAction</code> field is a complex object of the <a href="#semantic-action-type">semantic action</a> type.</p>
+<p>The value of the <code>semanticAction</code> field is a complex object of the <a href="https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#semantic-action-type">semantic action</a> type.</p>
 <p><code>A3130</code>: Channels and bots MAY populate the <code>semanticAction</code> field. Other senders SHOULD NOT populate the <code>semanticAction</code> field.</p>
 <p>Information within the semantic action field is meant to augment, not replace, existing content within the activity. A well-formed semantic action has a defined name, corresponding well-formed entities, and matches the user's intent in generating the activity.</p>
 <p><code>A3131</code>: Senders SHOULD NOT remove any content used to generate the <code>semanticAction</code> field.</p>
 <p><code>A3132</code>: Receivers MAY ignore parts or all of the <code>semanticAction</code> field.</p>
 <p><code>A3133</code>: Receivers MUST ignore <code>semanticAction</code> fields they cannot parse or do not understand.</p>
-<p>Semantic actions are sometimes used to indicate a change in which participant controls the conversation. For example, a channel may use actions during an exchange with a skill. When so defined, skills can relinquish control through the <a href="#handoff-activity">handoff activity</a> after the final <code>semanticAction</code> <code>state</code> is <code>done</code>.</p>
-<p><code>A3135</code>: Channels MAY define the use of <a href="#handoff-activity">handoff activity</a> in conjunction with semantic actions.</p>
-<p><code>A3136</code>: Bots MAY use semantic action and <a href="#handoff-activity">handoff activity</a> internally to coordinate conversational focus between components of the bot.</p>
+<p>Semantic actions are sometimes used to indicate a change in which participant controls the conversation. For example, a channel may use actions during an exchange with a skill. When so defined, skills can relinquish control through the <a href="https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md#handoff-activity">handoff activity</a> after the final <code>semanticAction</code> <code>state</code> is <code>done</code>.</p>
+<p><code>A3135</code>: Channels MAY define the use of handoff activity in conjunction with semantic actions.</p>
+<p><code>A3136</code>: Bots MAY use semantic action and handoff activity internally to coordinate conversational focus between components of the bot.</p>
+<h2 id="resources"><a class="header" href="#resources">Resources</a></h2>
+<ul>
+<li><a href="https://github.com/microsoft/Agents/blob/main/specs/activity/protocol-activity.md">Agents Activity Protocol Schema</a></li>
+<li><a href="https://learn.microsoft.com/en-us/microsoftteams/platform/resources/bot-v3/bot-conversations/bots-conversations#conversation-basics">Microsoft Learn: Message</a></li>
+</ul>
 
                     </main>
 

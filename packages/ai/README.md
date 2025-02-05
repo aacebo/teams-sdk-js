@@ -18,7 +18,7 @@
     </a>
 </p>
 
-ai tools/utilities.
+AI tools/utilities.
 
 <a href="https://aacebo.github.io/teams-sdk-js/2.getting-started/index.html" target="_blank">
     <img src="https://img.shields.io/badge/📖 Getting Started-blue?style=for-the-badge" />

@@ -48,3 +48,7 @@ Card([ColumnSet([Column([Image('...')]), Column([CodeBlock({ codeSnippet: '...' 
 ```
 
 [AdaptiveCards.io](https://adaptivecards.io/)
+
+## Resources
+
+- [Microsoft Learn: Adaptive Cards Actions](https://learn.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/cards/cards-actions?tabs=json#adaptive-cards-actions)

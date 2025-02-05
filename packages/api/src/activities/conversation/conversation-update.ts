@@ -30,10 +30,10 @@ export interface ConversationUpdateActivity extends ActivityBase {
       | 'channelCreated'
       | 'channelDeleted'
       | 'channelRenamed'
+      | 'channelRestored'
       | 'teamArchived'
       | 'teamDeleted'
       | 'teamHardDeleted'
-      | 'channelRestored'
       | 'teamRenamed'
       | 'teamRestored'
       | 'teamUnarchived';
