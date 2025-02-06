@@ -33,3 +33,7 @@ create prototype for client package
 
 Split graph client into AppClient
 and UserClient.
+
+## P2P
+
+Prototype agent <-> agent
