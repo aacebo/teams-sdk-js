@@ -12,3 +12,7 @@ without first having to receive an activity.
 ## Rethink `Sender` implementation
 
 `Sender` should support middleware.
+
+## MSAL Authentication
+
+bot should be able to use managed identity.

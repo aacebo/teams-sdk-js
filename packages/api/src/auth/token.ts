@@ -10,6 +10,11 @@ export interface Token {
   appId: string;
 
   /**
+   * the app display name
+   */
+  appDisplayName?: string;
+
+  /**
    * the tenant id
    */
   tenantId?: string;

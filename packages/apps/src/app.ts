@@ -15,8 +15,6 @@ import {
   SignInVerifyStateInvokeActivity,
   InvokeResponse,
   JsonWebToken,
-  BotClient,
-  UserClient,
 } from '@teams.sdk/api';
 
 import pkg from '../package.json';
@@ -87,17 +85,28 @@ export interface ProcessActivityArgs {
  * The orchestrator for receiving/sending activities
  */
 export class App {
+  api: Api;
   log: Logger;
   storage: Storage;
   credentials?: Credentials;
 
   /**
-   * The apps graph client
-   * @remak this client uses the apps/bots
-   * graph token.
+   * the apps id
    */
-  graph: graph.Client;
+  get id() {
+    return this.tokens.bot?.appId || this.tokens.graph?.appDisplayName;
+  }
 
+  /**
+   * the apps display name
+   */
+  get displayName() {
+    return this.tokens.bot?.appDisplayName || this.tokens.graph?.appDisplayName;
+  }
+
+  /**
+   * the apps auth tokens
+   */
   get tokens() {
     return this._tokens;
   }
@@ -114,8 +123,6 @@ export class App {
   } = {};
 
   protected http: http.Client;
-  protected bot: BotClient;
-  protected user: UserClient;
   protected plugins: Array<Plugin>;
   protected router = new Router();
 
@@ -155,19 +162,12 @@ export class App {
       });
     }
 
-    this.bot = new BotClient(
-      this.http.clone({
-        token: () => this._tokens.bot,
-      })
+    this.api = new Api(
+      'https://smba.trafficmanager.net/teams',
+      this.http.clone({ token: () => this._tokens.bot })
     );
 
-    this.user = new UserClient(
-      this.http.clone({
-        token: () => this._tokens.bot,
-      })
-    );
-
-    this.graph = new graph.Client(
+    this.api.graph = new graph.Client(
       this.http.clone({
         token: () => this._tokens.graph,
       })
@@ -207,8 +207,8 @@ export class App {
   async start(port = 3000) {
     try {
       if (this.credentials) {
-        const botResponse = await this.bot.token.get(this.credentials);
-        const graphResponse = await this.bot.token.getGraph(this.credentials);
+        const botResponse = await this.api.bots.token.get(this.credentials);
+        const graphResponse = await this.api.bots.token.getGraph(this.credentials);
         this._tokens = {
           bot: new JsonWebToken(botResponse.access_token),
           graph: new JsonWebToken(graphResponse.access_token),
@@ -309,7 +309,7 @@ export class App {
     let userToken: string | undefined;
 
     try {
-      const res = await this.user.token.get({
+      const res = await this.api.users.token.get({
         channelId: activity.channelId,
         userId: activity.from.id,
         connectionName: this.options.oauth?.graph || 'graph',

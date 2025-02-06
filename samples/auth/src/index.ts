@@ -1,10 +1,12 @@
-import { App } from '@teams.sdk/apps';
+import { App, HttpPlugin } from '@teams.sdk/apps';
 import { ConsoleLogger } from '@teams.sdk/common/logging';
 import { MessageSendActivity } from '@teams.sdk/api';
 import { Card, CodeBlock, Column, ColumnSet, Image, TextBlock } from '@teams.sdk/cards';
+import { DevtoolsPlugin } from '@teams.sdk/dev';
 
 const app = new App({
   logger: new ConsoleLogger('@samples/auth', { level: 'debug' }),
+  plugins: [new DevtoolsPlugin(), new HttpPlugin()],
 });
 
 app.message('/signout', async ({ send, signout, isSignedIn }) => {

@@ -24,6 +24,10 @@ export class JsonWebToken implements Token {
     return this._payload['appid'];
   }
 
+  get appDisplayName(): string | undefined {
+    return this._payload['app_displayname'];
+  }
+
   get tenantId(): string | undefined {
     return this._payload['tid'];
   }

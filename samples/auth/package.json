@@ -20,7 +20,9 @@
     "@teams.sdk/apps": "*",
     "@teams.sdk/cards": "*",
     "@teams.sdk/common": "*",
-    "@teams.sdk/graph": "*"
+    "@teams.sdk/graph": "*",
+    "@teams.sdk/dev": "*",
+    "@teams.sdk/devtools": "*"
   },
   "devDependencies": {
     "@teams.sdk/config": "*",
