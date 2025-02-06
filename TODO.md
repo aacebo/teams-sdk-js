@@ -16,3 +16,15 @@ without first having to receive an activity.
 ## MSAL Authentication
 
 bot should be able to use managed identity.
+
+## Feedback Loop
+
+update feedback loop to new contract
+
+## Citations
+
+add citations ux
+
+## Client (Tabs)
+
+create prototype for client package
