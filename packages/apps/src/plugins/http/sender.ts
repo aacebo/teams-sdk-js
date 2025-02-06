@@ -32,7 +32,7 @@ export class HttpSender implements Sender {
     }
 
     if (activity.id) {
-      return this.ctx.api.conversations
+      return this.ctx.app.conversations
         .activities(this.ctx.activity.conversation.id)
         .update(activity.id, {
           ...activity,
@@ -41,7 +41,7 @@ export class HttpSender implements Sender {
         });
     }
 
-    return this.ctx.api.conversations.activities(this.ctx.activity.conversation.id).create({
+    return this.ctx.app.conversations.activities(this.ctx.activity.conversation.id).create({
       ...activity,
       from: this.ctx.activity.recipient,
       conversation: this.ctx.activity.conversation,
@@ -56,7 +56,7 @@ export class HttpSender implements Sender {
       };
     }
 
-    return this.ctx.api.conversations
+    return this.ctx.app.conversations
       .activities(this.ctx.activity.conversation.id)
       .reply(this.ctx.activity.id, {
         ...activity,
@@ -69,7 +69,7 @@ export class HttpSender implements Sender {
     let convo = { ...this.ctx.ref };
 
     try {
-      const res = await this.ctx.api.users.token.get({
+      const res = await this.ctx.app.users.token.get({
         channelId: this.ctx.activity.channelId,
         userId: this.ctx.activity.from.id,
         connectionName: name,
@@ -81,14 +81,14 @@ export class HttpSender implements Sender {
     // create new 1:1 conversation with user to do SSO
     // because groupchats don't support it.
     if (this.ctx.activity.conversation.isGroup) {
-      const res = await this.ctx.api.conversations.create({
+      const res = await this.ctx.app.conversations.create({
         tenantId: this.ctx.activity.conversation.tenantId,
         isGroup: false,
         bot: { id: this.ctx.activity.recipient.id },
         members: [this.ctx.activity.from],
       });
 
-      await this.ctx.api.conversations.activities(res.id).create({
+      await this.ctx.app.conversations.activities(res.id).create({
         type: 'message',
         text,
       });
@@ -104,9 +104,9 @@ export class HttpSender implements Sender {
     };
 
     const state = Buffer.from(JSON.stringify(tokenExchangeState)).toString('base64');
-    const resource = await this.ctx.api.bots.signIn.getResource({ state });
+    const resource = await this.ctx.app.bots.signIn.getResource({ state });
 
-    await this.ctx.api.conversations.activities(convo.conversation.id).create({
+    await this.ctx.app.conversations.activities(convo.conversation.id).create({
       type: 'message',
       inputHint: 'acceptingInput',
       recipient: this.ctx.activity.from,
@@ -129,7 +129,7 @@ export class HttpSender implements Sender {
   }
 
   async signout(name = 'graph') {
-    await this.ctx.api.users.token.signOut({
+    await this.ctx.app.users.token.signOut({
       channelId: this.ctx.activity.channelId,
       userId: this.ctx.activity.from.id,
       connectionName: name,

@@ -28,3 +28,8 @@ add citations ux
 ## Client (Tabs)
 
 create prototype for client package
+
+## Graph: Split By Scope
+
+Split graph client into AppClient
+and UserClient.

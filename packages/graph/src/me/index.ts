@@ -7,6 +7,7 @@ import { CalendarClient } from './calendar';
 import { CalendarGroupsClient } from './calendarGroups';
 import { CalendarViewClient } from './calendarView';
 import { CalendarsClient } from './calendars';
+import { ChatsClient } from './chats';
 import { PhotoClient } from './photo';
 import { PhotosClient } from './photos';
 import { PresenceClient } from './presence';
@@ -106,6 +107,15 @@ export class MeClient {
    */
   get calendars() {
     return new CalendarsClient(this.http);
+  }
+
+  /**
+   * `/me/chats`
+   *
+   * Provides operations to manage the chats property of the microsoft.graph.user entity.
+   */
+  get chats() {
+    return new ChatsClient(this.http);
   }
 
   /**

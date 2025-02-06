@@ -198,6 +198,7 @@ export class Client {
   /**
    * `/users`
    *
+   * Provides operations to manage the collection of user entities.
    */
   get users() {
     return new UsersClient(this.http);

@@ -3,7 +3,6 @@ import { AxiosError } from 'axios';
 import { Logger, ConsoleLogger } from '@teams.sdk/common/logging';
 import { LocalStorage, Storage } from '@teams.sdk/common/storage';
 import * as http from '@teams.sdk/common/http';
-import * as graph from '@teams.sdk/graph';
 
 import {
   Activity,
@@ -27,7 +26,7 @@ import { ActivityContext } from './activity-context';
 import { MiddlewareContext } from './middleware-context';
 import { HttpPlugin } from './plugins';
 import { OAuthSettings } from './oauth';
-import { Api } from './api';
+import { AppClient, UserClient } from './api';
 
 /**
  * App initialization options
@@ -85,7 +84,7 @@ export interface ProcessActivityArgs {
  * The orchestrator for receiving/sending activities
  */
 export class App {
-  api: Api;
+  api: AppClient;
   log: Logger;
   storage: Storage;
   credentials?: Credentials;
@@ -94,13 +93,13 @@ export class App {
    * the apps id
    */
   get id() {
-    return this.tokens.bot?.appId || this.tokens.graph?.appDisplayName;
+    return this.tokens.bot?.appId || this.tokens.graph?.appId;
   }
 
   /**
-   * the apps display name
+   * the apps name
    */
-  get displayName() {
+  get name() {
     return this.tokens.bot?.appDisplayName || this.tokens.graph?.appDisplayName;
   }
 
@@ -125,6 +124,8 @@ export class App {
   protected http: http.Client;
   protected plugins: Array<Plugin>;
   protected router = new Router();
+  protected userTokens = new LocalStorage<string>(undefined, { max: 20000 });
+  protected tenantTokens = new LocalStorage<string>(undefined, { max: 20000 });
 
   private readonly _events = DEFAULT_EVENTS;
   private readonly _userAgent = `teams[apps]/${pkg.version}`;
@@ -162,15 +163,10 @@ export class App {
       });
     }
 
-    this.api = new Api(
+    this.api = new AppClient(
       'https://smba.trafficmanager.net/teams',
-      this.http.clone({ token: () => this._tokens.bot })
-    );
-
-    this.api.graph = new graph.Client(
-      this.http.clone({
-        token: () => this._tokens.graph,
-      })
+      this.http.clone({ token: () => this._tokens.bot }),
+      this.http.clone({ token: () => this._tokens.graph })
     );
 
     const clientId = this.options.clientId || process.env.CLIENT_ID;
@@ -306,30 +302,40 @@ export class App {
       serviceUrl = serviceUrl.slice(0, serviceUrl.length - 1);
     }
 
-    let userToken: string | undefined;
+    let userToken = this.userTokens.get(activity.from.id);
+    let botToken =
+      this.tenantTokens.get(token.tenantId || 'common') || this._tokens.graph?.toString();
 
     try {
-      const res = await this.api.users.token.get({
-        channelId: activity.channelId,
-        userId: activity.from.id,
-        connectionName: this.options.oauth?.graph || 'graph',
-      });
+      if (!userToken) {
+        const res = await this.api.users.token.get({
+          channelId: activity.channelId,
+          userId: activity.from.id,
+          connectionName: this.options.oauth?.graph || 'graph',
+        });
 
-      userToken = res.token;
+        userToken = res.token;
+        this.userTokens.set(activity.from.id, res.token);
+      }
+
+      if (this.credentials && !botToken) {
+        const { access_token } = await this.api.bots.token.getGraph({
+          ...this.credentials,
+          tenantId: args.token.tenantId,
+        });
+
+        botToken = access_token;
+        this.tenantTokens.set(token.tenantId || 'common', access_token);
+      }
     } catch (err) {}
 
-    const api = new Api(
+    const app = new AppClient(
       serviceUrl,
-      this.http.clone({
-        token: () => this.tokens.bot,
-      })
+      this.http.clone({ token: () => this.tokens.bot }),
+      this.http.clone({ token: () => botToken })
     );
 
-    api.graph = new graph.Client(
-      this.http.clone({
-        token: userToken,
-      })
-    );
+    const user = new UserClient(this.http.clone({ token: () => userToken }));
 
     const conversation: ConversationReference = {
       serviceUrl,
@@ -347,18 +353,12 @@ export class App {
       return { status: 200 };
     }
 
-    const tenantId = this.options.tenantId || 'common';
-    const creds = {
-      ...this.credentials,
-      tenantId: tenantId,
-    } as Credentials;
-
-    const ctx: ActivityContext<Activity> & Credentials = {
+    const ctx: ActivityContext<Activity> = {
       ...args,
-      ...creds,
       sender: undefined,
-      appId: this._tokens.bot?.appId || '',
-      api,
+      app,
+      user,
+      appId: this.id || '',
       log: this.log,
       tokens: this.tokens,
       ref: conversation,
@@ -375,7 +375,6 @@ export class App {
 
     const routeCtx: MiddlewareContext<Activity> = {
       ...ctx,
-      api,
       stream,
       log: this.log,
       conversation,
@@ -397,12 +396,12 @@ export class App {
   }
 
   protected async onTokenExchange(ctx: MiddlewareContext<SignInTokenExchangeInvokeActivity>) {
-    const { api, activity, storage } = ctx;
+    const { app, activity, storage } = ctx;
     const key = `auth/${activity.conversation.id}/${activity.from.id}`;
 
     try {
       await storage.set(key, activity.value.connectionName);
-      const token = await api.users.token.exchange({
+      const token = await app.users.token.exchange({
         channelId: activity.channelId,
         userId: activity.from.id,
         connectionName: activity.value.connectionName,
@@ -411,7 +410,7 @@ export class App {
         },
       });
 
-      ctx.api.graph = new graph.Client(
+      ctx.user = new UserClient(
         this.http.clone({
           token: token.token,
         })
@@ -442,7 +441,7 @@ export class App {
   }
 
   protected async onVerifyState(ctx: MiddlewareContext<SignInVerifyStateInvokeActivity>) {
-    const { api, activity, storage } = ctx;
+    const { app, activity, storage } = ctx;
     const key = `auth/${activity.conversation.id}/${activity.from.id}`;
 
     try {
@@ -452,7 +451,7 @@ export class App {
         return { status: 404 };
       }
 
-      const token = await api.users.token.get({
+      const token = await app.users.token.get({
         channelId: activity.channelId,
         userId: activity.from.id,
         connectionName,
@@ -462,7 +461,7 @@ export class App {
       await storage.delete(key);
       await storage.set(`${activity.conversation.id}/${activity.from.id}/token`, token);
 
-      ctx.api.graph = new graph.Client(
+      ctx.user = new UserClient(
         this.http.clone({
           token: token.token,
         })

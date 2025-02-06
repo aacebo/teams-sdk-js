@@ -33,4 +33,9 @@ export interface Token {
    * the id of the activity sender
    */
   fromId: string;
+
+  /**
+   * string form of the token
+   */
+  toString(): string;
 }

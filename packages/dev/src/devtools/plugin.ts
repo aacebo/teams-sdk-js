@@ -79,7 +79,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
   }
 
   sender(ctx: ActivityContext) {
-    ctx.api.http.use({
+    ctx.app.http.use({
       request: ({ config }) => {
         const id = uuid.v4();
         const sentAt = new Date();
