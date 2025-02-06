@@ -27,6 +27,7 @@ import { MiddlewareContext } from './middleware-context';
 import { HttpPlugin } from './plugins';
 import { OAuthSettings } from './oauth';
 import { AppClient, UserClient } from './api';
+import { Manifest } from './manifest';
 
 /**
  * App initialization options
@@ -56,7 +57,24 @@ export type AppOptions = Partial<Credentials> & {
    * OAuth Settings
    */
   readonly oauth?: OAuthSettings;
+
+  /**
+   * The apps manifest
+   */
+  readonly manifest?: Partial<Manifest>;
 };
+
+export interface AppTokens {
+  /**
+   * bot token used to send activities
+   */
+  bot?: Token;
+
+  /**
+   * graph token used to query the graph api
+   */
+  graph?: Token;
+}
 
 export interface ProcessActivityArgs {
   /**
@@ -104,22 +122,26 @@ export class App {
   }
 
   /**
+   * the apps manifest
+   */
+  get manifest(): Partial<Manifest> {
+    return {
+      ...this._manifest,
+      id: this.id,
+      name: {
+        short: this.name || '??',
+        full: this.name || '??',
+        ...this._manifest.name,
+      },
+    };
+  }
+
+  /**
    * the apps auth tokens
    */
   get tokens() {
     return this._tokens;
   }
-  private _tokens: {
-    /**
-     * bot token used to send activities
-     */
-    bot?: Token;
-
-    /**
-     * graph token used to query the graph api
-     */
-    graph?: Token;
-  } = {};
 
   protected http: http.Client;
   protected plugins: Array<Plugin>;
@@ -129,11 +151,14 @@ export class App {
 
   private readonly _events = DEFAULT_EVENTS;
   private readonly _userAgent = `teams[apps]/${pkg.version}`;
+  private readonly _manifest: Partial<Manifest>;
+  private _tokens: AppTokens = {};
 
   constructor(readonly options: AppOptions = {}) {
     this.log = this.options.logger || new ConsoleLogger('@teams.sdk/app');
     this.storage = this.options.storage || new LocalStorage();
     this.plugins = this.options.plugins || [new HttpPlugin()];
+    this._manifest = this.options.manifest || {};
 
     if (!options.http) {
       this.http = new http.Client({
