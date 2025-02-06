@@ -5,4 +5,4 @@ export * from './types';
 export * from './activity-context';
 export * from './middleware-context';
 export * from './oauth';
-export * from './manifest';
+export * as manifest from './manifest';
