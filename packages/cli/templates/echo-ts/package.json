@@ -19,6 +19,7 @@
     "@teams.sdk/api": "latest",
     "@teams.sdk/apps": "latest",
     "@teams.sdk/common": "latest",
+    "@teams.sdk/graph": "latest",
     "@teams.sdk/dev": "latest",
     "@teams.sdk/devtools": "latest"
   },

@@ -22,6 +22,7 @@
     "@teams.sdk/common": "latest",
     "@teams.sdk/dev": "latest",
     "@teams.sdk/devtools": "latest",
+    "@teams.sdk/graph": "latest",
     "@teams.sdk/openai": "latest"
   },
   "devDependencies": {
