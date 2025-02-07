@@ -1,5 +1,13 @@
 # @teams.sdk/ai
 
+## 0.1.20
+
+### Patch Changes
+
+- add basic client
+- Updated dependencies
+    - @teams.sdk/common@0.1.20
+
 ## 0.1.19
 
 ### Patch Changes

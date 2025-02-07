@@ -1,5 +1,11 @@
 # @teams.sdk/config
 
+## 0.1.20
+
+### Patch Changes
+
+- add basic client
+
 ## 0.1.19
 
 ### Patch Changes
