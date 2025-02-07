@@ -54,6 +54,16 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
   }
 
   /**
+   * serve static files
+   * @param path the url path to serve
+   * @param dist the dist file path to serve
+   */
+  static(path: string, dist: string) {
+    this.express.use(path, express.static(dist, { maxAge: '1d' }));
+    return this;
+  }
+
+  /**
    * start listening
    * @param port port to listen on
    */

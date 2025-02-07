@@ -105,6 +105,7 @@ $: npm run test
 - [`@samples/console`](./samples/console/README.md)
 - [`@samples/auth`](./samples/auth/README.md)
 - [`@samples/lights`](./samples/lights/README.md)
+- [`@samples/tab`](./samples/tab/README.md)
 
 ## Links
 

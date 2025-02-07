@@ -1,0 +1,42 @@
+{
+  "name": "@samples/tab",
+  "version": "0.0.0",
+  "license": "MIT",
+  "private": true,
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "clean": "npx rimraf ./dist",
+    "start": "node .",
+    "dev": "npx nodemon -w \"./src/**\" -e ts,tsx --exec \"node -r ts-node/register -r dotenv/config ./src/index.ts\"",
+    "build": "npx tsup && npm run build:client",
+    "build:client": "npx vite build --outDir dist/client"
+  },
+  "dependencies": {
+    "@teams.sdk/api": "*",
+    "@teams.sdk/apps": "*",
+    "@teams.sdk/cards": "*",
+    "@teams.sdk/common": "*",
+    "@teams.sdk/dev": "*",
+    "@teams.sdk/devtools": "*",
+    "@teams.sdk/graph": "*",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@teams.sdk/config": "*",
+    "@types/node": "^22.5.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "dotenv": "^16.4.5",
+    "nodemon": "^3.1.4",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.2.4",
+    "typescript": "^5.4.5",
+    "vite": "^6.1.0"
+  }
+}

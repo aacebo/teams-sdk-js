@@ -33,3 +33,7 @@ $: npm install @teams.sdk/client
 ```
 
 ## Dependencies
+
+## Links
+
+- https://learn.microsoft.com/en-us/microsoftteams/platform/tabs/what-are-tabs?tabs=personal

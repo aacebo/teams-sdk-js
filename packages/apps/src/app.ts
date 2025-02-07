@@ -27,7 +27,7 @@ import { MiddlewareContext } from './middleware-context';
 import { HttpPlugin } from './plugins';
 import { OAuthSettings } from './oauth';
 import { AppClient, UserClient } from './api';
-import { Manifest } from './manifest';
+import * as manifest from './manifest';
 
 /**
  * App initialization options
@@ -61,7 +61,7 @@ export type AppOptions = Partial<Credentials> & {
   /**
    * The apps manifest
    */
-  readonly manifest?: Partial<Manifest>;
+  readonly manifest?: Partial<manifest.Manifest>;
 };
 
 export interface AppTokens {
@@ -124,15 +124,26 @@ export class App {
   /**
    * the apps manifest
    */
-  get manifest(): Partial<Manifest> {
+  get manifest(): Partial<manifest.Manifest> {
     return {
-      ...this._manifest,
       id: this.id,
       name: {
         short: this.name || '??',
         full: this.name || '??',
         ...this._manifest.name,
       },
+      bots: [
+        {
+          botId: this.id || '??',
+          scopes: ['personal'],
+        },
+      ],
+      webApplicationInfo: {
+        id: this.credentials?.clientId || '??',
+        resource: `api://\${{BOT_DOMAIN}}/${this.credentials?.clientId || '??'}`,
+        ...this._manifest.webApplicationInfo,
+      },
+      ...this._manifest,
     };
   }
 
@@ -151,13 +162,13 @@ export class App {
 
   private readonly _events = DEFAULT_EVENTS;
   private readonly _userAgent = `teams[apps]/${pkg.version}`;
-  private readonly _manifest: Partial<Manifest>;
+  private readonly _manifest: Partial<manifest.Manifest>;
   private _tokens: AppTokens = {};
 
   constructor(readonly options: AppOptions = {}) {
     this.log = this.options.logger || new ConsoleLogger('@teams.sdk/app');
     this.storage = this.options.storage || new LocalStorage();
-    this.plugins = this.options.plugins || [new HttpPlugin()];
+    this.plugins = this.options.plugins || [];
     this._manifest = this.options.manifest || {};
 
     if (!options.http) {
@@ -204,6 +215,10 @@ export class App {
         clientSecret: clientSecret,
         tenantId: tenantId,
       };
+    }
+
+    if (!this.plugins.find((p) => p.name === 'http')) {
+      this.plugins.push(new HttpPlugin());
     }
 
     for (const plugin of this.plugins) {
@@ -306,7 +321,79 @@ export class App {
       return;
     }
 
+    plugin.register(this);
+    plugin.on('error', (err) =>
+      this._events.error({
+        err: err,
+        log: this.log,
+      })
+    );
+
     this.plugins.push(plugin);
+    return this;
+  }
+
+  /**
+   * add/update a static tab.
+   * the tab will be hosted at
+   * `http://localhost:{{PORT}}/tabs/{{name}}` or `https://{{BOT_DOMAIN}}/tabs/{{name}}`
+   * @remark scopes default to `personal`
+   * @param name A unique identifier for the entity which the tab displays.
+   * @param path The path to the web `dist` folder.
+   */
+  tab(
+    name: string,
+    path: string,
+    content: string | (() => string | Promise<string>),
+    options?: Partial<Omit<manifest.StaticTab, 'contentUrl' | 'entityId'>>
+  ) {
+    if (!this._manifest.staticTabs) {
+      this._manifest.staticTabs = [];
+    }
+
+    const i = this._manifest.staticTabs.findIndex((t) => t.entityId === name);
+    const tab: manifest.StaticTab = {
+      entityId: name,
+      contentUrl: `https://\${{BOT_DOMAIN}}/tabs/${name}`,
+      scopes: ['personal'],
+      ...options,
+    };
+
+    if (i > -1) {
+      this._manifest.staticTabs[i] = tab;
+    } else {
+      this._manifest.staticTabs.push(tab);
+    }
+
+    const http = this.plugins.find((p) => p.name === 'http');
+
+    if (http && http instanceof HttpPlugin) {
+      http.static(`/tabs/${name}`, path);
+      http.use(`/tabs/${name}*`, async (_, res) => {
+        const html = typeof content === 'string' ? content : await content();
+        res.send(html);
+      });
+    }
+
+    return this;
+  }
+
+  /**
+   * add a configurable tab
+   * @remark scopes defaults to `team`
+   * @param url The url to use when configuring the tab.
+   */
+  configTab(url: string, options?: Partial<Omit<manifest.ConfigurableTab, 'configurationUrl'>>) {
+    if (!this._manifest.configurableTabs) {
+      this._manifest.configurableTabs = [];
+    }
+
+    this._manifest.configurableTabs.push({
+      configurationUrl: url,
+      scopes: ['team'],
+      ...options,
+    });
+
     return this;
   }
 

@@ -20,4 +20,5 @@ app.on('message', async ({ send, activity }) => {
 
 (async () => {
   await app.start();
+  console.log(app.manifest);
 })();
