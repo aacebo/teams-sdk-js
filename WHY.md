@@ -20,7 +20,7 @@ It also added ai tooling an an improved auth flow, but there are many things we 
 
 ## Consolidate
 
-![Consolidate](./assets/consolidate.jpg)
+![Consolidate](./assets/consolidate.png)
 
 Much of the difficulty in our development flow comes from fragmentation of tooling/documentation,
 causing information to be hard to find and tools to not feel cohesive with one another.
