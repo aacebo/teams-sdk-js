@@ -29,6 +29,8 @@
   "scripts": {
     "clean": "npx turbo clean",
     "build": "npx turbo build",
+    "build:packages": "npx turbo build --filter=./packages/*",
+    "build:samples": "npx turbo build --filter=./samples/*",
     "dev": "npx turbo dev",
     "lint": "npx turbo lint",
     "test": "npx turbo test --concurrency=100%",

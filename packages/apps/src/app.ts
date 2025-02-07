@@ -219,7 +219,7 @@ export class App {
     }
 
     if (!this.plugins.find((p) => p.name === 'http')) {
-      this.plugins.push(new HttpPlugin());
+      this.plugins.unshift(new HttpPlugin());
     }
 
     for (const plugin of this.plugins) {
@@ -332,6 +332,13 @@ export class App {
 
     this.plugins.push(plugin);
     return this;
+  }
+
+  /**
+   * get a plugin
+   */
+  getPlugin(name: string) {
+    return this.plugins.find(p => p.name === name);
   }
 
   /**

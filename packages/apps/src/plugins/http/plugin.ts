@@ -1,3 +1,4 @@
+import http from 'http';
 import express from 'express';
 
 import { Activity, InvokeResponse, JsonWebToken } from '@teams.sdk/api';
@@ -31,14 +32,18 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
   readonly route: express.Application['route'];
   readonly use: express.Application['use'];
 
+  get http() { return this._http; }
+  protected _http: http.Server;
+
   protected app?: App;
   protected log: Logger;
   protected express: express.Application;
 
   constructor() {
     super();
-    this.express = express();
     this.log = new ConsoleLogger('@teams.sdk/app/http');
+    this.express = express();
+    this._http = http.createServer(this.express);
     this.get = this.express.get.bind(this.express);
     this.post = this.express.post.bind(this.express);
     this.patch = this.express.patch.bind(this.express);
@@ -59,7 +64,7 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
    * @param dist the dist file path to serve
    */
   static(path: string, dist: string) {
-    this.express.use(path, express.static(dist, { maxAge: '1d' }));
+    this.express.use(path, express.static(dist));
     return this;
   }
 
@@ -80,7 +85,7 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
         reject(err);
       });
 
-      this.express.listen(port, async () => {
+      this._http = this.express.listen(port, async () => {
         resolve();
       });
     });
