@@ -41,7 +41,7 @@ export class HttpStream implements Streamer {
       await new Promise((resolve) => setTimeout(resolve, 200));
     }
 
-    await this.ctx.app.conversations.activities(this.ctx.activity.conversation.id).create({
+    await this.ctx.api.conversations.activities(this.ctx.activity.conversation.id).create({
       id: this.id,
       type: 'message',
       text: this.text,
@@ -110,7 +110,7 @@ export class HttpStream implements Streamer {
       }
 
       this.index++;
-      const { id } = await this.ctx.app.conversations
+      const { id } = await this.ctx.api.conversations
         .activities(this.ctx.activity.conversation.id)
         .create({
           id: this.id,

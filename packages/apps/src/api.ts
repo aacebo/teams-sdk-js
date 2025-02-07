@@ -4,14 +4,30 @@ import * as graph from '@teams.sdk/graph';
 
 export class AppClient extends api.Client {
   /**
-   * user graph api client
+   * app graph api client
    */
   graph: graph.Client;
 
-  constructor(serviceUrl: string, app: http.Client, user: http.Client) {
-    super(serviceUrl, app);
-    this.graph = new graph.Client(user);
+  constructor(serviceUrl: string, bot: http.Client, app: http.Client) {
+    super(serviceUrl, bot);
+    this.graph = new graph.Client(app);
   }
 }
 
-export class UserClient extends graph.Client {}
+export class ApiClient extends api.Client {
+  /**
+   * app graph api client
+   */
+  app: graph.Client;
+
+  /**
+   * user graph api client
+   */
+  user: graph.Client;
+
+  constructor(serviceUrl: string, bot: http.Client, app: http.Client, user: http.Client) {
+    super(serviceUrl, bot);
+    this.app = new graph.Client(app);
+    this.user = new graph.Client(user);
+  }
+}

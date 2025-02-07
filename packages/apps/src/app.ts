@@ -4,6 +4,7 @@ import { AxiosError } from 'axios';
 import { Logger, ConsoleLogger } from '@teams.sdk/common/logging';
 import { LocalStorage, Storage } from '@teams.sdk/common/storage';
 import * as http from '@teams.sdk/common/http';
+import * as graph from '@teams.sdk/graph';
 
 import {
   Activity,
@@ -27,7 +28,7 @@ import { ActivityContext } from './activity-context';
 import { MiddlewareContext } from './middleware-context';
 import { HttpPlugin } from './plugins';
 import { OAuthSettings } from './oauth';
-import { AppClient, UserClient } from './api';
+import { AppClient, ApiClient } from './api';
 import * as manifest from './manifest';
 
 /**
@@ -466,13 +467,12 @@ export class App {
       }
     } catch (err) {}
 
-    const app = new AppClient(
+    const api = new ApiClient(
       serviceUrl,
       this.http.clone({ token: () => this.tokens.bot }),
-      this.http.clone({ token: () => botToken })
+      this.http.clone({ token: () => botToken }),
+      this.http.clone({ token: () => userToken })
     );
-
-    const user = new UserClient(this.http.clone({ token: () => userToken }));
 
     const conversation: ConversationReference = {
       serviceUrl,
@@ -493,8 +493,7 @@ export class App {
     const ctx: ActivityContext<Activity> = {
       ...args,
       sender: undefined,
-      app,
-      user,
+      api,
       appId: this.id || '',
       log: this.log,
       tokens: this.tokens,
@@ -533,12 +532,12 @@ export class App {
   }
 
   protected async onTokenExchange(ctx: MiddlewareContext<SignInTokenExchangeInvokeActivity>) {
-    const { app, activity, storage } = ctx;
+    const { api, activity, storage } = ctx;
     const key = `auth/${activity.conversation.id}/${activity.from.id}`;
 
     try {
       await storage.set(key, activity.value.connectionName);
-      const token = await app.users.token.exchange({
+      const token = await api.users.token.exchange({
         channelId: activity.channelId,
         userId: activity.from.id,
         connectionName: activity.value.connectionName,
@@ -547,7 +546,7 @@ export class App {
         },
       });
 
-      ctx.user = new UserClient(
+      ctx.api.user = new graph.Client(
         this.http.clone({
           token: token.token,
         })
@@ -578,7 +577,7 @@ export class App {
   }
 
   protected async onVerifyState(ctx: MiddlewareContext<SignInVerifyStateInvokeActivity>) {
-    const { app, activity, storage } = ctx;
+    const { api, activity, storage } = ctx;
     const key = `auth/${activity.conversation.id}/${activity.from.id}`;
 
     try {
@@ -588,7 +587,7 @@ export class App {
         return { status: 404 };
       }
 
-      const token = await app.users.token.get({
+      const token = await api.users.token.get({
         channelId: activity.channelId,
         userId: activity.from.id,
         connectionName,
@@ -598,7 +597,7 @@ export class App {
       await storage.delete(key);
       await storage.set(`${activity.conversation.id}/${activity.from.id}/token`, token);
 
-      ctx.user = new UserClient(
+      ctx.user = new graph.Client(
         this.http.clone({
           token: token.token,
         })

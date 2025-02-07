@@ -48,4 +48,4 @@ A framework is opinionated, and typically requires you to use all its packages t
 work properly.
 
 This project was designed to be closer to a set of utilities that _can_ be used together, but can also
-be used standalone or with other app building products like __BotBuilder__. For example, the `api`, `ai`, `cards`, `openai`, `graph`, and `common` packages can all be used outside of the `apps` or `client` packages.
+be used standalone or with other app building products like **BotBuilder**. For example, the `api`, `ai`, `cards`, `openai`, `graph`, and `common` packages can all be used outside of the `apps` or `client` packages.
