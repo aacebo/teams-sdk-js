@@ -32,7 +32,9 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
   readonly route: express.Application['route'];
   readonly use: express.Application['use'];
 
-  get http() { return this._http; }
+  get http() {
+    return this._http;
+  }
   protected _http: http.Server;
 
   protected app?: App;
@@ -51,6 +53,9 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
     this.delete = this.express.delete.bind(this.express);
     this.route = this.express.route.bind(this.express);
     this.use = this.express.use.bind(this.express);
+
+    this.express.use('/api*', express.json());
+    this.express.post('/api/messages', this.onRequest.bind(this));
   }
 
   register(app: App) {
@@ -77,9 +82,11 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
       throw new Error('plugin not registered');
     }
 
+    this.express.get('/', (_, res) => {
+      res.send(this.app?.manifest);
+    });
+
     return await new Promise<void>((resolve, reject) => {
-      this.express.use(express.json());
-      this.express.post('/api/messages', this.onRequest.bind(this));
       this.express.on('error', (err) => {
         this.emit('error', err);
         reject(err);

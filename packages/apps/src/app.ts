@@ -338,7 +338,26 @@ export class App {
    * get a plugin
    */
   getPlugin(name: string) {
-    return this.plugins.find(p => p.name === name);
+    return this.plugins.find((p) => p.name === name);
+  }
+
+  /**
+   * add/update a function that can be called remotely
+   * @param name The unique function name
+   * @param cb The callback to handle the function
+   */
+  function(name: string, cb: (...args: any[]) => any | Promise<any>) {
+    const http = this.plugins.find((p) => p.name === 'http');
+
+    if (http && http instanceof HttpPlugin) {
+      http.post(`/api/functions/${name}`, async (req, res) => {
+        const body = Array.isArray(req.body) ? req.body : [req.body];
+        const data = await cb(...body);
+        res.send(data);
+      });
+    }
+
+    return this;
   }
 
   /**
