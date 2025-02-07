@@ -10,7 +10,6 @@ import { DevtoolsPlugin } from '@teams.sdk/dev';
 import Tab from './Tab/App';
 
 const index = fs.readFileSync(path.resolve('dist/client/index.html')).toString();
-
 const app = new App({
   logger: new ConsoleLogger('@samples/tab', { level: 'debug' }),
   plugins: [new DevtoolsPlugin()],
