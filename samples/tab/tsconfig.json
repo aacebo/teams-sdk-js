@@ -1,9 +1,7 @@
 {
-  "extends": "@teams.sdk/config/tsconfig.json",
-  "compilerOptions": {
-    "jsx": "react",
-    "outDir": "dist",
-    "rootDir": "src"
-  },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }

@@ -5,5 +5,4 @@ export default defineConfig({
   plugins: [react()],
   base: '/tabs/settings',
   mode: 'development',
-  ssr: true,
 });
