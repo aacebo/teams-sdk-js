@@ -9,16 +9,9 @@ const app = new App({
 
 app.on('message', async ({ send, activity }) => {
   await send({ type: 'typing' });
-  await send({
-    type: 'message',
-    text: `you said "${activity.text}"`,
-    channelData: {
-      feedbackLoopEnabled: true,
-    },
-  });
+  await send(`you said "${activity.text}"`);
 });
 
 (async () => {
   await app.start();
-  console.log(app.manifest);
 })();

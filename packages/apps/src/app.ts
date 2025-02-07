@@ -159,7 +159,6 @@ export class App {
   protected http: http.Client;
   protected plugins: Array<Plugin>;
   protected router = new Router();
-  protected userTokens = new LocalStorage<string>(undefined, { max: 20000 });
   protected tenantTokens = new LocalStorage<string>(undefined, { max: 20000 });
 
   private readonly _events = DEFAULT_EVENTS;
@@ -440,21 +439,18 @@ export class App {
       serviceUrl = serviceUrl.slice(0, serviceUrl.length - 1);
     }
 
-    let userToken = this.userTokens.get(activity.from.id);
+    let userToken: string | undefined;
     let botToken =
       this.tenantTokens.get(token.tenantId || 'common') || this._tokens.graph?.toString();
 
     try {
-      if (!userToken) {
-        const res = await this.api.users.token.get({
-          channelId: activity.channelId,
-          userId: activity.from.id,
-          connectionName: this.options.oauth?.graph || 'graph',
-        });
+      const res = await this.api.users.token.get({
+        channelId: activity.channelId,
+        userId: activity.from.id,
+        connectionName: this.options.oauth?.graph || 'graph',
+      });
 
-        userToken = res.token;
-        this.userTokens.set(activity.from.id, res.token);
-      }
+      userToken = res.token;
 
       if (this.credentials && !botToken) {
         const { access_token } = await this.api.bots.token.getGraph({
@@ -594,15 +590,13 @@ export class App {
         code: activity.value.state,
       });
 
-      await storage.delete(key);
-      await storage.set(`${activity.conversation.id}/${activity.from.id}/token`, token);
-
-      ctx.user = new graph.Client(
+      ctx.api.user = new graph.Client(
         this.http.clone({
           token: token.token,
         })
       );
 
+      await storage.delete(key);
       this._events.signin({ ...ctx, token });
       return { status: 200 };
     } catch (err) {
