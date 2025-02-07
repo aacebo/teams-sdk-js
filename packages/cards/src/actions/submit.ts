@@ -1,6 +1,7 @@
 import { AssociatedInputs } from '../common';
 
 import { BaseAction } from './base';
+import { TabInfo } from './tab';
 
 /**
  * Gathers input fields, merges with optional data field, and sends an event to the client. It is up to the client to determine how this data is processed. For example: With BotFramework bots, the client would send an activity through the messaging medium to the bot. The inputs that are gathered are those on the current card, and in the case of a show card those on any parent cards. See https://docs.microsoft.com/en-us/adaptive-cards/authoring-cards/input-validation for more details.
@@ -149,5 +150,75 @@ export function InvokeActionData(params?: InvokeActionDataParams): InvokeActionD
   return {
     type: 'invoke',
     ...params,
+  };
+}
+
+/**
+ * Contains the Adaptive Card action value data in {@link CollabStageActionData}.
+ */
+export interface CollabStageActionValueData {
+  type: 'tab/tabInfoAction';
+  /**
+   * Information about the iFrame content, rendered in the collab stage popout window.
+   */
+  tabInfo: TabInfo;
+}
+
+/**
+ * Contains the Adaptive Card action data in {@link CollabStageAction}.
+ */
+export interface CollabStageActionData {
+  type: 'invoke';
+
+  /**
+   * Set the value to send with the invoke
+   */
+  value?: CollabStageActionValueData;
+}
+
+/**
+ * Adaptive Card action response type for the {@link CollabStageAction} function.
+ */
+export interface CollabStageAction extends SubmitAction {
+  data: {
+    msteams: CollabStageActionData;
+  };
+}
+
+/**
+ * Adaptive Card action params for the {@link CollabStageAction} function.
+ */
+export type CollabStageActionParams = Omit<BaseAction, 'data'> & {
+  /**
+   * Information about the iFrame content, rendered in the collab stage popout window.
+   */
+  tabInfo: TabInfo;
+};
+
+/**
+ * Adaptive Card action that opens a collab stage popout window.
+ * 
+ * @param params action parameters
+ * @param params.title button text for the action.
+ * @param params.tabInfo information about the iFrame content, rendered in the collab stage popout window.
+ * @returns the {@link CollabStageAction} object
+ */
+export function CollabStageAction(params: CollabStageActionParams): CollabStageAction {
+  let { tabInfo, ...actionParams } = params;
+
+  return {
+    type: 'Action.Submit',
+    ...actionParams,
+    data: {
+      msteams: {
+        type: 'invoke',
+        value: {
+          type: 'tab/tabInfoAction',
+          tabInfo: {
+            ...tabInfo,
+          },
+        },
+      },
+    },
   };
 }

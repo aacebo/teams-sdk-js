@@ -84,19 +84,53 @@ export interface Card {
    * Defines how the content should be aligned vertically within the container. Only relevant for fixed-height cards, or cards with a minHeight specified.
    */
   verticalContentAlignment?: VerticalAlignment;
+
+  /**
+   * Extra Teams data for the card.
+   */
+  msteams?: MSTeamsCardInfo;
 }
 
-export type CardParams = Omit<Partial<Card>, 'body' | 'type'>;
+/**
+ * Card metadata for Microsoft Teams.
+ */
+export interface MSTeamsCardInfo {
+  /**
+   * Expands the card to take up the full width of the message.
+   */
+  width?: 'Full';
+  /**
+   * Conditional visibility of elements on different viewports.
+   */
+  targetWidth?:
+    | 'veryNarrow'
+    | 'narrow'
+    | 'standard'
+    | 'wide'
+    | 'atLeast:veryNarrow'
+    | 'atLeast:narrow'
+    | 'atLeast:standard'
+    | 'atLeast:wide'
+    | 'atMost:veryNarrow'
+    | 'atMost:narrow'
+    | 'atMost:standard'
+    | 'atMost:wide';
+}
+
+export type CardParams = Omit<Partial<Card>, 'body' | 'type' | 'msteams'> &
+  Partial<MSTeamsCardInfo>;
 
 /**
  * An Adaptive Card, containing a free-form body of card elements, and an optional set of actions.
  */
 export function Card(body: Element[] = [], params?: CardParams): Card {
+  const { width, targetWidth, ...otherParams } = params || {};
   return {
     $schema: 'http://adaptivecards.io/schemas/adaptive-card.json',
     type: 'AdaptiveCard',
     version: '1.6',
     body,
-    ...params,
+    msteams: width || targetWidth ? { width, targetWidth } : undefined,
+    ...otherParams,
   };
 }
