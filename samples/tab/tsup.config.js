@@ -5,6 +5,6 @@ const base = require('@teams.sdk/config/tsup.config');
  */
 module.exports = {
   ...base,
-  entry: ['src/index.tsx'],
+  entry: ['src/index.ts'],
   tsconfig: 'tsconfig.node.json',
 };

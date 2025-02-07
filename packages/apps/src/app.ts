@@ -1,3 +1,4 @@
+import npath from 'path';
 import { AxiosError } from 'axios';
 
 import { Logger, ConsoleLogger } from '@teams.sdk/common/logging';
@@ -344,7 +345,6 @@ export class App {
   tab(
     name: string,
     path: string,
-    content: string | (() => string | Promise<string>),
     options?: Partial<Omit<manifest.StaticTab, 'contentUrl' | 'entityId'>>
   ) {
     if (!this._manifest.staticTabs) {
@@ -370,8 +370,7 @@ export class App {
     if (http && http instanceof HttpPlugin) {
       http.static(`/tabs/${name}`, path);
       http.use(`/tabs/${name}*`, async (_, res) => {
-        const html = typeof content === 'string' ? content : await content();
-        res.send(html);
+        res.sendFile(npath.join(path, 'index.html'));
       });
     }
 

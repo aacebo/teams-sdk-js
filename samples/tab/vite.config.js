@@ -7,6 +7,6 @@ export default defineConfig({
   base: '/tabs/settings',
   mode: 'development',
   esbuild: {
-    tsconfigRaw: fs.readFileSync('./tsconfig.app.json')
-  }
+    tsconfigRaw: fs.readFileSync('./tsconfig.app.json'),
+  },
 });
