@@ -1,5 +1,15 @@
 # @teams.sdk/cli
 
+## 0.1.22
+
+### Patch Changes
+
+- fix cards image builder
+- Updated dependencies
+    - @teams.sdk/ai@0.1.22
+    - @teams.sdk/common@0.1.22
+    - @teams.sdk/openai@0.1.22
+
 ## 0.1.21
 
 ### Patch Changes

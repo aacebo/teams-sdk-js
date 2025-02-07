@@ -1,5 +1,14 @@
 # @teams.sdk/api
 
+## 0.1.22
+
+### Patch Changes
+
+- fix cards image builder
+- Updated dependencies
+    - @teams.sdk/cards@0.1.22
+    - @teams.sdk/common@0.1.22
+
 ## 0.1.21
 
 ### Patch Changes
