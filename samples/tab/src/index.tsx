@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+
 import { StrictMode } from 'react';
 import { renderToString } from 'react-dom/server';
 
@@ -16,8 +17,12 @@ const app = new App({
 });
 
 app.tab('settings', path.resolve('dist/client'), () => {
-  const node = StrictMode({ children: [Tab()] });
-  const html = renderToString(node);
+  const html = renderToString(
+    <StrictMode>
+      <Tab />
+    </StrictMode>
+  );
+
   return index.replace('<!--app-html-->', html ?? '');
 });
 
