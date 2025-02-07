@@ -1,5 +1,14 @@
 # @teams.sdk/openai
 
+## 0.1.21
+
+### Patch Changes
+
+- add graph to all cli templates
+- Updated dependencies
+    - @teams.sdk/ai@0.1.21
+    - @teams.sdk/common@0.1.21
+
 ## 0.1.20
 
 ### Patch Changes

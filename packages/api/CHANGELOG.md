@@ -1,5 +1,14 @@
 # @teams.sdk/api
 
+## 0.1.21
+
+### Patch Changes
+
+- add graph to all cli templates
+- Updated dependencies
+    - @teams.sdk/cards@0.1.21
+    - @teams.sdk/common@0.1.21
+
 ## 0.1.20
 
 ### Patch Changes

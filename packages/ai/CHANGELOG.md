@@ -1,5 +1,13 @@
 # @teams.sdk/ai
 
+## 0.1.21
+
+### Patch Changes
+
+- add graph to all cli templates
+- Updated dependencies
+    - @teams.sdk/common@0.1.21
+
 ## 0.1.20
 
 ### Patch Changes

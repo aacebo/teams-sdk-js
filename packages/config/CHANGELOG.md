@@ -1,5 +1,11 @@
 # @teams.sdk/config
 
+## 0.1.21
+
+### Patch Changes
+
+- add graph to all cli templates
+
 ## 0.1.20
 
 ### Patch Changes
