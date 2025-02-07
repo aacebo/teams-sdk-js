@@ -1,8 +1,6 @@
 {
   "extends": "@teams.sdk/config/tsconfig.json",
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "bundler",
     "outDir": "dist",
     "rootDir": "src",
     "types": ["jest"]
