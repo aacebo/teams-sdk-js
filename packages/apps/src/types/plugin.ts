@@ -24,12 +24,6 @@ export interface Plugin<Events extends PluginEvents = PluginEvents>
 
   /**
    * lifecycle method called by the `App`
-   * once before removing the plugin
-   */
-  onDestroy?(app: App): void | Promise<void>;
-
-  /**
-   * lifecycle method called by the `App`
    * once during startup
    */
   onStart?(...args: any[]): void | Promise<void>;
