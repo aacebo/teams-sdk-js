@@ -58,11 +58,6 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
     this.express.post('/api/messages', this.onRequest.bind(this));
   }
 
-  register(app: App) {
-    this.app = app;
-    this.log = app.log.child('http');
-  }
-
   /**
    * serve static files
    * @param path the url path to serve
@@ -73,11 +68,16 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
     return this;
   }
 
+  onInit(app: App) {
+    this.app = app;
+    this.log = app.log.child('http');
+  }
+
   /**
    * start listening
    * @param port port to listen on
    */
-  async start(port = 3000) {
+  async onStart(port = 3000) {
     if (!this.app) {
       throw new Error('plugin not registered');
     }

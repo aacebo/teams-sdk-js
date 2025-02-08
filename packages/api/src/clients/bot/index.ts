@@ -7,9 +7,25 @@ export class BotClient {
   readonly token: BotTokenClient;
   readonly signIn: BotSignInClient;
 
+  get http() { return this._http; }
+  set http(v) {
+    this.token.http = v;
+    this.signIn.http = v;
+    this._http = v;
+  }
+  protected _http: Client;
+
   constructor(options?: Client | ClientOptions) {
-    this.token = new BotTokenClient(options);
-    this.signIn = new BotSignInClient(options);
+    if (!options) {
+      this._http = new Client();
+    } else if ('request' in options) {
+      this._http = options;
+    } else {
+      this._http = new Client(options);
+    }
+
+    this.token = new BotTokenClient(this.http);
+    this.signIn = new BotSignInClient(this.http);
   }
 }
 

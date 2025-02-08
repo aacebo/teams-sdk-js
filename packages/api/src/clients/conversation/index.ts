@@ -35,8 +35,12 @@ export interface GetConversationsResponse {
 
 export class ConversationClient {
   readonly serviceUrl: string;
-  readonly http: Client;
 
+  get http() { return this._http; }
+  set http(v) {
+    this._http = v;
+  }
+  protected _http: Client;
   protected _activities: ConversationActivityClient;
   protected _members: ConversationMemberClient;
 
@@ -44,15 +48,15 @@ export class ConversationClient {
     this.serviceUrl = serviceUrl;
 
     if (!options) {
-      this.http = new Client();
+      this._http = new Client();
     } else if ('request' in options) {
-      this.http = options;
+      this._http = options;
     } else {
-      this.http = new Client(options);
+      this._http = new Client(options);
     }
 
-    this._activities = new ConversationActivityClient(serviceUrl, options);
-    this._members = new ConversationMemberClient(serviceUrl, options);
+    this._activities = new ConversationActivityClient(serviceUrl, this.http);
+    this._members = new ConversationMemberClient(serviceUrl, this.http);
   }
 
   activities(conversationId: string) {

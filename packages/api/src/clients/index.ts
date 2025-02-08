@@ -8,23 +8,32 @@ import { MeetingClient } from './meeting';
 
 export class Client {
   readonly serviceUrl: string;
-  readonly http: http.Client;
-
   readonly bots: BotClient;
   readonly users: UserClient;
   readonly conversations: ConversationClient;
   readonly teams: TeamClient;
   readonly meetings: MeetingClient;
 
+  get http() { return this._http; }
+  set http(v) {
+    this.bots.http = v;
+    this.conversations.http = v;
+    this.users.http = v;
+    this.teams.http = v;
+    this.meetings.http = v;
+    this._http = v;
+  }
+  protected _http: http.Client;
+
   constructor(serviceUrl: string, options?: http.Client | http.ClientOptions) {
     this.serviceUrl = serviceUrl;
 
     if (!options) {
-      this.http = new http.Client();
+      this._http = new http.Client();
     } else if ('request' in options) {
-      this.http = options;
+      this._http = options;
     } else {
-      this.http = new http.Client({
+      this._http = new http.Client({
         ...options,
         headers: {
           ...options?.headers,

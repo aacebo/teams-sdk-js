@@ -29,8 +29,8 @@ export class BotBuilderPlugin extends HttpPlugin {
     });
   }
 
-  register(app: App) {
-    super.register(app);
+  onInit(app: App) {
+    super.onInit(app);
 
     if (!this.adapter) {
       this.adapter = new CloudAdapter(

@@ -6,7 +6,7 @@ import io from 'socket.io';
 import * as uuid from 'uuid';
 import { AxiosError } from 'axios';
 
-import { ActivityContext, App, HttpSender, Plugin, PluginEvents } from '@teams.sdk/apps';
+import { App, HttpSender, MiddlewareContext, Plugin, PluginEvents } from '@teams.sdk/apps';
 import { EventEmitter } from '@teams.sdk/common/events';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 
@@ -49,7 +49,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
     }
   }
 
-  register(app: App) {
+  onInit(app: App) {
     this.log = app.log.child('devtools');
     this.express.use(
       router({
@@ -59,27 +59,43 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
           return app.process({
             token,
             activity,
-            sender: (ctx) => this.sender(ctx),
+            sender: (ctx) => new HttpSender(ctx),
           });
         },
       })
     );
+  }
 
-    app.on('activity', ({ activity, next }) => {
-      this.sendActivity({
-        id: uuid.v4(),
-        type: 'activity.received',
-        chat: activity.conversation,
-        body: activity,
-        sentAt: new Date(),
+  /**
+   * start listening
+   * @param port port to listen on
+   */
+  async onStart() {
+    const port = this.options.port || 3001;
+
+    return await new Promise<void>((resolve, reject) => {
+      this.http.on('error', (err) => {
+        this.emit('error', err);
+        reject(err);
       });
 
-      return next();
+      this.http.listen(port, async () => {
+        this.log.info(`available at http://localhost:${port}/devtools`);
+        resolve();
+      });
     });
   }
 
-  sender(ctx: ActivityContext) {
-    ctx.api.http.use({
+  onActivity({ api, activity }: MiddlewareContext) {
+    this.sendActivity({
+      id: uuid.v4(),
+      type: 'activity.received',
+      chat: activity.conversation,
+      body: activity,
+      sentAt: new Date(),
+    });
+
+    api.http.use({
       request: ({ config }) => {
         const id = uuid.v4();
         const sentAt = new Date();
@@ -90,7 +106,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
         this.sendActivity({
           id,
           type: 'activity.sending',
-          chat: ctx.activity.conversation,
+          chat: activity.conversation,
           body: config.data,
           sentAt,
         });
@@ -105,10 +121,10 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
           this.sendActivity({
             id,
             type: 'activity.sent',
-            chat: ctx.activity.conversation,
+            chat: activity.conversation,
             body: {
-              ...JSON.parse(res.config.data),
-              ...res.data,
+              ...JSON.parse(res.config.data || '{}'),
+              ...(res.data || { }),
             },
             sentAt: new Date(sentAt),
           });
@@ -126,7 +142,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
           this.sendActivity({
             id,
             type: 'activity.error',
-            chat: ctx.activity.conversation,
+            chat: activity.conversation,
             body: error.config?.data,
             error: error.response?.data,
             sentAt: new Date(sentAt),
@@ -135,28 +151,6 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
 
         return Promise.reject(error);
       },
-    });
-
-    return new HttpSender(ctx);
-  }
-
-  /**
-   * start listening
-   * @param port port to listen on
-   */
-  async start() {
-    const port = this.options.port || 3001;
-
-    return await new Promise<void>((resolve, reject) => {
-      this.http.on('error', (err) => {
-        this.emit('error', err);
-        reject(err);
-      });
-
-      this.http.listen(port, async () => {
-        this.log.info(`available at http://localhost:${port}/devtools`);
-        resolve();
-      });
     });
   }
 

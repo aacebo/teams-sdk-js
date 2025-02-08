@@ -53,6 +53,7 @@ export interface RequestConfig<D = any> extends AxiosRequestConfig<D> {
 interface InterceptorRegistry {
   readonly requestId?: number;
   readonly responseId?: number;
+  readonly interceptor: Interceptor;
 }
 
 export class Client {
@@ -161,6 +162,7 @@ export class Client {
     this.interceptors.set(id, {
       requestId,
       responseId,
+      interceptor
     });
 
     return id;
@@ -205,6 +207,9 @@ export class Client {
         ...this.options.headers,
         ...options?.headers,
       },
+      interceptors: [
+        ...this.interceptors.values().toArray().map(i => i.interceptor)
+      ]
     });
   }
 

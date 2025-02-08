@@ -1,6 +1,7 @@
 import { EventEmitter } from '@teams.sdk/common/events';
 
 import { App } from '../app';
+import { MiddlewareContext } from '../middleware-context';
 
 export interface PluginEvents {
   error: any;
@@ -18,10 +19,23 @@ export interface Plugin<Events extends PluginEvents = PluginEvents>
    * lifecycle method called by the `App`
    * once during initialization
    */
-  register(app: App): void | Promise<void>;
+  onInit(app: App): void | Promise<void>;
 
   /**
-   * start the plugin
+   * lifecycle method called by the `App`
+   * once before removing the plugin
    */
-  start?(...args: any[]): void | Promise<void>;
+  onDestroy?(app: App): void | Promise<void>;
+
+  /**
+   * lifecycle method called by the `App`
+   * once during startup
+   */
+  onStart?(...args: any[]): void | Promise<void>;
+
+  /**
+   * lifecycle method called by the `App`
+   * when an activity is received
+   */
+  onActivity?(ctx: MiddlewareContext): void | Promise<void>;
 }

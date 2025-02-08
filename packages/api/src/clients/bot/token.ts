@@ -13,15 +13,19 @@ export interface GetBotTokenResponse {
 }
 
 export class BotTokenClient {
-  readonly http: Client;
+  get http() { return this._http; }
+  set http(v) {
+    this._http = v;
+  }
+  protected _http: Client;
 
   constructor(options?: Client | ClientOptions) {
     if (!options) {
-      this.http = new Client();
+      this._http = new Client();
     } else if ('request' in options) {
-      this.http = options;
+      this._http = options;
     } else {
-      this.http = new Client(options);
+      this._http = new Client(options);
     }
   }
 

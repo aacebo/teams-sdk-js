@@ -42,12 +42,12 @@ export class ConsolePlugin extends EventEmitter<PluginEvents> implements Plugin 
     this.express.get('/auth/redirect', this.onAuthRedirect.bind(this));
   }
 
-  register(app: App) {
+  onInit(app: App) {
     this.app = app;
     this.log = app.log.child('console');
   }
 
-  async start(port?: number) {
+  async onStart(port?: number) {
     if (!this.app) {
       throw new Error('plugin not registered');
     }

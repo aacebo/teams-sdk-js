@@ -106,6 +106,7 @@ export interface ProcessActivityArgs {
 export class App {
   api: AppClient;
   log: Logger;
+  http: http.Client;
   storage: Storage;
   credentials?: Credentials;
 
@@ -156,10 +157,11 @@ export class App {
     return this._tokens;
   }
 
-  protected http: http.Client;
   protected plugins: Array<Plugin>;
   protected router = new Router();
   protected tenantTokens = new LocalStorage<string>(undefined, { max: 20000 });
+  protected startedAt?: Date;
+  protected port?: number;
 
   private readonly _events = DEFAULT_EVENTS;
   private readonly _userAgent = `teams[apps]/${pkg.version}`;
@@ -223,7 +225,7 @@ export class App {
     }
 
     for (const plugin of this.plugins) {
-      plugin.register(this);
+      plugin.onInit(this);
       plugin.on('error', (err) =>
         this._events.error({
           err: err,
@@ -253,12 +255,14 @@ export class App {
       }
 
       for (const plugin of this.plugins) {
-        if (plugin.start) {
-          await plugin.start(port);
+        if (plugin.onStart) {
+          await plugin.onStart(port);
         }
       }
 
       this._events.start(this.log);
+      this.port = port;
+      this.startedAt = new Date();
     } catch (err: any) {
       this._events.error({ err, log: this.log });
     }
@@ -322,13 +326,18 @@ export class App {
       return;
     }
 
-    plugin.register(this);
     plugin.on('error', (err) =>
       this._events.error({
         err: err,
         log: this.log,
       })
     );
+
+    plugin.onInit(this);
+
+    if (this.startedAt && this.port && plugin.onStart) {
+      plugin.onStart(this.port);
+    }
 
     this.plugins.push(plugin);
     return this;
@@ -391,7 +400,7 @@ export class App {
       this._manifest.staticTabs.push(tab);
     }
 
-    const http = this.plugins.find((p) => p.name === 'http');
+    const http = this.getPlugin('http');
 
     if (http && http instanceof HttpPlugin) {
       http.static(`/tabs/${name}`, path);
@@ -440,7 +449,7 @@ export class App {
     }
 
     let userToken: string | undefined;
-    let botToken =
+    let appToken =
       this.tenantTokens.get(token.tenantId || 'common') || this._tokens.graph?.toString();
 
     try {
@@ -452,13 +461,13 @@ export class App {
 
       userToken = res.token;
 
-      if (this.credentials && !botToken) {
+      if (this.credentials && !appToken) {
         const { access_token } = await this.api.bots.token.getGraph({
           ...this.credentials,
           tenantId: args.token.tenantId,
         });
 
-        botToken = access_token;
+        appToken = access_token;
         this.tenantTokens.set(token.tenantId || 'common', access_token);
       }
     } catch (err) {}
@@ -466,7 +475,7 @@ export class App {
     const api = new ApiClient(
       serviceUrl,
       this.http.clone({ token: () => this.tokens.bot }),
-      this.http.clone({ token: () => botToken }),
+      this.http.clone({ token: () => appToken }),
       this.http.clone({ token: () => userToken })
     );
 
@@ -508,9 +517,6 @@ export class App {
     const routeCtx: MiddlewareContext<Activity> = {
       ...ctx,
       stream,
-      log: this.log,
-      conversation,
-      storage: this.storage,
       next: (context) => {
         if (i === routes.length - 1) return;
         i++;
@@ -521,6 +527,12 @@ export class App {
       signin: sender.signin.bind(sender),
       signout: sender.signout.bind(sender),
     };
+
+    for (const plugin of this.plugins) {
+      if (plugin.onActivity) {
+        await plugin.onActivity(routeCtx);
+      }
+    }
 
     const res = await routes[0](routeCtx);
     await stream.close();
