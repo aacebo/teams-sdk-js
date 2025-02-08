@@ -7,7 +7,9 @@ export class BotClient {
   readonly token: BotTokenClient;
   readonly signIn: BotSignInClient;
 
-  get http() { return this._http; }
+  get http() {
+    return this._http;
+  }
   set http(v) {
     this.token.http = v;
     this.signIn.http = v;

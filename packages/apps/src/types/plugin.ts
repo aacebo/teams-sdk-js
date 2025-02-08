@@ -1,3 +1,4 @@
+import { ActivityParams } from '@teams.sdk/api';
 import { EventEmitter } from '@teams.sdk/common/events';
 
 import { App } from '../app';
@@ -34,8 +35,20 @@ export interface Plugin<Events extends PluginEvents = PluginEvents>
   onStart?(...args: any[]): void | Promise<void>;
 
   /**
-   * lifecycle method called by the `App`
+   * called by the `App`
    * when an activity is received
    */
   onActivity?(ctx: MiddlewareContext): void | Promise<void>;
+
+  /**
+   * called by the `App`
+   * before an activity is sent
+   */
+  onBeforeSend?(activity: ActivityParams, ctx: MiddlewareContext): void | Promise<void>;
+
+  /**
+   * called by the `App`
+   * after an activity is sent
+   */
+  onAfterSend?(activity: ActivityParams, ctx: MiddlewareContext): void | Promise<void>;
 }

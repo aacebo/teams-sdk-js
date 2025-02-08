@@ -4,7 +4,6 @@ import path from 'path';
 import express from 'express';
 import io from 'socket.io';
 import * as uuid from 'uuid';
-import { AxiosError } from 'axios';
 
 import { App, HttpSender, MiddlewareContext, Plugin, PluginEvents } from '@teams.sdk/apps';
 import { EventEmitter } from '@teams.sdk/common/events';
@@ -12,6 +11,7 @@ import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 
 import { router } from './routes';
 import { ActivityEvent, Event } from './event';
+import { ActivityParams } from '@teams.sdk/api';
 
 export interface DevtoolsOptions {
   readonly port?: number;
@@ -86,7 +86,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
     });
   }
 
-  onActivity({ api, activity }: MiddlewareContext) {
+  onActivity({ activity }: MiddlewareContext) {
     this.sendActivity({
       id: uuid.v4(),
       type: 'activity.received',
@@ -94,63 +94,37 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
       body: activity,
       sentAt: new Date(),
     });
+  }
 
-    api.http.use({
-      request: ({ config }) => {
-        const id = uuid.v4();
-        const sentAt = new Date();
+  onBeforeSend(activity: ActivityParams, ctx: MiddlewareContext) {
+    const id = uuid.v4();
+    const sentAt = new Date();
 
-        config.headers.set('x-devtools-request-id', id);
-        config.headers.set('x-devtools-sent-at', sentAt.toISOString());
+    this.sendActivity({
+      id,
+      type: 'activity.sending',
+      chat: ctx.activity.conversation,
+      body: {
+        ...activity,
+        conversation: ctx.activity.conversation,
+      } as any,
+      sentAt,
+    });
 
-        this.sendActivity({
-          id,
-          type: 'activity.sending',
-          chat: activity.conversation,
-          body: config.data,
-          sentAt,
-        });
+    ctx.devtoolsRequestId = id;
+    ctx.devtoolsRequestSentAt = sentAt;
+  }
 
-        return config;
-      },
-      response: ({ res }) => {
-        const id = res.config.headers.get('x-devtools-request-id')?.toString();
-        const sentAt = res.config.headers.get('x-devtools-sent-at')?.toString();
-
-        if (id && sentAt) {
-          this.sendActivity({
-            id,
-            type: 'activity.sent',
-            chat: activity.conversation,
-            body: {
-              ...JSON.parse(res.config.data || '{}'),
-              ...(res.data || { }),
-            },
-            sentAt: new Date(sentAt),
-          });
-        }
-
-        return res;
-      },
-      error: ({ error }) => {
-        if (!(error instanceof AxiosError)) return Promise.reject(error);
-
-        const id = error.config?.headers.get('x-devtools-request-id')?.toString();
-        const sentAt = error.config?.headers.get('x-devtools-sent-at')?.toString();
-
-        if (id && sentAt) {
-          this.sendActivity({
-            id,
-            type: 'activity.error',
-            chat: activity.conversation,
-            body: error.config?.data,
-            error: error.response?.data,
-            sentAt: new Date(sentAt),
-          });
-        }
-
-        return Promise.reject(error);
-      },
+  onAfterSend(activity: ActivityParams, ctx: MiddlewareContext) {
+    this.sendActivity({
+      id: ctx.devtoolsRequestId,
+      type: 'activity.sent',
+      chat: ctx.activity.conversation,
+      body: {
+        ...activity,
+        conversation: ctx.activity.conversation,
+      } as any,
+      sentAt: new Date(ctx.devtoolsRequestSentAt),
     });
   }
 

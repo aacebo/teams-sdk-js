@@ -5,7 +5,9 @@ import { Account } from '../../models';
 export class ConversationMemberClient {
   readonly serviceUrl: string;
 
-  get http() { return this._http; }
+  get http() {
+    return this._http;
+  }
   set http(v) {
     this._http = v;
   }

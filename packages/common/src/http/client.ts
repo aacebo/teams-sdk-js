@@ -162,7 +162,7 @@ export class Client {
     this.interceptors.set(id, {
       requestId,
       responseId,
-      interceptor
+      interceptor,
     });
 
     return id;
@@ -208,8 +208,11 @@ export class Client {
         ...options?.headers,
       },
       interceptors: [
-        ...this.interceptors.values().toArray().map(i => i.interceptor)
-      ]
+        ...this.interceptors
+          .values()
+          .toArray()
+          .map((i) => i.interceptor),
+      ],
     });
   }
 

@@ -522,8 +522,56 @@ export class App {
         i++;
         return routes[i](context || routeCtx);
       },
-      send: sender.send.bind(sender),
-      reply: sender.reply.bind(sender),
+      send: async (activity) => {
+        if (typeof activity === 'string') {
+          activity = {
+            type: 'message',
+            text: activity,
+          };
+        }
+
+        for (const plugin of this.plugins) {
+          if (plugin.onBeforeSend) {
+            await plugin.onBeforeSend(activity, routeCtx);
+          }
+        }
+
+        const res = await sender.send(activity);
+        activity = { ...activity, ...res };
+
+        for (const plugin of this.plugins) {
+          if (plugin.onAfterSend) {
+            await plugin.onAfterSend(activity, routeCtx);
+          }
+        }
+
+        return res;
+      },
+      reply: async (activity) => {
+        if (typeof activity === 'string') {
+          activity = {
+            type: 'message',
+            text: activity,
+          };
+        }
+
+        for (const plugin of this.plugins) {
+          if (plugin.onBeforeSend) {
+            await plugin.onBeforeSend(activity, routeCtx);
+          }
+        }
+
+        const res = await sender.reply(activity);
+        activity = { ...activity, ...res };
+
+        for (const plugin of this.plugins) {
+          if (plugin.onAfterSend) {
+            await plugin.onAfterSend(activity, routeCtx);
+          }
+        }
+
+        return res;
+      },
       signin: sender.signin.bind(sender),
       signout: sender.signout.bind(sender),
     };

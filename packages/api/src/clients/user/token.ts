@@ -37,7 +37,9 @@ export interface ExchangeUserTokenParams {
 }
 
 export class UserTokenClient {
-  get http() { return this._http; }
+  get http() {
+    return this._http;
+  }
   set http(v) {
     this._http = v;
   }
