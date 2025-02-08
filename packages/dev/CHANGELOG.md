@@ -1,5 +1,16 @@
 # @teams.sdk/dev
 
+## 0.1.24
+
+### Patch Changes
+
+- fix plugins and devtools
+- Updated dependencies
+    - @teams.sdk/api@0.1.24
+    - @teams.sdk/apps@0.1.24
+    - @teams.sdk/common@0.1.24
+    - @teams.sdk/graph@0.1.24
+
 ## 0.1.23
 
 ### Patch Changes

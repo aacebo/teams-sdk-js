@@ -1,5 +1,11 @@
 # @teams.sdk/common
 
+## 0.1.24
+
+### Patch Changes
+
+- fix plugins and devtools
+
 ## 0.1.23
 
 ### Patch Changes
