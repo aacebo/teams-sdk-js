@@ -1,5 +1,14 @@
 # @teams.sdk/api
 
+## 0.1.23
+
+### Patch Changes
+
+- revamp plugin structure
+- Updated dependencies
+    - @teams.sdk/cards@0.1.23
+    - @teams.sdk/common@0.1.23
+
 ## 0.1.22
 
 ### Patch Changes

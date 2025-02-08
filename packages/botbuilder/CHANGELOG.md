@@ -1,5 +1,16 @@
 # @teams.sdk/botbuilder
 
+## 0.1.23
+
+### Patch Changes
+
+- revamp plugin structure
+- Updated dependencies
+    - @teams.sdk/api@0.1.23
+    - @teams.sdk/apps@0.1.23
+    - @teams.sdk/common@0.1.23
+    - @teams.sdk/graph@0.1.23
+
 ## 0.1.22
 
 ### Patch Changes
