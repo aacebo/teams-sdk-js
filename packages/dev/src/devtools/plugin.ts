@@ -86,7 +86,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
     });
   }
 
-  onActivity({ activity }: MiddlewareContext) {
+  onActivity({ activity, next }: MiddlewareContext) {
     this.sendActivity({
       id: uuid.v4(),
       type: 'activity.received',
@@ -94,6 +94,8 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
       body: activity,
       sentAt: new Date(),
     });
+
+    return next();
   }
 
   onBeforeSend(activity: ActivityParams, ctx: MiddlewareContext) {

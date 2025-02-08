@@ -220,7 +220,7 @@ export const useChatStore = create<ChatStore>()(
       const messages = state.messages[event.chat.id] || [];
       const i = messages.findIndex((m) => m.id === event.body.id);
 
-      if (i === -1) return;
+      if (i === -1) return state;
 
       const reactions = messages[i].reactions || [];
 
@@ -248,7 +248,7 @@ export const useChatStore = create<ChatStore>()(
       const messages = state.messages[event.chat.id] || [];
       const i = messages.findIndex((m) => m.id === event.body.id);
 
-      if (i === -1) return;
+      if (i === -1) return state;
 
       messages[i].deleted = true;
       state.messages[event.chat.id] = messages;

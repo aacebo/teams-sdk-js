@@ -491,8 +491,12 @@ export class App {
 
     const routes = this.router.select(activity);
 
-    if (routes.length === 0) {
-      return { status: 200 };
+    for (let i = this.plugins.length - 1; i > -1; i--) {
+      const plugin = this.plugins[i];
+
+      if (plugin.onActivity) {
+        routes.unshift(plugin.onActivity.bind(plugin));
+      }
     }
 
     const ctx: ActivityContext<Activity> = {
@@ -576,10 +580,8 @@ export class App {
       signout: sender.signout.bind(sender),
     };
 
-    for (const plugin of this.plugins) {
-      if (plugin.onActivity) {
-        await plugin.onActivity(routeCtx);
-      }
+    if (routes.length === 0) {
+      return { status: 200 };
     }
 
     const res = await routes[0](routeCtx);
