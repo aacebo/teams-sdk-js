@@ -31,6 +31,10 @@ export type Methods = {
    */
   'app.registerOnThemeChangeHandler': Method<any, void>;
   'appEntity.selectAppEntity': Method<any, void>;
+  'appInitialization.appLoaded': Method<void, void>;
+  'appInitialization.success': Method<void, void>;
+  'appInitialization.failure': Method<void, void>;
+  'appInitialization.expectedFailure': Method<void, void>;
   'appInstallDialog.openAppInstallDialog': Method<any, void>;
   'appWindow.childAppWindow.addEventListener': Method<any, void>;
   'appWindow.childAppWindow.postMessage': Method<any, void>;

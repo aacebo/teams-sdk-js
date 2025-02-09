@@ -84,7 +84,9 @@ export class App {
    * connect to the host app
    */
   async connect() {
-    if (this.connectedAt) return;
+    if (this.connectedAt) {
+      return this.context;
+    }
 
     const res = await this.http.get<AppConnect>('/');
     this._id = res.data.id;
