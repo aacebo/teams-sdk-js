@@ -9,7 +9,7 @@ const app = new App({
   plugins: [new DevtoolsPlugin()],
 });
 
-app.tab('settings', path.resolve('dist/client'));
+app.tab('test', path.resolve('dist/client'));
 
 (async () => {
   await app.start();

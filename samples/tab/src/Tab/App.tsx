@@ -4,25 +4,21 @@ import * as client from '@teams.sdk/client';
 import './App.css';
 
 export default function App() {
-  const [id, setId] = React.useState<string>();
-  const [name, setName] = React.useState<string>();
+  const [context, setContext] = React.useState<client.Context>();
 
   React.useEffect(() => {
     (async () => {
       const app = new client.App();
-      await app.connect();
-
-      setId(app.id);
-      setName(app.name);
-
-      app.log.info(app.id);
+      const ctx = await app.connect();
+      setContext(ctx);
     })();
   }, []);
 
   return (
     <div className="App">
-      <h1>{id}</h1>
-      <h2>{name}</h2>
+      <pre>
+        <code>{JSON.stringify(context)}</code>
+      </pre>
     </div>
   );
 }

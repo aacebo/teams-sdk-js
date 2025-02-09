@@ -31,6 +31,9 @@
     "build": "npx tsup",
     "test": "npx jest"
   },
+  "dependencies": {
+    "uuid": "^11.0.5"
+  },
   "peerDependencies": {
     "@teams.sdk/api": "*",
     "@teams.sdk/common": "*"
