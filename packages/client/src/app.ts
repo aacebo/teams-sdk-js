@@ -27,6 +27,9 @@ interface AppConnect {
 }
 
 export class App {
+  /**
+   * the apps logger
+   */
   log: Logger;
 
   /**
