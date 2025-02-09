@@ -11,6 +11,7 @@ export interface MessageRequest {
 export interface MessageResponse {
   id: number;
   uuidAsString: string;
+  origin: string;
   args?: any[];
   monotonicTimestamp?: number;
   isPartialResponse?: boolean; // If the message is partial, then there will be more future responses for the given message ID.

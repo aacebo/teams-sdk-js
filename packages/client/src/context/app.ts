@@ -7,6 +7,21 @@ import { AppHostContext } from './app-host';
  */
 export interface AppContext {
   /**
+   * This ID is the unique identifier assigned to the app after deployment and is critical for ensuring the correct app instance is recognized across hosts.
+   */
+  id?: string;
+
+  /**
+   * ID for the current visible app which is different for across cached sessions. Used for correlating telemetry data.
+   */
+  launchId?: string;
+
+  /**
+   * Unique ID for the current session for use in correlating telemetry data. A session corresponds to the lifecycle of an app. A new session begins upon the creation of a webview (on Teams mobile) or iframe (in Teams desktop) hosting the app, and ends when it is destroyed.
+   */
+  sessionId: string;
+
+  /**
    * The current locale that the user has configured for the app formatted as
    * languageId-countryId (for example, en-us).
    */
@@ -16,11 +31,6 @@ export interface AppContext {
    * The current UI theme of the host. Possible values: "default", "dark", "contrast" or "glass".
    */
   theme: Theme;
-
-  /**
-   * Unique ID for the current session for use in correlating telemetry data. A session corresponds to the lifecycle of an app. A new session begins upon the creation of a webview (on Teams mobile) or iframe (in Teams desktop) hosting the app, and ends when it is destroyed.
-   */
-  sessionId: string;
 
   /**
    * Info of the host
@@ -41,15 +51,11 @@ export interface AppContext {
 
   /**
    * Time when the user clicked on the tab using the date.
-   *
-   * For measuring elapsed time between the moment the user click the tab, use {@link app.AppInfo.userClickTimeV2 | app.Context.app.userClickTimeV2} instead as it uses the performance timer API.
    */
   userClickTime?: number;
 
   /**
    * Time when the user click on the app by using the performance timer API. Useful for measuring elapsed time accurately.
-   *
-   * For displaying the time when the user clicked on the app, please use {@link app.AppInfo.userClickTime | app.Context.app.userClickTime} as it uses the date.
    */
   userClickTimeV2?: number;
 
@@ -63,16 +69,6 @@ export interface AppContext {
    * Where the user prefers the file to be opened from by default during file open
    */
   userFileOpenPreference?: FileOpenPreference;
-
-  /**
-   * ID for the current visible app which is different for across cached sessions. Used for correlating telemetry data.
-   */
-  appLaunchId?: string;
-
-  /**
-   * This ID is the unique identifier assigned to the app after deployment and is critical for ensuring the correct app instance is recognized across hosts.
-   */
-  appId?: string;
 
   /**
    * The version of the manifest that the app is running.

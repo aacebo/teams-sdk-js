@@ -1,5 +1,5 @@
 import * as uuid from 'uuid';
-import { EventEmitter } from '@teams.sdk/common';
+import { ConsoleLogger, EventEmitter, Logger } from '@teams.sdk/common';
 
 import { Methods } from './methods';
 import { MessageRequest, MessageResponse } from './message';
@@ -14,11 +14,13 @@ export class Client {
   }
 
   protected id: number;
+  protected log: Logger;
   protected events: EventEmitter<Record<string, MessageResponse>>;
-  protected requests: Record<string, MessageRequest> = { };
+  protected requests: Record<string, MessageRequest> = {};
 
-  constructor() {
+  constructor(logger?: Logger) {
     this.id = 0;
+    this.log = logger?.child('window') || new ConsoleLogger('@teams.sdk/client/window');
     this.events = new EventEmitter();
     window.addEventListener('message', this.onMessage.bind(this));
   }
@@ -30,13 +32,12 @@ export class Client {
     return new Promise<Methods[Name]['out']>((resolve, reject) => {
       const id = uuid.v4();
       const request: MessageRequest = {
-        id: ++this.id,
+        id: this.id++,
         uuidAsString: id,
         func: name,
-        args,
+        args: args || [],
         timestamp: Date.now(),
         monotonicTimestamp: performance?.now(),
-        apiVersionTag: `v2_${name}`
       };
 
       this.requests[id] = request;
@@ -50,7 +51,7 @@ export class Client {
       setTimeout(() => {
         this.events.off(subId);
         reject('response timeout');
-      }, 10000);
+      }, 20000);
     });
   }
 

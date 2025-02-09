@@ -9,15 +9,15 @@ export default function App() {
   React.useEffect(() => {
     (async () => {
       const app = new client.App();
-      const ctx = await app.connect();
-      setContext(ctx);
+      const context = await app.connect();
+      setContext(context);
     })();
   }, []);
 
   return (
     <div className="App">
       <pre>
-        <code>{JSON.stringify(context)}</code>
+        <code>{JSON.stringify(context, null, 2)}</code>
       </pre>
     </div>
   );

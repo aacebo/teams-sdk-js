@@ -6,7 +6,7 @@ export interface Method<In = any, Out = any> {
 }
 
 export type Methods = {
-  'app.getContext': Method<any, Context>;
+  'app.getContext': Method<void, [Context]>;
   'app.initialize': Method<any, void>;
 
   'app.notifyAppLoaded': Method<any, void>;
@@ -232,7 +232,7 @@ export type Methods = {
   uploadCustomApp: Method<any, void>;
   'profile.showProfile': Method<any, void>;
   executeDeepLink: Method<any, void>;
-  getContext: Method<any, void>;
+  getContext: Method<void, [Context]>;
   getMruTabInstances: Method<any, void>;
   getTabInstances: Method<any, void>;
   initialize: Method<any, void>;
