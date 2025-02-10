@@ -1,1 +1,1 @@
-export type Permission = 'media';
+export type Permission = 'geolocation' | 'media' | 'midi' | 'notifications' | 'openExternal';

@@ -73,6 +73,7 @@ export type Methods = {
    * chat
    */
   'chat.openChat': Method<[params.OpenChatParams], void>;
+  'conversations.getChatMembers': Method<void, [{ members: Array<{ urn: string }> }]>;
 
   /**
    * clipboard

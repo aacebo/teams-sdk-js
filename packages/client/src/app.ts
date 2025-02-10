@@ -118,4 +118,28 @@ export class App {
     const res = await this.http.post<T>(`/api/functions/${name}`, args);
     return res.data;
   }
+
+  /**
+   * get the auth user
+   */
+  async getUser() {
+    const [user] = await this.parent.call('authentication.getUser');
+    return user;
+  }
+
+  /**
+   * get the auth users token
+   */
+  async getUserToken() {
+    const [token] = await this.parent.call('authentication.getAuthToken');
+    return token;
+  }
+
+  /**
+   * get chat members
+   */
+  async getChatMembers() {
+    const [{ members }] = await this.parent.call('conversations.getChatMembers');
+    return members;
+  }
 }

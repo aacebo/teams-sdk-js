@@ -2,13 +2,13 @@ import * as uuid from 'uuid';
 import { ConsoleLogger, EventEmitter, Logger } from '@teams.sdk/common';
 
 import { Methods } from './methods';
-import { MessageRequest, MessageResponse } from './message';
+import { ErrorMessageResponse, MessageRequest, MessageResponse } from './message';
 
-export interface ClientError<T extends Error = Error> {
-  readonly errorCode: number;
-  readonly message: T;
-}
-
+/**
+ * the window client used to execute
+ * functions and receive events from the
+ * parent window
+ */
 export class Client {
   /**
    * requests that are waiting
@@ -20,7 +20,7 @@ export class Client {
 
   protected id: number;
   protected log: Logger;
-  protected events: EventEmitter<Record<string, MessageResponse>>;
+  protected events: EventEmitter<Record<string, MessageResponse | ErrorMessageResponse>>;
   protected requests: Record<string, MessageRequest> = {};
 
   constructor(logger?: Logger) {
@@ -30,6 +30,11 @@ export class Client {
     window.addEventListener('message', this.onMessage.bind(this));
   }
 
+  /**
+   * call a function in the parent window
+   * @param name the function to call
+   * @param args the functions arguments
+   */
   call<Name extends keyof Methods>(
     name: Name,
     args?: Methods[Name]['in']
@@ -52,24 +57,39 @@ export class Client {
       const subId = this.events.once(`message.${id}`, (res) => {
         delete this.requests[id];
 
-        if (res.args && res.args[0]['errorCode']) {
-          this.log.error(res);
-          return reject(res.args[0].message);
+        if (res.args.length) {
+          const error = res.args.find((arg) => !!arg['errorCode']);
+
+          if (error) {
+            this.log.error(error);
+            return reject(error);
+          }
         }
 
-        this.log.debug(res);
         resolve(res.args as Methods[Name]['out']);
       });
 
       setTimeout(() => {
         this.events.off(subId);
         reject('response timeout');
-      }, 20000);
+      }, 60000);
     });
   }
 
   protected onMessage(e: MessageEvent) {
-    const message: MessageResponse = e.data;
-    this.events.emit(`message.${message.uuidAsString}`, message);
+    const res: MessageResponse | ErrorMessageResponse = e.data;
+    this.log.debug(res);
+
+    if (res.args.length) {
+      if (res.args.length === 2 && res.args[0] === false && typeof res.args[1] === 'string') {
+        res.args = [{ errorCode: 500, message: res.args[1] }];
+      }
+
+      if (res.args.length === 2 && res.args[0] === false && typeof res.args[1] === 'object') {
+        res.args = [res.args[1]];
+      }
+    }
+
+    this.events.emit(`message.${res.uuidAsString}`, res);
   }
 }

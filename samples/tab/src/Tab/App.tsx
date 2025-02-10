@@ -10,11 +10,14 @@ export default function App() {
   React.useEffect(() => {
     (async () => {
       const app = new client.App({
-        logger: new ConsoleLogger('@samples/tab', { level: 'debug' })
+        logger: new ConsoleLogger('@samples/tab', { level: 'debug' }),
       });
 
       const context = await app.connect();
       setContext(context);
+
+      const token = await app.getUserToken();
+      app.log.info(token);
     })();
   }, []);
 
