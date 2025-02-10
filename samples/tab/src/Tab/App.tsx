@@ -1,5 +1,6 @@
 import React from 'react';
 import * as client from '@teams.sdk/client';
+import { ConsoleLogger } from '@teams.sdk/common';
 
 import './App.css';
 
@@ -8,7 +9,10 @@ export default function App() {
 
   React.useEffect(() => {
     (async () => {
-      const app = new client.App();
+      const app = new client.App({
+        logger: new ConsoleLogger('@samples/tab', { level: 'debug' })
+      });
+
       const context = await app.connect();
       setContext(context);
     })();

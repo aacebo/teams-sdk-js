@@ -46,6 +46,7 @@ export class Client {
       };
 
       this.requests[id] = request;
+      this.log.debug(request);
       window.parent.postMessage(request, '*');
 
       const subId = this.events.once(`message.${id}`, (res) => {
