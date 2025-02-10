@@ -1,334 +1,110 @@
-import { Context } from './types';
+import { MessageRequest } from './message';
+import {
+  BarCodeConfig,
+  Context,
+  FrameContext,
+  HostClientType,
+  liveshare,
+  marketplace,
+  Permission,
+  UserMeetingRole,
+  UserProfile,
+} from './types';
+import * as params from './params';
 
-export interface Method<In = any, Out = any> {
+type Optional<T> = T | undefined;
+export interface Method<In, Out> {
   readonly in: In;
   readonly out: Out;
 }
 
 export type Methods = {
-  'app.getContext': Method<void, [Context]>;
-  'app.initialize': Method<any, void>;
-
-  'app.notifyAppLoaded': Method<any, void>;
-  /**
-   * Notifies the frame that app initialized with some expected errors.
-   */
-  'app.notifyExpectedFailure': Method<any, void>;
-
-  /**
-   * Notifies the frame that app initialization has failed and to show an error page in its place.
-   */
-  'app.notifyFailure': Method<any, void>;
-
-  /**
-   * Notifies the frame that app initialization is successful and is ready for user interaction.
-   */
-  'app.notifySuccess': Method<any, void>;
-  'app.openLink': Method<any, void>;
-
-  /**
-   * Registers a handler for theme changes.
-   */
-  'app.registerOnThemeChangeHandler': Method<any, void>;
-  'appEntity.selectAppEntity': Method<any, void>;
-  'appInitialization.appLoaded': Method<void, void>;
-  'appInitialization.success': Method<void, void>;
-  'appInitialization.failure': Method<void, void>;
-  'appInitialization.expectedFailure': Method<void, void>;
-  'appInstallDialog.openAppInstallDialog': Method<any, void>;
-  'appWindow.childAppWindow.addEventListener': Method<any, void>;
-  'appWindow.childAppWindow.postMessage': Method<any, void>;
-  'appWindow.parentAppWindow.addEventListener': Method<any, void>;
-  'appWindow.parentAppWindow.postMessage': Method<any, void>;
-  'authentication.authenticationWindow.registerInitializeHandler': Method<any, void>;
-  'authentication.authenticationWindow.registerNavigateCrossDomainHandler': Method<any, void>;
-  'authentication.authenticate': Method<any, void>;
-  'authentication.getAuthToken': Method<any, void>;
-  'authentication.getUser': Method<any, void>;
-  'authentication.notifyFailure': Method<any, void>;
-  'authentication.notifySuccess': Method<any, void>;
-  'authentication.registerAuthenticateFailureHandler': Method<any, void>;
-  'authentication.registerAuthenticateSuccessHandler': Method<any, void>;
-  'barCode.hasPermission': Method<any, void>;
-  'barCode.requestPermission': Method<any, void>;
-  'barCode.scanBarCode': Method<any, void>;
-  'calendar.composeMeeting': Method<any, void>;
-  'calendar.openCalendarItem': Method<any, void>;
-  'meeting.joinMeeting': Method<any, void>;
-  'call.startCall': Method<any, void>;
-  'chat.openChat': Method<any, void>;
-  'chat.openGroupChat': Method<any, void>;
-  'clipboard.read': Method<any, void>;
-  'clipboard.write': Method<any, void>;
-  'conversations.closeConversation': Method<any, void>;
-  'conversations.getChatMember': Method<any, void>;
-  'conversations.openConversation': Method<any, void>;
-  'conversations.registerCloseConversationHandler': Method<any, void>;
-  'conversations.registerStartConversationHandler': Method<any, void>;
-  'copilot.customTelemetry.sendCustomTelemetryData': Method<any, void>;
-  'copilot.eligibility.getEligibilityInfo': Method<any, void>;
-  'dialog.adaptiveCard.bot.open': Method<any, void>;
-  'dialog.adaptiveCard.open': Method<any, void>;
-  'dialog.registerMessageForChildHandler': Method<any, void>;
-  'dialog.update.resize': Method<any, void>;
-  'dialog.url.bot.open': Method<any, void>;
-  'dialog.url.bot.registerMessageForParentHandler': Method<any, void>;
-  'dialog.url.open': Method<any, void>;
-  'dialog.url.registerMessageForParentHandler': Method<any, void>;
-  'dialog.url.submit': Method<any, void>;
-  'dialog.url.parentCommunication.registerMessageForChildHandler': Method<any, void>;
-  'dialog.url.parentCommunication.sendMessageToParentFromDialog': Method<any, void>;
-  'dialog.url.parentCommunication.sendMessageToDialog': Method<any, void>;
-  'externalAppAuthentication.authenticateAndResendRequest': Method<any, void>;
-  'externalAppAuthentication.authenticateWithSSO': Method<any, void>;
-  'externalAppAuthentication.authenticateWithSSOAndResendRequest': Method<any, void>;
-  'externalAppAuthentication.authenticateWithOauth2': Method<any, void>;
-  'externalAppAuthentication.authenticateWithPowerPlatformConnectorPlugins': Method<any, void>;
-  'externalAppAuthenticationForCEA.authenticateWithOauth': Method<any, void>;
-  'externalAppAuthenticationForCEA.authenticateWithSSO': Method<any, void>;
-  'externalAppAuthenticationForCEA.authenticateAndResendRequest': Method<any, void>;
-  'externalAppAuthenticationForCEA.authenticateWithSSOAndResendRequest': Method<any, void>;
-  'externalAppCardActions.processActionOpenUrl': Method<any, void>;
-  'externalAppCardActions.processActionSubmit': Method<any, void>;
-  'externalAppCardActionsForCEA.processActionOpenUrl': Method<any, void>;
-  'externalAppCardActionsForCEA.processActionSubmit': Method<any, void>;
-  'externalAppCommands.processActionCommand': Method<any, void>;
-  'files.addCloudStorageFolder': Method<any, void>;
-  'files.addCloudStorageProvider': Method<any, void>;
-  'files.addCloudStorageProviderFile': Method<any, void>;
-  'files.copyMoveFiles': Method<any, void>;
-  'files.deleteCloudStorageFolder': Method<any, void>;
-  'files.deleteCloudStorageProviderFile': Method<any, void>;
-  'files.downloadCloudStorageProviderFile': Method<any, void>;
-  'files.getCloudStorageFolderContents': Method<any, void>;
-  'files.getCloudStorageFolders': Method<any, void>;
-  'files.getExternalProviders': Method<any, void>;
-  'files.getFileDownloads': Method<any, void>;
-  'files.openCloudStorageFile': Method<any, void>;
-  'files.openDownloadFolder': Method<any, void>;
-  'files.registerCloudStorageProviderContentChangeHandler': Method<any, void>;
-  'files.registerCloudStorageProviderListChangeHandler': Method<any, void>;
-  'files.removeCloudStorageProvider': Method<any, void>;
-  'files.renameCloudStorageProviderFile': Method<any, void>;
-  'files.uploadCloudStorageProviderFile': Method<any, void>;
-  'geoLocation.getCurrentLocation': Method<any, void>;
-  'geoLocation.hasPermission': Method<any, void>;
-  'geoLocation.map.chooseLocation': Method<any, void>;
-  'geoLocation.requestPermission': Method<any, void>;
-  'geoLocation.showLocation': Method<any, void>;
-  handleBeforeUnload: Method<any, void>;
-  'hostEntity.tab.addAndConfigure': Method<any, void>;
-  'hostEntity.tab.reconfigure': Method<any, void>;
-  'hostEntity.tab.rename': Method<any, void>;
-  'hostEntity.tab.remove': Method<any, void>;
-  'hostEntity.tab.getAll': Method<any, void>;
-  'interactive.getClientInfo': Method<any, void>;
-  'interactive.getClientRoles': Method<any, void>;
-  'interactive.getFluidContainerId': Method<any, void>;
-  'interactive.getFluidTenantInfo': Method<any, void>;
-  'interactive.getFluidToken': Method<any, void>;
-  'interactive.getNtpTime': Method<any, void>;
-  'interactive.registerClientId': Method<any, void>;
-  'interactive.setFluidContainerId': Method<any, void>;
-  'location.getLocation': Method<any, void>;
-  'location.showLocation': Method<any, void>;
-  'log.receive': Method<any, void>;
-  'log.request': Method<any, void>;
-  'mail.composeMail': Method<any, void>;
-  'mail.handoff.composeMail': Method<any, void>;
-  'mail.openMailItem': Method<any, void>;
-  'marketplace.addOrUpdateCartItems': Method<any, void>;
-  'marketplace.getCart': Method<any, void>;
-  'marketplace.removeCartItems': Method<any, void>;
-  'marketplace.updateCartStatus': Method<any, void>;
-  'media.captureImage': Method<any, void>;
-  'media.controller': Method<any, void>;
-  'media.getMedia': Method<any, void>;
-  'media.hasPermission': Method<any, void>;
-  'media.registerGetMediaRequestHandler': Method<any, void>;
-  'media.requestPermission': Method<any, void>;
-  'media.scanBarCode': Method<any, void>;
-  'media.selectMedia': Method<any, void>;
-  'media.viewImages': Method<any, void>;
-  'meeting.appShareButton.setOptions': Method<any, void>;
-  'meeting.getAppContentStageSharingCapabilities': Method<any, void>;
-  'meeting.getAppContentStageSharingState': Method<any, void>;
-  'meeting.getAuthenticationTokenForAnonymousUser': Method<any, void>;
-  'meeting.getIncomingClientAudioState': Method<any, void>;
-  'meeting.getLiveStreamState': Method<any, void>;
-  'meeting.getMeetingDetails': Method<any, void>;
-  'meeting.getMeetingDetailsVerbose': Method<any, void>;
-  'meeting.registerAudioDeviceSelectionChangedHandler': Method<any, void>;
-  'meeting.registerLiveStreamChangedHandler': Method<any, void>;
-  'meeting.registerMeetingReactionReceivedHandler': Method<any, void>;
-  'meeting.registerMicStateChangeHandler': Method<any, void>;
-  'meeting.registerRaiseHandStateChangedHandler': Method<any, void>;
-  'meeting.registerSpeakingStateChangeHandler': Method<any, void>;
-  'meeting.requestAppAudioHandling': Method<any, void>;
-  'meeting.requestStartLiveStreaming': Method<any, void>;
-  'meeting.requestStopLiveStreaming': Method<any, void>;
-  'meeting.setMicStateWithReason': Method<any, void>;
-  'meeting.shareAppContentToStage': Method<any, void>;
-  'meeting.stopSharingAppContentToStage': Method<any, void>;
-  'meeting.toggleIncomingClientAudio': Method<any, void>;
-  'meetingRoom.getPairedMeetingRoomInfo': Method<any, void>;
-  'meetingRoom.registerMeetingRoomCapabilitiesUpdateHandler': Method<any, void>;
-  'meetingRoom.registerMeetingRoomStatesUpdateHandler': Method<any, void>;
-  'meetingRoom.sendCommandToPairedMeetingRoom': Method<any, void>;
-  'menus.handleActionMenuItemPress': Method<any, void>;
-  'menus.handleNavBarMenuItemPress': Method<any, void>;
-  'menus.handleViewConfigItemPress': Method<any, void>;
-  'menus.registerActionMenuItemPressHandler': Method<any, void>;
-  'menus.registerNavBarMenuItemPressHandler': Method<any, void>;
-  'menus.registerSetModuleViewHandler': Method<any, void>;
-  'menus.setNavBarMenu': Method<any, void>;
-  'menus.setUpViews': Method<any, void>;
-  'menus.showActionMenu': Method<any, void>;
-  'messageChannels.telemetry.getTelemetryPort': Method<any, void>;
-  'messageChannels.dataLayer.getDataLayerPort': Method<any, void>;
-  'monetization.openPurchaseExperience': Method<any, void>;
-  'navigation.navigateBack': Method<any, void>;
-  'navigation.navigateCrossDomain': Method<any, void>;
-  'navigation.navigateToTab': Method<any, void>;
-  'navigation.returnFocus': Method<any, void>;
-  'notifications.showNotification': Method<any, void>;
-  'otherApp.install': Method<any, void>;
-  'otherApp.unregisterInstall': Method<any, void>;
-  'otherApp.notifyInstallCompleted': Method<any, void>;
-  'pages.appButton.onClick': Method<any, void>;
-  'pages.appButton.onHoverEnter': Method<any, void>;
-  'pages.appButton.onHoverLeave': Method<any, void>;
-  'pages.backStack.navigateBack': Method<any, void>;
-  'pages.backStack.registerBackButtonHandler': Method<any, void>;
-  'pages.backStack.registerBackButtonPressHandler': Method<any, void>;
-  'pages.config.registerChangeConfigHandler': Method<any, void>;
-  'pages.config.registerOnRemoveHandler': Method<any, void>;
-  'pages.config.registerOnSaveHandler': Method<any, void>;
-  'pages.config.registerSettingsRemoveHandler': Method<any, void>;
-  'pages.config.registerSettingsSaveHandler': Method<any, void>;
-  'pages.config.setConfig': Method<any, void>;
-  'pages.config.setValidityState': Method<any, void>;
-  'pages.currentApp.navigateTo': Method<any, void>;
-  'pages.currentApp.navigateToDefaultPage': Method<any, void>;
-  'pages.initializeWithFrameContext': Method<any, void>;
-  'pages.fullTrust.enterFullscreen': Method<any, void>;
-  'pages.fullTrust.exitFullscreen': Method<any, void>;
-  'pages.getConfig.': Method<any, void>;
-  'pages.navigateCrossDomain': Method<any, void>;
-  'pages.navigateToApp': Method<any, void>;
-  'pages.registerFocusEnterHandler': Method<any, void>;
-  'pages.registerFullScreenHandler': Method<any, void>;
-  'pages.removeEvent.notifyFailure': Method<any, void>;
-  'pages.removeEvent.notifySuccess': Method<any, void>;
-  'pages.returnFocus': Method<any, void>;
-  'pages.saveEvent.notifyFailure': Method<any, void>;
-  'pages.saveEvent.notifySuccess': Method<any, void>;
-  'pages.setCurrentFrame': Method<any, void>;
-  'pages.shareDeepLink': Method<any, void>;
-  'pages.tabs.getMruTabInstances': Method<any, void>;
-  'pages.tabs.getTabInstances': Method<any, void>;
-  'pages.tabs.navigateToTab': Method<any, void>;
-  'people.selectPeople': Method<any, void>;
-  openFilePreview: Method<any, void>;
-  registerCustomHandler: Method<any, void>;
-  registerUserSettingsChangeHandler: Method<any, void>;
-  sendCustomMessage: Method<any, void>;
-  uploadCustomApp: Method<any, void>;
-  'profile.showProfile': Method<any, void>;
-  executeDeepLink: Method<any, void>;
+  initialize: Method<void, [FrameContext, HostClientType, string, string]>;
   getContext: Method<void, [Context]>;
-  getMruTabInstances: Method<any, void>;
-  getTabInstances: Method<any, void>;
-  initialize: Method<any, void>;
-  initializeWithFrameContext: Method<any, void>;
-  registerAppButtonClickHandler: Method<any, void>;
-  registerAppButtonHoverEnterHandler: Method<any, void>;
-  registerAppButtonHoverLeaveHandler: Method<any, void>;
-  registerBackButtonHandler: Method<any, void>;
-  registerBeforeUnloadHandler: Method<any, void>;
-  registerChangeSettingsHandler: Method<any, void>;
-  registerFocusEnterHandler: Method<any, void>;
-  registerFullScreenHandler: Method<any, void>;
-  registerOnLoadHandler: Method<any, void>;
-  registerOnThemeChangeHandlerHelper: Method<any, void>;
-  setFrameContext: Method<any, void>;
-  shareDeepLink: Method<any, void>;
-  registerBeforeSuspendOrTerminateHandler: Method<any, void>;
-  registerHandler: Method<any, void>;
-  registerOnResumeHandler: Method<any, void>;
-  registerOnThemeChangeHandler: Method<any, void>;
-  'remoteCamera.getCapableParticipants': Method<any, void>;
-  'remoteCamera.registerOnCapableParticipantsChangeHandler': Method<any, void>;
-  'remoteCamera.registerOnDeviceStateChangeHandler': Method<any, void>;
-  'remoteCamera.registerOnErrorHandler': Method<any, void>;
-  'remoteCamera.registerOnSessionStatusChangeHandler': Method<any, void>;
-  'remoteCamera.requestControl': Method<any, void>;
-  'remoteCamera.sendControlCommand': Method<any, void>;
-  'remoteCamera.terminateSession': Method<any, void>;
-  'search.closeSearch': Method<any, void>;
-  'search.registerOnChangeHandler': Method<any, void>;
-  'search.registerOnClosedHandler': Method<any, void>;
-  'search.registerOnExecutedHandler': Method<any, void>;
-  'search.unregisterHandlers': Method<any, void>;
-  'secondaryBrowser.openUrl': Method<any, void>;
-  'settings.getSettings': Method<any, void>;
-  'settings.registerOnRemoveHandler': Method<any, void>;
-  'settings.registerOnSaveHandler': Method<any, void>;
-  'settings.remove.failure': Method<any, void>;
-  'settings.remove.success': Method<any, void>;
-  'settings.save.failure': Method<any, void>;
-  'settings.save.success': Method<any, void>;
-  'settings.setSettings': Method<any, void>;
-  'settings.setValidityState': Method<any, void>;
-  'sharing.history.getContent': Method<any, void>;
-  'sharing.shareWebContent': Method<any, void>;
-  'stageView.open': Method<any, void>;
-  'stageView.self.close': Method<any, void>;
-  'store.openFullStore': Method<any, void>;
-  'store.openAppDetail': Method<any, void>;
-  'store.openInContextStore': Method<any, void>;
-  'store.openSpecificStore': Method<any, void>;
-  'tasks.startTask': Method<any, void>;
-  'tasks.submitTask': Method<any, void>;
-  'tasks.updateTask': Method<any, void>;
-  'teams.fullTrust.getConfigSetting': Method<any, void>;
-  'teams.fullTrust.joinedTeams.getUserJoinedTeams': Method<any, void>;
-  'teams.getTeamChannels': Method<any, void>;
-  'teams.refreshSiteUrl': Method<any, void>;
-  teamsAPIs_registerBeforeUnloadHandler: Method<any, void>;
-  teamsAPIs_registerOnLoadHandler: Method<any, void>;
-  'thirdPartyCloudStorage.getDragAndDropFiles': Method<any, void>;
-  'videoEffects.mediaStream.registerForVideoFrame': Method<any, void>;
-  'videoEffects.notifySelectedVideoEffectChanged': Method<any, void>;
-  'videoEffects.notifyError': Method<any, void>;
-  'videoEffects.notifyVideoFrameProcessed': Method<any, void>;
-  'videoEffects.registerEffectParameterChangeHandler': Method<any, void>;
-  'videoEffects.registerForVideoEffect': Method<any, void>;
-  'videoEffects.registerForVideoFrame': Method<any, void>;
-  'videoEffects.setFrameProcessTimeLimitHandler': Method<any, void>;
-  'videoEffects.startVideoExtensibilityVideoStreamHandler': Method<any, void>;
-  'videoEffects.registerForVideoBufferHandler': Method<any, void>;
-  'videoEffectsEX.mediaStream.registerForVideoFrame': Method<any, void>;
-  'videoEffectsEx.notifyError': Method<any, void>;
-  'videoEffectsEx.notifySelectedVideoEffectChanged': Method<any, void>;
-  'videoEffectsEx.notifyVideoFrameProcessed': Method<any, void>;
-  'videoEffectsEx.registerEffectParamterChangeHandler': Method<any, void>;
-  'videoEffectsEx.registerForVideoEffect': Method<any, void>;
-  'videoEffectsEx.registerForVideoFrame': Method<any, void>;
-  'videoEffectsEx.registerNewVideoFrameHandler': Method<any, void>;
-  'videoEffectsEX.registerSetFrameProcessTimeLimitHandler': Method<any, void>;
-  'videoEffectsEX.registerStartVideoExtensibilityVideoStreamHandler': Method<any, void>;
-  'videoEffectsEx.updatePersonalizedEffects': Method<any, void>;
-  'videoEffectsUtils.effectFailure': Method<any, void>;
-  'videoEffectsUtils.reportVideoEffectChanged': Method<any, void>;
-  'videoEffectsUtils.transformerWithMetadata.constructor': Method<any, void>;
-  'videoPerformanceMonitor.performanceDataGenerated': Method<any, void>;
-  'videoPerformanceMonitor.reportFrameProcessed': Method<any, void>;
-  'videoPerformanceMonitor.reportTextureStreamAcquired': Method<any, void>;
-  'videoPerformanceMonitor.startMonitorSlowFrameProcessing': Method<any, void>;
-  'visualMedia.hasPermission': Method<any, void>;
-  'visualMedia.image.captureImages': Method<any, void>;
-  'visualMedia.image.retrieveImages': Method<any, void>;
-  'visualMedia.requestPermission': Method<any, void>;
-  'webStorage.isWebStorageClearedOnUserLogOut': Method<any, void>;
+  executeDeepLink: Method<[string], void>;
+  captureImage: Method<void, void>;
+
+  /**
+   * Send a message to the ChildAppWindow.
+   */
+  messageForChild: Method<[MessageRequest], void>;
+
+  /**
+   * Send a message to the ParentAppWindow.
+   */
+  messageForParent: Method<[MessageRequest], void>;
+
+  /**
+   * authentication
+   */
+  'authentication.authenticate': Method<
+    [string, Optional<number>, Optional<number>, Optional<boolean>],
+    [string]
+  >;
+  'authentication.getAuthToken': Method<
+    [Optional<Array<string>>, Optional<Array<string>>, Optional<boolean>, Optional<string>],
+    [string]
+  >;
+  'authentication.getUser': Method<void, [UserProfile]>;
+
+  /**
+   * permissions
+   */
+  'permissions.has': Method<Array<Permission>, [boolean]>;
+  'permissions.request': Method<Array<Permission>, [boolean]>;
+
+  /**
+   * appInstallDialog
+   */
+  'appInstallDialog.openAppInstallDialog': Method<[params.OpenAppInstallDialogParams], void>;
+
+  /**
+   * calendar
+   */
+  'calendar.openCalendarItem': Method<[params.OpenCalendarItemParams], void>;
+  'calendar.composeMeeting': Method<[params.ComposeCalendarMeetingParams], void>;
+
+  /**
+   * call
+   */
+  'call.startCall': Method<[params.StartCallParams], [boolean]>;
+
+  /**
+   * chat
+   */
+  'chat.openChat': Method<[params.OpenChatParams], void>;
+
+  /**
+   * clipboard
+   */
+  'clipboard.readFromClipboard': Method<void, [string | Blob]>;
+  'clipboard.writeToClipboard': Method<[params.ClipboardWriteParams], void>;
+
+  /**
+   * interactive
+   */
+  'interactive.getFluidTenantInfo': Method<void, [liveshare.FluidTenant]>;
+  'interactive.getFluidToken': Method<[Optional<string>], [string]>;
+  'interactive.getFluidContainerId': Method<void, [liveshare.FluidContainer]>;
+  'interactive.setFluidContainerId': Method<[string], [liveshare.FluidContainer]>;
+  'interactive.getNtpTime': Method<void, [liveshare.NtpTime]>;
+  'interactive.registerClientId': Method<[string], [Array<UserMeetingRole>]>;
+  'interactive.getClientRoles': Method<[string], [Optional<Array<UserMeetingRole>>]>;
+  'interactive.getClientInfo': Method<[string], [Optional<liveshare.ClientInfo>]>;
+
+  /**
+   * marketplace
+   */
+  'marketplace.getCart': Method<[marketplace.CartVersion], [marketplace.Cart]>;
+  'marketplace.addOrUpdateCartItems': Method<
+    [params.AddOrUpdateCartItemsParams],
+    [marketplace.Cart]
+  >;
+  'marketplace.removeCartItems': Method<[params.RemoveCartItemsParams], [marketplace.Cart]>;
+  'marketplace.updateCartStatus': Method<[params.UpdateCartStatusParams], [marketplace.Cart]>;
+
+  /**
+   * media
+   */
+  'media.scanBarCode': Method<[BarCodeConfig], [string]>;
 };

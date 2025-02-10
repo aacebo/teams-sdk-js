@@ -71,7 +71,9 @@ export class App {
 
   readonly options: AppOptions;
   readonly http: http.Client;
+
   protected parent: window.Client;
+  protected runtime?: window.Runtime;
 
   constructor(options?: AppOptions) {
     this.options = options || {};
@@ -96,9 +98,12 @@ export class App {
       this.log = this.options.logger || new ConsoleLogger(`@teams.sdk/${this._name}`);
     }
 
-    await this.parent.call('initialize');
+    const [_frame, _hosetClientType, _version, runtime] = await this.parent.call('initialize');
+    this.runtime = JSON.parse(runtime);
+
     const [context] = await this.parent.call('getContext');
     this._context = mapContext(context);
+
     this._connectedAt = new Date();
     return this.context;
   }

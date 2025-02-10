@@ -4,6 +4,11 @@ import { ConsoleLogger, EventEmitter, Logger } from '@teams.sdk/common';
 import { Methods } from './methods';
 import { MessageRequest, MessageResponse } from './message';
 
+export interface ClientError<T extends Error = Error> {
+  readonly errorCode: number;
+  readonly message: T;
+}
+
 export class Client {
   /**
    * requests that are waiting
@@ -45,6 +50,13 @@ export class Client {
 
       const subId = this.events.once(`message.${id}`, (res) => {
         delete this.requests[id];
+
+        if (res.args && res.args[0]['errorCode']) {
+          this.log.error(res);
+          return reject(res.args[0].message);
+        }
+
+        this.log.debug(res);
         resolve(res.args as Methods[Name]['out']);
       });
 
@@ -57,7 +69,6 @@ export class Client {
 
   protected onMessage(e: MessageEvent) {
     const message: MessageResponse = e.data;
-    console.log(message);
     this.events.emit(`message.${message.uuidAsString}`, message);
   }
 }
