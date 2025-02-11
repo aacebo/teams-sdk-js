@@ -12,6 +12,7 @@ export interface ActivityBase<T extends string = string> {
    * Contains the type of the activity.
    */
   readonly type: T;
+
   /**
    * Contains an ID that uniquely identifies the activity on the channel.
    */

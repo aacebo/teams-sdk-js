@@ -17,8 +17,11 @@ export interface OpenAIChatModelOptions {
   readonly stream?: boolean;
   readonly temperature?: number;
   readonly logger?: Logger;
-  readonly requestOptions?: OpenAI.ChatCompletionCreateParams |
-    ((params: ChatParams) => OpenAI.ChatCompletionCreateParams | Promise<OpenAI.ChatCompletionCreateParams>);
+  readonly requestOptions?:
+    | OpenAI.ChatCompletionCreateParams
+    | ((
+        params: ChatParams
+      ) => OpenAI.ChatCompletionCreateParams | Promise<OpenAI.ChatCompletionCreateParams>);
 }
 
 export class OpenAIChatModel implements ChatModel {
