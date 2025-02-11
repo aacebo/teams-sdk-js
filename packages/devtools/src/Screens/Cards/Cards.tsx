@@ -1,4 +1,4 @@
-import CardDesigner from '../../components/CardDesigner';
+import CardDesigner from '../../Components/CardDesigner';
 
 import './Cards.css';
 
