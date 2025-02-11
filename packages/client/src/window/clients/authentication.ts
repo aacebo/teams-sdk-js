@@ -68,8 +68,10 @@ export class AuthenticationClient {
   async getToken(params?: AuthTokenRequestParams) {
     const [ok, res] = await this.window.send<[boolean, string]>(
       'authentication.getAuthToken',
-      params?.resources, params?.claims,
-      params?.silent, params?.tenantId,
+      params?.resources,
+      params?.claims,
+      params?.silent,
+      params?.tenantId
     );
 
     if (!ok) {
@@ -80,9 +82,8 @@ export class AuthenticationClient {
   }
 
   async getUser() {
-    const [ok, res] = await this.window.send<[boolean, UserProfile | ClientError]>(
-      'authentication.getUser',
-    );
+    const [ok, res] =
+      await this.window.send<[boolean, UserProfile | ClientError]>('authentication.getUser');
 
     if (!ok) {
       throw res;
@@ -92,9 +93,12 @@ export class AuthenticationClient {
   }
 
   async authenticate(params: AuthPopUpParams) {
-    await this.window.send('authentication.authenticate',
-      params.url, params.width,
-      params.height, params.isExternal
+    await this.window.send(
+      'authentication.authenticate',
+      params.url,
+      params.width,
+      params.height,
+      params.isExternal
     );
   }
 

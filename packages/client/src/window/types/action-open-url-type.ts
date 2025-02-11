@@ -2,10 +2,10 @@
  * The type of deeplink action that was executed by the host
  */
 export type ActionOpenUrlType =
-  'DeepLinkDialog' |
-  'DeepLinkOther' |
-  'DeepLinkStageView' |
-  'GenericUrl';
+  | 'DeepLinkDialog'
+  | 'DeepLinkOther'
+  | 'DeepLinkStageView'
+  | 'GenericUrl';
 
 /**
  * The type of deeplink action that was executed by the host

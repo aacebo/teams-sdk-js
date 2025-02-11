@@ -62,10 +62,10 @@ export class AppInitializationClient {
   }
 
   async failure(params: FailedParams) {
-    await this.window.send('appInitialization.failure', params);
+    await this.window.send('appInitialization.failure', [params.reason, params.message]);
   }
 
   async expectedFailure(params: ExpectedFailureParams) {
-    await this.window.send('appInitialization.expectedFailure', params);
+    await this.window.send('appInitialization.expectedFailure', [params.reason, params.message]);
   }
 }

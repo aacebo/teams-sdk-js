@@ -19,6 +19,7 @@ export * from './legal-age-group-classification';
 export * from './app-eligibility-info';
 export * from './action-open-url-type';
 export * from './location';
+export * from './notification-type';
 
 export * as liveshare from './liveshare';
 export * as marketplace from './marketplace';

@@ -8,8 +8,6 @@ export class AppEntityClient {
   }
 
   async select(threadId: string, categories: string[], subEntityId: string) {
-    await this.window.send('appEntity.selectAppEntity',
-      threadId, categories, subEntityId,
-    );
+    await this.window.send('appEntity.selectAppEntity', threadId, categories, subEntityId);
   }
 }

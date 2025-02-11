@@ -31,9 +31,7 @@ export class CallClient {
   }
 
   async start(params: StartCallParams) {
-    const [ok] = await this.window.send<[boolean]>(
-      'call.startCall', params
-    );
+    const [ok] = await this.window.send<[boolean]>('call.startCall', params);
 
     return ok;
   }

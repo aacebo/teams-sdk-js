@@ -105,7 +105,7 @@ export class DialogClient {
     await this.window.send(
       'tasks.completeTask',
       result,
-      appIds ? (Array.isArray(appIds) ? appIds : [appIds]) : [],
+      appIds ? (Array.isArray(appIds) ? appIds : [appIds]) : []
     );
   }
 

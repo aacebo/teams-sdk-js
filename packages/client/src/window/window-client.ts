@@ -31,7 +31,8 @@ export class WindowClient {
     window.addEventListener('message', this.onMessage.bind(this));
   }
 
-  on(name: string, handler: (...args: any[]) => any) {
+  async on(name: string, handler: (...args: any[]) => any) {
+    this.send('registerHandler', name);
     return this.requests.on(name, handler);
   }
 
@@ -49,7 +50,7 @@ export class WindowClient {
         args,
         timestamp: Date.now(),
         monotonicTimestamp: Date.now(),
-        apiVersionTag: `v2_${name}`
+        apiVersionTag: `v2_${name}`,
       };
 
       this.inFlight[id] = request;

@@ -1,6 +1,6 @@
 import { Logger } from '@teams.sdk/common';
 
-import { Context, FrameContext, HostClientType } from '../types';
+import { Context, FrameContext, HostClientType, Theme } from '../types';
 import { WindowClient } from '../window-client';
 import { Runtime } from '../runtime';
 
@@ -15,6 +15,9 @@ import { ClipboardClient } from './clipboard';
 import { ConversationsClient } from './conversation';
 import { DialogClient } from './dialog';
 import { LocationClient } from './location';
+import { PermissionClient } from './permission';
+import { NotificationClient } from './notification';
+import { MediaClient } from './media';
 
 /**
  * the window client used to execute
@@ -34,6 +37,9 @@ export class Client {
   readonly conversation: ConversationsClient;
   readonly dialog: DialogClient;
   readonly location: LocationClient;
+  readonly permission: PermissionClient;
+  readonly notification: NotificationClient;
+  readonly media: MediaClient;
 
   constructor(logger?: Logger) {
     this.window = new WindowClient(logger);
@@ -48,26 +54,20 @@ export class Client {
     this.conversation = new ConversationsClient(this.window);
     this.dialog = new DialogClient(this.window);
     this.location = new LocationClient(this.window);
+    this.permission = new PermissionClient(this.window);
+    this.notification = new NotificationClient(this.window);
+    this.media = new MediaClient(this.window);
   }
 
   async initialize() {
-    const [
-      frameContext,
-      clientType,
-      runtimeVersion,
-      runtime,
-    ] = await this.window.send<[
-      FrameContext,
-      HostClientType,
-      string,
-      string,
-    ]>('initialize');
+    const [frameContext, clientType, runtimeVersion, runtime] =
+      await this.window.send<[FrameContext, HostClientType, string, string]>('initialize');
 
     return {
       frameContext,
       clientType,
       runtimeVersion,
-      runtime: JSON.parse(runtime) as Runtime
+      runtime: JSON.parse(runtime) as Runtime,
     };
   }
 
@@ -78,5 +78,9 @@ export class Client {
 
   async deepLink(url: string) {
     await this.window.send('executeDeepLink', url);
+  }
+
+  onThemeChange(handler: (theme: Theme) => any) {
+    this.window.on('themeChange', handler);
   }
 }

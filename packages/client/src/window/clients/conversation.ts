@@ -66,9 +66,8 @@ export class ConversationsClient {
   }
 
   async getMembers() {
-    const [{ members }] = await this.window.send<[
-      { members: Array<ThreadMember> }
-    ]>('getChatMembers');
+    const [{ members }] =
+      await this.window.send<[{ members: Array<ThreadMember> }]>('getChatMembers');
 
     return members;
   }

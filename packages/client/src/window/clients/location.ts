@@ -9,9 +9,10 @@ export class LocationClient {
   }
 
   async get(allowChooseLocation = false, showMap = false) {
-    const [res] = await this.window.send<[Location]>(
-      'location.getLocation', { allowChooseLocation, showMap },
-    );
+    const [res] = await this.window.send<[Location]>('location.getLocation', {
+      allowChooseLocation,
+      showMap,
+    });
 
     return res;
   }

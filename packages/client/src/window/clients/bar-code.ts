@@ -11,7 +11,8 @@ export class BarCodeClient {
 
   async scan(config: BarCodeConfig) {
     const [err, res] = await this.window.send<[ClientError | undefined, string]>(
-      'media.scanBarCode', config
+      'media.scanBarCode',
+      config
     );
 
     if (err) throw err;

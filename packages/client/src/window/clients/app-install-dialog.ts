@@ -18,7 +18,10 @@ export class AppInstallDialogClient {
   }
 
   async open(params: OpenAppInstallDialogParams) {
-    const [ok, res] = await this.window.send<[boolean, string]>('appInstallDialog.openAppInstallDialog', params);
+    const [ok, res] = await this.window.send<[boolean, string]>(
+      'appInstallDialog.openAppInstallDialog',
+      params
+    );
 
     if (!ok) {
       throw { errorCode: 500, message: res };
