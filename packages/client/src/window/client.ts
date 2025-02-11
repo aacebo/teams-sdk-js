@@ -39,7 +39,7 @@ export class Client {
    */
   call<Name extends Path<TMessageTypes>>(
     name: Name,
-    args?: Parameters<PathValue<TMessageTypes, Name>['input']>
+    args: Parameters<PathValue<TMessageTypes, Name>['input']>
   ): Promise<ReturnType<PathValue<TMessageTypes, Name>['output']>> {
     const path = name.split('.');
     let messageType: Record<string, any> = MessageTypes;
