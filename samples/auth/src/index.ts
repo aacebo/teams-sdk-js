@@ -68,7 +68,6 @@ app.event('signin', async ({ send, api }) => {
           ),
         ])
       )
-      .build()
   );
 });
 
