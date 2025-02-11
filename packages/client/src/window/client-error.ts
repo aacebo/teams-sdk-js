@@ -3,6 +3,6 @@
  * the parent window
  */
 export interface ClientError {
-  readonly errorCode?: number;
+  readonly errorCode?: number | string;
   readonly message: string | Error;
 }

@@ -15,9 +15,6 @@ export default function App() {
 
       const context = await app.connect();
       setContext(context);
-
-      const token = await app.getUserToken();
-      app.log.info(token);
     })();
   }, []);
 

@@ -1,4 +1,7 @@
+import { WindowClient } from '../window-client';
+
 import { DialogSize } from '../types/dialog';
+import { dialog } from '../types';
 
 /**
  * Shared Dialog Properties
@@ -73,3 +76,40 @@ export type DialogParams =
   | BotAdaptiveCardDialogParams
   | UrlDialogParams
   | BotUrlDialogParams;
+
+export class DialogClient {
+  readonly window: WindowClient;
+
+  constructor(client: WindowClient) {
+    this.window = client;
+  }
+
+  async open(params: DialogParams) {
+    const [err, result] = await this.window.send<[string | undefined, string | object]>(
+      'tasks.startTask',
+      {
+        title: params.title,
+        height: params.size.height || 'small',
+        width: params.size.width || 'small',
+        url: 'url' in params ? params.url : undefined,
+        fallbackUrl: 'fallbackUrl' in params ? params.fallbackUrl : undefined,
+        card: 'card' in params ? params.card : undefined,
+        completionBotId: 'completionBotId' in params ? params.completionBotId : undefined,
+      } as dialog.DialogInfo
+    );
+
+    return { err, result };
+  }
+
+  async submit(result?: string | object, appIds?: string | string[]) {
+    await this.window.send(
+      'tasks.completeTask',
+      result,
+      appIds ? (Array.isArray(appIds) ? appIds : [appIds]) : []
+    );
+  }
+
+  async update(size: dialog.DialogSize) {
+    await this.window.send('tasks.updateTask', size);
+  }
+}

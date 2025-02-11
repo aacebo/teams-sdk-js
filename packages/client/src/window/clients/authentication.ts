@@ -1,3 +1,7 @@
+import { ClientError } from '../client-error';
+import { UserProfile } from '../types';
+import { WindowClient } from '../window-client';
+
 /**
  * Describes the authentication pop-up parameters
  */
@@ -52,4 +56,57 @@ export interface AuthTokenRequestParams {
    * An optional identifier of the home tenant for which to acquire the access token for (used in cross-tenant shared channels).
    */
   tenantId?: string;
+}
+
+export class AuthenticationClient {
+  readonly window: WindowClient;
+
+  constructor(client: WindowClient) {
+    this.window = client;
+  }
+
+  async getToken(params?: AuthTokenRequestParams) {
+    const [ok, res] = await this.window.send<[boolean, string]>(
+      'authentication.getAuthToken',
+      params?.resources,
+      params?.claims,
+      params?.silent,
+      params?.tenantId
+    );
+
+    if (!ok) {
+      throw { errorCode: 500, message: res };
+    }
+
+    return res;
+  }
+
+  async getUser() {
+    const [ok, res] =
+      await this.window.send<[boolean, UserProfile | ClientError]>('authentication.getUser');
+
+    if (!ok) {
+      throw res;
+    }
+
+    return res as UserProfile;
+  }
+
+  async authenticate(params: AuthPopUpParams) {
+    await this.window.send(
+      'authentication.authenticate',
+      params.url,
+      params.width,
+      params.height,
+      params.isExternal
+    );
+  }
+
+  async success(result?: string) {
+    await this.window.send('authentication.authenticate.success', result);
+  }
+
+  async failure(reason?: string) {
+    await this.window.send('authentication.authenticate.success', reason);
+  }
 }
