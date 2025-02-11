@@ -1,4 +1,4 @@
-import { ActivityBase, ActivityBuilder } from './base';
+import { ActivityBase, ActivityBaseBuilder } from './base';
 
 export interface TypingActivity extends ActivityBase {
   readonly type: 'typing';
@@ -9,7 +9,7 @@ export interface TypingActivity extends ActivityBase {
   text?: string;
 }
 
-export class TypingActivityBuilder extends ActivityBuilder {
+export class TypingActivityBuilder extends ActivityBaseBuilder<TypingActivity> {
   activity: Pick<TypingActivity, 'type'> & Partial<TypingActivity>;
 
   constructor(options?: Omit<Partial<TypingActivity>, 'type'>) {

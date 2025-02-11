@@ -3,11 +3,15 @@ import {
   cardAttachment,
   ConversationAccount,
   TokenExchangeState,
+  ActivityBuilder,
+  MessageSendActivityBuilder,
+  isActivityBuilder,
 } from '@teams.sdk/api';
 
 import { Sender } from '../../types';
 import { ActivityContext } from '../../activity-context';
 import { HttpStream } from './stream';
+import { Card, isCard } from '@teams.sdk/cards';
 
 /**
  * the default `Sender` implementation that
@@ -23,12 +27,18 @@ export class HttpSender implements Sender {
     this.stream = new HttpStream(this.ctx);
   }
 
-  send(activity: ActivityParams | string) {
+  send(activity: ActivityParams | string | ActivityBuilder | Card) {
     if (typeof activity === 'string') {
       activity = {
         type: 'message',
         text: activity,
       };
+    } else if (isActivityBuilder(activity)) {
+      activity = activity.build();
+    } else if (isCard(activity)) {
+      activity = new MessageSendActivityBuilder('')
+        .card('adaptive', activity)
+        .build();
     }
 
     if (activity.id) {

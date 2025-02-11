@@ -1,5 +1,21 @@
 import { Account, ConversationAccount } from '../models';
-import { ActivityBuilder } from './base';
+import { ActivityBaseBuilder, ActivityBase } from './base';
+
+class ExampleActivityBuilder extends ActivityBaseBuilder<ActivityBase<'example'>> {
+  activity: Pick<ActivityBase<'example'>, 'type'> & Partial<ActivityBase<'example'>>;
+
+  constructor(options?: Omit<Partial<ActivityBase<'example'>>, 'type'>) {
+    super();
+    this.activity = {
+      ...options,
+      type: 'example',
+    };
+  }
+
+  build() {
+    return this.activity;
+  }
+}
 
 describe('ActivityBuilder', () => {
   const user: Account = {
@@ -20,7 +36,7 @@ describe('ActivityBuilder', () => {
   };
 
   it('should build', () => {
-    const activity = new ActivityBuilder()
+    const activity = new ExampleActivityBuilder()
       .id('1')
       .locale('en')
       .from(user)

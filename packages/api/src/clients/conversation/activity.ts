@@ -2,8 +2,9 @@ import { Client, ClientOptions } from '@teams.sdk/common/http';
 
 import { Account, Resource } from '../../models';
 import { Activity } from '../../activities';
+import { ActivityBase } from '../../activities/base';
 
-export type ActivityParams = Pick<Activity, 'type'> & Partial<Activity>;
+export type ActivityParams = Pick<ActivityBase, 'type'> & Partial<Activity>;
 
 export class ConversationActivityClient {
   readonly serviceUrl: string;

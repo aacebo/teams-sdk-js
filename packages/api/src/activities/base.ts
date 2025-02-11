@@ -7,7 +7,11 @@ import {
   Entity,
 } from '../models';
 
-export interface ActivityBase {
+export interface ActivityBase<T extends string = string> {
+  /**
+   * Contains the type of the activity.
+   */
+  readonly type: T;
   /**
    * Contains an ID that uniquely identifies the activity on the channel.
    */
@@ -80,12 +84,8 @@ export interface ActivityBase {
   channelData?: ChannelData;
 }
 
-export class ActivityBuilder {
-  activity: Partial<ActivityBase>;
-
-  constructor(value?: Partial<ActivityBase>) {
-    this.activity = value || {};
-  }
+export abstract class ActivityBaseBuilder<ActivityType extends ActivityBase = ActivityBase> {
+  abstract activity: Pick<ActivityType, 'type'> & Partial<Omit<ActivityType, 'type'>>;
 
   /**
    * Contains an ID that uniquely identifies the activity on the channel.

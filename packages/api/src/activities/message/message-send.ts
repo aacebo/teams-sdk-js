@@ -12,7 +12,7 @@ import {
   TextFormat,
 } from '../../models';
 
-import { ActivityBase, ActivityBuilder } from '../base';
+import { ActivityBase, ActivityBaseBuilder } from '../base';
 
 export interface MessageSendActivity extends ActivityBase {
   readonly type: 'message';
@@ -83,7 +83,7 @@ export interface MessageSendActivity extends ActivityBase {
   value?: any;
 }
 
-export class MessageSendActivityBuilder extends ActivityBuilder {
+export class MessageSendActivityBuilder extends ActivityBaseBuilder<MessageSendActivity> {
   activity: Pick<MessageSendActivity, 'type'> & Partial<MessageSendActivity>;
 
   constructor(text: string, options?: Omit<Partial<MessageSendActivity>, 'type'>) {

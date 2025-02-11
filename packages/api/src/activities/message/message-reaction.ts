@@ -1,5 +1,5 @@
 import { MessageReaction } from '../../models';
-import { ActivityBase, ActivityBuilder } from '../base';
+import { ActivityBase, ActivityBaseBuilder } from '../base';
 
 export interface MessageReactionActivity extends ActivityBase {
   readonly type: 'messageReaction';
@@ -15,7 +15,7 @@ export interface MessageReactionActivity extends ActivityBase {
   reactionsRemoved?: MessageReaction[];
 }
 
-export class MessageReactionActivityBuilder extends ActivityBuilder {
+export class MessageReactionActivityBuilder extends ActivityBaseBuilder<MessageReactionActivity> {
   activity: Pick<MessageReactionActivity, 'type'> & Partial<MessageReactionActivity>;
 
   constructor(options?: Omit<Partial<MessageReactionActivity>, 'type'>) {
