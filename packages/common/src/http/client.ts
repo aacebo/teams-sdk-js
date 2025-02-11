@@ -207,11 +207,7 @@ export class Client {
         ...this.options.headers,
         ...options?.headers,
       },
-      interceptors: [
-        ...Array.from(this.interceptors
-          .values())
-          .map((i) => i.interceptor),
-      ],
+      interceptors: [...Array.from(this.interceptors.values()).map((i) => i.interceptor)],
     });
   }
 
