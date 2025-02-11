@@ -68,7 +68,7 @@ $: npm run fmt
 
 ### Dev
 
-> for apps/samples only
+> for samples/\* only
 
 ```bash
 $: npm run dev
