@@ -1,0 +1,34 @@
+html,
+body,
+:root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Dark mode styles */
+:root {
+  --background-color: #1f1f1f;
+  --text-color: #ffffff;
+}
+
+/* Light mode styles */
+@media (prefers-color-scheme: light) {
+  :root {
+    --background-color: #ffffff;
+    --text-color: #242424;
+  }
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  height: 100vh;
+}
+div {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
