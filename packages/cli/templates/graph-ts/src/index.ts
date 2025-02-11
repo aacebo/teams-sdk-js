@@ -20,16 +20,14 @@ app.event('signin', async ({ send, api }) => {
   const me = await api.user.me.get();
 
   await send(
-    MessageSendActivity(`hello ${me.displayName} 👋!`)
-      .card(
-        'adaptive',
-        Card([
-          CodeBlock({
-            codeSnippet: JSON.stringify(me, null, 2),
-          }),
-        ])
-      )
-      .build()
+    MessageSendActivity(`hello ${me.displayName} 👋!`).card(
+      'adaptive',
+      Card([
+        CodeBlock({
+          codeSnippet: JSON.stringify(me, null, 2),
+        }),
+      ])
+    )
   );
 });
 

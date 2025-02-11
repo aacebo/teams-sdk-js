@@ -134,3 +134,15 @@ export function Card(body: Element[] = [], params?: CardParams): Card {
     ...otherParams,
   };
 }
+
+/**
+ * @hidden
+ * @internal
+ *
+ * Type guard to check if a value is a Card.
+ * @param value value to compare
+ * @returns true if value is type of Card
+ */
+export function isCard(value: any): value is Card {
+  return typeof value === 'object' && value.type === 'AdaptiveCard';
+}

@@ -16,6 +16,7 @@ import {
   SignInVerifyStateInvokeActivity,
   InvokeResponse,
   JsonWebToken,
+  toActivityParams,
 } from '@teams.sdk/api';
 
 import pkg from '../package.json';
@@ -527,12 +528,7 @@ export class App {
         return routes[i](context || routeCtx);
       },
       send: async (activity) => {
-        if (typeof activity === 'string') {
-          activity = {
-            type: 'message',
-            text: activity,
-          };
-        }
+        activity = toActivityParams(activity);
 
         for (const plugin of this.plugins) {
           if (plugin.onBeforeSend) {
@@ -552,6 +548,8 @@ export class App {
         return res;
       },
       reply: async (activity) => {
+        activity = toActivityParams(activity);
+
         if (typeof activity === 'string') {
           activity = {
             type: 'message',

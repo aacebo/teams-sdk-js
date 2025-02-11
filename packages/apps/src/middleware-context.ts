@@ -1,5 +1,6 @@
 import {
   Activity,
+  ActivityBuilder,
   ActivityParams,
   MentionEntity,
   MessageSendActivity,
@@ -11,6 +12,7 @@ import {
 
 import { ActivityContext } from './activity-context';
 import { Streamer } from './types';
+import { Card } from '@teams.sdk/cards';
 
 export interface MiddlewareContext<T extends Activity = Activity> extends ActivityContext<T> {
   /**
@@ -27,13 +29,13 @@ export interface MiddlewareContext<T extends Activity = Activity> extends Activi
    * send an activity to the conversation
    * @param activity activity to send
    */
-  send: (activity: ActivityParams | string) => Promise<Resource>;
+  send: (activity: ActivityParams | string | ActivityBuilder | Card) => Promise<Resource>;
 
   /**
    * reply to the inbound activity
    * @param activity activity to send
    */
-  reply: (activity: ActivityParams | string) => Promise<Resource>;
+  reply: (activity: ActivityParams | string | ActivityBuilder | Card) => Promise<Resource>;
 
   /**
    * trigger user signin flow for the activity sender

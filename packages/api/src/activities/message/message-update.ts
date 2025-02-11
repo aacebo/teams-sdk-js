@@ -1,5 +1,5 @@
 import { ChannelData } from '../../models';
-import { ActivityBase, ActivityBuilder } from '../base';
+import { ActivityBase, ActivityBaseBuilder } from '../base';
 
 export interface MessageUpdateActivity extends ActivityBase {
   readonly type: 'messageUpdate';
@@ -35,7 +35,7 @@ export interface MessageUpdateActivity extends ActivityBase {
   };
 }
 
-export class MessageUpdateActivityBuilder extends ActivityBuilder {
+export class MessageUpdateActivityBuilder extends ActivityBaseBuilder<MessageUpdateActivity> {
   activity: Pick<MessageUpdateActivity, 'type'> & Partial<MessageUpdateActivity>;
 
   constructor(
