@@ -98,10 +98,10 @@ export class App {
       this.log = this.options.logger || new ConsoleLogger(`@teams.sdk/${this._name}`);
     }
 
-    const [_frame, _hosetClientType, _version, runtime] = await this.parent.call('initialize');
-    this.runtime = JSON.parse(runtime);
+    const { runtime } = await this.parent.call('initialize');
+    this.runtime = runtime;
 
-    const [context] = await this.parent.call('getContext');
+    const context = await this.parent.call('getContext');
     this._context = mapContext(context);
 
     this._connectedAt = new Date();
@@ -123,15 +123,15 @@ export class App {
    * get the auth user
    */
   async getUser() {
-    const [user] = await this.parent.call('authentication.getUser');
-    return user;
+    const res = await this.parent.call('authentication.getUser');
+    return res;
   }
 
   /**
    * get the auth users token
    */
   async getUserToken() {
-    const [token] = await this.parent.call('authentication.getAuthToken');
+    const token = await this.parent.call('authentication.getAuthToken');
     return token;
   }
 
@@ -139,7 +139,7 @@ export class App {
    * get chat members
    */
   async getChatMembers() {
-    const [{ members }] = await this.parent.call('conversations.getChatMembers');
+    const { members } = await this.parent.call('conversations.getChatMembers');
     return members;
   }
 }

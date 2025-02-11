@@ -14,6 +14,10 @@ export * from './bar-code-config';
 export * from './permission';
 export * from './call-modality';
 export * from './file';
+export * from './thread-member';
+export * from './legal-age-group-classification';
+export * from './app-eligibility-info';
 
 export * as liveshare from './liveshare';
 export * as marketplace from './marketplace';
+export * as dialog from './dialog';

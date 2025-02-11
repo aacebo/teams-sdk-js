@@ -1,7 +1,10 @@
-export * from './app-install-dialog';
-export * from './authentication';
-export * from './calendar';
-export * from './call';
-export * from './chat';
-export * from './clipboard';
-export * from './marketplace';
+export * as appInitialization from './app-initialization';
+export * as appInstallDialog from './app-install-dialog';
+export * as authentication from './authentication';
+export * as calendar from './calendar';
+export * as call from './call';
+export * as chat from './chat';
+export * as clipboard from './clipboard';
+export * as conversations from './conversations';
+export * as marketplace from './marketplace';
+export * as dialog from './dialog';

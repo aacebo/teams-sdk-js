@@ -1,8 +1,10 @@
 import * as uuid from 'uuid';
 import { ConsoleLogger, EventEmitter, Logger } from '@teams.sdk/common';
 
-import { Methods } from './methods';
+import { MessageTypes, Path, PathValue } from './message-types';
 import { ErrorMessageResponse, MessageRequest, MessageResponse } from './message';
+
+type TMessageTypes = typeof MessageTypes;
 
 /**
  * the window client used to execute
@@ -35,17 +37,35 @@ export class Client {
    * @param name the function to call
    * @param args the functions arguments
    */
-  call<Name extends keyof Methods>(
+  call<Name extends Path<TMessageTypes>>(
     name: Name,
-    args?: Methods[Name]['in']
-  ): Promise<Methods[Name]['out']> {
-    return new Promise<Methods[Name]['out']>((resolve, reject) => {
+    args?: Parameters<PathValue<TMessageTypes, Name>['input']>
+  ): Promise<ReturnType<PathValue<TMessageTypes, Name>['output']>> {
+    const path = name.split('.');
+    let messageType: Record<string, any> = MessageTypes;
+
+    while (path.length) {
+      const part = path.shift();
+
+      if (!part) continue;
+
+      messageType = messageType[part];
+
+      if (!messageType) {
+        throw new Error('invalid function name');
+      }
+    }
+
+    this.log.info(messageType);
+    const input: any[] = messageType.input(...(args || []));
+
+    return new Promise((resolve, reject) => {
       const id = uuid.v4();
       const request: MessageRequest = {
         id: this.id++,
         uuidAsString: id,
         func: name,
-        args: args || [],
+        args: input,
         timestamp: Date.now(),
         monotonicTimestamp: performance?.now(),
       };
@@ -56,17 +76,8 @@ export class Client {
 
       const subId = this.events.once(`message.${id}`, (res) => {
         delete this.requests[id];
-
-        if (res.args.length) {
-          const error = res.args.find((arg) => !!arg['errorCode']);
-
-          if (error) {
-            this.log.error(error);
-            return reject(error);
-          }
-        }
-
-        resolve(res.args as Methods[Name]['out']);
+        const output = messageType.output(res.args);
+        resolve(output);
       });
 
       setTimeout(() => {
