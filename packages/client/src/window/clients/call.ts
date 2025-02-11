@@ -1,3 +1,4 @@
+import { WindowClient } from '../window-client';
 import { CallModality } from '../types';
 
 export interface StartCallParams {
@@ -20,4 +21,20 @@ export interface StartCallParams {
    * An optional parameter that informs about the source of the deep link
    */
   source?: string;
+}
+
+export class CallClient {
+  readonly window: WindowClient;
+
+  constructor(client: WindowClient) {
+    this.window = client;
+  }
+
+  async start(params: StartCallParams) {
+    const [ok] = await this.window.send<[boolean]>(
+      'call.startCall', params
+    );
+
+    return ok;
+  }
 }

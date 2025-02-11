@@ -17,6 +17,8 @@ export * from './file';
 export * from './thread-member';
 export * from './legal-age-group-classification';
 export * from './app-eligibility-info';
+export * from './action-open-url-type';
+export * from './location';
 
 export * as liveshare from './liveshare';
 export * as marketplace from './marketplace';

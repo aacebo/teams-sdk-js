@@ -1,0 +1,82 @@
+import { Logger } from '@teams.sdk/common';
+
+import { Context, FrameContext, HostClientType } from '../types';
+import { WindowClient } from '../window-client';
+import { Runtime } from '../runtime';
+
+import { AppInitializationClient } from './app-initialization';
+import { AppInstallDialogClient } from './app-install-dialog';
+import { AuthenticationClient } from './authentication';
+import { AppEntityClient } from './app-entity';
+import { BarCodeClient } from './bar-code';
+import { CalendarClient } from './calendar';
+import { CallClient } from './call';
+import { ClipboardClient } from './clipboard';
+import { ConversationsClient } from './conversation';
+import { DialogClient } from './dialog';
+import { LocationClient } from './location';
+
+/**
+ * the window client used to execute
+ * functions and receive events from the
+ * parent window
+ */
+export class Client {
+  readonly window: WindowClient;
+  readonly appEntity: AppEntityClient;
+  readonly appInitialization: AppInitializationClient;
+  readonly appInstallDialog: AppInstallDialogClient;
+  readonly authentication: AuthenticationClient;
+  readonly barCode: BarCodeClient;
+  readonly calendar: CalendarClient;
+  readonly call: CallClient;
+  readonly clipboard: ClipboardClient;
+  readonly conversation: ConversationsClient;
+  readonly dialog: DialogClient;
+  readonly location: LocationClient;
+
+  constructor(logger?: Logger) {
+    this.window = new WindowClient(logger);
+    this.appEntity = new AppEntityClient(this.window);
+    this.appInitialization = new AppInitializationClient(this.window);
+    this.appInstallDialog = new AppInstallDialogClient(this.window);
+    this.authentication = new AuthenticationClient(this.window);
+    this.barCode = new BarCodeClient(this.window);
+    this.calendar = new CalendarClient(this.window);
+    this.call = new CallClient(this.window);
+    this.clipboard = new ClipboardClient(this.window);
+    this.conversation = new ConversationsClient(this.window);
+    this.dialog = new DialogClient(this.window);
+    this.location = new LocationClient(this.window);
+  }
+
+  async initialize() {
+    const [
+      frameContext,
+      clientType,
+      runtimeVersion,
+      runtime,
+    ] = await this.window.send<[
+      FrameContext,
+      HostClientType,
+      string,
+      string,
+    ]>('initialize');
+
+    return {
+      frameContext,
+      clientType,
+      runtimeVersion,
+      runtime: JSON.parse(runtime) as Runtime
+    };
+  }
+
+  async getContext() {
+    const [context] = await this.window.send<[Context]>('getContext');
+    return context;
+  }
+
+  async deepLink(url: string) {
+    await this.window.send('executeDeepLink', url);
+  }
+}

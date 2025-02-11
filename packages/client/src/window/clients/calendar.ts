@@ -1,3 +1,5 @@
+import { WindowClient } from '../window-client';
+
 /**
  * Compose meeting parameters
  */
@@ -36,4 +38,20 @@ export interface OpenCalendarItemParams {
    * An unique base64-encoded string id that represents the event's unique identifier of the calendar item to be opened.
    */
   itemId: string;
+}
+
+export class CalendarClient {
+  readonly window: WindowClient;
+
+  constructor(client: WindowClient) {
+    this.window = client;
+  }
+
+  async composeMeeting(params: ComposeCalendarMeetingParams) {
+    await this.window.send('calendar.composeMeeting', params);
+  }
+
+  async openItem(params: OpenCalendarItemParams) {
+    await this.window.send('calendar.openCalendarItem', params);
+  }
 }
