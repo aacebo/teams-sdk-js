@@ -1,2 +1,2 @@
-import { default as CardDesigner } from './CardDesigner';
+import CardDesigner from './CardDesigner';
 export default CardDesigner;
