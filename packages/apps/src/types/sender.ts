@@ -1,4 +1,10 @@
-import { ActivityBuilder, ActivityParams, MessageSendActivity, Resource, TypingActivity } from '@teams.sdk/api';
+import {
+  ActivityBuilder,
+  ActivityParams,
+  MessageSendActivity,
+  Resource,
+  TypingActivity,
+} from '@teams.sdk/api';
 import { Card } from '@teams.sdk/cards';
 
 /**

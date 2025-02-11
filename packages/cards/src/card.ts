@@ -138,7 +138,7 @@ export function Card(body: Element[] = [], params?: CardParams): Card {
 /**
  * @hidden
  * @internal
- * 
+ *
  * Type guard to check if a value is a Card.
  * @param value value to compare
  * @returns true if value is type of Card

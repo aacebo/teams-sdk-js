@@ -6,10 +6,12 @@ import { MessageSendActivityBuilder } from '../message';
 /**
  * @hidden
  * @internal
- * 
+ *
  * Transforms supported send types into a valid `ActivityParams` object
  */
-export function toActivityParams(activity: ActivityParams | string | ActivityBuilder | Card): ActivityParams {
+export function toActivityParams(
+  activity: ActivityParams | string | ActivityBuilder | Card
+): ActivityParams {
   if (typeof activity === 'string') {
     activity = {
       type: 'message',

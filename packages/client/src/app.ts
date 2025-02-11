@@ -131,7 +131,7 @@ export class App {
    * get the auth users token
    */
   async getUserToken() {
-    const token = await this.parent.call('authentication.getAuthToken', [{ }]);
+    const token = await this.parent.call('authentication.getAuthToken', [{}]);
     return token;
   }
 

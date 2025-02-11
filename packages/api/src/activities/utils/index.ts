@@ -1,1 +1,1 @@
-export * from "./activity-utils";
+export * from './activity-utils';

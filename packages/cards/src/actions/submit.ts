@@ -197,7 +197,7 @@ export type CollabStageActionParams = Omit<BaseAction, 'data'> & {
 
 /**
  * Adaptive Card action that opens a collab stage popout window.
- * 
+ *
  * @param params action parameters
  * @param params.title button text for the action.
  * @param params.tabInfo information about the iFrame content, rendered in the collab stage popout window.
