@@ -4,13 +4,13 @@ import {
   ConversationAccount,
   TokenExchangeState,
   ActivityBuilder,
+  toActivityParams,
 } from '@teams.sdk/api';
 
 import { Sender } from '../../types';
 import { ActivityContext } from '../../activity-context';
 import { HttpStream } from './stream';
 import { Card } from '@teams.sdk/cards';
-import { toActivityParams } from '../../utils';
 
 /**
  * the default `Sender` implementation that

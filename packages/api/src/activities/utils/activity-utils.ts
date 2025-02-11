@@ -1,6 +1,14 @@
-import { ActivityBuilder, ActivityParams, isActivityBuilder, MessageSendActivityBuilder } from '@teams.sdk/api';
 import { Card, isCard } from '@teams.sdk/cards';
+import { ActivityParams } from '../../clients';
+import { ActivityBuilder, isActivityBuilder } from '../builder';
+import { MessageSendActivityBuilder } from '../message';
 
+/**
+ * @hidden
+ * @internal
+ * 
+ * Transforms supported send types into a valid `ActivityParams` object
+ */
 export function toActivityParams(activity: ActivityParams | string | ActivityBuilder | Card): ActivityParams {
   if (typeof activity === 'string') {
     activity = {

@@ -16,6 +16,7 @@ import {
   SignInVerifyStateInvokeActivity,
   InvokeResponse,
   JsonWebToken,
+  toActivityParams,
 } from '@teams.sdk/api';
 
 import pkg from '../package.json';
@@ -30,7 +31,6 @@ import { HttpPlugin } from './plugins';
 import { OAuthSettings } from './oauth';
 import { AppClient, ApiClient } from './api';
 import * as manifest from './manifest';
-import { toActivityParams } from './utils';
 
 /**
  * App initialization options
@@ -549,7 +549,7 @@ export class App {
       },
       reply: async (activity) => {
         activity = toActivityParams(activity);
-        
+
         if (typeof activity === 'string') {
           activity = {
             type: 'message',
