@@ -1,4 +1,5 @@
-import { ActivityParams, MessageSendActivity, Resource, TypingActivity } from '@teams.sdk/api';
+import { ActivityBuilder, ActivityParams, MessageSendActivity, Resource, TypingActivity } from '@teams.sdk/api';
+import { Card } from '@teams.sdk/cards';
 
 /**
  * component that can send an activity
@@ -13,13 +14,13 @@ export interface Sender {
    * send an activity
    * @param activity the activity to send
    */
-  send(activity: ActivityParams | string): Promise<Resource>;
+  send(activity: ActivityParams | string | ActivityBuilder | Card): Promise<Resource>;
 
   /**
    * reploy to an activity
    * @param activity the activity to send
    */
-  reply(activity: ActivityParams | string): Promise<Resource>;
+  reply(activity: ActivityParams | string | ActivityBuilder | Card): Promise<Resource>;
 
   /**
    * trigger user signin flow for the activity sender
