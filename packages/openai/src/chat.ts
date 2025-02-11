@@ -17,6 +17,8 @@ export interface OpenAIChatModelOptions {
   readonly stream?: boolean;
   readonly temperature?: number;
   readonly logger?: Logger;
+  readonly requestOptions?: OpenAI.ChatCompletionCreateParams |
+    ((params: ChatParams) => OpenAI.ChatCompletionCreateParams | Promise<OpenAI.ChatCompletionCreateParams>);
 }
 
 export class OpenAIChatModel implements ChatModel {
@@ -83,10 +85,19 @@ export class OpenAIChatModel implements ChatModel {
     }
 
     try {
+      let requestOptions = this.options?.requestOptions;
+
+      if (requestOptions) {
+        if (typeof requestOptions === 'function') {
+          requestOptions = await requestOptions(params);
+        }
+      }
+
       const completion = await this._openai.chat.completions.create({
         model: this.options.model,
         temperature: this.options.temperature,
         stream: this.options.stream,
+        ...requestOptions,
         tools:
           Object.keys(params.functions || {}).length === 0
             ? undefined
