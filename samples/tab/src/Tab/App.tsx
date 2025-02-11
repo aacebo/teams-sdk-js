@@ -15,9 +15,6 @@ export default function App() {
 
       const context = await app.connect();
       setContext(context);
-
-      const res = await app.getUser();
-      app.log.info(res);
     })();
   }, []);
 

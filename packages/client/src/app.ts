@@ -130,8 +130,8 @@ export class App {
   /**
    * get the auth users token
    */
-  async getUserToken() {
-    const token = await this.parent.authentication.getToken();
+  async getUserToken(params?: window.AuthTokenRequestParams) {
+    const token = await this.parent.authentication.getToken(params);
     return token;
   }
 

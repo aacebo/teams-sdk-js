@@ -84,3 +84,18 @@ export class Client {
     this.window.on('themeChange', handler);
   }
 }
+
+export * from './app-initialization';
+export * from './app-install-dialog';
+export * from './authentication';
+export * from './app-entity';
+export * from './bar-code';
+export * from './calendar';
+export * from './call';
+export * from './clipboard';
+export * from './conversation';
+export * from './dialog';
+export * from './location';
+export * from './permission';
+export * from './notification';
+export * from './media';
