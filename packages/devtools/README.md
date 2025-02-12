@@ -40,7 +40,6 @@ $: npm install @teams.sdk/devtools
 
 ## Dependencies
 
-
 - [@teams.sdk/api](https://www.npmjs.com/package/@teams.sdk/api)
 - [@teams.sdk/cards](https://www.npmjs.com/package/@teams.sdk/cards)
 - [date-fns](https://www.npmjs.com/package/date-fns)
