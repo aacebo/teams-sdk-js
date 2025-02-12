@@ -1,14 +1,24 @@
 # @teams.sdk/apps
 
+## 0.1.26
+
+### Patch Changes
+
+- fix plugins
+- Updated dependencies
+  - @teams.sdk/api@0.1.26
+  - @teams.sdk/common@0.1.26
+  - @teams.sdk/graph@0.1.26
+
 ## 0.1.25
 
 ### Patch Changes
 
 - update client with api methods
 - Updated dependencies
-    - @teams.sdk/api@0.1.25
-    - @teams.sdk/common@0.1.25
-    - @teams.sdk/graph@0.1.25
+  - @teams.sdk/api@0.1.25
+  - @teams.sdk/common@0.1.25
+  - @teams.sdk/graph@0.1.25
 
 ## 0.1.24
 
@@ -16,9 +26,9 @@
 
 - fix plugins and devtools
 - Updated dependencies
-    - @teams.sdk/api@0.1.24
-    - @teams.sdk/common@0.1.24
-    - @teams.sdk/graph@0.1.24
+  - @teams.sdk/api@0.1.24
+  - @teams.sdk/common@0.1.24
+  - @teams.sdk/graph@0.1.24
 
 ## 0.1.23
 
@@ -26,9 +36,9 @@
 
 - revamp plugin structure
 - Updated dependencies
-    - @teams.sdk/api@0.1.23
-    - @teams.sdk/common@0.1.23
-    - @teams.sdk/graph@0.1.23
+  - @teams.sdk/api@0.1.23
+  - @teams.sdk/common@0.1.23
+  - @teams.sdk/graph@0.1.23
 
 ## 0.1.22
 
@@ -36,9 +46,9 @@
 
 - fix cards image builder
 - Updated dependencies
-    - @teams.sdk/api@0.1.22
-    - @teams.sdk/common@0.1.22
-    - @teams.sdk/graph@0.1.22
+  - @teams.sdk/api@0.1.22
+  - @teams.sdk/common@0.1.22
+  - @teams.sdk/graph@0.1.22
 
 ## 0.1.21
 
@@ -46,9 +56,9 @@
 
 - add graph to all cli templates
 - Updated dependencies
-    - @teams.sdk/api@0.1.21
-    - @teams.sdk/common@0.1.21
-    - @teams.sdk/graph@0.1.21
+  - @teams.sdk/api@0.1.21
+  - @teams.sdk/common@0.1.21
+  - @teams.sdk/graph@0.1.21
 
 ## 0.1.20
 
@@ -56,9 +66,9 @@
 
 - add basic client
 - Updated dependencies
-    - @teams.sdk/api@0.1.20
-    - @teams.sdk/common@0.1.20
-    - @teams.sdk/graph@0.1.20
+  - @teams.sdk/api@0.1.20
+  - @teams.sdk/common@0.1.20
+  - @teams.sdk/graph@0.1.20
 
 ## 0.1.19
 
@@ -66,9 +76,9 @@
 
 - refactor http clients to common package
 - Updated dependencies
-    - @teams.sdk/common@0.1.19
-    - @teams.sdk/graph@0.1.19
-    - @teams.sdk/api@0.1.19
+  - @teams.sdk/common@0.1.19
+  - @teams.sdk/graph@0.1.19
+  - @teams.sdk/api@0.1.19
 
 ## 0.1.18
 
@@ -76,9 +86,9 @@
 
 - update botbuilder and add cli templates
 - Updated dependencies
-    - @teams.sdk/api@0.1.18
-    - @teams.sdk/common@0.1.18
-    - @teams.sdk/graph@0.1.18
+  - @teams.sdk/api@0.1.18
+  - @teams.sdk/common@0.1.18
+  - @teams.sdk/graph@0.1.18
 
 ## 0.1.17
 
@@ -86,9 +96,9 @@
 
 - update auth sample and handle user auth state management for msgraph
 - Updated dependencies
-    - @teams.sdk/api@0.1.17
-    - @teams.sdk/common@0.1.17
-    - @teams.sdk/graph@0.1.17
+  - @teams.sdk/api@0.1.17
+  - @teams.sdk/common@0.1.17
+  - @teams.sdk/graph@0.1.17
 
 ## 0.1.16
 
@@ -96,9 +106,9 @@
 
 - make graph package smaller
 - Updated dependencies
-    - @teams.sdk/api@0.1.16
-    - @teams.sdk/common@0.1.16
-    - @teams.sdk/graph@0.1.16
+  - @teams.sdk/api@0.1.16
+  - @teams.sdk/common@0.1.16
+  - @teams.sdk/graph@0.1.16
 
 ## 0.1.15
 
@@ -106,9 +116,9 @@
 
 - add graph package
 - Updated dependencies
-    - @teams.sdk/api@0.1.15
-    - @teams.sdk/common@0.1.15
-    - @teams.sdk/graph@0.1.15
+  - @teams.sdk/api@0.1.15
+  - @teams.sdk/common@0.1.15
+  - @teams.sdk/graph@0.1.15
 
 ## 0.1.14
 
@@ -116,8 +126,8 @@
 
 - add activity builder
 - Updated dependencies
-    - @teams.sdk/api@0.1.14
-    - @teams.sdk/common@0.1.14
+  - @teams.sdk/api@0.1.14
+  - @teams.sdk/common@0.1.14
 
 ## 0.1.13
 
@@ -125,8 +135,8 @@
 
 - update devtools
 - Updated dependencies
-    - @teams.sdk/api@0.1.13
-    - @teams.sdk/common@0.1.13
+  - @teams.sdk/api@0.1.13
+  - @teams.sdk/common@0.1.13
 
 ## 0.1.12
 
@@ -134,8 +144,8 @@
 
 - updates to cli
 - Updated dependencies
-    - @teams.sdk/api@0.1.12
-    - @teams.sdk/common@0.1.12
+  - @teams.sdk/api@0.1.12
+  - @teams.sdk/common@0.1.12
 
 ## 0.1.11
 
@@ -143,8 +153,8 @@
 
 - latest changes to cli and common
 - Updated dependencies
-    - @teams.sdk/api@0.1.11
-    - @teams.sdk/common@0.1.11
+  - @teams.sdk/api@0.1.11
+  - @teams.sdk/common@0.1.11
 
 ## 0.1.10
 
@@ -152,8 +162,8 @@
 
 - add cli package
 - Updated dependencies
-    - @teams.sdk/api@0.1.10
-    - @teams.sdk/common@0.1.10
+  - @teams.sdk/api@0.1.10
+  - @teams.sdk/common@0.1.10
 
 ## 0.1.9
 
@@ -161,8 +171,8 @@
 
 - remove @teams.sdk/config peer dep
 - Updated dependencies
-    - @teams.sdk/api@0.1.9
-    - @teams.sdk/common@0.1.9
+  - @teams.sdk/api@0.1.9
+  - @teams.sdk/common@0.1.9
 
 ## 0.1.8
 
@@ -170,9 +180,9 @@
 
 - make credentials optional
 - Updated dependencies
-    - @teams.sdk/api@0.1.8
-    - @teams.sdk/common@0.1.8
-    - @teams.sdk/config@0.1.8
+  - @teams.sdk/api@0.1.8
+  - @teams.sdk/common@0.1.8
+  - @teams.sdk/config@0.1.8
 
 ## 0.1.7
 
@@ -180,9 +190,9 @@
 
 - add devtools
 - Updated dependencies
-    - @teams.sdk/api@0.1.7
-    - @teams.sdk/common@0.1.7
-    - @teams.sdk/config@0.1.7
+  - @teams.sdk/api@0.1.7
+  - @teams.sdk/common@0.1.7
+  - @teams.sdk/config@0.1.7
 
 ## 0.1.6
 
@@ -190,9 +200,9 @@
 
 - add getting started docs link to packages
 - Updated dependencies
-    - @teams.sdk/api@0.1.6
-    - @teams.sdk/common@0.1.6
-    - @teams.sdk/config@0.1.6
+  - @teams.sdk/api@0.1.6
+  - @teams.sdk/common@0.1.6
+  - @teams.sdk/config@0.1.6
 
 ## 0.1.5
 
@@ -200,9 +210,9 @@
 
 - add documentation
 - Updated dependencies
-    - @teams.sdk/api@0.1.5
-    - @teams.sdk/common@0.1.5
-    - @teams.sdk/config@0.1.5
+  - @teams.sdk/api@0.1.5
+  - @teams.sdk/common@0.1.5
+  - @teams.sdk/config@0.1.5
 
 ## 0.1.4
 
@@ -210,9 +220,9 @@
 
 - update package.json files
 - Updated dependencies
-    - @teams.sdk/api@0.1.4
-    - @teams.sdk/common@0.1.4
-    - @teams.sdk/config@0.1.4
+  - @teams.sdk/api@0.1.4
+  - @teams.sdk/common@0.1.4
+  - @teams.sdk/config@0.1.4
 
 ## 0.1.3
 
@@ -220,9 +230,9 @@
 
 - add more cards
 - Updated dependencies
-    - @teams.sdk/api@0.1.3
-    - @teams.sdk/common@0.1.3
-    - @teams.sdk/config@0.1.3
+  - @teams.sdk/api@0.1.3
+  - @teams.sdk/common@0.1.3
+  - @teams.sdk/config@0.1.3
 
 ## 0.1.2
 
@@ -230,9 +240,9 @@
 
 - add input cards and stream activity
 - Updated dependencies
-    - @teams.sdk/api@0.1.2
-    - @teams.sdk/common@0.1.2
-    - @teams.sdk/config@0.1.2
+  - @teams.sdk/api@0.1.2
+  - @teams.sdk/common@0.1.2
+  - @teams.sdk/config@0.1.2
 
 ## 0.1.1
 
@@ -240,6 +250,6 @@
 
 - add package metadata and update readme
 - Updated dependencies
-    - @teams.sdk/api@0.1.1
-    - @teams.sdk/common@0.1.1
-    - @teams.sdk/config@0.1.1
+  - @teams.sdk/api@0.1.1
+  - @teams.sdk/common@0.1.1
+  - @teams.sdk/config@0.1.1

@@ -1,5 +1,11 @@
 # @teams.sdk/config
 
+## 0.1.26
+
+### Patch Changes
+
+- fix plugins
+
 ## 0.1.25
 
 ### Patch Changes
