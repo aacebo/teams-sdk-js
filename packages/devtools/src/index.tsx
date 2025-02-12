@@ -10,7 +10,7 @@ export const getTheme = () => {
   return theme;
 };
 
-import App from './App.tsx'
+import App from './App-2.tsx'
 
 const theme = getTheme();
 const root = createRoot(document.getElementById('root')!);

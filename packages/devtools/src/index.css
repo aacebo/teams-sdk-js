@@ -2,17 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root {
+html,
+body,
+:root {
   height: 100%;
   width: 100%;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 
-  @apply dark:bg-stone-900;
-  @apply dark:text-white;
 }
 
-:focus-visible {
-  outline: none;
+/* Dark mode styles */
+:root {
+  /* fluentui colorNeutralBackground3 */
+  --background-color: #1f1f1f;
+  /* fluentui colorNeutralForeground1 */
+  --text-color: #ffffff;
+}
+
+/* Light mode styles */
+@media (prefers-color-scheme: light) {
+  :root {
+    /* fluentui colorNeutralBackground1 */
+    --background-color: #ffffff;
+    /* fluentui colorNeutralForeground1 */
+    --text-color: #242424;
+  }
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  height: 100vh;
+}
+
+div {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 /* Scroll bar stylings */

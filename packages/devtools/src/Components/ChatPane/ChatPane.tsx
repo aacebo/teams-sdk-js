@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { Avatar, mergeClasses } from '@fluentui/react-components';
 import { Chat, ChatMessage, ChatMyMessage } from '@fluentui-contrib/react-chat';
 import useStyles from './ChatPane.styles';
-import useGlobalStyles from '../../useGlobalStyles';
+import useGlobalStyles from '../../../../devtools/src/useGlobalStyles';
 import ComposeBox from '../ComposeBox/ComposeBox';
 
 const ChatPane: FC = () => {

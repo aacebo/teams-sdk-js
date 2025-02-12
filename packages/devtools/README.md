@@ -40,4 +40,15 @@ $: npm install @teams.sdk/devtools
 
 ## Dependencies
 
-too many...
+
+- [@teams.sdk/api](https://www.npmjs.com/package/@teams.sdk/api)
+- [@teams.sdk/cards](https://www.npmjs.com/package/@teams.sdk/cards)
+- [date-fns](https://www.npmjs.com/package/date-fns)
+- [fluentui-react-icons](https://www.npmjs.com/package/@fluentui/react-icons)
+- [prettier](https://www.npmjs.com/package/prettier)
+- [react-dom](https://www.npmjs.com/package/react-dom)
+- [react-router](https://www.npmjs.com/package/react-router)
+- [react](https://www.npmjs.com/package/react)
+- [typescript-eslint](https://www.npmjs.com/package/typescript-eslint)
+- [typescript](https://www.npmjs.com/package/typescript)
+- [uuid](https://www.npmjs.com/package/uuid)

@@ -1,5 +1,7 @@
 # @teams.sdk/devtools
 
+- Init devtools revamp
+
 ## 0.1.30
 
 ### Patch Changes
