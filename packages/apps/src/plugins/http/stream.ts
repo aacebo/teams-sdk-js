@@ -1,7 +1,13 @@
-import { Attachment, ChannelData, Entity, MessageSendActivity } from '@teams.sdk/api';
+import {
+  ActivityParams,
+  Attachment,
+  ChannelData,
+  Entity,
+  MessageSendActivity,
+  Resource,
+} from '@teams.sdk/api';
 
 import { Streamer } from '../../types';
-import { ActivityContext } from '../../activity-context';
 
 export class HttpStream implements Streamer {
   protected index = 0;
@@ -15,7 +21,7 @@ export class HttpStream implements Streamer {
   private _timeout?: NodeJS.Timeout;
   private _failures: number = 0;
 
-  constructor(protected ctx: ActivityContext) {}
+  constructor(protected send: (activity: ActivityParams) => Promise<Resource>) {}
 
   emit(activity: Partial<MessageSendActivity> | string) {
     if (this._timeout) {
@@ -41,13 +47,11 @@ export class HttpStream implements Streamer {
       await new Promise((resolve) => setTimeout(resolve, 200));
     }
 
-    await this.ctx.api.conversations.activities(this.ctx.activity.conversation.id).create({
+    await this.send({
       id: this.id,
       type: 'message',
       text: this.text,
       attachments: this.attachments,
-      from: this.ctx.activity.recipient,
-      conversation: this.ctx.activity.conversation,
       entities: [
         ...this.entities,
         {
@@ -110,28 +114,24 @@ export class HttpStream implements Streamer {
       }
 
       this.index++;
-      const { id } = await this.ctx.api.conversations
-        .activities(this.ctx.activity.conversation.id)
-        .create({
-          id: this.id,
-          type: 'typing',
-          text: this.text,
-          from: this.ctx.activity.recipient,
-          conversation: this.ctx.activity.conversation,
-          channelData: {
+      const { id } = await this.send({
+        id: this.id,
+        type: 'typing',
+        text: this.text,
+        channelData: {
+          streamId: this.id,
+          streamType: 'streaming',
+          streamSequence: this.index,
+        },
+        entities: [
+          {
+            type: 'streaminfo',
             streamId: this.id,
             streamType: 'streaming',
             streamSequence: this.index,
           },
-          entities: [
-            {
-              type: 'streaminfo',
-              streamId: this.id,
-              streamType: 'streaming',
-              streamSequence: this.index,
-            },
-          ],
-        });
+        ],
+      });
 
       if (!this.id) {
         this.id = id;

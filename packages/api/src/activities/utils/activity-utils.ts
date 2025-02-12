@@ -1,7 +1,8 @@
-import { Card, isCard } from '@teams.sdk/cards';
+import { isCard } from '@teams.sdk/cards';
 import { ActivityParams } from '../../clients';
-import { ActivityBuilder, isActivityBuilder } from '../builder';
+import { isActivityBuilder } from '../builder';
 import { MessageSendActivityBuilder } from '../message';
+import { ActivityLike } from '../../models';
 
 /**
  * @hidden
@@ -9,9 +10,7 @@ import { MessageSendActivityBuilder } from '../message';
  *
  * Transforms supported send types into a valid `ActivityParams` object
  */
-export function toActivityParams(
-  activity: ActivityParams | string | ActivityBuilder | Card
-): ActivityParams {
+export function toActivityParams(activity: ActivityLike): ActivityParams {
   if (typeof activity === 'string') {
     activity = {
       type: 'message',

@@ -1,8 +1,9 @@
-import { ActivityParams } from '@teams.sdk/api';
+import { ActivityParams, Resource } from '@teams.sdk/api';
 import { EventEmitter } from '@teams.sdk/common/events';
 
 import { App } from '../app';
-import { MiddlewareContext } from '../middleware-context';
+import { ActivityContext } from '../activity-context';
+import { Streamer } from './streamer';
 
 export interface PluginEvents {
   error: any;
@@ -32,17 +33,54 @@ export interface Plugin<Events extends PluginEvents = PluginEvents>
    * called by the `App`
    * when an activity is received
    */
-  onActivity?(ctx: MiddlewareContext): void | Promise<void>;
+  onActivity?(ctx: ActivityContext): void | Promise<void>;
+
+  /**
+   * called by the `App`
+   * to send an activity
+   */
+  onSend?(
+    activity: ActivityParams,
+    ctx: ActivityContext
+  ): undefined | Resource | Promise<undefined | Resource>;
 
   /**
    * called by the `App`
    * before an activity is sent
    */
-  onBeforeSend?(activity: ActivityParams, ctx: MiddlewareContext): void | Promise<void>;
+  onBeforeSend?(activity: ActivityParams, ctx: ActivityContext): void | Promise<void>;
 
   /**
    * called by the `App`
    * after an activity is sent
    */
-  onAfterSend?(activity: ActivityParams, ctx: MiddlewareContext): void | Promise<void>;
+  onAfterSend?(activity: ActivityParams, ctx: ActivityContext): void | Promise<void>;
+
+  /**
+   * called by the `App`
+   * to send an activity chunk
+   */
+  onStreamOpen?(ctx: ActivityContext): Streamer | Promise<Streamer>;
+}
+
+/**
+ * a Plugin that
+ */
+export interface SenderPlugin<Events extends PluginEvents = PluginEvents> extends Plugin<Events> {
+  /**
+   * called by the `App`
+   * to send an activity
+   */
+  onSend(activity: ActivityParams, ctx: ActivityContext): Resource | Promise<Resource>;
+}
+
+/**
+ * a Plugin that
+ */
+export interface StreamerPlugin<Events extends PluginEvents = PluginEvents> extends Plugin<Events> {
+  /**
+   * called by the `App`
+   * to send an activity chunk
+   */
+  onStreamOpen(ctx: ActivityContext): Streamer | Promise<Streamer>;
 }

@@ -3,10 +3,8 @@ import express from 'express';
 
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 import { App, PluginEvents, Plugin } from '@teams.sdk/apps';
-import { MessageSendActivity, Token } from '@teams.sdk/api';
+import { ActivityParams, MessageSendActivity, Token } from '@teams.sdk/api';
 import { EventEmitter } from '@teams.sdk/common/events';
-
-import { ConsoleSender } from './sender';
 
 /**
  * Console Receiver Options
@@ -47,12 +45,12 @@ export class ConsolePlugin extends EventEmitter<PluginEvents> implements Plugin 
     this.log = app.log.child('console');
   }
 
-  async onStart(port?: number) {
+  async onStart(port = 3000) {
     if (!this.app) {
       throw new Error('plugin not registered');
     }
 
-    this.express.listen(port, () => {
+    this.express.listen(port + 1, () => {
       this.reader.on('line', async (text) => {
         const activity: MessageSendActivity = {
           id: '1',
@@ -88,7 +86,7 @@ export class ConsolePlugin extends EventEmitter<PluginEvents> implements Plugin 
           const res = await this.app!.process({
             token,
             activity,
-            sender: (ctx) => new ConsoleSender(ctx),
+            sender: this,
           });
 
           if (res.body) {
@@ -100,6 +98,21 @@ export class ConsolePlugin extends EventEmitter<PluginEvents> implements Plugin 
         }
       });
     });
+  }
+
+  async onSend(activity: ActivityParams) {
+    if (typeof activity === 'string') {
+      activity = {
+        type: 'message',
+        text: activity,
+      };
+    }
+
+    if (activity.type === 'message' && activity.text) {
+      this.log.info(activity.text);
+    }
+
+    return { id: '1' };
   }
 
   protected onAuthRedirect(

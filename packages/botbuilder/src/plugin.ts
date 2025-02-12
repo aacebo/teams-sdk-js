@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { App, HttpPlugin, HttpSender } from '@teams.sdk/apps';
+import { App, HttpPlugin } from '@teams.sdk/apps';
 import { Activity, JsonWebToken } from '@teams.sdk/api';
 
 import {
@@ -85,7 +85,7 @@ export class BotBuilderPlugin extends HttpPlugin {
         const response = await this.app!.process({
           token: new JsonWebToken(authorization),
           activity: context.activity as Activity,
-          sender: (ctx) => new HttpSender(ctx),
+          sender: this,
         });
 
         this.emit('response', {

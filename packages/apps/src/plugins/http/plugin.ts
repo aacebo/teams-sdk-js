@@ -1,13 +1,14 @@
 import http from 'http';
 import express from 'express';
 
-import { Activity, InvokeResponse, JsonWebToken } from '@teams.sdk/api';
+import { Activity, ActivityParams, InvokeResponse, JsonWebToken } from '@teams.sdk/api';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 import { EventEmitter } from '@teams.sdk/common/events';
 
-import { Plugin, PluginEvents } from '../../types';
+import { Plugin, PluginEvents, Streamer } from '../../types';
 import { App } from '../../app';
-import { HttpSender } from './sender';
+import { ActivityContext } from '../../activity-context';
+import { HttpStream } from './stream';
 
 export interface HttpEvents extends PluginEvents {
   request: express.Request;
@@ -36,6 +37,11 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
     return this._http;
   }
   protected _http: http.Server;
+
+  get port() {
+    return this._port;
+  }
+  protected _port?: number;
 
   protected app?: App;
   protected log: Logger;
@@ -82,6 +88,7 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
       throw new Error('plugin not registered');
     }
 
+    this._port = port;
     this.express.get('/', (_, res) => {
       res.send(this.app?.manifest);
     });
@@ -96,6 +103,26 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
         resolve();
       });
     });
+  }
+
+  onSend(activity: ActivityParams, ctx: ActivityContext) {
+    if (activity.id && !activity.channelData?.streamId) {
+      return ctx.api.conversations.activities(ctx.activity.conversation.id).update(activity.id, {
+        ...activity,
+        from: ctx.activity.recipient,
+        conversation: ctx.activity.conversation,
+      });
+    }
+
+    return ctx.api.conversations.activities(ctx.activity.conversation.id).create({
+      ...activity,
+      from: ctx.activity.recipient,
+      conversation: ctx.activity.conversation,
+    });
+  }
+
+  onStreamOpen(ctx: ActivityContext): Streamer {
+    return new HttpStream((activity) => this.onSend(activity, ctx));
   }
 
   /**
@@ -135,7 +162,7 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
         req,
         token,
         activity,
-        sender: (ctx) => new HttpSender(ctx),
+        sender: this,
       });
 
       this.emit('response', {

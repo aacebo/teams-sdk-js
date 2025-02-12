@@ -5,13 +5,21 @@ import express from 'express';
 import io from 'socket.io';
 import * as uuid from 'uuid';
 
-import { App, HttpSender, MiddlewareContext, Plugin, PluginEvents } from '@teams.sdk/apps';
+import { ActivityParams } from '@teams.sdk/api';
+import {
+  ActivityContext,
+  App,
+  HttpPlugin,
+  HttpStream,
+  Plugin,
+  PluginEvents,
+  Streamer,
+} from '@teams.sdk/apps';
 import { EventEmitter } from '@teams.sdk/common/events';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 
 import { router } from './routes';
 import { ActivityEvent, Event } from './event';
-import { ActivityParams } from '@teams.sdk/api';
 
 export interface DevtoolsOptions {
   readonly port?: number;
@@ -25,6 +33,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
   protected express: express.Application;
   protected io: io.Server;
   protected sockets = new Map<string, io.Socket>();
+  protected httpPlugin = new HttpPlugin();
 
   constructor(readonly options: DevtoolsOptions = {}) {
     super();
@@ -50,6 +59,12 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
   }
 
   onInit(app: App) {
+    const httpPlugin = app.getPlugin('http');
+
+    if (httpPlugin && httpPlugin instanceof HttpPlugin) {
+      this.httpPlugin = httpPlugin;
+    }
+
     this.log = app.log.child('devtools');
     this.express.use(
       router({
@@ -59,7 +74,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
           return app.process({
             token,
             activity,
-            sender: (ctx) => new HttpSender(ctx),
+            sender: this,
           });
         },
       })
@@ -71,7 +86,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
    * @param port port to listen on
    */
   async onStart() {
-    const port = this.options.port || 3001;
+    const port = this.options.port || (this.httpPlugin.port || 3000) + 1;
 
     return await new Promise<void>((resolve, reject) => {
       this.http.on('error', (err) => {
@@ -86,7 +101,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
     });
   }
 
-  onActivity({ activity, next }: MiddlewareContext) {
+  onActivity({ activity, next }: ActivityContext) {
     this.sendActivity({
       id: uuid.v4(),
       type: 'activity.received',
@@ -98,7 +113,23 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
     return next();
   }
 
-  onBeforeSend(activity: ActivityParams, ctx: MiddlewareContext) {
+  async onSend(activity: ActivityParams, ctx: ActivityContext) {
+    this.sendActivity({
+      id: ctx.devtoolsRequestId,
+      type: 'activity.sent',
+      chat: ctx.activity.conversation,
+      body: {
+        ...activity,
+        conversation: ctx.activity.conversation,
+      } as any,
+      sentAt: new Date(ctx.devtoolsRequestSentAt),
+    });
+
+    const res = await this.httpPlugin.onSend(activity, ctx);
+    return res;
+  }
+
+  onBeforeSend(activity: ActivityParams, ctx: ActivityContext) {
     const id = uuid.v4();
     const sentAt = new Date();
 
@@ -117,7 +148,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
     ctx.devtoolsRequestSentAt = sentAt;
   }
 
-  onAfterSend(activity: ActivityParams, ctx: MiddlewareContext) {
+  onAfterSend(activity: ActivityParams, ctx: ActivityContext) {
     this.sendActivity({
       id: ctx.devtoolsRequestId,
       type: 'activity.sent',
@@ -127,6 +158,12 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
         conversation: ctx.activity.conversation,
       } as any,
       sentAt: new Date(ctx.devtoolsRequestSentAt),
+    });
+  }
+
+  onStreamOpen(ctx: ActivityContext): Streamer {
+    return new HttpStream((activity) => {
+      return this.onSend(activity, ctx);
     });
   }
 

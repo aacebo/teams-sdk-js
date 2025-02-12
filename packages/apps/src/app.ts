@@ -17,13 +17,18 @@ import {
   InvokeResponse,
   JsonWebToken,
   toActivityParams,
+  ConversationAccount,
+  TokenExchangeState,
+  cardAttachment,
+  ActivityLike,
+  Resource,
 } from '@teams.sdk/api';
 
 import pkg from '../package.json';
 
 import { Routes } from './routes';
 import { Router } from './router';
-import { Plugin, RouteHandler, Sender } from './types';
+import { Plugin, RouteHandler, SenderPlugin } from './types';
 import { DEFAULT_EVENTS, Events } from './events';
 import { ActivityContext } from './activity-context';
 import { MiddlewareContext } from './middleware-context';
@@ -91,9 +96,9 @@ export interface ProcessActivityArgs {
   readonly activity: Activity;
 
   /**
-   *
+   * the sender plugin to respond with
    */
-  readonly sender: (ctx: ActivityContext) => Sender | Promise<Sender>;
+  readonly sender: SenderPlugin;
 
   /**
    * other
@@ -437,7 +442,7 @@ export class App {
    * @param args activity arguments
    */
   async process(args: ProcessActivityArgs): Promise<InvokeResponse> {
-    const { token, activity } = args;
+    const { token, activity, sender } = args;
 
     this.log.debug(
       `activity/${activity.type}${activity.type === 'invoke' ? `/${activity.name}` : ''}`
@@ -473,11 +478,12 @@ export class App {
       }
     } catch (err) {}
 
+    const http = this.http.clone();
     const api = new ApiClient(
       serviceUrl,
-      this.http.clone({ token: () => this.tokens.bot }),
-      this.http.clone({ token: () => appToken }),
-      this.http.clone({ token: () => userToken })
+      http.clone({ token: () => this.tokens.bot }),
+      http.clone({ token: () => appToken }),
+      http.clone({ token: () => userToken })
     );
 
     const conversation: ConversationReference = {
@@ -513,69 +519,35 @@ export class App {
     };
 
     let i = 0;
-    const sender = await args.sender(ctx);
-    const stream = sender.stream || {
-      emit: () => {},
-      close: () => {},
-    };
+    const stream = sender.onStreamOpen ? await sender.onStreamOpen(ctx) : undefined;
 
     const routeCtx: MiddlewareContext<Activity> = {
       ...ctx,
-      stream,
+      stream: {
+        emit(activity) {
+          stream?.emit(activity);
+        },
+        close() {
+          stream?.close();
+        },
+      },
       next: (context) => {
         if (i === routes.length - 1) return;
         i++;
         return routes[i](context || routeCtx);
       },
       send: async (activity) => {
-        activity = toActivityParams(activity);
-
-        for (const plugin of this.plugins) {
-          if (plugin.onBeforeSend) {
-            await plugin.onBeforeSend(activity, routeCtx);
-          }
-        }
-
-        const res = await sender.send(activity);
-        activity = { ...activity, ...res };
-
-        for (const plugin of this.plugins) {
-          if (plugin.onAfterSend) {
-            await plugin.onAfterSend(activity, routeCtx);
-          }
-        }
-
+        const res = await this.send(activity, sender, ctx);
         return res;
       },
       reply: async (activity) => {
         activity = toActivityParams(activity);
-
-        if (typeof activity === 'string') {
-          activity = {
-            type: 'message',
-            text: activity,
-          };
-        }
-
-        for (const plugin of this.plugins) {
-          if (plugin.onBeforeSend) {
-            await plugin.onBeforeSend(activity, routeCtx);
-          }
-        }
-
-        const res = await sender.reply(activity);
-        activity = { ...activity, ...res };
-
-        for (const plugin of this.plugins) {
-          if (plugin.onAfterSend) {
-            await plugin.onAfterSend(activity, routeCtx);
-          }
-        }
-
+        activity.replyToId = ctx.activity.id;
+        this.send(activity, sender, ctx);
         return res;
       },
-      signin: sender.signin.bind(sender),
-      signout: sender.signout.bind(sender),
+      signin: this.onSignIn(ctx, sender),
+      signout: this.onSignOut(ctx),
     };
 
     if (routes.length === 0) {
@@ -583,8 +555,93 @@ export class App {
     }
 
     const res = await routes[0](routeCtx);
-    await stream.close();
+    await stream?.close();
     return res || { status: 200 };
+  }
+
+  onSignIn(ctx: ActivityContext, sender: SenderPlugin) {
+    const { appId, api, ref, activity } = ctx;
+
+    return async (name = 'graph', text = 'Please Sign In...') => {
+      let convo = { ...ref };
+
+      try {
+        const res = await api.users.token.get({
+          channelId: activity.channelId,
+          userId: activity.from.id,
+          connectionName: name,
+        });
+
+        return res.token;
+      } catch (err) {}
+
+      // create new 1:1 conversation with user to do SSO
+      // because groupchats don't support it.
+      if (activity.conversation.isGroup) {
+        const res = await api.conversations.create({
+          tenantId: activity.conversation.tenantId,
+          isGroup: false,
+          bot: { id: activity.recipient.id },
+          members: [activity.from],
+        });
+
+        await this.send(
+          {
+            type: 'message',
+            text,
+          },
+          sender,
+          ctx
+        );
+
+        convo.conversation = { id: res.id } as ConversationAccount;
+      }
+
+      const tokenExchangeState: TokenExchangeState = {
+        connectionName: name,
+        conversation: convo,
+        relatesTo: activity.relatesTo,
+        msAppId: appId,
+      };
+
+      const state = Buffer.from(JSON.stringify(tokenExchangeState)).toString('base64');
+      const resource = await api.bots.signIn.getResource({ state });
+
+      await this.send(
+        {
+          type: 'message',
+          inputHint: 'acceptingInput',
+          recipient: activity.from,
+          attachments: [
+            cardAttachment('oauth', {
+              text,
+              connectionName: name,
+              tokenExchangeResource: resource.tokenExchangeResource,
+              tokenPostResource: resource.tokenPostResource,
+              buttons: [
+                {
+                  type: 'signin',
+                  title: 'Sign In',
+                  value: resource.signInLink,
+                },
+              ],
+            }),
+          ],
+        },
+        sender,
+        ctx
+      );
+    };
+  }
+
+  onSignOut({ activity, api }: ActivityContext) {
+    return async (name = 'graph') => {
+      await api.users.token.signOut({
+        channelId: activity.channelId,
+        userId: activity.from.id,
+        connectionName: name,
+      });
+    };
   }
 
   protected async onTokenExchange(ctx: MiddlewareContext<SignInTokenExchangeInvokeActivity>) {
@@ -668,5 +725,26 @@ export class App {
 
       return { status: 412 };
     }
+  }
+
+  protected async send(activity: ActivityLike, sender: SenderPlugin, ctx: ActivityContext) {
+    activity = toActivityParams(activity);
+
+    for (const plugin of this.plugins) {
+      if (plugin.onBeforeSend) {
+        await plugin.onBeforeSend(activity, ctx);
+      }
+    }
+
+    const res = await sender.onSend(activity, ctx);
+    activity = { ...activity, ...res };
+
+    for (const plugin of this.plugins) {
+      if (plugin.onAfterSend) {
+        await plugin.onAfterSend(activity, ctx);
+      }
+    }
+
+    return activity as Resource;
   }
 }

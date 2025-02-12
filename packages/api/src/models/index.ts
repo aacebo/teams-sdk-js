@@ -31,3 +31,4 @@ export * from './channel-data';
 export * from './team-details';
 export * from './meeting';
 export * from './channel-id';
+export * from './activity-like';
