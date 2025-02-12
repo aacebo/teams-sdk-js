@@ -1,5 +1,11 @@
 # @teams.sdk/common
 
+## 0.1.25
+
+### Patch Changes
+
+- update client with api methods
+
 ## 0.1.24
 
 ### Patch Changes

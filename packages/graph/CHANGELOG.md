@@ -1,5 +1,13 @@
 # @teams.sdk/graph
 
+## 0.1.25
+
+### Patch Changes
+
+- update client with api methods
+- Updated dependencies
+    - @teams.sdk/common@0.1.25
+
 ## 0.1.24
 
 ### Patch Changes
