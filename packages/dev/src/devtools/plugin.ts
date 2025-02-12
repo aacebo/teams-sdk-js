@@ -114,18 +114,10 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
   }
 
   async onSend(activity: ActivityParams, ctx: ActivityContext) {
-    this.sendActivity({
-      id: ctx.devtoolsRequestId,
-      type: 'activity.sent',
-      chat: ctx.activity.conversation,
-      body: {
-        ...activity,
-        conversation: ctx.activity.conversation,
-      } as any,
-      sentAt: new Date(ctx.devtoolsRequestSentAt),
-    });
-
+    this.onBeforeSend(activity, ctx);
     const res = await this.httpPlugin.onSend(activity, ctx);
+    activity.id = res.id;
+    this.onAfterSend(activity, ctx);
     return res;
   }
 

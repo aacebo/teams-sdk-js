@@ -95,7 +95,7 @@ export const useChatStore = create<ChatStore>()(
       set((state) => {
         if (event.type !== 'activity.received' && event.type !== 'activity.sent') return state;
 
-        if (event.body.channelData?.streamType) {
+        if (event.body.channelData?.feedbackLoopEnabled) {
           state.feedback[event.body.id] = true;
         } else {
           state.feedback[event.body.id] = false;
