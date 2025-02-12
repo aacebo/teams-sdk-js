@@ -6,31 +6,36 @@ import useGlobalStyles from '../../../../devtools/src/useGlobalStyles';
 import ComposeBox from '../ComposeBox/ComposeBox';
 
 const ChatPane: FC = () => {
-    const styles = useStyles();
-    const globalStyles = useGlobalStyles();
+  const styles = useStyles();
+  const globalStyles = useGlobalStyles();
 
-    const [messages, setMessages] = useState<JSX.Element[]>([
-        <ChatMessage avatar={<Avatar name="Ashley McCarthy" badge={{ status: 'available' }} />}>Hello I am Ashley</ChatMessage>,
-        <ChatMyMessage>Nice to meet you!</ChatMyMessage>
-    ]);
+  const [messages, setMessages] = useState<JSX.Element[]>([
+    <ChatMessage avatar={<Avatar name="Ashley McCarthy" badge={{ status: 'available' }} />}>
+      Hello I am Ashley
+    </ChatMessage>,
+    <ChatMyMessage>Nice to meet you!</ChatMyMessage>,
+  ]);
 
-    const handleSendMessage = (message: string) => {
-        setMessages((prevMessages) => [...prevMessages, <ChatMyMessage>{message}</ChatMyMessage>]);
-    };
+  const handleSendMessage = (message: string) => {
+    setMessages((prevMessages) => [...prevMessages, <ChatMyMessage>{message}</ChatMyMessage>]);
+  };
 
-    return (
-        <div className={mergeClasses(globalStyles.verticalLayout, styles.chatPaneContainer)}>
-            <Chat as="div" data-tid="chat-container" role="document" className={mergeClasses(globalStyles.verticalLayout, styles.chatPane)}>
-                {messages}
-            </Chat>
-            <div>
-            <div className={styles.bannerContainer}>
-                {/* Optional banner content */}
-            </div>
-            <ComposeBox onSend={handleSendMessage} /> {/* Pass send function */}
-            </div>
-        </div>
-    );
+  return (
+    <div className={mergeClasses(globalStyles.verticalLayout, styles.chatPaneContainer)}>
+      <Chat
+        as="div"
+        data-tid="chat-container"
+        role="document"
+        className={mergeClasses(globalStyles.verticalLayout, styles.chatPane)}
+      >
+        {messages}
+      </Chat>
+      <div>
+        <div className={styles.bannerContainer}>{/* TODO: Optional banner/toast content */}</div>
+        <ComposeBox onSend={handleSendMessage} />
+      </div>
+    </div>
+  );
 };
 
 export default ChatPane;
