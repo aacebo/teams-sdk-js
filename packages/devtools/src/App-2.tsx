@@ -16,7 +16,6 @@ import Logs from './Screens/Logs';
 import DevtoolsLandmark from './Components/DevtoolsLandmark/DevtoolsLandmark';
 import TopNavButton from './Components/TopNavButton/TopNavButton';
 import './App.css';
-import { Send } from './components/BundledIcons/BundledIcons';
 
 const socket = new SocketClient();
 const log = new ConsoleLogger('devtools');
