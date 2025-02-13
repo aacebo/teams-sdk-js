@@ -4,6 +4,7 @@ import { EventEmitter } from '@teams.sdk/common/events';
 import { App } from '../app';
 import { ActivityContext } from '../activity-context';
 import { Streamer } from './streamer';
+import { ProactiveContext } from '../proactive-context';
 
 export interface PluginEvents {
   error: any;
@@ -42,6 +43,15 @@ export interface Plugin<Events extends PluginEvents = PluginEvents>
   onSend?(
     activity: ActivityParams,
     ctx: ActivityContext
+  ): undefined | Resource | Promise<undefined | Resource>;
+
+  /**
+   * called by the `App`
+   * to send an activity proactively
+   */
+  onSendProactive?(
+    activity: ActivityParams,
+    ctx: ProactiveContext
   ): undefined | Resource | Promise<undefined | Resource>;
 
   /**

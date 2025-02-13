@@ -438,6 +438,46 @@ export class App {
   }
 
   /**
+   * send an activity proactively
+   * @remark
+   * only personal conversations support
+   * proactive messaging currently
+   * @param conversationId the conversation to send to
+   * @param activity the activity to send
+   */
+  async send(conversationId: string, activity: ActivityLike) {
+    const plugin = this.getPlugin('http');
+
+    if (!this.id || !this.name) {
+      throw new Error('app not started');
+    }
+
+    if (!plugin || !(plugin instanceof HttpPlugin)) {
+      throw new Error('http plugin not found');
+    }
+
+    return plugin.onSendProactive(toActivityParams(activity), {
+      appId: this.id,
+      log: this.log,
+      api: this.api,
+      storage: this.storage,
+      ref: {
+        channelId: 'msteams',
+        serviceUrl: this.api.serviceUrl,
+        bot: {
+          id: this.id,
+          name: this.name,
+          role: 'bot',
+        },
+        conversation: {
+          id: conversationId,
+          conversationType: 'personal',
+        },
+      },
+    });
+  }
+
+  /**
    * activity handler called when an inbound activity is received
    * @param args activity arguments
    */
@@ -537,13 +577,13 @@ export class App {
         return routes[i](context || routeCtx);
       },
       send: async (activity) => {
-        const res = await this.send(activity, sender, ctx);
+        const res = await this.onSend(activity, sender, ctx);
         return res;
       },
       reply: async (activity) => {
         activity = toActivityParams(activity);
         activity.replyToId = ctx.activity.id;
-        this.send(activity, sender, ctx);
+        this.onSend(activity, sender, ctx);
         return res;
       },
       signin: this.onSignIn(ctx, sender),
@@ -559,7 +599,7 @@ export class App {
     return res || { status: 200 };
   }
 
-  onSignIn(ctx: ActivityContext, sender: SenderPlugin) {
+  protected onSignIn(ctx: ActivityContext, sender: SenderPlugin) {
     const { appId, api, ref, activity } = ctx;
 
     return async (name = 'graph', text = 'Please Sign In...') => {
@@ -585,7 +625,7 @@ export class App {
           members: [activity.from],
         });
 
-        await this.send(
+        await this.onSend(
           {
             type: 'message',
             text,
@@ -607,7 +647,7 @@ export class App {
       const state = Buffer.from(JSON.stringify(tokenExchangeState)).toString('base64');
       const resource = await api.bots.signIn.getResource({ state });
 
-      await this.send(
+      await this.onSend(
         {
           type: 'message',
           inputHint: 'acceptingInput',
@@ -634,7 +674,7 @@ export class App {
     };
   }
 
-  onSignOut({ activity, api }: ActivityContext) {
+  protected onSignOut({ activity, api }: ActivityContext) {
     return async (name = 'graph') => {
       await api.users.token.signOut({
         channelId: activity.channelId,
@@ -727,7 +767,7 @@ export class App {
     }
   }
 
-  protected async send(activity: ActivityLike, sender: SenderPlugin, ctx: ActivityContext) {
+  protected async onSend(activity: ActivityLike, sender: SenderPlugin, ctx: ActivityContext) {
     activity = toActivityParams(activity);
 
     for (const plugin of this.plugins) {

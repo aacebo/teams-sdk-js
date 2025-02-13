@@ -17,10 +17,7 @@ export class ActivityHandler extends TeamsActivityHandler {
 const handler = new ActivityHandler();
 const app = new App({
   logger: new ConsoleLogger('@samples/botbuilder', { level: 'debug' }),
-  plugins: [
-    new BotBuilderPlugin({ handler }),
-    new DevtoolsPlugin()
-  ],
+  plugins: [new BotBuilderPlugin({ handler }), new DevtoolsPlugin()],
 });
 
 app.on('message', async ({ send }) => {

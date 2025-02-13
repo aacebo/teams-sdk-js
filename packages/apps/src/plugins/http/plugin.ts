@@ -8,6 +8,8 @@ import { EventEmitter } from '@teams.sdk/common/events';
 import { Plugin, PluginEvents, Streamer } from '../../types';
 import { App } from '../../app';
 import { ActivityContext } from '../../activity-context';
+import { ProactiveContext } from '../../proactive-context';
+
 import { HttpStream } from './stream';
 
 export interface HttpEvents extends PluginEvents {
@@ -118,6 +120,14 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
       ...activity,
       from: ctx.activity.recipient,
       conversation: ctx.activity.conversation,
+    });
+  }
+
+  onSendProactive(activity: ActivityParams, ctx: ProactiveContext) {
+    return ctx.api.conversations.activities(ctx.ref.conversation.id).create({
+      ...activity,
+      from: ctx.ref.bot,
+      conversation: ctx.ref.conversation,
     });
   }
 
