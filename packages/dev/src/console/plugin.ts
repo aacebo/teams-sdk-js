@@ -2,9 +2,8 @@ import readline from 'readline';
 import express from 'express';
 
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
-import { App, PluginEvents, Plugin } from '@teams.sdk/apps';
+import { App, Plugin } from '@teams.sdk/apps';
 import { ActivityParams, MessageSendActivity, Token } from '@teams.sdk/api';
-import { EventEmitter } from '@teams.sdk/common/events';
 
 /**
  * Console Receiver Options
@@ -20,7 +19,7 @@ export interface ConsoleOptions {
 /**
  * Can receive activities via the console
  */
-export class ConsolePlugin extends EventEmitter<PluginEvents> implements Plugin {
+export class ConsolePlugin implements Plugin {
   readonly name = 'console';
 
   protected app?: App;
@@ -29,7 +28,6 @@ export class ConsolePlugin extends EventEmitter<PluginEvents> implements Plugin 
   protected express: express.Application;
 
   constructor(protected options: ConsoleOptions = {}) {
-    super();
     this.log = new ConsoleLogger('@teams.sdk/app/http');
     this.express = express();
     this.reader = readline.createInterface({
@@ -94,7 +92,6 @@ export class ConsolePlugin extends EventEmitter<PluginEvents> implements Plugin 
           }
         } catch (err) {
           this.log.error(err);
-          this.emit('error', err);
         }
       });
     });

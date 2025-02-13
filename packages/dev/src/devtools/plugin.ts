@@ -13,6 +13,7 @@ import {
   HttpStream,
   Plugin,
   PluginEvents,
+  ProactiveContext,
   Streamer,
 } from '@teams.sdk/apps';
 import { EventEmitter } from '@teams.sdk/common/events';
@@ -118,6 +119,23 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
     const res = await this.httpPlugin.onSend(activity, ctx);
     activity.id = res.id;
     this.onAfterSend(activity, ctx);
+    return res;
+  }
+
+  async onSendProactive(activity: ActivityParams, ctx: ProactiveContext) {
+    this.sendActivity({
+      id: uuid.v4(),
+      type: 'activity.sent',
+      chat: ctx.ref.conversation,
+      body: {
+        ...activity,
+        conversation: ctx.ref.conversation,
+      } as any,
+      sentAt: new Date(),
+    });
+
+    const res = await this.httpPlugin.onSendProactive(activity, ctx);
+    activity.id = res.id;
     return res;
   }
 

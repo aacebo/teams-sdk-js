@@ -1,5 +1,4 @@
 import { ActivityParams, Resource } from '@teams.sdk/api';
-import { EventEmitter } from '@teams.sdk/common/events';
 
 import { App } from '../app';
 import { ActivityContext } from '../activity-context';
@@ -14,8 +13,7 @@ export interface PluginEvents {
  * a component for extending the base
  * `App` functionality
  */
-export interface Plugin<Events extends PluginEvents = PluginEvents>
-  extends Omit<EventEmitter<Events>, 'emit'> {
+export interface Plugin {
   readonly name: string;
 
   /**
@@ -76,7 +74,7 @@ export interface Plugin<Events extends PluginEvents = PluginEvents>
 /**
  * a Plugin that
  */
-export interface SenderPlugin<Events extends PluginEvents = PluginEvents> extends Plugin<Events> {
+export interface SenderPlugin extends Plugin {
   /**
    * called by the `App`
    * to send an activity
@@ -87,7 +85,7 @@ export interface SenderPlugin<Events extends PluginEvents = PluginEvents> extend
 /**
  * a Plugin that
  */
-export interface StreamerPlugin<Events extends PluginEvents = PluginEvents> extends Plugin<Events> {
+export interface StreamerPlugin extends Plugin {
   /**
    * called by the `App`
    * to send an activity chunk

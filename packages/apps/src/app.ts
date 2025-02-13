@@ -232,12 +232,6 @@ export class App {
 
     for (const plugin of this.plugins) {
       plugin.onInit(this);
-      plugin.on('error', (err) =>
-        this._events.error({
-          err: err,
-          log: this.log,
-        })
-      );
     }
 
     // default event handlers
@@ -332,19 +326,7 @@ export class App {
       return;
     }
 
-    plugin.on('error', (err) =>
-      this._events.error({
-        err: err,
-        log: this.log,
-      })
-    );
-
     plugin.onInit(this);
-
-    if (this.startedAt && this.port && plugin.onStart) {
-      plugin.onStart(this.port);
-    }
-
     this.plugins.push(plugin);
     return this;
   }

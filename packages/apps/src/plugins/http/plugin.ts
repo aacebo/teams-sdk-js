@@ -1,30 +1,20 @@
 import http from 'http';
 import express from 'express';
 
-import { Activity, ActivityParams, InvokeResponse, JsonWebToken } from '@teams.sdk/api';
+import { Activity, ActivityParams, JsonWebToken } from '@teams.sdk/api';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
-import { EventEmitter } from '@teams.sdk/common/events';
 
-import { Plugin, PluginEvents, Streamer } from '../../types';
+import { Plugin, Streamer } from '../../types';
 import { App } from '../../app';
 import { ActivityContext } from '../../activity-context';
 import { ProactiveContext } from '../../proactive-context';
 
 import { HttpStream } from './stream';
 
-export interface HttpEvents extends PluginEvents {
-  request: express.Request;
-  response: {
-    res: express.Response;
-    body: InvokeResponse;
-    elapse: number;
-  };
-}
-
 /**
  * Can receive activities via http
  */
-export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
+export class HttpPlugin implements Plugin {
   readonly name = 'http';
 
   readonly get: express.Application['get'];
@@ -50,7 +40,6 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
   protected express: express.Application;
 
   constructor() {
-    super();
     this.log = new ConsoleLogger('@teams.sdk/app/http');
     this.express = express();
     this._http = http.createServer(this.express);
@@ -97,7 +86,6 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
 
     return await new Promise<void>((resolve, reject) => {
       this.express.on('error', (err) => {
-        this.emit('error', err);
         reject(err);
       });
 
@@ -149,20 +137,11 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
       throw new Error('plugin not registered');
     }
 
-    this.emit('request', req);
-    const start = Date.now();
-
     try {
       const authorization = req.headers.authorization?.replace('Bearer ', '');
 
       if (!authorization) {
         res.status(401).send('unauthorized');
-        this.emit('response', {
-          res,
-          body: { status: 401 },
-          elapse: Date.now() - start,
-        });
-
         return;
       }
 
@@ -175,22 +154,9 @@ export class HttpPlugin extends EventEmitter<HttpEvents> implements Plugin {
         sender: this,
       });
 
-      this.emit('response', {
-        res,
-        body: response,
-        elapse: Date.now() - start,
-      });
-
       res.status(response?.status || 200).send(JSON.stringify(response?.body || null));
       return next();
     } catch (err) {
-      this.emit('error', err);
-      this.emit('response', {
-        res,
-        body: { status: 500 },
-        elapse: Date.now() - start,
-      });
-
       res.status(500).send('internal server error');
     }
   }

@@ -4,7 +4,6 @@ import { App, HttpPlugin } from '@teams.sdk/apps';
 import { Activity, JsonWebToken } from '@teams.sdk/api';
 
 import {
-  TurnContext,
   ActivityHandler,
   CloudAdapter,
   ConfigurationBotFrameworkAuthentication,
@@ -24,9 +23,6 @@ export class BotBuilderPlugin extends HttpPlugin {
     super();
     this.adapter = options?.adapter;
     this.handler = options?.handler;
-    this.on('error', (err) => {
-      this.adapter?.onTurnError(new TurnContext(this.adapter!, {}), err);
-    });
   }
 
   onInit(app: App) {
@@ -56,20 +52,11 @@ export class BotBuilderPlugin extends HttpPlugin {
       throw new Error('plugin not registered');
     }
 
-    const start = Date.now();
-    this.emit('request', req);
-
     try {
       const authorization = req.headers.authorization?.replace('Bearer ', '');
 
       if (!authorization) {
         res.status(401).send('unauthorized');
-        this.emit('response', {
-          res,
-          body: { status: 401 },
-          elapse: Date.now() - start,
-        });
-
         return;
       }
 
@@ -88,24 +75,11 @@ export class BotBuilderPlugin extends HttpPlugin {
           sender: this,
         });
 
-        this.emit('response', {
-          res,
-          body: response,
-          elapse: Date.now() - start,
-        });
-
         res.status(response?.status || 200).send(JSON.stringify(response?.body || null));
         return next();
       });
     } catch (err) {
       this.log.error(err);
-      this.emit('error', err);
-      this.emit('response', {
-        res,
-        body: { status: 500 },
-        elapse: Date.now() - start,
-      });
-
       res.status(500).send('internal server error');
     }
   }
