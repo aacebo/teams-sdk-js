@@ -1,9 +1,9 @@
 import readline from 'readline';
 import express from 'express';
 
-import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
-import { App, Plugin } from '@teams.sdk/apps';
-import { ActivityParams, MessageSendActivity, Token } from '@teams.sdk/api';
+import { ConsoleLogger, Logger, EventEmitter, EventHandler } from '@teams.sdk/common';
+import { App, Plugin, PluginEvents } from '@teams.sdk/apps';
+import { ActivityParams, ConversationReference, MessageSendActivity, Token } from '@teams.sdk/api';
 
 /**
  * Console Receiver Options
@@ -22,10 +22,10 @@ export interface ConsoleOptions {
 export class ConsolePlugin implements Plugin {
   readonly name = 'console';
 
-  protected app?: App;
   protected log: Logger;
   protected reader: readline.Interface;
   protected express: express.Application;
+  protected events: EventEmitter<PluginEvents>;
 
   constructor(protected options: ConsoleOptions = {}) {
     this.log = new ConsoleLogger('@teams.sdk/app/http');
@@ -36,18 +36,18 @@ export class ConsolePlugin implements Plugin {
     });
 
     this.express.get('/auth/redirect', this.onAuthRedirect.bind(this));
+    this.events = new EventEmitter();
+  }
+
+  on<Name extends keyof PluginEvents>(name: Name, callback: EventHandler<PluginEvents[Name]>) {
+    this.events.on(name, callback);
   }
 
   onInit(app: App) {
-    this.app = app;
     this.log = app.log.child('console');
   }
 
   async onStart(port = 3000) {
-    if (!this.app) {
-      throw new Error('plugin not registered');
-    }
-
     this.express.listen(port + 1, () => {
       this.reader.on('line', async (text) => {
         const activity: MessageSendActivity = {
@@ -80,24 +80,15 @@ export class ConsolePlugin implements Plugin {
           serviceUrl: '',
         };
 
-        try {
-          const res = await this.app!.process({
-            token,
-            activity,
-            sender: this,
-          });
-
-          if (res.body) {
-            this.log.debug(res);
-          }
-        } catch (err) {
-          this.log.error(err);
-        }
+        this.events.emit('activity.received', {
+          token,
+          activity,
+        });
       });
     });
   }
 
-  async onSend(activity: ActivityParams) {
+  async onSend(activity: ActivityParams, ref: ConversationReference) {
     if (typeof activity === 'string') {
       activity = {
         type: 'message',
@@ -105,9 +96,19 @@ export class ConsolePlugin implements Plugin {
       };
     }
 
+    this.events.emit('activity.before.sent', {
+      activity,
+      ref,
+    });
+
     if (activity.type === 'message' && activity.text) {
       this.log.info(activity.text);
     }
+
+    this.events.emit('activity.sent', {
+      activity: { id: '1', ...activity },
+      ref,
+    });
 
     return { id: '1', ...activity };
   }

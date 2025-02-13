@@ -61,6 +61,8 @@ export class BotBuilderPlugin extends HttpPlugin {
       }
 
       await this.adapter.process(req, res, async (context) => {
+        if (!context.activity.id) return;
+
         if (this.handler) {
           await this.handler.run(context);
         }
@@ -69,14 +71,11 @@ export class BotBuilderPlugin extends HttpPlugin {
           return next();
         }
 
-        const response = await this.app!.process({
+        this.pending[context.activity.id] = res;
+        this.events.emit('activity.received', {
           token: new JsonWebToken(authorization),
           activity: context.activity as Activity,
-          sender: this,
         });
-
-        res.status(response?.status || 200).send(JSON.stringify(response?.body || null));
-        return next();
       });
     } catch (err) {
       this.log.error(err);

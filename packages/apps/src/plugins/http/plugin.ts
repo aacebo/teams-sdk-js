@@ -8,9 +8,10 @@ import {
   ConversationReference,
   Client,
 } from '@teams.sdk/api';
-import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
+import { ConsoleLogger, Logger, EventEmitter, EventHandler } from '@teams.sdk/common';
 
-import { Plugin, Streamer } from '../../types';
+import { AppActivityErrorEvent, AppActivityResponseEvent } from '../../events';
+import { Plugin, PluginEvents, Streamer } from '../../types';
 import { App } from '../../app';
 
 import { HttpStream } from './stream';
@@ -42,6 +43,8 @@ export class HttpPlugin implements Plugin {
   protected app?: App;
   protected log: Logger;
   protected express: express.Application;
+  protected events: EventEmitter<PluginEvents>;
+  protected pending: Record<string, express.Response> = {};
 
   constructor() {
     this.log = new ConsoleLogger('@teams.sdk/app/http');
@@ -57,6 +60,7 @@ export class HttpPlugin implements Plugin {
 
     this.express.use('/api*', express.json());
     this.express.post('/api/messages', this.onRequest.bind(this));
+    this.events = new EventEmitter();
   }
 
   /**
@@ -72,6 +76,15 @@ export class HttpPlugin implements Plugin {
   onInit(app: App) {
     this.app = app;
     this.log = app.log.child('http');
+    app.event('activity.error', this.onActivityError.bind(this));
+    app.event('activity.response', this.onActivityResponse.bind(this));
+  }
+
+  /**
+   * subscribe to a plugin event
+   */
+  on<Name extends keyof PluginEvents>(name: Name, callback: EventHandler<PluginEvents[Name]>) {
+    this.events.on(name, callback);
   }
 
   /**
@@ -90,49 +103,45 @@ export class HttpPlugin implements Plugin {
 
     return await new Promise<void>((resolve, reject) => {
       this.express.on('error', (err) => {
+        this.events.emit('error', err);
         reject(err);
       });
 
       this._server = this.express.listen(port, async () => {
+        this.events.emit('start', this.log);
         this.log.info(`listening on port ${port} 🚀`);
         resolve();
       });
     });
   }
 
-  async onSend(activity: ActivityParams, { bot, conversation, serviceUrl }: ConversationReference) {
-    const api = new Client(serviceUrl, { token: this.app?.tokens.bot });
+  async onSend(activity: ActivityParams, ref: ConversationReference) {
+    const api = new Client(ref.serviceUrl, { token: this.app?.tokens.bot });
 
     activity = {
       ...activity,
-      from: bot,
-      conversation,
+      from: ref.bot,
+      conversation: ref.conversation,
     };
 
     if (activity.id && !activity.channelData?.streamId) {
-      const res = await api.conversations.activities(conversation.id).update(activity.id, activity);
-
+      const res = await api.conversations
+        .activities(ref.conversation.id)
+        .update(activity.id, activity);
       return { ...activity, ...res };
     }
 
-    const res = await api.conversations.activities(conversation.id).create(activity);
+    this.events.emit('activity.before.sent', {
+      activity,
+      ref,
+    });
 
-    return { ...activity, ...res };
-  }
+    const res = await api.conversations.activities(ref.conversation.id).create(activity);
 
-  async onSendProactive(
-    activity: ActivityParams,
-    { bot, conversation, serviceUrl }: ConversationReference
-  ) {
-    const api = new Client(serviceUrl, { token: this.app?.tokens.bot });
-
-    activity = {
-      ...activity,
-      from: bot,
-      conversation,
-    };
-
-    const res = await api.conversations.activities(conversation.id).create(activity);
+    this.events.emit('activity.sent', {
+      activity: { ...activity, ...res },
+      ref,
+    });
 
     return { ...activity, ...res };
   }
@@ -149,33 +158,48 @@ export class HttpPlugin implements Plugin {
   protected async onRequest(
     req: express.Request,
     res: express.Response,
-    next: express.NextFunction
+    _next: express.NextFunction
   ) {
     if (!this.app) {
       throw new Error('plugin not registered');
     }
 
-    try {
-      const authorization = req.headers.authorization?.replace('Bearer ', '');
+    const authorization = req.headers.authorization?.replace('Bearer ', '');
 
-      if (!authorization) {
-        res.status(401).send('unauthorized');
-        return;
-      }
-
-      const token = new JsonWebToken(authorization);
-      const activity: Activity = req.body;
-      const response = await this.app.process({
-        req,
-        token,
-        activity,
-        sender: this,
-      });
-
-      res.status(response?.status || 200).send(JSON.stringify(response?.body || null));
-      return next();
-    } catch (err) {
-      res.status(500).send('internal server error');
+    if (!authorization) {
+      res.status(401).send('unauthorized');
+      return;
     }
+
+    const token = new JsonWebToken(authorization);
+    const activity: Activity = req.body;
+
+    this.pending[activity.id] = res;
+    this.events.emit('activity.received', {
+      activity,
+      token,
+    });
+  }
+
+  protected onActivityError({ err, activity }: AppActivityErrorEvent) {
+    const res = this.pending[activity.id];
+
+    if (!res) {
+      return;
+    }
+
+    res.status(500).send(err.message);
+    delete this.pending[activity.id];
+  }
+
+  protected onActivityResponse({ response, activity }: AppActivityResponseEvent) {
+    const res = this.pending[activity.id];
+
+    if (!res) {
+      return;
+    }
+
+    res.status(response.status || 200).send(JSON.stringify(response.body || null));
+    delete this.pending[activity.id];
   }
 }

@@ -6,6 +6,12 @@ import { ApiClient } from './api';
 
 export interface ActivityContext<T extends Activity = Activity> {
   /**
+   * the unique name of the plugin that
+   * emitted the event
+   */
+  plugin: string;
+
+  /**
    * the app id of the bot
    */
   appId: string;

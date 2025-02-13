@@ -6,14 +6,29 @@ import io from 'socket.io';
 import * as uuid from 'uuid';
 
 import { ActivityParams, ConversationReference } from '@teams.sdk/api';
-import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
-import { ActivityContext, App, HttpPlugin, HttpStream, Plugin, Streamer } from '@teams.sdk/apps';
+import { EventEmitter, EventHandler, ConsoleLogger, Logger } from '@teams.sdk/common';
+import {
+  App,
+  AppActivityReceivedEvent,
+  AppActivityResponseEvent,
+  AppActivitySentEvent,
+  HttpPlugin,
+  HttpStream,
+  Plugin,
+  PluginEvents,
+  Streamer,
+} from '@teams.sdk/apps';
 
 import { router } from './routes';
 import { ActivityEvent, Event } from './event';
 
 export interface DevtoolsOptions {
   readonly port?: number;
+}
+
+interface ResolveRejctPromise<T = any> {
+  readonly resolve: (value: T) => void;
+  readonly reject: (err: any) => void;
 }
 
 export class DevtoolsPlugin implements Plugin {
@@ -25,6 +40,8 @@ export class DevtoolsPlugin implements Plugin {
   protected io: io.Server;
   protected sockets = new Map<string, io.Socket>();
   protected httpPlugin = new HttpPlugin();
+  protected events = new EventEmitter<PluginEvents>();
+  protected pending: Record<string, ResolveRejctPromise> = {};
 
   constructor(readonly options: DevtoolsOptions = {}) {
     this.log = new ConsoleLogger('@teams.sdk/app/devtools');
@@ -47,7 +64,15 @@ export class DevtoolsPlugin implements Plugin {
     }
   }
 
+  on<Name extends keyof PluginEvents>(name: Name, callback: EventHandler<PluginEvents[Name]>) {
+    this.events.on(name, callback);
+  }
+
   onInit(app: App) {
+    app.event('activity.response', this.onActivityResponse.bind(this));
+    app.event('activity.received', this.onActivityReceived.bind(this));
+    app.event('activity.sent', this.onActivitySent.bind(this));
+
     const httpPlugin = app.getPlugin('http');
 
     if (httpPlugin && httpPlugin instanceof HttpPlugin) {
@@ -60,10 +85,12 @@ export class DevtoolsPlugin implements Plugin {
         port: this.options.port || 3001,
         log: this.log,
         process: (token, activity) => {
-          return app.process({
-            token,
-            activity,
-            sender: this,
+          return new Promise((resolve, reject) => {
+            this.pending[activity.id] = { resolve, reject };
+            this.events.emit('activity.received', {
+              token,
+              activity,
+            });
           });
         },
       })
@@ -89,43 +116,8 @@ export class DevtoolsPlugin implements Plugin {
     });
   }
 
-  onActivity({ activity, next }: ActivityContext) {
-    this.sendActivity({
-      id: uuid.v4(),
-      type: 'activity.received',
-      chat: activity.conversation,
-      body: activity,
-      sentAt: new Date(),
-    });
-
-    return next();
-  }
-
   async onSend(activity: ActivityParams, ref: ConversationReference) {
     const res = await this.httpPlugin.onSend(activity, ref);
-
-    this.sendActivity({
-      id: uuid.v4(),
-      type: 'activity.sent',
-      chat: ref.conversation,
-      body: res as any,
-      sentAt: new Date(),
-    });
-
-    return res;
-  }
-
-  async onSendProactive(activity: ActivityParams, ref: ConversationReference) {
-    const res = await this.httpPlugin.onSendProactive(activity, ref);
-
-    this.sendActivity({
-      id: uuid.v4(),
-      type: 'activity.sent',
-      chat: ref.conversation,
-      body: res as any,
-      sentAt: new Date(),
-    });
-
     return res;
   }
 
@@ -133,6 +125,35 @@ export class DevtoolsPlugin implements Plugin {
     return new HttpStream((activity) => {
       return this.onSend(activity, ref);
     });
+  }
+
+  protected onActivityReceived({ activity }: AppActivityReceivedEvent) {
+    this.sendActivity({
+      id: uuid.v4(),
+      type: 'activity.received',
+      chat: activity.conversation,
+      body: activity,
+      sentAt: new Date(),
+    });
+  }
+
+  protected onActivitySent({ activity, ref }: AppActivitySentEvent) {
+    this.sendActivity({
+      id: uuid.v4(),
+      type: 'activity.sent',
+      chat: ref.conversation,
+      body: activity as any,
+      sentAt: new Date(),
+    });
+  }
+
+  protected onActivityResponse({ activity, response }: AppActivityResponseEvent) {
+    const promise = this.pending[activity.id];
+
+    if (!promise) return;
+
+    promise.resolve(response);
+    delete this.pending[activity.id];
   }
 
   protected onConnection(socket: io.Socket) {

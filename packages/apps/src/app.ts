@@ -3,6 +3,8 @@ import { AxiosError } from 'axios';
 
 import { Logger, ConsoleLogger } from '@teams.sdk/common/logging';
 import { LocalStorage, Storage } from '@teams.sdk/common/storage';
+import { EventEmitter, EventHandler } from '@teams.sdk/common/events';
+
 import * as http from '@teams.sdk/common/http';
 import * as graph from '@teams.sdk/graph';
 
@@ -14,7 +16,6 @@ import {
   TokenExchangeInvokeResponse,
   SignInTokenExchangeInvokeActivity,
   SignInVerifyStateInvokeActivity,
-  InvokeResponse,
   JsonWebToken,
   toActivityParams,
   ConversationAccount,
@@ -25,16 +26,23 @@ import {
 
 import pkg from '../package.json';
 
+import * as manifest from './manifest';
 import { Routes } from './routes';
 import { Router } from './router';
-import { Plugin, RouteHandler, SenderPlugin } from './types';
-import { DEFAULT_EVENTS, Events } from './events';
+import {
+  AppActivityBeforeSentEvent,
+  AppActivityErrorEvent,
+  AppActivityReceivedEvent,
+  AppActivitySentEvent,
+  Events,
+} from './events';
 import { ActivityContext } from './activity-context';
 import { MiddlewareContext } from './middleware-context';
 import { HttpPlugin } from './plugins';
 import { OAuthSettings } from './oauth';
 import { AppClient, ApiClient } from './api';
-import * as manifest from './manifest';
+import { signin } from './events/signin';
+import { ActivityReceivedEvent, Plugin, RouteHandler, SenderPlugin } from './types';
 
 /**
  * App initialization options
@@ -167,8 +175,8 @@ export class App {
   protected tenantTokens = new LocalStorage<string>(undefined, { max: 20000 });
   protected startedAt?: Date;
   protected port?: number;
+  protected events: EventEmitter<Events>;
 
-  private readonly _events = DEFAULT_EVENTS;
   private readonly _userAgent = `teams[apps]/${pkg.version}`;
   private readonly _manifest: Partial<manifest.Manifest>;
   private _tokens: AppTokens = {};
@@ -178,6 +186,7 @@ export class App {
     this.storage = this.options.storage || new LocalStorage();
     this.plugins = this.options.plugins || [];
     this._manifest = this.options.manifest || {};
+    this.events = new EventEmitter();
 
     if (!options.http) {
       this.http = new http.Client({
@@ -231,11 +240,33 @@ export class App {
 
     for (const plugin of this.plugins) {
       plugin.onInit(this);
+      plugin.on('error', this.onError.bind(this));
+      plugin.on('activity.received', (e) =>
+        this.onActivityReceived({
+          ...e,
+          plugin: plugin.name,
+        })
+      );
+
+      plugin.on('activity.sent', (e) =>
+        this.onActivitySent({
+          ...e,
+          plugin: plugin.name,
+        })
+      );
+
+      plugin.on('activity.before.sent', (e) =>
+        this.onBeforeActivitySent({
+          ...e,
+          plugin: plugin.name,
+        })
+      );
     }
 
     // default event handlers
     this.on('signin.token-exchange', this.onTokenExchange.bind(this));
     this.on('signin.verify-state', this.onVerifyState.bind(this));
+    this.event('signin', signin);
   }
 
   /**
@@ -259,11 +290,11 @@ export class App {
         }
       }
 
-      this._events.start(this.log);
+      this.events.emit('start', this.log);
       this.port = port;
       this.startedAt = new Date();
     } catch (err: any) {
-      this._events.error({ err, log: this.log });
+      this.events.emit('error', { err, log: this.log });
     }
   }
 
@@ -311,8 +342,8 @@ export class App {
    * @param name the event to subscribe to
    * @param cb the callback to invoke
    */
-  event<Name extends keyof Events>(name: Name, cb: Events[Name]) {
-    this._events[name] = cb;
+  event<Name extends keyof Events>(name: Name, cb: EventHandler<Events[Name]>) {
+    this.events.on(name, cb);
     return this;
   }
 
@@ -437,8 +468,6 @@ export class App {
       throw new Error('http plugin not found');
     }
 
-    activity = toActivityParams(activity);
-
     const ref: ConversationReference = {
       channelId: 'msteams',
       serviceUrl: this.api.serviceUrl,
@@ -453,29 +482,17 @@ export class App {
       },
     };
 
-    for (const plugin of this.plugins) {
-      if (plugin.onBeforeSend) {
-        await plugin.onBeforeSend(activity, ref);
-      }
-    }
-
-    const res = await plugin.onSendProactive(activity, ref);
-
-    for (const plugin of this.plugins) {
-      if (plugin.onAfterSend) {
-        await plugin.onAfterSend(res, ref);
-      }
-    }
-
+    const res = await plugin.onSend(toActivityParams(activity), ref);
     return res;
   }
 
   /**
    * activity handler called when an inbound activity is received
-   * @param args activity arguments
+   * @param sender the plugin to use for sending activities
+   * @param event the received activity event
    */
-  async process(args: ProcessActivityArgs): Promise<InvokeResponse> {
-    const { token, activity, sender } = args;
+  async process(sender: SenderPlugin, event: ActivityReceivedEvent) {
+    const { token, activity } = event;
 
     this.log.debug(
       `activity/${activity.type}${activity.type === 'invoke' ? `/${activity.name}` : ''}`
@@ -503,7 +520,7 @@ export class App {
       if (this.credentials && !appToken) {
         const { access_token } = await this.api.bots.token.getGraph({
           ...this.credentials,
-          tenantId: args.token.tenantId,
+          tenantId: event.token.tenantId,
         });
 
         appToken = access_token;
@@ -540,7 +557,8 @@ export class App {
     }
 
     const ctx: ActivityContext<Activity> = {
-      ...args,
+      ...event,
+      plugin: sender.name,
       sender: undefined,
       api,
       appId: this.id || '',
@@ -569,13 +587,13 @@ export class App {
         return routes[i](context || routeCtx);
       },
       send: async (activity) => {
-        const res = await this.onSend(activity, sender, ref);
+        const res = await sender.onSend(toActivityParams(activity), ref);
         return res;
       },
       reply: async (activity) => {
         activity = toActivityParams(activity);
         activity.replyToId = ctx.activity.id;
-        const res = await this.onSend(activity, sender, ref);
+        const res = await sender.onSend(activity, ref);
         return res;
       },
       signin: this.onSignIn(ctx, sender),
@@ -586,9 +604,24 @@ export class App {
       return { status: 200 };
     }
 
-    const res = await routes[0](routeCtx);
-    await stream?.close();
-    return res || { status: 200 };
+    try {
+      const res = (await routes[0](routeCtx)) || { status: 200 };
+      await stream?.close();
+      this.events.emit('activity.response', {
+        plugin: sender.name,
+        activity,
+        ref,
+        response: res,
+      });
+    } catch (err: any) {
+      this.onActivityError({ ...routeCtx, err });
+      this.events.emit('activity.response', {
+        plugin: sender.name,
+        activity,
+        ref,
+        response: { status: 500 },
+      });
+    }
   }
 
   protected onSignIn(ctx: ActivityContext, sender: SenderPlugin) {
@@ -617,12 +650,11 @@ export class App {
           members: [activity.from],
         });
 
-        await this.onSend(
+        await sender.onSend(
           {
             type: 'message',
             text,
           },
-          sender,
           ref
         );
 
@@ -639,7 +671,7 @@ export class App {
       const state = Buffer.from(JSON.stringify(tokenExchangeState)).toString('base64');
       const resource = await api.bots.signIn.getResource({ state });
 
-      await this.onSend(
+      await sender.onSend(
         {
           type: 'message',
           inputHint: 'acceptingInput',
@@ -660,7 +692,6 @@ export class App {
             }),
           ],
         },
-        sender,
         ref
       );
     };
@@ -697,12 +728,12 @@ export class App {
         })
       );
 
-      this._events.signin({ ...ctx, token });
+      this.events.emit('signin', { ...ctx, token });
       return { status: 200 };
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err.status !== 404 && err.status !== 400) {
-          this._events.error({ ...ctx, err });
+          this.onActivityError({ ...ctx, err });
         }
 
         if (err.status === 404) {
@@ -722,7 +753,7 @@ export class App {
   }
 
   protected async onVerifyState(ctx: MiddlewareContext<SignInVerifyStateInvokeActivity>) {
-    const { api, activity, storage } = ctx;
+    const { plugin, api, activity, storage } = ctx;
     const key = `auth/${activity.conversation.id}/${activity.from.id}`;
 
     try {
@@ -746,12 +777,12 @@ export class App {
       );
 
       await storage.delete(key);
-      this._events.signin({ ...ctx, token });
+      this.events.emit('signin', { ...ctx, token });
       return { status: 200 };
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err.status !== 404 && err.status !== 400) {
-          this._events.error({ ...ctx, err });
+          this.onActivityError({ ...ctx, err, plugin });
         }
       }
 
@@ -759,23 +790,40 @@ export class App {
     }
   }
 
-  protected async onSend(activity: ActivityLike, sender: SenderPlugin, ref: ConversationReference) {
-    activity = toActivityParams(activity);
+  ///
+  /// Events
+  ///
 
-    for (const plugin of this.plugins) {
-      if (plugin.onBeforeSend) {
-        await plugin.onBeforeSend(activity, ref);
-      }
+  protected onError(err: any) {
+    this.events.emit('error', { err, log: this.log });
+  }
+
+  protected onActivityError(event: AppActivityErrorEvent) {
+    this.onError(event.err);
+    this.events.emit('activity.error', event);
+  }
+
+  protected async onActivityReceived(event: AppActivityReceivedEvent) {
+    this.events.emit('activity.received', event);
+
+    const plugin = this.getPlugin(event.plugin);
+
+    if (!plugin) {
+      throw new Error(`plugin "${event.plugin}" not found`);
     }
 
-    const res = await sender.onSend(activity, ref);
-
-    for (const plugin of this.plugins) {
-      if (plugin.onAfterSend) {
-        await plugin.onAfterSend(res, ref);
-      }
+    if (!plugin.onSend) {
+      throw new Error(`plugin "${event.plugin}" cannot send activities`);
     }
 
-    return res;
+    await this.process(plugin as SenderPlugin, event);
+  }
+
+  protected onActivitySent(event: AppActivitySentEvent) {
+    this.events.emit('activity.sent', event);
+  }
+
+  protected onBeforeActivitySent(event: AppActivityBeforeSentEvent) {
+    this.events.emit('activity.before.sent', event);
   }
 }

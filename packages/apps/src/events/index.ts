@@ -1,23 +1,63 @@
-import { Logger } from '@teams.sdk/common/logging';
+import { Logger } from '@teams.sdk/common';
 
 import { ErrorMiddlewareContext, SignInMiddlewareContext } from '../middleware-context';
-import { EventHandler } from '../types';
+import {
+  ActivityBeforeSentEvent,
+  ActivityResponseEvent,
+  ActivityReceivedEvent,
+  ActivitySentEvent,
+} from '../types';
+import { ErrorEventArgs } from './error';
 
-import { error, ErrorEventArgs } from './error';
-import { signin } from './signin';
-
-export interface Events {
-  start: EventHandler<Logger>;
-  signin: EventHandler<SignInMiddlewareContext>;
-  error: EventHandler<ErrorEventArgs>;
-  'activity.error': EventHandler<ErrorMiddlewareContext>;
+export interface AppActivityErrorEvent extends ErrorMiddlewareContext {
+  /**
+   * the unique name of the plugin that
+   * emitted the event
+   */
+  plugin: string;
 }
 
-export const DEFAULT_EVENTS: Events = {
-  start: () => {},
-  signin,
-  error,
-  'activity.error': error,
-};
+export interface AppActivityReceivedEvent extends ActivityReceivedEvent {
+  /**
+   * the unique name of the plugin that
+   * emitted the event
+   */
+  plugin: string;
+}
+
+export interface AppActivityResponseEvent extends ActivityResponseEvent {
+  /**
+   * the unique name of the plugin that
+   * emitted the event
+   */
+  plugin: string;
+}
+
+export interface AppActivitySentEvent extends ActivitySentEvent {
+  /**
+   * the unique name of the plugin that
+   * emitted the event
+   */
+  plugin: string;
+}
+
+export interface AppActivityBeforeSentEvent extends ActivityBeforeSentEvent {
+  /**
+   * the unique name of the plugin that
+   * emitted the event
+   */
+  plugin: string;
+}
+
+export interface Events {
+  start: Logger;
+  signin: SignInMiddlewareContext;
+  error: ErrorEventArgs;
+  'activity.error': AppActivityErrorEvent;
+  'activity.received': AppActivityReceivedEvent;
+  'activity.response': AppActivityResponseEvent;
+  'activity.sent': AppActivitySentEvent;
+  'activity.before.sent': AppActivityBeforeSentEvent;
+}
 
 export { ErrorEventArgs };
