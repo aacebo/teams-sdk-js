@@ -1,5 +1,15 @@
 # @teams.sdk/cli
 
+## 0.1.28
+
+### Patch Changes
+
+- fix cli
+- Updated dependencies
+    - @teams.sdk/ai@0.1.28
+    - @teams.sdk/common@0.1.28
+    - @teams.sdk/openai@0.1.28
+
 ## 0.1.27
 
 ### Patch Changes

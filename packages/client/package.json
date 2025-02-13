@@ -1,6 +1,6 @@
 {
   "name": "@teams.sdk/client",
-  "version": "0.1.27",
+  "version": "0.1.28",
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

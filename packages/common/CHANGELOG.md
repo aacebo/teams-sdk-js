@@ -1,5 +1,11 @@
 # @teams.sdk/common
 
+## 0.1.28
+
+### Patch Changes
+
+- fix cli
+
 ## 0.1.27
 
 ### Patch Changes
