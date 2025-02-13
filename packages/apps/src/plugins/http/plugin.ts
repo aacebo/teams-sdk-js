@@ -73,18 +73,18 @@ export class HttpPlugin implements Plugin {
     return this;
   }
 
-  onInit(app: App) {
-    this.app = app;
-    this.log = app.log.child('http');
-    app.event('activity.error', this.onActivityError.bind(this));
-    app.event('activity.response', this.onActivityResponse.bind(this));
-  }
-
   /**
    * subscribe to a plugin event
    */
   on<Name extends keyof PluginEvents>(name: Name, callback: EventHandler<PluginEvents[Name]>) {
     this.events.on(name, callback);
+  }
+
+  onInit(app: App) {
+    this.app = app;
+    this.log = app.log.child('http');
+    app.event('activity.error', this.onActivityError.bind(this));
+    app.event('activity.response', this.onActivityResponse.bind(this));
   }
 
   /**
