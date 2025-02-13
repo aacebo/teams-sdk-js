@@ -87,7 +87,7 @@ const App: FC = () => {
           <ActivityContext.Provider value={activityStore}>
             <ChatContext.Provider value={chatStore}>
               <Routes>
-                <Route path="" element={<ChatPane />} />
+                <Route path="" element={<ChatPane connected={connected} />} />
                 <Route path="cards" element={<Cards />} />
                 <Route path="activities" element={<Activities />} />
                 <Route path="logs" element={<Logs />} />

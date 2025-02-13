@@ -5,12 +5,16 @@ import useStyles from './ChatPane.styles';
 import useGlobalStyles from '../../../../devtools/src/useGlobalStyles';
 import ComposeBox from '../ComposeBox/ComposeBox';
 
-const ChatPane: FC = () => {
+interface ChatPaneProps {
+  connected: boolean;
+}
+
+const ChatPane: FC<ChatPaneProps> = ({ connected }) => {
   const styles = useStyles();
   const globalStyles = useGlobalStyles();
 
   const [messages, setMessages] = useState<JSX.Element[]>([
-    <ChatMessage avatar={<Avatar name="Ashley McCarthy" badge={{ status: 'available' }} />}>
+    <ChatMessage avatar={<Avatar name="Ashley McCarthy" badge={{ status: connected ? 'available' : 'offline' }} />}>
       Hello I am Ashley
     </ChatMessage>,
     <ChatMyMessage>Nice to meet you!</ChatMyMessage>,
