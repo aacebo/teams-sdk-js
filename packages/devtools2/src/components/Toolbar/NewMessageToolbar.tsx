@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { AttachRegular, Send20Regular, Send20Filled, bundleIcon } from '@fluentui/react-icons';
-import { mergeClasses, Toolbar, ToolbarButton, ToolbarDivider } from '@fluentui/react-components';
+import { Toolbar, ToolbarButton, ToolbarDivider } from '@fluentui/react-components';
 import type { ToolbarProps } from '@fluentui/react-components';
 import useStyles from './Toolbar.styles';
 
@@ -23,7 +23,7 @@ const NewMessageToolbar: FC<NewMessageToolbarProps> = ({ onSend, ...props }) => 
       <ToolbarButton
         data-tid="send-button"
         aria-label="Send message"
-        className={mergeClasses(styles.toolbarButton, styles.sendButtonFilled)}
+        className={styles.toolbarButton}
         onClick={onSend}
         icon={<Send />}
       />

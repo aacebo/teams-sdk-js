@@ -6,6 +6,8 @@ const useStyles = makeStyles({
     margin: 'auto 0',
     overflow: 'hidden',
     backgroundColor: tokens.colorNeutralBackground3,
+    minWidth: '500px',
+    flexGrow: 1,
   },
   chatPane: {
     flexGrow: 1,
