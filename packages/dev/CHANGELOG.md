@@ -1,5 +1,16 @@
 # @teams.sdk/dev
 
+## 0.1.29
+
+### Patch Changes
+
+- add cards dependency
+- Updated dependencies
+    - @teams.sdk/apps@0.1.29
+    - @teams.sdk/api@0.1.29
+    - @teams.sdk/common@0.1.29
+    - @teams.sdk/graph@0.1.29
+
 ## 0.1.28
 
 ### Patch Changes

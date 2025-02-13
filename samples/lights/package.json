@@ -19,6 +19,7 @@
     "@teams.sdk/ai": "*",
     "@teams.sdk/api": "*",
     "@teams.sdk/apps": "*",
+    "@teams.sdk/cards": "*",
     "@teams.sdk/common": "*",
     "@teams.sdk/openai": "*",
     "@teams.sdk/dev": "*",

@@ -18,6 +18,7 @@
   "dependencies": {
     "@teams.sdk/api": "*",
     "@teams.sdk/apps": "*",
+    "@teams.sdk/cards": "*",
     "@teams.sdk/common": "*",
     "@teams.sdk/dev": "*",
     "@teams.sdk/graph": "*"

@@ -9,6 +9,7 @@
         "@teams.sdk/api#build",
         "@teams.sdk/apps#build",
         "@teams.sdk/botbuilder#build",
+        "@teams.sdk/cards#build",
         "@teams.sdk/common#build",
         "@teams.sdk/graph#build"
       ]

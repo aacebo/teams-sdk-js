@@ -1,5 +1,14 @@
 # @teams.sdk/openai
 
+## 0.1.29
+
+### Patch Changes
+
+- add cards dependency
+- Updated dependencies
+    - @teams.sdk/ai@0.1.29
+    - @teams.sdk/common@0.1.29
+
 ## 0.1.28
 
 ### Patch Changes

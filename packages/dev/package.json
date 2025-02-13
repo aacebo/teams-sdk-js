@@ -1,6 +1,6 @@
 {
   "name": "@teams.sdk/dev",
-  "version": "0.1.28",
+  "version": "0.1.29",
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -43,11 +43,6 @@
     "@teams.sdk/apps": "*",
     "@teams.sdk/common": "*",
     "@teams.sdk/graph": "*"
-  },
-  "peerDependenciesMeta": {
-    "@teams.sdk/graph": {
-      "optional": true
-    }
   },
   "devDependencies": {
     "@teams.sdk/config": "*",
