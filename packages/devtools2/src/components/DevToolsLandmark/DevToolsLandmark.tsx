@@ -11,7 +11,7 @@ const DevtoolsLandmark: FC<DevtoolsLandmarkProps> = ({ connected }) => {
 
   return (
     <div data-tid="devtools-" className={styles.devtoolsLandmark}>
-      <img src="/devtools2/teams.png" className={styles.teamsImg} />
+      <img src="/devtools2/teams.png" className={styles.teamsImg} role="presentation" />
       <Title3 as="h1" align="center">
         DevTools
       </Title3>
