@@ -21,6 +21,7 @@
     "@teams.sdk/botbuilder": "*",
     "@teams.sdk/cards": "*",
     "@teams.sdk/common": "*",
+    "@teams.sdk/dev": "*",
     "@teams.sdk/graph": "*",
     "botbuilder": "4.23.1"
   },

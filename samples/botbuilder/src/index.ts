@@ -1,6 +1,7 @@
 import { App } from '@teams.sdk/apps';
 import { ConsoleLogger } from '@teams.sdk/common/logging';
 import { BotBuilderPlugin } from '@teams.sdk/botbuilder';
+import { DevtoolsPlugin } from '@teams.sdk/dev';
 import { TeamsActivityHandler } from 'botbuilder';
 
 export class ActivityHandler extends TeamsActivityHandler {
@@ -16,7 +17,10 @@ export class ActivityHandler extends TeamsActivityHandler {
 const handler = new ActivityHandler();
 const app = new App({
   logger: new ConsoleLogger('@samples/botbuilder', { level: 'debug' }),
-  plugins: [new BotBuilderPlugin({ handler })],
+  plugins: [
+    new BotBuilderPlugin({ handler }),
+    new DevtoolsPlugin()
+  ],
 });
 
 app.on('message', async ({ send }) => {

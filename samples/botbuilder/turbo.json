@@ -11,6 +11,7 @@
         "@teams.sdk/botbuilder#build",
         "@teams.sdk/cards#build",
         "@teams.sdk/common#build",
+        "@teams.sdk/dev#build",
         "@teams.sdk/graph#build"
       ]
     }
