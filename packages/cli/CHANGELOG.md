@@ -1,5 +1,15 @@
 # @teams.sdk/cli
 
+## 0.1.27
+
+### Patch Changes
+
+- don't minify or bundle on build
+- Updated dependencies
+    - @teams.sdk/ai@0.1.27
+    - @teams.sdk/common@0.1.27
+    - @teams.sdk/openai@0.1.27
+
 ## 0.1.26
 
 ### Patch Changes

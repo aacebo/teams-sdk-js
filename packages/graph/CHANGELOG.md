@@ -1,5 +1,13 @@
 # @teams.sdk/graph
 
+## 0.1.27
+
+### Patch Changes
+
+- don't minify or bundle on build
+- Updated dependencies
+    - @teams.sdk/common@0.1.27
+
 ## 0.1.26
 
 ### Patch Changes

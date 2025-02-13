@@ -1,5 +1,14 @@
 # @teams.sdk/api
 
+## 0.1.27
+
+### Patch Changes
+
+- don't minify or bundle on build
+- Updated dependencies
+    - @teams.sdk/cards@0.1.27
+    - @teams.sdk/common@0.1.27
+
 ## 0.1.26
 
 ### Patch Changes
