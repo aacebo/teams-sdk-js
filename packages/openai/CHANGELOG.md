@@ -1,5 +1,14 @@
 # @teams.sdk/openai
 
+## 0.1.31
+
+### Patch Changes
+
+- make app and plugins event driven
+- Updated dependencies
+    - @teams.sdk/ai@0.1.31
+    - @teams.sdk/common@0.1.31
+
 ## 0.1.30
 
 ### Patch Changes

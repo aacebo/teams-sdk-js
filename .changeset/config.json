@@ -2,7 +2,23 @@
   "$schema": "https://unpkg.com/@changesets/config@3.0.2/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "fixed": [],
+  "fixed": [
+    [
+      "@teams.sdk/ai",
+      "@teams.sdk/api",
+      "@teams.sdk/apps",
+      "@teams.sdk/botbuilder",
+      "@teams.sdk/cards",
+      "@teams.sdk/cli",
+      "@teams.sdk/client",
+      "@teams.sdk/common",
+      "@teams.sdk/config",
+      "@teams.sdk/dev",
+      "@teams.sdk/devtools",
+      "@teams.sdk/graph",
+      "@teams.sdk/openai"
+    ]
+  ],
   "linked": [],
   "access": "public",
   "baseBranch": "main",

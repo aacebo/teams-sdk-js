@@ -1,5 +1,11 @@
 # @teams.sdk/cards
 
+## 0.1.31
+
+### Patch Changes
+
+- make app and plugins event driven
+
 ## 0.1.30
 
 ### Patch Changes
