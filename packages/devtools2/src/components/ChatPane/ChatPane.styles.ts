@@ -2,7 +2,6 @@ import { makeStyles, tokens } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   chatPaneContainer: {
-    height: '100vh',
     margin: 'auto 0',
     overflow: 'hidden',
     backgroundColor: tokens.colorNeutralBackground3,

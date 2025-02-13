@@ -28,6 +28,7 @@ const ChatPane: FC = () => {
         role="document"
         className={mergeClasses(globalStyles.verticalLayout, styles.chatPane)}
       >
+        {/* TODO: Add message keys once we have sender information */}
         {messages}
       </Chat>
       <div>
