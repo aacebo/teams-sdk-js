@@ -1,5 +1,5 @@
 {
-  "name": "devtools2",
+  "name": "@teams.sdk/devtools2",
   "version": "0.0.1",
   "type": "module",
   "files": [
@@ -19,6 +19,7 @@
     "@fluentui/react-icons": "^2.0.274",
     "@teams.sdk/api": "*",
     "@teams.sdk/cards": "*",
+    "@teams.sdk/common": "*",
     "date-fns": "^4.1.0",
     "prettier": "^3.5.0",
     "react": "^18.3.1",

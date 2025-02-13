@@ -31,8 +31,8 @@ const ChatPane: FC = () => {
         {messages}
       </Chat>
       <div>
-        <div className={styles.bannerContainer}>{/* Optional banner content */}</div>
-        <ComposeBox onSend={handleSendMessage} /> {/* Pass send function */}
+        <div className={styles.bannerContainer}>{/* TODO: Optional banner/toast content */}</div>
+        <ComposeBox onSend={handleSendMessage} />
       </div>
     </div>
   );
