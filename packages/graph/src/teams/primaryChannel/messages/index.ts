@@ -2,9 +2,7 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-import { DeltaClient } from './delta';
+import type { Endpoints } from './index-types.ts';
 import { HostedContentsClient } from './hostedContents';
 import { RepliesClient } from './replies';
 import { SetReactionClient } from './setReaction';
@@ -71,24 +69,6 @@ export class MessagesClient {
         },
       });
     }
-  }
-
-  /**
-   * `/teams/{team-id}/primaryChannel/messages/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
-  }
-
-  /**
-   * `/teams/{team-id}/primaryChannel/messages/delta`
-   *
-   * Provides operations to call the delta method.
-   */
-  get delta() {
-    return new DeltaClient(this.http);
   }
 
   /**

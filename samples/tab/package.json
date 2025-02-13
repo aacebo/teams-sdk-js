@@ -23,7 +23,6 @@
     "@teams.sdk/common": "*",
     "@teams.sdk/client": "*",
     "@teams.sdk/dev": "*",
-    "@teams.sdk/devtools": "*",
     "@teams.sdk/graph": "*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

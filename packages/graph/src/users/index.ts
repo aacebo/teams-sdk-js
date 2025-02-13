@@ -2,7 +2,7 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { ChatsClient } from './chats';
 import { OnlineMeetingsClient } from './onlineMeetings';
 import { PresenceClient } from './presence';

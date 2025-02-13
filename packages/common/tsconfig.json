@@ -1,8 +1,9 @@
 {
-  "extends": "@teams.sdk/config/tsconfig.json",
+  "extends": "@teams.sdk/config/tsconfig.node.json",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src"
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"]
 }

@@ -2,7 +2,7 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { CallRecordsClient } from './callRecords';
 import { CallsClient } from './calls';
 import { GetPresencesByUserIdClient } from './getPresencesByUserId';
@@ -73,7 +73,7 @@ export class CommunicationsClient {
   /**
    * `/communications/callRecords`
    *
-   * Provides operations to call the getPstnCalls method.
+   * Provides operations to manage the callRecords property of the microsoft.graph.cloudCommunications entity.
    */
   get callRecords() {
     return new CallRecordsClient(this.http);

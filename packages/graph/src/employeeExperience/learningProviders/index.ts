@@ -2,8 +2,7 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
+import type { Endpoints } from './index-types.ts';
 import { LearningContentsClient } from './learningContents';
 import { LearningCourseActivitiesClient } from './learningCourseActivities';
 
@@ -32,7 +31,7 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 
 /**
  * /employeeExperience/learningProviders
- * Provides operations to manage the learningCourseActivities property of the microsoft.graph.learningProvider entity.
+ * Provides operations to manage the learningProviders property of the microsoft.graph.employeeExperience entity.
  */
 export class LearningProvidersClient {
   protected baseUrl = '/employeeExperience/learningProviders';
@@ -66,15 +65,6 @@ export class LearningProvidersClient {
         },
       });
     }
-  }
-
-  /**
-   * `/employeeExperience/learningProviders/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
   }
 
   /**
@@ -120,64 +110,6 @@ export class LearningProvidersClient {
       .then(
         (res) =>
           res.data as Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}']['response']
-      );
-  }
-
-  /**
-   * `DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)`
-   *
-   * Delete the specified learningContent resource that represents the metadata of the specified provider&#x27;s ingested content.
-   */
-  async delete$1(
-    params?: Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['parameters'],
-    config?: http.RequestConfig
-  ) {
-    const url = getInjectedUrl(
-      '/employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)',
-      [
-        { name: 'If-Match', in: 'header' },
-        { name: 'learningProvider-id', in: 'path' },
-        { name: 'externalId', in: 'path' },
-      ],
-      {
-        ...(params || {}),
-      }
-    );
-
-    return this.http
-      .delete(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['response']
-      );
-  }
-
-  /**
-   * `DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)`
-   *
-   * Delete a learningCourseActivity object using the course activity ID of either an assignment or a self-initiated activity.
-   */
-  async delete$2(
-    params?: Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['parameters'],
-    config?: http.RequestConfig
-  ) {
-    const url = getInjectedUrl(
-      '/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)',
-      [
-        { name: 'If-Match', in: 'header' },
-        { name: 'learningProvider-id', in: 'path' },
-        { name: 'externalcourseActivityId', in: 'path' },
-      ],
-      {
-        ...(params || {}),
-      }
-    );
-
-    return this.http
-      .delete(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints['DELETE /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['response']
       );
   }
 
@@ -239,65 +171,6 @@ export class LearningProvidersClient {
   }
 
   /**
-   * `GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)`
-   *
-   * Get the specified learningContent resource which represents the metadata of the specified provider&#x27;s ingested content.
-   */
-  async get$1(
-    params?: Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['parameters'],
-    config?: http.RequestConfig
-  ) {
-    const url = getInjectedUrl(
-      '/employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)',
-      [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'learningProvider-id', in: 'path' },
-        { name: 'externalId', in: 'path' },
-      ],
-      {
-        ...(params || {}),
-      }
-    );
-
-    return this.http
-      .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['response']
-      );
-  }
-
-  /**
-   * `GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)`
-   *
-   */
-  async get$2(
-    params?: Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['parameters'],
-    config?: http.RequestConfig
-  ) {
-    const url = getInjectedUrl(
-      '/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)',
-      [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'learningProvider-id', in: 'path' },
-        { name: 'externalcourseActivityId', in: 'path' },
-      ],
-      {
-        ...(params || {}),
-      }
-    );
-
-    return this.http
-      .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints['GET /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['response']
-      );
-  }
-
-  /**
    * `PATCH /employeeExperience/learningProviders/{learningProvider-id}`
    *
    * Update the properties of a learningProvider object.
@@ -320,63 +193,6 @@ export class LearningProvidersClient {
       .then(
         (res) =>
           res.data as Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}']['response']
-      );
-  }
-
-  /**
-   * `PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)`
-   *
-   */
-  async update$1(
-    body: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['body'],
-    params?: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['parameters'],
-    config?: http.RequestConfig
-  ) {
-    const url = getInjectedUrl(
-      '/employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)',
-      [
-        { name: 'learningProvider-id', in: 'path' },
-        { name: 'externalId', in: 'path' },
-      ],
-      {
-        ...(params || {}),
-      }
-    );
-
-    return this.http
-      .patch(url, body, config)
-      .then(
-        (res) =>
-          res.data as Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningContents(externalId&#x3D;&#x27;{externalId}&#x27;)']['response']
-      );
-  }
-
-  /**
-   * `PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)`
-   *
-   * Update the properties of a learningCourseActivity object.
-   */
-  async update$2(
-    body: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['body'],
-    params?: Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['parameters'],
-    config?: http.RequestConfig
-  ) {
-    const url = getInjectedUrl(
-      '/employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)',
-      [
-        { name: 'learningProvider-id', in: 'path' },
-        { name: 'externalcourseActivityId', in: 'path' },
-      ],
-      {
-        ...(params || {}),
-      }
-    );
-
-    return this.http
-      .patch(url, body, config)
-      .then(
-        (res) =>
-          res.data as Endpoints['PATCH /employeeExperience/learningProviders/{learningProvider-id}/learningCourseActivities(externalcourseActivityId&#x3D;&#x27;{externalcourseActivityId}&#x27;)']['response']
       );
   }
 

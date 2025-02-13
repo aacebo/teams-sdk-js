@@ -9,7 +9,8 @@
         "@teams.sdk/api#build",
         "@teams.sdk/apps#build",
         "@teams.sdk/common#build",
-        "@teams.sdk/graph#build"
+        "@teams.sdk/graph#build",
+        "@teams.sdk/devtools#build"
       ]
     }
   }

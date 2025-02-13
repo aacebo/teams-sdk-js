@@ -2,8 +2,7 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
+import type { Endpoints } from './index-types.ts';
 import { TeamsAppClient } from './teamsApp';
 import { TeamsAppDefinitionClient } from './teamsAppDefinition';
 import { UpgradeClient } from './upgrade';
@@ -70,15 +69,6 @@ export class InstalledAppsClient {
         },
       });
     }
-  }
-
-  /**
-   * `/teams/{team-id}/installedApps/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
   }
 
   /**

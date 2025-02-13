@@ -2,9 +2,8 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { AppDefinitionsClient } from './appDefinitions';
-import { CountClient } from './count';
 
 interface Param {
   readonly in: string;
@@ -74,15 +73,6 @@ export class TeamsAppsClient {
    */
   appDefinitions(teamsAppId: string) {
     return new AppDefinitionsClient(teamsAppId, this.http);
-  }
-
-  /**
-   * `/appCatalogs/teamsApps/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
   }
 
   /**

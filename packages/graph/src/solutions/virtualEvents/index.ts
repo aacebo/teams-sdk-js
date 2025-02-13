@@ -2,7 +2,7 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { EventsClient } from './events';
 import { TownhallsClient } from './townhalls';
 import { WebinarsClient } from './webinars';
@@ -80,7 +80,7 @@ export class VirtualEventsClient {
   /**
    * `/solutions/virtualEvents/townhalls`
    *
-   * Provides operations to call the getByUserRole method.
+   * Provides operations to manage the townhalls property of the microsoft.graph.virtualEventsRoot entity.
    */
   get townhalls() {
     return new TownhallsClient(this.http);
@@ -89,7 +89,7 @@ export class VirtualEventsClient {
   /**
    * `/solutions/virtualEvents/webinars`
    *
-   * Provides operations to call the getByUserRole method.
+   * Provides operations to manage the webinars property of the microsoft.graph.virtualEventsRoot entity.
    */
   get webinars() {
     return new WebinarsClient(this.http);

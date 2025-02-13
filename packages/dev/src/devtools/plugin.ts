@@ -44,7 +44,7 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
     this.io.on('connection', this.onConnection.bind(this));
 
     try {
-      const dist = path.join(__dirname, '..', '..', 'devtools', 'dist');
+      const dist = path.join(__dirname, '..', 'devtools-web');
       this.express.use('/devtools', express.static(dist));
       this.express.get('/devtools/*', (_, res) => {
         res.sendFile(path.join(dist, 'index.html'));

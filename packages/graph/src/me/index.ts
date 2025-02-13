@@ -2,7 +2,7 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { CalendarClient } from './calendar';
 import { CalendarGroupsClient } from './calendarGroups';
 import { CalendarViewClient } from './calendarView';
@@ -76,7 +76,7 @@ export class MeClient {
   /**
    * `/me/calendar`
    *
-   * Provides operations to call the allowedCalendarSharingRoles method.
+   * Provides operations to manage the calendar property of the microsoft.graph.user entity.
    */
   get calendar() {
     return new CalendarClient(this.http);
@@ -103,7 +103,7 @@ export class MeClient {
   /**
    * `/me/calendars`
    *
-   * Provides operations to call the allowedCalendarSharingRoles method.
+   * Provides operations to manage the calendars property of the microsoft.graph.user entity.
    */
   get calendars() {
     return new CalendarsClient(this.http);

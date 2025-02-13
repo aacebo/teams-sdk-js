@@ -2,7 +2,7 @@ import { ChatModel, ChatParams, LocalMemory, ModelMessage } from '@teams.sdk/ai'
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 
 import OpenAI from 'openai';
-import { Fetch } from 'openai/core.mjs';
+import { Fetch } from 'openai/core';
 import { Stream } from 'openai/streaming';
 
 export interface OpenAIChatModelOptions {

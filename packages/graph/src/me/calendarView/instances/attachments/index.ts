@@ -2,8 +2,7 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
+import type { Endpoints } from './index-types.ts';
 import { CreateUploadSessionClient } from './createUploadSession';
 
 interface Param {
@@ -68,15 +67,6 @@ export class AttachmentsClient {
         },
       });
     }
-  }
-
-  /**
-   * `/me/calendarView/{event-id}/instances/{event-id1}/attachments/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
   }
 
   /**

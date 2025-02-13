@@ -2,9 +2,8 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { CancelClient } from './cancel';
-import { CountClient } from './count';
 import { PresentersClient } from './presenters';
 import { PublishClient } from './publish';
 import { SessionsClient } from './sessions';
@@ -78,15 +77,6 @@ export class EventsClient {
    */
   cancel(virtualEventId: string) {
     return new CancelClient(virtualEventId, this.http);
-  }
-
-  /**
-   * `/solutions/virtualEvents/events/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
   }
 
   /**

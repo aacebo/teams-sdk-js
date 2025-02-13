@@ -12,7 +12,6 @@
         "@teams.sdk/common#build",
         "@teams.sdk/client#build",
         "@teams.sdk/dev#build",
-        "@teams.sdk/devtools#build",
         "@teams.sdk/graph#build"
       ]
     }

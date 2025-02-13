@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "clean": "npx rimraf ./dist",
-    "build": "npx tsup",
+    "build": "npx tsc",
     "start": "node .",
     "dev": "npx nodemon -w \"./src/**\" -e ts --exec \"node -r ts-node/register -r dotenv/config ./src/index.ts\""
   },
@@ -22,7 +22,6 @@
     "@teams.sdk/common": "*",
     "@teams.sdk/openai": "*",
     "@teams.sdk/dev": "*",
-    "@teams.sdk/devtools": "*",
     "@teams.sdk/graph": "*"
   },
   "devDependencies": {

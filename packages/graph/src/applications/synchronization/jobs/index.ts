@@ -2,9 +2,8 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { BulkUploadClient } from './bulkUpload';
-import { CountClient } from './count';
 import { PauseClient } from './pause';
 import { ProvisionOnDemandClient } from './provisionOnDemand';
 import { RestartClient } from './restart';
@@ -80,15 +79,6 @@ export class JobsClient {
    */
   bulkUpload(synchronizationJobId: string) {
     return new BulkUploadClient(synchronizationJobId, this.http);
-  }
-
-  /**
-   * `/applications/{application-id}/synchronization/jobs/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
   }
 
   /**

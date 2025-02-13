@@ -2,14 +2,10 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { ArchiveClient } from './archive';
 import { CompleteMigrationClient } from './completeMigration';
-import { CountClient } from './count';
-import { DoesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalNameClient } from './doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName';
 import { FilesFolderClient } from './filesFolder';
-import { GetAllMessagesClient } from './getAllMessages';
-import { GetAllRetainedMessagesClient } from './getAllRetainedMessages';
 import { MembersClient } from './members';
 import { MessagesClient } from './messages';
 import { ProvisionEmailClient } from './provisionEmail';
@@ -101,53 +97,12 @@ export class ChannelsClient {
   }
 
   /**
-   * `/teams/{team-id}/channels/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
-  }
-
-  /**
-   * `/teams/{team-id}/channels/{channel-id}/doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName`
-   *
-   * Provides operations to call the doesUserHaveAccess method.
-   */
-  doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName(
-    channelId: string
-  ) {
-    return new DoesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalNameClient(
-      channelId,
-      this.http
-    );
-  }
-
-  /**
    * `/teams/{team-id}/channels/{channel-id}/filesFolder`
    *
    * Provides operations to manage the filesFolder property of the microsoft.graph.channel entity.
    */
   filesFolder(channelId: string) {
     return new FilesFolderClient(channelId, this.http);
-  }
-
-  /**
-   * `/teams/{team-id}/channels/getAllMessages`
-   *
-   * Provides operations to call the getAllMessages method.
-   */
-  get getAllMessages() {
-    return new GetAllMessagesClient(this.http);
-  }
-
-  /**
-   * `/teams/{team-id}/channels/getAllRetainedMessages`
-   *
-   * Provides operations to call the getAllRetainedMessages method.
-   */
-  get getAllRetainedMessages() {
-    return new GetAllRetainedMessagesClient(this.http);
   }
 
   /**

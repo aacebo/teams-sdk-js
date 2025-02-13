@@ -2,10 +2,8 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { ContentClient } from './content';
-import { CountClient } from './count';
-import { DeltaClient } from './delta';
 
 interface Param {
   readonly in: string;
@@ -78,24 +76,6 @@ export class RecordingsClient {
    */
   content(callRecordingId: string) {
     return new ContentClient(callRecordingId, this.http);
-  }
-
-  /**
-   * `/users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
-  }
-
-  /**
-   * `/users/{user-id}/onlineMeetings/{onlineMeeting-id}/recordings/delta`
-   *
-   * Provides operations to call the delta method.
-   */
-  get delta() {
-    return new DeltaClient(this.http);
   }
 
   /**

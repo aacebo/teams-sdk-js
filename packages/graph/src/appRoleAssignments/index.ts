@@ -2,11 +2,9 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { CheckMemberGroupsClient } from './checkMemberGroups';
 import { CheckMemberObjectsClient } from './checkMemberObjects';
-import { CountClient } from './count';
-import { DeltaClient } from './delta';
 import { GetAvailableExtensionPropertiesClient } from './getAvailableExtensionProperties';
 import { GetByIdsClient } from './getByIds';
 import { GetMemberGroupsClient } from './getMemberGroups';
@@ -91,24 +89,6 @@ export class AppRoleAssignmentsClient {
    */
   checkMemberObjects(appRoleAssignmentId: string) {
     return new CheckMemberObjectsClient(appRoleAssignmentId, this.http);
-  }
-
-  /**
-   * `/appRoleAssignments/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
-  }
-
-  /**
-   * `/appRoleAssignments/delta`
-   *
-   * Provides operations to call the delta method.
-   */
-  get delta() {
-    return new DeltaClient(this.http);
   }
 
   /**

@@ -6,7 +6,7 @@
 
 - fix plugins
 - Updated dependencies
-  - @teams.sdk/common@0.1.26
+    - @teams.sdk/common@0.1.26
 
 ## 0.1.25
 
@@ -14,7 +14,7 @@
 
 - update client with api methods
 - Updated dependencies
-  - @teams.sdk/common@0.1.25
+    - @teams.sdk/common@0.1.25
 
 ## 0.1.24
 
@@ -22,7 +22,7 @@
 
 - fix plugins and devtools
 - Updated dependencies
-  - @teams.sdk/common@0.1.24
+    - @teams.sdk/common@0.1.24
 
 ## 0.1.23
 
@@ -30,7 +30,7 @@
 
 - revamp plugin structure
 - Updated dependencies
-  - @teams.sdk/common@0.1.23
+    - @teams.sdk/common@0.1.23
 
 ## 0.1.22
 
@@ -38,7 +38,7 @@
 
 - fix cards image builder
 - Updated dependencies
-  - @teams.sdk/common@0.1.22
+    - @teams.sdk/common@0.1.22
 
 ## 0.1.21
 
@@ -46,7 +46,7 @@
 
 - add graph to all cli templates
 - Updated dependencies
-  - @teams.sdk/common@0.1.21
+    - @teams.sdk/common@0.1.21
 
 ## 0.1.20
 
@@ -54,7 +54,7 @@
 
 - add basic client
 - Updated dependencies
-  - @teams.sdk/common@0.1.20
+    - @teams.sdk/common@0.1.20
 
 ## 0.1.19
 
@@ -62,7 +62,7 @@
 
 - refactor http clients to common package
 - Updated dependencies
-  - @teams.sdk/common@0.1.19
+    - @teams.sdk/common@0.1.19
 
 ## 0.1.18
 

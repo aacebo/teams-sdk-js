@@ -16,5 +16,5 @@ import prettierConfig from './prettier.config';
   });
 
   const code = await prettier.format(astToString(res), { parser: 'typescript', ...prettierConfig });
-  fs.writeFileSync(path.join(__dirname, '..', 'src', 'types.d.ts'), code);
+  fs.writeFileSync(path.join(__dirname, '..', 'src', 'types.ts'), code);
 })();

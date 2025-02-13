@@ -1,7 +1,7 @@
 import { App } from '@teams.sdk/apps';
 import { ConsoleLogger } from '@teams.sdk/common/logging';
 import { MessageSendActivity } from '@teams.sdk/api';
-import { Card, CodeBlock, Column, ColumnSet, Image, TextBlock } from '@teams.sdk/cards';
+import { Card, CodeBlock, Column, ColumnSet, TextBlock } from '@teams.sdk/cards';
 import { DevtoolsPlugin } from '@teams.sdk/dev';
 
 const app = new App({
@@ -27,12 +27,6 @@ app.on('message', async ({ log, signin, api, isSignedIn }) => {
 
 app.event('signin', async ({ send, api }) => {
   const me = await api.user.me.get();
-  const [meta, photo] = await Promise.all([
-    api.user.me.photo.get(),
-    api.user.me.photo.value.get({}, { responseType: 'arraybuffer' }) as Promise<ArrayBuffer>,
-  ]);
-
-  const photoUrl = `data:${(meta as any)['@odata.mediaContentType']};base64,${Buffer.from(photo).toString('base64')}`;
 
   await send(
     MessageSendActivity(`hello ${me.displayName} 👋!`)
@@ -49,7 +43,6 @@ app.event('signin', async ({ send, api }) => {
         Card([
           ColumnSet(
             [
-              Column([Image(photoUrl)]),
               Column(
                 [
                   TextBlock('Name:', { weight: 'bolder' }),

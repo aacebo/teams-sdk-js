@@ -2,9 +2,8 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { AllowedMembersClient } from './allowedMembers';
-import { CountClient } from './count';
 import { TeamClient } from './team';
 
 interface Param {
@@ -79,15 +78,6 @@ export class SharedWithTeamsClient {
    */
   allowedMembers(sharedWithChannelTeamInfoId: string) {
     return new AllowedMembersClient(sharedWithChannelTeamInfoId, this.http);
-  }
-
-  /**
-   * `/teamwork/deletedTeams/{deletedTeam-id}/channels/{channel-id}/sharedWithTeams/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
   }
 
   /**

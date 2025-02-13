@@ -2,10 +2,9 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { ArchiveClient } from './archive';
 import { CompleteMigrationClient } from './completeMigration';
-import { DoesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalNameClient } from './doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName';
 import { FilesFolderClient } from './filesFolder';
 import { MembersClient } from './members';
 import { MessagesClient } from './messages';
@@ -95,17 +94,6 @@ export class PrimaryChannelClient {
    */
   get completeMigration() {
     return new CompleteMigrationClient(this.http);
-  }
-
-  /**
-   * `/teams/{team-id}/primaryChannel/doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName`
-   *
-   * Provides operations to call the doesUserHaveAccess method.
-   */
-  get doesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalName() {
-    return new DoesUserHaveAccessuserIduserIdtenantIdtenantIduserPrincipalNameuserPrincipalNameClient(
-      this.http
-    );
   }
 
   /**

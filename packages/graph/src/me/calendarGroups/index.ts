@@ -2,9 +2,8 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { CalendarsClient } from './calendars';
-import { CountClient } from './count';
 
 interface Param {
   readonly in: string;
@@ -70,19 +69,10 @@ export class CalendarGroupsClient {
   /**
    * `/me/calendarGroups/{calendarGroup-id}/calendars`
    *
-   * Provides operations to call the allowedCalendarSharingRoles method.
+   * Provides operations to manage the calendars property of the microsoft.graph.calendarGroup entity.
    */
   calendars(calendarGroupId: string) {
     return new CalendarsClient(calendarGroupId, this.http);
-  }
-
-  /**
-   * `/me/calendarGroups/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
   }
 
   /**

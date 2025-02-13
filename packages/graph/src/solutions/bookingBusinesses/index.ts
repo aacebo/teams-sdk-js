@@ -2,10 +2,9 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { AppointmentsClient } from './appointments';
 import { CalendarViewClient } from './calendarView';
-import { CountClient } from './count';
 import { CustomQuestionsClient } from './customQuestions';
 import { CustomersClient } from './customers';
 import { GetStaffAvailabilityClient } from './getStaffAvailability';
@@ -91,15 +90,6 @@ export class BookingBusinessesClient {
    */
   calendarView(bookingBusinessId: string) {
     return new CalendarViewClient(bookingBusinessId, this.http);
-  }
-
-  /**
-   * `/solutions/bookingBusinesses/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
   }
 
   /**

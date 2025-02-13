@@ -2,7 +2,7 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './unsetReaction-types.d.ts';
+import type { Endpoints } from './unsetReaction-types.ts';
 
 interface Param {
   readonly in: string;

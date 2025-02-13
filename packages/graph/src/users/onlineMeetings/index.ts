@@ -2,14 +2,10 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { AttendanceReportsClient } from './attendanceReports';
 import { AttendeeReportClient } from './attendeeReport';
-import { CountClient } from './count';
 import { CreateOrGetClient } from './createOrGet';
-import { GetAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTimeClient } from './getAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime';
-import { GetAllTranscriptsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTimeClient } from './getAllTranscriptsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime';
-import { GetVirtualAppointmentJoinWebUrlClient } from './getVirtualAppointmentJoinWebUrl';
 import { RecordingsClient } from './recordings';
 import { SendVirtualAppointmentReminderSmsClient } from './sendVirtualAppointmentReminderSms';
 import { SendVirtualAppointmentSmsClient } from './sendVirtualAppointmentSms';
@@ -98,52 +94,12 @@ export class OnlineMeetingsClient {
   }
 
   /**
-   * `/users/{user-id}/onlineMeetings/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
-  }
-
-  /**
    * `/users/{user-id}/onlineMeetings/createOrGet`
    *
    * Provides operations to call the createOrGet method.
    */
   get createOrGet() {
     return new CreateOrGetClient(this.http);
-  }
-
-  /**
-   * `/users/{user-id}/onlineMeetings/getAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime`
-   *
-   * Provides operations to call the getAllRecordings method.
-   */
-  get getAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime() {
-    return new GetAllRecordingsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTimeClient(
-      this.http
-    );
-  }
-
-  /**
-   * `/users/{user-id}/onlineMeetings/getAllTranscriptsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime`
-   *
-   * Provides operations to call the getAllTranscripts method.
-   */
-  get getAllTranscriptsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTime() {
-    return new GetAllTranscriptsmeetingOrganizerUserIdmeetingOrganizerUserIdstartDateTimestartDateTimeendDateTimeendDateTimeClient(
-      this.http
-    );
-  }
-
-  /**
-   * `/users/{user-id}/onlineMeetings/{onlineMeeting-id}/getVirtualAppointmentJoinWebUrl`
-   *
-   * Provides operations to call the getVirtualAppointmentJoinWebUrl method.
-   */
-  getVirtualAppointmentJoinWebUrl(onlineMeetingId: string) {
-    return new GetVirtualAppointmentJoinWebUrlClient(onlineMeetingId, this.http);
   }
 
   /**

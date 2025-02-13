@@ -2,15 +2,13 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { AddKeyClient } from './addKey';
 import { AddPasswordClient } from './addPassword';
 import { AppManagementPoliciesClient } from './appManagementPolicies';
 import { CheckMemberGroupsClient } from './checkMemberGroups';
 import { CheckMemberObjectsClient } from './checkMemberObjects';
-import { CountClient } from './count';
 import { CreatedOnBehalfOfClient } from './createdOnBehalfOf';
-import { DeltaClient } from './delta';
 import { ExtensionPropertiesClient } from './extensionProperties';
 import { FederatedIdentityCredentialsClient } from './federatedIdentityCredentials';
 import { GetAvailableExtensionPropertiesClient } from './getAvailableExtensionProperties';
@@ -55,7 +53,7 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 
 /**
  * /applications
- * Provides operations to manage the federatedIdentityCredentials property of the microsoft.graph.application entity.
+ * Provides operations to manage the collection of application entities.
  */
 export class ApplicationsClient {
   protected baseUrl = '/applications';
@@ -137,30 +135,12 @@ export class ApplicationsClient {
   }
 
   /**
-   * `/applications/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
-  }
-
-  /**
    * `/applications/{application-id}/createdOnBehalfOf`
    *
    * Provides operations to manage the createdOnBehalfOf property of the microsoft.graph.application entity.
    */
   createdOnBehalfOf(applicationId: string) {
     return new CreatedOnBehalfOfClient(applicationId, this.http);
-  }
-
-  /**
-   * `/applications/delta`
-   *
-   * Provides operations to call the delta method.
-   */
-  get delta() {
-    return new DeltaClient(this.http);
   }
 
   /**
@@ -351,35 +331,6 @@ export class ApplicationsClient {
   }
 
   /**
-   * `DELETE /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)`
-   *
-   * Delete a federatedIdentityCredential object from an application.
-   */
-  async delete$1(
-    params?: Endpoints['DELETE /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['parameters'],
-    config?: http.RequestConfig
-  ) {
-    const url = getInjectedUrl(
-      '/applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)',
-      [
-        { name: 'If-Match', in: 'header' },
-        { name: 'application-id', in: 'path' },
-        { name: 'name', in: 'path' },
-      ],
-      {
-        ...(params || {}),
-      }
-    );
-
-    return this.http
-      .delete(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints['DELETE /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['response']
-      );
-  }
-
-  /**
    * `GET /applications`
    *
    * Get the list of applications in this organization.
@@ -430,36 +381,6 @@ export class ApplicationsClient {
   }
 
   /**
-   * `GET /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)`
-   *
-   * Read the properties and relationships of a federatedIdentityCredential object.
-   */
-  async get$1(
-    params?: Endpoints['GET /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['parameters'],
-    config?: http.RequestConfig
-  ) {
-    const url = getInjectedUrl(
-      '/applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)',
-      [
-        { name: '$select', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'application-id', in: 'path' },
-        { name: 'name', in: 'path' },
-      ],
-      {
-        ...(params || {}),
-      }
-    );
-
-    return this.http
-      .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints['GET /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['response']
-      );
-  }
-
-  /**
    * `PATCH /applications/{application-id}`
    *
    * Create a new application object if it doesn&#x27;t exist, or update the properties of an existing application object.
@@ -480,35 +401,6 @@ export class ApplicationsClient {
     return this.http
       .patch(url, body, config)
       .then((res) => res.data as Endpoints['PATCH /applications/{application-id}']['response']);
-  }
-
-  /**
-   * `PATCH /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)`
-   *
-   * Create a new federatedIdentityCredential object for an application if it doesn&#x27;t exist, or update the properties of an existing federatedIdentityCredential object. By configuring a trust relationship between your Microsoft Entra application registration and the identity provider for your compute platform, you can use tokens issued by that platform to authenticate with Microsoft identity platform and call APIs in the Microsoft ecosystem. Maximum of 20 objects can be added to an application.
-   */
-  async update$1(
-    body: Endpoints['PATCH /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['body'],
-    params?: Endpoints['PATCH /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['parameters'],
-    config?: http.RequestConfig
-  ) {
-    const url = getInjectedUrl(
-      '/applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)',
-      [
-        { name: 'application-id', in: 'path' },
-        { name: 'name', in: 'path' },
-      ],
-      {
-        ...(params || {}),
-      }
-    );
-
-    return this.http
-      .patch(url, body, config)
-      .then(
-        (res) =>
-          res.data as Endpoints['PATCH /applications/{application-id}/federatedIdentityCredentials(name&#x3D;&#x27;{name}&#x27;)']['response']
-      );
   }
 
   /**

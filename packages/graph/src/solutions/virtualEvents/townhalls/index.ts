@@ -2,8 +2,7 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
+import type { Endpoints } from './index-types.ts';
 import { PresentersClient } from './presenters';
 import { SessionsClient } from './sessions';
 
@@ -32,7 +31,7 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 
 /**
  * /solutions/virtualEvents/townhalls
- * Provides operations to call the getByUserRole method.
+ * Provides operations to manage the townhalls property of the microsoft.graph.virtualEventsRoot entity.
  */
 export class TownhallsClient {
   protected baseUrl = '/solutions/virtualEvents/townhalls';
@@ -66,15 +65,6 @@ export class TownhallsClient {
         },
       });
     }
-  }
-
-  /**
-   * `/solutions/virtualEvents/townhalls/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
   }
 
   /**
@@ -146,67 +136,6 @@ export class TownhallsClient {
     return this.http
       .get(url, config)
       .then((res) => res.data as Endpoints['GET /solutions/virtualEvents/townhalls']['response']);
-  }
-
-  /**
-   * `GET /solutions/virtualEvents/townhalls/getByUserIdAndRole(userId&#x3D;&#x27;{userId}&#x27;,role&#x3D;&#x27;{role}&#x27;)`
-   *
-   * Get a list of virtualEventTownhall objects where the specified user is either the organizer or a coorganizer.
-   */
-  async get$1(
-    params?: Endpoints['GET /solutions/virtualEvents/townhalls/getByUserIdAndRole(userId&#x3D;&#x27;{userId}&#x27;,role&#x3D;&#x27;{role}&#x27;)']['parameters'],
-    config?: http.RequestConfig
-  ) {
-    const url = getInjectedUrl(
-      '/solutions/virtualEvents/townhalls/getByUserIdAndRole(userId&#x3D;&#x27;{userId}&#x27;,role&#x3D;&#x27;{role}&#x27;)',
-      [
-        { name: '$select', in: 'query' },
-        { name: '$orderby', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'userId', in: 'path' },
-        { name: 'role', in: 'path' },
-      ],
-      {
-        ...(params || {}),
-      }
-    );
-
-    return this.http
-      .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints['GET /solutions/virtualEvents/townhalls/getByUserIdAndRole(userId&#x3D;&#x27;{userId}&#x27;,role&#x3D;&#x27;{role}&#x27;)']['response']
-      );
-  }
-
-  /**
-   * `GET /solutions/virtualEvents/townhalls/getByUserRole(role&#x3D;&#x27;{role}&#x27;)`
-   *
-   * Get a list of virtualEventTownhall objects where the signed-in user is either the organizer or a coorganizer.
-   */
-  async get$2(
-    params?: Endpoints['GET /solutions/virtualEvents/townhalls/getByUserRole(role&#x3D;&#x27;{role}&#x27;)']['parameters'],
-    config?: http.RequestConfig
-  ) {
-    const url = getInjectedUrl(
-      '/solutions/virtualEvents/townhalls/getByUserRole(role&#x3D;&#x27;{role}&#x27;)',
-      [
-        { name: '$select', in: 'query' },
-        { name: '$orderby', in: 'query' },
-        { name: '$expand', in: 'query' },
-        { name: 'role', in: 'path' },
-      ],
-      {
-        ...(params || {}),
-      }
-    );
-
-    return this.http
-      .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints['GET /solutions/virtualEvents/townhalls/getByUserRole(role&#x3D;&#x27;{role}&#x27;)']['response']
-      );
   }
 
   /**

@@ -2,10 +2,7 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-import { GetAllMessagesClient } from './getAllMessages';
-import { GetAllRetainedMessagesClient } from './getAllRetainedMessages';
+import type { Endpoints } from './index-types.ts';
 import { HideForUserClient } from './hideForUser';
 import { InstalledAppsClient } from './installedApps';
 import { LastMessagePreviewClient } from './lastMessagePreview';
@@ -81,33 +78,6 @@ export class ChatsClient {
         },
       });
     }
-  }
-
-  /**
-   * `/users/{user-id}/chats/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
-  }
-
-  /**
-   * `/users/{user-id}/chats/getAllMessages`
-   *
-   * Provides operations to call the getAllMessages method.
-   */
-  get getAllMessages() {
-    return new GetAllMessagesClient(this.http);
-  }
-
-  /**
-   * `/users/{user-id}/chats/getAllRetainedMessages`
-   *
-   * Provides operations to call the getAllRetainedMessages method.
-   */
-  get getAllRetainedMessages() {
-    return new GetAllRetainedMessagesClient(this.http);
   }
 
   /**

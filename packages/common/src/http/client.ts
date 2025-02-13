@@ -1,4 +1,9 @@
-import axios, { AxiosInstance, AxiosRequestConfig, RawAxiosRequestHeaders } from 'axios';
+import axios, {
+  AxiosInstance,
+  AxiosResponse,
+  AxiosRequestConfig,
+  RawAxiosRequestHeaders,
+} from 'axios';
 
 import { ConsoleLogger, Logger } from '../logging';
 
@@ -83,11 +88,11 @@ export class Client {
     }
   }
 
-  async get<T = any, R = axios.AxiosResponse<T>, D = any>(url: string, config?: RequestConfig<D>) {
+  async get<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: RequestConfig<D>) {
     return this.http.get<T, R, D>(url, await this.withConfig(config));
   }
 
-  async post<T = any, R = axios.AxiosResponse<T>, D = any>(
+  async post<T = any, R = AxiosResponse<T>, D = any>(
     url: string,
     data?: D,
     config?: RequestConfig<D>
@@ -95,7 +100,7 @@ export class Client {
     return this.http.post<T, R, D>(url, data, await this.withConfig(config));
   }
 
-  async put<T = any, R = axios.AxiosResponse<T>, D = any>(
+  async put<T = any, R = AxiosResponse<T>, D = any>(
     url: string,
     data?: D,
     config?: RequestConfig<D>
@@ -103,7 +108,7 @@ export class Client {
     return this.http.put<T, R, D>(url, data, await this.withConfig(config));
   }
 
-  async patch<T = any, R = axios.AxiosResponse<T>, D = any>(
+  async patch<T = any, R = AxiosResponse<T>, D = any>(
     url: string,
     data?: D,
     config?: RequestConfig<D>
@@ -111,14 +116,11 @@ export class Client {
     return this.http.patch<T, R, D>(url, data, await this.withConfig(config));
   }
 
-  async delete<T = any, R = axios.AxiosResponse<T>, D = any>(
-    url: string,
-    config?: RequestConfig<D>
-  ) {
+  async delete<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: RequestConfig<D>) {
     return this.http.delete<T, R, D>(url, await this.withConfig(config));
   }
 
-  async request<T = any, R = axios.AxiosResponse<T>, D = any>(config: RequestConfig<D>) {
+  async request<T = any, R = AxiosResponse<T>, D = any>(config: RequestConfig<D>) {
     return this.http.request<T, R, D>(await this.withConfig(config));
   }
 

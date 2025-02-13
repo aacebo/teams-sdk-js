@@ -2,10 +2,8 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { DirectoriesClient } from './directories';
-import { FilterOperatorsClient } from './filterOperators';
-import { FunctionsClient } from './functions';
 import { ParseExpressionClient } from './parseExpression';
 
 interface Param {
@@ -80,24 +78,6 @@ export class SchemaClient {
    */
   get directories() {
     return new DirectoriesClient(this.http);
-  }
-
-  /**
-   * `/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/filterOperators`
-   *
-   * Provides operations to call the filterOperators method.
-   */
-  get filterOperators() {
-    return new FilterOperatorsClient(this.http);
-  }
-
-  /**
-   * `/applications/{application-id}/synchronization/jobs/{synchronizationJob-id}/schema/functions`
-   *
-   * Provides operations to call the functions method.
-   */
-  get functions() {
-    return new FunctionsClient(this.http);
   }
 
   /**

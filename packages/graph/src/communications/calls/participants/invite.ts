@@ -2,7 +2,7 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './invite-types.d.ts';
+import type { Endpoints } from './invite-types.ts';
 
 interface Param {
   readonly in: string;

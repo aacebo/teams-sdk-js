@@ -2,10 +2,9 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { ClearPresenceClient } from './clearPresence';
 import { ClearUserPreferredPresenceClient } from './clearUserPreferredPresence';
-import { CountClient } from './count';
 import { SetPresenceClient } from './setPresence';
 import { SetStatusMessageClient } from './setStatusMessage';
 import { SetUserPreferredPresenceClient } from './setUserPreferredPresence';
@@ -87,15 +86,6 @@ export class PresencesClient {
    */
   clearUserPreferredPresence(presenceId: string) {
     return new ClearUserPreferredPresenceClient(presenceId, this.http);
-  }
-
-  /**
-   * `/communications/presences/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
   }
 
   /**

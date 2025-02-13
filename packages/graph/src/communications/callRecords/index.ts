@@ -2,10 +2,7 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
-import { CountClient } from './count';
-import { Organizerv2Client } from './organizerv2';
-import { Participantsv2Client } from './participantsv2';
+import type { Endpoints } from './index-types.ts';
 import { SessionsClient } from './sessions';
 
 interface Param {
@@ -33,7 +30,7 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 
 /**
  * /communications/callRecords
- * Provides operations to call the getPstnCalls method.
+ * Provides operations to manage the callRecords property of the microsoft.graph.cloudCommunications entity.
  */
 export class CallRecordsClient {
   protected baseUrl = '/communications/callRecords';
@@ -67,33 +64,6 @@ export class CallRecordsClient {
         },
       });
     }
-  }
-
-  /**
-   * `/communications/callRecords/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
-  }
-
-  /**
-   * `/communications/callRecords/{callRecord-id}/organizerv2`
-   *
-   * Provides operations to manage the organizer_v2 property of the microsoft.graph.callRecords.callRecord entity.
-   */
-  organizerv2(callRecordId: string) {
-    return new Organizerv2Client(callRecordId, this.http);
-  }
-
-  /**
-   * `/communications/callRecords/{callRecord-id}/participantsv2`
-   *
-   * Provides operations to manage the participants_v2 property of the microsoft.graph.callRecords.callRecord entity.
-   */
-  participantsv2(callRecordId: string) {
-    return new Participantsv2Client(callRecordId, this.http);
   }
 
   /**
@@ -156,62 +126,6 @@ export class CallRecordsClient {
     return this.http
       .get(url, config)
       .then((res) => res.data as Endpoints['GET /communications/callRecords']['response']);
-  }
-
-  /**
-   * `GET /communications/callRecords/microsoft.graph.callRecords.getDirectRoutingCalls(fromDateTime&#x3D;{fromDateTime},toDateTime&#x3D;{toDateTime})`
-   *
-   * Get a log of direct routing calls as a collection of directRoutingLogRow entries.
-   */
-  async get$1(
-    params?: Endpoints['GET /communications/callRecords/microsoft.graph.callRecords.getDirectRoutingCalls(fromDateTime&#x3D;{fromDateTime},toDateTime&#x3D;{toDateTime})']['parameters'],
-    config?: http.RequestConfig
-  ) {
-    const url = getInjectedUrl(
-      '/communications/callRecords/microsoft.graph.callRecords.getDirectRoutingCalls(fromDateTime&#x3D;{fromDateTime},toDateTime&#x3D;{toDateTime})',
-      [
-        { name: 'fromDateTime', in: 'path' },
-        { name: 'toDateTime', in: 'path' },
-      ],
-      {
-        ...(params || {}),
-      }
-    );
-
-    return this.http
-      .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints['GET /communications/callRecords/microsoft.graph.callRecords.getDirectRoutingCalls(fromDateTime&#x3D;{fromDateTime},toDateTime&#x3D;{toDateTime})']['response']
-      );
-  }
-
-  /**
-   * `GET /communications/callRecords/microsoft.graph.callRecords.getPstnCalls(fromDateTime&#x3D;{fromDateTime},toDateTime&#x3D;{toDateTime})`
-   *
-   * Get a log of PSTN calls as a collection of pstnCallLogRow entries.
-   */
-  async get$2(
-    params?: Endpoints['GET /communications/callRecords/microsoft.graph.callRecords.getPstnCalls(fromDateTime&#x3D;{fromDateTime},toDateTime&#x3D;{toDateTime})']['parameters'],
-    config?: http.RequestConfig
-  ) {
-    const url = getInjectedUrl(
-      '/communications/callRecords/microsoft.graph.callRecords.getPstnCalls(fromDateTime&#x3D;{fromDateTime},toDateTime&#x3D;{toDateTime})',
-      [
-        { name: 'fromDateTime', in: 'path' },
-        { name: 'toDateTime', in: 'path' },
-      ],
-      {
-        ...(params || {}),
-      }
-    );
-
-    return this.http
-      .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints['GET /communications/callRecords/microsoft.graph.callRecords.getPstnCalls(fromDateTime&#x3D;{fromDateTime},toDateTime&#x3D;{toDateTime})']['response']
-      );
   }
 
   /**

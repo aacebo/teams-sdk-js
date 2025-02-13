@@ -20,8 +20,7 @@
     "@teams.sdk/apps": "latest",
     "@teams.sdk/common": "latest",
     "@teams.sdk/graph": "latest",
-    "@teams.sdk/dev": "latest",
-    "@teams.sdk/devtools": "latest"
+    "@teams.sdk/dev": "latest"
   },
   "devDependencies": {
     "@types/node": "^22.5.4",

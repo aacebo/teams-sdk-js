@@ -5,7 +5,7 @@ import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
 {{#if (notEmpty endpoints)}}
-import type { Endpoints } from './{{types}}-types.d.ts';
+import type { Endpoints } from './{{types}}-types.ts';
 {{/if}}
 {{#each clients}}
 import { {{capitalize @key}}Client } from './{{@key}}';

@@ -1,12 +1,13 @@
 /** @type {import('tsup').Options} */
 module.exports = {
-  dts: { resolve: true },
-  minify: true,
+  dts: true,
+  minify: false,
+  bundle: false,
   sourcemap: true,
   treeshake: true,
   splitting: true,
   clean: true,
   outDir: 'dist',
-  entry: ['src/index.ts'],
+  entry: ['src/**/*.ts', '!src/**/*.spec.ts'],
   format: ['cjs', 'esm'],
 };

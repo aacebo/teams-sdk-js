@@ -2,10 +2,8 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { ChannelsClient } from './channels';
-import { CountClient } from './count';
-import { GetAllMessagesClient } from './getAllMessages';
 
 interface Param {
   readonly in: string;
@@ -75,24 +73,6 @@ export class DeletedTeamsClient {
    */
   channels(deletedTeamId: string) {
     return new ChannelsClient(deletedTeamId, this.http);
-  }
-
-  /**
-   * `/teamwork/deletedTeams/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
-  }
-
-  /**
-   * `/teamwork/deletedTeams/getAllMessages`
-   *
-   * Provides operations to call the getAllMessages method.
-   */
-  get getAllMessages() {
-    return new GetAllMessagesClient(this.http);
   }
 
   /**

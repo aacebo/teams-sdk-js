@@ -2,10 +2,9 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { CalendarPermissionsClient } from './calendarPermissions';
 import { CalendarViewClient } from './calendarView';
-import { CountClient } from './count';
 import { EventsClient } from './events';
 import { GetScheduleClient } from './getSchedule';
 
@@ -34,7 +33,7 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 
 /**
  * /me/calendars
- * Provides operations to call the allowedCalendarSharingRoles method.
+ * Provides operations to manage the calendars property of the microsoft.graph.user entity.
  */
 export class CalendarsClient {
   protected baseUrl = '/me/calendars';
@@ -86,15 +85,6 @@ export class CalendarsClient {
    */
   calendarView(calendarId: string) {
     return new CalendarViewClient(calendarId, this.http);
-  }
-
-  /**
-   * `/me/calendars/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
   }
 
   /**
@@ -186,33 +176,6 @@ export class CalendarsClient {
     return this.http
       .get(url, config)
       .then((res) => res.data as Endpoints['GET /me/calendars/{calendar-id}']['response']);
-  }
-
-  /**
-   * `GET /me/calendars/{calendar-id}/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)`
-   *
-   */
-  async get$1(
-    params?: Endpoints['GET /me/calendars/{calendar-id}/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)']['parameters'],
-    config?: http.RequestConfig
-  ) {
-    const url = getInjectedUrl(
-      '/me/calendars/{calendar-id}/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)',
-      [
-        { name: 'calendar-id', in: 'path' },
-        { name: 'User', in: 'path' },
-      ],
-      {
-        ...(params || {}),
-      }
-    );
-
-    return this.http
-      .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints['GET /me/calendars/{calendar-id}/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)']['response']
-      );
   }
 
   /**

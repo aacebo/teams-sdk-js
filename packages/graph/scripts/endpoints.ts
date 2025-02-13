@@ -33,6 +33,7 @@ const whitelist = [
 
 const patterns = {
   specialChars: /[!$#@%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/g,
+  invalidUrl: /[!$#@%^&*()+=\[\];':"\\|,.<>?]+/g,
   param: /\{[A-Za-z0-9\-]*\}/g,
 };
 
@@ -44,8 +45,6 @@ const methods = {
   delete: 'delete',
   trace: 'trace',
 };
-
-const reserved = [...Object.values(methods), 'list'];
 
 handlebars.registerHelper('capitalize', (value: string) => {
   if (!value) return value;
@@ -143,19 +142,19 @@ class Client {
     }
 
     let [child, ...other] = children;
-    child = child.replace(patterns.specialChars, '');
 
-    if (patterns.specialChars.test(child)) {
+    child = child.replace('()', '');
+
+    if (child.startsWith('$')) {
+      child = child.slice(1);
+    }
+
+    if (patterns.specialChars.test(child) || patterns.invalidUrl.test(schema.url)) {
       console.warn(`skipping: ${child}...`);
       return;
     }
 
-    let name = child.replace(patterns.specialChars, '');
-
-    // if reserved change the name
-    if (reserved.some((n) => n === name)) {
-      name = `$${name}`;
-    }
+    let name = child;
 
     if (this.name === name) {
       name = camelcase(`${name}-${name}`);
@@ -176,7 +175,7 @@ class Client {
     this.clients = sortKeys(this.clients, { deep: true });
     this.endpoints = sortKeys(this.endpoints, { deep: true });
 
-    fs.writeFileSync(npath.join(__dirname, '..', 'src', 'common.d.ts'), commonTemplate({}));
+    fs.writeFileSync(npath.join(__dirname, '..', 'src', 'common.ts'), commonTemplate({}));
 
     if (Object.keys(this.clients).length && !fs.existsSync(srcPath)) {
       fs.mkdirSync(srcPath, { recursive: true });
@@ -206,12 +205,12 @@ class Client {
       ...this,
       path: npath.relative(
         npath.join('/', path, Object.keys(this.clients).length ? this.name : ''),
-        npath.join('/', 'common.d.ts')
+        npath.join('/', 'common.ts')
       ),
     });
 
     fs.writeFileSync(
-      npath.join(__dirname, '..', 'src', path, `${filename}-types.d.ts`),
+      npath.join(__dirname, '..', 'src', path, `${filename}-types.ts`),
       await prettier.format(res, { parser: 'typescript', ...prettierConfig })
     );
   }
@@ -224,10 +223,12 @@ class Client {
 
       const params = [...(def.parameters || []), ...(schema.parameters || [])];
 
-      let name = camelcase([methods[method as keyof typeof methods], ...path]).replaceAll(
-        patterns.specialChars,
-        ''
-      );
+      let name = camelcase([methods[method as keyof typeof methods], ...path]);
+
+      if (patterns.specialChars.test(name) || patterns.invalidUrl.test(schema.url)) {
+        console.warn(`skipping endpoint: ${schema.url}...`);
+        continue;
+      }
 
       // if GET and endpoints has same url as client base url
       if (method === 'get' && schema.url === this.url && schema.url.endsWith('s')) {
@@ -266,6 +267,10 @@ class Client {
 }
 
 function isWhitelisted(path: string) {
+  if (patterns.invalidUrl.test(path)) {
+    return false;
+  }
+
   for (const regex of whitelist) {
     if (path.match(regex)) {
       return true;

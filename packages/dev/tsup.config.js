@@ -1,1 +1,9 @@
-module.exports = require('@teams.sdk/config/tsup.config');
+const base = require('@teams.sdk/config/tsup.config');
+
+/**
+ * @type {import('tsup').Options}
+ */
+module.exports = {
+  ...base,
+  clean: false,
+};

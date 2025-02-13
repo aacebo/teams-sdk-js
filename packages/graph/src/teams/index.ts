@@ -2,14 +2,12 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { AllChannelsClient } from './allChannels';
 import { ArchiveClient } from './archive';
 import { ChannelsClient } from './channels';
 import { CloneClient } from './clone';
 import { CompleteMigrationClient } from './completeMigration';
-import { CountClient } from './count';
-import { GetAllMessagesClient } from './getAllMessages';
 import { GroupClient } from './group';
 import { IncomingChannelsClient } from './incomingChannels';
 import { InstalledAppsClient } from './installedApps';
@@ -128,24 +126,6 @@ export class TeamsClient {
    */
   completeMigration(teamId: string) {
     return new CompleteMigrationClient(teamId, this.http);
-  }
-
-  /**
-   * `/teams/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
-  }
-
-  /**
-   * `/teams/getAllMessages`
-   *
-   * Provides operations to call the getAllMessages method.
-   */
-  get getAllMessages() {
-    return new GetAllMessagesClient(this.http);
   }
 
   /**

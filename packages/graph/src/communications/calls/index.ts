@@ -2,14 +2,13 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { AddLargeGalleryViewClient } from './addLargeGalleryView';
 import { AnswerClient } from './answer';
 import { AudioRoutingGroupsClient } from './audioRoutingGroups';
 import { CancelMediaProcessingClient } from './cancelMediaProcessing';
 import { ChangeScreenSharingRoleClient } from './changeScreenSharingRole';
 import { ContentSharingSessionsClient } from './contentSharingSessions';
-import { CountClient } from './count';
 import { KeepAliveClient } from './keepAlive';
 import { LogTeleconferenceDeviceQualityClient } from './logTeleconferenceDeviceQuality';
 import { MuteClient } from './mute';
@@ -138,15 +137,6 @@ export class CallsClient {
    */
   contentSharingSessions(callId: string) {
     return new ContentSharingSessionsClient(callId, this.http);
-  }
-
-  /**
-   * `/communications/calls/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
   }
 
   /**

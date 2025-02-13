@@ -2,9 +2,8 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { ActivateClient } from './activate';
-import { CountClient } from './count';
 import { DeactivateClient } from './deactivate';
 
 interface Param {
@@ -75,15 +74,6 @@ export class ProtectionPoliciesClient {
    */
   activate(protectionPolicyBaseId: string) {
     return new ActivateClient(protectionPolicyBaseId, this.http);
-  }
-
-  /**
-   * `/solutions/backupRestore/protectionPolicies/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
   }
 
   /**

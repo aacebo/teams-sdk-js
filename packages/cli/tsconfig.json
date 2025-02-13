@@ -1,10 +1,9 @@
 {
-  "extends": "@teams.sdk/config/tsconfig.json",
+  "extends": "@teams.sdk/config/tsconfig.esm.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
-    "module": "ESNext",
-    "moduleResolution": "Node"
+    "rootDir": "src"
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"]
 }

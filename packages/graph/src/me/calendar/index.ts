@@ -2,7 +2,7 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { CalendarPermissionsClient } from './calendarPermissions';
 import { CalendarViewClient } from './calendarView';
 import { EventsClient } from './events';
@@ -33,7 +33,7 @@ function getInjectedUrl(url: string, params: Array<Param>, data: Record<string, 
 
 /**
  * /me/calendar
- * Provides operations to call the allowedCalendarSharingRoles method.
+ * Provides operations to manage the calendar property of the microsoft.graph.user entity.
  */
 export class CalendarClient {
   protected baseUrl = '/me/calendar';
@@ -126,30 +126,6 @@ or the default calendar of a Microsoft 365 group. There are two scenarios where 
     return this.http
       .get(url, config)
       .then((res) => res.data as Endpoints['GET /me/calendar']['response']);
-  }
-
-  /**
-   * `GET /me/calendar/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)`
-   *
-   */
-  async get$1(
-    params?: Endpoints['GET /me/calendar/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)']['parameters'],
-    config?: http.RequestConfig
-  ) {
-    const url = getInjectedUrl(
-      '/me/calendar/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)',
-      [{ name: 'User', in: 'path' }],
-      {
-        ...(params || {}),
-      }
-    );
-
-    return this.http
-      .get(url, config)
-      .then(
-        (res) =>
-          res.data as Endpoints['GET /me/calendar/allowedCalendarSharingRoles(User&#x3D;&#x27;{User}&#x27;)']['response']
-      );
   }
 
   /**

@@ -2,14 +2,12 @@ import qs from 'qs';
 import * as http from '@teams.sdk/common/http';
 
 import pkg from 'src/../package.json';
-import type { Endpoints } from './index-types.d.ts';
+import type { Endpoints } from './index-types.ts';
 import { AcceptClient } from './accept';
 import { AttachmentsClient } from './attachments';
 import { CalendarClient } from './calendar';
 import { CancelClient } from './cancel';
-import { CountClient } from './count';
 import { DeclineClient } from './decline';
-import { DeltaClient } from './delta';
 import { DismissReminderClient } from './dismissReminder';
 import { ExtensionsClient } from './extensions';
 import { ForwardClient } from './forward';
@@ -117,30 +115,12 @@ export class InstancesClient {
   }
 
   /**
-   * `/me/calendar/calendarView/{event-id}/instances/count`
-   *
-   * Provides operations to count the resources in the collection.
-   */
-  get count() {
-    return new CountClient(this.http);
-  }
-
-  /**
    * `/me/calendar/calendarView/{event-id}/instances/{event-id1}/decline`
    *
    * Provides operations to call the decline method.
    */
   decline(eventId1: string) {
     return new DeclineClient(eventId1, this.http);
-  }
-
-  /**
-   * `/me/calendar/calendarView/{event-id}/instances/delta`
-   *
-   * Provides operations to call the delta method.
-   */
-  get delta() {
-    return new DeltaClient(this.http);
   }
 
   /**

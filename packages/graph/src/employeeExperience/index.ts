@@ -43,7 +43,7 @@ export class EmployeeExperienceClient {
   /**
    * `/employeeExperience/learningProviders`
    *
-   * Provides operations to manage the learningCourseActivities property of the microsoft.graph.learningProvider entity.
+   * Provides operations to manage the learningProviders property of the microsoft.graph.employeeExperience entity.
    */
   get learningProviders() {
     return new LearningProvidersClient(this.http);
