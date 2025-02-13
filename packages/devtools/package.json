@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:dev": "tsc -b && vite build --mode development",
     "build:watch": "tsc -b && vite build --watch --mode development",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -25,6 +26,7 @@
     "@headlessui/react": "^2.2.0",
     "@teams.sdk/api": "*",
     "@teams.sdk/cards": "*",
+    "@teams.sdk/common": "*",
     "@uiw/codemirror-themes-all": "^4.23.7",
     "axios": "^1.7.9",
     "classnames": "^2.5.1",

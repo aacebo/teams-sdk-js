@@ -3,10 +3,9 @@ import { makeStyles, tokens } from '@fluentui/react-components';
 const useStyles = makeStyles({
   devtoolsLandmark: {
     fontWeight: tokens.fontWeightSemibold,
-    marginTop: '1rem',
-    marginBottom: '1rem',
     display: 'flex',
     height: '100%',
+    alignItems: 'center',
   },
   teamsImg: {
     width: '2.5rem',
@@ -15,7 +14,7 @@ const useStyles = makeStyles({
   },
   badge: {
     position: 'relative',
-    margin: 'auto 6px',
+    margin: 'auto 10px',
     opacity: 1,
   },
   pingAnimation: {

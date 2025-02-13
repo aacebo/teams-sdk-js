@@ -1,12 +1,12 @@
 import { FC } from 'react';
-import { Badge, Title3 } from '@fluentui/react-components';
+import { Badge, Title3, Tooltip } from '@fluentui/react-components';
 import useStyles from './DevtoolsLandmark.styles';
 
-interface DevtoolsProps {
+interface DevtoolsLandmarkProps {
   connected: boolean;
 }
 
-const Devtools: FC<DevtoolsProps> = ({ connected }) => {
+const DevtoolsLandmark: FC<DevtoolsLandmarkProps> = ({ connected }) => {
   const styles = useStyles();
 
   return (
@@ -15,11 +15,13 @@ const Devtools: FC<DevtoolsProps> = ({ connected }) => {
       <Title3 as="h1" align="center">
         DevTools
       </Title3>
-      <Badge color={connected ? 'success' : 'danger'} size="extra-small" className={styles.badge}>
-        <div className={connected ? styles.pingAnimation : ''} />
-      </Badge>
+      <Tooltip content={connected ? 'Connected' : 'Disconnected'} relationship="description">
+        <Badge aria-label={connected ? 'Connected' : 'Disconnected'} color={connected ? 'success' : 'danger'} size="extra-small" className={styles.badge}>
+          <div className={connected ? styles.pingAnimation : ''} />
+        </Badge>
+      </Tooltip>
     </div>
   );
 };
 
-export default Devtools;
+export default DevtoolsLandmark;

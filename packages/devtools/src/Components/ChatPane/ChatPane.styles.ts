@@ -2,12 +2,14 @@ import { makeStyles, tokens } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   chatPaneContainer: {
-    height: '100vh',
     margin: 'auto 0',
     overflow: 'hidden',
     backgroundColor: tokens.colorNeutralBackground3,
     minWidth: '500px',
     flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
   },
   chatPane: {
     flexGrow: 1,
@@ -17,7 +19,7 @@ const useStyles = makeStyles({
     paddingBottom: '10px',
   },
   /**
-   * Placeholder for banner like OOF messags, etc.
+   * Placeholder for banner like OOF messages, etc.
    */
   bannerContainer: {
     flex: 0,
