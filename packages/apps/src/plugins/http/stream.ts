@@ -4,10 +4,9 @@ import {
   ChannelData,
   Entity,
   MessageSendActivity,
-  Resource,
 } from '@teams.sdk/api';
 
-import { Streamer } from '../../types';
+import { SentActivity, Streamer } from '../../types';
 
 export class HttpStream implements Streamer {
   protected index = 0;
@@ -21,7 +20,7 @@ export class HttpStream implements Streamer {
   private _timeout?: NodeJS.Timeout;
   private _failures: number = 0;
 
-  constructor(protected send: (activity: ActivityParams) => Promise<Resource>) {}
+  constructor(protected send: (activity: ActivityParams) => Promise<SentActivity>) {}
 
   emit(activity: Partial<MessageSendActivity> | string) {
     if (this._timeout) {

@@ -4,7 +4,6 @@ import { ErrorMiddlewareContext, SignInMiddlewareContext } from '../middleware-c
 import { EventHandler } from '../types';
 
 import { error, ErrorEventArgs } from './error';
-import { start } from './start';
 import { signin } from './signin';
 
 export interface Events {
@@ -15,7 +14,7 @@ export interface Events {
 }
 
 export const DEFAULT_EVENTS: Events = {
-  start,
+  start: () => {},
   signin,
   error,
   'activity.error': error,

@@ -5,17 +5,9 @@ import express from 'express';
 import io from 'socket.io';
 import * as uuid from 'uuid';
 
-import { ActivityParams } from '@teams.sdk/api';
+import { ActivityParams, ConversationReference } from '@teams.sdk/api';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
-import {
-  ActivityContext,
-  App,
-  HttpPlugin,
-  HttpStream,
-  Plugin,
-  ProactiveContext,
-  Streamer,
-} from '@teams.sdk/apps';
+import { ActivityContext, App, HttpPlugin, HttpStream, Plugin, Streamer } from '@teams.sdk/apps';
 
 import { router } from './routes';
 import { ActivityEvent, Event } from './event';
@@ -109,66 +101,37 @@ export class DevtoolsPlugin implements Plugin {
     return next();
   }
 
-  async onSend(activity: ActivityParams, ctx: ActivityContext) {
-    this.onBeforeSend(activity, ctx);
-    const res = await this.httpPlugin.onSend(activity, ctx);
-    activity.id = res.id;
-    this.onAfterSend(activity, ctx);
-    return res;
-  }
+  async onSend(activity: ActivityParams, ref: ConversationReference) {
+    const res = await this.httpPlugin.onSend(activity, ref);
 
-  async onSendProactive(activity: ActivityParams, ctx: ProactiveContext) {
     this.sendActivity({
       id: uuid.v4(),
       type: 'activity.sent',
-      chat: ctx.ref.conversation,
-      body: {
-        ...activity,
-        conversation: ctx.ref.conversation,
-      } as any,
+      chat: ref.conversation,
+      body: res as any,
       sentAt: new Date(),
     });
 
-    const res = await this.httpPlugin.onSendProactive(activity, ctx);
-    activity.id = res.id;
     return res;
   }
 
-  onBeforeSend(activity: ActivityParams, ctx: ActivityContext) {
-    const id = uuid.v4();
-    const sentAt = new Date();
+  async onSendProactive(activity: ActivityParams, ref: ConversationReference) {
+    const res = await this.httpPlugin.onSendProactive(activity, ref);
 
     this.sendActivity({
-      id,
-      type: 'activity.sending',
-      chat: ctx.activity.conversation,
-      body: {
-        ...activity,
-        conversation: ctx.activity.conversation,
-      } as any,
-      sentAt,
-    });
-
-    ctx.devtoolsRequestId = id;
-    ctx.devtoolsRequestSentAt = sentAt;
-  }
-
-  onAfterSend(activity: ActivityParams, ctx: ActivityContext) {
-    this.sendActivity({
-      id: ctx.devtoolsRequestId,
+      id: uuid.v4(),
       type: 'activity.sent',
-      chat: ctx.activity.conversation,
-      body: {
-        ...activity,
-        conversation: ctx.activity.conversation,
-      } as any,
-      sentAt: new Date(ctx.devtoolsRequestSentAt),
+      chat: ref.conversation,
+      body: res as any,
+      sentAt: new Date(),
     });
+
+    return res;
   }
 
-  onStreamOpen(ctx: ActivityContext): Streamer {
+  onStreamOpen(ref: ConversationReference): Streamer {
     return new HttpStream((activity) => {
-      return this.onSend(activity, ctx);
+      return this.onSend(activity, ref);
     });
   }
 

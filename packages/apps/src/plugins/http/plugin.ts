@@ -1,13 +1,17 @@
 import http from 'http';
 import express from 'express';
 
-import { Activity, ActivityParams, JsonWebToken } from '@teams.sdk/api';
+import {
+  Activity,
+  ActivityParams,
+  JsonWebToken,
+  ConversationReference,
+  Client,
+} from '@teams.sdk/api';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 
 import { Plugin, Streamer } from '../../types';
 import { App } from '../../app';
-import { ActivityContext } from '../../activity-context';
-import { ProactiveContext } from '../../proactive-context';
 
 import { HttpStream } from './stream';
 
@@ -25,10 +29,10 @@ export class HttpPlugin implements Plugin {
   readonly route: express.Application['route'];
   readonly use: express.Application['use'];
 
-  get http() {
-    return this._http;
+  get server() {
+    return this._server;
   }
-  protected _http: http.Server;
+  protected _server: http.Server;
 
   get port() {
     return this._port;
@@ -42,7 +46,7 @@ export class HttpPlugin implements Plugin {
   constructor() {
     this.log = new ConsoleLogger('@teams.sdk/app/http');
     this.express = express();
-    this._http = http.createServer(this.express);
+    this._server = http.createServer(this.express);
     this.get = this.express.get.bind(this.express);
     this.post = this.express.post.bind(this.express);
     this.patch = this.express.patch.bind(this.express);
@@ -89,38 +93,52 @@ export class HttpPlugin implements Plugin {
         reject(err);
       });
 
-      this._http = this.express.listen(port, async () => {
+      this._server = this.express.listen(port, async () => {
+        this.log.info(`listening on port ${port} 🚀`);
         resolve();
       });
     });
   }
 
-  onSend(activity: ActivityParams, ctx: ActivityContext) {
+  async onSend(activity: ActivityParams, { bot, conversation, serviceUrl }: ConversationReference) {
+    const api = new Client(serviceUrl, { token: this.app?.tokens.bot });
+
+    activity = {
+      ...activity,
+      from: bot,
+      conversation,
+    };
+
     if (activity.id && !activity.channelData?.streamId) {
-      return ctx.api.conversations.activities(ctx.activity.conversation.id).update(activity.id, {
-        ...activity,
-        from: ctx.activity.recipient,
-        conversation: ctx.activity.conversation,
-      });
+      const res = await api.conversations.activities(conversation.id).update(activity.id, activity);
+
+      return { ...activity, ...res };
     }
 
-    return ctx.api.conversations.activities(ctx.activity.conversation.id).create({
-      ...activity,
-      from: ctx.activity.recipient,
-      conversation: ctx.activity.conversation,
-    });
+    const res = await api.conversations.activities(conversation.id).create(activity);
+
+    return { ...activity, ...res };
   }
 
-  onSendProactive(activity: ActivityParams, ctx: ProactiveContext) {
-    return ctx.api.conversations.activities(ctx.ref.conversation.id).create({
+  async onSendProactive(
+    activity: ActivityParams,
+    { bot, conversation, serviceUrl }: ConversationReference
+  ) {
+    const api = new Client(serviceUrl, { token: this.app?.tokens.bot });
+
+    activity = {
       ...activity,
-      from: ctx.ref.bot,
-      conversation: ctx.ref.conversation,
-    });
+      from: bot,
+      conversation,
+    };
+
+    const res = await api.conversations.activities(conversation.id).create(activity);
+
+    return { ...activity, ...res };
   }
 
-  onStreamOpen(ctx: ActivityContext): Streamer {
-    return new HttpStream((activity) => this.onSend(activity, ctx));
+  onStreamOpen(ref: ConversationReference): Streamer {
+    return new HttpStream((activity) => this.onSend(activity, ref));
   }
 
   /**

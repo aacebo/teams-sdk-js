@@ -21,7 +21,6 @@ import {
   TokenExchangeState,
   cardAttachment,
   ActivityLike,
-  Resource,
 } from '@teams.sdk/api';
 
 import pkg from '../package.json';
@@ -438,25 +437,37 @@ export class App {
       throw new Error('http plugin not found');
     }
 
-    return plugin.onSendProactive(toActivityParams(activity), {
-      appId: this.id,
-      log: this.log,
-      api: this.api,
-      storage: this.storage,
-      ref: {
-        channelId: 'msteams',
-        serviceUrl: this.api.serviceUrl,
-        bot: {
-          id: this.id,
-          name: this.name,
-          role: 'bot',
-        },
-        conversation: {
-          id: conversationId,
-          conversationType: 'personal',
-        },
+    activity = toActivityParams(activity);
+
+    const ref: ConversationReference = {
+      channelId: 'msteams',
+      serviceUrl: this.api.serviceUrl,
+      bot: {
+        id: this.id,
+        name: this.name,
+        role: 'bot',
       },
-    });
+      conversation: {
+        id: conversationId,
+        conversationType: 'personal',
+      },
+    };
+
+    for (const plugin of this.plugins) {
+      if (plugin.onBeforeSend) {
+        await plugin.onBeforeSend(activity, ref);
+      }
+    }
+
+    const res = await plugin.onSendProactive(activity, ref);
+
+    for (const plugin of this.plugins) {
+      if (plugin.onAfterSend) {
+        await plugin.onAfterSend(res, ref);
+      }
+    }
+
+    return res;
   }
 
   /**
@@ -508,7 +519,7 @@ export class App {
       http.clone({ token: () => userToken })
     );
 
-    const conversation: ConversationReference = {
+    const ref: ConversationReference = {
       serviceUrl,
       activityId: activity.id,
       bot: activity.recipient,
@@ -535,14 +546,13 @@ export class App {
       appId: this.id || '',
       log: this.log,
       tokens: this.tokens,
-      ref: conversation,
+      ref,
       storage: this.storage,
       isSignedIn: !!userToken,
     };
 
     let i = 0;
-    const stream = sender.onStreamOpen ? await sender.onStreamOpen(ctx) : undefined;
-
+    const stream = sender.onStreamOpen ? await sender.onStreamOpen(ref) : undefined;
     const routeCtx: MiddlewareContext<Activity> = {
       ...ctx,
       stream: {
@@ -559,13 +569,13 @@ export class App {
         return routes[i](context || routeCtx);
       },
       send: async (activity) => {
-        const res = await this.onSend(activity, sender, ctx);
+        const res = await this.onSend(activity, sender, ref);
         return res;
       },
       reply: async (activity) => {
         activity = toActivityParams(activity);
         activity.replyToId = ctx.activity.id;
-        this.onSend(activity, sender, ctx);
+        const res = await this.onSend(activity, sender, ref);
         return res;
       },
       signin: this.onSignIn(ctx, sender),
@@ -613,7 +623,7 @@ export class App {
             text,
           },
           sender,
-          ctx
+          ref
         );
 
         convo.conversation = { id: res.id } as ConversationAccount;
@@ -651,7 +661,7 @@ export class App {
           ],
         },
         sender,
-        ctx
+        ref
       );
     };
   }
@@ -749,24 +759,23 @@ export class App {
     }
   }
 
-  protected async onSend(activity: ActivityLike, sender: SenderPlugin, ctx: ActivityContext) {
+  protected async onSend(activity: ActivityLike, sender: SenderPlugin, ref: ConversationReference) {
     activity = toActivityParams(activity);
 
     for (const plugin of this.plugins) {
       if (plugin.onBeforeSend) {
-        await plugin.onBeforeSend(activity, ctx);
+        await plugin.onBeforeSend(activity, ref);
       }
     }
 
-    const res = await sender.onSend(activity, ctx);
-    activity = { ...activity, ...res };
+    const res = await sender.onSend(activity, ref);
 
     for (const plugin of this.plugins) {
       if (plugin.onAfterSend) {
-        await plugin.onAfterSend(activity, ctx);
+        await plugin.onAfterSend(res, ref);
       }
     }
 
-    return activity as Resource;
+    return res;
   }
 }

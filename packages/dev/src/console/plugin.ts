@@ -109,7 +109,7 @@ export class ConsolePlugin implements Plugin {
       this.log.info(activity.text);
     }
 
-    return { id: '1' };
+    return { id: '1', ...activity };
   }
 
   protected onAuthRedirect(

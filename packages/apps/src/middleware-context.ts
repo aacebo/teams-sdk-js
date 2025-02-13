@@ -3,14 +3,13 @@ import {
   ActivityLike,
   MentionEntity,
   MessageSendActivity,
-  Resource,
   SignInTokenExchangeInvokeActivity,
   SignInVerifyStateInvokeActivity,
   TokenResponse,
 } from '@teams.sdk/api';
 
 import { ActivityContext } from './activity-context';
-import { Streamer } from './types';
+import { SentActivity, Streamer } from './types';
 
 export interface MiddlewareContext<T extends Activity = Activity> extends ActivityContext<T> {
   /**
@@ -27,13 +26,13 @@ export interface MiddlewareContext<T extends Activity = Activity> extends Activi
    * send an activity to the conversation
    * @param activity activity to send
    */
-  send: (activity: ActivityLike) => Promise<Resource>;
+  send: (activity: ActivityLike) => Promise<SentActivity>;
 
   /**
    * reply to the inbound activity
    * @param activity activity to send
    */
-  reply: (activity: ActivityLike) => Promise<Resource>;
+  reply: (activity: ActivityLike) => Promise<SentActivity>;
 
   /**
    * trigger user signin flow for the activity sender

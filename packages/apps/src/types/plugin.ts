@@ -1,15 +1,22 @@
-import { ActivityParams, Resource } from '@teams.sdk/api';
+import { ActivityParams, ConversationReference } from '@teams.sdk/api';
 
 import { App } from '../app';
 import { ActivityContext } from '../activity-context';
 import { Streamer } from './streamer';
-import { ProactiveContext } from '../proactive-context';
+
+/**
+ * represents an activity that was sent
+ */
+export type SentActivity = { id: string } & ActivityParams;
 
 /**
  * a component for extending the base
  * `App` functionality
  */
 export interface Plugin {
+  /**
+   * the unique plugin name
+   */
   readonly name: string;
 
   /**
@@ -36,8 +43,8 @@ export interface Plugin {
    */
   onSend?(
     activity: ActivityParams,
-    ctx: ActivityContext
-  ): undefined | Resource | Promise<undefined | Resource>;
+    ref: ConversationReference
+  ): undefined | SentActivity | Promise<undefined | SentActivity>;
 
   /**
    * called by the `App`
@@ -45,26 +52,26 @@ export interface Plugin {
    */
   onSendProactive?(
     activity: ActivityParams,
-    ctx: ProactiveContext
-  ): undefined | Resource | Promise<undefined | Resource>;
+    ref: ConversationReference
+  ): undefined | SentActivity | Promise<undefined | SentActivity>;
 
   /**
    * called by the `App`
    * before an activity is sent
    */
-  onBeforeSend?(activity: ActivityParams, ctx: ActivityContext): void | Promise<void>;
+  onBeforeSend?(activity: ActivityParams, ref: ConversationReference): void | Promise<void>;
 
   /**
    * called by the `App`
    * after an activity is sent
    */
-  onAfterSend?(activity: ActivityParams, ctx: ActivityContext): void | Promise<void>;
+  onAfterSend?(activity: SentActivity, ref: ConversationReference): void | Promise<void>;
 
   /**
    * called by the `App`
    * to send an activity chunk
    */
-  onStreamOpen?(ctx: ActivityContext): Streamer | Promise<Streamer>;
+  onStreamOpen?(ref: ConversationReference): Streamer | Promise<Streamer>;
 }
 
 /**
@@ -75,7 +82,10 @@ export interface SenderPlugin extends Plugin {
    * called by the `App`
    * to send an activity
    */
-  onSend(activity: ActivityParams, ctx: ActivityContext): Resource | Promise<Resource>;
+  onSend(
+    activity: ActivityParams,
+    ref: ConversationReference
+  ): SentActivity | Promise<SentActivity>;
 }
 
 /**
@@ -86,5 +96,5 @@ export interface StreamerPlugin extends Plugin {
    * called by the `App`
    * to send an activity chunk
    */
-  onStreamOpen(ctx: ActivityContext): Streamer | Promise<Streamer>;
+  onStreamOpen(ref: ConversationReference): Streamer | Promise<Streamer>;
 }
