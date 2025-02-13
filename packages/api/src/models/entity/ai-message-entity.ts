@@ -2,7 +2,7 @@ export interface AIMessageEntity {
   readonly type: 'https://schema.org/Message';
 
   /**
-   * Required as 'Message
+   * Required as 'Message'
    */
   '@type': 'Message';
 

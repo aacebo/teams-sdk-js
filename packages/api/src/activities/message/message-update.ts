@@ -85,10 +85,6 @@ export class MessageUpdateActivityBuilder extends ActivityBaseBuilder<MessageUpd
     this.activity.expiration = value;
     return this;
   }
-
-  build() {
-    return this.activity;
-  }
 }
 
 export function MessageUpdateActivity(

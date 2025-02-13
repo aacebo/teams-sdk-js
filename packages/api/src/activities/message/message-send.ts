@@ -209,10 +209,6 @@ export class MessageSendActivityBuilder extends ActivityBaseBuilder<MessageSendA
   card<T extends CardAttachmentType>(type: T, content: CardAttachmentTypes[T]['content']) {
     return this.attachment(cardAttachment(type, content));
   }
-
-  build() {
-    return this.activity;
-  }
 }
 
 export function MessageSendActivity(

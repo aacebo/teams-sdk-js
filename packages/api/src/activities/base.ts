@@ -2,6 +2,7 @@ import {
   Account,
   ChannelData,
   ChannelID,
+  CitationAppearance,
   ConversationAccount,
   ConversationReference,
   Entity,
@@ -182,6 +183,33 @@ export abstract class ActivityBaseBuilder<ActivityType extends ActivityBase = Ac
 
     this.activity.channelData.feedbackLoopEnabled = true;
     return this;
+  }
+
+  /**
+   * Add citations
+   */
+  citation(position: number, appearance: CitationAppearance) {
+    return this.entity({
+      type: 'https://schema.org/Message',
+      '@type': 'Claim',
+      position,
+      appearance: {
+        '@type': 'DigitalDocument',
+        abstract: appearance.abstract,
+        name: appearance.name,
+        encodingFormat: 'application/vnd.microsoft.card.adaptive',
+        image: appearance.icon
+          ? {
+              '@type': 'ImageObject',
+              name: appearance.icon,
+            }
+          : undefined,
+        keywords: appearance.keywords,
+        text: appearance.text,
+        url: appearance.url,
+        usageInfo: appearance.usageInfo,
+      },
+    });
   }
 
   /**

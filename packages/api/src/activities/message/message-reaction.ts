@@ -59,10 +59,6 @@ export class MessageReactionActivityBuilder extends ActivityBaseBuilder<MessageR
     this.activity.reactionsRemoved.push(reaction);
     return this;
   }
-
-  build() {
-    return this.activity;
-  }
 }
 
 export function MessageReactionActivity(options?: Omit<Partial<MessageReactionActivity>, 'type'>) {
