@@ -10,10 +10,7 @@ interface TopNavButtonProps {
 
 const TopNavButton: React.FC<TopNavButtonProps> = ({ to, icon, activeIcon, label }) => {
   return (
-    <NavLink
-      to={to}
-      className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
-    >
+    <NavLink to={to} className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}>
       {({ isActive }) => (
         <div className="flex">
           {isActive ? activeIcon && activeIcon : icon}

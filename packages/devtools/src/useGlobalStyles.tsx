@@ -23,7 +23,7 @@ const useGlobalStyles = makeStyles({
     flex: '0 1 auto',
     justifyContent: 'flex-end',
     height: 'auto',
-    padding: '1rem 0'
+    padding: '1rem 0',
   },
   navButtonContainer: {
     display: 'flex',

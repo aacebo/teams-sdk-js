@@ -45,9 +45,11 @@ const App: FC = () => {
   }, []);
 
   return (
-    <div data-tid="app-container" className={mergeClasses(styles.verticalLayout, styles.appContainer)}>
-
-      <BrowserRouter basename="/devtools" data-tid='browser-router'>
+    <div
+      data-tid="app-container"
+      className={mergeClasses(styles.verticalLayout, styles.appContainer)}
+    >
+      <BrowserRouter basename="/devtools" data-tid="browser-router">
         <div data-tid="top-nav" className={mergeClasses(styles.horizontalLayout, styles.topNav)}>
           <div data-tid="landmark-container" className={styles.flexGrow}>
             <DevtoolsLandmark connected={connected} />
@@ -79,7 +81,10 @@ const App: FC = () => {
             />
           </div>
         </div>
-        <div data-tid="app-routes" className={mergeClasses(styles.default, styles.verticalLayout, styles.flexGrow)}>
+        <div
+          data-tid="app-routes"
+          className={mergeClasses(styles.default, styles.verticalLayout, styles.flexGrow)}
+        >
           <ActivityContext.Provider value={activityStore}>
             <ChatContext.Provider value={chatStore}>
               <Routes>

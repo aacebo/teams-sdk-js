@@ -16,7 +16,12 @@ const DevtoolsLandmark: FC<DevtoolsLandmarkProps> = ({ connected }) => {
         DevTools
       </Title3>
       <Tooltip content={connected ? 'Connected' : 'Disconnected'} relationship="description">
-        <Badge aria-label={connected ? 'Connected' : 'Disconnected'} color={connected ? 'success' : 'danger'} size="extra-small" className={styles.badge}>
+        <Badge
+          aria-label={connected ? 'Connected' : 'Disconnected'}
+          color={connected ? 'success' : 'danger'}
+          size="extra-small"
+          className={styles.badge}
+        >
           <div className={connected ? styles.pingAnimation : ''} />
         </Badge>
       </Tooltip>
