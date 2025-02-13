@@ -6,18 +6,16 @@ import io from 'socket.io';
 import * as uuid from 'uuid';
 
 import { ActivityParams } from '@teams.sdk/api';
+import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 import {
   ActivityContext,
   App,
   HttpPlugin,
   HttpStream,
   Plugin,
-  PluginEvents,
   ProactiveContext,
   Streamer,
 } from '@teams.sdk/apps';
-import { EventEmitter } from '@teams.sdk/common/events';
-import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 
 import { router } from './routes';
 import { ActivityEvent, Event } from './event';
@@ -26,7 +24,7 @@ export interface DevtoolsOptions {
   readonly port?: number;
 }
 
-export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin {
+export class DevtoolsPlugin implements Plugin {
   readonly name = 'devtools';
 
   protected log: Logger;
@@ -37,7 +35,6 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
   protected httpPlugin = new HttpPlugin();
 
   constructor(readonly options: DevtoolsOptions = {}) {
-    super();
     this.log = new ConsoleLogger('@teams.sdk/app/devtools');
     this.express = express();
     this.http = http.createServer(this.express);
@@ -55,7 +52,6 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
         'failed to load devtools, please ensure you have installed `@teams.sdk/devtools`'
       );
       this.log.warn(err);
-      this.emit('error', err);
     }
   }
 
@@ -86,12 +82,11 @@ export class DevtoolsPlugin extends EventEmitter<PluginEvents> implements Plugin
    * start listening
    * @param port port to listen on
    */
-  async onStart() {
-    const port = this.options.port || (this.httpPlugin.port || 3000) + 1;
+  async onStart(port = 3000) {
+    port = (this.options.port || port || 3000) + 1;
 
     return await new Promise<void>((resolve, reject) => {
       this.http.on('error', (err) => {
-        this.emit('error', err);
         reject(err);
       });
 

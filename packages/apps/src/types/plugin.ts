@@ -5,10 +5,6 @@ import { ActivityContext } from '../activity-context';
 import { Streamer } from './streamer';
 import { ProactiveContext } from '../proactive-context';
 
-export interface PluginEvents {
-  error: any;
-}
-
 /**
  * a component for extending the base
  * `App` functionality
