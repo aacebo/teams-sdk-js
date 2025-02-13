@@ -16,7 +16,6 @@ const useStyles = makeStyles({
     position: 'relative',
     margin: 'auto 10px',
     opacity: 1,
-
   },
   pingAnimation: {
     position: 'absolute',
