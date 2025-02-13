@@ -42,6 +42,7 @@ import { HttpPlugin } from './plugins';
 import { OAuthSettings } from './oauth';
 import { AppClient, ApiClient } from './api';
 import { signin } from './events/signin';
+import { error } from './events/error';
 import { ActivityReceivedEvent, Plugin, RouteHandler, SenderPlugin } from './types';
 
 /**
@@ -267,6 +268,7 @@ export class App {
     this.on('signin.token-exchange', this.onTokenExchange.bind(this));
     this.on('signin.verify-state', this.onVerifyState.bind(this));
     this.event('signin', signin);
+    this.event('error', error);
   }
 
   /**
