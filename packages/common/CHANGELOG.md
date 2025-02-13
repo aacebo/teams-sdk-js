@@ -1,5 +1,11 @@
 # @teams.sdk/common
 
+## 0.1.30
+
+### Patch Changes
+
+- fix plugins so they can intercept send activity traffic properly
+
 ## 0.1.29
 
 ### Patch Changes

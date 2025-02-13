@@ -1,5 +1,13 @@
 # @teams.sdk/graph
 
+## 0.1.30
+
+### Patch Changes
+
+- fix plugins so they can intercept send activity traffic properly
+- Updated dependencies
+    - @teams.sdk/common@0.1.30
+
 ## 0.1.29
 
 ### Patch Changes
