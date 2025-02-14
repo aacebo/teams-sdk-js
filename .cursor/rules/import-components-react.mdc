@@ -1,0 +1,9 @@
+---
+description: React development
+globs: *.tsx
+---
+
+# Your rule content
+
+- When importing components, import specific components being used like '{ FC } from 'react''
+- Instead of importing entire React, import only necessary components
