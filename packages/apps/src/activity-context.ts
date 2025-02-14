@@ -44,7 +44,7 @@ export interface ActivityContext<T extends Activity = Activity> {
   /**
    * whether the user has provided
    * their MSGraph credentials for use
-   * via `api.graph.*`
+   * via `api.user.*`
    */
   isSignedIn?: boolean;
 
