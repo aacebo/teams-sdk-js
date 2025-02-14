@@ -7,11 +7,11 @@ interface DevtoolsLandmarkProps {
 }
 
 const DevtoolsLandmark: FC<DevtoolsLandmarkProps> = ({ connected }) => {
-  const styles = useStyles();
+  const classes = useStyles();
 
   return (
-    <div data-tid="devtools-" className={styles.devtoolsLandmark}>
-      <img src="/devtools2/teams.png" className={styles.teamsImg} role="presentation" />
+    <div data-tid="devtools-" className={classes.devtoolsLandmark}>
+      <img src="/devtools2/teams.png" className={classes.teamsImg} role="presentation" />
       <Text as="h1" size={500} weight="semibold">
         DevTools
       </Text>
@@ -21,9 +21,9 @@ const DevtoolsLandmark: FC<DevtoolsLandmarkProps> = ({ connected }) => {
           aria-label={connected ? 'Connected' : 'Disconnected'}
           color={connected ? 'success' : 'danger'}
           size="extra-small"
-          className={styles.badge}
+          className={classes.badge}
         >
-          <div className={connected ? styles.pingAnimation : ''} />
+          <div className={connected ? classes.pingAnimation : ''} />
         </Badge>
       </Tooltip>
     </div>

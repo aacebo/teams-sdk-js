@@ -10,20 +10,20 @@ interface NewMessageToolbarProps extends ToolbarProps {
 const Send = bundleIcon(Send20Filled, Send20Regular);
 
 const NewMessageToolbar: FC<NewMessageToolbarProps> = ({ onSend, ...props }) => {
-  const styles = useStyles();
+  const classes = useStyles();
 
   return (
-    <Toolbar aria-label="New message actions" {...props} className={styles.toolbar}>
+    <Toolbar aria-label="New message actions" {...props} className={classes.toolbar}>
       <ToolbarButton
         aria-label="Attach file"
         icon={<AttachRegular />}
-        className={styles.toolbarButton}
+        className={classes.toolbarButton}
       />
       <ToolbarDivider />
       <ToolbarButton
         data-tid="send-button"
         aria-label="Send message"
-        className={styles.toolbarButton}
+        className={classes.toolbarButton}
         onClick={onSend}
         icon={<Send />}
       />

@@ -10,7 +10,7 @@ interface ComposeBoxProps {
 
 const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
   const [inputText, setInputText] = useState('');
-  const styles = useStyles();
+  const classes = useStyles();
 
   const handleInputChange = (
     _event: React.ChangeEvent<HTMLTextAreaElement>,
@@ -34,9 +34,9 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
   };
 
   return (
-    <div className={styles.composeBoxContainer}>
+    <div className={classes.composeBoxContainer}>
       <Textarea
-        className={styles.composeInput}
+        className={classes.composeInput}
         placeholder="Type a message..."
         value={inputText}
         onChange={handleInputChange}
