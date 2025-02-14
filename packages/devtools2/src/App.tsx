@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 import {
-  ChatRegular,
-  ChatFilled,
-  CardUiRegular,
-  CardUiFilled,
-  SearchRegular,
-  SearchFilled,
-  DocumentBulletListRegular,
-  DocumentBulletListFilled,
+  Chat20Regular,
+  Chat20Filled,
+  CardUi20Regular,
+  CardUi20Filled,
+  Search20Regular,
+  Search20Filled,
+  DocumentBulletList20Regular,
+  DocumentBulletList20Filled,
 } from '@fluentui/react-icons';
 import { FluentProvider, mergeClasses } from '@fluentui/react-components';
 
@@ -38,6 +38,7 @@ const App: React.FC = () => {
   try {
     log = new ConsoleLogger('devtools');
   } catch (error) {
+    // Catch error so render doesn't fail if logger initialization fails
     console.error('Logger initialization failed:', error);
   }
 
@@ -50,6 +51,7 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    // TODO: Needs ARIA Live Region for the connection status
     socket.connect(() => {
       log.info('connected....');
       setConnected(true);
@@ -79,38 +81,38 @@ const App: React.FC = () => {
             data-tid="top-nav"
             className={mergeClasses(classes.horizontalLayout, classes.topNav)}
           >
-            <div data-tid="landmark-container" className={classes.flexGrow}>
+            <header id="banner" className={classes.flexGrow}>
               <DevtoolsLandmark connected={connected} />
-            </div>
-            <div data-tid="nav-button-container" className={classes.navButtonContainer}>
+            </header>
+            <nav id="Page" className={classes.navButtonContainer}>
               <TopNavButton
                 to="/"
-                icon={<ChatRegular />}
-                activeIcon={<ChatFilled />}
+                icon={<Chat20Regular />}
+                activeIcon={<Chat20Filled />}
                 label="Chat"
               />
               <TopNavButton
                 to="/cards"
-                icon={<CardUiRegular />}
-                activeIcon={<CardUiFilled />}
+                icon={<CardUi20Regular />}
+                activeIcon={<CardUi20Filled />}
                 label="Cards"
               />
               <TopNavButton
                 to="/activities"
-                icon={<SearchRegular />}
-                activeIcon={<SearchFilled />}
+                icon={<Search20Regular />}
+                activeIcon={<Search20Filled />}
                 label="Activities"
               />
               <TopNavButton
                 to="/logs"
-                icon={<DocumentBulletListRegular />}
-                activeIcon={<DocumentBulletListFilled />}
+                icon={<DocumentBulletList20Regular />}
+                activeIcon={<DocumentBulletList20Filled />}
                 label="Logs"
               />
-            </div>
+            </nav>
           </div>
-          <div
-            data-tid="app-routes"
+          <main
+            id="main"
             className={mergeClasses(classes.default, classes.verticalLayout, classes.flexGrow)}
           >
             <ActivityContext.Provider value={activityStore}>
@@ -124,7 +126,7 @@ const App: React.FC = () => {
                 </Routes>
               </ChatContext.Provider>
             </ActivityContext.Provider>
-          </div>
+          </main>
         </BrowserRouter>
       </div>
     </FluentProvider>

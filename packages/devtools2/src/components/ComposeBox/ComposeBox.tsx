@@ -41,6 +41,7 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
         value={inputText}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
+        aria-label="Compose box"
       />
       <NewMessageToolbar onSend={handleSendMessage} />
     </div>
