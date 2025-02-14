@@ -17,7 +17,7 @@ import { App } from '../../app';
 import { HttpStream } from './stream';
 
 /**
- * Can receive activities via http
+ * Can send/receive activities via http
  */
 export class HttpPlugin implements Plugin {
   readonly name = 'http';
