@@ -11,10 +11,10 @@ const useStyles = makeStyles({
       color: tokens.colorBrandForegroundLink,
       textDecorationLine: 'none',
     },
-    '&:active': {
+    '& :active': {
       textDecorationLine: 'none',
     },
-    '&.visited': {
+    '& :visited': {
       color: tokens.colorSubtleBackground,
       textDecorationLine: 'none',
     },
@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     '& svg': {
       marginRight: '5px',
     },
-    '&:active': {
+    '& :active': {
       textDecorationLine: 'none',
     },
   },

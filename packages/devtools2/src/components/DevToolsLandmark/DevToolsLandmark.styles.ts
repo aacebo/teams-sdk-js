@@ -21,27 +21,34 @@ const useStyles = makeStyles({
   },
   pingAnimation: {
     position: 'absolute',
+    display: 'inline-flex',
     backgroundColor: tokens.colorPaletteLightGreenBackground3,
     width: '12px',
     height: '12px',
     borderRadius: '100%',
-    animation: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
-    animationDelay: '0.5s',
-    '& @keyframes ping': {
-      '&0%': {
+    opacity: 0.75,
+    animationName: {
+      '0%': {
         transform: 'scale(1)',
-        opacity: 1,
+        opacity: 0.75,
       },
-      '&50%': {
+      '50%': {
         transform: 'scale(1.5)',
-        opacity: 1,
+        opacity: 0.5,
       },
-      '&100%': {
+      '100%': {
         transform: 'scale(1)',
-        opacity: 1,
+        opacity: 0.75,
       },
     },
+    animationDuration: '1s',
+    animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
+    animationIterationCount: 'infinite',
+    animationDelay: '0s',
   },
+  
 });
+
+
 
 export default useStyles;
