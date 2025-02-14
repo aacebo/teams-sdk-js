@@ -10,7 +10,19 @@ const useStyles = makeStyles({
     '& :hover': {
       color: tokens.colorBrandForegroundLink,
       textDecorationLine: 'none',
-    }
+    },
+    '&:active': {
+      textDecorationLine: 'none',
+    },
+    '&.visited': {
+      color: tokens.colorSubtleBackground,
+      textDecorationLine: 'none',
+    },
+  },
+  activeRoute: {
+    color: tokens.colorBrandForegroundLink,
+    textDecorationLine: 'none',
+    backgroundColor: tokens.colorNeutralBackgroundAlpha2,
   },
   linkWithIcon: {
     display: 'flex',
@@ -20,6 +32,9 @@ const useStyles = makeStyles({
     lineHeight: tokens.lineHeightBase400,
     '& svg': {
       marginRight: '5px',
+    },
+    '&:active': {
+      textDecorationLine: 'none',
     },
   },
 });

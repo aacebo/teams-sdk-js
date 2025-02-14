@@ -4,8 +4,10 @@ const useStyles = makeStyles({
   devtoolsLandmark: {
     fontWeight: tokens.fontWeightSemibold,
     display: 'flex',
-    height: '100%',
+    justifyContent: 'center',
+    height: 'auto',
     alignItems: 'center',
+    padding: '12px 0',
   },
   teamsImg: {
     width: '2.5rem',

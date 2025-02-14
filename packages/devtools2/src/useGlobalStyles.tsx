@@ -19,8 +19,18 @@ const useGlobalStyles = makeStyles({
   appContainer: {
     height: '100vh',
   },
+  mainContainer: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+  },
+  mainNav: {
+    height: '100%',
+    minWidth: '175px',
+    backgroundColor: tokens.colorNeutralBackground1,
+    borderRight: `1px solid ${tokens.colorNeutralStencil1}`,
+  },
   topNav: {
-    flex: '0 1 auto',
     justifyContent: 'flex-end',
     height: 'auto',
     padding: '1rem 0',

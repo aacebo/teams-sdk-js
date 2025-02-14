@@ -74,59 +74,70 @@ const App: React.FC = () => {
     <FluentProvider theme={theme}>
       <div
         data-tid="app-container"
-        className={mergeClasses(classes.default, classes.verticalLayout, classes.appContainer)}
+        className={mergeClasses(classes.default, classes.horizontalLayout, classes.appContainer)}
       >
         <BrowserRouter basename="/devtools2" data-tid="browser-router">
-          <div
-            data-tid="top-nav"
-            className={mergeClasses(classes.horizontalLayout, classes.topNav)}
+          <nav
+            id="Main"
+            className={mergeClasses(classes.verticalLayout, classes.mainNav)}
+            aria-label="Main navigation"
           >
             <header id="banner" className={classes.flexGrow}>
               <DevtoolsLandmark connected={connected} />
             </header>
-            <nav id="Page" className={classes.navButtonContainer}>
-              <TopNavButton
-                to="/"
-                icon={<Chat20Regular />}
-                activeIcon={<Chat20Filled />}
-                label="Chat"
-              />
-              <TopNavButton
-                to="/cards"
-                icon={<CardUi20Regular />}
-                activeIcon={<CardUi20Filled />}
-                label="Cards"
-              />
-              <TopNavButton
-                to="/activities"
-                icon={<Search20Regular />}
-                activeIcon={<Search20Filled />}
-                label="Activities"
-              />
-              <TopNavButton
-                to="/logs"
-                icon={<DocumentBulletList20Regular />}
-                activeIcon={<DocumentBulletList20Filled />}
-                label="Logs"
-              />
-            </nav>
-          </div>
-          <main
-            id="main"
-            className={mergeClasses(classes.default, classes.verticalLayout, classes.flexGrow)}
+          </nav>
+          <div
+            id="nav and main container"
+            className={mergeClasses(classes.verticalLayout, classes.mainContainer)}
           >
-            <ActivityContext.Provider value={activityStore}>
-              <ChatContext.Provider value={chatStore}>
-                <Routes>
-                  <Route path="" element={<ChatPane />} />
-                  <Route path="cards" element={<div>Cards</div>} />
-                  <Route path="activities" element={<div>Activities</div>} />
-                  <Route path="logs" element={<div>Logs</div>} />
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
-              </ChatContext.Provider>
-            </ActivityContext.Provider>
-          </main>
+            <div
+              data-tid="top-nav"
+              className={mergeClasses(classes.horizontalLayout, classes.topNav)}
+            >
+              <nav id="Page" className={classes.navButtonContainer}>
+                <TopNavButton
+                  to="/"
+                  icon={<Chat20Regular />}
+                  activeIcon={<Chat20Filled />}
+                  label="Chat"
+                />
+                <TopNavButton
+                  to="/cards"
+                  icon={<CardUi20Regular />}
+                  activeIcon={<CardUi20Filled />}
+                  label="Cards"
+                />
+                <TopNavButton
+                  to="/activities"
+                  icon={<Search20Regular />}
+                  activeIcon={<Search20Filled />}
+                  label="Activities"
+                />
+                <TopNavButton
+                  to="/logs"
+                  icon={<DocumentBulletList20Regular />}
+                  activeIcon={<DocumentBulletList20Filled />}
+                  label="Logs"
+                />
+              </nav>
+            </div>
+            <main
+              id="main"
+              className={mergeClasses(classes.default, classes.verticalLayout, classes.flexGrow)}
+            >
+              <ActivityContext.Provider value={activityStore}>
+                <ChatContext.Provider value={chatStore}>
+                  <Routes>
+                    <Route path="" element={<ChatPane />} />
+                    <Route path="cards" element={<div>Cards</div>} />
+                    <Route path="activities" element={<div>Activities</div>} />
+                    <Route path="logs" element={<div>Logs</div>} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
+                </ChatContext.Provider>
+              </ActivityContext.Provider>
+            </main>
+          </div>
         </BrowserRouter>
       </div>
     </FluentProvider>

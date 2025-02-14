@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Badge, Title3, Tooltip } from '@fluentui/react-components';
+import { Badge, Text, Tooltip } from '@fluentui/react-components';
 import useStyles from './DevtoolsLandmark.styles';
 
 interface DevtoolsLandmarkProps {
@@ -12,9 +12,9 @@ const DevtoolsLandmark: FC<DevtoolsLandmarkProps> = ({ connected }) => {
   return (
     <div data-tid="devtools-" className={styles.devtoolsLandmark}>
       <img src="/devtools2/teams.png" className={styles.teamsImg} role="presentation" />
-      <Title3 as="h1" align="center">
+      <Text as="h1" size={500} weight="semibold">
         DevTools
-      </Title3>
+      </Text>
       <Tooltip content={connected ? 'Connected' : 'Disconnected'} relationship="description">
         <Badge
           data-tid="badge"

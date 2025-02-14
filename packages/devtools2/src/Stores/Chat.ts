@@ -11,7 +11,8 @@ import {
   TypingActivity,
 } from '@teams.sdk/api';
 
-import { ActivityEvent, Chat } from '../Types';
+import { ActivityEvent } from '../Types/Event';
+import { Chat } from '../Types/Chat';
 
 const typingTimers: Record<string, NodeJS.Timeout> = {};
 const streamingTimers: Record<string, NodeJS.Timeout> = {};
