@@ -73,9 +73,6 @@ export class HttpPlugin implements Plugin {
     return this;
   }
 
-  /**
-   * subscribe to a plugin event
-   */
   on<Name extends keyof PluginEvents>(name: Name, callback: EventHandler<PluginEvents[Name]>) {
     this.events.on(name, callback);
   }
