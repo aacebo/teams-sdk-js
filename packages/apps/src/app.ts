@@ -171,12 +171,12 @@ export class App {
     return this._tokens;
   }
 
-  protected plugins: Array<Plugin>;
+  protected plugins: Array<Plugin> = [];
   protected router = new Router();
   protected tenantTokens = new LocalStorage<string>(undefined, { max: 20000 });
+  protected events = new EventEmitter<Events>();
   protected startedAt?: Date;
   protected port?: number;
-  protected events: EventEmitter<Events>;
 
   private readonly _userAgent = `teams[apps]/${pkg.version}`;
   private readonly _manifest: Partial<manifest.Manifest>;
@@ -185,9 +185,7 @@ export class App {
   constructor(readonly options: AppOptions = {}) {
     this.log = this.options.logger || new ConsoleLogger('@teams.sdk/app');
     this.storage = this.options.storage || new LocalStorage();
-    this.plugins = this.options.plugins || [];
     this._manifest = this.options.manifest || {};
-    this.events = new EventEmitter();
 
     if (!options.http) {
       this.http = new http.Client({
@@ -235,33 +233,14 @@ export class App {
       };
     }
 
-    if (!this.plugins.find((p) => p.name === 'http')) {
-      this.plugins.unshift(new HttpPlugin());
+    const plugins = this.options.plugins || [];
+
+    if (!plugins.find((p) => p.name === 'http')) {
+      plugins.unshift(new HttpPlugin());
     }
 
-    for (const plugin of this.plugins) {
-      plugin.onInit(this);
-      plugin.on('error', this.onError.bind(this));
-      plugin.on('activity.received', (e) =>
-        this.onActivityReceived({
-          ...e,
-          plugin: plugin.name,
-        })
-      );
-
-      plugin.on('activity.sent', (e) =>
-        this.onActivitySent({
-          ...e,
-          plugin: plugin.name,
-        })
-      );
-
-      plugin.on('activity.before.sent', (e) =>
-        this.onBeforeActivitySent({
-          ...e,
-          plugin: plugin.name,
-        })
-      );
+    for (const plugin of plugins) {
+      this.plugin(plugin);
     }
 
     // default event handlers
@@ -359,6 +338,28 @@ export class App {
     }
 
     plugin.onInit(this);
+    plugin.on('error', this.onError.bind(this));
+    plugin.on('activity.received', (e) =>
+      this.onActivityReceived({
+        ...e,
+        plugin: plugin.name,
+      })
+    );
+
+    plugin.on('activity.sent', (e) =>
+      this.onActivitySent({
+        ...e,
+        plugin: plugin.name,
+      })
+    );
+
+    plugin.on('activity.before.sent', (e) =>
+      this.onBeforeActivitySent({
+        ...e,
+        plugin: plugin.name,
+      })
+    );
+
     this.plugins.push(plugin);
     return this;
   }
