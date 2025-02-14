@@ -113,7 +113,9 @@ export class HttpPlugin implements Plugin {
   }
 
   async onSend(activity: ActivityParams, ref: ConversationReference) {
-    const api = new Client(ref.serviceUrl, { token: this.app?.tokens.bot });
+    const api = new Client(ref.serviceUrl, this.app?.http.clone({
+      token: () => this.app?.tokens.bot
+    }));
 
     activity = {
       ...activity,
