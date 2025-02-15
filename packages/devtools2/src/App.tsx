@@ -19,7 +19,7 @@ import getTheme from './Utils/get-theme';
 import { SocketClient } from './socket-client';
 
 import ChatPane from './components/ChatPane/ChatPane';
-import useGlobalStyles from './useGlobalStyles';
+import useGlobalClasses from './useGlobalClasses';
 import TopNavButton from './components/TopNavButton/TopNavButton';
 import DevtoolsLandmark from './components/DevToolsLandmark/DevToolsLandmark';
 
@@ -29,7 +29,7 @@ const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(
     window.matchMedia('(prefers-color-scheme: dark)').matches
   );
-  const classes = useGlobalStyles();
+  const classes = useGlobalClasses();
   const [connected, setConnected] = useState(false);
   const activityStore = useActivityStore();
   const chatStore = useChatStore();

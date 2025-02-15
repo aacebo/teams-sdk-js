@@ -8,6 +8,7 @@ const useStyles = makeStyles({
     height: 'auto',
     alignItems: 'center',
     padding: '12px 0',
+    color: tokens.colorNeutralForeground1,
   },
   teamsImg: {
     width: '2.5rem',

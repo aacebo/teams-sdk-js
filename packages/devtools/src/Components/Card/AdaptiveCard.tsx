@@ -14,8 +14,8 @@ export default function AdaptiveCard({ value, className }: AdaptiveCardProps) {
     <div className={classNames(className, 'flex flex-col rounded p-3 bg-white dark:bg-stone-800')}>
       {value.body && value.body.length > 0 && (
         <div className="flex flex-col">
-          {value.body.map((item) => {
-            return <Card value={item} />;
+          {value.body.map((item, index) => {
+            return <Card key={`card-${index}`} value={item} />;
           })}
         </div>
       )}
