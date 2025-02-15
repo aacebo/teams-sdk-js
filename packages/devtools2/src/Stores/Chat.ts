@@ -355,4 +355,20 @@ export const useChatStore = create<ChatStore>()(
   }))
 );
 
-export const ChatContext = createContext<ChatStore>(null as any);
+export const ChatContext = createContext<ChatStore>({
+  chat: {} as Chat,
+  messages: {},
+  typing: {},
+  streaming: {},
+  feedback: {},
+  put: () => {},
+  onActivity: () => {},
+  onTypingActivity: () => ({} as ChatStore),
+  onMessageActivity: () => ({} as ChatStore),
+  onMessageSendActivity: () => ({} as ChatStore),
+  onMessageUpdateActivity: () => ({} as ChatStore),
+  onMessageReactionActivity: () => ({} as ChatStore),
+  onMessageDeleteActivity: () => ({} as ChatStore),
+  onStreamChunkActivity: () => ({} as ChatStore),
+  onStreamMessageActivity: () => ({} as ChatStore)
+});
