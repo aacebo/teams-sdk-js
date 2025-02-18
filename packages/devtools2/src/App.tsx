@@ -34,28 +34,31 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (event: MediaQueryListEvent) => setIsDarkMode(event.matches);
+    const handleThemeChange = (event: MediaQueryListEvent) => setIsDarkMode(event.matches);
 
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    mediaQuery.addEventListener('change', handleThemeChange);
+    return () => mediaQuery.removeEventListener('change', handleThemeChange);
   }, []);
 
   useEffect(() => {
-      // TODO: Needs ARIA Live Region for the connection status
-      socket.connect(() => {
-        log.info('connected....');
-        setConnected(true);
-
-      socket.disconnect(() => {
-        log.info('disconnected...');
-        setConnected(false);
-      });
+    // TODO: Needs ARIA Live Region for the connection status
+    socket.connect(() => {
+      log.info('Connected to server...');
+      setConnected(true);
     });
 
     socket.on('activity', (event) => {
       activityStore.put(event);
       chatStore.onActivity(event);
     });
+
+    return () => {
+      socket.off('activity');
+      socket.disconnect(() => {
+        log.info('Disconnected from server...');
+        setConnected(false);
+      });
+    }
   }, []);
 
   const theme = useMemo(() => getTheme(isDarkMode), [isDarkMode]);
