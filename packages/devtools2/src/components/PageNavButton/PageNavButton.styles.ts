@@ -1,17 +1,18 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
-  topNavButton: {
+  pageNavButton: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     margin: '0 5px',
 
     '& :hover': {
-      color: tokens.colorBrandForegroundLink,
+      color: tokens.colorBrandForegroundLinkHover,
       textDecorationLine: 'none',
     },
     '& :active': {
+      color: tokens.colorBrandForegroundLinkSelected,
       textDecorationLine: 'none',
     },
     '& :visited': {
@@ -22,7 +23,6 @@ const useStyles = makeStyles({
   activeRoute: {
     color: tokens.colorBrandForegroundLink,
     textDecorationLine: 'none',
-    backgroundColor: tokens.colorNeutralBackgroundAlpha2,
   },
   linkWithIcon: {
     display: 'flex',

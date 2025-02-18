@@ -1,15 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
-import {
-  Chat20Regular,
-  Chat20Filled,
-  CardUi20Regular,
-  CardUi20Filled,
-  Search20Regular,
-  Search20Filled,
-  DocumentBulletList20Regular,
-  DocumentBulletList20Filled,
-} from '@fluentui/react-icons';
 import { FluentProvider, mergeClasses } from '@fluentui/react-components';
 
 import { ConsoleLogger } from '@teams.sdk/common/logging';
@@ -20,7 +10,7 @@ import { SocketClient } from './socket-client';
 
 import ChatPane from './components/ChatPane/ChatPane';
 import useGlobalClasses from './useGlobalClasses';
-import TopNavButton from './components/TopNavButton/TopNavButton';
+import PageNavButton from './components/PageNavButton/PageNavButton';
 import DevtoolsLandmark from './components/DevToolsLandmark/DevToolsLandmark';
 
 const socket = new SocketClient();
@@ -51,10 +41,10 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // TODO: Needs ARIA Live Region for the connection status
-    socket.connect(() => {
-      log.info('connected....');
-      setConnected(true);
+      // TODO: Needs ARIA Live Region for the connection status
+      socket.connect(() => {
+        log.info('connected....');
+        setConnected(true);
 
       socket.disconnect(() => {
         log.info('disconnected...');
@@ -78,9 +68,9 @@ const App: React.FC = () => {
       >
         <BrowserRouter basename="/devtools2" data-tid="browser-router">
           <nav
-            id="Main"
+            id="Page"
             className={mergeClasses(classes.verticalLayout, classes.mainNav)}
-            aria-label="Main navigation"
+            aria-label="Page navigation"
           >
             <header id="banner" className={classes.flexGrow}>
               <DevtoolsLandmark connected={connected} />
@@ -95,30 +85,28 @@ const App: React.FC = () => {
               className={mergeClasses(classes.horizontalLayout, classes.topNav)}
             >
               <nav id="Page" className={classes.navButtonContainer}>
-                <TopNavButton
+                <PageNavButton
                   to="/"
-                  icon={<Chat20Regular />}
-                  activeIcon={<Chat20Filled />}
+                  iconType="chat"
                   label="Chat"
                 />
-                <TopNavButton
+                <PageNavButton
                   to="/cards"
-                  icon={<CardUi20Regular />}
-                  activeIcon={<CardUi20Filled />}
+                  iconType="cards"
                   label="Cards"
                 />
-                <TopNavButton
+                <PageNavButton
                   to="/activities"
-                  icon={<Search20Regular />}
-                  activeIcon={<Search20Filled />}
+                  iconType="activities"
                   label="Activities"
                 />
-                <TopNavButton
+
+                {/* TODO: Add logs page back once implemented */}
+                {/* <PageNavButton
                   to="/logs"
-                  icon={<DocumentBulletList20Regular />}
-                  activeIcon={<DocumentBulletList20Filled />}
+                  iconType="logs"
                   label="Logs"
-                />
+                /> */}
               </nav>
             </div>
             <main
