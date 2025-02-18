@@ -14,7 +14,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fluentui-contrib/react-chat": "^0.1.10",
     "@fluentui/react-components": "^9.58.3",
     "@fluentui/react-icons": "^2.0.274",
     "@teams.sdk/api": "*",

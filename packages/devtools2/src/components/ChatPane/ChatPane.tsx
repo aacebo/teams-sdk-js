@@ -1,12 +1,12 @@
 import { FC, useState } from 'react';
 import { mergeClasses } from '@fluentui/react-components';
-import { Chat } from '@fluentui-contrib/react-chat';
 
 import useStyles from './ChatPane.styles';
 import useGlobalClasses from '../../useGlobalClasses';
 import ComposeBox from '../ComposeBox/ComposeBox';
 import { ChatMessageGrouping } from '../ChatMessage/ChatMessageGrouping';
 import { EXAMPLE_MESSAGES } from './example-messages';
+import { Chat } from '../Chat/Chat';
 
 const ChatPane: FC = () => {
   const classes = useStyles();
