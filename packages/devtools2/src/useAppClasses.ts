@@ -1,43 +1,44 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
-const useGlobalClasses = makeStyles({
+const useAppClasses = makeStyles({
   default: {
     backgroundColor: tokens.colorNeutralBackground1,
     color: tokens.colorNeutralForegroundOnBrand,
   },
-  horizontalLayout: {
-    display: 'flex',
-  },
-  verticalLayout: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  flexGrow: {
-    flexGrow: 1,
-  },
-  // App.tsx containers styles
   appContainer: {
+    display: 'flex',
     height: '100vh',
     overflow: 'hidden',
   },
-  mainContainer: {
+  sideBarAndMainContainer: {
     display: 'flex',
-    flex: 1,
     flexDirection: 'column',
+    flex: 1,
     width: '100%',
     height: '100%',
     overflow: 'hidden',
   },
-  mainNav: {
-    flex: '0 0 auto',
+  sideBar: {
     display: 'flex',
     flexDirection: 'column',
+    flex: '0 0 auto',
     height: '100%',
     minWidth: '175px',
     backgroundColor: tokens.colorNeutralBackground1,
     borderRight: `1px solid ${tokens.colorNeutralStencil1}`,
   },
-  topNav: {
+  header: {
+    flexGrow: 1
+  },
+  mainContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
+  pageNavContainer: {
+    display: 'flex',
     justifyContent: 'flex-end',
     height: 'auto',
     padding: '1rem 0',
@@ -50,4 +51,4 @@ const useGlobalClasses = makeStyles({
   },
 });
 
-export default useGlobalClasses;
+export default useAppClasses;

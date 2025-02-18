@@ -1,3 +1,5 @@
+/* Reset & Base Styles
+---------------------------------------- */
 html,
 body,
 :root {
@@ -8,57 +10,13 @@ body,
   box-sizing: border-box;
 }
 
-/* Dark mode styles */
-:root {
-  --background-color: #1f1f1f;
-  --text-color: #ffffff;
-}
-
-/* Light mode styles */
-@media (prefers-color-scheme: light) {
-  :root {
-    --background-color: #ffffff;
-    --text-color: #242424;
-  }
-}
-
-body {
-  background-color: var(--background-color);
-  color: var(--text-color);
-  height: 100vh;
-}
-
 div {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* Scrollbar styles */
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: var(--lightestgrey);
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-
+/* Reset for Text Elements */
 blockquote,
 dl,
 dd,
@@ -75,10 +33,82 @@ pre {
   margin: 0;
 }
 
+/* Link Styles
+---------------------------------------- */
 a,
 a:hover,
 a:focus,
 a:active,
 a:visited {
   text-decoration: none;
+}
+
+/* Theme Variables
+---------------------------------------- */
+:root {
+  --background-color: #1f1f1f;
+  --text-color: #ffffff;
+  --scrollbar-overlay: rgba(255, 255, 255, 0.4);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background-color: #ffffff;
+    --text-color: #242424;
+    --scrollbar-overlay: rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Theme Application
+---------------------------------------- */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  height: 100vh;
+}
+
+/* Scrollbar Styles
+---------------------------------------- */
+/* Base scrollbar dimensions */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track styles */
+::-webkit-scrollbar-track {
+  background: var(--lightestgrey);
+}
+
+/* Thumb styles */
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-overlay);
+  border-radius: 5px;
+  border: 2.5px solid transparent;
+  background-clip: padding-box;
+  transition: border 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-overlay);
+  border: 0px solid transparent;
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--background-color);
+}
+
+/* Scrollbar Visibility Control
+---------------------------------------- */
+.scroll-on-hover {
+  overflow: auto;
+  overflow: overlay;
+}
+
+.scroll-on-hover::-webkit-scrollbar-thumb {
+  visibility: hidden;
+}
+
+.scroll-on-hover:hover::-webkit-scrollbar-thumb {
+  visibility: visible;
 }

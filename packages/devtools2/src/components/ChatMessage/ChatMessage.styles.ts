@@ -52,6 +52,11 @@ export const useStyles = makeStyles({
     marginLeft: '4px',
     animation: 'pulse 1s infinite'
   },
+  feedbackContainer: {
+    display: 'flex',
+    gap: '8px',
+    marginTop: '8px'
+  },
   messageContent: {
     display: 'flex',
     flexDirection: 'column',

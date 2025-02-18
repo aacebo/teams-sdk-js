@@ -1,25 +1,42 @@
-import { FC, useState } from 'react';
+import { FC, useContext, useEffect, useRef } from 'react';
 import { mergeClasses } from '@fluentui/react-components';
 
-import useStyles from './ChatPane.styles';
-import useGlobalClasses from '../../useGlobalClasses';
-import ComposeBox from '../ComposeBox/ComposeBox';
+import { ChatContext } from '../../Stores/Chat';
 import { ChatMessageGrouping } from '../ChatMessage/ChatMessageGrouping';
-import { EXAMPLE_MESSAGES } from './example-messages';
+import useStyles from './ChatPane.styles';
+import ComposeBox from '../ComposeBox/ComposeBox';
 import { Chat } from '../Chat/Chat';
+import { EXAMPLE_MESSAGES } from './example-messages';
 
-const ChatPane: FC = () => {
+export interface ChatPaneProps {
+  isConnected: boolean;
+}
+
+export const ChatPane: FC<ChatPaneProps> = ({ isConnected }) => {
   const classes = useStyles();
-  const globalClasses = useGlobalClasses();
+  const chatStore = useContext(ChatContext);
+  const messages = chatStore.messages[chatStore.chat.id] || [];
+  const composeRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const [messages, setMessages] = useState<JSX.Element[]>(
-    EXAMPLE_MESSAGES.map((message) => (
-      <ChatMessageGrouping 
-        key={message.id} 
-        value={message}
-      />
-    ))
-  );
+  // Load example messages on mount
+  useEffect(() => {
+    EXAMPLE_MESSAGES.forEach(message => {
+      chatStore.put(chatStore.chat.id, message);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!composeRef.current || !scrollContainerRef.current) return;
+
+    const resizeObserver = new ResizeObserver(entries => {
+      const composeHeight = entries[0].contentRect.height;
+      scrollContainerRef.current!.style.bottom = `${composeHeight}px`;
+    });
+
+    resizeObserver.observe(composeRef.current);
+    return () => resizeObserver.disconnect();
+  }, []);
 
   const handleSendMessage = (message: string) => {
     const newMessage = {
@@ -32,30 +49,34 @@ const ChatPane: FC = () => {
       createdDateTime: new Date().toISOString(),
     };
 
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      <ChatMessageGrouping 
-        key={newMessage.id} 
-        value={newMessage}
-      />
-    ]);
+    chatStore.put(chatStore.chat.id, newMessage);
   };
 
   return (
-    <div className={mergeClasses(globalClasses.verticalLayout, classes.chatPaneContainer)}>
-      <Chat
-        as="div"
-        data-tid="message-pane-list-runways"
-        role="document"
-        className={mergeClasses(globalClasses.verticalLayout, classes.chatPane)}
+    <Chat className={classes.chatPaneContainer}>
+      <div
+        ref={scrollContainerRef}
+        className={mergeClasses(classes.scrollContainer, 'scroll-on-hover')}
       >
-        {messages}
-      </Chat>
-      <div>
-        <div className={classes.bannerContainer}>{/* TODO: Optional banner/toast content */}</div>
+        <div className={classes.messagesContainer}>
+          {messages.map((message) => (
+            <ChatMessageGrouping
+              key={message.id}
+              value={message}
+              streaming={chatStore.streaming[message.id]}
+              feedback={chatStore.feedback[message.id]}
+              isConnected={isConnected}
+            />
+          ))}
+        </div>
+      </div>
+      <div ref={composeRef} className={classes.composeContainer}>
+        <div className={classes.bannerContainer}>
+          {/* TODO: Optional banner/toast content */}
+        </div>
         <ComposeBox onSend={handleSendMessage} />
       </div>
-    </div>
+    </Chat>
   );
 };
 

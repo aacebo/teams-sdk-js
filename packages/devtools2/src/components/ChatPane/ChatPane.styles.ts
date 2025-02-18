@@ -2,27 +2,48 @@ import { makeStyles, tokens } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   chatPaneContainer: {
-    margin: 'auto 0',
-    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+    overflowY: 'auto',
+    position: 'relative',
+    height: '100%',
+    width: '100%',
+    padding: 0,
+    margin: 0,
+    gap: 0,
     backgroundColor: tokens.colorNeutralBackground3,
     color: tokens.colorNeutralForeground1,
-    minWidth: '500px',
+    minHeight: 0,
     flexGrow: 1,
   },
-  chatPane: {
+  scrollContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    overflowY: 'auto',
+  },
+  messagesContainer: {
+    display: 'flex',
+    flexDirection: 'column',
     flexGrow: 1,
+    minWidth: '495px',
     maxWidth: '1042px',
-    justifyContent: 'flex-end',
-    overflow: 'auto',
+    margin: '0 auto',
     paddingBottom: '10px',
   },
-  /**
-   * Placeholder for banner like OOF messags, etc.
-   */
   bannerContainer: {
-    flex: 0,
+    flex: 'none',
     margin: '10px 0',
+    backgroundColor: tokens.colorSubtleBackground
   },
+  composeContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: tokens.colorNeutralBackground3,
+  }
 });
 
 export default useStyles;

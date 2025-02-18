@@ -356,7 +356,12 @@ export const useChatStore = create<ChatStore>()(
 );
 
 export const ChatContext = createContext<ChatStore>({
-  chat: {} as Chat,
+  chat: {
+    id: 'devtools',
+    name: 'Default',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  } as Chat,
   messages: {},
   typing: {},
   streaming: {},

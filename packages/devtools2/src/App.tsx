@@ -9,7 +9,7 @@ import getTheme from './Utils/get-theme';
 import { SocketClient } from './socket-client';
 
 import ChatPane from './components/ChatPane/ChatPane';
-import useGlobalClasses from './useGlobalClasses';
+import useAppClasses from './useAppClasses';
 import PageNavButton from './components/PageNavButton/PageNavButton';
 import DevtoolsLandmark from './components/DevToolsLandmark/DevToolsLandmark';
 
@@ -19,7 +19,7 @@ const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(
     window.matchMedia('(prefers-color-scheme: dark)').matches
   );
-  const classes = useGlobalClasses();
+  const classes = useAppClasses();
   const [connected, setConnected] = useState(false);
   const activityStore = useActivityStore();
   const chatStore = useChatStore();
@@ -66,28 +66,28 @@ const App: React.FC = () => {
   return (
     <FluentProvider theme={theme}>
       <div
-        data-tid="app-container"
-        className={mergeClasses(classes.default, classes.horizontalLayout, classes.appContainer)}
+        id="app-container"
+        className={mergeClasses(classes.default, classes.appContainer)}
       >
         <BrowserRouter basename="/devtools2" data-tid="browser-router">
           <nav
-            id="Page"
-            className={mergeClasses(classes.verticalLayout, classes.mainNav)}
-            aria-label="Page navigation"
+            id="Chat"
+            className={classes.sideBar}
+            aria-label="Chat navigation"
           >
-            <header id="banner" className={classes.flexGrow}>
+            <header id="banner" className={classes.header}>
               <DevtoolsLandmark connected={connected} />
             </header>
           </nav>
           <div
-            id="nav and main container"
-            className={mergeClasses(classes.verticalLayout, classes.mainContainer)}
+            id="nav-and-main-container"
+            className={classes.sideBarAndMainContainer}
           >
             <div
               data-tid="top-nav"
-              className={mergeClasses(classes.horizontalLayout, classes.topNav)}
+              className={classes.pageNavContainer}
             >
-              <nav id="Page" className={classes.navButtonContainer}>
+              <nav id="Page" aria-label="Page navigation" className={classes.navButtonContainer}>
                 <PageNavButton
                   to="/"
                   iconType="chat"
@@ -114,12 +114,12 @@ const App: React.FC = () => {
             </div>
             <main
               id="main"
-              className={mergeClasses(classes.default, classes.verticalLayout, classes.flexGrow)}
+              className={mergeClasses(classes.default, classes.mainContainer)}
             >
               <ActivityContext.Provider value={activityStore}>
                 <ChatContext.Provider value={chatStore}>
                   <Routes>
-                    <Route path="" element={<ChatPane />} />
+                    <Route path="" element={<ChatPane isConnected={connected} />} />
                     <Route path="cards" element={<div>Cards</div>} />
                     <Route path="activities" element={<div>Activities</div>} />
                     <Route path="logs" element={<div>Logs</div>} />
