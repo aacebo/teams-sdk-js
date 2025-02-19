@@ -50,7 +50,20 @@ export const useStyles = makeStyles({
     width: '5px',
     height: '13px',
     marginLeft: '4px',
-    animation: 'pulse 1s infinite'
+    animation: 'pulse 1s infinite',
+    animationName: {
+      '0%': {
+        opacity: 1,
+      },
+      '50%': {
+        opacity: 0.5,
+      },
+      '100%': {
+        opacity: 1,
+      },
+    },
+    animationDuration: '1s',
+    animationIterationCount: 'infinite',
   },
   feedbackContainer: {
     display: 'flex',

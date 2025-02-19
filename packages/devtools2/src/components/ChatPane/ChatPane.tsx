@@ -2,7 +2,7 @@ import { FC, useContext, useEffect, useRef } from 'react';
 import { mergeClasses } from '@fluentui/react-components';
 
 import { ChatContext } from '../../Stores/Chat';
-import { ChatMessageGrouping } from '../ChatMessage/ChatMessageGrouping';
+import { ChatMessageContainer } from '../ChatMessage/ChatMessageContainer';
 import useStyles from './ChatPane.styles';
 import ComposeBox from '../ComposeBox/ComposeBox';
 import { Chat } from '../Chat/Chat';
@@ -60,7 +60,7 @@ export const ChatPane: FC<ChatPaneProps> = ({ isConnected }) => {
       >
         <div className={classes.messagesContainer}>
           {messages.map((message) => (
-            <ChatMessageGrouping
+            <ChatMessageContainer
               key={message.id}
               value={message}
               streaming={chatStore.streaming[message.id]}

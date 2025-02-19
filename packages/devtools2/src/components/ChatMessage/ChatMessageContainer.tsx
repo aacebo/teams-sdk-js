@@ -13,7 +13,7 @@ export interface MessageProps {
   readonly isConnected?: boolean;
 }
 
-export const ChatMessageGrouping: FC<MessageProps> = ({ 
+export const ChatMessageContainer: FC<MessageProps> = ({ 
   value, 
   streaming = false,
   feedback = false,
@@ -22,6 +22,8 @@ export const ChatMessageGrouping: FC<MessageProps> = ({
   const classes = useStyles();
   const sendDirection = value.from?.user?.id === 'devtools' ? 'sent' : 'received';
   const [html, setHtml] = useState<string>();
+
+  console.log(value.id)
 
   useEffect(() => {
     if (value.body?.contentType === 'text') {
