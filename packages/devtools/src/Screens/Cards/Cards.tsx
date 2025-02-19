@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../tailwind.css'
+import '../../tailwind.css';
 import './Cards.css';
 import CardDesigner from '../../Components/CardDesigner';
 

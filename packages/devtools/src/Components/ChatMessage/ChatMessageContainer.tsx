@@ -18,7 +18,7 @@ const ChatMessageContainer: FC<MessageProps> = ({
   value,
   streaming = false,
   feedback = false,
-  isConnected = false
+  isConnected = false,
 }) => {
   const classes = useClasses();
   const sendDirection = value.from?.user?.id === 'devtools' ? 'sent' : 'received';
@@ -31,10 +31,13 @@ const ChatMessageContainer: FC<MessageProps> = ({
   }, [value]);
 
   return (
-    <article id="chat-message-row" className={mergeClasses(
-      classes.messageRow,
-      sendDirection === 'sent' ? classes.messageGroupSent : classes.messageGroupReceived
-    )}>
+    <article
+      id="chat-message-row"
+      className={mergeClasses(
+        classes.messageRow,
+        sendDirection === 'sent' ? classes.messageGroupSent : classes.messageGroupReceived
+      )}
+    >
       <div className={classes.messageContainer}>
         <div className={classes.badgeMessageContainer}>
           {sendDirection === 'received' && <AvatarComponent isConnected={isConnected} />}

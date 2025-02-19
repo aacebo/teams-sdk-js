@@ -36,9 +36,13 @@ const PageNavButton: FC<PageNavButtonProps> = ({ to, iconType, label }) => {
     <NavLink to={to}>
       {({ isActive }) => (
         <div className={classes.pageNavButton}>
-          <Link 
-            appearance="subtle" 
-            className={isActive ? mergeClasses(classes.linkWithIcon, classes.activeRoute) : classes.linkWithIcon} 
+          <Link
+            appearance="subtle"
+            className={
+              isActive
+                ? mergeClasses(classes.linkWithIcon, classes.activeRoute)
+                : classes.linkWithIcon
+            }
             tabIndex={-1}
           >
             {isActive ? icons.active : icons.default}

@@ -64,7 +64,7 @@ const App: FC = () => {
         log.info('Disconnected from server...');
         setConnected(false);
       });
-    }
+    };
   }, []);
 
   const theme = useMemo(() => getTheme(isDarkMode), [isDarkMode]);
@@ -72,72 +72,44 @@ const App: FC = () => {
   return (
     <FluentProvider theme={theme}>
       <ThemeProvider theme={isDarkMode ? 'dark' : 'light'}>
-        <div
-          id="app-container"
-          className={mergeClasses(classes.default, classes.appContainer)}
-        >
+        <div id="app-container" className={mergeClasses(classes.default, classes.appContainer)}>
           <BrowserRouter basename="/devtools" data-tid="browser-router">
-            <nav
-              id="sidebar"
-              className={classes.sideBar}
-              aria-label="Sidebar navigation"
-            >
+            <nav id="sidebar" className={classes.sideBar} aria-label="Sidebar navigation">
               <header id="banner" className={classes.header}>
                 <DevtoolsBanner connected={connected} />
               </header>
             </nav>
-            <div
-              id="nav-and-main-container"
-              className={classes.sideBarAndMainContainer}
-            >
-              <div
-                data-tid="top-nav"
-                className={classes.pageNavContainer}
-              >
+            <div id="nav-and-main-container" className={classes.sideBarAndMainContainer}>
+              <div data-tid="top-nav" className={classes.pageNavContainer}>
                 <nav id="Page" aria-label="Page navigation" className={classes.navButtonContainer}>
-                  <PageNavButton
-                    to="/"
-                    iconType="chat"
-                    label="Chat"
-                  />
-                  <PageNavButton
-                    to="/cards"
-                    iconType="cards"
-                    label="Cards"
-                  />
-                  <PageNavButton
-                    to="/activities"
-                    iconType="activities"
-                    label="Activities"
-                  />
+                  <PageNavButton to="/" iconType="chat" label="Chat" />
+                  <PageNavButton to="/cards" iconType="cards" label="Cards" />
+                  <PageNavButton to="/activities" iconType="activities" label="Activities" />
 
-                {/* TODO: Add logs page back once implemented */}
-                {/* <PageNavButton
+                  {/* TODO: Add logs page back once implemented */}
+                  {/* <PageNavButton
                   to="/logs"
                   iconType="logs"
                   label="Logs"
                 /> */}
-              </nav>
+                </nav>
+              </div>
+              <main id="main" className={mergeClasses(classes.default, classes.mainContainer)}>
+                <ActivityContext.Provider value={activityStore}>
+                  <ChatContext.Provider value={chatStore}>
+                    <Routes>
+                      <Route path="" element={<ChatPane isConnected={connected} />} />
+                      <Route path="cards" element={<Cards />} />
+                      <Route path="activities" element={<Activities />} />
+                      <Route path="logs" element={<Logs />} />
+                      <Route path="*" element={<Navigate to="/" replace />} />
+                    </Routes>
+                  </ChatContext.Provider>
+                </ActivityContext.Provider>
+              </main>
             </div>
-            <main
-              id="main"
-              className={mergeClasses(classes.default, classes.mainContainer)}
-            >
-              <ActivityContext.Provider value={activityStore}>
-                <ChatContext.Provider value={chatStore}>
-                  <Routes>
-                    <Route path="" element={<ChatPane isConnected={connected} />} />
-                    <Route path="cards" element={<Cards/>} />
-                    <Route path="activities" element={<Activities />} />
-                    <Route path="logs" element={<Logs />} />
-                    <Route path="*" element={<Navigate to="/" replace />} />
-                  </Routes>
-                </ChatContext.Provider>
-              </ActivityContext.Provider>
-            </main>
-          </div>
-        </BrowserRouter>
-      </div>
+          </BrowserRouter>
+        </div>
       </ThemeProvider>
     </FluentProvider>
   );

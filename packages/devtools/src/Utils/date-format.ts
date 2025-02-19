@@ -1,4 +1,11 @@
-import { formatDistanceToNow, format, isToday, isYesterday, isThisWeek, differenceInHours } from 'date-fns';
+import {
+  formatDistanceToNow,
+  format,
+  isToday,
+  isYesterday,
+  isThisWeek,
+  differenceInHours,
+} from 'date-fns';
 
 export const formatMessageTime = (dateStr: string) => {
   const date = new Date(dateStr);
@@ -22,4 +29,4 @@ export const formatMessageTime = (dateStr: string) => {
   }
 
   return format(date, 'M/d h:mm a');
-}; 
+};

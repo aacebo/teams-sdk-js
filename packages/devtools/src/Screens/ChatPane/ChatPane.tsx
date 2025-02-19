@@ -12,7 +12,6 @@ import ChatMessageContainer from '../../Components/ChatMessage/ChatMessageContai
 import ComposeBox from '../../Components/ComposeBox/ComposeBox';
 import { ChatContext } from '../../Stores/Chat';
 import { useClasses } from './ChatPane.styles';
-// import { EXAMPLE_MESSAGES } from '../../Components/ChatMessage/example-messages';
 
 export interface ChatPaneProps {
   isConnected: boolean;
@@ -34,7 +33,7 @@ export const ChatPane: FC<ChatPaneProps> = ({ isConnected }) => {
   useEffect(() => {
     if (!composeRef.current || !scrollContainerRef.current) return;
 
-    const resizeObserver = new ResizeObserver(entries => {
+    const resizeObserver = new ResizeObserver((entries) => {
       const composeHeight = entries[0].contentRect.height;
       scrollContainerRef.current!.style.bottom = `${composeHeight}px`;
     });
@@ -45,18 +44,18 @@ export const ChatPane: FC<ChatPaneProps> = ({ isConnected }) => {
 
   const handleSendMessage = async (message: string) => {
     try {
-        // Now send the message to the server
-        await api.conversations.activities(chatStore.chat.id).create({
-            type: 'message',
-            text: message,
-            attachments,
-        });
+      // Now send the message to the server
+      await api.conversations.activities(chatStore.chat.id).create({
+        type: 'message',
+        text: message,
+        attachments,
+      });
 
-        // Call handleSendMessage to update the chat store after sending
-        // handleSendMessage(message);
-        setAttachments([]);
+      // Call handleSendMessage to update the chat store after sending
+      // handleSendMessage(message);
+      setAttachments([]);
     } catch (err) {
-        console.error(err);
+      console.error(err);
     }
   };
 
@@ -79,9 +78,7 @@ export const ChatPane: FC<ChatPaneProps> = ({ isConnected }) => {
         </div>
       </div>
       <div ref={composeRef} className={classes.composeContainer}>
-        <div className={classes.bannerContainer}>
-          {/* TODO: Optional banner/toast content */}
-        </div>
+        <div className={classes.bannerContainer}>{/* TODO: Optional banner/toast content */}</div>
         <ComposeBox onSend={handleSendMessage} />
       </div>
     </Chat>

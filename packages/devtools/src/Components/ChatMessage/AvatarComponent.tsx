@@ -14,18 +14,14 @@ const useClasses = makeStyles({
 });
 
 const AvatarComponent: FC<AvatarProps> = ({ isConnected }) => {
-  const classes =  useClasses();
-  
+  const classes = useClasses();
+
   return (
     <div id="avatar" className={classes.avatar}>
       <div className={classes.avatarSpacer} />
-    <Avatar 
-    name="User" 
-    badge={{ status: isConnected ? 'available' : 'offline' }} 
-    size={40} 
-    />
+      <Avatar name="User" badge={{ status: isConnected ? 'available' : 'offline' }} size={40} />
     </div>
   );
-} 
+};
 
-export default AvatarComponent; 
+export default AvatarComponent;

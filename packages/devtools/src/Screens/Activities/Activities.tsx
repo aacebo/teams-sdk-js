@@ -9,7 +9,7 @@ import {
   CopyRegular,
   FilterRegular,
 } from '@fluentui/react-icons';
-import '../../tailwind.css'
+import '../../tailwind.css';
 import './Activities.css';
 
 import { ActivityContext } from '../../Stores';

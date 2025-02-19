@@ -59,11 +59,11 @@ export const useChatMessageStyles = makeStyles({
   feedbackContainer: {
     display: 'flex',
     gap: '8px',
-    marginTop: '8px'
+    marginTop: '8px',
   },
   attachments: {
     display: 'flex',
     gap: tokens.spacingHorizontalS,
     padding: tokens.spacingVerticalXS,
   },
-}); 
+});

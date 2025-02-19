@@ -9,7 +9,6 @@ export const useClasses = makeStyles({
   },
   messageGroupSent: {
     justifyContent: 'flex-end',
-
   },
   messageGroupReceived: {
     justifyContent: 'flex-start',
@@ -36,5 +35,4 @@ export const useClasses = makeStyles({
     position: 'relative',
     transition: 'all 0.2s',
   },
-
-}); 
+});

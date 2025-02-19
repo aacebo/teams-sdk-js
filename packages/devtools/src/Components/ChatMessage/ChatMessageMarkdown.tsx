@@ -10,20 +10,20 @@ const MarkdownLink: FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = (props) 
 );
 
 const MarkdownCode: FC<HTMLProps<HTMLElement>> = ({ children, className, ...props }) => {
-  const match = /language-(\w+)/.exec(className || "");
-  const theme = useTheme(); 
+  const match = /language-(\w+)/.exec(className || '');
+  const theme = useTheme();
   const style = theme === 'dark' ? a11yDark : solarizedlight;
 
   return match ? (
     <SyntaxHighlighter
-    // @ts-ignore
+      // @ts-ignore
       style={style}
       language={match[1]}
       PreTag="div"
       useInlineStyles={false}
       {...props}
     >
-      {String(children).replace(/\n$/, "")}
+      {String(children).replace(/\n$/, '')}
     </SyntaxHighlighter>
   ) : (
     <code className={className} {...props}>
@@ -37,7 +37,6 @@ interface ChatMessageMarkdownProps {
 }
 
 export const ChatMessageMarkdown: FC<ChatMessageMarkdownProps> = ({ content }) => {
-
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
@@ -49,4 +48,4 @@ export const ChatMessageMarkdown: FC<ChatMessageMarkdownProps> = ({ content }) =
       {content}
     </ReactMarkdown>
   );
-}; 
+};

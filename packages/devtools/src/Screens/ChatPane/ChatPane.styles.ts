@@ -36,7 +36,7 @@ export const useClasses = makeStyles({
   bannerContainer: {
     flex: 'none',
     margin: '10px 0',
-    backgroundColor: tokens.colorSubtleBackground
+    backgroundColor: tokens.colorSubtleBackground,
   },
   composeContainer: {
     position: 'absolute',
@@ -44,6 +44,5 @@ export const useClasses = makeStyles({
     left: 0,
     right: 0,
     backgroundColor: tokens.colorNeutralBackground3,
-  }
+  },
 });
-

@@ -28,7 +28,7 @@ const useAppClasses = makeStyles({
     borderRight: `1px solid ${tokens.colorNeutralStencil1}`,
   },
   header: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   mainContainer: {
     display: 'flex',

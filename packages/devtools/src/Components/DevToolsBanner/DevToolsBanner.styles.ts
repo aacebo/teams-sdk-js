@@ -47,9 +47,6 @@ const useClasses = makeStyles({
     animationIterationCount: 'infinite',
     animationDelay: '0s',
   },
-  
 });
-
-
 
 export default useClasses;

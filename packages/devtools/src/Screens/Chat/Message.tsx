@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { useNavigate } from 'react-router';
 import { formatDistanceToNow } from 'date-fns';
 import { useEffect, useState } from 'react';
-import '../../tailwind.css'
+import '../../tailwind.css';
 import './Message.css';
 import AdaptiveCard from '../../Components/Card';
 

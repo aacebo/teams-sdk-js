@@ -11,26 +11,33 @@ interface ChatMessageProps {
   sendDirection: 'sent' | 'received';
 }
 
-const ChatMessage: FC<ChatMessageProps> = ({ content, html, streaming, feedback, sendDirection }) => {
+const ChatMessage: FC<ChatMessageProps> = ({
+  content,
+  html,
+  streaming,
+  feedback,
+  sendDirection,
+}) => {
   const classes = useChatMessageStyles();
 
   return (
     <>
       {content && (
-        <div id="message-content" className={mergeClasses(classes.messageContent, sendDirection === 'sent' ? classes.sent : classes.received, streaming && classes.streaming)}>
-        {html ? (
-          <ChatMessageMarkdown content={html} />
-        ) : (
-          content
-        )}
-        {streaming && <div id="streaming-indicator" className="streamingIndicator" />}
-      </div>
-    )}
-    {feedback && (
-      <div className={classes.feedbackContainer}>
-        {/* TODO: Add feedback UI here */}
-      </div>
-    )}
+        <div
+          id="message-content"
+          className={mergeClasses(
+            classes.messageContent,
+            sendDirection === 'sent' ? classes.sent : classes.received,
+            streaming && classes.streaming
+          )}
+        >
+          {html ? <ChatMessageMarkdown content={html} /> : content}
+          {streaming && <div id="streaming-indicator" className="streamingIndicator" />}
+        </div>
+      )}
+      {feedback && (
+        <div className={classes.feedbackContainer}>{/* TODO: Add feedback UI here */}</div>
+      )}
     </>
   );
 };
