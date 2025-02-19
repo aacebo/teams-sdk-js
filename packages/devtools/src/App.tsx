@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { FC, useState, useEffect, useMemo } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 import { FluentProvider, mergeClasses } from '@fluentui/react-components';
 
@@ -6,7 +6,7 @@ import { ConsoleLogger } from '@teams.sdk/common/logging';
 
 import { ChatContext, useChatStore } from './Stores/Chat';
 import { ActivityContext, useActivityStore } from './Stores/Activity';
-import getTheme from './Utils/get-theme';
+import { getTheme } from './Utils/get-theme';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { SocketClient } from './socket-client';
 
@@ -21,7 +21,7 @@ import useAppClasses from './useAppClasses';
 
 const socket = new SocketClient();
 
-const App: React.FC = () => {
+const App: FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(
     window.matchMedia('(prefers-color-scheme: dark)').matches
   );
@@ -76,7 +76,7 @@ const App: React.FC = () => {
           id="app-container"
           className={mergeClasses(classes.default, classes.appContainer)}
         >
-          <BrowserRouter basename="/devtools2" data-tid="browser-router">
+          <BrowserRouter basename="/devtools" data-tid="browser-router">
             <nav
               id="sidebar"
               className={classes.sideBar}

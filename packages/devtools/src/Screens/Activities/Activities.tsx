@@ -12,7 +12,7 @@ import {
 
 import { ActivityContext } from '../../Stores';
 import { ActivityEvent } from '../../Types';
-import { getPath } from '../../Utils';
+import { getPath } from '../../Utils/get-path';
 import Json from '../../Components/Json';
 import './Activities.css';
 
