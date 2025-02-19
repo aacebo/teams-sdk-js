@@ -29,7 +29,9 @@ h6,
 hr,
 figure,
 p,
-pre {
+pre,
+ul,
+ol {
   margin: 0;
 }
 

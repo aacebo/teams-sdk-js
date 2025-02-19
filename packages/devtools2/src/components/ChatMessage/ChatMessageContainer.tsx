@@ -1,10 +1,11 @@
 import { FC, useEffect, useState } from 'react';
-import { Avatar, mergeClasses } from '@fluentui/react-components';
+import { mergeClasses } from '@fluentui/react-components';
 
 import * as api from '@teams.sdk/api';
-import { useStyles } from './ChatMessage.styles';
+import { useClasses } from './ChatMessageContainer.styles';
 import { formatMessageTime } from '../../utils/date-format';
-import { ChatMessageMarkdown } from './ChatMessageMarkdown';
+import AvatarComponent from './AvatarComponent';
+import Message from './ChatMessage';
 
 export interface MessageProps {
   readonly value: api.Message;
@@ -13,17 +14,15 @@ export interface MessageProps {
   readonly isConnected?: boolean;
 }
 
-export const ChatMessageContainer: FC<MessageProps> = ({ 
-  value, 
+const ChatMessageContainer: FC<MessageProps> = ({
+  value,
   streaming = false,
   feedback = false,
   isConnected = false
 }) => {
-  const classes = useStyles();
+  const classes = useClasses();
   const sendDirection = value.from?.user?.id === 'devtools' ? 'sent' : 'received';
   const [html, setHtml] = useState<string>();
-
-  console.log(value.id)
 
   useEffect(() => {
     if (value.body?.contentType === 'text') {
@@ -32,66 +31,29 @@ export const ChatMessageContainer: FC<MessageProps> = ({
   }, [value]);
 
   return (
-    <div data-tid="message-group" className={mergeClasses(
+    <article id="chat-message-container" className={mergeClasses(
       classes.messageGroup,
       sendDirection === 'sent' ? classes.messageGroupSent : classes.messageGroupReceived
     )}>
-      <div data-tid="message-container" className={mergeClasses(
-        classes.messageContainer,
-        sendDirection === 'sent' ? classes.directionSent : classes.directionReceived
-      )}>
-        <div className={classes.timestamp}>
-          {value.createdDateTime && formatMessageTime(value.createdDateTime)}
-        </div>
+      <div className={classes.messageContainer}>
         <div className={classes.contentWrapper}>
-          {sendDirection === 'received' && (
-            <div className={classes.avatar}>
-              <Avatar 
-                name="User" 
-                badge={{ status: isConnected ? 'available' : 'offline' }} 
-                size={40} 
-              />
-            </div>
-          )}
-          <div className={mergeClasses(
-            classes.contentContainer,
-            sendDirection === 'sent' ? classes.sent : classes.received,
-            streaming && classes.streaming
-          )}>
-            <div className={classes.messageContent}>
-              {value.body?.content && (
-                <div>
-                  {html ? (
-                    <ChatMessageMarkdown content={html} />
-                  ) : (
-                    value.body?.content
-                  )}
-                  {streaming && (
-                    <div id="streaming-indicator" className={classes.streamingIndicator} />
-                  )}
-                </div>
-              )}
-              
-              {/* {value.attachments && (
-                <div className={classes.attachments}>
-                  {value.attachments.map((a, index) => (
-                    <AdaptiveCard 
-                      key={`attachment-${value.id}-${index}`}
-                      value={(a as api.CardAttachmentTypes['adaptive']).content} 
-                    />
-                  ))}
-                </div>
-              )} */}
-
-              {feedback && (
-                <div className={classes.feedbackContainer}>
-                  {/* Add feedback UI here if needed */}
-                </div>
-              )}
-            </div>
+          {sendDirection === 'received' && <AvatarComponent isConnected={isConnected} />}
+          <div className={classes.timeMessageContainer}>
+            <time className={classes.timestamp}>
+              {value.createdDateTime && formatMessageTime(value.createdDateTime)}
+            </time>
+            <Message
+              content={value.body?.content || ''}
+              html={html}
+              streaming={streaming}
+              feedback={feedback}
+              sendDirection={sendDirection}
+            />
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
+
+export default ChatMessageContainer;

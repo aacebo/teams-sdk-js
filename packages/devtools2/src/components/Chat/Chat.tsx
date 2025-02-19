@@ -4,7 +4,7 @@ export interface ChatProps extends HTMLAttributes<HTMLDivElement> {
   as?: 'div' | 'section';
 }
 
-export const Chat = forwardRef<HTMLDivElement, ChatProps>(({ ...props }, ref) => {
+const Chat = forwardRef<HTMLDivElement, ChatProps>(({ ...props }, ref) => {
   const { as: Component = 'div', className, children, ...rest } = props;
 
   return (
@@ -18,4 +18,4 @@ export const Chat = forwardRef<HTMLDivElement, ChatProps>(({ ...props }, ref) =>
   );
 });
 
-Chat.displayName = 'Chat'; 
+export default Chat;

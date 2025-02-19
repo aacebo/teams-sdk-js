@@ -1,36 +1,25 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
-export const useStyles = makeStyles({
-  messageGroup: {
-    display: 'flex',
-    marginLeft: tokens.spacingHorizontalL,
-    marginRight: tokens.spacingHorizontalL,
-    alignItems: 'flex-end',
-  },
-  messageGroupSent: {
-    flexDirection: 'row-reverse',
-  },
-  messageGroupReceived: {
-    flexDirection: 'row',
-  },
-  messageContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    maxWidth: '80%',
-  },
-  timestamp: {
-    fontSize: tokens.fontSizeBase200,
-    color: tokens.colorNeutralForeground3,
-    marginBottom: tokens.spacingVerticalS,
-  },
-  contentContainer: {
+export const useChatMessageStyles = makeStyles({
+  messageContent: {
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
-    transition: 'all 0.2s',
-    padding: `${tokens.spacingVerticalS} ${tokens.spacingHorizontalM}`,
+    padding: `${tokens.spacingVerticalM} ${tokens.spacingHorizontalM}`,
     borderRadius: tokens.borderRadiusMedium,
     border: '1px solid transparent',
+    '& a': {
+      color: tokens.colorBrandForegroundLink,
+      '&:hover': {
+        color: tokens.colorBrandForegroundLinkHover,
+      },
+      '&:active': {
+        color: tokens.colorBrandForegroundLinkPressed,
+      },
+      '&:focus': {
+        color: tokens.colorBrandForegroundLinkSelected,
+      },
+    },
   },
   received: {
     backgroundColor: tokens.colorNeutralBackground1,
@@ -70,45 +59,9 @@ export const useStyles = makeStyles({
     gap: '8px',
     marginTop: '8px'
   },
-  messageContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'relative',
-    '& a': {
-      color: tokens.colorBrandForegroundLink,
-      '&:hover': {
-        color: tokens.colorBrandForegroundLinkHover,
-      },
-      '&:active': {
-        color: tokens.colorBrandForegroundLinkPressed,
-      },
-      '&:focus': {
-        color: tokens.colorBrandForegroundLinkSelected,
-      },
-    },
-  },
   attachments: {
     display: 'flex',
     gap: tokens.spacingHorizontalS,
     padding: tokens.spacingVerticalXS,
-  },
-  avatar: {
-    display: 'flex',
-    margin: tokens.spacingHorizontalS,
-  },
-  directionSent: {
-    alignItems: 'flex-end',
-  },
-  directionReceived: {
-    alignItems: 'flex-start',
-  },
-  contentWrapper: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  messageInner: {
-    display: 'flex',
-    flexDirection: 'column',
   },
 }); 
