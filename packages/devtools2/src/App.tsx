@@ -12,6 +12,7 @@ import ChatPane from './components/ChatPane/ChatPane';
 import useAppClasses from './useAppClasses';
 import PageNavButton from './components/PageNavButton/PageNavButton';
 import DevtoolsLandmark from './components/DevToolsLandmark/DevToolsLandmark';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 const socket = new SocketClient();
 
@@ -65,44 +66,45 @@ const App: React.FC = () => {
 
   return (
     <FluentProvider theme={theme}>
-      <div
-        id="app-container"
-        className={mergeClasses(classes.default, classes.appContainer)}
-      >
-        <BrowserRouter basename="/devtools2" data-tid="browser-router">
-          <nav
-            id="Chat"
-            className={classes.sideBar}
-            aria-label="Chat navigation"
-          >
-            <header id="banner" className={classes.header}>
-              <DevtoolsLandmark connected={connected} />
-            </header>
-          </nav>
-          <div
-            id="nav-and-main-container"
-            className={classes.sideBarAndMainContainer}
-          >
-            <div
-              data-tid="top-nav"
-              className={classes.pageNavContainer}
+      <ThemeProvider theme={isDarkMode ? 'dark' : 'light'}>
+        <div
+          id="app-container"
+          className={mergeClasses(classes.default, classes.appContainer)}
+        >
+          <BrowserRouter basename="/devtools2" data-tid="browser-router">
+            <nav
+              id="Chat"
+              className={classes.sideBar}
+              aria-label="Chat navigation"
             >
-              <nav id="Page" aria-label="Page navigation" className={classes.navButtonContainer}>
-                <PageNavButton
-                  to="/"
-                  iconType="chat"
-                  label="Chat"
-                />
-                <PageNavButton
-                  to="/cards"
-                  iconType="cards"
-                  label="Cards"
-                />
-                <PageNavButton
-                  to="/activities"
-                  iconType="activities"
-                  label="Activities"
-                />
+              <header id="banner" className={classes.header}>
+                <DevtoolsLandmark connected={connected} />
+              </header>
+            </nav>
+            <div
+              id="nav-and-main-container"
+              className={classes.sideBarAndMainContainer}
+            >
+              <div
+                data-tid="top-nav"
+                className={classes.pageNavContainer}
+              >
+                <nav id="Page" aria-label="Page navigation" className={classes.navButtonContainer}>
+                  <PageNavButton
+                    to="/"
+                    iconType="chat"
+                    label="Chat"
+                  />
+                  <PageNavButton
+                    to="/cards"
+                    iconType="cards"
+                    label="Cards"
+                  />
+                  <PageNavButton
+                    to="/activities"
+                    iconType="activities"
+                    label="Activities"
+                  />
 
                 {/* TODO: Add logs page back once implemented */}
                 {/* <PageNavButton
@@ -131,6 +133,7 @@ const App: React.FC = () => {
           </div>
         </BrowserRouter>
       </div>
+      </ThemeProvider>
     </FluentProvider>
   );
 };
