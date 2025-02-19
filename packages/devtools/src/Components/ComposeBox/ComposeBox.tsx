@@ -19,7 +19,7 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
     setInputText(data.value);
   };
 
-  const handleSendMessage = () => {
+  const handleSend = () => {
     if (inputText.trim()) {
       onSend(inputText);
       setInputText('');
@@ -29,7 +29,7 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault();
-      handleSendMessage();
+      handleSend();
     }
   };
 
@@ -43,7 +43,7 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
         onKeyDown={handleKeyDown}
         aria-label="Compose box"
       />
-      <NewMessageToolbar onSend={handleSendMessage} />
+      <NewMessageToolbar onSend={handleSend} />
     </div>
   );
 };

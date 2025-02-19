@@ -12,7 +12,7 @@ import ChatMessageContainer from '../../Components/ChatMessage/ChatMessageContai
 import ComposeBox from '../../Components/ComposeBox/ComposeBox';
 import { ChatContext } from '../../Stores/Chat';
 import { useClasses } from './ChatPane.styles';
-import { EXAMPLE_MESSAGES } from '../../Components/ChatMessage/example-messages';
+// import { EXAMPLE_MESSAGES } from '../../Components/ChatMessage/example-messages';
 
 export interface ChatPaneProps {
   isConnected: boolean;
@@ -29,15 +29,7 @@ export const ChatPane: FC<ChatPaneProps> = ({ isConnected }) => {
   const composeRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const [text, setText] = useState('');
   const [attachments, setAttachments] = useState<Attachment[]>([]);
-
-  // Load example messages on mount
-  useEffect(() => {
-    EXAMPLE_MESSAGES.forEach(message => {
-      chatStore.put(chatStore.chat.id, message);
-    });
-  }, []);
 
   useEffect(() => {
     if (!composeRef.current || !scrollContainerRef.current) return;
@@ -51,70 +43,22 @@ export const ChatPane: FC<ChatPaneProps> = ({ isConnected }) => {
     return () => resizeObserver.disconnect();
   }, []);
 
-
-  // const handleOfflineSendMessage = (message: string) => {
-  //   const newMessage = {
-  //     id: Date.now().toString(),
-  //     from: { user: { id: 'devtools' } },
-  //     body: {
-  //       contentType: 'text' as const,
-  //       content: message
-  //     },
-  //     createdDateTime: new Date().toISOString(),
-  //   };
-
-  //   chatStore.put(chatStore.chat.id, newMessage);
-  // };
-
-  const send = async () => {
+  const handleSendMessage = async (message: string) => {
     try {
-      await api.conversations.activities(chatStore.chat.id).create({
-        type: 'message',
-        text,
-        attachments,
-      });
-      setText('');
-      setAttachments([]);
+        // Now send the message to the server
+        await api.conversations.activities(chatStore.chat.id).create({
+            type: 'message',
+            text: message,
+            attachments,
+        });
+
+        // Call handleSendMessage to update the chat store after sending
+        // handleSendMessage(message);
+        setAttachments([]);
     } catch (err) {
-      console.error(err);
+        console.error(err);
     }
   };
-
-  // const react = async (id: string, type: MessageReactionType) => {
-  //   const message = messages.find((m) => m.id === id);
-  //   if (!message) return;
-
-  //   const added: Array<MessageReaction> = [];
-  //   const removed: Array<MessageReaction> = [];
-  //   const reaction = (message.reactions || []).find(
-  //     (r) => r.type === type && r.user?.id === 'devtools'
-  //   );
-
-  //   if (reaction) {
-  //     removed.push(reaction);
-  //   } else {
-  //     added.push({
-  //       type,
-  //       user: { id: 'devtools', displayName: 'devtools' },
-  //       createdDateTime: new Date().toUTCString(),
-  //     });
-  //   }
-
-  //   try {
-  //     await api.conversations.activities(chatStore.chat.id).create({
-  //       id,
-  //       type: 'messageReaction',
-  //       reactionsAdded: added,
-  //       reactionsRemoved: removed,
-  //     });
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
-  // const sendFeedback = async (text?: string) => {
-  //   // Implement feedback logic similar to the original Chat.tsx
-  // };
 
   return (
     <Chat className={classes.chatPaneContainer}>
@@ -138,7 +82,7 @@ export const ChatPane: FC<ChatPaneProps> = ({ isConnected }) => {
         <div className={classes.bannerContainer}>
           {/* TODO: Optional banner/toast content */}
         </div>
-        <ComposeBox onSend={send} />
+        <ComposeBox onSend={handleSendMessage} />
       </div>
     </Chat>
   );

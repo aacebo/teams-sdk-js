@@ -1,24 +1,25 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
 export const useClasses = makeStyles({
-  messageGroup: {
+  messageRow: {
     display: 'flex',
     marginLeft: tokens.spacingHorizontalL,
     marginRight: tokens.spacingHorizontalL,
     alignItems: 'flex-end',
   },
   messageGroupSent: {
-    flexDirection: 'row-reverse',
+    justifyContent: 'flex-end',
+
   },
   messageGroupReceived: {
-    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
   messageContainer: {
     display: 'flex',
     flexDirection: 'column',
     maxWidth: '80%',
   },
-  contentWrapper: {
+  badgeMessageContainer: {
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',

@@ -22,9 +22,11 @@ export const useChatMessageStyles = makeStyles({
     },
   },
   received: {
+    alignSelf: 'flex-start',
     backgroundColor: tokens.colorNeutralBackground1,
   },
   sent: {
+    alignSelf: 'flex-end',
     backgroundColor: tokens.colorBrandBackground2,
     color: tokens.colorNeutralForegroundOnBrand,
   },

@@ -31,12 +31,12 @@ const ChatMessageContainer: FC<MessageProps> = ({
   }, [value]);
 
   return (
-    <article id="chat-message-container" className={mergeClasses(
-      classes.messageGroup,
+    <article id="chat-message-row" className={mergeClasses(
+      classes.messageRow,
       sendDirection === 'sent' ? classes.messageGroupSent : classes.messageGroupReceived
     )}>
       <div className={classes.messageContainer}>
-        <div className={classes.contentWrapper}>
+        <div className={classes.badgeMessageContainer}>
           {sendDirection === 'received' && <AvatarComponent isConnected={isConnected} />}
           <div className={classes.timeMessageContainer}>
             <time className={classes.timestamp}>

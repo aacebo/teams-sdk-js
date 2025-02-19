@@ -25,8 +25,9 @@ export const useClasses = makeStyles({
   },
   messagesContainer: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column-reverse',
     flexGrow: 1,
+    height: '100%',
     minWidth: '495px',
     maxWidth: '1042px',
     margin: '0 auto',
