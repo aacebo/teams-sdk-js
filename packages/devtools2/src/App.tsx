@@ -6,13 +6,13 @@ import { ConsoleLogger } from '@teams.sdk/common/logging';
 import { ChatContext, useChatStore } from './Stores/Chat';
 import { ActivityContext, useActivityStore } from './Stores/Activity';
 import getTheme from './Utils/get-theme';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { SocketClient } from './socket-client';
 
 import ChatPane from './components/ChatPane/ChatPane';
-import useAppClasses from './useAppClasses';
 import PageNavButton from './components/PageNavButton/PageNavButton';
 import DevtoolsLandmark from './components/DevToolsLandmark/DevToolsLandmark';
-import { ThemeProvider } from './contexts/ThemeContext';
+import useAppClasses from './useAppClasses';
 
 const socket = new SocketClient();
 
@@ -73,9 +73,9 @@ const App: React.FC = () => {
         >
           <BrowserRouter basename="/devtools2" data-tid="browser-router">
             <nav
-              id="Chat"
+              id="sidebar"
               className={classes.sideBar}
-              aria-label="Chat navigation"
+              aria-label="Sidebar navigation"
             >
               <header id="banner" className={classes.header}>
                 <DevtoolsLandmark connected={connected} />

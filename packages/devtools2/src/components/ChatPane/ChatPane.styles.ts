@@ -1,6 +1,6 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
-const useStyles = makeStyles({
+export const useClasses = makeStyles({
   chatPaneContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -46,4 +46,3 @@ const useStyles = makeStyles({
   }
 });
 
-export default useStyles;

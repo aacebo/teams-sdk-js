@@ -1,11 +1,11 @@
 import { FC, useContext, useEffect, useRef } from 'react';
 import { mergeClasses } from '@fluentui/react-components';
 
-import { ChatContext } from '../../Stores/Chat';
-import { ChatMessageContainer } from '../ChatMessage/ChatMessageContainer';
-import useStyles from './ChatPane.styles';
+import Chat from '../Chat/Chat';
+import ChatMessageContainer from '../ChatMessage/ChatMessageContainer';
 import ComposeBox from '../ComposeBox/ComposeBox';
-import { Chat } from '../Chat/Chat';
+import { ChatContext } from '../../Stores/Chat';
+import { useClasses } from './ChatPane.styles';
 import { EXAMPLE_MESSAGES } from './example-messages';
 
 export interface ChatPaneProps {
@@ -13,7 +13,7 @@ export interface ChatPaneProps {
 }
 
 export const ChatPane: FC<ChatPaneProps> = ({ isConnected }) => {
-  const classes = useStyles();
+  const classes = useClasses();
   const chatStore = useContext(ChatContext);
   const messages = chatStore.messages[chatStore.chat.id] || [];
   const composeRef = useRef<HTMLDivElement>(null);
