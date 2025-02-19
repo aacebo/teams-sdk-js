@@ -1,11 +1,14 @@
+import React from 'react';
+import '../../tailwind.css'
+import './Cards.css';
 import CardDesigner from '../../Components/CardDesigner';
 
-import './Cards.css';
-
-export default function Cards() {
+const Cards: React.FC = () => {
   return (
     <div className="Cards">
       <CardDesigner />
     </div>
   );
-}
+};
+
+export default Cards;

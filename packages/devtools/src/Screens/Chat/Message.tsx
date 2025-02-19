@@ -5,9 +5,9 @@ import classNames from 'classnames';
 import { useNavigate } from 'react-router';
 import { formatDistanceToNow } from 'date-fns';
 import { useEffect, useState } from 'react';
-
-import AdaptiveCard from '../../Components/Card';
+import '../../tailwind.css'
 import './Message.css';
+import AdaptiveCard from '../../Components/Card';
 
 export interface MessageProps {
   readonly value: api.Message;

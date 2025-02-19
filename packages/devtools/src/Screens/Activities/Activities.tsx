@@ -9,12 +9,13 @@ import {
   CopyRegular,
   FilterRegular,
 } from '@fluentui/react-icons';
+import '../../tailwind.css'
+import './Activities.css';
 
 import { ActivityContext } from '../../Stores';
 import { ActivityEvent } from '../../Types';
 import { getPath } from '../../Utils/get-path';
 import Json from '../../Components/Json';
-import './Activities.css';
 
 export default function Activities() {
   const { list } = useContext(ActivityContext);
