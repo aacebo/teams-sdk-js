@@ -8,7 +8,6 @@ export default defineConfig({
   base: '/devtools',
   build: {
     outDir: '../dev/dist/devtools-web',
-    chunkSizeWarningLimit: 16000,
     rollupOptions: {
       plugins: [nodeResolve()],
     },

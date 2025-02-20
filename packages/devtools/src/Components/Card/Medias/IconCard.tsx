@@ -1,7 +1,15 @@
-import { ComponentProps } from 'react';
+import { ComponentProps, lazy, Suspense } from 'react';
 import { Icon } from '@teams.sdk/cards';
-import * as icons from '@fluentui/react-icons';
+import { FluentIcon } from '@fluentui/react-icons';
 import classNames from 'classnames';
+
+const loadIcon = (name: string) => {
+  return lazy(() =>
+    import('@fluentui/react-icons/fonts').then((module) => ({
+      default: (module as any as Record<string, FluentIcon>)[name as string],
+    }))
+  );
+};
 
 export interface IconCardProps extends ComponentProps<'div'> {
   readonly value: Icon;
@@ -10,22 +18,20 @@ export interface IconCardProps extends ComponentProps<'div'> {
 export default function IconCard(props: IconCardProps) {
   const { value, className } = props;
   const name = `${value.name}${value.style || 'Regular'}`;
-  const Icon = (icons as any as Record<string, icons.FluentIcon>)[name as string];
-
-  if (!Icon) {
-    return <>icon "{name}" not found</>;
-  }
+  const Icon = loadIcon(name);
 
   return (
-    <Icon
-      className={classNames(className, {
-        'text-lg': value.size === 'xxSmall',
-        'text-xl': value.size === 'xSmall',
-        'text-2xl': value.size === 'Standard' || value.size === 'Medium',
-        'text-4xl': value.size === 'Large',
-        'text-8xl': value.size === 'xLarge',
-        'text-9xl': value.size === 'xxLarge',
-      })}
-    />
+    <Suspense>
+      <Icon
+        className={classNames(className, {
+          'text-lg': value.size === 'xxSmall',
+          'text-xl': value.size === 'xSmall',
+          'text-2xl': value.size === 'Standard' || value.size === 'Medium',
+          'text-4xl': value.size === 'Large',
+          'text-8xl': value.size === 'xLarge',
+          'text-9xl': value.size === 'xxLarge',
+        })}
+      />
+    </Suspense>
   );
 }
