@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Textarea } from '@fluentui/react-components';
 import NewMessageToolbar from '../Toolbar/NewMessageToolbar';
 import type { TextareaOnChangeData } from '@fluentui/react-components';
-import { useStyles } from './ComposeBox.styles';
+import { useClasses } from './ComposeBox.styles';
 
 interface ComposeBoxProps {
   onSend: (message: string) => void;
@@ -10,7 +10,7 @@ interface ComposeBoxProps {
 
 const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
   const [inputText, setInputText] = useState('');
-  const classes = useStyles();
+  const classes = useClasses();
 
   const handleInputChange = (
     _event: React.ChangeEvent<HTMLTextAreaElement>,

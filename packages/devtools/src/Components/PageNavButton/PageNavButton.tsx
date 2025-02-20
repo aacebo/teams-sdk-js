@@ -11,7 +11,7 @@ import {
   DocumentBulletList20Regular,
   DocumentBulletList20Filled,
 } from '@fluentui/react-icons/lib/fonts';
-import useStyles from './PageNavButton.styles';
+import { useClasses } from './PageNavButton.styles';
 
 type IconType = 'chat' | 'cards' | 'activities' | 'logs';
 
@@ -35,7 +35,7 @@ interface PageNavButtonProps {
 }
 
 const PageNavButton: FC<PageNavButtonProps> = ({ to, iconType, label }) => {
-  const classes = useStyles();
+  const classes = useClasses();
   const icons = iconMap[iconType];
 
   return (

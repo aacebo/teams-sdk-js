@@ -1,6 +1,6 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
-const useStyles = makeStyles({
+export const useClasses = makeStyles({
   pageNavButton: {
     display: 'flex',
     alignItems: 'center',
@@ -45,4 +45,3 @@ const useStyles = makeStyles({
   },
 });
 
-export default useStyles;

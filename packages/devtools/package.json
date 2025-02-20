@@ -20,6 +20,7 @@
     "@codemirror/lang-json": "^6.0.1",
     "@codemirror/state": "^6.5.1",
     "@codemirror/view": "^6.36.2",
+    "@fluentui/react-components": "^9.58.3",
     "@fluentui/react-icons": "^2.0.274",
     "@headlessui/react": "^2.2.0",
     "@teams.sdk/api": "*",
@@ -40,8 +41,7 @@
     "react-syntax-highlighter": "^15.6.1",
     "socket.io-client": "^4.8.1",
     "uuid": "^11.0.5",
-    "zustand": "^5.0.3",
-    "@fluentui/react-components": "^9.58.3"
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
