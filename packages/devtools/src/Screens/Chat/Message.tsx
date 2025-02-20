@@ -1,6 +1,6 @@
 import * as marked from 'marked';
 import * as api from '@teams.sdk/api';
-import * as icons from '@fluentui/react-icons';
+import { SearchFilled, ThumbDislikeRegular, ThumbLikeRegular } from '@fluentui/react-icons';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router';
 import { formatDistanceToNow } from 'date-fns';
@@ -129,7 +129,7 @@ export default function Message({
                   });
                 }}
               >
-                <icons.SearchFilled className="size-5 m-auto mb-1" />
+                <SearchFilled className="size-5 m-auto mb-1" />
               </button>
 
               {Reactions.map(({ label, reaction }) => (
@@ -175,7 +175,7 @@ export default function Message({
                     setFeedback('like');
                   }}
                 >
-                  <icons.ThumbLikeRegular className="size-5 m-auto" />
+                  <ThumbLikeRegular className="size-5 m-auto" />
                 </button>
 
                 <button
@@ -184,7 +184,7 @@ export default function Message({
                     setFeedback('dislike');
                   }}
                 >
-                  <icons.ThumbDislikeRegular className="size-5 m-auto" />
+                  <ThumbDislikeRegular className="size-5 m-auto" />
                 </button>
               </div>
             )}

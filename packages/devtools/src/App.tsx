@@ -2,7 +2,16 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, NavLink, Navigate, Route, Routes } from 'react-router';
 
 import { ConsoleLogger } from '@teams.sdk/common/logging';
-import * as icons from '@fluentui/react-icons';
+import {
+  CardUiFilled,
+  CardUiRegular,
+  ChatFilled,
+  ChatRegular,
+  DocumentBulletListFilled,
+  DocumentBulletListRegular,
+  SearchFilled,
+  SearchRegular,
+} from '@fluentui/react-icons';
 
 import { SocketClient } from './socket-client';
 import { ActivityContext, ChatContext, useActivityStore, useChatStore } from './Stores';
@@ -62,10 +71,10 @@ export default function App() {
               to="/"
               className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
               children={({ isActive }) => {
-                let Icon: JSX.Element = <icons.ChatRegular className="size-5 my-auto mr-1" />;
+                let Icon: JSX.Element = <ChatRegular className="size-5 my-auto mr-1" />;
 
                 if (isActive) {
-                  Icon = <icons.ChatFilled className="size-5 my-auto mr-1" />;
+                  Icon = <ChatFilled className="size-5 my-auto mr-1" />;
                 }
 
                 return (
@@ -81,10 +90,10 @@ export default function App() {
               to="/cards"
               className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
               children={({ isActive }) => {
-                let Icon: JSX.Element = <icons.CardUiRegular className="size-5 my-auto mr-1" />;
+                let Icon: JSX.Element = <CardUiRegular className="size-5 my-auto mr-1" />;
 
                 if (isActive) {
-                  Icon = <icons.CardUiFilled className="size-5 my-auto mr-1" />;
+                  Icon = <CardUiFilled className="size-5 my-auto mr-1" />;
                 }
 
                 return (
@@ -100,10 +109,10 @@ export default function App() {
               to="/activities"
               className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
               children={({ isActive }) => {
-                let Icon: JSX.Element = <icons.SearchRegular className="size-5 my-auto mr-1" />;
+                let Icon: JSX.Element = <SearchRegular className="size-5 my-auto mr-1" />;
 
                 if (isActive) {
-                  Icon = <icons.SearchFilled className="size-5 my-auto mr-1" />;
+                  Icon = <SearchFilled className="size-5 my-auto mr-1" />;
                 }
 
                 return (
@@ -120,11 +129,11 @@ export default function App() {
               className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
               children={({ isActive }) => {
                 let Icon: JSX.Element = (
-                  <icons.DocumentBulletListRegular className="size-5 my-auto mr-1" />
+                  <DocumentBulletListRegular className="size-5 my-auto mr-1" />
                 );
 
                 if (isActive) {
-                  Icon = <icons.DocumentBulletListFilled className="size-5 my-auto mr-1" />;
+                  Icon = <DocumentBulletListFilled className="size-5 my-auto mr-1" />;
                 }
 
                 return (

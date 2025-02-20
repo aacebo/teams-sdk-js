@@ -2,7 +2,13 @@ import { useContext, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { Activity } from '@teams.sdk/api';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
-import * as icons from '@fluentui/react-icons';
+import {
+  ArrowDownFilled,
+  ArrowUpFilled,
+  CheckmarkFilled,
+  CopyRegular,
+  FilterRegular,
+} from '@fluentui/react-icons';
 
 import { ActivityContext } from '../../Stores';
 import { ActivityEvent } from '../../Types';
@@ -31,7 +37,7 @@ export default function Activities() {
                   <Menu>
                     <MenuButton className="flex w-full text-left">
                       <span className="flex-1 uppercase font-bold">Type</span>
-                      {activityPaths.length > 0 && <icons.FilterRegular className="ml-2 size-4" />}
+                      {activityPaths.length > 0 && <FilterRegular className="ml-2 size-4" />}
                     </MenuButton>
 
                     <MenuItems
@@ -56,7 +62,7 @@ export default function Activities() {
                           >
                             <span className="flex-1 text-left">{path}</span>
                             {params.has('path', path) && (
-                              <icons.CheckmarkFilled className="ml-1 size-3" />
+                              <CheckmarkFilled className="ml-1 size-3" />
                             )}
                           </button>
                         </MenuItem>
@@ -130,9 +136,9 @@ export default function Activities() {
                     >
                       <td className="px-3 py-2 flex border-b border-l dark:border-stone-700 dark:group-hover:bg-stone-700 text-nowrap">
                         {event.type === 'activity.received' ? (
-                          <icons.ArrowDownFilled className="h-4 w-4 my-auto" />
+                          <ArrowDownFilled className="h-4 w-4 my-auto" />
                         ) : (
-                          <icons.ArrowUpFilled className="h-4 w-4 my-auto" />
+                          <ArrowUpFilled className="h-4 w-4 my-auto" />
                         )}
                         <div className="my-auto ml-2 font-semibold">{path}</div>
                       </td>
@@ -173,7 +179,7 @@ export default function Activities() {
                     navigator.clipboard.writeText(JSON.stringify(selected));
                   }}
                 >
-                  <icons.CopyRegular className="size-5 m-auto" />
+                  <CopyRegular className="size-5 m-auto" />
                 </button>
               </div>
 

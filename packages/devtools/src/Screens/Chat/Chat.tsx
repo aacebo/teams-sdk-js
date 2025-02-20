@@ -16,7 +16,14 @@ import {
   PopoverButton,
   PopoverPanel,
 } from '@headlessui/react';
-import * as icons from '@fluentui/react-icons';
+import {
+  AttachFilled,
+  CardUiFilled,
+  CheckmarkFilled,
+  DocumentFilled,
+  SendFilled,
+  SendRegular,
+} from '@fluentui/react-icons';
 
 import { ChatContext } from '../../Stores';
 import CardDesigner from '../../Components/CardDesigner';
@@ -182,7 +189,7 @@ export default function Chat() {
             <div className="flex gap-1">
               <Popover className="relative">
                 <PopoverButton className="flex px-2 py-1.5 transition-all rounded text-sm my-auto bg-stone-700 hover:bg-stone-600 active:bg-stone-700">
-                  <icons.AttachFilled className="my-auto size-5" />
+                  <AttachFilled className="my-auto size-5" />
                 </PopoverButton>
                 <PopoverPanel
                   anchor="bottom end"
@@ -192,11 +199,11 @@ export default function Chat() {
                     className="flex px-3 py-1 transition rounded dark:text-stone-400 dark:hover:text-white dark:hover:bg-stone-700 dark:active:bg-stone-600"
                     onClick={() => setCardBuilderOpen(true)}
                   >
-                    <icons.CardUiFilled className="size-5 my-auto" />
+                    <CardUiFilled className="size-5 my-auto" />
                     <span className="my-auto ml-2">Card</span>
                   </button>
                   <button className="flex px-3 py-1 transition rounded dark:text-stone-400 dark:hover:text-white dark:hover:bg-stone-700 dark:active:bg-stone-600">
-                    <icons.DocumentFilled className="size-5 my-auto" />
+                    <DocumentFilled className="size-5 my-auto" />
                     <span className="my-auto ml-2">File</span>
                   </button>
                 </PopoverPanel>
@@ -209,9 +216,9 @@ export default function Chat() {
               >
                 <span className="my-auto mr-2">Send</span>
                 {!text ? (
-                  <icons.SendRegular className="my-auto size-4" />
+                  <SendRegular className="my-auto size-4" />
                 ) : (
-                  <icons.SendFilled className="my-auto size-4" />
+                  <SendFilled className="my-auto size-4" />
                 )}
               </button>
             </div>
@@ -235,7 +242,7 @@ export default function Chat() {
                   setCard(undefined);
                 }}
               >
-                {<icons.CheckmarkFilled className="size-6 my-auto" />}
+                {<CheckmarkFilled className="size-6 my-auto" />}
               </button>
             </DialogPanel>
           </div>

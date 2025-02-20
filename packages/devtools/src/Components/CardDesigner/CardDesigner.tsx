@@ -1,7 +1,7 @@
 import { Card, Element } from '@teams.sdk/cards';
 import { useEffect, useState } from 'react';
-import prettier from 'prettier';
-import parserTypeScript from 'prettier/parser-typescript';
+import prettier from 'prettier/standalone';
+import parserTypeScript from 'prettier/plugins/typescript';
 import estree from 'prettier/plugins/estree';
 
 import CardDesignerContent from './CardDesignerContent';

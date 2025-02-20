@@ -1,7 +1,16 @@
 import { useEffect, useState } from 'react';
 import { CodeBlock } from '@teams.sdk/cards';
-import hljs from 'highlight.js';
+import hljs from 'highlight.js/lib/core';
+import json from 'highlight.js/lib/languages/json';
+import bash from 'highlight.js/lib/languages/bash';
+import c from 'highlight.js/lib/languages/c';
+import typescript from 'highlight.js/lib/languages/typescript';
 import 'highlight.js/styles/atom-one-dark.min.css';
+
+hljs.registerLanguage('json', json);
+hljs.registerLanguage('json', bash);
+hljs.registerLanguage('json', c);
+hljs.registerLanguage('json', typescript);
 
 export interface CodeBlockCardProps {
   readonly value: CodeBlock;
