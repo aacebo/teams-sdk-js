@@ -73,24 +73,29 @@ body {
 ---------------------------------------- */
 /* Base scrollbar dimensions */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 5px;
 }
 
 /* Track styles */
 ::-webkit-scrollbar-track {
-  background: var(--lightestgrey);
+  background: transparent;
 }
 
 /* Thumb styles */
 ::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-overlay);
-  border-radius: 5px;
-  border: 2.5px solid transparent;
+  background: transparent;
+  border: 3px solid transparent;
   background-clip: padding-box;
-  transition: border 0.2s;
+  border-radius: 4px;
+  transition: background-color 0.2s;
 }
 
+/* Show scrollbar on container hover */
+*:hover::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-overlay);
+}
+
+/* Expand scrollbar on scrollbar hover */
 ::-webkit-scrollbar-thumb:hover {
   background: var(--scrollbar-overlay);
   border: 0px solid transparent;

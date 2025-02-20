@@ -1,5 +1,4 @@
-import { FC, useContext, useEffect, useRef, useState } from 'react';
-import { mergeClasses } from '@fluentui/react-components';
+import { FC, useContext, useState } from 'react';
 import {
   Attachment,
   Client,
@@ -25,22 +24,7 @@ export const ChatPane: FC<ChatPaneProps> = ({ isConnected }) => {
   const classes = useClasses();
   const chatStore = useContext(ChatContext);
   const messages = chatStore.messages[chatStore.chat.id] || [];
-  const composeRef = useRef<HTMLDivElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
   const [attachments, setAttachments] = useState<Attachment[]>([]);
-
-  useEffect(() => {
-    if (!composeRef.current || !scrollContainerRef.current) return;
-
-    const resizeObserver = new ResizeObserver((entries) => {
-      const composeHeight = entries[0].contentRect.height;
-      scrollContainerRef.current!.style.bottom = `${composeHeight}px`;
-    });
-
-    resizeObserver.observe(composeRef.current);
-    return () => resizeObserver.disconnect();
-  }, []);
 
   const handleSendMessage = async (message: string) => {
     try {
@@ -61,11 +45,8 @@ export const ChatPane: FC<ChatPaneProps> = ({ isConnected }) => {
 
   return (
     <Chat className={classes.chatPaneContainer}>
-      <div
-        ref={scrollContainerRef}
-        className={mergeClasses(classes.scrollContainer, 'scroll-on-hover')}
-      >
-        <div className={classes.messagesContainer}>
+      <div className={classes.scrollbarContainer}>
+        <div className={classes.messagesList}>
           {messages.map((message) => (
             <ChatMessageContainer
               key={message.id}
@@ -77,9 +58,13 @@ export const ChatPane: FC<ChatPaneProps> = ({ isConnected }) => {
           ))}
         </div>
       </div>
-      <div ref={composeRef} className={classes.composeContainer}>
-        <div className={classes.bannerContainer}>{/* TODO: Optional banner/toast content */}</div>
-        <ComposeBox onSend={handleSendMessage} />
+      <div className={classes.composeContainer}>
+        <div className={classes.composeInner}>
+          <div className={classes.bannerContainer}>
+            {/* TODO: Optional banner/toast content */}
+          </div>
+          <ComposeBox onSend={handleSendMessage} />
+        </div>
       </div>
     </Chat>
   );

@@ -72,29 +72,29 @@ const App: FC = () => {
   return (
     <FluentProvider theme={theme}>
       <ThemeProvider theme={isDarkMode ? 'dark' : 'light'}>
-        <div id="app-container" className={mergeClasses(classes.default, classes.appContainer)}>
+        <div id="app-root" className={mergeClasses(classes.default, classes.appContainer)}>
           <BrowserRouter basename="/devtools" data-tid="browser-router">
-            <nav id="sidebar" className={classes.sideBar} aria-label="Sidebar navigation">
+            <nav id="app-sidebar" className={classes.sideBar} aria-label="Sidebar navigation">
               <header id="banner" className={classes.header}>
                 <DevtoolsBanner connected={connected} />
               </header>
             </nav>
-            <div id="nav-and-main-container" className={classes.sideBarAndMainContainer}>
-              <div data-tid="top-nav" className={classes.pageNavContainer}>
-                <nav id="Page" aria-label="Page navigation" className={classes.navButtonContainer}>
+            <div id="app-content" className={classes.mainLayout} data-tid="main-layout">
+              <nav id="top-nav" className={classes.pageNavContainer} aria-label="Page navigation" data-tid="top-nav">
+                <div className={classes.navButtonContainer}>
                   <PageNavButton to="/" iconType="chat" label="Chat" />
                   <PageNavButton to="/cards" iconType="cards" label="Cards" />
                   <PageNavButton to="/activities" iconType="activities" label="Activities" />
 
                   {/* TODO: Add logs page back once implemented */}
                   {/* <PageNavButton
-                  to="/logs"
-                  iconType="logs"
-                  label="Logs"
-                /> */}
-                </nav>
-              </div>
-              <main id="main" className={mergeClasses(classes.default, classes.mainContainer)}>
+                    to="/logs"
+                    iconType="logs"
+                    label="Logs"
+                  /> */}
+                </div>
+              </nav>
+              <main id="page-content" className={classes.mainContent}>
                 <ActivityContext.Provider value={activityStore}>
                   <ChatContext.Provider value={chatStore}>
                     <Routes>
