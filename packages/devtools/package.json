@@ -12,7 +12,8 @@
     "build": "tsc -b && vite build",
     "build:watch": "tsc -b && vite build --watch --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:bundle:visualize": "npx vite-bundle-visualizer"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.2",
