@@ -60,9 +60,7 @@ export const ChatPane: FC<ChatPaneProps> = ({ isConnected }) => {
       </div>
       <div className={classes.composeContainer}>
         <div className={classes.composeInner}>
-          <div className={classes.bannerContainer}>
-            {/* TODO: Optional banner/toast content */}
-          </div>
+          <div className={classes.bannerContainer}>{/* TODO: Optional banner/toast content */}</div>
           <ComposeBox onSend={handleSendMessage} />
         </div>
       </div>

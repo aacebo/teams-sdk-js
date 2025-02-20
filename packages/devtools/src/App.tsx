@@ -80,7 +80,12 @@ const App: FC = () => {
               </header>
             </nav>
             <div id="app-content" className={classes.mainLayout} data-tid="main-layout">
-              <nav id="top-nav" className={classes.pageNavContainer} aria-label="Page navigation" data-tid="top-nav">
+              <nav
+                id="top-nav"
+                className={classes.pageNavContainer}
+                aria-label="Page navigation"
+                data-tid="top-nav"
+              >
                 <div className={classes.navButtonContainer}>
                   <PageNavButton to="/" iconType="chat" label="Chat" />
                   <PageNavButton to="/cards" iconType="cards" label="Cards" />

@@ -5,19 +5,28 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '0 5px',
-
-    '& :hover': {
+    margin: 0,
+    padding: '0.5rem',
+    color: tokens.colorNeutralForeground2Link,
+    border: `2px solid transparent`,
+    '&:hover': {
       color: tokens.colorBrandForegroundLinkHover,
       textDecorationLine: 'none',
     },
-    '& :active': {
+    '&:active': {
       color: tokens.colorBrandForegroundLinkSelected,
       textDecorationLine: 'none',
     },
-    '& :visited': {
-      color: tokens.colorSubtleBackground,
+    '&:visited': {
       textDecorationLine: 'none',
+    },
+    '&:focus': {
+      border: `2px solid ${tokens.colorNeutralForeground2Link}`,
+      borderRadius: '5px',
+      outline: 'none',
+    },
+    '& i': {
+      marginRight: '0.3rem',
     },
   },
   activeRoute: {
@@ -30,10 +39,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     fontSize: tokens.fontSizeBase400,
     lineHeight: tokens.lineHeightBase400,
-    '& svg': {
-      marginRight: '5px',
-    },
-    '& :active': {
+    '&:active': {
       textDecorationLine: 'none',
     },
   },

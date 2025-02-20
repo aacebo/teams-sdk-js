@@ -24,6 +24,7 @@ const ChatMessage: FC<ChatMessageProps> = ({
     <>
       {content && (
         <div
+          tabIndex={0}
           id="message-content"
           className={mergeClasses(
             classes.messageContent,

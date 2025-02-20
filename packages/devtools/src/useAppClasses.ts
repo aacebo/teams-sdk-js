@@ -42,13 +42,13 @@ const useAppClasses = makeStyles({
     flex: '0 0 auto',
     display: 'flex',
     justifyContent: 'flex-end',
-    padding: '1rem 0',
+    padding: '0.5rem 0',
   },
   navButtonContainer: {
     display: 'flex',
     alignItems: 'center',
-    gap: tokens.spacingHorizontalM,
-    marginRight: tokens.spacingHorizontalM,
+    gap: tokens.spacingHorizontalL,
+    marginRight: tokens.spacingHorizontalL,
   },
   mainLayout: {
     display: 'flex',

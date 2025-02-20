@@ -1,6 +1,6 @@
 import { makeStyles } from '@fluentui/react-components';
 
-const useStyles = makeStyles({
+export const useClasses = makeStyles({
   toolbar: {
     position: 'absolute',
     right: '0',
@@ -9,10 +9,8 @@ const useStyles = makeStyles({
   },
   toolbarButton: {
     minWidth: '0',
-    width: '32px',
-    height: '32px',
+    width: '2rem',
+    height: '2rem',
     padding: '0',
   },
 });
-
-export default useStyles;

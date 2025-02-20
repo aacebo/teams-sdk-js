@@ -17,7 +17,8 @@ const DevtoolsBanner: FC<DevtoolsBannerProps> = ({ connected }) => {
       </Text>
       <Tooltip content={connected ? 'Connected' : 'Disconnected'} relationship="description">
         <Badge
-          data-tid="badge"
+          data-tid="status badge"
+          role="status"
           aria-label={connected ? 'Connected' : 'Disconnected'}
           color={connected ? 'success' : 'danger'}
           size="extra-small"
