@@ -28,7 +28,7 @@ export const useChatMessageStyles = makeStyles({
   sent: {
     alignSelf: 'flex-end',
     backgroundColor: tokens.colorBrandBackground2,
-    color: tokens.colorNeutralForegroundOnBrand,
+    color: tokens.colorNeutralForeground1,
   },
   streaming: {
     position: 'relative',

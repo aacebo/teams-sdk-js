@@ -9,6 +9,7 @@ const useClasses = makeStyles({
     alignItems: 'center',
     padding: '12px 0',
     color: tokens.colorNeutralForeground1,
+    position: 'relative',
   },
   teamsImg: {
     width: '2.5rem',
@@ -47,6 +48,12 @@ const useClasses = makeStyles({
     animationIterationCount: 'infinite',
     animationDelay: '0s',
   },
+  betaBadge: {
+    position: 'absolute',
+    right: '2.3rem',
+    bottom: '-0.25rem',
+    border: `1px solid ${tokens.colorNeutralStencil1}`,
+  }
 });
 
 export default useClasses;

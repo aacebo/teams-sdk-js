@@ -27,6 +27,9 @@ const DevtoolsBanner: FC<DevtoolsBannerProps> = ({ connected }) => {
           <div className={connected ? classes.pingAnimation : ''} />
         </Badge>
       </Tooltip>
+      <Badge aria-label="Beta" appearance="tint" className={classes.betaBadge}>
+        Beta
+      </Badge>
     </div>
   );
 };
