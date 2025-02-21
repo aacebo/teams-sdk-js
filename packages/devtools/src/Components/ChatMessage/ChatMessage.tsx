@@ -6,6 +6,7 @@ import { mergeClasses } from '@fluentui/react-components';
 interface ChatMessageProps {
   content: string;
   html: string | undefined;
+  labelId: string;
   streaming: boolean;
   feedback: boolean;
   sendDirection: 'sent' | 'received';
@@ -14,6 +15,7 @@ interface ChatMessageProps {
 const ChatMessage: FC<ChatMessageProps> = ({
   content,
   html,
+  labelId,
   streaming,
   feedback,
   sendDirection,
@@ -26,6 +28,7 @@ const ChatMessage: FC<ChatMessageProps> = ({
         <div
           tabIndex={0}
           id="message-content"
+          aria-labelledby={labelId}
           className={mergeClasses(
             classes.messageContent,
             sendDirection === 'sent' ? classes.sent : classes.received,

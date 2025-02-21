@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState, useMemo } from 'react';
 import { mergeClasses } from '@fluentui/react-components';
 
 import * as api from '@teams.sdk/api';
@@ -30,6 +30,8 @@ const ChatMessageContainer: FC<MessageProps> = ({
     }
   }, [value]);
 
+  const ariaLabel = sendDirection === 'sent' ? 'Sent message at' : 'Received message at';
+
   return (
     <article
       id="chat-message-row"
@@ -42,15 +44,16 @@ const ChatMessageContainer: FC<MessageProps> = ({
         <div className={classes.badgeMessageContainer}>
           {sendDirection === 'received' && <AvatarComponent isConnected={isConnected} />}
           <div className={classes.timeMessageContainer}>
-            <time className={classes.timestamp}>
+            <time aria-label={ariaLabel} id={value.id} className={mergeClasses(classes.timestamp, sendDirection === 'sent' && classes.sentTime)}>
               {value.createdDateTime && formatMessageTime(value.createdDateTime)}
             </time>
             <Message
               content={value.body?.content || ''}
-              html={html}
-              streaming={streaming}
               feedback={feedback}
+              html={html}
+              labelId={ariaLabel}
               sendDirection={sendDirection}
+              streaming={streaming}
             />
           </div>
         </div>

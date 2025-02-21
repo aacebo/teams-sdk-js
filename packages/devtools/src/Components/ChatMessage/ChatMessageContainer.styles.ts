@@ -24,6 +24,9 @@ export const useClasses = makeStyles({
     flexDirection: 'row',
     gap: tokens.spacingHorizontalM,
   },
+  sentTime: {
+    textAlign: 'right',
+  },
   timestamp: {
     fontSize: tokens.fontSizeBase200,
     color: tokens.colorNeutralForeground3,
