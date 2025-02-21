@@ -1,14 +1,14 @@
-import { FC, useEffect, useState, useMemo } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { mergeClasses } from '@fluentui/react-components';
 
-import * as api from '@teams.sdk/api';
+import { Message } from '@teams.sdk/api';
 import { useClasses } from './ChatMessageContainer.styles';
 import { formatMessageTime } from '../../Utils/date-format';
-import AvatarComponent from './AvatarComponent';
-import Message from './ChatMessage';
+import ChatAvatarWrapper from './ChatAvatarWrapper';
+import ChatMessage from './ChatMessage';
 
 export interface MessageProps {
-  readonly value: api.Message;
+  readonly value: Message;
   readonly streaming?: boolean;
   readonly feedback?: boolean;
   readonly isConnected?: boolean;
@@ -42,12 +42,12 @@ const ChatMessageContainer: FC<MessageProps> = ({
     >
       <div className={classes.messageContainer}>
         <div className={classes.badgeMessageContainer}>
-          {sendDirection === 'received' && <AvatarComponent isConnected={isConnected} />}
+          {sendDirection === 'received' && <ChatAvatarWrapper isConnected={isConnected} />}
           <div className={classes.timeMessageContainer}>
             <time aria-label={ariaLabel} id={value.id} className={mergeClasses(classes.timestamp, sendDirection === 'sent' && classes.sentTime)}>
               {value.createdDateTime && formatMessageTime(value.createdDateTime)}
             </time>
-            <Message
+            <ChatMessage
               content={value.body?.content || ''}
               feedback={feedback}
               html={html}

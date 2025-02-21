@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Avatar, makeStyles, tokens } from '@fluentui/react-components';
-interface AvatarProps {
+interface ChatAvatarProps {
   isConnected: boolean;
 }
 
@@ -13,7 +13,7 @@ const useClasses = makeStyles({
   },
 });
 
-const AvatarComponent: FC<AvatarProps> = ({ isConnected }) => {
+const ChatAvatarWrapper: FC<ChatAvatarProps> = ({ isConnected }) => {
   const classes = useClasses();
 
   return (
@@ -24,4 +24,4 @@ const AvatarComponent: FC<AvatarProps> = ({ isConnected }) => {
   );
 };
 
-export default AvatarComponent;
+export default ChatAvatarWrapper;
