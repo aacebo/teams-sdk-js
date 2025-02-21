@@ -8,6 +8,10 @@ export const useChatMessageStyles = makeStyles({
     padding: `${tokens.spacingVerticalM} ${tokens.spacingHorizontalM}`,
     borderRadius: tokens.borderRadiusMedium,
     border: '1px solid transparent',
+    '&:focus': {
+      border: `2px solid ${tokens.colorNeutralForeground2Link}`,
+      borderRadius: '5px',
+    },
     '& a': {
       color: tokens.colorBrandForegroundLink,
       '&:hover': {

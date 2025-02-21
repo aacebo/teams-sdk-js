@@ -82,6 +82,7 @@ body {
 }
 
 /* Thumb styles */
+/* TODO: Fix, size change isn't working */
 ::-webkit-scrollbar-thumb {
   background: transparent;
   border: 3px solid transparent;
