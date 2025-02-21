@@ -8,7 +8,7 @@ import {
 } from '@fluentui/react-icons/lib/fonts';
 import { Toolbar, ToolbarButton, ToolbarDivider } from '@fluentui/react-components';
 import type { ToolbarProps } from '@fluentui/react-components';
-import { useClasses } from './Toolbar.styles';
+import { useClasses } from './NewMessageToolbar.styles';
 
 interface NewMessageToolbarProps extends ToolbarProps {
   onSend: () => void;
@@ -23,7 +23,7 @@ const NewMessageToolbar: FC<NewMessageToolbarProps> = ({ onSend, ...props }) => 
       <Toolbar aria-label="New message actions" {...props} className={classes.toolbar}>
         <ToolbarButton
           aria-label="Attach file"
-          icon={<AttachRegular />}
+          icon={<AttachRegular tabIndex={-1} />}
           className={classes.toolbarButton}
         />
         <ToolbarDivider />
@@ -32,7 +32,7 @@ const NewMessageToolbar: FC<NewMessageToolbarProps> = ({ onSend, ...props }) => 
           aria-label="Send message"
           className={classes.toolbarButton}
           onClick={onSend}
-          icon={<Send />}
+          icon={<Send tabIndex={-1} />}
         />
       </Toolbar>
   );
