@@ -70,4 +70,7 @@ export const useChatMessageStyles = makeStyles({
     gap: tokens.spacingHorizontalS,
     padding: tokens.spacingVerticalXS,
   },
+  popoverSurface: {
+    padding: '0',
+  },
 });
