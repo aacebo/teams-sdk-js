@@ -1,6 +1,11 @@
 import { FC, useState, useEffect, useMemo } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
-import { FluentProvider, mergeClasses, teamsDarkTheme, teamsLightTheme } from '@fluentui/react-components';
+import {
+  FluentProvider,
+  mergeClasses,
+  teamsDarkTheme,
+  teamsLightTheme,
+} from '@fluentui/react-components';
 
 import { ConsoleLogger } from '@teams.sdk/common/logging';
 
