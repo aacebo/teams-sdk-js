@@ -20,21 +20,21 @@ const NewMessageToolbar: FC<NewMessageToolbarProps> = ({ onSend, ...props }) => 
   const classes = useClasses();
 
   return (
-      <Toolbar aria-label="New message actions" {...props} className={classes.toolbar}>
-        <ToolbarButton
-          aria-label="Attach file"
-          icon={<AttachRegular tabIndex={-1} />}
-          className={classes.toolbarButton}
-        />
-        <ToolbarDivider />
-        <ToolbarButton
-          data-tid="send-button"
-          aria-label="Send message"
-          className={classes.toolbarButton}
-          onClick={onSend}
-          icon={<Send tabIndex={-1} />}
-        />
-      </Toolbar>
+    <Toolbar aria-label="New message actions" {...props} className={classes.toolbar}>
+      <ToolbarButton
+        aria-label="Attach file"
+        icon={<AttachRegular tabIndex={-1} />}
+        className={classes.toolbarButton}
+      />
+      <ToolbarDivider />
+      <ToolbarButton
+        data-tid="send-button"
+        aria-label="Send message"
+        className={classes.toolbarButton}
+        onClick={onSend}
+        icon={<Send tabIndex={-1} />}
+      />
+    </Toolbar>
   );
 };
 

@@ -1,9 +1,4 @@
-import {
-  format,
-  isToday,
-  isYesterday,
-  isThisWeek,
-} from 'date-fns';
+import { format, isToday, isYesterday, isThisWeek } from 'date-fns';
 
 export const formatMessageTime = (dateStr: string) => {
   const date = new Date(dateStr);

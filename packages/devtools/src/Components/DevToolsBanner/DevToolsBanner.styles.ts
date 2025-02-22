@@ -53,7 +53,7 @@ const useClasses = makeStyles({
     right: '2.3rem',
     bottom: '-0.25rem',
     border: `1px solid ${tokens.colorNeutralStencil1}`,
-  }
+  },
 });
 
 export default useClasses;
