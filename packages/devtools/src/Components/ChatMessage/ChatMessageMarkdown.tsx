@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { solarizedlight, a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { useTheme } from '../../contexts/ThemeContext';
+import { useTheme } from '../../Hooks/useTheme';
 
 const MarkdownLink: FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = (props) => (
   <a {...props} target="_blank" rel="noopener noreferrer" />
@@ -11,7 +11,7 @@ const MarkdownLink: FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = (props) 
 
 const MarkdownCode: FC<HTMLProps<HTMLElement>> = ({ children, className, ...props }) => {
   const match = /language-(\w+)/.exec(className || '');
-  const theme = useTheme();
+  const [theme] = useTheme();
   const style = theme === 'dark' ? a11yDark : solarizedlight;
 
   return match ? (

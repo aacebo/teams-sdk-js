@@ -39,7 +39,7 @@ const App: FC = () => {
     console.error('Logger initialization failed:', error);
   }
 
-  const { theme } = useTheme();
+  const [theme] = useTheme();
 
   useEffect(() => {
     socket.connect(() => {

@@ -10,6 +10,7 @@ import {
 } from '@fluentui/react-components';
 import { MessageActionsToolbar } from '../Toolbar/MessageActionsToolbar';
 import { Message } from '@teams.sdk/api';
+
 interface ChatMessageProps {
   content: string;
   feedback: boolean;
@@ -45,7 +46,7 @@ const ChatMessage: FC<ChatMessageProps> = ({
           closeOnIframeFocus
           inertTrapFocus
           openOnHover
-          positioning={'above' as PositioningShorthand}
+          positioning={'above-end' as PositioningShorthand}
           trapFocus
         >
           <PopoverTrigger disableButtonEnhancement>
