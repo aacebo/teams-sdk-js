@@ -1,23 +1,121 @@
-import { Button, Card, Title1, Body1, makeStyles } from '@fluentui/react-components';
-import { BookmarkRegular } from '@fluentui/react-icons';
+import { ConsoleLogger } from '@teams.sdk/common/logging';
+import { Body1, FluentProvider, mergeClasses, teamsDarkTheme, teamsLightTheme, } from '@fluentui/react-components';
+import { ChatFilled, ChatRegular } from '@fluentui/react-icons/lib/fonts';
+import { useEffect, useMemo, useState } from 'react';
+import { BrowserRouter, Navigate, NavLink, Route, Routes } from 'react-router';
+import useTheme from '../hooks/useTheme';
+import useAppClasses from './App.styles';
+import { SocketClient } from './socket-client';
 
-const useStyles = makeStyles({
-  root: {
-    maxWidth: '400px',
-    margin: '20px',
-  },
-});
+import { ChatContext, useChatStore } from './stores/ChatStore';
+import { ActivityContext, useActivityStore } from './stores/ActivityStore';
+import ChatScreen from './screens/ChatScreen';
+
+const socket = new SocketClient();
 
 export default function App() {
-  const styles = useStyles();
+  const classes = useAppClasses();
+  const [theme] = useTheme();
+  const activityStore = useActivityStore();
+  const chatStore = useChatStore();
+
+  const [connected, setConnected] = useState(false);
+
+  let log: ConsoleLogger;
+  try {
+    log = new ConsoleLogger('devtools');
+  } catch (error) {
+    // Catch error so render doesn't fail if logger initialization fails
+    console.error('Logger initialization failed:', error);
+  }
+
+  useEffect(() => {
+    socket.connect(() => {
+      log.info('Connected to server...');
+      setConnected(true);
+    });
+
+    socket.on('activity', (event) => {
+      activityStore.put(event);
+      chatStore.onActivity(event);
+    });
+
+    return () => {
+      socket.off('activity');
+      socket.disconnect(() => {
+        log.info('Disconnected from server...');
+        setConnected(false);
+      });
+    };
+  }, []);
+
+  const fluentTheme = useMemo(() => {
+    return theme === 'dark' ? teamsDarkTheme : teamsLightTheme;
+  }, [theme]);
 
   return (
-    <Card className={styles.root}>
-      <Title1>Fluent UI React v9 + Vite</Title1>
-      <Body1>Welcome to your new app!</Body1>
-      <Button appearance="primary" icon={<BookmarkRegular />}>
-        Click me
-      </Button>
-    </Card>
+    <FluentProvider theme={fluentTheme}>
+      <Body1 id="app-root" className={mergeClasses(classes.default, classes.appContainer)}>
+        <BrowserRouter basename="/devtools" data-tid="browser-router">
+          <nav id="app-sidebar" className={classes.sideBar} aria-label="Sidebar navigation">
+            <header id="banner" className={classes.header}>
+              {/* <DevtoolsBanner connected={connected} /> */}
+            </header>
+          </nav>
+          <div id="app-content" className={classes.mainLayout} data-tid="main-layout">
+            <nav
+              id="top-nav"
+              className={classes.pageNavContainer}
+              aria-label="Page navigation"
+              data-tid="top-nav"
+            >
+              <div className={classes.navButtonContainer}>
+              <NavLink
+              to="/"
+              className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
+              children={({ isActive }) => {
+                let Icon: JSX.Element = <ChatRegular className="size-5 my-auto mr-1" />;
+
+                if (isActive) {
+                  Icon = <ChatFilled className="size-5 my-auto mr-1" />;
+                }
+
+                return (
+                  <div className="flex">
+                    {Icon}
+                    Chat
+                  </div>
+                );
+              }}
+            />
+                {/* <PageNavButton to="/" iconType="chat" label="Chat" />
+                <PageNavButton to="/cards" iconType="cards" label="Cards" />
+                <PageNavButton to="/activities" iconType="activities" label="Activities" /> */}
+
+                {/* TODO: Add logs page back once implemented */}
+                {/* <PageNavButton
+                  to="/logs"
+                  iconType="logs"
+                  label="Logs"
+                /> */}
+              </div>
+            </nav>
+            <main id="page-content" className={classes.mainContent}>
+              <ActivityContext.Provider value={activityStore}>
+                <ChatContext.Provider value={chatStore}>
+                  <Routes>
+                    <Route path="" element={<ChatScreen isConnected={connected} />} />
+                    {/* <Route path="cards" element={<Cards />} />
+                    <Route path="activities" element={<Activities />} />
+                    <Route path="logs" element={<Logs />} /> */}
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
+                </ChatContext.Provider>
+              </ActivityContext.Provider>
+            </main>
+          </div>
+        </BrowserRouter>
+      </Body1>
+    </FluentProvider>
   );
 }
