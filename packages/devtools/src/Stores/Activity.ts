@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { ActivityEvent } from '../Types';
+import { ActivityEvent } from '../Types/Event';
 
 export interface ActivityStore {
   readonly list: Array<ActivityEvent>;

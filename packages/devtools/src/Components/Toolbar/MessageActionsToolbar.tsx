@@ -23,7 +23,7 @@ import type { ToolbarProps } from '@fluentui/react-components';
 import { MessageReaction, MessageReactionType } from '@teams.sdk/api';
 
 import { useClasses } from './NewMessageToolbar.styles';
-import { ChatContext } from '../../Stores';
+import { ChatContext } from '../../Stores/Chat';
 import useSparkApi from '../../Hooks/useSparkApi';
 import React from 'react';
 

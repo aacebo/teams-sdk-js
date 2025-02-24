@@ -1,13 +1,15 @@
 import { Element } from '@teams.sdk/cards';
 
-import {
-  ContainerCard,
-  ColumnSetCard,
-  FactSetCard,
-  ImageSetCard,
-  ActionSetCard,
-} from './Containers';
-import { BadgeCard, CodeBlockCard, IconCard, ImageCard, TextBlockCard } from './Medias';
+import ContainerCard from './Containers/ContainerCard';
+import ColumnSetCard from './Containers/ColumnSetCard';
+import FactSetCard from './Containers/FactSetCard';
+import ImageSetCard from './Containers/ImageSetCard';
+import ActionSetCard from './Containers/ActionSetCard';
+import BadgeCard from './Medias/BadgeCard';
+import CodeBlockCard from './Medias/CodeBlockCard';
+import IconCard from './Medias/IconCard';
+import ImageCard from './Medias/ImageCard';
+import TextBlockCard from './Medias/TextBlockCard';
 
 export interface CardProps {
   readonly value: Element;

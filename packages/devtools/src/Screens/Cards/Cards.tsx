@@ -1,6 +1,6 @@
 import React from 'react';
 import './Cards.css';
-import CardDesigner from '../../Components/CardDesigner';
+import CardDesigner from '../../Components/CardDesigner/CardDesigner';
 
 const Cards: React.FC = () => {
   return (

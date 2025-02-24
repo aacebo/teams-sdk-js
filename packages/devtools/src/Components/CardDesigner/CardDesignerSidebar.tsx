@@ -30,7 +30,7 @@ import {
   ImageRegular,
   TableImageRegular,
   FilmstripPlayRegular,
-} from '@fluentui/react-icons';
+} from '@fluentui/react-icons/lib/fonts';
 
 export interface CardDesignerSidebarProps {
   readonly onSelect?: (el: Element, ts: string) => void;
@@ -51,31 +51,31 @@ const groups: CardGroup[] = [
     label: 'Containers',
     cards: [
       {
-        icon: TableLightningRegular,
+        icon: TableLightningRegular as FluentIcon,
         label: 'ActionSet',
         value: ActionSet(),
         typescript: 'ActionSet()',
       },
       {
-        icon: ColumnTripleRegular,
+        icon: ColumnTripleRegular as FluentIcon,
         label: 'ColumnSet',
         value: ColumnSet(),
         typescript: 'ColumnSet()',
       },
       {
-        icon: CheckboxUncheckedRegular,
+        icon: CheckboxUncheckedRegular as FluentIcon,
         label: 'Container',
         value: Container(),
         typescript: 'Container()',
       },
       {
-        icon: DocumentOnePageColumnsRegular,
+        icon: DocumentOnePageColumnsRegular as FluentIcon,
         label: 'FactSet',
         value: FactSet([Fact('hello', 'world')]),
         typescript: 'FactSet([Fact("hello", "world")])',
       },
       {
-        icon: TableImageRegular,
+        icon: TableImageRegular as FluentIcon,
         label: 'ImageSet',
         value: ImageSet([
           Image('https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true'),
@@ -89,7 +89,7 @@ const groups: CardGroup[] = [
         ].join('\n'),
       },
       {
-        icon: TableRegular,
+        icon: TableRegular as FluentIcon,
         label: 'Table',
         value: ImageSet(),
         typescript: 'ImageSet()',
@@ -100,7 +100,7 @@ const groups: CardGroup[] = [
     label: 'Media',
     cards: [
       {
-        icon: BadgeRegular,
+        icon: BadgeRegular as FluentIcon,
         label: 'Badge',
         value: Badge({
           style: 'attention',
@@ -120,7 +120,7 @@ const groups: CardGroup[] = [
         ].join('\n'),
       },
       {
-        icon: CodeRegular,
+        icon: CodeRegular as FluentIcon,
         label: 'CodeBlock',
         value: CodeBlock({
           codeSnippet: 'const helloWorld = () => console.log("hello, world!");',
@@ -134,13 +134,13 @@ const groups: CardGroup[] = [
         ].join('\n'),
       },
       {
-        icon: InfoRegular,
+        icon: InfoRegular as FluentIcon,
         label: 'Icon',
         value: Icon('Info'),
         typescript: 'Icon("Info")',
       },
       {
-        icon: ImageRegular,
+        icon: ImageRegular as FluentIcon,
         label: 'Image',
         value: Image(
           'https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true'
@@ -149,19 +149,19 @@ const groups: CardGroup[] = [
           'Image("https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true")',
       },
       {
-        icon: FilmstripPlayRegular,
+        icon: FilmstripPlayRegular as FluentIcon,
         label: 'Media',
         value: Media(),
         typescript: 'Media()',
       },
       {
-        icon: TextWordCountRegular,
+        icon: TextWordCountRegular as FluentIcon,
         label: 'RichTextBlock',
         value: RichTextBlock(),
         typescript: 'RichTextBlock()',
       },
       {
-        icon: TextFontSizeRegular,
+        icon: TextFontSizeRegular as FluentIcon,
         label: 'TextBlock',
         value: TextBlock('hello world!'),
         typescript: 'TextBlock("hello world!")',

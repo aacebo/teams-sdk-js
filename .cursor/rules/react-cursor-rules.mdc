@@ -15,6 +15,7 @@ const preferFunctionalComponents = true;
 // Styled Components best practices
 
 const styledComponentsBestPractices = [
+  "Keep imports from @teams.sdk/___ as is, and do not modify",
   "Import components from React like { FC }",
   "Keep <></> React components when they exist",
   "Use fluentui for all components",

@@ -15,9 +15,9 @@ import { useTheme } from './Hooks/useTheme';
 import { SocketClient } from './socket-client';
 
 import ChatPane from './Screens/ChatPane/ChatPane';
-import Cards from './Screens/Cards';
-import Activities from './Screens/Activities';
-import Logs from './Screens/Logs';
+import Cards from './Screens/Cards/Cards';
+import Activities from './Screens/Activities/Activities';
+import Logs from './Screens/Logs/Logs';
 
 import PageNavButton from './Components/PageNavButton/PageNavButton';
 import DevtoolsBanner from './Components/DevtoolsBanner/DevtoolsBanner';

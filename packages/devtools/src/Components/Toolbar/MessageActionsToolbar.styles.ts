@@ -1,4 +1,4 @@
-import { makeStyles } from '@fluentui/react-components';
+import { makeStyles, tokens } from '@fluentui/react-components';
 
 export const useClasses = makeStyles({
   toolbar: {
@@ -9,10 +9,12 @@ export const useClasses = makeStyles({
     position: 'relative',
     margin: 0,
   },
-  emojiButton: {},
+  emojiButtonSelected: {},
   toolbarButton: {
     width: '2rem',
     height: '2rem',
     padding: '0',
+    borderRadius: tokens.borderRadiusMedium,
+    border: `1px solid ${tokens.colorSubtleBackground}`,
   },
 });
