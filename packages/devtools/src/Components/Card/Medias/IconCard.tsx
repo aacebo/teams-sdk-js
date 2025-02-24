@@ -1,7 +1,5 @@
 import { ComponentProps } from 'react';
 import { Icon } from '@teams.sdk/cards';
-// import { FluentIcon } from '@fluentui/react-icons';
-// import classNames from 'classnames';
 
 // const loadIcon = (name: string) => {
 //   return lazy(() =>
@@ -11,26 +9,49 @@ import { Icon } from '@teams.sdk/cards';
 //   );
 // };
 
-// export interface IconCardProps extends ComponentProps<'div'> {
-//   readonly value: Icon;
-// }
+export interface IconCardProps extends ComponentProps<'div'> {
+  readonly value: Icon;
+}
+
+// const useStyles = makeStyles({
+//   icon: {
+//     display: 'inline-flex',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     // Add any additional styles you want for the icon
+//   },
+//   size: {
+//     'text-lg': {
+//       fontSize: '1.125rem', // Adjust size for 'xxSmall'
+//     },
+//     'text-xl': {
+//       fontSize: '1.25rem', // Adjust size for 'xSmall'
+//     },
+//     'text-2xl': {
+//       fontSize: '1.5rem', // Adjust size for 'Standard' or 'Medium'
+//     },
+//     'text-4xl': {
+//       fontSize: '2rem', // Adjust size for 'Large'
+//     },
+//     'text-8xl': {
+//       fontSize: '3rem', // Adjust size for 'xLarge'
+//     },
+//     'text-9xl': {
+//       fontSize: '4rem', // Adjust size for 'xxLarge'
+//     },
+//   },
+// });
 
 // export default function IconCard(props: IconCardProps) {
 //   const { value, className } = props;
+//   const classes = useStyles();
 //   const name = `${value.name}${value.style || 'Regular'}`;
 //   const Icon = loadIcon(name);
 
 //   return (
 //     <Suspense>
 //       <Icon
-//         className={classNames(className, {
-//           'text-lg': value.size === 'xxSmall',
-//           'text-xl': value.size === 'xSmall',
-//           'text-2xl': value.size === 'Standard' || value.size === 'Medium',
-//           'text-4xl': value.size === 'Large',
-//           'text-8xl': value.size === 'xLarge',
-//           'text-9xl': value.size === 'xxLarge',
-//         })}
+//         className={mergeClasses(classes.icon, classes.size, `text-${value.size}`, className)}
 //       />
 //     </Suspense>
 //   );

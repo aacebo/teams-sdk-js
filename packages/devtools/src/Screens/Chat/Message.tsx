@@ -1,12 +1,11 @@
 import * as marked from 'marked';
 import * as api from '@teams.sdk/api';
-import { SearchFilled, ThumbDislikeRegular, ThumbLikeRegular } from '@fluentui/react-icons';
-import classNames from 'classnames';
+import { SearchFilled, ThumbDislikeRegular, ThumbLikeRegular } from '@fluentui/react-icons/lib/fonts';
 import { useNavigate } from 'react-router';
 import { formatDistanceToNow } from 'date-fns';
 import { useEffect, useState } from 'react';
 import './Message.css';
-import AdaptiveCard from '../../Components/Card';
+import AdaptiveCard from '../../Components/Card/AdaptiveCard';
 
 export interface MessageProps {
   readonly value: api.Message;
@@ -44,83 +43,20 @@ export default function Message({
   }, [value]);
 
   return (
-    <div
-      key={value.id}
-      className={classNames('Message', {
-        'flex-row': dir === 'received',
-        'flex-row-reverse': dir === 'sent',
-      })}
-    >
-      <div
-        className={classNames('flex', 'flex-col', 'max-w-[80%]', {
-          'items-start': dir === 'received',
-          'items-end': dir === 'sent',
-        })}
-      >
-        <div
-          className={classNames('flex', 'mb-1', {
-            'ml-2': dir === 'received',
-            'mr-2': dir === 'sent',
-          })}
-        >
+    <div key={value.id} className={`Message ${dir === 'received' ? 'flex-row' : 'flex-row-reverse'}`}>
+      <div className={`flex flex-col max-w-[80%] ${dir === 'received' ? 'items-start' : 'items-end'}`}>
+        <div className={`flex mb-1 ${dir === 'received' ? 'ml-2' : 'mr-2'}`}>
           {value.createdDateTime && (
             <div className="text-xs text-stone-400">
               {formatDistanceToNow(value.createdDateTime)}
             </div>
           )}
         </div>
-        <div
-          className={classNames(
-            'flex',
-            'flex-col',
-            'relative',
-            'transition-all',
-            'px-4',
-            'py-2',
-            'rounded-lg',
-            'text-sm',
-            'border',
-            'border-transparent',
-            'group',
-            {
-              'bg-stone-400': dir === 'received',
-              'bg-indigo-800': dir === 'sent',
-              'dark:bg-stone-800': dir === 'received',
-              'dark:bg-indigo-800': dir === 'sent',
-              Message__streaming: streaming,
-            }
-          )}
-        >
+        <div className={`flex flex-col relative transition-all px-4 py-2 rounded-lg text-sm border border-transparent group ${dir === 'received' ? 'bg-stone-400 dark:bg-stone-800' : 'bg-indigo-800 dark:bg-indigo-800'} ${streaming ? 'Message__streaming' : ''}`}>
           {!streaming && (
-            <div
-              className={classNames(
-                'hidden',
-                'absolute',
-                'z-10',
-                'group-hover:flex',
-                'translate-all',
-                'text-lg',
-                'rounded',
-                'px-3',
-                'py-1',
-                'shadow-2xl',
-                'dark:bg-stone-800',
-                '-top-6',
-                {
-                  'left-1': dir === 'received',
-                  'right-1': dir === 'sent',
-                }
-              )}
-            >
+            <div className={`hidden absolute z-10 group-hover:flex translate-all text-lg rounded px-3 py-1 shadow-2xl dark:bg-stone-800 -top-6 ${dir === 'received' ? 'left-1' : 'right-1'}`}>
               <button
-                className={classNames(
-                  'text-stone-400',
-                  'hover:text-white',
-                  'my-auto',
-                  'transition',
-                  'hover:scale-125',
-                  '[&:not(:last-child)]:mr-2'
-                )}
+                className="text-stone-400 hover:text-white my-auto transition hover:scale-125 [&:not(:last-child)]:mr-2"
                 onClick={() => {
                   navigate({
                     pathname: '/activities',
@@ -133,11 +69,7 @@ export default function Message({
 
               {Reactions.map(({ label, reaction }) => (
                 <button
-                  className={classNames(
-                    'transition',
-                    'hover:scale-125',
-                    '[&:not(:last-child)]:mr-2'
-                  )}
+                  className="transition hover:scale-125 [&:not(:last-child)]:mr-2"
                   onClick={() => react(value.id, reaction)}
                 >
                   {label}
@@ -146,7 +78,7 @@ export default function Message({
             </div>
           )}
 
-          <div className="flex flex-col aboslute z-10">
+          <div className="flex flex-col absolute z-10">
             {value.body?.content && (
               <div className="inline break-word">
                 {html ? (
@@ -190,21 +122,7 @@ export default function Message({
           </div>
 
           {!!value.reactions?.length && (
-            <div
-              className={classNames(
-                'absolute',
-                'z-10',
-                'flex',
-                'translate-all',
-                'text-lg',
-                'rounded',
-                '-bottom-6',
-                {
-                  'left-1': dir === 'received',
-                  'right-1': dir === 'sent',
-                }
-              )}
-            >
+            <div className={`absolute z-10 flex translate-all text-lg rounded -bottom-6 ${dir === 'received' ? 'left-1' : 'right-1'}`}>
               {value.reactions.map((r) => {
                 return (
                   <button

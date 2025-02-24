@@ -1,15 +1,162 @@
 .Chat {
-  @apply flex;
-  @apply flex-row;
-  @apply flex-1;
-  @apply overflow-y-auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+}
 
-  .animate-bounce {
-    animation-name: bounce;
-    animation-duration: 1.3s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-  }
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  border-right: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+}
+
+.chat-header {
+  display: flex;
+  padding: 1rem;
+  background-color: var(--bg-color);
+}
+
+.chat-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+
+.chat-initial {
+  font-weight: bold;
+}
+
+.chat-fullname {
+  font-size: 0.875rem;
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.message-list {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.message-input {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 1rem;
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow);
+  background-color: #121212;
+}
+
+.typing-indicator {
+  position: absolute;
+  z-index: 10;
+  top: -1.25rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+.typing-dot {
+  height: 0.5rem;
+  width: 0.5rem;
+  background-color: black;
+  border-radius: 50%;
+  animation: bounce 1.3s linear infinite;
+}
+
+.input-textarea {
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  background-color: transparent;
+  resize: none;
+}
+
+.attachment-list {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.125rem;
+}
+
+.input-actions {
+  display: flex;
+  padding: 1.25rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.attach-button {
+  display: flex;
+  padding: 0.5rem;
+  transition: all 0.2s;
+  border-radius: 0.25rem;
+  background-color: var(--bg-color);
+}
+
+.send-button {
+  display: flex;
+  padding: 0.5rem;
+  transition: all 0.2s;
+  border-radius: 0.25rem;
+  background-color: var(--indigo-800);
+}
+
+.dialog {
+  position: relative;
+  z-index: 50;
+}
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dialog-content {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.dialog-panel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  space-y: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  background-color: var(--bg-color);
+}
+
+.confirm-button {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  display: flex;
+  padding: 0.75rem;
+  border-radius: 9999px;
+  box-shadow: var(--shadow);
+  background-color: var(--indigo-800);
 }
 
 @keyframes bounce {

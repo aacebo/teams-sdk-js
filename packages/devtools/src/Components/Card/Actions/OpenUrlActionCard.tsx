@@ -1,36 +1,51 @@
 import { OpenUrlAction } from '@teams.sdk/cards';
-import classNames from 'classnames';
-
+import { makeStyles, mergeClasses } from '@fluentui/react-components';
 import Tooltip from '../../Tooltip';
 
 export interface OpenUrlActionCardProps {
   readonly value: OpenUrlAction;
 }
 
-export default function OpenUrlActionCard({ value }: OpenUrlActionCardProps) {
-  if (value.tooltip) {
-    return (
-      <Tooltip body={value.tooltip}>
-        <OpenUrlActionCardContent value={value} />
-      </Tooltip>
-    );
-  }
 
-  return <OpenUrlActionCardContent value={value} />;
+const useStyles = makeStyles({
+  link: {
+    display: 'inline-flex',
+    padding: '0.25rem 0.75rem',
+    gap: '0.25rem',
+    fontWeight: 600,
+    border: '1px solid transparent',
+    borderRadius: '0.25rem',
+    fontSize: '0.875rem',
+    '&.default': {
+      backgroundColor: '#1f2937',
+      border: '1px solid #4b5563',
+      color: '#9ca3af',
+    },
+    '&.positive': {
+      backgroundColor: '#0ea5e9',
+      border: '1px solid #0c4a6e',
+    },
+    '&.destructive': {
+      backgroundColor: '#b91c1c',
+      border: '1px solid #991b1b',
+    },
+  },
+});
+
+export default function OpenUrlActionCard({ value }: OpenUrlActionCardProps) {
+
+  return (
+    <Tooltip body={value.tooltip}>
+      <OpenUrlActionCardContent value={value}  />
+    </Tooltip>
+  );
 }
 
 function OpenUrlActionCardContent({ value }: OpenUrlActionCardProps) {
+  const classes = useStyles();
+
   return (
-    <a
-      href={value.url}
-      target="_blank"
-      className={classNames('inline-flex px-3 py-1 gap-1 font-semibold border rounded text-sm', {
-        'bg-stone-950 border-neutral-600 text-neutral-400':
-          !value.style || value.style === 'default',
-        'bg-sky-800 border-sky-700': value.style === 'positive',
-        'bg-red-800 border-red-700': value.style === 'destructive',
-      })}
-    >
+    <a href={value.url} target="_blank" className={mergeClasses(classes.link, `${value.style || 'default'}`)}>
       {value.iconUrl && <img src={value.iconUrl} draggable={false} />}
       {value.title}
     </a>

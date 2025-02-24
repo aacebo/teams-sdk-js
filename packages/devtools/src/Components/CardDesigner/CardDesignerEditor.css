@@ -1,14 +1,72 @@
-.CardDesignerEditor {
-  @apply flex;
-  @apply flex-1;
-  @apply border-l;
-  @apply dark:border-stone-800;
-  @apply shadow-md;
-  @apply min-h-0;
+.card-designer-editor {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-width: 50%;
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+}
 
-  .cm-editor {
-    @apply flex-1;
-    @apply min-w-0;
-    @apply min-h-0;
-  }
+.tab-list {
+  display: flex;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  gap: 0.25rem;
+  z-index: 10;
+}
+
+.tab {
+  border-radius: 9999px; /* Full rounding */
+  padding: 0.25rem 0.75rem; /* py-1 px-3 */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 600; /* font-semibold */
+  color: white;
+  outline: none;
+}
+
+.tab[data-selected] {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tab:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.tab[data-focus] {
+  outline: 1px solid white;
+}
+
+.tab-panels {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+
+.tab-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+}
+
+.CardDesignerEditor {
+  display: flex;
+  flex: 1;
+  border-left: 1px solid;
+  border-color: #4b5563; /* dark:border-stone-800 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-height: 0;
+}
+
+.cm-editor {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
 }

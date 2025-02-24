@@ -1,5 +1,5 @@
 import { Badge } from '@teams.sdk/cards';
-import classNames from 'classnames';
+import { makeStyles, mergeClasses } from '@fluentui/react-components';
 
 import Tooltip from '../../Tooltip';
 import IconCard from './IconCard';
@@ -7,6 +7,49 @@ import IconCard from './IconCard';
 export interface BadgeCardProps {
   readonly value: Badge;
 }
+
+// Define styles using makeStyles
+const useStyles = makeStyles({
+  badge: {
+    display: 'inline-flex',
+    padding: '0.5rem 0.75rem', // Adjust padding as needed
+    fontWeight: 600,
+    border: '1px solid transparent',
+    borderRadius: '0.25rem',
+    fontSize: '0.875rem',
+    '&.default': {
+      backgroundColor: '#1f2937',
+      border: '1px solid #4b5563',
+      color: '#9ca3af',
+    },
+    '&.subtle': {
+      backgroundColor: '#1f2937',
+      border: '1px solid #4b5563',
+      color: '#9ca3af',
+    },
+    '&.informative': {
+      backgroundColor: '#1f2937',
+      border: '1px solid #4b5563',
+    },
+    '&.accent': {
+      backgroundColor: '#0ea5e9',
+      border: '1px solid #0c4a6e',
+    },
+    '&.good': {
+      backgroundColor: '#4ade80',
+      border: '1px solid #4ade80',
+    },
+    '&.attention': {
+      backgroundColor: '#f87171',
+      border: '1px solid #991b1b',
+    },
+    '&.warning': {
+      backgroundColor: '#fbbf24',
+      border: '1px solid #fbbf24',
+      color: 'black',
+    },
+  },
+});
 
 export default function BadgeCard({ value }: BadgeCardProps) {
   if (value.tooltip) {
@@ -21,37 +64,10 @@ export default function BadgeCard({ value }: BadgeCardProps) {
 }
 
 function BadgeCardContent({ value }: BadgeCardProps) {
+  const classes = useStyles();
+  
   return (
-    <div
-      className={classNames(
-        'inline-flex px-2 py-0.5 gap-1 font-semibold border',
-        {
-          'flex-row': value.iconPosition === 'before',
-          'flex-row-reverse': value.iconPosition === 'after',
-        },
-        {
-          'rounded-full': value.shape === 'circular',
-          rounded: value.shape === 'rounded',
-        },
-        {
-          'text-xs': !value.size || value.size === 'medium',
-          'text-base': value.size === 'large',
-          'text-lg': value.size === 'extraLarge',
-        },
-        {
-          'bg-stone-600 border-stone-600 text-neutral-200': value.style === 'default',
-          'bg-stone-950 border-stone-950 text-neutral-400': value.style === 'subtle',
-          'bg-stone-700 border-stone-700': value.style === 'informative',
-          'bg-sky-800 border-sky-800': value.style === 'accent',
-          'bg-green-700 border-green-700': value.style === 'good',
-          'bg-red-800 border-red-800': value.style === 'attention',
-          'bg-yellow-600 border-yellow-600 text-black': value.style === 'warning',
-        },
-        {
-          'bg-opacity-50 text-neutral-300': value.appearance === 'tint',
-        }
-      )}
-    >
+    <div className={mergeClasses(classes.badge, value.style)}>
       {value.icon && (
         <IconCard
           className="my-auto"

@@ -1,34 +1,51 @@
 import { ExecuteAction } from '@teams.sdk/cards';
-import classNames from 'classnames';
-
+import { mergeClasses, makeStyles } from '@fluentui/react-components';
 import Tooltip from '../../Tooltip';
 
 export interface ExecuteActionCardProps {
   readonly value: ExecuteAction;
 }
 
-export default function ExecuteActionCard({ value }: ExecuteActionCardProps) {
-  if (value.tooltip) {
-    return (
-      <Tooltip body={value.tooltip}>
-        <ExecuteActionCardContent value={value} />
-      </Tooltip>
-    );
-  }
+const useStyles = makeStyles({
+  button: {
+    display: 'inline-flex',
+    padding: '0.25rem 0.75rem',
+    gap: '0.25rem',
+    fontWeight: 600,
+    border: '1px solid transparent',
+    borderRadius: '0.25rem',
+    fontSize: '0.875rem',
+    '&.default': {
+      backgroundColor: '#1f2937',
+      border: '1px solid #4b5563',
+      color: '#9ca3af',
+    },
+    '&.positive': {
+      backgroundColor: '#0ea5e9',
+      border: '1px solid #0c4a6e',
+    },
+    '&.destructive': {
+      backgroundColor: '#b91c1c',
+      border: '1px solid #991b1b',
+    },
+  },
+});
 
-  return <ExecuteActionCardContent value={value} />;
+export default function ExecuteActionCard({ value }: ExecuteActionCardProps) {
+  const classes = useStyles();
+
+  return (
+    <Tooltip body={value.tooltip}>
+      <ExecuteActionCardContent value={value} classes={classes} />
+    </Tooltip>
+  );
 }
 
-function ExecuteActionCardContent({ value }: ExecuteActionCardProps) {
+function ExecuteActionCardContent({ value, classes }: ExecuteActionCardProps & { classes: any }) {
+
   return (
-    <button
-      className={classNames('inline-flex px-3 py-1 gap-1 font-semibold border rounded text-sm', {
-        'bg-stone-950 border-neutral-600 text-neutral-400 hover:bg-':
-          !value.style || value.style === 'default',
-        'bg-sky-800 border-sky-700': value.style === 'positive',
-        'bg-red-800 border-red-700': value.style === 'destructive',
-      })}
-    >
+    <button className={mergeClasses(classes.base,
+      value.style ? classes[value.style] : classes.default)}>
       {value.iconUrl && <img src={value.iconUrl} draggable={false} />}
       {value.title}
     </button>

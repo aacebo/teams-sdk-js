@@ -1,26 +1,42 @@
 import { ImageSet } from '@teams.sdk/cards';
-import classNames from 'classnames';
-
-import { ImageCard } from '../Medias';
+import { makeStyles, mergeClasses } from '@fluentui/react-components';
+import ImageCard from '../Medias/ImageCard';
 
 export interface ImageSetCardProps {
   readonly value: ImageSet;
 }
 
+const useStyles = makeStyles({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flex: 1,
+  },
+  small: {
+    gap: '0.125rem',
+  },
+  medium: {
+    gap: '0.5rem',
+  },
+  large: {
+    gap: '0.75rem',
+  },
+  extraLarge: {
+    gap: '1rem',
+  },
+  padding: {
+    gap: '1.25rem',
+  },
+});
+
 export default function ImageSetCard({ value }: ImageSetCardProps) {
+  const classes = useStyles();
+  const gapClass = `${value.spacing}` || classes.medium;
+
   return (
-    <div
-      className={classNames('flex', 'flex-wrap', 'flex-1', {
-        'gap-px': value.spacing === 'small',
-        'gap-1': value.spacing === 'default',
-        'gap-2': value.spacing === 'medium',
-        'gap-3': value.spacing === 'large',
-        'gap-4': value.spacing === 'extraLarge',
-        'gap-5': value.spacing === 'padding',
-      })}
-    >
-      {value.images.map((image) => {
-        return <ImageCard value={image} />;
+    <div className={mergeClasses(classes.container, gapClass)}>
+      {value.images.map((image, index) => {
+        return <ImageCard key={`image-${index}`} value={image} />;
       })}
     </div>
   );

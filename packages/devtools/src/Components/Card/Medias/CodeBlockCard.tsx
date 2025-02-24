@@ -31,10 +31,10 @@ export default function CodeBlockCard({ value }: CodeBlockCardProps) {
   }, [value]);
 
   if (!html) {
-    return <pre className="text-xs bg-black p-2 rounded" />;
+    return <pre className="code-block-card" />;
   }
 
   return (
-    <pre className="text-xs bg-black p-2 rounded" dangerouslySetInnerHTML={{ __html: html }} />
+    <pre className="code-block-card" dangerouslySetInnerHTML={{ __html: html }} />
   );
 }

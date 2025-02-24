@@ -1,26 +1,42 @@
 import { ColumnSet } from '@teams.sdk/cards';
-import classNames from 'classnames';
-
+import { makeStyles } from '@fluentui/react-components';
 import ColumnCard from './ColumnCard';
 
 export interface ColumnSetCardProps {
   readonly value: ColumnSet;
 }
 
+
+const useStyles = makeStyles({
+  container: {
+    display: 'flex',
+    flex: 1,
+  },
+  small: {
+    gap: '0.125rem',
+  },
+  medium: {
+    gap: '0.5rem',
+  },
+  large: {
+    gap: '0.75rem',
+  },
+  extraLarge: {
+    gap: '1rem',
+  },
+  padding: {
+    gap: '1.25rem',
+  },
+});
+
 export default function ColumnSetCard({ value }: ColumnSetCardProps) {
+  const classes = useStyles();
+  const gapClass = `${value.spacing} || classes.medium`
+
   return (
-    <div
-      className={classNames('flex', 'flex-1', {
-        'gap-px': value.spacing === 'small',
-        'gap-1': value.spacing === 'default',
-        'gap-2': value.spacing === 'medium',
-        'gap-3': value.spacing === 'large',
-        'gap-4': value.spacing === 'extraLarge',
-        'gap-5': value.spacing === 'padding',
-      })}
-    >
+    <div className={`${classes.container} ${gapClass}`}>
       {value.columns?.map((column) => {
-        return <ColumnCard value={column} />;
+        return <ColumnCard key={column.id} value={column} />;
       })}
     </div>
   );

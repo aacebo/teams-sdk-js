@@ -1,21 +1,38 @@
 import { Image } from '@teams.sdk/cards';
-import classNames from 'classnames';
+import { makeStyles } from '@fluentui/react-components';
 
 export interface ImageCardProps {
   readonly value: Image;
 }
 
+const useStyles = makeStyles({
+  small: {
+    width: '4rem',
+  },
+  medium: {
+    width: '8rem',
+  },
+  large: {
+    width: '11rem',
+  },
+  stretch: {
+    objectFit: 'cover',
+  },
+});
+
 export default function ImageCard({ value }: ImageCardProps) {
+  const classes = useStyles();
+
+  const imageStyle = value.size === 'small' ? classes.small :
+                     value.size === 'medium' ? classes.medium :
+                     value.size === 'large' ? classes.large :
+                     value.size === 'stretch' ? classes.stretch : '';
+
   return (
     <img
       src={value.url}
       draggable={false}
-      className={classNames({
-        'w-16': value.size === 'small',
-        'w-32': value.size === 'medium',
-        'w-44': value.size === 'large',
-        'object-cover': value.size === 'stretch',
-      })}
+      className={imageStyle}
     />
   );
 }

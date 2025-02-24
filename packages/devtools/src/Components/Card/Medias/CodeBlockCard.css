@@ -1,0 +1,8 @@
+.code-block-card {
+  font-size: 0.75rem; /* text-xs */
+  background-color: black; /* bg-black */
+  padding: 0.5rem; /* p-2 */
+  border-radius: 0.375rem; /* rounded */
+  overflow: auto; /* Ensure overflow is handled */
+  white-space: pre; /* Preserve whitespace */
+}

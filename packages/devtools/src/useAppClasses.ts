@@ -24,7 +24,8 @@ const useAppClasses = makeStyles({
     flex: '0 0 auto',
     height: '100%',
     minWidth: '175px',
-    backgroundColor: tokens.colorNeutralBackground1,
+    // backgroundColor: tokens.colorNeutralBackground1,
+    backgroundColor: 'red',
     borderRight: `1px solid ${tokens.colorNeutralStencil1}`,
   },
   header: {

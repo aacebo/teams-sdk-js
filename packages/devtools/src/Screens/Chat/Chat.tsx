@@ -23,11 +23,11 @@ import {
   DocumentFilled,
   SendFilled,
   SendRegular,
-} from '@fluentui/react-icons';
+} from '@fluentui/react-icons/lib/fonts';
 
-import { ChatContext } from '../../Stores';
-import CardDesigner from '../../Components/CardDesigner';
-import AdaptiveCard from '../../Components/Card';
+import { ChatContext } from '../../Stores/Chat';
+import CardDesigner from '../../Components/CardDesigner/CardDesigner';
+import AdaptiveCard from '../../Components/Card/AdaptiveCard';
 import FeedbackDialog from '../../Components/FeedbackDialog';
 
 import Message from './Message';
@@ -122,22 +122,17 @@ export default function Chat() {
 
   return (
     <div className="Chat">
-      <div className="flex-col overflow-y-auto border-r dark:border-stone-800 shadow-md hidden md:flex">
-        <div className="flex flex-col flex-1 mt-3 overflow-y-auto">
-          <div className="flex px-3 py-1 mx-3 my-1 rounded border border-stone-800 bg-stone-700">
-            <div className="flex flex-col justify-center mx-auto px-3 py-1 rounded-full bg-stone-900 overflow-hidden mr-2">
-              <span className="font-semibold mx-auto">{chat.name[0].toUpperCase()}</span>
-            </div>
-
-            <div className="flex flex-col justify-center mx-auto">
-              <span className="text-sm mx-auto">{chat.name}</span>
-            </div>
+      <div className="chat-container">
+        <div className="chat-header">
+          <div className="chat-name">
+            <span className="chat-initial">{chat.name[0].toUpperCase()}</span>
+            <span className="chat-fullname">{chat.name}</span>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col flex-1 overflow-y-auto">
-        <div className="flex flex-col-reverse flex-1 my-2 gap-2 overflow-y-auto pt-1 pb-5">
+      <div className="chat-messages">
+        <div className="message-list">
           {(messages[chat.id] || []).map((message) => (
             <Message
               value={message}
@@ -152,21 +147,18 @@ export default function Chat() {
           ))}
         </div>
 
-        <div
-          className="flex flex-col relative transition-all mx-5 mb-5 rounded-xl shadow-lg border border-transparent hover:border-zinc-800"
-          style={{ backgroundColor: '#121212' }}
-        >
+        <div className="message-input">
           {typing[chat.id] && (
-            <div className="flex absolute z-10 -top-5 left-1/2 transform -translate-x-1/2 -translate-y-1/2 space-x-2 justify-center items-center bg-white dark:invert">
-              <div className="h-2 w-2 bg-black rounded-full animate-bounce [animation-delay:-0.3s]" />
-              <div className="h-2 w-2 bg-black rounded-full animate-bounce [animation-delay:-0.15s]" />
-              <div className="h-2 w-2 bg-black rounded-full animate-bounce" />
+            <div className="typing-indicator">
+              <div className="typing-dot" />
+              <div className="typing-dot" />
+              <div className="typing-dot" />
             </div>
           )}
 
           <textarea
             value={text}
-            className="p-5 rounded-xl bg-transparent resize-none"
+            className="input-textarea"
             placeholder="Enter message..."
             onChange={(event) => setText(event.target.value)}
             onKeyDown={(event) => {
@@ -177,62 +169,59 @@ export default function Chat() {
           />
 
           {attachments.length > 0 && (
-            <div className="flex gap-1 px-2 py-px">
+            <div className="attachment-list">
               {attachments.map((a) => (
                 <AdaptiveCard value={(a as CardAttachmentTypes['adaptive']).content} />
               ))}
             </div>
           )}
 
-          <div className="flex p-5">
+          <div className="input-actions">
             <span className="flex-1" />
-            <div className="flex gap-1">
+            <div className="action-buttons">
               <Popover className="relative">
-                <PopoverButton className="flex px-2 py-1.5 transition-all rounded text-sm my-auto bg-stone-700 hover:bg-stone-600 active:bg-stone-700">
-                  <AttachFilled className="my-auto size-5" />
+                <PopoverButton className="attach-button">
+                  <AttachFilled className="icon" />
                 </PopoverButton>
-                <PopoverPanel
-                  anchor="bottom end"
-                  className="flex flex-col gap-1 px-2 py-2 bg-white dark:bg-stone-800 rounded-lg shadow-2xl [--anchor-gap:4px] sm:[--anchor-gap:8px]"
-                >
+                <PopoverPanel className="popover-panel">
                   <button
-                    className="flex px-3 py-1 transition rounded dark:text-stone-400 dark:hover:text-white dark:hover:bg-stone-700 dark:active:bg-stone-600"
+                    className="card-button"
                     onClick={() => setCardBuilderOpen(true)}
                   >
-                    <CardUiFilled className="size-5 my-auto" />
-                    <span className="my-auto ml-2">Card</span>
+                    <CardUiFilled className="icon" />
+                    <span className="button-text">Card</span>
                   </button>
-                  <button className="flex px-3 py-1 transition rounded dark:text-stone-400 dark:hover:text-white dark:hover:bg-stone-700 dark:active:bg-stone-600">
-                    <DocumentFilled className="size-5 my-auto" />
-                    <span className="my-auto ml-2">File</span>
+                  <button className="file-button">
+                    <DocumentFilled className="icon" />
+                    <span className="button-text">File</span>
                   </button>
                 </PopoverPanel>
               </Popover>
 
               <button
-                className="flex px-2 py-1.5 transition-all rounded text-sm my-auto bg-indigo-800 hover:bg-indigo-700 disabled:opacity-50 disabled:bg-stone-700 active:bg-indigo-600"
+                className="send-button"
                 disabled={!text}
                 onClick={send}
               >
-                <span className="my-auto mr-2">Send</span>
+                <span className="button-text">Send</span>
                 {!text ? (
-                  <SendRegular className="my-auto size-4" />
+                  <SendRegular className="icon" />
                 ) : (
-                  <SendFilled className="my-auto size-4" />
+                  <SendFilled className="icon" />
                 )}
               </button>
             </div>
           </div>
         </div>
 
-        <Dialog open={cardBuilderOpen} onClose={setCardBuilderOpen} className="relative z-50">
-          <DialogBackdrop className="fixed inset-0 bg-black/50" />
-          <div className="fixed inset-0 flex w-screen items-center justify-center p-12">
-            <DialogPanel className="w-full h-full relative flex flex-col space-y-4 rounded-lg shadow-2xl dark:text-white overflow-hidden dark:bg-stone-900">
+        <Dialog open={cardBuilderOpen} onClose={setCardBuilderOpen} className="dialog">
+          <DialogBackdrop className="dialog-backdrop" />
+          <div className="dialog-content">
+            <DialogPanel className="dialog-panel">
               <CardDesigner value={card} onChange={setCard} />
 
               <button
-                className="absolute right-5 bottom-5 flex p-3 rounded-full shadow-md bg-indigo-800 hover:bg-indigo-700 disabled:opacity-50 disabled:bg-stone-700 active:bg-indigo-600"
+                className="confirm-button"
                 disabled={!card}
                 onClick={() => {
                   if (!card) return;
@@ -242,7 +231,7 @@ export default function Chat() {
                   setCard(undefined);
                 }}
               >
-                {<CheckmarkFilled className="size-6 my-auto" />}
+                {<CheckmarkFilled className="icon" />}
               </button>
             </DialogPanel>
           </div>

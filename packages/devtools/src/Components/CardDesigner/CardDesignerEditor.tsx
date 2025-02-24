@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Card } from '@teams.sdk/cards';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
-import isEqual from 'lodash.isequal';
 
 import { json } from '@codemirror/lang-json';
 import { javascript } from '@codemirror/lang-javascript';
@@ -24,26 +23,20 @@ export default function CardDesignerEditor({
   onChange,
 }: CardDesignerEditorProps) {
   return (
-    <TabGroup className="flex flex-col flex-1 max-w-[50%] min-h-0 min-w-0 relative">
-      <TabList className="flex absolute top-1 right-1 gap-1 z-10">
-        <Tab
-          key="json"
-          className="rounded-full py-1 px-3 text-sm/6 font-semibold text-white focus:outline-none data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"
-        >
+    <TabGroup className="card-designer-editor">
+      <TabList className="tab-list">
+        <Tab key="json" className="tab">
           Json
         </Tab>
-        <Tab
-          key="typescript"
-          className="rounded-full py-1 px-3 text-sm/6 font-semibold text-white focus:outline-none data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"
-        >
+        <Tab key="typescript" className="tab">
           Typescript
         </Tab>
       </TabList>
-      <TabPanels className="flex flex-col flex-1 min-h-0 min-w-0">
-        <TabPanel className="flex flex-col flex-1 w-full h-full min-h-0 min-w-0">
+      <TabPanels className="tab-panels">
+        <TabPanel className="tab-panel">
           <CardDesignerJsonEditor value={value} onChange={onChange} />
         </TabPanel>
-        <TabPanel className="flex flex-col flex-1 w-full h-full min-h-0 min-w-0">
+        <TabPanel className="tab-panel">
           <CardDesignerTypescriptEditor value={typescript} />
         </TabPanel>
       </TabPanels>
@@ -88,7 +81,7 @@ export function CardDesignerJsonEditor({ value, onChange }: CardDesignerJsonEdit
 
   useEffect(() => {
     if (!view || !value) return;
-    if (isEqual(tryParseJson(view.state.doc.toString()), value)) return;
+    if (isDeepEqual(tryParseJson(view.state.doc.toString()), value)) return;
 
     view.dispatch({
       changes: {
@@ -129,7 +122,7 @@ export function CardDesignerTypescriptEditor({ value }: CardDesignerTypescriptEd
 
   useEffect(() => {
     if (!view) return;
-    if (isEqual(view.state.doc.toString(), value)) return;
+    if (isDeepEqual(view.state.doc.toString(), value)) return;
 
     view.dispatch({
       changes: {
@@ -149,4 +142,8 @@ function tryParseJson(value: string) {
   } catch {
     return null;
   }
+}
+
+function isDeepEqual(obj1: any, obj2: any): boolean {
+  return JSON.stringify(obj1) === JSON.stringify(obj2);
 }

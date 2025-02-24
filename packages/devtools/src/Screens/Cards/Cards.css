@@ -1,6 +1,6 @@
 .Cards {
-  @apply flex;
-  @apply flex-col;
-  @apply flex-1;
-  @apply min-h-0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
