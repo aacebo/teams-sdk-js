@@ -32,5 +32,5 @@ app.event('signin', async ({ send, api }) => {
 });
 
 (async () => {
-  await app.start();
+  await app.start(+(process.env.PORT || 3000));
 })();

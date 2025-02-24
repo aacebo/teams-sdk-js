@@ -10,6 +10,8 @@ import { Context } from '../../context';
 interface Args {
   readonly name: string;
   readonly template: string;
+  readonly ttk?: boolean;
+  readonly start?: boolean;
 }
 
 export function New(_: Context): CommandModule<{}, Args> {
@@ -52,9 +54,20 @@ export function New(_: Context): CommandModule<{}, Args> {
           choices: fs.readdirSync(
             path.resolve(url.fileURLToPath(import.meta.url), '../..', 'templates')
           ),
+        })
+        .option('ttk', {
+          type: 'boolean',
+          describe: 'include Teams Toolkit',
+          default: false,
+        })
+        .option('start', {
+          alias: 's',
+          type: 'boolean',
+          describe: 'start the project',
+          default: false,
         });
     },
-    handler: async ({ name, template }) => {
+    handler: async ({ name, template, ttk, start }) => {
       const projectDir = path.join(process.cwd(), name);
       const templateDir = path.resolve(
         url.fileURLToPath(import.meta.url),
@@ -82,13 +95,43 @@ export function New(_: Context): CommandModule<{}, Args> {
       const pkg = JSON.parse(fs.readFileSync(path.join(templateDir, `package.json`), 'utf-8'));
 
       pkg.name = name;
+
+      if (ttk) {
+        const ttkDir = path.resolve(url.fileURLToPath(import.meta.url), '../..', 'configs', 'ttk');
+
+        const write = (file: string, content?: string) => {
+          const targetPath = path.join(projectDir, file);
+
+          if (content) {
+            return fs.writeFileSync(targetPath, content);
+          }
+
+          copy(path.join(ttkDir, file), targetPath);
+        };
+
+        const files = fs.readdirSync(ttkDir);
+
+        for (const file of files) {
+          write(file);
+        }
+
+        pkg.devDependencies['env-cmd'] = 'latest';
+        pkg.devDependencies['@microsoft/teams-app-test-tool'] = 'latest';
+        pkg.scripts['dev:teamsfx'] = 'env-cmd --silent -f .localConfigs npm run dev';
+        pkg.scripts['dev:teamsfx:testtool'] = 'env-cmd --silent -f env/.env.testtool npm run dev';
+        pkg.scripts['dev:teamsfx:launch-testtool'] =
+          "env-cmd --silent -f env/.env.testtool npx '@microsoft/teams-app-test-tool' start";
+      }
+
       write('package.json', JSON.stringify(pkg, null, 2) + '\n');
 
-      console.log(`cd ${name} && npm install && npm run dev`);
-      cp.spawnSync(`cd ${name} && npm install && npm run dev`, {
-        stdio: 'inherit',
-        shell: true,
-      });
+      if (start) {
+        console.log(`cd ${name} && npm install && npm run dev`);
+        cp.spawnSync(`cd ${name} && npm install && npm run dev`, {
+          stdio: 'inherit',
+          shell: true,
+        });
+      }
     },
   };
 }
