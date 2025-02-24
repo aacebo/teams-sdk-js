@@ -1,164 +1,23 @@
-import { useEffect, useState } from 'react';
-import { BrowserRouter, NavLink, Navigate, Route, Routes } from 'react-router';
+import { Button, Card, Title1, Body1, makeStyles } from '@fluentui/react-components';
+import { BookmarkRegular } from '@fluentui/react-icons';
 
-import { ConsoleLogger } from '@teams.sdk/common/logging';
-import {
-  CardUiFilled,
-  CardUiRegular,
-  ChatFilled,
-  ChatRegular,
-  DocumentBulletListFilled,
-  DocumentBulletListRegular,
-  SearchFilled,
-  SearchRegular,
-} from '@fluentui/react-icons';
-
-import { SocketClient } from './socket-client';
-import { ActivityContext, ChatContext, useActivityStore, useChatStore } from './Stores';
-
-import Cards from './Screens/Cards';
-import Activities from './Screens/Activities';
-import Logs from './Screens/Logs';
-import Chat from './Screens/Chat';
-import './App.css';
-
-const socket = new SocketClient();
-const log = new ConsoleLogger('devtools');
+const useStyles = makeStyles({
+  root: {
+    maxWidth: '400px',
+    margin: '20px',
+  },
+});
 
 export default function App() {
-  const [connected, setConnected] = useState(false);
-  const activityStore = useActivityStore();
-  const chatStore = useChatStore();
-
-  useEffect(() => {
-    socket.connect(() => {
-      log.info('connected...');
-      setConnected(true);
-
-      socket.disconnect(() => {
-        log.info('disconnected...');
-        setConnected(false);
-      });
-    });
-
-    socket.on('activity', (event) => {
-      activityStore.put(event);
-      chatStore.onActivity(event);
-    });
-  }, []);
+  const styles = useStyles();
 
   return (
-    <div className="App">
-      <BrowserRouter basename="/devtools">
-        <div className="flex px-5 py-2 border-b dark:border-stone-800 shadow-md">
-          <div className="flex font-semibold my-auto">
-            <img src="/devtools/teams.png" className="w-10 my-auto" />
-            <div className="flex my-auto">
-              DevTools
-              <span className="relative flex h-3 w-3">
-                <span
-                  className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${connected ? 'bg-green-400' : 'bg-red-400'}`}
-                />
-                <span
-                  className={`relative inline-flex rounded-full h-3 w-3 ${connected ? 'bg-green-500' : 'bg-red-500'}`}
-                />
-              </span>
-            </div>
-          </div>
-
-          <div className="flex flex-1 justify-end">
-            <NavLink
-              to="/"
-              className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
-              children={({ isActive }) => {
-                let Icon: JSX.Element = <ChatRegular className="size-5 my-auto mr-1" />;
-
-                if (isActive) {
-                  Icon = <ChatFilled className="size-5 my-auto mr-1" />;
-                }
-
-                return (
-                  <div className="flex">
-                    {Icon}
-                    Chat
-                  </div>
-                );
-              }}
-            />
-
-            <NavLink
-              to="/cards"
-              className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
-              children={({ isActive }) => {
-                let Icon: JSX.Element = <CardUiRegular className="size-5 my-auto mr-1" />;
-
-                if (isActive) {
-                  Icon = <CardUiFilled className="size-5 my-auto mr-1" />;
-                }
-
-                return (
-                  <div className="flex">
-                    {Icon}
-                    Cards
-                  </div>
-                );
-              }}
-            />
-
-            <NavLink
-              to="/activities"
-              className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
-              children={({ isActive }) => {
-                let Icon: JSX.Element = <SearchRegular className="size-5 my-auto mr-1" />;
-
-                if (isActive) {
-                  Icon = <SearchFilled className="size-5 my-auto mr-1" />;
-                }
-
-                return (
-                  <div className="flex">
-                    {Icon}
-                    Activities
-                  </div>
-                );
-              }}
-            />
-
-            <NavLink
-              to="/logs"
-              className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
-              children={({ isActive }) => {
-                let Icon: JSX.Element = (
-                  <DocumentBulletListRegular className="size-5 my-auto mr-1" />
-                );
-
-                if (isActive) {
-                  Icon = <DocumentBulletListFilled className="size-5 my-auto mr-1" />;
-                }
-
-                return (
-                  <div className="flex">
-                    {Icon}
-                    Logs
-                  </div>
-                );
-              }}
-            />
-          </div>
-        </div>
-
-        <ActivityContext.Provider value={activityStore}>
-          <ChatContext.Provider value={chatStore}>
-            <Routes>
-              <Route path="" element={<Chat />} />
-              <Route path="cards" element={<Cards />} />
-              <Route path="activities" element={<Activities />} />
-              <Route path="logs" element={<Logs />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </ChatContext.Provider>
-        </ActivityContext.Provider>
-      </BrowserRouter>
-    </div>
+    <Card className={styles.root}>
+      <Title1>Fluent UI React v9 + Vite</Title1>
+      <Body1>Welcome to your new app!</Body1>
+      <Button appearance="primary" icon={<BookmarkRegular />}>
+        Click me
+      </Button>
+    </Card>
   );
 }
