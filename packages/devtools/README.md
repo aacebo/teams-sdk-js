@@ -42,7 +42,6 @@ $: npm install @teams.sdk/devtools
 
 too many...
 
-
 ## Available Scripts
 
 In the project directory, you can run:

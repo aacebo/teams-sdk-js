@@ -19,7 +19,7 @@ export const useTheme = () => {
     return () => mediaQuery.removeEventListener('change', handleThemeChange);
   }, []);
 
-  return [ theme, toggleTheme ];
+  return [theme, toggleTheme];
 };
 
 export default useTheme;

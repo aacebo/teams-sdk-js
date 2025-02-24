@@ -1,5 +1,10 @@
-import { ConsoleLogger } from '@teams.sdk/common/logging';
-import { Body1, FluentProvider, mergeClasses, teamsDarkTheme, teamsLightTheme, } from '@fluentui/react-components';
+import {
+  Body1,
+  FluentProvider,
+  mergeClasses,
+  teamsDarkTheme,
+  teamsLightTheme,
+} from '@fluentui/react-components';
 import { ChatFilled, ChatRegular } from '@fluentui/react-icons/lib/fonts';
 import { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter, Navigate, NavLink, Route, Routes } from 'react-router';
@@ -21,19 +26,18 @@ export default function App() {
 
   const [connected, setConnected] = useState(false);
 
-  let log: ConsoleLogger;
-  try {
-    log = new ConsoleLogger('devtools');
-  } catch (error) {
-    // Catch error so render doesn't fail if logger initialization fails
-    console.error('Logger initialization failed:', error);
-  }
-
   useEffect(() => {
-    socket.connect(() => {
-      log.info('Connected to server...');
-      setConnected(true);
-    });
+    const connectSocket = async () => {
+      try {
+        await socket.connect();
+        console.info('Connected to server...');
+        setConnected(true);
+      } catch (error) {
+        console.error('Connection error:', error);
+      }
+    };
+
+    connectSocket();
 
     socket.on('activity', (event) => {
       activityStore.put(event);
@@ -43,7 +47,7 @@ export default function App() {
     return () => {
       socket.off('activity');
       socket.disconnect(() => {
-        log.info('Disconnected from server...');
+        console.info('Disconnected from server...');
         setConnected(false);
       });
     };
@@ -70,24 +74,24 @@ export default function App() {
               data-tid="top-nav"
             >
               <div className={classes.navButtonContainer}>
-              <NavLink
-              to="/"
-              className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
-              children={({ isActive }) => {
-                let Icon: JSX.Element = <ChatRegular className="size-5 my-auto mr-1" />;
+                <NavLink
+                  to="/"
+                  className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
+                  children={({ isActive }) => {
+                    let Icon: JSX.Element = <ChatRegular className="size-5 my-auto mr-1" />;
 
-                if (isActive) {
-                  Icon = <ChatFilled className="size-5 my-auto mr-1" />;
-                }
+                    if (isActive) {
+                      Icon = <ChatFilled className="size-5 my-auto mr-1" />;
+                    }
 
-                return (
-                  <div className="flex">
-                    {Icon}
-                    Chat
-                  </div>
-                );
-              }}
-            />
+                    return (
+                      <div className="flex">
+                        {Icon}
+                        Chat
+                      </div>
+                    );
+                  }}
+                />
                 {/* <PageNavButton to="/" iconType="chat" label="Chat" />
                 <PageNavButton to="/cards" iconType="cards" label="Cards" />
                 <PageNavButton to="/activities" iconType="activities" label="Activities" /> */}
