@@ -38,15 +38,14 @@ const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
       <div className={classes.scrollbarContainer}>
         <div className={classes.messagesList}>
           {messages.map((message) => (
-            <ChatMessageContainer key={message.id} value={message} isConnected={isConnected}>    
-                   <ChatMessage
-                     content={message.body?.content || ''}
-                     feedback={chatStore.feedback[message.id]}
-                     sendDirection={message.from?.user?.id === 'devtools' ? 'sent' : 'received'}
-                     streaming={chatStore.streaming[message.id]}
-                     value={message}
-                   />
-                  
+            <ChatMessageContainer key={message.id} value={message} isConnected={isConnected}>
+              <ChatMessage
+                content={message.body?.content || ''}
+                feedback={chatStore.feedback[message.id]}
+                sendDirection={message.from?.user?.id === 'devtools' ? 'sent' : 'received'}
+                streaming={chatStore.streaming[message.id]}
+                value={message}
+              />
             </ChatMessageContainer>
           ))}
         </div>
@@ -59,6 +58,6 @@ const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
       </div>
     </Chat>
   );
-}
+};
 
 export default ChatScreen;

@@ -11,8 +11,7 @@ const MarkdownCode: FC<HTMLProps<HTMLElement>> = ({ children, className, ...prop
     <code className={className} {...props}>
       {children}
     </code>
-  )
-
+  );
 };
 
 interface ChatMessageMarkdownProps {

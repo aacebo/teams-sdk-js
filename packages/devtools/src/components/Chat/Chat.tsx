@@ -1,8 +1,6 @@
 import { HTMLAttributes, forwardRef } from 'react';
 
-export interface ChatProps extends HTMLAttributes<HTMLDivElement> {
-
-}
+export interface ChatProps extends HTMLAttributes<HTMLDivElement> {}
 
 const Chat = forwardRef<HTMLDivElement, ChatProps>(({ ...props }, ref) => {
   const { className, children, ...rest } = props;

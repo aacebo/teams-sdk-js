@@ -5,9 +5,8 @@ import {
   teamsDarkTheme,
   teamsLightTheme,
 } from '@fluentui/react-components';
-import { ChatFilled, ChatRegular } from '@fluentui/react-icons/lib/fonts';
 import { useEffect, useMemo, useState } from 'react';
-import { BrowserRouter, Navigate, NavLink, Route, Routes } from 'react-router';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 import useTheme from './hooks/useTheme';
 import useAppClasses from './App.styles';
 import { SocketClient } from './socket-client';
@@ -17,6 +16,7 @@ import { ActivityContext, useActivityStore } from './stores/ActivityStore';
 import ChatScreen from './screens/ChatScreen/ChatScreen';
 import DevtoolsBanner from './components/DevtoolsBanner/DevtoolsBanner';
 import PageNavButton from './components/PageNavButton/PageNavButton';
+import ActivitiesScreen from './screens/ActivitiesScreen';
 
 const socket = new SocketClient();
 
@@ -76,24 +76,6 @@ export default function App() {
               data-tid="top-nav"
             >
               <div className={classes.navButtonContainer}>
-                <NavLink
-                  to="/"
-                  className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
-                  children={({ isActive }) => {
-                    let Icon: JSX.Element = <ChatRegular className="size-5 my-auto mr-1" />;
-
-                    if (isActive) {
-                      Icon = <ChatFilled className="size-5 my-auto mr-1" />;
-                    }
-
-                    return (
-                      <div className="flex">
-                        {Icon}
-                        Chat
-                      </div>
-                    );
-                  }}
-                />
                 <PageNavButton to="/" iconType="chat" label="Chat" />
                 <PageNavButton to="/cards" iconType="cards" label="Cards" />
                 <PageNavButton to="/activities" iconType="activities" label="Activities" />
@@ -112,7 +94,7 @@ export default function App() {
                   <Routes>
                     <Route path="" element={<ChatScreen isConnected={connected} />} />
                     <Route path="cards" element={<h1>Cards</h1>} />
-                    <Route path="activities" element={<h1>Activities</h1>} />
+                    <Route path="activities" element={<ActivitiesScreen />} />
                     {/* <Route path="logs" element={<Logs />} /> */}
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
