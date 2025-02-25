@@ -16,6 +16,7 @@ import { ChatContext, useChatStore } from './stores/ChatStore';
 import { ActivityContext, useActivityStore } from './stores/ActivityStore';
 import ChatScreen from './screens/ChatScreen/ChatScreen';
 import DevtoolsBanner from './components/DevtoolsBanner/DevtoolsBanner';
+import PageNavButton from './components/PageNavButton/PageNavButton';
 
 const socket = new SocketClient();
 
@@ -93,9 +94,9 @@ export default function App() {
                     );
                   }}
                 />
-                {/* <PageNavButton to="/" iconType="chat" label="Chat" />
+                <PageNavButton to="/" iconType="chat" label="Chat" />
                 <PageNavButton to="/cards" iconType="cards" label="Cards" />
-                <PageNavButton to="/activities" iconType="activities" label="Activities" /> */}
+                <PageNavButton to="/activities" iconType="activities" label="Activities" />
 
                 {/* TODO: Add logs page back once implemented */}
                 {/* <PageNavButton
@@ -110,9 +111,9 @@ export default function App() {
                 <ChatContext.Provider value={chatStore}>
                   <Routes>
                     <Route path="" element={<ChatScreen isConnected={connected} />} />
-                    {/* <Route path="cards" element={<Cards />} />
-                    <Route path="activities" element={<Activities />} />
-                    <Route path="logs" element={<Logs />} /> */}
+                    <Route path="cards" element={<h1>Cards</h1>} />
+                    <Route path="activities" element={<h1>Activities</h1>} />
+                    {/* <Route path="logs" element={<Logs />} /> */}
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
                 </ChatContext.Provider>
