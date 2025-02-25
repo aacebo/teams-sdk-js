@@ -95,31 +95,60 @@ const ChatMessage: FC<ChatMessageProps> = ({
               tabIndex={-1}
               id={labelId}
               aria-labelledby={labelId}
-              className={mergeClasses(
-                classes.messageContainer,
-                streaming && classes.streaming,
-              )}
+              className={mergeClasses(classes.messageContainer, streaming && classes.streaming)}
             >
-              <div tabIndex={0} className={mergeClasses(classes.messageBody, sendDirection === 'sent' ? classes.sent : classes.received)}>
-
+              <div
+                tabIndex={0}
+                className={mergeClasses(
+                  classes.messageBody,
+                  sendDirection === 'sent' ? classes.sent : classes.received
+                )}
+              >
                 {html ? <ChatMessageMarkdown content={html} /> : content}
               </div>
               {streaming && <div id="streaming-indicator" className="streamingIndicator" />}
-              {reactions.length > 0 && <div data-tid="reactions-container"className={mergeClasses(classes.reactionContainer, reactions.length > 0 ? classes.reactionContainerVisible : '', sendDirection === 'sent' ? classes.reactionContainerSent : '').trim()}>
-                {reactions.map((reaction) => (
-                  // TODO: tab order needs to be combined with MessageActionsToolbar
-                  <Tooltip content={capitalizeFirstLetter(reaction.type)} relationship="label" key={reaction.type} positioning="below-end">
-                    <Button className={mergeClasses(classes.reactionButton, reaction.user?.id === 'devtools' ? classes.reactionFromUser : '').trim()} key={reaction.type} onClick={() => handleMessageReaction(value.id, reaction.type)} shape="circular" size="small">
-                      {MessageReactionsEmoji.find((r) => r.reaction === reaction.type)?.label}
-                    </Button>
-                  </Tooltip>
-                ))}
-              </div>}
+              {reactions.length > 0 && (
+                <div
+                  data-tid="reactions-container"
+                  className={mergeClasses(
+                    classes.reactionContainer,
+                    reactions.length > 0 ? classes.reactionContainerVisible : '',
+                    sendDirection === 'sent' ? classes.reactionContainerSent : ''
+                  ).trim()}
+                >
+                  {reactions.map((reaction) => (
+                    // TODO: tab order needs to be combined with MessageActionsToolbar
+                    <Tooltip
+                      content={capitalizeFirstLetter(reaction.type)}
+                      relationship="label"
+                      key={reaction.type}
+                      positioning="below-end"
+                    >
+                      <Button
+                        className={mergeClasses(
+                          classes.reactionButton,
+                          reaction.user?.id === 'devtools' ? classes.reactionFromUser : ''
+                        ).trim()}
+                        key={reaction.type}
+                        onClick={() => handleMessageReaction(value.id, reaction.type)}
+                        shape="circular"
+                        size="small"
+                      >
+                        {MessageReactionsEmoji.find((r) => r.reaction === reaction.type)?.label}
+                      </Button>
+                    </Tooltip>
+                  ))}
+                </div>
+              )}
             </div>
           </PopoverTrigger>
           <PopoverSurface className={classes.popoverSurface}>
-            <MessageActionsToolbar sent={sendDirection === 'sent'} value={value} size="small" handleMessageReaction={handleMessageReaction} />
-
+            <MessageActionsToolbar
+              sent={sendDirection === 'sent'}
+              value={value}
+              size="small"
+              handleMessageReaction={handleMessageReaction}
+            />
           </PopoverSurface>
         </Popover>
       )}

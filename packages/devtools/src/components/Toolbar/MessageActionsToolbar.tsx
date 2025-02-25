@@ -22,7 +22,6 @@ import type { ToolbarProps } from '@fluentui/react-components';
 import React from 'react';
 import { MessageReactionType } from '@teams.sdk/api';
 
-
 import { useClasses } from './NewMessageToolbar.styles';
 import capitalizeFirstLetter from '../../utils/capitalize-first';
 
@@ -50,8 +49,12 @@ const MoreHorizontalIcon = bundleIcon(
 const EditIcon = bundleIcon(Edit16Filled as FluentIcon, Edit16Regular as FluentIcon);
 const TextQuoteIcon = bundleIcon(TextQuote16Filled as FluentIcon, TextQuote16Regular as FluentIcon);
 
-const MessageActionsToolbar: FC<MessageActionsProps> = ({ sent, value, handleMessageReaction, ...props }) => {
-
+const MessageActionsToolbar: FC<MessageActionsProps> = ({
+  sent,
+  value,
+  handleMessageReaction,
+  ...props
+}) => {
   const classes = useClasses();
 
   const handleKeyDown = (

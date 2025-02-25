@@ -38,17 +38,18 @@ const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
     <Chat className={classes.chatPaneContainer}>
       <div className={classes.scrollbarContainer}>
         <div className={classes.messagesList}>
-          {chat && (messages[chat.id] || []).map((message) => (
-            <ChatMessageContainer key={message.id} value={message} isConnected={isConnected}>
-              <ChatMessage
-                content={message.body?.content || ''}
-                feedback={feedback[message.id]}
-                sendDirection={message.from?.user?.id === 'devtools' ? 'sent' : 'received'}
-                streaming={streaming[message.id]}
-                value={message}
-              />
-            </ChatMessageContainer>
-          ))}
+          {chat &&
+            (messages[chat.id] || []).map((message) => (
+              <ChatMessageContainer key={message.id} value={message} isConnected={isConnected}>
+                <ChatMessage
+                  content={message.body?.content || ''}
+                  feedback={feedback[message.id]}
+                  sendDirection={message.from?.user?.id === 'devtools' ? 'sent' : 'received'}
+                  streaming={streaming[message.id]}
+                  value={message}
+                />
+              </ChatMessageContainer>
+            ))}
         </div>
       </div>
       <div className={classes.composeContainer}>

@@ -101,6 +101,6 @@ export const useChatMessageStyles = makeStyles({
     transition: 'background-color 0.2s ease, color 0.2s ease',
   },
   reactionFromUser: {
-    border: `1px solid ${tokens.colorNeutralStrokeAccessibleSelected}`
-  }
+    border: `1px solid ${tokens.colorNeutralStrokeAccessibleSelected}`,
+  },
 });
