@@ -26,6 +26,11 @@ export class Project {
     this._language = language;
   }
 
+  addEnv(key: string, value: string, filename = '.env') {
+    this._attributes.push(new attributes.EnvAttribute(filename, key, value));
+    return this;
+  }
+
   addTemplate(name: string) {
     if (this._attributes.some((attr) => attr.id === `template[${name}]`)) {
       return this;

@@ -13,8 +13,9 @@ export class TeamsToolkitAttribute implements ProjectAttribute {
 
   typescript(targetDir: string) {
     const ttkDir = path.resolve(url.fileURLToPath(import.meta.url), '../..', 'configs', 'ttk');
+
     const files = fs.readdirSync(ttkDir);
-    const pkg = JSON.parse(fs.readFileSync(path.join(targetDir, `package.json`), 'utf-8'));
+    const pkg = JSON.parse(fs.readFileSync(path.join(targetDir, 'package.json'), 'utf-8'));
 
     for (const file of files) {
       write(ttkDir, targetDir, file);

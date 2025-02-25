@@ -12,6 +12,8 @@ interface Args {
   readonly template: string;
   readonly ttk?: boolean;
   readonly start?: boolean;
+  readonly clientId?: string;
+  readonly clientSecret?: string;
 }
 
 export function Typescript(): CommandModule<{}, Args> {
@@ -51,10 +53,19 @@ export function Typescript(): CommandModule<{}, Args> {
           default: false,
         })
         .option('ttk', {
-          alias: 'ttk',
           type: 'boolean',
           describe: 'include Teams Toolkit configuration',
           default: false,
+        })
+        .option('client-id', {
+          type: 'string',
+          describe: 'the apps client id (app id)',
+          default: process.env.CLIENT_ID,
+        })
+        .option('client-secret', {
+          type: 'string',
+          describe: 'the apps client secret',
+          default: process.env.CLIENT_SECRET,
         })
         .check(({ name }) => {
           if (fs.existsSync(path.join(process.cwd(), name))) {
@@ -68,12 +79,21 @@ export function Typescript(): CommandModule<{}, Args> {
           return true;
         });
     },
-    handler: async ({ name, template, ttk, start }) => {
+    handler: async ({ name, template, ttk, start, clientId, clientSecret }) => {
       const projectDir = path.join(process.cwd(), name);
       const project = new Project(projectDir, name, 'typescript').addTemplate(template);
 
       if (ttk) {
         project.addTeamsToolkit();
+        project.addEnv('PORT', '3978');
+      }
+
+      if (clientId) {
+        project.addEnv('CLIENT_ID', clientId);
+      }
+
+      if (clientSecret) {
+        project.addEnv('CLIENT_SECRET', clientSecret);
       }
 
       await project.write();
