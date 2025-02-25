@@ -56,15 +56,15 @@ export function New(_: Context): CommandModule<{}, Args> {
             path.resolve(url.fileURLToPath(import.meta.url), '../..', 'templates')
           ),
         })
-        .option('ttk', {
-          type: 'boolean',
-          describe: 'include Teams Toolkit',
-          default: false,
-        })
         .option('start', {
           alias: 's',
           type: 'boolean',
           describe: 'start the project',
+          default: false,
+        })
+        .option('ttk', {
+          type: 'boolean',
+          describe: 'include Teams Toolkit configuration',
           default: false,
         });
     },
