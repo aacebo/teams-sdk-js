@@ -1,19 +1,29 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
 export const useChatMessageStyles = makeStyles({
-  messageContent: {
+  messageContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  messageBody: {
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
     padding: `${tokens.spacingVerticalM} ${tokens.spacingHorizontalM}`,
     borderRadius: tokens.borderRadiusMedium,
     border: `2px solid ${tokens.colorSubtleBackground}`,
+    width: '100%',
+    wordWrap: 'break-word',
+    overflowWrap: 'break-word',
+    whiteSpace: 'normal',
     '&:focus-visible': {
       outline: `2px solid ${tokens.colorNeutralForeground2Link}`,
       borderRadius: tokens.borderRadiusMedium,
     },
     '& a': {
       color: tokens.colorBrandForegroundLink,
+      borderRadius: tokens.borderRadiusMedium,
+
       '&:hover': {
         color: tokens.colorBrandForegroundLinkHover,
       },
@@ -60,11 +70,6 @@ export const useChatMessageStyles = makeStyles({
     animationDuration: '1s',
     animationIterationCount: 'infinite',
   },
-  feedbackContainer: {
-    display: 'flex',
-    gap: '8px',
-    marginTop: '8px',
-  },
   attachments: {
     display: 'flex',
     gap: tokens.spacingHorizontalS,
@@ -73,4 +78,29 @@ export const useChatMessageStyles = makeStyles({
   popoverSurface: {
     padding: '0',
   },
+  feedbackContainer: {
+    display: 'flex',
+    gap: '0.5rem',
+  },
+
+  reactionContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    visibility: 'hidden',
+    gap: '0.5rem',
+  },
+  reactionContainerSent: {
+    justifyContent: 'flex-end',
+  },
+  reactionContainerVisible: {
+    visibility: 'visible',
+  },
+  reactionButton: {
+    minHeight: '1rem',
+    minWidth: '1rem',
+    transition: 'background-color 0.2s ease, color 0.2s ease',
+  },
+  reactionFromUser: {
+    border: `1px solid ${tokens.colorNeutralStrokeAccessibleSelected}`
+  }
 });

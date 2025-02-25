@@ -6,6 +6,7 @@ export const useClasses = makeStyles({
     marginLeft: tokens.spacingHorizontalL,
     marginRight: tokens.spacingHorizontalL,
     alignItems: 'flex-end',
+    padding: '0.5rem',
   },
   messageGroupSent: {
     justifyContent: 'flex-end',

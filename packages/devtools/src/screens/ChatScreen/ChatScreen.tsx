@@ -15,14 +15,14 @@ interface ChatScreenProps {
 
 const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
   const classes = useClasses();
-  const chatStore = useContext(ChatContext);
-  const messages = chatStore.messages[chatStore.chat.id] || [];
+  const { chat, feedback, messages, streaming } = useContext(ChatContext);
+
   const [attachments, setAttachments] = useState<Attachment[]>([]);
-  const api = useSparkApi();
+  const sparkApi = useSparkApi();
 
   const handleSendMessage = async (message: string) => {
     try {
-      await api.conversations.activities(chatStore.chat.id).create({
+      await sparkApi.conversations.activities(chat.id).create({
         type: 'message',
         text: message,
         attachments,
@@ -33,17 +33,18 @@ const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
       console.error(err);
     }
   };
+
   return (
     <Chat className={classes.chatPaneContainer}>
       <div className={classes.scrollbarContainer}>
         <div className={classes.messagesList}>
-          {messages.map((message) => (
+          {chat && (messages[chat.id] || []).map((message) => (
             <ChatMessageContainer key={message.id} value={message} isConnected={isConnected}>
               <ChatMessage
                 content={message.body?.content || ''}
-                feedback={chatStore.feedback[message.id]}
+                feedback={feedback[message.id]}
                 sendDirection={message.from?.user?.id === 'devtools' ? 'sent' : 'received'}
-                streaming={chatStore.streaming[message.id]}
+                streaming={streaming[message.id]}
                 value={message}
               />
             </ChatMessageContainer>

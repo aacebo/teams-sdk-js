@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import {
   bundleIcon,
   Edit16Filled,
@@ -19,21 +19,21 @@ import {
   Tooltip,
 } from '@fluentui/react-components';
 import type { ToolbarProps } from '@fluentui/react-components';
+import React from 'react';
+import { MessageReactionType } from '@teams.sdk/api';
 
-import { MessageReaction, MessageReactionType } from '@teams.sdk/api';
 
 import { useClasses } from './NewMessageToolbar.styles';
-import { ChatContext } from '../../stores/ChatStore';
-import useSparkApi from '../../hooks/useSparkApi';
-import React from 'react';
+import capitalizeFirstLetter from '../../utils/capitalize-first';
 
 interface MessageActionsProps extends ToolbarProps {
   // Whether the message is sent or received
   sent: boolean;
   value: Message;
+  handleMessageReaction: (id: string, type: MessageReactionType) => Promise<void>;
 }
 
-const MessageReactions: Array<{
+export const MessageReactionsEmoji: Array<{
   readonly label: string;
   readonly reaction: MessageReactionType;
 }> = [
@@ -50,48 +50,9 @@ const MoreHorizontalIcon = bundleIcon(
 const EditIcon = bundleIcon(Edit16Filled as FluentIcon, Edit16Regular as FluentIcon);
 const TextQuoteIcon = bundleIcon(TextQuote16Filled as FluentIcon, TextQuote16Regular as FluentIcon);
 
-const MessageActionsToolbar: FC<MessageActionsProps> = ({ sent, value, ...props }) => {
-  const { chat, messages } = useContext(ChatContext);
-  const sparkApi = useSparkApi();
+const MessageActionsToolbar: FC<MessageActionsProps> = ({ sent, value, handleMessageReaction, ...props }) => {
+
   const classes = useClasses();
-
-  const capitalizeFirstLetter = (str: string) => {
-    if (!str) return '';
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
-
-  const handleMessageReaction = async (id: string, type: MessageReactionType) => {
-    const message = messages[chat.id].find((m) => m.id === id);
-
-    if (!message) return;
-
-    const added: Array<MessageReaction> = [];
-    const removed: Array<MessageReaction> = [];
-    const reaction = (message.reactions || []).find(
-      (r) => r.type === type && r.user?.id === 'devtools'
-    );
-
-    if (reaction) {
-      removed.push(reaction);
-    } else {
-      added.push({
-        type,
-        user: { id: 'devtools', displayName: 'devtools' },
-        createdDateTime: new Date().toUTCString(),
-      });
-    }
-
-    try {
-      await sparkApi.conversations.activities(chat.id).create({
-        id,
-        type: 'messageReaction',
-        reactionsAdded: added,
-        reactionsRemoved: removed,
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const handleKeyDown = (
     event: React.KeyboardEvent<HTMLButtonElement>,
@@ -106,7 +67,7 @@ const MessageActionsToolbar: FC<MessageActionsProps> = ({ sent, value, ...props 
   return (
     <Toolbar aria-label="Message actions" {...props}>
       <ToolbarGroup>
-        {MessageReactions.map(({ label, reaction }) => (
+        {MessageReactionsEmoji.map(({ label, reaction }) => (
           <Tooltip content={capitalizeFirstLetter(reaction)} relationship="label" key={reaction}>
             <ToolbarToggleButton
               as="button"
