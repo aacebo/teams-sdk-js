@@ -76,20 +76,20 @@ export function New(_: Context): CommandModule<{}, Args> {
         template
       );
 
-      const write = (file: string, content?: string) => {
+      const write = (outDir: string, file: string, content?: string) => {
         const targetPath = path.join(projectDir, file);
 
         if (content) {
           return fs.writeFileSync(targetPath, content);
         }
 
-        copy(path.join(templateDir, file), targetPath);
+        copy(path.join(outDir, file), targetPath);
       };
 
       const files = fs.readdirSync(templateDir);
 
       for (const file of files.filter((f) => f !== 'package.json')) {
-        write(file);
+        write(templateDir, file);
       }
 
       const pkg = JSON.parse(fs.readFileSync(path.join(templateDir, `package.json`), 'utf-8'));
@@ -98,21 +98,10 @@ export function New(_: Context): CommandModule<{}, Args> {
 
       if (ttk) {
         const ttkDir = path.resolve(url.fileURLToPath(import.meta.url), '../..', 'configs', 'ttk');
-
-        const write = (file: string, content?: string) => {
-          const targetPath = path.join(projectDir, file);
-
-          if (content) {
-            return fs.writeFileSync(targetPath, content);
-          }
-
-          copy(path.join(ttkDir, file), targetPath);
-        };
-
         const files = fs.readdirSync(ttkDir);
 
         for (const file of files) {
-          write(file);
+          write(ttkDir, file);
         }
 
         pkg.devDependencies['env-cmd'] = 'latest';
