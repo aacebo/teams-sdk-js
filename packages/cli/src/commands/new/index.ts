@@ -9,7 +9,15 @@ export function New(_: Context): CommandModule<{}, {}> {
     command: 'new',
     aliases: 'n',
     describe: 'create a new app project',
-    builder: (b) => b.command(Typescript()).command(CSharp()),
+    builder: (b) => {
+      let args = b.command(Typescript());
+
+      if (process.env.TEAMS_CLI_ENV === 'development') {
+        args = args.command(CSharp());
+      }
+
+      return args;
+    },
     handler: () => {},
   };
 }
