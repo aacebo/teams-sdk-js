@@ -8,13 +8,14 @@ import {
 import { ChatFilled, ChatRegular } from '@fluentui/react-icons/lib/fonts';
 import { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter, Navigate, NavLink, Route, Routes } from 'react-router';
-import useTheme from '../hooks/useTheme';
+import useTheme from './hooks/useTheme';
 import useAppClasses from './App.styles';
 import { SocketClient } from './socket-client';
 
 import { ChatContext, useChatStore } from './stores/ChatStore';
 import { ActivityContext, useActivityStore } from './stores/ActivityStore';
-import ChatScreen from './screens/ChatScreen';
+import ChatScreen from './screens/ChatScreen/ChatScreen';
+import DevtoolsBanner from './components/DevtoolsBanner/DevtoolsBanner';
 
 const socket = new SocketClient();
 
@@ -63,7 +64,7 @@ export default function App() {
         <BrowserRouter basename="/devtools" data-tid="browser-router">
           <nav id="app-sidebar" className={classes.sideBar} aria-label="Sidebar navigation">
             <header id="banner" className={classes.header}>
-              {/* <DevtoolsBanner connected={connected} /> */}
+              <DevtoolsBanner connected={connected} />
             </header>
           </nav>
           <div id="app-content" className={classes.mainLayout} data-tid="main-layout">
