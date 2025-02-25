@@ -6,6 +6,7 @@ import cp from 'node:child_process';
 import { CommandModule } from 'yargs';
 
 import { Context } from '../../context';
+import { write } from './write';
 
 interface Args {
   readonly name: string;
@@ -76,20 +77,10 @@ export function New(_: Context): CommandModule<{}, Args> {
         template
       );
 
-      const write = (outDir: string, file: string, content?: string) => {
-        const targetPath = path.join(projectDir, file);
-
-        if (content) {
-          return fs.writeFileSync(targetPath, content);
-        }
-
-        copy(path.join(outDir, file), targetPath);
-      };
-
       const files = fs.readdirSync(templateDir);
 
       for (const file of files.filter((f) => f !== 'package.json')) {
-        write(templateDir, file);
+        write(templateDir, projectDir, file);
       }
 
       const pkg = JSON.parse(fs.readFileSync(path.join(templateDir, `package.json`), 'utf-8'));
@@ -101,7 +92,7 @@ export function New(_: Context): CommandModule<{}, Args> {
         const files = fs.readdirSync(ttkDir);
 
         for (const file of files) {
-          write(ttkDir, file);
+          write(ttkDir, projectDir, file);
         }
 
         pkg.devDependencies['env-cmd'] = 'latest';
@@ -112,7 +103,7 @@ export function New(_: Context): CommandModule<{}, Args> {
           "env-cmd --silent -f env/.env.testtool npx '@microsoft/teams-app-test-tool' start";
       }
 
-      write('package.json', JSON.stringify(pkg, null, 2) + '\n');
+      write(templateDir, projectDir, 'package.json', JSON.stringify(pkg, null, 2) + '\n');
 
       if (start) {
         console.log(`cd ${name} && npm install && npm run dev`);
@@ -123,24 +114,4 @@ export function New(_: Context): CommandModule<{}, Args> {
       }
     },
   };
-}
-
-function copy(src: string, dest: string) {
-  const stat = fs.statSync(src);
-
-  if (stat.isDirectory()) {
-    return copyDir(src, dest);
-  }
-
-  fs.copyFileSync(src, dest);
-}
-
-function copyDir(srcDir: string, destDir: string) {
-  fs.mkdirSync(destDir, { recursive: true });
-
-  for (const file of fs.readdirSync(srcDir)) {
-    const srcFile = path.resolve(srcDir, file);
-    const destFile = path.resolve(destDir, file);
-    copy(srcFile, destFile);
-  }
 }
