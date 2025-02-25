@@ -20,8 +20,8 @@
     "@teams.sdk/api": "*",
     "@teams.sdk/apps": "*",
     "@teams.sdk/cards": "*",
-    "@teams.sdk/common": "*",
     "@teams.sdk/client": "*",
+    "@teams.sdk/common": "*",
     "@teams.sdk/dev": "*",
     "@teams.sdk/graph": "*",
     "react": "^19.0.0",
@@ -34,7 +34,7 @@
     "dotenv": "^16.4.5",
     "nodemon": "^3.1.4",
     "rimraf": "^6.0.1",
-    "tsup": "^8.2.4",
+    "tsup": "^8.4.0",
     "typescript": "^5.4.5",
     "vite": "^6.1.0"
   }

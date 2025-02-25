@@ -23,6 +23,7 @@ import * as commands from './commands';
   process.stdout.write(banner);
 
   await yargs(hideBin(process.argv))
+    .scriptName('teams')
     .command(commands.New(ctx))
     .command(commands.Copilot(ctx))
     .parse();
