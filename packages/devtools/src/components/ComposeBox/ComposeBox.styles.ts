@@ -3,7 +3,7 @@ import { makeStyles } from '@fluentui/react-components';
 export const useClasses = makeStyles({
   composeBoxContainer: {
     position: 'relative',
-    margin: '20px 50px',
+    margin: '1rem 3.125rem',
     width: 'auto',
   },
   composeInput: {

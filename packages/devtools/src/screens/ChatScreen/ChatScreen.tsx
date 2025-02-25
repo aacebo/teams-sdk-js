@@ -8,6 +8,7 @@ import Chat from '../../components/Chat/Chat';
 import ChatMessageContainer from '../../components/ChatMessage/ChatMessageContainer';
 import ChatMessage from '../../components/ChatMessage/ChatMessage';
 import ComposeBox from '../../components/ComposeBox/ComposeBox';
+import TypingIndicator from '../../components/TypingIndicator/TypingIndicator';
 
 interface ChatScreenProps {
   isConnected: boolean;
@@ -15,7 +16,7 @@ interface ChatScreenProps {
 
 const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
   const classes = useClasses();
-  const { chat, feedback, messages, streaming } = useContext(ChatContext);
+  const { chat, feedback, messages, streaming, typing } = useContext(ChatContext);
 
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const sparkApi = useSparkApi();
@@ -54,7 +55,10 @@ const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
       </div>
       <div className={classes.composeContainer}>
         <div className={classes.composeInner}>
-          <div className={classes.bannerContainer}>{/* TODO: Optional banner/toast content */}</div>
+          <div className={classes.typingIndicator}>
+            {typing[chat.id] && <TypingIndicator />}
+          </div>
+          {/* <div className={classes.bannerContainer}>{/* TODO: Optional banner/toast content </div> */}
           <ComposeBox onSend={handleSendMessage} />
         </div>
       </div>

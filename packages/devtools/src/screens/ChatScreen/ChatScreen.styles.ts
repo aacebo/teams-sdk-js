@@ -33,6 +33,10 @@ export const useClasses = makeStyles({
     minWidth: '495px',
     margin: '0 auto',
   },
+  typingIndicator: {
+    height: '30px',
+    paddingLeft: '50px',
+  },
   bannerContainer: {
     backgroundColor: tokens.colorSubtleBackground,
     margin: '10px 0',
