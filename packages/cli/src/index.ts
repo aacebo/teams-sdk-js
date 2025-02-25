@@ -22,11 +22,12 @@ import * as commands from './commands';
 
   process.stdout.write(banner);
 
-  await yargs(hideBin(process.argv))
-    .scriptName('teams')
-    .command(commands.New(ctx))
-    .command(commands.Copilot(ctx))
-    .parse();
+  let args = yargs(hideBin(process.argv)).scriptName('teams').command(commands.New(ctx));
 
+  if (process.env.TEAMS_CLI_ENV === 'development') {
+    args = args.command(commands.Copilot(ctx));
+  }
+
+  args.parse();
   storage.destroy();
 })();
