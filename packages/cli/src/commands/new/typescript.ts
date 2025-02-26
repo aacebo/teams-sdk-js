@@ -3,20 +3,22 @@ import path from 'node:path';
 import url from 'node:url';
 import cp from 'node:child_process';
 
+import { z } from 'zod';
 import { CommandModule } from 'yargs';
 
 import { Project } from '../../project';
+import { Context } from '../../context';
 
-interface Args {
-  readonly name: string;
-  readonly template: string;
-  readonly ttk?: boolean;
-  readonly start?: boolean;
-  readonly clientId?: string;
-  readonly clientSecret?: string;
-}
+const ArgsSchema = z.object({
+  name: z.string(),
+  template: z.string(),
+  ttk: z.string().optional(),
+  start: z.boolean().optional(),
+  clientId: z.string().optional(),
+  clientSecret: z.string().optional(),
+});
 
-export function Typescript(): CommandModule<{}, Args> {
+export function Typescript(_: Context): CommandModule<{}, z.infer<typeof ArgsSchema>> {
   return {
     command: ['$0 <name>', 'typescript <name>'],
     aliases: 'ts',
@@ -52,10 +54,13 @@ export function Typescript(): CommandModule<{}, Args> {
           describe: 'start the project',
           default: false,
         })
-        .option('ttk', {
-          type: 'boolean',
+        .option('toolkit', {
+          alias: 'ttk',
+          type: 'string',
           describe: 'include Teams Toolkit configuration',
-          default: false,
+          choices: fs.readdirSync(
+            path.resolve(url.fileURLToPath(import.meta.url), '../..', 'configs', 'ttk')
+          ),
         })
         .option('client-id', {
           type: 'string',
@@ -66,6 +71,17 @@ export function Typescript(): CommandModule<{}, Args> {
           type: 'string',
           describe: 'the apps client secret',
           default: process.env.CLIENT_SECRET,
+        })
+        .check((args: z.infer<typeof ArgsSchema>) => {
+          const res = ArgsSchema.safeParse(args);
+
+          if (res.error) {
+            throw new Error(
+              res.error.errors.map((err) => `${err.path.join('.')} => ${err.message}`).join('\n')
+            );
+          }
+
+          return true;
         })
         .check(({ name }) => {
           if (fs.existsSync(path.join(process.cwd(), name))) {
@@ -84,7 +100,8 @@ export function Typescript(): CommandModule<{}, Args> {
       const project = new Project(projectDir, name, 'typescript').addTemplate(template);
 
       if (ttk) {
-        project.addTeamsToolkit();
+        project.addTeamsToolkit(ttk);
+        project.addEnv('NODE_ENV', 'local');
         project.addEnv('PORT', '3978');
       }
 
@@ -94,6 +111,18 @@ export function Typescript(): CommandModule<{}, Args> {
 
       if (clientSecret) {
         project.addEnv('CLIENT_SECRET', clientSecret);
+      }
+
+      if (process.env.OPENAI_API_KEY) {
+        project.addEnv('OPENAI_API_KEY', process.env.OPENAI_API_KEY);
+      }
+
+      if (process.env.AZURE_OPENAI_API_KEY) {
+        project.addEnv('AZURE_OPENAI_API_KEY', process.env.AZURE_OPENAI_API_KEY);
+      }
+
+      if (process.env.AZURE_OPENAI_ENDPOINT) {
+        project.addEnv('AZURE_OPENAI_ENDPOINT', process.env.AZURE_OPENAI_ENDPOINT);
       }
 
       await project.write();

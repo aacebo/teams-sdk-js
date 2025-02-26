@@ -43,7 +43,8 @@
     "openai": "^4.79.1",
     "sqlite-vec": "^0.1.7-alpha.2",
     "sqlite3": "^5.1.7",
-    "yargs": "^17.7.2"
+    "yargs": "^17.7.2",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@teams.sdk/config": "*",

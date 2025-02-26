@@ -40,8 +40,8 @@ export class Project {
     return this;
   }
 
-  addTeamsToolkit() {
-    this._attributes.push(new attributes.TeamsToolkitAttribute());
+  addTeamsToolkit(name: string) {
+    this._attributes.push(new attributes.TeamsToolkitAttribute(name));
     return this;
   }
 
