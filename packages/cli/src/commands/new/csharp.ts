@@ -78,6 +78,9 @@ export function CSharp(): CommandModule<{}, Args> {
       await project.write();
 
       console.log(`✅ App "${name}" created successfully at ${projectDir}`);
+      // TODO: add ability to start the app automatically if `--start` is provided
+      console.log(`Next steps to start the app:`);
+      console.log(`cd ${name} && npm install && npm run dev`);
     },
   };
 }

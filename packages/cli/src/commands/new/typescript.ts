@@ -135,6 +135,9 @@ export function Typescript(_: Context): CommandModule<{}, z.infer<typeof ArgsSch
           stdio: 'inherit',
           shell: true,
         });
+      } else {
+        console.log(`Next steps to start the app:`);
+        console.log(`cd ${name} && npm install && npm run dev`);
       }
     },
   };
