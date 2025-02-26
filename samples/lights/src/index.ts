@@ -1,4 +1,4 @@
-import { App, HttpPlugin } from '@teams.sdk/apps';
+import { App } from '@teams.sdk/apps';
 import { ChatPrompt, Message } from '@teams.sdk/ai';
 import { ConsoleLogger } from '@teams.sdk/common/logging';
 import { OpenAIChatModel } from '@teams.sdk/openai';
@@ -12,7 +12,7 @@ const storage = new LocalStorage<{
 
 const app = new App({
   logger: new ConsoleLogger('@samples/lights', { level: 'debug' }),
-  plugins: [new DevtoolsPlugin(), new HttpPlugin()],
+  plugins: [new DevtoolsPlugin()],
 });
 
 app.on('message', async ({ send, stream, activity }) => {
@@ -42,8 +42,10 @@ app.on('message', async ({ send, stream, activity }) => {
   The assistant can turn a light on or off.
   The lights are currently off.`,
     model: new OpenAIChatModel({
-      model: 'gpt-4o',
-      apiKey: process.env.OPENAI_API_KEY,
+      model: 'gpt-4o-mini',
+      apiKey: process.env.AZURE_OPENAI_API_KEY,
+      apiVersion: '2024-05-01-preview',
+      endpoint: process.env.AZURE_OPENAI_ENDPOINT,
       stream: true,
     }),
   })

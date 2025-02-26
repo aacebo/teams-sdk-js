@@ -206,6 +206,7 @@ export class OpenAIChatModel implements ChatModel {
         message = completion.choices[0].message;
       } else {
         for await (const chunk of completion) {
+          if (!chunk.choices.length) continue;
           const delta = chunk.choices[0].delta;
 
           if (delta.tool_calls) {
