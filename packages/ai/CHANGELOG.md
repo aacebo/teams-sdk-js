@@ -1,5 +1,13 @@
 # @teams.sdk/ai
 
+## 0.1.35
+
+### Patch Changes
+
+- fix cli template imports
+- Updated dependencies
+    - @teams.sdk/common@0.1.35
+
 ## 0.1.34
 
 ### Patch Changes

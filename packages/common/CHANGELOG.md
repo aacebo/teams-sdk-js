@@ -1,5 +1,11 @@
 # @teams.sdk/common
 
+## 0.1.35
+
+### Patch Changes
+
+- fix cli template imports
+
 ## 0.1.34
 
 ### Patch Changes

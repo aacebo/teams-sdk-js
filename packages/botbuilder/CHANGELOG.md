@@ -1,5 +1,16 @@
 # @teams.sdk/botbuilder
 
+## 0.1.35
+
+### Patch Changes
+
+- fix cli template imports
+- Updated dependencies
+    - @teams.sdk/api@0.1.35
+    - @teams.sdk/apps@0.1.35
+    - @teams.sdk/common@0.1.35
+    - @teams.sdk/graph@0.1.35
+
 ## 0.1.34
 
 ### Patch Changes
