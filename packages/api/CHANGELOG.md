@@ -1,5 +1,14 @@
 # @teams.sdk/api
 
+## 0.1.34
+
+### Patch Changes
+
+- fix ttk cli support
+- Updated dependencies
+    - @teams.sdk/cards@0.1.34
+    - @teams.sdk/common@0.1.34
+
 ## 0.1.33
 
 ### Patch Changes
