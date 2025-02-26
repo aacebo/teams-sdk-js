@@ -1,13 +1,13 @@
+import cp from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import url from 'node:url';
-import cp from 'node:child_process';
 
-import { z } from 'zod';
 import { CommandModule } from 'yargs';
+import { z } from 'zod';
 
-import { Project } from '../../project';
 import { Context } from '../../context';
+import { Project } from '../../project';
 
 const ArgsSchema = z.object({
   name: z.string(),
@@ -126,6 +126,8 @@ export function Typescript(_: Context): CommandModule<{}, z.infer<typeof ArgsSch
       }
 
       await project.write();
+
+      console.log(`✅ App "${name}" created successfully at ${projectDir}`);
 
       if (start) {
         console.log(`cd ${name} && npm install && npm run dev`);
