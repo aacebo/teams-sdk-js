@@ -1,5 +1,13 @@
 # @teams.sdk/ai
 
+## 0.1.32
+
+### Patch Changes
+
+- add ttk support to cli
+- Updated dependencies
+    - @teams.sdk/common@0.1.32
+
 ## 0.1.31
 
 ### Patch Changes

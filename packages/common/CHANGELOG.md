@@ -1,5 +1,11 @@
 # @teams.sdk/common
 
+## 0.1.32
+
+### Patch Changes
+
+- add ttk support to cli
+
 ## 0.1.31
 
 ### Patch Changes
