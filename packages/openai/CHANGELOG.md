@@ -1,5 +1,14 @@
 # @teams.sdk/openai
 
+## 0.1.33
+
+### Patch Changes
+
+- fix ttk cli config
+- Updated dependencies
+    - @teams.sdk/ai@0.1.33
+    - @teams.sdk/common@0.1.33
+
 ## 0.1.32
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @teams.sdk/apps
 
+## 0.1.33
+
+### Patch Changes
+
+- fix ttk cli config
+- Updated dependencies
+    - @teams.sdk/api@0.1.33
+    - @teams.sdk/common@0.1.33
+    - @teams.sdk/graph@0.1.33
+
 ## 0.1.32
 
 ### Patch Changes
