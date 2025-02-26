@@ -1,12 +1,12 @@
 import { ChatModel, ChatParams, LocalMemory, ModelMessage } from '@teams.sdk/ai';
 import { ConsoleLogger, Logger } from '@teams.sdk/common/logging';
 
-import OpenAI from 'openai';
+import OpenAI, { AzureOpenAI } from 'openai';
 import { Fetch } from 'openai/core';
 import { Stream } from 'openai/streaming';
 
 export interface OpenAIChatModelOptions {
-  readonly model: string;
+  readonly model: (string & {}) | OpenAI.Chat.ChatModel;
   readonly apiKey?: string;
   readonly baseUrl?: string;
   readonly organization?: string;
@@ -24,21 +24,54 @@ export interface OpenAIChatModelOptions {
       ) => OpenAI.ChatCompletionCreateParams | Promise<OpenAI.ChatCompletionCreateParams>);
 }
 
+export interface AzureOpenAIChatModelOptions extends OpenAIChatModelOptions {
+  /**
+   * Defaults to process.env['OPENAI_API_VERSION'].
+   */
+  apiVersion?: string;
+
+  /**
+   * Your Azure endpoint, including the resource, e.g. `https://example-resource.azure.openai.com/`
+   */
+  endpoint?: string;
+
+  /**
+   * A function that returns an access token for Microsoft Entra (formerly known as Azure Active Directory),
+   * which will be invoked on every request.
+   */
+  azureADTokenProvider?: () => Promise<string>;
+}
+
 export class OpenAIChatModel implements ChatModel {
   private readonly _openai: OpenAI;
   private readonly _log: Logger;
 
-  constructor(readonly options: OpenAIChatModelOptions) {
+  constructor(readonly options: OpenAIChatModelOptions | AzureOpenAIChatModelOptions) {
     this._log = options.logger || new ConsoleLogger(`@teams.sdk/openai/${this.options.model}`);
-    this._openai = new OpenAI({
-      apiKey: options.apiKey,
-      baseURL: options.baseUrl,
-      organization: options.organization,
-      project: options.project,
-      defaultHeaders: options.headers,
-      fetch: options.fetch,
-      timeout: options.timeout,
-    });
+    this._openai =
+      'endpoint' in options
+        ? new AzureOpenAI({
+            apiKey: options.apiKey,
+            apiVersion: options.apiVersion,
+            endpoint: options.endpoint,
+            deployment: options.model,
+            azureADTokenProvider: options.azureADTokenProvider,
+            baseURL: options.baseUrl,
+            organization: options.organization,
+            project: options.project,
+            defaultHeaders: options.headers,
+            fetch: options.fetch,
+            timeout: options.timeout,
+          })
+        : new OpenAI({
+            apiKey: options.apiKey,
+            baseURL: options.baseUrl,
+            organization: options.organization,
+            project: options.project,
+            defaultHeaders: options.headers,
+            fetch: options.fetch,
+            timeout: options.timeout,
+          });
   }
 
   async chat(
@@ -97,7 +130,7 @@ export class OpenAIChatModel implements ChatModel {
       }
 
       const completion = await this._openai.chat.completions.create({
-        model: this.options.model,
+        model: 'endpoint' in this.options ? '' : this.options.model,
         temperature: this.options.temperature,
         stream: this.options.stream,
         ...requestOptions,

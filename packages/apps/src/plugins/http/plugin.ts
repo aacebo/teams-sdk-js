@@ -7,6 +7,7 @@ import {
   JsonWebToken,
   ConversationReference,
   Client,
+  Token,
 } from '@teams.sdk/api';
 import { ConsoleLogger, Logger, EventEmitter, EventHandler } from '@teams.sdk/common';
 
@@ -168,13 +169,20 @@ export class HttpPlugin implements Plugin {
 
     const authorization = req.headers.authorization?.replace('Bearer ', '');
 
-    if (!authorization) {
+    if (!authorization && process.env.NODE_ENV !== 'local') {
       res.status(401).send('unauthorized');
       return;
     }
 
-    const token = new JsonWebToken(authorization);
     const activity: Activity = req.body;
+    const token: Token = authorization
+      ? new JsonWebToken(authorization)
+      : {
+          appId: '',
+          from: 'azure',
+          fromId: '',
+          serviceUrl: activity.serviceUrl || 'https://smba.trafficmanager.net/teams',
+        };
 
     this.pending[activity.id] = res;
     this.events.emit('activity.received', {

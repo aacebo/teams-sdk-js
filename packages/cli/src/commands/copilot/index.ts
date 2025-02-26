@@ -16,7 +16,7 @@ export function Copilot(ctx: Context): CommandModule<{}, Args> {
   return {
     command: 'copilot',
     aliases: 'c',
-    describe: 'ask teams copilot to make changes to your project',
+    describe: '[beta] ask teams copilot to make changes to your project',
     builder: (b) => {
       return b
         .option('prompt', {

@@ -8,7 +8,6 @@ import { ConsoleLogger } from '@teams.sdk/common';
 import { Context } from './context';
 import { Storage } from './storage';
 import { Config } from './config';
-import { banner } from './banner';
 import * as commands from './commands';
 
 (async () => {
@@ -20,12 +19,12 @@ import * as commands from './commands';
     config,
   };
 
-  process.stdout.write(banner);
+  let args = yargs(hideBin(process.argv)).scriptName('teams').command(commands.New(ctx));
 
-  await yargs(hideBin(process.argv))
-    .command(commands.New(ctx))
-    .command(commands.Copilot(ctx))
-    .parse();
+  if (process.env.TEAMS_CLI_ENV === 'development') {
+    args = args.command(commands.Copilot(ctx));
+  }
 
+  args.parse();
   storage.destroy();
 })();
