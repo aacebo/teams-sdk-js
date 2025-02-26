@@ -1,10 +1,10 @@
 import { MessageSendActivity } from '@teams.sdk/api';
-import { App, HttpPlugin } from '@teams.sdk/apps';
+import { App } from '@teams.sdk/apps';
 import { DevtoolsPlugin } from '@teams.sdk/dev';
 import { Card, CodeBlock } from '@teams.sdk/cards';
 
 const app = new App({
-  plugins: [new DevtoolsPlugin(), new HttpPlugin()],
+  plugins: [new DevtoolsPlugin()],
 });
 
 app.on('message', async ({ log, signin, isSignedIn }) => {

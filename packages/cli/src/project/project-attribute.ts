@@ -7,3 +7,10 @@ export interface ProjectAttribute {
   typescript(targetDir: string): void | Promise<void>;
   csharp(targetDir: string): void | Promise<void>;
 }
+
+export interface ProjectAttributeOperation {
+  readonly name: string;
+
+  apply(): void | Promise<void>;
+  undo(): void | Promise<void>;
+}
