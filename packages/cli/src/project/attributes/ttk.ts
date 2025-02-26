@@ -32,11 +32,10 @@ export class TeamsToolkitAttribute implements ProjectAttribute {
     }
 
     pkg.devDependencies['env-cmd'] = 'latest';
-    pkg.devDependencies['@microsoft/teams-app-test-tool'] = 'latest';
-    pkg.scripts['dev:teamsfx'] = 'env-cmd --silent -f .localConfigs npm run dev';
-    pkg.scripts['dev:teamsfx:testtool'] = 'env-cmd --silent -f .localConfigs npm run dev';
+    pkg.scripts['dev:teamsfx'] = 'npx env-cmd --silent -f .localConfigs npm run dev';
+    pkg.scripts['dev:teamsfx:testtool'] = 'npx env-cmd --silent -f .localConfigs npm run dev';
     pkg.scripts['dev:teamsfx:launch-testtool'] =
-      "env-cmd --silent -f env/.env.testtool npx '@microsoft/teams-app-test-tool' start";
+      'npx env-cmd --silent -f env/.env.testtool teamsapptester start';
 
     write(targetDir, targetDir, 'package.json', JSON.stringify(pkg, null, 2) + '\n');
   }
