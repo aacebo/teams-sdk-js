@@ -32,8 +32,8 @@ export class TeamsToolkitAttribute implements ProjectAttribute {
     }
 
     pkg.devDependencies['env-cmd'] = 'latest';
-    pkg.scripts['dev:teamsfx'] = 'npx env-cmd --silent -f .localConfigs npm run dev';
-    pkg.scripts['dev:teamsfx:testtool'] = 'npx env-cmd --silent -f .localConfigs npm run dev';
+    pkg.scripts['dev:teamsfx'] = 'npx env-cmd --silent -f .env npm run dev';
+    pkg.scripts['dev:teamsfx:testtool'] = 'npx env-cmd --silent -f .env npm run dev';
     pkg.scripts['dev:teamsfx:launch-testtool'] =
       'npx env-cmd --silent -f env/.env.testtool teamsapptester start';
 

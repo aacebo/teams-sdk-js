@@ -72,5 +72,6 @@ deploy:
     with:
         target: ./.env
         envs:
-            BOT_ID: ${{BOT_ID}}
-            BOT_PASSWORD: ${{SECRET_BOT_PASSWORD}}
+          PORT: 3978
+          CLIENT_ID: ${{BOT_ID}}
+          CLIENT_SECRET: ${{SECRET_BOT_PASSWORD}}
