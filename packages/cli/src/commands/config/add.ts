@@ -40,9 +40,7 @@ export function Add(_: Context): CommandModule<{}, Args> {
 
       await project.up();
       console.log(
-        new String()
-          .bold(new String().green(`✅ config "${name}" successfully added`).toString())
-          .toString()
+        new String().bold(new String().green(`✅ config "${name}" successfully added`)).toString()
       );
     },
   };

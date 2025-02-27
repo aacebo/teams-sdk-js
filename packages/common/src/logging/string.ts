@@ -1,6 +1,10 @@
 import { ANSI } from './ansi';
 
-export class String {
+interface StringLike {
+  toString(): string;
+}
+
+export class String implements StringLike {
   private _value: string = '';
 
   clear() {
@@ -8,7 +12,7 @@ export class String {
     return this;
   }
 
-  append(text: string) {
+  append(text: StringLike) {
     this._value += text;
     return;
   }
@@ -18,117 +22,117 @@ export class String {
     return this;
   }
 
-  bold(text: string) {
+  bold(text: StringLike) {
     this._value += ANSI.Bold + text + ANSI.BoldReset;
     return this;
   }
 
-  italic(text: string) {
+  italic(text: StringLike) {
     this._value += ANSI.Italic + text + ANSI.ItalicReset;
     return this;
   }
 
-  underline(text: string) {
+  underline(text: StringLike) {
     this._value += ANSI.Underline + text + ANSI.UnderlineReset;
     return this;
   }
 
-  strike(text: string) {
+  strike(text: StringLike) {
     this._value += ANSI.Strike + text + ANSI.StrikeReset;
     return this;
   }
 
-  black(text: string) {
+  black(text: StringLike) {
     this._value += ANSI.ForegroundBlack + text + ANSI.ForegroundReset;
     return this;
   }
 
-  bgBlack(text: string) {
+  bgBlack(text: StringLike) {
     this._value += ANSI.BackgroundBlack + text + ANSI.BackgroundReset;
     return this;
   }
 
-  red(text: string) {
+  red(text: StringLike) {
     this._value += ANSI.ForegroundRed + text + ANSI.ForegroundReset;
     return this;
   }
 
-  bgRed(text: string) {
+  bgRed(text: StringLike) {
     this._value += ANSI.BackgroundRed + text + ANSI.BackgroundReset;
     return this;
   }
 
-  green(text: string) {
+  green(text: StringLike) {
     this._value += ANSI.ForegroundGreen + text + ANSI.ForegroundReset;
     return this;
   }
 
-  bgGeen(text: string) {
+  bgGeen(text: StringLike) {
     this._value += ANSI.BackgroundGreen + text + ANSI.BackgroundReset;
     return this;
   }
 
-  yellow(text: string) {
+  yellow(text: StringLike) {
     this._value += ANSI.ForegroundYellow + text + ANSI.ForegroundReset;
     return this;
   }
 
-  bgYellow(text: string) {
+  bgYellow(text: StringLike) {
     this._value += ANSI.BackgroundYellow + text + ANSI.BackgroundReset;
     return this;
   }
 
-  blue(text: string) {
+  blue(text: StringLike) {
     this._value += ANSI.ForegroundBlue + text + ANSI.ForegroundReset;
     return this;
   }
 
-  bgBlue(text: string) {
+  bgBlue(text: StringLike) {
     this._value += ANSI.BackgroundBlue + text + ANSI.BackgroundReset;
     return this;
   }
 
-  magenta(text: string) {
+  magenta(text: StringLike) {
     this._value += ANSI.ForegroundMagenta + text + ANSI.ForegroundReset;
     return this;
   }
 
-  bgMagenta(text: string) {
+  bgMagenta(text: StringLike) {
     this._value += ANSI.BackgroundMagenta + text + ANSI.BackgroundReset;
     return this;
   }
 
-  cyan(text: string) {
+  cyan(text: StringLike) {
     this._value += ANSI.ForegroundCyan + text + ANSI.ForegroundReset;
     return this;
   }
 
-  bgCyan(text: string) {
+  bgCyan(text: StringLike) {
     this._value += ANSI.BackgroundCyan + text + ANSI.BackgroundReset;
     return this;
   }
 
-  white(text: string) {
+  white(text: StringLike) {
     this._value += ANSI.ForegroundWhite + text + ANSI.ForegroundReset;
     return this;
   }
 
-  bgWhite(text: string) {
+  bgWhite(text: StringLike) {
     this._value += ANSI.BackgroundWhite + text + ANSI.BackgroundReset;
     return this;
   }
 
-  gray(text: string) {
+  gray(text: StringLike) {
     this._value += ANSI.ForegroundGray + text + ANSI.ForegroundReset;
     return this;
   }
 
-  default(text: string) {
+  default(text: StringLike) {
     this._value += ANSI.ForegroundDefault + text + ANSI.ForegroundReset;
     return this;
   }
 
-  bgDefault(text: string) {
+  bgDefault(text: StringLike) {
     this._value += ANSI.BackgroundDefault + text + ANSI.BackgroundReset;
     return this;
   }

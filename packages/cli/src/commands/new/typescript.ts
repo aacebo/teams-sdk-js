@@ -129,9 +129,7 @@ export function Typescript(_: Context): CommandModule<{}, z.infer<typeof ArgsSch
       await project.up();
       console.log(
         new String()
-          .bold(
-            new String().green(`✅ App "${name}" created successfully at ${projectDir}`).toString()
-          )
+          .bold(new String().green(`✅ App "${name}" created successfully at ${projectDir}`))
           .toString()
       );
 
