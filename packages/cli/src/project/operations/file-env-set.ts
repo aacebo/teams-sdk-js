@@ -1,5 +1,6 @@
 import path from 'node:path';
 import fs from 'node:fs';
+import { String } from '@teams.sdk/common';
 
 import { ProjectAttributeOperation } from '../project-attribute';
 
@@ -20,7 +21,9 @@ export class FileEnvSetOperation implements ProjectAttributeOperation {
 
   up() {
     const filePath = path.join(this._path, this._filename);
-    process.stdout.write(`updating file "${filePath}"...`);
+    process.stdout.write(
+      new String().cyan(`setting "${this._key}" in "${path.basename(filePath)}"...`).toString()
+    );
     let lines: string[] = [];
 
     if (fs.existsSync(filePath)) {
@@ -37,7 +40,7 @@ export class FileEnvSetOperation implements ProjectAttributeOperation {
     env[this._key] = this._value;
     lines = Object.entries(env).map(([key, value]) => `${key}=${value}`);
     fs.writeFileSync(filePath, lines.join('\n'), 'utf8');
-    process.stdout.write('done\n');
+    process.stdout.write('✅\n');
   }
 
   down() {
@@ -47,7 +50,9 @@ export class FileEnvSetOperation implements ProjectAttributeOperation {
       return;
     }
 
-    process.stdout.write(`updating file "${filePath}"...`);
+    process.stdout.write(
+      new String().yellow(`deleting "${this._key}" from "${path.basename(filePath)}"...`).toString()
+    );
     let lines: string[] = [];
 
     if (fs.existsSync(filePath)) {
@@ -64,6 +69,6 @@ export class FileEnvSetOperation implements ProjectAttributeOperation {
     delete env[this._key];
     lines = Object.entries(env).map(([key, value]) => `${key}=${value}`);
     fs.writeFileSync(filePath, lines.join('\n'), 'utf8');
-    process.stdout.write('done\n');
+    process.stdout.write('✅\n');
   }
 }

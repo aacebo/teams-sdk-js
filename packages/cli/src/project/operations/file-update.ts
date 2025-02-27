@@ -1,5 +1,6 @@
 import path from 'node:path';
 import fs from 'node:fs';
+import { String } from '@teams.sdk/common';
 
 import { ProjectAttributeOperation } from '../project-attribute';
 
@@ -20,12 +21,12 @@ export class FileUpdateOperation implements ProjectAttributeOperation {
     const filePath = path.join(this._path, this._filename);
 
     if (!fs.existsSync(filePath)) {
-      throw new Error(`file "${filePath}" does not exist`);
+      throw new Error(`"${filePath}" does not exist`);
     }
 
-    process.stdout.write(`updating file "${filePath}"...`);
+    process.stdout.write(new String().cyan(`updating "${path.basename(filePath)}"...`).toString());
     fs.writeFileSync(filePath, this._content || '', 'utf8');
-    process.stdout.write('done\n');
+    process.stdout.write('✅\n');
   }
 
   down() {}

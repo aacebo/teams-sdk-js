@@ -8,6 +8,7 @@ import { z } from 'zod';
 
 import { Context } from '../../context';
 import { Project } from '../../project';
+import { String } from '@teams.sdk/common';
 
 const ArgsSchema = z.object({
   name: z.string(),
@@ -126,7 +127,13 @@ export function Typescript(_: Context): CommandModule<{}, z.infer<typeof ArgsSch
       }
 
       await project.up();
-      console.log(`✅ App "${name}" created successfully at ${projectDir}`);
+      console.log(
+        new String()
+          .bold(
+            new String().green(`✅ App "${name}" created successfully at ${projectDir}`).toString()
+          )
+          .toString()
+      );
 
       if (start) {
         console.log(`cd ${name} && npm install && npm run dev`);

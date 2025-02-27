@@ -1,4 +1,6 @@
 import fs from 'node:fs';
+import path from 'node:path';
+import { String } from '@teams.sdk/common';
 
 import { ProjectAttributeOperation } from '../project-attribute';
 
@@ -15,12 +17,14 @@ export class FileCopyOperation implements ProjectAttributeOperation {
 
   up() {
     if (!fs.existsSync(this._from)) {
-      throw new Error(`file "${this._from}" does not exist`);
+      throw new Error(`"${this._from}" does not exist`);
     }
 
-    process.stdout.write(`copying file "${this._from}" to "${this._to}"...`);
+    process.stdout.write(
+      new String().cyan(`copying "${path.basename(this._from)}" => "${this._to}"...`).toString()
+    );
     fs.copyFileSync(this._from, this._to);
-    process.stdout.write('done\n');
+    process.stdout.write('✅\n');
   }
 
   down() {
@@ -28,8 +32,8 @@ export class FileCopyOperation implements ProjectAttributeOperation {
       return;
     }
 
-    process.stdout.write(`deleting file "${this._to}"...`);
+    process.stdout.write(new String().yellow(`deleting "${this._to}"...`).toString());
     fs.rmSync(this._to);
-    process.stdout.write('done\n');
+    process.stdout.write('✅\n');
   }
 }

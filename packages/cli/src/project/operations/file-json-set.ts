@@ -1,5 +1,6 @@
 import path from 'node:path';
 import fs from 'node:fs';
+import { String } from '@teams.sdk/common';
 
 import { ProjectAttributeOperation } from '../project-attribute';
 
@@ -23,14 +24,16 @@ export class FileJsonSetOperation implements ProjectAttributeOperation {
     const filePath = path.join(this._path, this._filename);
 
     if (!fs.existsSync(filePath)) {
-      throw new Error(`file "${filePath}" does not exist`);
+      throw new Error(`"${filePath}" does not exist`);
     }
 
     if (ext !== '.json') {
-      throw new Error(`file "${filePath}" is not a json type`);
+      throw new Error(`"${filePath}" is not a json type`);
     }
 
-    process.stdout.write(`updating file "${filePath}"...`);
+    process.stdout.write(
+      new String().cyan(`setting "${this._key}" in "${path.basename(filePath)}"...`).toString()
+    );
     let json = {};
 
     try {
@@ -42,7 +45,7 @@ export class FileJsonSetOperation implements ProjectAttributeOperation {
 
     this._set(json, this._key, this._value);
     fs.writeFileSync(filePath, JSON.stringify(json, null, 2) + '\n', 'utf8');
-    process.stdout.write('done\n');
+    process.stdout.write('✅\n');
   }
 
   down() {}

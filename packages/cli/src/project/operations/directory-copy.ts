@@ -19,7 +19,7 @@ export class DirectoryCopyOperation implements ProjectAttributeOperation {
     const operations: Array<ProjectAttributeOperation> = [];
 
     if (!fs.existsSync(this._from)) {
-      throw new Error(`directory "${this._from}" does not exist`);
+      throw new Error(`"${this._from}" does not exist`);
     }
 
     if (!fs.statSync(this._from).isDirectory()) {
@@ -55,7 +55,7 @@ export class DirectoryCopyOperation implements ProjectAttributeOperation {
     const operations: Array<ProjectAttributeOperation> = [];
 
     if (!fs.existsSync(this._from)) {
-      throw new Error(`directory "${this._from}" does not exist`);
+      throw new Error(`"${this._from}" does not exist`);
     }
 
     if (!fs.statSync(this._from).isDirectory()) {

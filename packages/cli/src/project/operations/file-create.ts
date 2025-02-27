@@ -1,5 +1,6 @@
 import path from 'node:path';
 import fs from 'node:fs';
+import { String } from '@teams.sdk/common';
 
 import { ProjectAttributeOperation } from '../project-attribute';
 
@@ -24,12 +25,12 @@ export class FileCreateOperation implements ProjectAttributeOperation {
     }
 
     if (fs.existsSync(filePath)) {
-      throw new Error(`file "${filePath}" already exists`);
+      throw new Error(`"${filePath}" already exists`);
     }
 
-    process.stdout.write(`creating file "${filePath}"...`);
+    process.stdout.write(new String().cyan(`creating "${filePath}"...`).toString());
     fs.writeFileSync(filePath, this._content || '', 'utf8');
-    process.stdout.write('done\n');
+    process.stdout.write('✅\n');
   }
 
   down() {
@@ -39,8 +40,8 @@ export class FileCreateOperation implements ProjectAttributeOperation {
       return;
     }
 
-    process.stdout.write(`deleting file "${filePath}"...`);
+    process.stdout.write(new String().yellow(`deleting "${filePath}"...`).toString());
     fs.rmSync(filePath);
-    process.stdout.write('done\n');
+    process.stdout.write('✅\n');
   }
 }
