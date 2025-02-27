@@ -72,11 +72,10 @@ export function CSharp(): CommandModule<{}, Args> {
       const project = new Project(projectDir, name, 'csharp').addTemplate(template);
 
       if (ttk) {
-        project.addTeamsToolkit('csharp');
+        project.addTeamsToolkit('basic');
       }
 
       await project.write();
-
       console.log(`✅ App "${name}" created successfully at ${projectDir}`);
     },
   };

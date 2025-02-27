@@ -126,7 +126,6 @@ export function Typescript(_: Context): CommandModule<{}, z.infer<typeof ArgsSch
       }
 
       await project.write();
-
       console.log(`✅ App "${name}" created successfully at ${projectDir}`);
 
       if (start) {
