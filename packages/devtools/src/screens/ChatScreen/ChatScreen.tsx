@@ -9,13 +9,14 @@ import ChatMessageContainer from '../../components/ChatMessage/ChatMessageContai
 import ChatMessage from '../../components/ChatMessage/ChatMessage';
 import ComposeBox from '../../components/ComposeBox/ComposeBox';
 import TypingIndicator from '../../components/TypingIndicator/TypingIndicator';
-
+import { useScreensClasses } from '../Screens.styles';
 interface ChatScreenProps {
   isConnected: boolean;
 }
 
 const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
   const classes = useClasses();
+  const screenClasses = useScreensClasses();
   const { chat, feedback, messages, streaming, typing } = useContext(ChatContext);
 
   const [attachments, setAttachments] = useState<Attachment[]>([]);
@@ -36,8 +37,8 @@ const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
   };
 
   return (
-    <Chat className={classes.chatPaneContainer}>
-      <div className={classes.scrollbarContainer}>
+    <Chat className={screenClasses.screenContainer}>
+      <div className={screenClasses.scrollbarContainer}>
         <div className={classes.messagesList}>
           {chat &&
             (messages[chat.id] || []).map((message) => (
