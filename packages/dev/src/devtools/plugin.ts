@@ -22,10 +22,6 @@ import {
 import { router } from './routes';
 import { ActivityEvent, Event } from './event';
 
-export interface DevtoolsOptions {
-  readonly port?: number;
-}
-
 interface ResolveRejctPromise<T = any> {
   readonly resolve: (value: T) => void;
   readonly reject: (err: any) => void;
@@ -43,7 +39,7 @@ export class DevtoolsPlugin implements Plugin {
   protected events = new EventEmitter<PluginEvents>();
   protected pending: Record<string, ResolveRejctPromise> = {};
 
-  constructor(readonly options: DevtoolsOptions = {}) {
+  constructor() {
     this.log = new ConsoleLogger('@teams.sdk/app/devtools');
     this.express = express();
     this.http = http.createServer(this.express);
@@ -80,9 +76,17 @@ export class DevtoolsPlugin implements Plugin {
     }
 
     this.log = app.log.child('devtools');
+  }
+
+  /**
+   * start listening
+   * @param port port to listen on
+   */
+  async onStart(port = 3000) {
+    port += 1;
     this.express.use(
       router({
-        port: this.options.port || 3001,
+        port,
         log: this.log,
         process: (token, activity) => {
           return new Promise((resolve, reject) => {
@@ -95,14 +99,6 @@ export class DevtoolsPlugin implements Plugin {
         },
       })
     );
-  }
-
-  /**
-   * start listening
-   * @param port port to listen on
-   */
-  async onStart(port = 3000) {
-    port = (this.options.port || port || 3000) + 1;
 
     return await new Promise<void>((resolve, reject) => {
       this.http.on('error', (err) => {
