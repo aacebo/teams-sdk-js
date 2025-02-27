@@ -46,7 +46,7 @@ export class FileJsonSetOperation implements ProjectAttributeOperation {
 
     this._set(json, this._key, this._value);
     fs.writeFileSync(filePath, JSON.stringify(json, null, 2) + '\n', 'utf8');
-    process.stdout.write('✅\n');
+    process.stdout.write('✔️\n');
   }
 
   down() {
@@ -81,7 +81,7 @@ export class FileJsonSetOperation implements ProjectAttributeOperation {
 
     this._set(json, this._key);
     fs.writeFileSync(filePath, JSON.stringify(json, null, 2) + '\n', 'utf8');
-    process.stdout.write('✅\n');
+    process.stdout.write('✔️\n');
   }
 
   private _exists(object: any, path: string) {

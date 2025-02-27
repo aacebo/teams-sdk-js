@@ -27,7 +27,7 @@ export class FileUpdateOperation implements ProjectAttributeOperation {
 
     process.stdout.write(new String().cyan(`updating "${relativeFilePath}"...`).toString());
     fs.writeFileSync(filePath, this._content || '', 'utf8');
-    process.stdout.write('✅\n');
+    process.stdout.write('✔️\n');
   }
 
   down() {}

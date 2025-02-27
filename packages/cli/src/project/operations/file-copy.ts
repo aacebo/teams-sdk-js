@@ -26,7 +26,7 @@ export class FileCopyOperation implements ProjectAttributeOperation {
       new String().cyan(`copying "${path.basename(this._from)}" => "${relativeTo}"...`).toString()
     );
     fs.copyFileSync(this._from, this._to);
-    process.stdout.write('✅\n');
+    process.stdout.write('✔️\n');
   }
 
   down() {
@@ -38,6 +38,6 @@ export class FileCopyOperation implements ProjectAttributeOperation {
 
     process.stdout.write(new String().yellow(`deleting "${relativeTo}"...`).toString());
     fs.rmSync(this._to);
-    process.stdout.write('✅\n');
+    process.stdout.write('✔️\n');
   }
 }

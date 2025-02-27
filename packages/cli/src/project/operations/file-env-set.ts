@@ -41,7 +41,7 @@ export class FileEnvSetOperation implements ProjectAttributeOperation {
     env[this._key] = this._value;
     lines = Object.entries(env).map(([key, value]) => `${key}=${value}`);
     fs.writeFileSync(filePath, lines.join('\n'), 'utf8');
-    process.stdout.write('✅\n');
+    process.stdout.write('✔️\n');
   }
 
   down() {
@@ -71,6 +71,6 @@ export class FileEnvSetOperation implements ProjectAttributeOperation {
     delete env[this._key];
     lines = Object.entries(env).map(([key, value]) => `${key}=${value}`);
     fs.writeFileSync(filePath, lines.join('\n'), 'utf8');
-    process.stdout.write('✅\n');
+    process.stdout.write('✔️\n');
   }
 }

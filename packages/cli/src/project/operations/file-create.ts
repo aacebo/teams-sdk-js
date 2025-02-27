@@ -31,7 +31,7 @@ export class FileCreateOperation implements ProjectAttributeOperation {
 
     process.stdout.write(new String().cyan(`creating "${relativeFilePath}"...`).toString());
     fs.writeFileSync(filePath, this._content || '', 'utf8');
-    process.stdout.write('✅\n');
+    process.stdout.write('✔️\n');
   }
 
   down() {
@@ -44,6 +44,6 @@ export class FileCreateOperation implements ProjectAttributeOperation {
 
     process.stdout.write(new String().yellow(`deleting "${relativeFilePath}"...`).toString());
     fs.rmSync(filePath);
-    process.stdout.write('✅\n');
+    process.stdout.write('✔️\n');
   }
 }
