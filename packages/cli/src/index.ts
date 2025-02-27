@@ -19,7 +19,10 @@ import * as commands from './commands';
     config,
   };
 
-  let args = yargs(hideBin(process.argv)).scriptName('teams').command(commands.New(ctx));
+  let args = yargs(hideBin(process.argv))
+    .scriptName('teams')
+    .command(commands.New(ctx))
+    .command(commands.Config(ctx));
 
   if (process.env.TEAMS_CLI_ENV === 'development') {
     args = args.command(commands.Copilot(ctx));

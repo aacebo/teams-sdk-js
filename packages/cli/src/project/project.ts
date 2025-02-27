@@ -1,3 +1,6 @@
+import path from 'node:path';
+import fs from 'node:fs';
+
 import { ProjectAttribute } from './project-attribute';
 import { ProjectLanguage } from './project-language';
 import * as attributes from './attributes';
@@ -57,5 +60,18 @@ export class Project {
       const op = await attribute[this._language](this._path);
       await op.down();
     }
+  }
+
+  static load(): Project {
+    const language = fs.existsSync(path.join(process.cwd(), 'package.json'))
+      ? 'typescript'
+      : undefined;
+
+    if (!language) {
+      throw new Error('invalid project');
+    }
+
+    const name = path.basename(process.cwd());
+    return new Project(process.cwd(), name, language);
   }
 }
