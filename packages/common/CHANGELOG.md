@@ -1,5 +1,11 @@
 # @teams.sdk/common
 
+## 0.1.38
+
+### Patch Changes
+
+- fix devtools bug in port binding
+
 ## 0.1.37
 
 ### Patch Changes

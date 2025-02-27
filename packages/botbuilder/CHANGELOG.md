@@ -1,5 +1,16 @@
 # @teams.sdk/botbuilder
 
+## 0.1.38
+
+### Patch Changes
+
+- fix devtools bug in port binding
+- Updated dependencies
+    - @teams.sdk/api@0.1.38
+    - @teams.sdk/apps@0.1.38
+    - @teams.sdk/common@0.1.38
+    - @teams.sdk/graph@0.1.38
+
 ## 0.1.37
 
 ### Patch Changes

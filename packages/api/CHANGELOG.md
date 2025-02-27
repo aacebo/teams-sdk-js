@@ -1,5 +1,14 @@
 # @teams.sdk/api
 
+## 0.1.38
+
+### Patch Changes
+
+- fix devtools bug in port binding
+- Updated dependencies
+    - @teams.sdk/cards@0.1.38
+    - @teams.sdk/common@0.1.38
+
 ## 0.1.37
 
 ### Patch Changes
