@@ -16,15 +16,15 @@ import { useClasses } from './PageNavButton.styles';
 type IconType = 'chat' | 'cards' | 'activities' | 'logs';
 
 const iconMap: Record<IconType, { default: JSX.Element; active: JSX.Element }> = {
-  chat: { default: <Chat20Regular tabIndex={-1} />, active: <Chat20Filled tabIndex={-1} /> },
-  cards: { default: <CardUi20Regular tabIndex={-1} />, active: <CardUi20Filled tabIndex={-1} /> },
+  chat: { default: <Chat20Regular />, active: <Chat20Filled /> },
+  cards: { default: <CardUi20Regular />, active: <CardUi20Filled /> },
   activities: {
-    default: <Search20Regular tabIndex={-1} />,
-    active: <Search20Filled tabIndex={-1} />,
+    default: <Search20Regular />,
+    active: <Search20Filled />,
   },
   logs: {
-    default: <DocumentBulletList20Regular tabIndex={-1} />,
-    active: <DocumentBulletList20Filled tabIndex={-1} />,
+    default: <DocumentBulletList20Regular />,
+    active: <DocumentBulletList20Filled />,
   },
 };
 
