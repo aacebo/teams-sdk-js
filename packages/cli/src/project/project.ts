@@ -56,7 +56,7 @@ export class Project {
   }
 
   async down() {
-    for (const attribute of this._attributes) {
+    for (const attribute of this._attributes.toReversed()) {
       const op = await attribute[this._language](this._path);
       await op.down();
     }

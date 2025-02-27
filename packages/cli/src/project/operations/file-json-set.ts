@@ -49,9 +49,57 @@ export class FileJsonSetOperation implements ProjectAttributeOperation {
     process.stdout.write('✅\n');
   }
 
-  down() {}
+  down() {
+    const ext = path.extname(this._filename).toLowerCase();
+    const filePath = path.join(this._path, this._filename);
+    const relativeFilePath = path.relative(process.cwd(), filePath);
 
-  private _set(object: any, path: string, value: any) {
+    if (!fs.existsSync(filePath)) {
+      return;
+    }
+
+    if (ext !== '.json') {
+      throw new Error(`"${filePath}" is not a json type`);
+    }
+
+    let json = {};
+
+    try {
+      const content = fs.readFileSync(filePath, 'utf8');
+      json = JSON.parse(content);
+    } catch (err) {
+      throw new Error(`"${filePath}" could not be parsed`);
+    }
+
+    if (!this._exists(json, this._key)) {
+      return;
+    }
+
+    process.stdout.write(
+      new String().yellow(`removing "${this._key}" in "${relativeFilePath}"...`).toString()
+    );
+
+    this._set(json, this._key);
+    fs.writeFileSync(filePath, JSON.stringify(json, null, 2) + '\n', 'utf8');
+    process.stdout.write('✅\n');
+  }
+
+  private _exists(object: any, path: string) {
+    const parts = path.split('.');
+    let current = object;
+
+    while (parts.length) {
+      const key = parts.shift();
+
+      if (!key) continue;
+      if (!current[key]) return false;
+      current = current[key];
+    }
+
+    return current !== undefined;
+  }
+
+  private _set(object: any, path: string, value?: any) {
     const parts = path.split('.');
     let current = object;
 
@@ -64,6 +112,11 @@ export class FileJsonSetOperation implements ProjectAttributeOperation {
       }
 
       if (!parts.length) {
+        if (value === undefined) {
+          delete current[key];
+          return;
+        }
+
         current[key] = value;
       } else {
         current = current[key];

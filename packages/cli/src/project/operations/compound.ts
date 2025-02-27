@@ -16,7 +16,7 @@ export class CompoundOperation implements ProjectAttributeOperation {
   }
 
   async down() {
-    for (const op of this._operations) {
+    for (const op of this._operations.toReversed()) {
       await op.down();
     }
   }

@@ -82,7 +82,7 @@ export class DirectoryCopyOperation implements ProjectAttributeOperation {
       }
     }
 
-    for (const op of operations) {
+    for (const op of operations.toReversed()) {
       await op.down();
     }
   }
