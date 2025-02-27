@@ -16,7 +16,7 @@ export class FileUpdateOperation implements ProjectAttributeOperation {
     this._content = content;
   }
 
-  apply() {
+  up() {
     const filePath = path.join(this._path, this._filename);
 
     if (!fs.existsSync(filePath)) {
@@ -25,8 +25,8 @@ export class FileUpdateOperation implements ProjectAttributeOperation {
 
     process.stdout.write(`updating file "${filePath}"...`);
     fs.writeFileSync(filePath, this._content || '', 'utf8');
-    process.stdout.write('done');
+    process.stdout.write('done\n');
   }
 
-  undo() {}
+  down() {}
 }

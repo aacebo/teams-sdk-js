@@ -125,7 +125,7 @@ export function Typescript(_: Context): CommandModule<{}, z.infer<typeof ArgsSch
         project.addEnv('AZURE_OPENAI_ENDPOINT', process.env.AZURE_OPENAI_ENDPOINT);
       }
 
-      await project.write();
+      await project.up();
       console.log(`✅ App "${name}" created successfully at ${projectDir}`);
 
       if (start) {

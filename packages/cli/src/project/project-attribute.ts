@@ -4,13 +4,13 @@ export interface ProjectAttribute {
   readonly alias?: string;
   readonly description: string;
 
-  typescript(targetDir: string): void | Promise<void>;
-  csharp(targetDir: string): void | Promise<void>;
+  typescript(targetDir: string): ProjectAttributeOperation | Promise<ProjectAttributeOperation>;
+  csharp(targetDir: string): ProjectAttributeOperation | Promise<ProjectAttributeOperation>;
 }
 
 export interface ProjectAttributeOperation {
   readonly name: string;
 
-  apply(): void | Promise<void>;
-  undo(): void | Promise<void>;
+  up(): void | Promise<void>;
+  down(): void | Promise<void>;
 }

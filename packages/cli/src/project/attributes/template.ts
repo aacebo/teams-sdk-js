@@ -3,7 +3,7 @@ import url from 'node:url';
 import fs from 'node:fs';
 
 import { ProjectAttribute } from '../project-attribute';
-import { write } from '../write';
+import { CompoundOperation, CopyOperation, FileJsonSetOperation } from '../operations';
 
 export class TemplateAttribute implements ProjectAttribute {
   readonly id: string;
@@ -19,37 +19,34 @@ export class TemplateAttribute implements ProjectAttribute {
   typescript(targetDir: string) {
     fs.mkdirSync(targetDir, { recursive: true });
 
-    const templateDir = path.resolve(
-      url.fileURLToPath(import.meta.url),
-      '../..',
-      'templates',
-      'typescript',
-      this.name
-    );
-
-    const files = fs.readdirSync(templateDir);
-
-    for (const file of files) {
-      write(templateDir, targetDir, file);
-    }
-
-    const pkg = JSON.parse(fs.readFileSync(path.join(templateDir, 'package.json'), 'utf-8'));
-    pkg.name = this.name;
-    write(templateDir, targetDir, 'package.json', JSON.stringify(pkg, null, 2) + '\n');
-
-    const manifest = JSON.parse(
-      fs.readFileSync(path.join(targetDir, 'appPackage', 'manifest.json'), 'utf-8')
-    );
-    manifest.name.short = `${this.name}-\${{APP_NAME_SUFFIX}}`;
-    manifest.name.full = this.name;
-
-    write(
-      path.join(templateDir, 'appPackage'),
-      path.join(targetDir, 'appPackage'),
-      'manifest.json',
-      JSON.stringify(manifest, null, 2) + '\n'
+    return new CompoundOperation(
+      new CopyOperation(
+        path.resolve(
+          url.fileURLToPath(import.meta.url),
+          '../..',
+          'templates',
+          'typescript',
+          this.name
+        ),
+        targetDir
+      ),
+      new FileJsonSetOperation(targetDir, 'package.json', 'name', this.name),
+      new FileJsonSetOperation(
+        path.join(targetDir, 'appPackage'),
+        'manifest.json',
+        'name.short',
+        `${this.name}-\${{APP_NAME_SUFFIX}}`
+      ),
+      new FileJsonSetOperation(
+        path.join(targetDir, 'appPackage'),
+        'manifest.json',
+        'name.full',
+        this.name
+      )
     );
   }
 
-  csharp(_: string) {}
+  csharp(_: string) {
+    return new CompoundOperation();
+  }
 }

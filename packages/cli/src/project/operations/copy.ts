@@ -1,4 +1,3 @@
-import path from 'node:path';
 import fs from 'node:fs';
 
 import { ProjectAttributeOperation } from '../project-attribute';
@@ -10,43 +9,37 @@ export class CopyOperation implements ProjectAttributeOperation {
 
   private _from: string;
   private _to: string;
-  private _name: string;
 
-  constructor(from: string, to: string, name: string) {
+  constructor(from: string, to: string) {
     this._from = from;
     this._to = to;
-    this._name = name;
   }
 
-  async apply() {
-    const from = path.join(this._from, this._name);
-
-    if (!fs.existsSync(from)) {
-      throw new Error(`"${from}" does not exist`);
+  up() {
+    if (!fs.existsSync(this._from)) {
+      throw new Error(`"${this._from}" does not exist`);
     }
 
-    const stat = fs.statSync(from);
+    const stat = fs.statSync(this._from);
 
     if (stat.isDirectory()) {
-      return new DirectoryCopyOperation(this._from, this._to, this._name).apply();
+      return new DirectoryCopyOperation(this._from, this._to).up();
     }
 
-    return new FileCopyOperation(this._from, this._to, this._name).apply();
+    return new FileCopyOperation(this._from, this._to).up();
   }
 
-  async undo() {
-    const to = path.join(this._to, this._name);
-
-    if (!fs.existsSync(to)) {
+  down() {
+    if (!fs.existsSync(this._to)) {
       return;
     }
 
-    const stat = fs.statSync(to);
+    const stat = fs.statSync(this._to);
 
     if (stat.isDirectory()) {
-      return new DirectoryCopyOperation(this._from, this._to, this._name).undo();
+      return new DirectoryCopyOperation(this._from, this._to).down();
     }
 
-    return new FileCopyOperation(this._from, this._to, this._name).undo();
+    return new FileCopyOperation(this._from, this._to).down();
   }
 }

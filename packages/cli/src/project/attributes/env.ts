@@ -1,8 +1,5 @@
-import path from 'node:path';
-import fs from 'node:fs';
-
 import { ProjectAttribute } from '../project-attribute';
-import { write } from '../write';
+import { CompoundOperation, FileEnvSetOperation } from '../operations';
 
 export class EnvAttribute implements ProjectAttribute {
   readonly id = 'env';
@@ -21,16 +18,12 @@ export class EnvAttribute implements ProjectAttribute {
   }
 
   typescript(targetDir: string) {
-    const filePath = path.join(targetDir, this._filename);
-    let lines: string[] = [];
-
-    if (fs.existsSync(filePath)) {
-      lines = fs.readFileSync(path.join(targetDir, this._filename), 'utf-8').split('\n');
-    }
-
-    lines.push(`${this._key}=${this._value}`);
-    write(targetDir, targetDir, this._filename, lines.join('\n'));
+    return new CompoundOperation(
+      new FileEnvSetOperation(targetDir, this._filename, this._key, this._value)
+    );
   }
 
-  csharp(_: string) {}
+  csharp(_: string) {
+    return new CompoundOperation();
+  }
 }

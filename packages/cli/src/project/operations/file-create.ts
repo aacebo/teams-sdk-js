@@ -16,7 +16,7 @@ export class FileCreateOperation implements ProjectAttributeOperation {
     this._content = content;
   }
 
-  apply() {
+  up() {
     const filePath = path.join(this._path, this._filename);
 
     if (!fs.existsSync(this._path)) {
@@ -29,10 +29,10 @@ export class FileCreateOperation implements ProjectAttributeOperation {
 
     process.stdout.write(`creating file "${filePath}"...`);
     fs.writeFileSync(filePath, this._content || '', 'utf8');
-    process.stdout.write('done');
+    process.stdout.write('done\n');
   }
 
-  undo() {
+  down() {
     const filePath = path.join(this._path, this._filename);
 
     if (!fs.existsSync(filePath)) {
@@ -41,6 +41,6 @@ export class FileCreateOperation implements ProjectAttributeOperation {
 
     process.stdout.write(`deleting file "${filePath}"...`);
     fs.rmSync(filePath);
-    process.stdout.write('done');
+    process.stdout.write('done\n');
   }
 }

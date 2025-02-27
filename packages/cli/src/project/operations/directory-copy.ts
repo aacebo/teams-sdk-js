@@ -9,63 +9,81 @@ export class DirectoryCopyOperation implements ProjectAttributeOperation {
 
   private _from: string;
   private _to: string;
-  private _name: string;
 
-  constructor(from: string, to: string, name: string) {
+  constructor(from: string, to: string) {
     this._from = from;
     this._to = to;
-    this._name = name;
   }
 
-  async apply() {
+  async up() {
     const operations: Array<ProjectAttributeOperation> = [];
-    const from = path.join(this._from, this._name);
-    const to = path.join(this._to, this._name);
 
-    if (!fs.existsSync(from)) {
-      throw new Error(`directory "${from}" does not exist`);
+    if (!fs.existsSync(this._from)) {
+      throw new Error(`directory "${this._from}" does not exist`);
     }
 
-    const items = fs.readdirSync(from);
+    if (!fs.statSync(this._from).isDirectory()) {
+      throw new Error(`"${this._from}" is not a directory`);
+    }
+
+    if (!fs.existsSync(this._to)) {
+      fs.mkdirSync(this._to, { recursive: true });
+    }
+
+    const items = fs.readdirSync(this._from);
 
     for (const item of items) {
-      const stat = fs.statSync(item);
+      const stat = fs.statSync(path.resolve(this._from, item));
 
       if (stat.isDirectory()) {
-        operations.push(new DirectoryCopyOperation(from, to, item));
+        operations.push(
+          new DirectoryCopyOperation(path.resolve(this._from, item), path.resolve(this._to, item))
+        );
       } else {
-        operations.push(new FileCopyOperation(from, to, item));
+        operations.push(
+          new FileCopyOperation(path.resolve(this._from, item), path.resolve(this._to, item))
+        );
       }
     }
 
     for (const op of operations) {
-      await op.apply();
+      await op.up();
     }
   }
 
-  async undo() {
+  async down() {
     const operations: Array<ProjectAttributeOperation> = [];
-    const from = path.join(this._from, this._name);
-    const to = path.join(this._to, this._name);
 
-    if (!fs.existsSync(to)) {
-      throw new Error(`directory "${to}" does not exist`);
+    if (!fs.existsSync(this._from)) {
+      throw new Error(`directory "${this._from}" does not exist`);
     }
 
-    const items = fs.readdirSync(to);
+    if (!fs.statSync(this._from).isDirectory()) {
+      throw new Error(`"${this._from}" is not a directory`);
+    }
+
+    if (!fs.existsSync(this._to)) {
+      fs.mkdirSync(this._to, { recursive: true });
+    }
+
+    const items = fs.readdirSync(this._from);
 
     for (const item of items) {
-      const stat = fs.statSync(item);
+      const stat = fs.statSync(path.resolve(this._from, item));
 
       if (stat.isDirectory()) {
-        operations.push(new DirectoryCopyOperation(from, to, item));
+        operations.push(
+          new DirectoryCopyOperation(path.resolve(this._from, item), path.resolve(this._to, item))
+        );
       } else {
-        operations.push(new FileCopyOperation(from, to, item));
+        operations.push(
+          new FileCopyOperation(path.resolve(this._from, item), path.resolve(this._to, item))
+        );
       }
     }
 
     for (const op of operations) {
-      await op.undo();
+      await op.down();
     }
   }
 }

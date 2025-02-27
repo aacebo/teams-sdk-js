@@ -45,9 +45,17 @@ export class Project {
     return this;
   }
 
-  async write() {
+  async up() {
     for (const attribute of this._attributes) {
-      await attribute[this._language](this._path);
+      const op = await attribute[this._language](this._path);
+      await op.up();
+    }
+  }
+
+  async down() {
+    for (const attribute of this._attributes) {
+      const op = await attribute[this._language](this._path);
+      await op.down();
     }
   }
 }

@@ -75,7 +75,7 @@ export function CSharp(): CommandModule<{}, Args> {
         project.addTeamsToolkit('basic');
       }
 
-      await project.write();
+      await project.up();
       console.log(`✅ App "${name}" created successfully at ${projectDir}`);
     },
   };

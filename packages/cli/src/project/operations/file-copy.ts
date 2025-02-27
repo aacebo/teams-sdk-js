@@ -1,4 +1,3 @@
-import path from 'node:path';
 import fs from 'node:fs';
 
 import { ProjectAttributeOperation } from '../project-attribute';
@@ -8,36 +7,29 @@ export class FileCopyOperation implements ProjectAttributeOperation {
 
   private _from: string;
   private _to: string;
-  private _filename: string;
 
-  constructor(from: string, to: string, filename: string) {
+  constructor(from: string, to: string) {
     this._from = from;
     this._to = to;
-    this._filename = filename;
   }
 
-  apply() {
-    const from = path.join(this._from, this._filename);
-    const to = path.join(this._to, this._filename);
-
-    if (!fs.existsSync(from)) {
-      throw new Error(`file "${from}" does not exist`);
+  up() {
+    if (!fs.existsSync(this._from)) {
+      throw new Error(`file "${this._from}" does not exist`);
     }
 
-    process.stdout.write(`copying file "${from}" to "${to}"...`);
-    fs.copyFileSync(from, to);
-    process.stdout.write('done');
+    process.stdout.write(`copying file "${this._from}" to "${this._to}"...`);
+    fs.copyFileSync(this._from, this._to);
+    process.stdout.write('done\n');
   }
 
-  undo() {
-    const to = path.join(this._to, this._filename);
-
-    if (!fs.existsSync(to)) {
+  down() {
+    if (!fs.existsSync(this._to)) {
       return;
     }
 
-    process.stdout.write(`deleting file "${to}"...`);
-    fs.rmSync(to);
-    process.stdout.write('done');
+    process.stdout.write(`deleting file "${this._to}"...`);
+    fs.rmSync(this._to);
+    process.stdout.write('done\n');
   }
 }
