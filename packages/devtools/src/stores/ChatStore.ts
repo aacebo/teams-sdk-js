@@ -226,7 +226,7 @@ export const useChatStore = create<ChatStore>()(
       const reactions = messages[i].reactions || [];
 
       for (const removed of event.body.reactionsRemoved || []) {
-        const j = reactions.findIndex((r) => r.type === removed.type && r.user?.id === 'devtools');
+        const j = reactions.findIndex((r) => r.type === removed.type && r.user?.id === removed.user?.id);
 
         if (j === -1) continue;
 

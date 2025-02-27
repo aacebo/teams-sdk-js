@@ -9,7 +9,7 @@ import {
   TextQuote16Filled,
   TextQuote16Regular,
 } from '@fluentui/react-icons/lib/fonts';
-import { Message } from '@teams.sdk/api';
+import { Message, MessageReaction, MessageUser } from '@teams.sdk/api';
 import {
   Toolbar,
   ToolbarButton,
@@ -29,7 +29,8 @@ interface MessageActionsProps extends ToolbarProps {
   // Whether the message is sent or received
   sent: boolean;
   value: Message;
-  handleMessageReaction: (id: string, type: MessageReactionType) => Promise<void>;
+  handleMessageReaction: (id: string, reaction: MessageReaction) => Promise<void>;
+  reactionSender: MessageUser | undefined;
 }
 
 export const MessageReactionsEmoji: Array<{
@@ -53,9 +54,18 @@ const MessageActionsToolbar: FC<MessageActionsProps> = ({
   sent,
   value,
   handleMessageReaction,
+  reactionSender,
   ...props
 }) => {
   const classes = useClasses();
+
+  const createReactionActivity = (type: MessageReactionType, user: MessageUser | undefined): MessageReaction => {
+    return {
+        type,
+        user,
+        createdDateTime: new Date().toUTCString(),
+    };
+};
 
   const handleKeyDown = (
     event: React.KeyboardEvent<HTMLButtonElement>,
@@ -63,7 +73,8 @@ const MessageActionsToolbar: FC<MessageActionsProps> = ({
     type: MessageReactionType
   ) => {
     if (event.key === 'Enter') {
-      handleMessageReaction(id, type);
+      const reactionActivity = createReactionActivity(type, reactionSender);
+      handleMessageReaction(id, reactionActivity);
     }
   };
 
@@ -80,7 +91,10 @@ const MessageActionsToolbar: FC<MessageActionsProps> = ({
               size="small"
               name={reaction}
               value={reaction}
-              onClick={() => handleMessageReaction(value.id, reaction)}
+              onClick={(_e) => {
+                const reactionActivity = createReactionActivity(reaction, reactionSender);
+                handleMessageReaction(value.id, reactionActivity);
+              }}
               onKeyDown={(event) => handleKeyDown(event, value.id, reaction)}
               tabIndex={0}
             >

@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from '@fluentui/react-components';
 import MessageActionsToolbar, { MessageReactionsEmoji } from '../Toolbar/MessageActionsToolbar';
-import { Message, MessageReaction, MessageReactionType } from '@teams.sdk/api';
+import { Message, MessageReaction, MessageUser } from '@teams.sdk/api';
 import { ChatContext } from '../../stores/ChatStore';
 import useSparkApi from '../../hooks/useSparkApi';
 import capitalizeFirstLetter from '../../utils/capitalize-first';
@@ -38,25 +38,28 @@ const ChatMessage: FC<ChatMessageProps> = ({
     (value.body?.contentType === 'text' && value.body?.content) || ''
   );
   const [reactions, setReactions] = useState<MessageReaction[]>(value.reactions || []);
+  
+  let reactionSender: MessageUser | undefined;
 
-  const handleMessageReaction = async (id: string, type: MessageReactionType) => {
+  const handleMessageReaction = async (id: string, newReactionActivity: MessageReaction) => {
     const message = messages[chat.id].find((m) => m.id === id);
 
     if (!message) return;
-
+    const { type, user } = newReactionActivity;
+    reactionSender = user;
     const added: Array<MessageReaction> = [];
     const removed: Array<MessageReaction> = [];
     const reaction = (message.reactions || []).find(
-      (r) => r.type === type && r.user?.id === 'devtools'
+      (r) => r.type === type && r.user?.id === user?.id
     );
 
     if (reaction) {
       removed.push(reaction);
-      setReactions(prev => prev.filter(r => !(r.type === type && r.user?.id === 'devtools')));
+      setReactions(prev => prev.filter(r => !(r.type === type && r.user?.id === user?.id )));
     } else {
       const newReaction = {
         type,
-        user: { id: 'devtools', displayName: 'devtools' },
+        user: user,
         createdDateTime: new Date().toUTCString(),
       };
       added.push(newReaction);
@@ -121,7 +124,7 @@ const ChatMessage: FC<ChatMessageProps> = ({
                     ) : (
                       content
                     )}
-                  {streaming && <span className={classes.streamingIndicator} />}
+                  {streaming && <span className={classes.streamingCursor} />}
                     </span>
                 </div>
               </div>
@@ -130,8 +133,8 @@ const ChatMessage: FC<ChatMessageProps> = ({
                   data-tid="reactions-container"
                   className={mergeClasses(
                     classes.reactionContainer,
-                    reactions.length > 0 ? classes.reactionContainerVisible : '',
-                    sendDirection === 'sent' ? classes.reactionContainerSent : ''
+                    reactions.length > 0 && classes.reactionContainerVisible,
+                    sendDirection === 'sent' && classes.reactionContainerSent
                   ).trim()}
                 >
                   {reactions.map((reaction) => (
@@ -145,10 +148,10 @@ const ChatMessage: FC<ChatMessageProps> = ({
                       <Button
                         className={mergeClasses(
                           classes.reactionButton,
-                          reaction.user?.id === 'devtools' ? classes.reactionFromUser : ''
+                          reaction.user?.id === reactionSender?.id && classes.reactionFromUser
                         ).trim()}
                         key={reaction.type}
-                        onClick={() => handleMessageReaction(value.id, reaction.type)}
+                        onClick={() => handleMessageReaction(value.id, reaction)}
                         shape="circular"
                         size="small"
                       >
@@ -166,6 +169,7 @@ const ChatMessage: FC<ChatMessageProps> = ({
               value={value}
               size="small"
               handleMessageReaction={handleMessageReaction}
+              reactionSender={reactionSender}
             />
           </PopoverSurface>
         </Popover>

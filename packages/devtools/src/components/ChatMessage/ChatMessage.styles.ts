@@ -64,6 +64,7 @@ export const useChatMessageStyles = makeStyles({
   streaming: {
     border: '2px solid transparent',
     borderRadius: tokens.borderRadiusMedium,
+    // TODO: Use proper Teams colors
     animationName: {
       '0%': {
         border: '2px solid rgba(70, 79, 235, 1)',
@@ -86,7 +87,7 @@ export const useChatMessageStyles = makeStyles({
     animationIterationCount: '3',
   },
 
-  streamingIndicator: {
+  streamingCursor: {
     display: 'inline-block',
     backgroundColor: 'white',
     width: '0.25rem',
