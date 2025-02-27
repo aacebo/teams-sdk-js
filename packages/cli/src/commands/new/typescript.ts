@@ -101,8 +101,6 @@ export function Typescript(): CommandModule<{}, z.infer<typeof ArgsSchema>> {
 
       if (ttk) {
         project.addTeamsToolkit(ttk);
-        project.addEnv('NODE_ENV', 'local');
-        project.addEnv('PORT', '3978');
       }
 
       if (clientId) {
