@@ -1,5 +1,13 @@
 # @teams.sdk/ai
 
+## 0.1.36
+
+### Patch Changes
+
+- add config commands to cli
+- Updated dependencies
+    - @teams.sdk/common@0.1.36
+
 ## 0.1.35
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @teams.sdk/cards
 
+## 0.1.36
+
+### Patch Changes
+
+- add config commands to cli
+
 ## 0.1.35
 
 ### Patch Changes

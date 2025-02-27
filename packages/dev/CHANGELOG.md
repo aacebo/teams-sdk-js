@@ -1,5 +1,16 @@
 # @teams.sdk/dev
 
+## 0.1.36
+
+### Patch Changes
+
+- add config commands to cli
+- Updated dependencies
+    - @teams.sdk/api@0.1.36
+    - @teams.sdk/apps@0.1.36
+    - @teams.sdk/common@0.1.36
+    - @teams.sdk/graph@0.1.36
+
 ## 0.1.35
 
 ### Patch Changes
