@@ -11,10 +11,14 @@ export const useClasses = makeStyles({
   },
   emojiButtonSelected: {},
   toolbarButton: {
-    width: '2rem',
-    height: '2rem',
+    minWidth: '0',
+    width: '2.5rem',
+    height: '2.5rem',
     padding: '0',
-    borderRadius: tokens.borderRadiusMedium,
     border: `1px solid ${tokens.colorSubtleBackground}`,
+    fontSize: tokens.fontSizeBase400
+  },
+  tooltipText: {
+    textTransform: 'capitalize',
   },
 });

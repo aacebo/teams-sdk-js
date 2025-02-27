@@ -59,7 +59,9 @@ export const useChatMessageStyles = makeStyles({
     backgroundColor: tokens.colorBrandBackground2,
     color: tokens.colorNeutralForeground1,
   },
-
+  tooltipText: {
+    textTransform: 'capitalize',
+  },
   // Streaming state styles
   streaming: {
     border: '2px solid transparent',

@@ -14,7 +14,7 @@ import MessageActionsToolbar, { MessageReactionsEmoji } from '../Toolbar/Message
 import { Message, MessageReaction, MessageUser } from '@teams.sdk/api';
 import { ChatContext } from '../../stores/ChatStore';
 import useSparkApi from '../../hooks/useSparkApi';
-import capitalizeFirstLetter from '../../utils/capitalize-first';
+
 interface ChatMessageProps {
   content: string;
   feedback: boolean;
@@ -140,10 +140,11 @@ const ChatMessage: FC<ChatMessageProps> = ({
                   {reactions.map((reaction) => (
                     // TODO: tab order needs to be combined with MessageActionsToolbar
                     <Tooltip
-                      content={capitalizeFirstLetter(reaction.type)}
+                      
+                      content={<span className={classes.tooltipText}>{reaction.type}</span>}
                       relationship="label"
                       key={reaction.type}
-                      positioning="below-end"
+                      positioning={"below-end" as PositioningShorthand}
                     >
                       <Button
                         className={mergeClasses(

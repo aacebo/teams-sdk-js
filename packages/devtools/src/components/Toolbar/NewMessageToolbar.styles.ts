@@ -12,5 +12,5 @@ export const useClasses = makeStyles({
     width: '2rem',
     height: '2rem',
     padding: '0',
-  },
+  }
 });

@@ -22,8 +22,7 @@ import type { ToolbarProps } from '@fluentui/react-components';
 import React from 'react';
 import { MessageReactionType } from '@teams.sdk/api';
 
-import { useClasses } from './NewMessageToolbar.styles';
-import capitalizeFirstLetter from '../../utils/capitalize-first';
+import { useClasses } from './MessageActionsToolbar.styles';
 
 interface MessageActionsProps extends ToolbarProps {
   // Whether the message is sent or received
@@ -82,7 +81,7 @@ const MessageActionsToolbar: FC<MessageActionsProps> = ({
     <Toolbar aria-label="Message actions" {...props}>
       <ToolbarGroup>
         {MessageReactionsEmoji.map(({ label, reaction }) => (
-          <Tooltip content={capitalizeFirstLetter(reaction)} relationship="label" key={reaction}>
+          <Tooltip content={<span className={classes.tooltipText}>{reaction}</span>} relationship="label" key={reaction}>
             <ToolbarToggleButton
               as="button"
               appearance="subtle"
