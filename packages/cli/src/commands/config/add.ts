@@ -5,14 +5,13 @@ import url from 'node:url';
 import { CommandModule } from 'yargs';
 import { String } from '@teams.sdk/common';
 
-import { Context } from '../../context';
 import { Project } from '../../project';
 
 interface Args {
   name: string;
 }
 
-export function Add(_: Context): CommandModule<{}, Args> {
+export function Add(): CommandModule<{}, Args> {
   const configsPath = path.resolve(url.fileURLToPath(import.meta.url), '../..', 'configs');
 
   return {

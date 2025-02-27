@@ -1,18 +1,15 @@
 import { CommandModule } from 'yargs';
 
-import { Context } from '../../context';
 import { Typescript } from './typescript';
 import { CSharp } from './csharp';
 
-export function New(context: Context): CommandModule<{}, {}> {
-  const log = context.log.child('new');
-
+export function New(): CommandModule<{}, {}> {
   return {
     command: 'new',
     aliases: 'n',
     describe: 'create a new app project',
     builder: (b) => {
-      let args = b.command(Typescript({ ...context, log: log.child('typescript') }));
+      let args = b.command(Typescript());
 
       if (process.env.TEAMS_CLI_ENV === 'development') {
         args = args.command(CSharp());

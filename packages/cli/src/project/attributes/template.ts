@@ -18,6 +18,7 @@ export class TemplateAttribute implements ProjectAttribute {
 
   typescript(targetDir: string) {
     fs.mkdirSync(targetDir, { recursive: true });
+    const name = path.basename(targetDir);
 
     return new CompoundOperation(
       new CopyOperation(
@@ -30,18 +31,18 @@ export class TemplateAttribute implements ProjectAttribute {
         ),
         targetDir
       ),
-      new FileJsonSetOperation(targetDir, 'package.json', 'name', this.name),
+      new FileJsonSetOperation(targetDir, 'package.json', 'name', name),
       new FileJsonSetOperation(
         path.join(targetDir, 'appPackage'),
         'manifest.json',
         'name.short',
-        `${this.name}-\${{APP_NAME_SUFFIX}}`
+        `${name}-\${{APP_NAME_SUFFIX}}`
       ),
       new FileJsonSetOperation(
         path.join(targetDir, 'appPackage'),
         'manifest.json',
         'name.full',
-        this.name
+        name
       )
     );
   }

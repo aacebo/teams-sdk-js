@@ -44,7 +44,7 @@ export class FileJsonSetOperation implements ProjectAttributeOperation {
       throw new Error(`"${filePath}" could not be parsed`);
     }
 
-    this._set(json, this._key, this._value);
+    json = this._set(json, this._key, this._value);
     fs.writeFileSync(filePath, JSON.stringify(json, null, 2) + '\n', 'utf8');
     process.stdout.write('✔️\n');
   }
@@ -79,7 +79,7 @@ export class FileJsonSetOperation implements ProjectAttributeOperation {
       new String().yellow(`removing "${this._key}" in "${relativeFilePath}"...`).toString()
     );
 
-    this._set(json, this._key);
+    json = this._set(json, this._key);
     fs.writeFileSync(filePath, JSON.stringify(json, null, 2) + '\n', 'utf8');
     process.stdout.write('✔️\n');
   }
@@ -107,20 +107,14 @@ export class FileJsonSetOperation implements ProjectAttributeOperation {
       const key = parts.shift();
 
       if (!key) continue;
-      if (!current[key]) {
-        current[key] = {};
-      }
 
       if (!parts.length) {
-        if (value === undefined) {
-          delete current[key];
-          return;
-        }
-
         current[key] = value;
       } else {
-        current = current[key];
+        current = current[key] || {};
       }
     }
+
+    return object;
   }
 }

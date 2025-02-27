@@ -7,7 +7,6 @@ import { String } from '@teams.sdk/common';
 import { CommandModule } from 'yargs';
 import { z } from 'zod';
 
-import { Context } from '../../context';
 import { Project } from '../../project';
 
 const ArgsSchema = z.object({
@@ -19,7 +18,7 @@ const ArgsSchema = z.object({
   clientSecret: z.string().optional(),
 });
 
-export function Typescript(_: Context): CommandModule<{}, z.infer<typeof ArgsSchema>> {
+export function Typescript(): CommandModule<{}, z.infer<typeof ArgsSchema>> {
   return {
     command: ['$0 <name>', 'typescript <name>'],
     aliases: 'ts',
