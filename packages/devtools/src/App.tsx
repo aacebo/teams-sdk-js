@@ -16,7 +16,8 @@ import { ActivityContext, useActivityStore } from './stores/ActivityStore';
 import ChatScreen from './screens/ChatScreen/ChatScreen';
 import DevtoolsBanner from './components/DevtoolsBanner/DevtoolsBanner';
 import PageNavButton from './components/PageNavButton/PageNavButton';
-import ActivitiesScreen from './screens/ActivitiesScreen';
+import ActivitiesScreen from './screens/ActivitiesScreen/ActivitiesScreen';
+import CardsScreen from './screens/CardsScreen';
 
 const socket = new SocketClient();
 
@@ -93,7 +94,7 @@ export default function App() {
                 <ChatContext.Provider value={chatStore}>
                   <Routes>
                     <Route path="" element={<ChatScreen isConnected={connected} />} />
-                    <Route path="cards" element={<h1>Cards</h1>} />
+                    <Route path="cards" element={<CardsScreen />} />
                     <Route path="activities" element={<ActivitiesScreen />} />
                     {/* <Route path="logs" element={<Logs />} /> */}
                     <Route path="*" element={<Navigate to="/" replace />} />

@@ -25,8 +25,8 @@ interface ChatMessageProps {
 
 const ChatMessage: FC<ChatMessageProps> = ({
   content,
-  streaming,
-  feedback,
+  streaming = false,
+  feedback = false,
   sendDirection,
   value,
 }) => {
@@ -52,12 +52,15 @@ const ChatMessage: FC<ChatMessageProps> = ({
 
     if (reaction) {
       removed.push(reaction);
+      setReactions(prev => prev.filter(r => !(r.type === type && r.user?.id === 'devtools')));
     } else {
-      added.push({
+      const newReaction = {
         type,
         user: { id: 'devtools', displayName: 'devtools' },
         createdDateTime: new Date().toUTCString(),
-      });
+      };
+      added.push(newReaction);
+      setReactions(prev => [...prev, newReaction]);
     }
 
     try {
@@ -69,6 +72,12 @@ const ChatMessage: FC<ChatMessageProps> = ({
       });
     } catch (err) {
       console.error(err);
+      // Revert on error
+      if (added.length) {
+        setReactions(prev => prev.filter(r => r !== added[0]));
+      } else if (removed.length) {
+        setReactions(prev => [...prev, removed[0]]);
+      }
     }
   };
 
@@ -95,18 +104,27 @@ const ChatMessage: FC<ChatMessageProps> = ({
               tabIndex={-1}
               id={labelId}
               aria-labelledby={labelId}
-              className={mergeClasses(classes.messageContainer, streaming && classes.streaming)}
+              className={classes.messageContainer}
             >
               <div
                 tabIndex={0}
                 className={mergeClasses(
                   classes.messageBody,
-                  sendDirection === 'sent' ? classes.sent : classes.received
+                  sendDirection === 'sent' ? classes.sent : classes.received,
+                  streaming && classes.streaming
                 )}
               >
-                {html ? <ChatMessageMarkdown content={html} /> : content}
+                <div className={classes.messageContent}>
+                  <span className={classes.messageText}>
+                  {html ? (
+                      <ChatMessageMarkdown content={html} />
+                    ) : (
+                      content
+                    )}
+                  {streaming && <span className={classes.streamingIndicator} />}
+                    </span>
+                </div>
               </div>
-              {streaming && <div id="streaming-indicator" className="streamingIndicator" />}
               {reactions.length > 0 && (
                 <div
                   data-tid="reactions-container"
