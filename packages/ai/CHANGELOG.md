@@ -1,5 +1,13 @@
 # @teams.sdk/ai
 
+## 0.1.37
+
+### Patch Changes
+
+- remove deprecated sqllite dep from cli
+- Updated dependencies
+    - @teams.sdk/common@0.1.37
+
 ## 0.1.36
 
 ### Patch Changes

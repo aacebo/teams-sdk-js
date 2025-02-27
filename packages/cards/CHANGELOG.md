@@ -1,5 +1,11 @@
 # @teams.sdk/cards
 
+## 0.1.37
+
+### Patch Changes
+
+- remove deprecated sqllite dep from cli
+
 ## 0.1.36
 
 ### Patch Changes

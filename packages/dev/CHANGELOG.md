@@ -1,5 +1,16 @@
 # @teams.sdk/dev
 
+## 0.1.37
+
+### Patch Changes
+
+- remove deprecated sqllite dep from cli
+- Updated dependencies
+    - @teams.sdk/api@0.1.37
+    - @teams.sdk/apps@0.1.37
+    - @teams.sdk/common@0.1.37
+    - @teams.sdk/graph@0.1.37
+
 ## 0.1.36
 
 ### Patch Changes
