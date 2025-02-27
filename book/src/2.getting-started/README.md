@@ -3,7 +3,7 @@
 First lets initialize an app.
 
 ```bash
-npx '@teams.sdk/cli' new hello-world --start
+npx '@teams.sdk/cli@latest' new hello-world --start
 ```
 
 Here is what your terminal should look like:
