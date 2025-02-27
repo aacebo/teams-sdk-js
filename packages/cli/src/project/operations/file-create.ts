@@ -19,6 +19,7 @@ export class FileCreateOperation implements ProjectAttributeOperation {
 
   up() {
     const filePath = path.join(this._path, this._filename);
+    const relativeFilePath = path.relative(process.cwd(), filePath);
 
     if (!fs.existsSync(this._path)) {
       fs.mkdirSync(this._path, { recursive: true });
@@ -28,19 +29,20 @@ export class FileCreateOperation implements ProjectAttributeOperation {
       throw new Error(`"${filePath}" already exists`);
     }
 
-    process.stdout.write(new String().cyan(`creating "${filePath}"...`).toString());
+    process.stdout.write(new String().cyan(`creating "${relativeFilePath}"...`).toString());
     fs.writeFileSync(filePath, this._content || '', 'utf8');
     process.stdout.write('✅\n');
   }
 
   down() {
     const filePath = path.join(this._path, this._filename);
+    const relativeFilePath = path.relative(process.cwd(), filePath);
 
     if (!fs.existsSync(filePath)) {
       return;
     }
 
-    process.stdout.write(new String().yellow(`deleting "${filePath}"...`).toString());
+    process.stdout.write(new String().yellow(`deleting "${relativeFilePath}"...`).toString());
     fs.rmSync(filePath);
     process.stdout.write('✅\n');
   }

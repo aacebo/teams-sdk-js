@@ -21,8 +21,9 @@ export class FileEnvSetOperation implements ProjectAttributeOperation {
 
   up() {
     const filePath = path.join(this._path, this._filename);
+    const relativeFilePath = path.relative(process.cwd(), filePath);
     process.stdout.write(
-      new String().cyan(`setting "${this._key}" in "${path.basename(filePath)}"...`).toString()
+      new String().cyan(`setting "${this._key}" in "${relativeFilePath}"...`).toString()
     );
     let lines: string[] = [];
 
@@ -45,13 +46,14 @@ export class FileEnvSetOperation implements ProjectAttributeOperation {
 
   down() {
     const filePath = path.join(this._path, this._filename);
+    const relativeFilePath = path.relative(process.cwd(), filePath);
 
     if (!fs.existsSync(filePath)) {
       return;
     }
 
     process.stdout.write(
-      new String().yellow(`deleting "${this._key}" from "${path.basename(filePath)}"...`).toString()
+      new String().yellow(`deleting "${this._key}" from "${relativeFilePath}"...`).toString()
     );
     let lines: string[] = [];
 

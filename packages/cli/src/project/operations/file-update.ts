@@ -19,12 +19,13 @@ export class FileUpdateOperation implements ProjectAttributeOperation {
 
   up() {
     const filePath = path.join(this._path, this._filename);
+    const relativeFilePath = path.relative(process.cwd(), filePath);
 
     if (!fs.existsSync(filePath)) {
       throw new Error(`"${filePath}" does not exist`);
     }
 
-    process.stdout.write(new String().cyan(`updating "${path.basename(filePath)}"...`).toString());
+    process.stdout.write(new String().cyan(`updating "${relativeFilePath}"...`).toString());
     fs.writeFileSync(filePath, this._content || '', 'utf8');
     process.stdout.write('✅\n');
   }

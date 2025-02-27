@@ -40,9 +40,7 @@ export function Remove(_: Context): CommandModule<{}, Args> {
 
       await project.down();
       console.log(
-        new String()
-          .bold(new String().yellow(`✅ config "${name}" successfully removed`))
-          .toString()
+        new String().bold(new String().green(`✅ config "${name}" successfully removed`)).toString()
       );
     },
   };

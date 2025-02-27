@@ -22,6 +22,7 @@ export class FileJsonSetOperation implements ProjectAttributeOperation {
   up() {
     const ext = path.extname(this._filename).toLowerCase();
     const filePath = path.join(this._path, this._filename);
+    const relativeFilePath = path.relative(process.cwd(), filePath);
 
     if (!fs.existsSync(filePath)) {
       throw new Error(`"${filePath}" does not exist`);
@@ -32,7 +33,7 @@ export class FileJsonSetOperation implements ProjectAttributeOperation {
     }
 
     process.stdout.write(
-      new String().cyan(`setting "${this._key}" in "${path.basename(filePath)}"...`).toString()
+      new String().cyan(`setting "${this._key}" in "${relativeFilePath}"...`).toString()
     );
     let json = {};
 
