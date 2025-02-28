@@ -80,7 +80,7 @@ export class OpenAIChatModel
     params: ChatParams<OpenAIChatModelOptions | AzureOpenAIChatModelOptions>,
     onChunk?: (chunk: ModelMessage) => void | Promise<void>
   ): Promise<ModelMessage> {
-    const { model, input, messages: paramsMessages, functions, ...extraParams } = params;
+    const { input, messages: paramsMessages, functions, ...extraParams } = params;
     const memory = paramsMessages || new LocalMemory();
     await memory.push(params.input);
 
