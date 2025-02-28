@@ -58,13 +58,16 @@ const MessageActionsToolbar: FC<MessageActionsProps> = ({
 }) => {
   const classes = useClasses();
 
-  const createReactionActivity = (type: MessageReactionType, user: MessageUser | undefined): MessageReaction => {
+  const createReactionActivity = (
+    type: MessageReactionType,
+    user: MessageUser | undefined
+  ): MessageReaction => {
     return {
-        type,
-        user,
-        createdDateTime: new Date().toUTCString(),
+      type,
+      user,
+      createdDateTime: new Date().toUTCString(),
     };
-};
+  };
 
   const handleKeyDown = (
     event: React.KeyboardEvent<HTMLButtonElement>,
@@ -81,7 +84,11 @@ const MessageActionsToolbar: FC<MessageActionsProps> = ({
     <Toolbar aria-label="Message actions" {...props}>
       <ToolbarGroup>
         {MessageReactionsEmoji.map(({ label, reaction }) => (
-          <Tooltip content={<span className={classes.tooltipText}>{reaction}</span>} relationship="label" key={reaction}>
+          <Tooltip
+            content={<span className={classes.tooltipText}>{reaction}</span>}
+            relationship="label"
+            key={reaction}
+          >
             <ToolbarToggleButton
               as="button"
               appearance="subtle"

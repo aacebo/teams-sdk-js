@@ -56,9 +56,7 @@ const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
       </div>
       <div className={classes.composeContainer}>
         <div className={classes.composeInner}>
-          <div className={classes.typingIndicator}>
-            {typing[chat.id] && <TypingIndicator />}
-          </div>
+          <div className={classes.typingIndicator}>{typing[chat.id] && <TypingIndicator />}</div>
           {/* <div className={classes.bannerContainer}>{/* TODO: Optional banner/toast content </div> */}
           <ComposeBox onSend={handleSendMessage} />
         </div>

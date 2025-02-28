@@ -38,7 +38,7 @@ const ChatMessage: FC<ChatMessageProps> = ({
     (value.body?.contentType === 'text' && value.body?.content) || ''
   );
   const [reactions, setReactions] = useState<MessageReaction[]>(value.reactions || []);
-  
+
   let reactionSender: MessageUser | undefined;
 
   const handleMessageReaction = async (id: string, newReactionActivity: MessageReaction) => {
@@ -50,12 +50,12 @@ const ChatMessage: FC<ChatMessageProps> = ({
     const added: Array<MessageReaction> = [];
     const removed: Array<MessageReaction> = [];
     const reaction = (message.reactions || []).find(
-      (r) => r.type === type && r.user?.id === user?.id
+      (r: MessageReaction) => r.type === type && r.user?.id === user?.id
     );
 
     if (reaction) {
       removed.push(reaction);
-      setReactions(prev => prev.filter(r => !(r.type === type && r.user?.id === user?.id )));
+      setReactions((prev) => prev.filter((r) => !(r.type === type && r.user?.id === user?.id)));
     } else {
       const newReaction = {
         type,
@@ -63,7 +63,7 @@ const ChatMessage: FC<ChatMessageProps> = ({
         createdDateTime: new Date().toUTCString(),
       };
       added.push(newReaction);
-      setReactions(prev => [...prev, newReaction]);
+      setReactions((prev) => [...prev, newReaction]);
     }
 
     try {
@@ -77,9 +77,9 @@ const ChatMessage: FC<ChatMessageProps> = ({
       console.error(err);
       // Revert on error
       if (added.length) {
-        setReactions(prev => prev.filter(r => r !== added[0]));
+        setReactions((prev) => prev.filter((r) => r !== added[0]));
       } else if (removed.length) {
-        setReactions(prev => [...prev, removed[0]]);
+        setReactions((prev) => [...prev, removed[0]]);
       }
     }
   };
@@ -119,13 +119,9 @@ const ChatMessage: FC<ChatMessageProps> = ({
               >
                 <div className={classes.messageContent}>
                   <span className={classes.messageText}>
-                  {html ? (
-                      <ChatMessageMarkdown content={html} />
-                    ) : (
-                      content
-                    )}
-                  {streaming && <span className={classes.streamingCursor} />}
-                    </span>
+                    {html ? <ChatMessageMarkdown content={html} /> : content}
+                    {streaming && <span className={classes.streamingCursor} />}
+                  </span>
                 </div>
               </div>
               {reactions.length > 0 && (
@@ -140,11 +136,10 @@ const ChatMessage: FC<ChatMessageProps> = ({
                   {reactions.map((reaction) => (
                     // TODO: tab order needs to be combined with MessageActionsToolbar
                     <Tooltip
-                      
                       content={<span className={classes.tooltipText}>{reaction.type}</span>}
                       relationship="label"
                       key={reaction.type}
-                      positioning={"below-end" as PositioningShorthand}
+                      positioning={'below-end' as PositioningShorthand}
                     >
                       <Button
                         className={mergeClasses(

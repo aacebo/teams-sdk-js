@@ -1,7 +1,6 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
 export const useClasses = makeStyles({
-
   messagesList: {
     maxWidth: '1042px',
     minWidth: '495px',

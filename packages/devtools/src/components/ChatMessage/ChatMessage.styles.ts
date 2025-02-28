@@ -82,7 +82,7 @@ export const useChatMessageStyles = makeStyles({
       },
       '100%': {
         border: '2px solid rgba(70, 79, 235, 1)',
-      }
+      },
     },
     animationDuration: '4s',
     animationTimingFunction: 'linear',
@@ -98,11 +98,11 @@ export const useChatMessageStyles = makeStyles({
     verticalAlign: 'text-bottom',
     animationName: {
       '0%, 100%': {
-        opacity: 1
+        opacity: 1,
       },
       '50%': {
-        opacity: 0.3
-      }
+        opacity: 0.3,
+      },
     },
     animationDuration: '1s',
     animationTimingFunction: 'ease-in-out',
@@ -145,5 +145,5 @@ export const useChatMessageStyles = makeStyles({
     display: 'flex',
     gap: tokens.spacingHorizontalS,
     padding: tokens.spacingVerticalXS,
-  }
+  },
 });

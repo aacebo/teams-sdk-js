@@ -16,7 +16,7 @@ export const useClasses = makeStyles({
     height: '2.5rem',
     padding: '0',
     border: `1px solid ${tokens.colorSubtleBackground}`,
-    fontSize: tokens.fontSizeBase400
+    fontSize: tokens.fontSizeBase400,
   },
   tooltipText: {
     textTransform: 'capitalize',

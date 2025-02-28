@@ -8,13 +8,13 @@ export const useScreensClasses = makeStyles({
     backgroundColor: tokens.colorNeutralBackground3,
     color: tokens.colorNeutralForeground1,
   },
-scrollbarContainer: {
-  flex: 1,
-  overflowY: 'auto',
-  minHeight: 0,
-  display: 'flex',
-  flexDirection: 'column',
-  scrollbarGutter: 'stable',
-  height: '100%',
-}
+  scrollbarContainer: {
+    flex: 1,
+    overflowY: 'auto',
+    minHeight: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    scrollbarGutter: 'stable',
+    height: '100%',
+  },
 });
