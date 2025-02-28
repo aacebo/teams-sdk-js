@@ -2,16 +2,16 @@ import { Function } from '../function';
 import { Memory } from '../memory';
 import { Message, ModelMessage, SystemMessage, UserMessage } from '../message';
 
-export interface ChatParams {
+export type ChatParams<TExtraParams extends {}> = {
   readonly system?: SystemMessage | UserMessage;
   readonly input: Message;
   readonly messages?: Memory;
   readonly functions?: Record<string, Function>;
-}
+} & Partial<TExtraParams>;
 
-export interface ChatModel {
+export interface ChatModel<TExtraParams extends {} = {}> {
   chat(
-    params: ChatParams,
+    params: ChatParams<TExtraParams>,
     onChunk?: (chunk: ModelMessage) => void | Promise<void>
   ): Promise<ModelMessage>;
 }

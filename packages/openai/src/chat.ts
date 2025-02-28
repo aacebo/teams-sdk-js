@@ -20,7 +20,7 @@ export interface OpenAIChatModelOptions {
   readonly requestOptions?:
     | OpenAI.ChatCompletionCreateParams
     | ((
-        params: ChatParams
+        params: ChatParams<OpenAIChatModelOptions | AzureOpenAIChatModelOptions>
       ) => OpenAI.ChatCompletionCreateParams | Promise<OpenAI.ChatCompletionCreateParams>);
 }
 
@@ -42,7 +42,9 @@ export interface AzureOpenAIChatModelOptions extends OpenAIChatModelOptions {
   azureADTokenProvider?: () => Promise<string>;
 }
 
-export class OpenAIChatModel implements ChatModel {
+export class OpenAIChatModel
+  implements ChatModel<OpenAIChatModelOptions | AzureOpenAIChatModelOptions>
+{
   private readonly _openai: OpenAI;
   private readonly _log: Logger;
 
@@ -75,17 +77,18 @@ export class OpenAIChatModel implements ChatModel {
   }
 
   async chat(
-    params: ChatParams,
+    params: ChatParams<OpenAIChatModelOptions | AzureOpenAIChatModelOptions>,
     onChunk?: (chunk: ModelMessage) => void | Promise<void>
   ): Promise<ModelMessage> {
-    const memory = params.messages || new LocalMemory();
+    const { model, input, messages: paramsMessages, functions, ...extraParams } = params;
+    const memory = paramsMessages || new LocalMemory();
     await memory.push(params.input);
 
     // call functions
-    if (params.input.role === 'model' && params.input.function_calls?.length) {
-      for (const call of params.input.function_calls) {
+    if (input.role === 'model' && input.function_calls?.length) {
+      for (const call of input.function_calls) {
         const log = this._log.child(`tools/${call.name}`);
-        const fn = (params.functions || {})[call.name];
+        const fn = (functions || {})[call.name];
 
         if (!fn) {
           throw new Error(`function ${call.name} not found`);
@@ -134,10 +137,11 @@ export class OpenAIChatModel implements ChatModel {
         temperature: this.options.temperature,
         stream: this.options.stream,
         ...requestOptions,
+        ...extraParams,
         tools:
-          Object.keys(params.functions || {}).length === 0
+          Object.keys(functions || {}).length === 0
             ? undefined
-            : Object.values(params.functions || {}).map((fn) => ({
+            : Object.values(functions || {}).map((fn) => ({
                 type: 'function',
                 function: {
                   name: fn.name,
