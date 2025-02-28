@@ -1,15 +1,16 @@
 import * as http from '@teams.sdk/common/http';
 import { Logger, ConsoleLogger } from '@teams.sdk/common/logging';
+import { Credentials } from '@teams.sdk/api';
 
 import * as window from './window';
 import { Context, mapContext } from './context';
 
-export interface AppOptions {
+export type AppOptions = Partial<Credentials> & {
   /**
    * logger instance to use
    */
   readonly logger?: Logger;
-}
+};
 
 interface AppConnect {
   /**
@@ -109,13 +110,31 @@ export class App {
   }
 
   /**
-   * call a server-side function
+   * execute a server-side function
    * @param name the unique function name
-   * @param args the arguments to send
+   * @param data the data to send
    * @returns the function response
    */
-  async call<T = any>(name: string, ...args: any[]) {
-    const res = await this.http.post<T>(`/api/functions/${name}`, args);
+  async exec<T = any>(name: string, data?: any) {
+    const res = await this.http.post<T>(`/api/functions/${name}`, data, {
+      headers: {
+        'x-spark-app-id': this.context.app.id,
+        'x-spark-app-session-id': this.context.app.sessionId,
+        'x-spark-app-client-id': this.options.clientId,
+        'x-spark-app-client-secret': this.options.clientSecret,
+        'x-spark-app-tenant-id': this.options.tenantId,
+        'x-spark-tenant-id': this.context.user?.tenant?.id,
+        'x-spark-user-id': this.context.user?.id,
+        'x-spark-team-id': this.context.team?.internalId,
+        'x-spark-message-id': this.context.app.parentMessageId,
+        'x-spark-channel-id': this.context.channel?.id,
+        'x-spark-chat-id': this.context.chat?.id,
+        'x-spark-meeting-id': this.context.meeting?.id,
+        'x-spark-page-id': this.context.page.id,
+        'x-spark-sub-page-id': this.context.page.subPageId,
+      },
+    });
+
     return res.data;
   }
 

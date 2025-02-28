@@ -18,6 +18,7 @@ const whitelist = [
   /^\/communications(.*)$/,
   /^\/app(.*)$/,
   /^\/users$/,
+  /^\/users\/\{user-id\}$/,
   /^\/users\/(.*)\/chats(.*)$/,
   /^\/users\/(.*)\/presence(.*)$/,
   /^\/users\/(.*)\/onlineMeetings(.*)$/,

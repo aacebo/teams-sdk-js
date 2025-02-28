@@ -27,6 +27,7 @@ import {
 import pkg from '../package.json';
 
 import * as manifest from './manifest';
+import * as middleware from './middleware';
 import { Routes } from './routes';
 import { Router } from './router';
 import {
@@ -38,6 +39,7 @@ import {
 } from './events';
 import { ActivityContext } from './activity-context';
 import { MiddlewareContext } from './middleware-context';
+import { FunctionContext } from './function-context';
 import { HttpPlugin } from './plugins';
 import { OAuthSettings } from './oauth';
 import { AppClient, ApiClient } from './api';
@@ -376,15 +378,32 @@ export class App {
    * @param name The unique function name
    * @param cb The callback to handle the function
    */
-  function(name: string, cb: (...args: any[]) => any | Promise<any>) {
-    const http = this.plugins.find((p) => p.name === 'http');
+  function<TData>(name: string, cb: (context: FunctionContext<TData>) => any | Promise<any>) {
+    const http = this.getPlugin('http');
+    const log = this.log.child(`functions`).child(name);
 
     if (http && http instanceof HttpPlugin) {
-      http.post(`/api/functions/${name}`, async (req, res) => {
-        const body = Array.isArray(req.body) ? req.body : [req.body];
-        const data = await cb(...body);
-        res.send(data);
-      });
+      http.post(
+        `/api/functions/${name}`,
+        middleware.withClientAuth({
+          logger: log,
+          ...this.credentials,
+        }),
+        async (req: middleware.ClientAuthRequest, res) => {
+          if (!req.context) {
+            throw new Error('expected client context');
+          }
+
+          const data = await cb({
+            ...req.context,
+            log,
+            api: this.api,
+            data: req.body,
+          });
+
+          res.send(data);
+        }
+      );
     }
 
     return this;

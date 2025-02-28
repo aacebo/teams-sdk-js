@@ -1,5 +1,5 @@
 {
-  "extends": "@teams.sdk/config/tsconfig.json",
+  "extends": "@teams.sdk/config/tsconfig.esm.json",
   "compilerOptions": {
     "module": "CommonJS",
     "moduleResolution": "Node",

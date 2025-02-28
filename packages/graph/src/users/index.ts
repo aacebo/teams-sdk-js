@@ -106,6 +106,31 @@ export class UsersClient {
   }
 
   /**
+   * `DELETE /users/{user-id}`
+   *
+   * Deletes a user.
+   */
+  async delete(
+    params?: Endpoints['DELETE /users/{user-id}']['parameters'],
+    config?: http.RequestConfig
+  ) {
+    const url = getInjectedUrl(
+      '/users/{user-id}',
+      [
+        { name: 'If-Match', in: 'header' },
+        { name: 'user-id', in: 'path' },
+      ],
+      {
+        ...(params || {}),
+      }
+    );
+
+    return this.http
+      .delete(url, config)
+      .then((res) => res.data as Endpoints['DELETE /users/{user-id}']['response']);
+  }
+
+  /**
    * `GET /users`
    *
    * Retrieve a list of user objects.
@@ -127,6 +152,48 @@ export class UsersClient {
     return this.http
       .get(url, config)
       .then((res) => res.data as Endpoints['GET /users']['response']);
+  }
+
+  /**
+   * `GET /users/{user-id}`
+   *
+   * Read properties and relationships of the user object.
+   */
+  async get(params?: Endpoints['GET /users/{user-id}']['parameters'], config?: http.RequestConfig) {
+    const url = getInjectedUrl(
+      '/users/{user-id}',
+      [
+        { name: '$select', in: 'query' },
+        { name: '$expand', in: 'query' },
+        { name: 'user-id', in: 'path' },
+      ],
+      {
+        ...(params || {}),
+      }
+    );
+
+    return this.http
+      .get(url, config)
+      .then((res) => res.data as Endpoints['GET /users/{user-id}']['response']);
+  }
+
+  /**
+   * `PATCH /users/{user-id}`
+   *
+   * Update the properties of a user object.
+   */
+  async update(
+    body: Endpoints['PATCH /users/{user-id}']['body'],
+    params?: Endpoints['PATCH /users/{user-id}']['parameters'],
+    config?: http.RequestConfig
+  ) {
+    const url = getInjectedUrl('/users/{user-id}', [{ name: 'user-id', in: 'path' }], {
+      ...(params || {}),
+    });
+
+    return this.http
+      .patch(url, body, config)
+      .then((res) => res.data as Endpoints['PATCH /users/{user-id}']['response']);
   }
 
   /**
