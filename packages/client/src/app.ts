@@ -33,10 +33,17 @@ interface AppConnect {
 }
 
 export class App {
+  readonly options: AppOptions;
+  readonly http: http.Client;
+  readonly parent: window.Client;
+
   /**
    * the apps logger
    */
-  log: Logger;
+  get log() {
+    return this._log;
+  }
+  protected _log: Logger;
 
   /**
    * the app id
@@ -87,13 +94,9 @@ export class App {
   }
   protected _runtime?: window.Runtime;
 
-  readonly options: AppOptions;
-  readonly http: http.Client;
-  readonly parent: window.Client;
-
   constructor(options?: AppOptions) {
     this.options = options || {};
-    this.log = options?.logger || new ConsoleLogger('@teams.sdk/client');
+    this._log = options?.logger || new ConsoleLogger('@teams.sdk/client');
     this.http = new http.Client({ baseUrl: options?.baseUrl });
     this.parent = new window.Client(this.log);
   }
@@ -111,7 +114,7 @@ export class App {
     this._name = res.data.name.short;
 
     if (this._name) {
-      this.log = this.options.logger || new ConsoleLogger(`@teams.sdk/${this._name}`);
+      this._log = this.options.logger || new ConsoleLogger(`@teams.sdk/${this._name}`);
     }
 
     const { runtime } = await this.parent.initialize();
