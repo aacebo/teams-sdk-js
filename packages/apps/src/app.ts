@@ -229,9 +229,9 @@ export class App {
 
     if (clientId && clientSecret) {
       this.credentials = {
-        clientId: clientId,
-        clientSecret: clientSecret,
-        tenantId: tenantId,
+        clientId,
+        clientSecret,
+        tenantId,
       };
     }
 
