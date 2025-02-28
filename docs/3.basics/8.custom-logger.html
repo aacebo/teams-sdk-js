@@ -156,10 +156,13 @@
 The default <code>Logger</code> instance will be set to <code>ConsoleLogger</code> from the
 <code>@teams.sdk/common</code> package.</p>
 <pre><code class="language-typescript">import { App } from '@teams.sdk/apps';
+import { ConsoleLogger } from '@teams.sdk/common';
 
 // initialize app with custom console logger
 // set to debug log level
-const app = new App();
+const app = new App({
+    logger: new ConsoleLogger('echo', { level: 'debug' }),
+});
 
 app.on('message', async ({ send, activity, log }) =&gt; {
     log.debug(activity);
