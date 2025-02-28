@@ -7,8 +7,8 @@ import { Schema } from '../schema';
 import { Template } from '../template';
 import { StringTemplate } from '../templates';
 
-export type ChatPromptOptions<T extends {}> = T & {
-  readonly model: ChatModel<T>;
+export type ChatPromptOptions<TModelExtraParams extends {}> = TModelExtraParams & {
+  readonly model: ChatModel<TModelExtraParams>;
   readonly instructions?: string | Template;
   readonly role?: 'system' | 'user';
   readonly messages?: Message[] | Memory;
