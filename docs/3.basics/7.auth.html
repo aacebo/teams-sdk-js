@@ -155,11 +155,8 @@
 <p>Prompting the user to sign in using an <code>OAuth</code> connection has
 never been easier! Just use the <code>signin</code> method to send the request
 and the listen to the <code>signin</code> event to handle the token result.</p>
-<pre><code class="language-typescript">app.on('message', async ({ signin, send }) =&gt; {
-    const state = {}; // ... fetch some state
-
-    if (!state.authenticated) {
-        await send('please sign in so I can help you...');
+<pre><code class="language-typescript">app.on('message', async ({ signin, send, isSignedIn }) =&gt; {
+    if (!isSignedIn) {
         await signin(); // call signin for your auth connection...
         return;
     }
