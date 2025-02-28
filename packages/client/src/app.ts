@@ -7,6 +7,11 @@ import { Context, mapContext } from './context';
 
 export type AppOptions = Partial<Credentials> & {
   /**
+   * the app base url
+   */
+  readonly baseUrl?: string;
+
+  /**
    * logger instance to use
    */
   readonly logger?: Logger;
@@ -70,16 +75,26 @@ export class App {
   }
   protected _connectedAt?: Date;
 
+  /**
+   * the sdk runtime
+   */
+  get runtime() {
+    if (!this._runtime) {
+      throw new Error('app not connected');
+    }
+
+    return this._runtime;
+  }
+  protected _runtime?: window.Runtime;
+
   readonly options: AppOptions;
   readonly http: http.Client;
-
-  protected parent: window.Client;
-  protected runtime?: window.Runtime;
+  readonly parent: window.Client;
 
   constructor(options?: AppOptions) {
     this.options = options || {};
     this.log = options?.logger || new ConsoleLogger('@teams.sdk/client');
-    this.http = new http.Client();
+    this.http = new http.Client({ baseUrl: options?.baseUrl });
     this.parent = new window.Client(this.log);
   }
 
@@ -100,7 +115,7 @@ export class App {
     }
 
     const { runtime } = await this.parent.initialize();
-    this.runtime = runtime;
+    this._runtime = runtime;
 
     const context = await this.parent.getContext();
     this._context = mapContext(context);
