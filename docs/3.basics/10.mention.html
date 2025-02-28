@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Feedback - Teams SDK</title>
+        <title>@Mention - Teams SDK</title>
 
 
         <!-- Custom HTML head -->
@@ -151,33 +151,22 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="feedback"><a class="header" href="#feedback">Feedback</a></h1>
-<p>If enabled, feedback buttons will be present in messages that allow the user to provide
-an indication of whether the message was useful/correct or not. This feature can be used
-with LLM's for training.</p>
-<h2 id="enable-message-feedback"><a class="header" href="#enable-message-feedback">Enable Message Feedback</a></h2>
-<pre><code class="language-typescript">app.on('message', async ({ send }) =&gt; {
-    await send(MessageSendActivity('hi!').feedback());
+                        <h1 id="mention"><a class="header" href="#mention">@Mention</a></h1>
+<p>Sending a message at <code>@mentions</code> a user is as simple as:</p>
+<pre><code class="language-typescript">app.on('message', async ({ send, activity }) =&gt; {
+    await send(MessageSendActivity('hi!').mention(activity.from));
 });
 </code></pre>
-<p><img src="https://github.com/aacebo/teams-sdk-js/blob/main/assets/screenshots/feedback_message.png?raw=true" alt="Feedback Message" /></p>
-<h2 id="handling-message-feedback"><a class="header" href="#handling-message-feedback">Handling Message Feedback</a></h2>
-<pre><code class="language-typescript">app.on('message.submit.feedback', ({ log, activity }) =&gt; {
-    log.debug(activity);
-    return { status: 200 };
-});
-</code></pre>
-<p><img src="https://github.com/aacebo/teams-sdk-js/blob/main/assets/screenshots/feedback_dialog.png?raw=true" alt="Feedback Dialog" /></p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../3.basics/8.custom-logger.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../3.basics/9.feedback.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../3.basics/10.mention.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../4.dialogs/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -187,11 +176,11 @@ with LLM's for training.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../3.basics/8.custom-logger.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../3.basics/9.feedback.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../3.basics/10.mention.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../4.dialogs/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
