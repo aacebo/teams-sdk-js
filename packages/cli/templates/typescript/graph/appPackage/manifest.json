@@ -44,5 +44,9 @@
       "supportsFiles": false
     }
   ],
-  "validDomains": ["${{BOT_DOMAIN}}"]
+  "validDomains": ["${{BOT_DOMAIN}}"],
+  "webApplicationInfo": {
+    "id": "${{BOT_ID}}",
+    "resource": "api://botid-${{BOT_ID}}"
+  }
 }
