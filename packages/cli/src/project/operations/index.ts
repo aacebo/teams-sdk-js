@@ -7,3 +7,4 @@ export * from './file-update';
 export * from './file-json-set';
 export * from './file-yaml-set';
 export * from './file-env-set';
+export * from './if';

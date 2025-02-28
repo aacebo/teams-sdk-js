@@ -1,8 +1,15 @@
 import path from 'node:path';
 import url from 'node:url';
+import fs from 'node:fs';
 
 import { ProjectAttribute } from '../project-attribute';
-import { CompoundOperation, CopyOperation, FileJsonSetOperation } from '../operations';
+import {
+  CompoundOperation,
+  CopyOperation,
+  FileJsonSetOperation,
+  FileYamlSetOperation,
+  IfOperation,
+} from '../operations';
 
 export class TeamsToolkitAttribute implements ProjectAttribute {
   readonly id: string;
@@ -39,6 +46,28 @@ export class TeamsToolkitAttribute implements ProjectAttribute {
         'package.json',
         'scripts.dev:teamsfx:launch-testtool',
         'npx env-cmd --silent -f env/.env.testtool teamsapptester start'
+      ),
+      // optional vite project support
+      new IfOperation(() => {
+        return (
+          fs.existsSync(path.join(targetDir, 'vite.config.js')) ||
+          fs.existsSync(path.join(targetDir, 'vite.config.ts'))
+        );
+      }).then(
+        new CompoundOperation(
+          new FileYamlSetOperation(
+            targetDir,
+            'teamsapp.local.yml',
+            'deploy.1.with.envs.VITE_CLIENT_ID',
+            '${{BOT_ID}}'
+          ),
+          new FileYamlSetOperation(
+            targetDir,
+            'teamsapp.local.yml',
+            'deploy.1.with.envs.VITE_CLIENT_SECRET',
+            '${{SECRET_BOT_PASSWORD}}'
+          )
+        )
       )
     );
   }
