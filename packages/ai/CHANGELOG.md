@@ -1,5 +1,13 @@
 # @teams.sdk/ai
 
+## 0.1.39
+
+### Patch Changes
+
+- add tab template to cli and oauth ttk config
+- Updated dependencies
+    - @teams.sdk/common@0.1.39
+
 ## 0.1.38
 
 ### Patch Changes

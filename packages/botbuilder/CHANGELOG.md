@@ -1,5 +1,16 @@
 # @teams.sdk/botbuilder
 
+## 0.1.39
+
+### Patch Changes
+
+- add tab template to cli and oauth ttk config
+- Updated dependencies
+    - @teams.sdk/api@0.1.39
+    - @teams.sdk/apps@0.1.39
+    - @teams.sdk/common@0.1.39
+    - @teams.sdk/graph@0.1.39
+
 ## 0.1.38
 
 ### Patch Changes
