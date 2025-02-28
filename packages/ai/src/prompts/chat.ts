@@ -7,12 +7,12 @@ import { Schema } from '../schema';
 import { Template } from '../template';
 import { StringTemplate } from '../templates';
 
-export type ChatPromptOptions<TModelExtraParams extends {}> = TModelExtraParams & {
+export type ChatPromptOptions<TModelExtraParams extends {}> = {
   readonly model: ChatModel<TModelExtraParams>;
   readonly instructions?: string | Template;
   readonly role?: 'system' | 'user';
   readonly messages?: Message[] | Memory;
-};
+} & Partial<Omit<TModelExtraParams, 'model' | 'input' | 'messages' | 'functions'>>;
 
 export class ChatPrompt<TModelExtraParams extends {}> {
   readonly messages: Memory;
