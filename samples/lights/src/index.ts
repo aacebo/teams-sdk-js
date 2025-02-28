@@ -4,6 +4,7 @@ import { ConsoleLogger } from '@teams.sdk/common/logging';
 import { OpenAIChatModel } from '@teams.sdk/openai';
 import { LocalStorage } from '@teams.sdk/common/storage';
 import { DevtoolsPlugin } from '@teams.sdk/dev';
+import { MessageSendActivity } from '@teams.sdk/api';
 
 const storage = new LocalStorage<{
   status: boolean;
@@ -62,13 +63,7 @@ app.on('message', async ({ send, stream, activity }) => {
     });
 
   await prompt.chat(activity.text, (chunk) => {
-    stream.emit({
-      type: 'message',
-      text: chunk,
-      channelData: {
-        feedbackLoopEnabled: true,
-      },
-    });
+    stream.emit(MessageSendActivity(chunk).feedback().build());
   });
 });
 

@@ -15,21 +15,16 @@ Here is what your terminal should look like:
 This will use the `@teams.sdk/cli` to install a starter template and build then run the bot server. The starter code will look something like this:
 
 ```typescript
-import { App, HttpPlugin } from '@teams.sdk/apps';
+import { App } from '@teams.sdk/apps';
 import { DevtoolsPlugin } from '@teams.sdk/dev';
 
 const app = new App({
-    plugins: [new DevtoolsPlugin(), new HttpPlugin()],
+    plugins: [new DevtoolsPlugin()],
 });
 
-app.on('message', async ({ send, activity, next }) => {
+app.on('message', async ({ send, activity }) => {
     await send({ type: 'typing' });
-    await send({
-        type: 'message',
-        text: `you said "${activity.text}"`,
-    });
-
-    return next();
+    await send(`you said "${activity.text}"`);
 });
 
 (async () => {

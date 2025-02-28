@@ -8,10 +8,7 @@ const app = new App({
 });
 
 app.on('message', async ({ send, activity }) => {
-  await send({
-    type: 'message',
-    text: `you said "${activity.text}"`,
-  });
+  await send(`you said "${activity.text}"`);
 });
 
 (async () => {
