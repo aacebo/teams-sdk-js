@@ -8,18 +8,8 @@ const useActivityDetailsClasses = makeStyles({
   selectedHeader: {
     display: 'flex',
     padding: '0.5rem 1rem',
-  },
-  copyButtonContainer: {
-    marginRight: '0.5rem',
-  },
-  checkboxContainer: {
-    display: 'flex',
     alignItems: 'center',
-  },
-  checkboxLabel: {
-    display: 'flex',
-    alignItems: 'center',
-    cursor: 'pointer',
+    gap: '0.5rem',
   },
   jsonContainer: {
     overflowY: 'auto',
@@ -30,4 +20,4 @@ const useActivityDetailsClasses = makeStyles({
   },
 });
 
-export default useActivityDetailsClasses; 
+export default useActivityDetailsClasses;

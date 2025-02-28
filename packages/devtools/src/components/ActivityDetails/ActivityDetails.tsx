@@ -1,4 +1,12 @@
-import { Button, Tooltip, Switch, InfoLabel } from '@fluentui/react-components';
+import {
+  Button,
+  Tooltip,
+  Switch,
+  InfoLabel,
+  useToastController,
+  Toast,
+  ToastTitle,
+} from '@fluentui/react-components';
 import { CopyRegular } from '@fluentui/react-icons/lib/fonts';
 import Json from '../Json/Json';
 import useActivityDetailsClasses from './ActivityDetails.styles';
@@ -12,41 +20,63 @@ interface ActivityDetailsProps {
 
 const ActivityDetails: React.FC<ActivityDetailsProps> = ({ selected, view, setView }) => {
   const classes = useActivityDetailsClasses();
+  const { dispatchToast } = useToastController();
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(selected));
+
+      // Show toast notification
+      dispatchToast(
+        <Toast>
+          <ToastTitle role="status" aria-live="polite">
+            Content copied to clipboard
+          </ToastTitle>
+        </Toast>,
+        { position: 'bottom', timeout: 2000 }
+      );
+    } catch (err) {
+      console.error('Failed to copy:', err);
+      // Show error toast
+      dispatchToast(
+        <Toast>
+          <ToastTitle role="alert" aria-live="assertive">
+            Failed to copy content
+          </ToastTitle>
+        </Toast>,
+        { position: 'bottom', timeout: 3000 }
+      );
+    }
+  };
 
   return (
     <div className={classes.selectedContainer}>
       <div className={classes.selectedHeader}>
-        <div className={classes.copyButtonContainer}>
-          <Tooltip content="Copy to clipboard" relationship="label">
-            <Button
-              aria-label="Copy to clipboard"
-              icon={<CopyRegular />}
-              onClick={() => {
-                navigator.clipboard.writeText(JSON.stringify(selected));
-              }}
-            />
-          </Tooltip>
-        </div>
+        <Tooltip content="Copy to clipboard" relationship="label">
+          <Button aria-label="Copy to clipboard" icon={<CopyRegular />} onClick={handleCopy} />
+        </Tooltip>
 
-        <div className={classes.checkboxContainer}>
-          <InfoLabel
-            info={
-              <>
+        <InfoLabel
+          info={
+            <>
+              <p>
                 Use this switch to toggle between Preview and JSON view of the activity payload.
+              </p>
+              <p>
                 Preview shows a tree view of the activity, while JSON shows the raw JSON payload.
-              </>
-            }
-          >
-            <Switch
-              checked={view === 'json'}
-              onChange={(event) => {
-                setView(event.target.checked ? 'json' : 'preview');
-              }}
-              label={view === 'json' ? 'JSON' : 'Preview'}
-              aria-label="Toggle between Preview and JSON"
-            />
-          </InfoLabel>
-        </div>
+              </p>
+            </>
+          }
+        >
+          <Switch
+            checked={view === 'json'}
+            onChange={(event) => {
+              setView(event.target.checked ? 'json' : 'preview');
+            }}
+            label={view === 'json' ? 'JSON' : 'Preview'}
+            aria-label="Toggle between Preview and JSON"
+          />
+        </InfoLabel>
       </div>
 
       <div className={classes.jsonContainer}>

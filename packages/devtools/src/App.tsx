@@ -4,6 +4,7 @@ import {
   mergeClasses,
   teamsDarkTheme,
   teamsLightTheme,
+  Toaster,
 } from '@fluentui/react-components';
 import { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
@@ -62,6 +63,7 @@ export default function App() {
 
   return (
     <FluentProvider theme={fluentTheme}>
+      <Toaster />
       <Body1 id="app-root" className={mergeClasses(classes.default, classes.appContainer)}>
         <BrowserRouter basename="/devtools" data-tid="browser-router">
           <nav id="app-sidebar" className={classes.sideBar} aria-label="Sidebar navigation">
