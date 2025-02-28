@@ -12,7 +12,7 @@ export type ChatPromptOptions<TModelExtraParams extends {}> = {
   readonly instructions?: string | Template;
   readonly role?: 'system' | 'user';
   readonly messages?: Message[] | Memory;
-} & Partial<Omit<TModelExtraParams, 'model' | 'input' | 'messages' | 'functions'>>;
+} & Partial<Omit<TModelExtraParams, 'model' | 'instructions' | 'role' | 'messages'>>;
 
 export class ChatPrompt<TModelExtraParams extends {}> {
   readonly messages: Memory;
