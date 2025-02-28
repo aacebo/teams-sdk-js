@@ -36,9 +36,9 @@
     {
       "entityId": "test",
       "name": "Test",
-      "contentUrl": "${{BOT_DOMAIN}}/tabs/test",
-      "websiteUrl": "${{BOT_DOMAIN}}/tabs/test",
-      "scopes": ["personal", "groupChat", "team"]
+      "contentUrl": "https://${{BOT_DOMAIN}}/tabs/test",
+      "websiteUrl": "https://${{BOT_DOMAIN}}/tabs/test",
+      "scopes": ["personal", "team"]
     }
   ],
   "bots": [

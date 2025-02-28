@@ -5,4 +5,5 @@ export * from './file-copy';
 export * from './file-create';
 export * from './file-update';
 export * from './file-json-set';
+export * from './file-yaml-set';
 export * from './file-env-set';
