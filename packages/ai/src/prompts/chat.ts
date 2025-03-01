@@ -12,7 +12,13 @@ export type ChatPromptOptions<TModelExtraParams extends {}> = {
   readonly instructions?: string | Template;
   readonly role?: 'system' | 'user';
   readonly messages?: Message[] | Memory;
-} & Partial<Omit<TModelExtraParams, 'model' | 'instructions' | 'role' | 'messages'>>;
+} & Omit<TModelExtraParams, 'model' | 'instructions' | 'role' | 'messages'>;
+
+type CheckIfContainsNonOptional<T> = {} extends {
+  [K in keyof T]: T[K] extends Required<T>[K] ? never : K;
+}
+  ? never
+  : T;
 
 export class ChatPrompt<TModelExtraParams extends {}> {
   readonly messages: Memory;
@@ -64,10 +70,9 @@ export class ChatPrompt<TModelExtraParams extends {}> {
   }
 
   async chat(
-    inputArgs:
-      | string
-      | ContentPart[]
-      | { input: string | ContentPart[]; extraArgs?: TModelExtraParams },
+    inputArgs: CheckIfContainsNonOptional<TModelExtraParams> extends never
+      ? { input: string | ContentPart[]; extraArgs: TModelExtraParams }
+      : string | ContentPart[] | { input: string | ContentPart[]; extraArgs?: TModelExtraParams },
     onChunk?: (chunk: string) => void | Promise<void>
   ) {
     let input: string | ContentPart[] =

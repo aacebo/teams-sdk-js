@@ -7,7 +7,7 @@ export type ChatParams<TExtraParams extends {}> = {
   readonly input: Message;
   readonly messages?: Memory;
   readonly functions?: Record<string, Function>;
-} & Partial<Omit<TExtraParams, 'system' | 'input' | 'messages' | 'functions'>>;
+} & Omit<TExtraParams, 'system' | 'input' | 'messages' | 'functions'>;
 
 export interface ChatModel<TExtraParams extends {} = {}> {
   chat(
