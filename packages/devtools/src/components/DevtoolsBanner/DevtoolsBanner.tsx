@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import { Badge, Text, Tooltip } from '@fluentui/react-components';
 import useClasses from './DevtoolsBanner.styles';
+import { useNavigate } from 'react-router';
+import { navigateToRootAndRefresh, DevOnly } from '../../utils/dev';
 
 interface DevtoolsBannerProps {
   connected: boolean;
@@ -8,10 +10,21 @@ interface DevtoolsBannerProps {
 
 const DevtoolsBanner: FC<DevtoolsBannerProps> = ({ connected }) => {
   const classes = useClasses();
+  const navigate = useNavigate();
 
   return (
     <div data-tid="devtools-" className={classes.devtoolsLandmark}>
-      <img src="/devtools/teams.png" className={classes.teamsImg} role="presentation" />
+      <div className={classes.imageContainer}>
+        <img src="/devtools/teams.png" className={classes.teamsImg} role="presentation" />
+        <DevOnly>
+          <button
+            className={classes.devButton}
+            onClick={() => navigateToRootAndRefresh(navigate)}
+            aria-hidden="true"
+            tabIndex={-1}
+          />
+        </DevOnly>
+      </div>
       <Text as="h1" size={500} weight="semibold">
         DevTools
       </Text>

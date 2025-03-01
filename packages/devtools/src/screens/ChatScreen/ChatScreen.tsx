@@ -1,8 +1,9 @@
-import { FC, useContext, useState } from 'react';
+import { FC, useContext, useState, useCallback } from 'react';
 import { ChatContext } from '../../stores/ChatStore';
 import { useClasses } from './ChatScreen.styles';
 import { Attachment } from '@teams.sdk/api';
 import useSparkApi from '../../hooks/useSparkApi';
+import { useDevModeSendMessage } from '../../utils/dev';
 
 import Chat from '../../components/Chat/Chat';
 import ChatMessageContainer from '../../components/ChatMessage/ChatMessageContainer';
@@ -22,7 +23,7 @@ const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const sparkApi = useSparkApi();
 
-  const handleSendMessage = async (message: string) => {
+  const handleSendMessage = useCallback(async (message: string) => {
     try {
       await sparkApi.conversations.activities(chat.id).create({
         type: 'message',
@@ -34,7 +35,11 @@ const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [sparkApi, chat?.id, attachments, setAttachments]);
+
+  // Use the hook to automatically send a message in development mode
+  // This will be a no-op in production builds
+  useDevModeSendMessage(handleSendMessage);
 
   return (
     <Chat className={screenClasses.screenContainer}>

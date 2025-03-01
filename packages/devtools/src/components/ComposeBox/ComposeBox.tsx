@@ -34,7 +34,7 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
   };
 
   return (
-    <div className={classes.composeBoxContainer}>
+    <div id="compose-box" className={classes.composeBoxContainer}>
       <Textarea
         className={classes.composeInput}
         placeholder="Type a message..."
