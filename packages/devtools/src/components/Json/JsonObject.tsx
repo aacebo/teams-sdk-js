@@ -1,62 +1,103 @@
 import { ComponentProps, useState } from 'react';
-
+import { Button, mergeClasses } from '@fluentui/react-components';
+import { TriangleDownFilled, TriangleRightFilled } from '@fluentui/react-icons';
+import { useJsonObjectClasses } from './Json.styles';
 import Json from './Json';
 
 export interface JsonObjectProps extends ComponentProps<'div'> {
   readonly value: Record<string, any>;
+  readonly level?: number;
+  readonly path?: any[];
+  readonly isArray?: boolean;
 }
+
+// Helper to detect circular references
+const isCircular = (value: any, path: any[] = []): boolean => {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  return path.some((item) => item === value);
+};
 
 export default function JsonObject(props: JsonObjectProps) {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const classes = props.className?.split(' ') || [];
-  const hasObjectProperty = Object.values(props.value).some((v) => typeof v === 'object');
+  const classes = useJsonObjectClasses();
+  const level = props.level || 0;
+  const path = props.path || [];
+  const isArray = props.isArray || false;
+
+  // Handle empty object/array
+  if (Object.keys(props.value).length === 0) {
+    return <div className={classes.emptyObject}>{isArray ? '[]' : '{}'}</div>;
+  }
 
   return (
-    <div className={[...classes, ...['flex', 'flex-col', 'overflow-y-auto']].join(' ')}>
+    <div
+      className={mergeClasses(
+        classes.object,
+        level > 0 ? classes.nestedLevel : undefined,
+        isArray ? classes.arrayContainer : undefined
+      )}
+    >
       {Object.entries(props.value).map(([key, value]) => {
-        const isObject = typeof value === 'object';
+        const isObject = typeof value === 'object' && value !== null;
         const isExpanded = !!expanded[key];
+        const isCircularRef = isCircular(value, path);
 
         return (
-          <div className="flex flex-col">
-            <button
-              className="flex"
-              disabled={!isObject}
-              onClick={() => {
-                setExpanded({
-                  ...expanded,
-                  [key]: !isExpanded,
-                });
-              }}
-            >
-              {isObject && (
-                <div
-                  className={[
-                    'mr-2',
-                    'my-auto',
-                    'text-xs',
-                    'transition',
-                    !isExpanded ? '-rotate-90' : '',
-                  ].join(' ')}
-                >
-                  &#9660;
-                </div>
-              )}
-              <div
-                className={['text-sky-600', !isObject && hasObjectProperty ? 'ml-5' : ''].join(' ')}
-              >
-                {key}
+          <div key={key}>
+            <div className={classes.row}>
+              <div className={classes.keyContainer}>
+                {isObject && !isCircularRef ? (
+                  <Button
+                    appearance="transparent"
+                    className={classes.expandButton}
+                    onClick={() => {
+                      setExpanded({
+                        ...expanded,
+                        [key]: !isExpanded,
+                      });
+                    }}
+                  >
+                    {isExpanded ? <TriangleDownFilled /> : <TriangleRightFilled />}
+                  </Button>
+                ) : (
+                  <div className={classes.iconPlaceholder}></div>
+                )}
               </div>
-              <span className="mr-2">:</span>
-              {!isExpanded && isObject && (
-                <div className="text-sm ny-auto truncate opacity-50 italic hover:underline">
-                  {JSON.stringify(value, null, 2)}
-                </div>
-              )}
-              {!isObject && <Json className="truncate hover:underline" value={value} />}
-            </button>
 
-            {isExpanded && <Json className="ml-7 truncate" value={value} />}
+              <div className={classes.key}>
+                {isArray ? <span className={classes.arrayIndex}>{key}</span> : key + ':'}
+              </div>
+
+              {isObject ? (
+                isCircularRef ? (
+                  <div className={classes.circularRef}>[Circular Reference]</div>
+                ) : !isExpanded ? (
+                  <div className={classes.value}>
+                    {Array.isArray(value)
+                      ? `[${value.length > 0 ? '...' : ''}]`
+                      : Object.keys(value).length === 0
+                        ? '{}'
+                        : '{ ... }'}
+                  </div>
+                ) : null
+              ) : (
+                <Json className={classes.value} value={value} />
+              )}
+            </div>
+
+            {isExpanded && isObject && !isCircularRef && (
+              <div className={classes.expandedValue}>
+                <Json
+                  value={value}
+                  level={level + 1}
+                  path={[...path, props.value]}
+                  isArray={Array.isArray(value)}
+                />
+              </div>
+            )}
           </div>
         );
       })}

@@ -1,14 +1,14 @@
 import { ComponentProps } from 'react';
+import { useJsonNumberClasses } from './Json.styles';
 
 export interface JsonNumberProps extends ComponentProps<'div'> {
   readonly value: number;
 }
 
 export default function JsonNumber(props: JsonNumberProps) {
-  const classes = props.className?.split(' ') || [];
-
+  const classes = useJsonNumberClasses();
   return (
-    <div {...props} className={[...classes, 'text-violet-600'].join(' ')}>
+    <div {...props} className={classes.number}>
       {props.value}
     </div>
   );

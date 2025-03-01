@@ -1,14 +1,14 @@
 import { ComponentProps } from 'react';
+import { useJsonBoolClasses } from './Json.styles';
 
 export interface JsonBoolProps extends ComponentProps<'div'> {
   readonly value: boolean;
 }
 
 export default function JsonBool(props: JsonBoolProps) {
-  const classes = props.className?.split(' ') || [];
-
+  const classes = useJsonBoolClasses();
   return (
-    <div {...props} className={[...classes, 'text-violet-400'].join(' ')}>
+    <div {...props} className={classes.bool}>
       {props.value === true ? 'true' : 'false'}
     </div>
   );

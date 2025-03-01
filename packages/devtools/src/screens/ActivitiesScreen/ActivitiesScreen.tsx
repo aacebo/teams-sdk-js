@@ -3,12 +3,12 @@ import { useSearchParams } from 'react-router';
 import { ActivityContext } from '../../stores/ActivityStore';
 import { ActivityEvent } from '../../types/Event';
 import { useScreensClasses } from '../Screens.styles';
-import useStyles from './ActivitiesScreen.styles';
+import useActivitiesScreenClasses from './ActivitiesScreen.styles';
 import ActivitiesGrid from '../../components/ActivitiesGrid/ActivitiesGrid';
 import ActivityDetails from '../../components/ActivityDetails/ActivityDetails';
 
 export default function ActivitiesScreen() {
-  const classes = useStyles();
+  const classes = useActivitiesScreenClasses();
   const screenClasses = useScreensClasses();
   const { list } = useContext(ActivityContext);
   const [selected, setSelected] = useState<ActivityEvent>();

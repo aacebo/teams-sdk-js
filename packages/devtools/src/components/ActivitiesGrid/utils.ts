@@ -1,23 +1,23 @@
 import { Activity } from '@teams.sdk/api';
 
 export function getActivityPath(activity: Activity): string {
-    const path: Array<string> = [activity.type];
+  const path: Array<string> = [activity.type];
 
-    if (activity.type === 'invoke' || activity.type === 'event' || activity.type === 'command') {
-        path.push(activity.name);
-    }
+  if (activity.type === 'invoke' || activity.type === 'event' || activity.type === 'command') {
+    path.push(activity.name);
+  }
 
-    if (activity.type === 'installationUpdate') {
-        path.push(activity.action);
-    }
+  if (activity.type === 'installationUpdate') {
+    path.push(activity.action);
+  }
 
-    if (
-        activity.type === 'messageDelete' ||
-        activity.type === 'messageUpdate' ||
-        activity.type === 'conversationUpdate'
-    ) {
-        path.push(activity.channelData.eventType);
-    }
+  if (
+    activity.type === 'messageDelete' ||
+    activity.type === 'messageUpdate' ||
+    activity.type === 'conversationUpdate'
+  ) {
+    path.push(activity.channelData.eventType);
+  }
 
-    return path.join('/');
+  return path.join('/');
 }

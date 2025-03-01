@@ -8,19 +8,24 @@ import JsonNumber from './JsonNumber';
 import JsonString from './JsonString';
 import JsonArray from './JsonArray';
 import JsonObject from './JsonObject';
+import { useJsonClasses } from './Json.styles';
 
 hljs.registerLanguage('json', jsonLanguage);
 
 export interface JsonProps extends ComponentProps<'div'> {
   readonly value: any;
   readonly stringify?: boolean;
+  readonly level?: number;
+  readonly path?: any[];
+  readonly isArray?: boolean;
 }
 
 export default function Json(props: JsonProps) {
+  const classes = useJsonClasses();
+
   if (props.stringify) {
     const html = hljs.highlight(JSON.stringify(props.value, null, 2), { language: 'json' }).value;
-
-    return <pre className="text-xs" dangerouslySetInnerHTML={{ __html: html }} />;
+    return <pre className={classes.pre} dangerouslySetInnerHTML={{ __html: html }} />;
   }
 
   if (props.value === null) {
@@ -47,7 +52,6 @@ export default function Json(props: JsonProps) {
     if (Array.isArray(props.value)) {
       return <JsonArray {...props} />;
     }
-
     return <JsonObject {...props} />;
   }
 

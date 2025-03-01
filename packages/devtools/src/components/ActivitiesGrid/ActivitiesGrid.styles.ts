@@ -3,30 +3,30 @@ import { makeStyles, tokens } from '@fluentui/react-components';
 export type ColumnId = 'type' | 'chat' | 'from' | 'timestamp';
 
 export const GRID_COLUMNS = [
-    {
-        id: 'type' as const,
-        label: 'Type',
-        width: '25%',
-        minWidth: '150px',
-    },
-    {
-        id: 'chat' as const,
-        label: 'Chat',
-        width: '20%',
-        minWidth: '100px',
-    },
-    {
-        id: 'from' as const,
-        label: 'From',
-        width: '25%',
-        minWidth: '150px',
-    },
-    {
-        id: 'timestamp' as const,
-        label: 'Timestamp',
-        width: '30%',
-        minWidth: '180px',
-    },
+  {
+    id: 'type' as const,
+    label: 'Type',
+    width: '25%',
+    minWidth: '150px',
+  },
+  {
+    id: 'chat' as const,
+    label: 'Chat',
+    width: '20%',
+    minWidth: '100px',
+  },
+  {
+    id: 'from' as const,
+    label: 'From',
+    width: '25%',
+    minWidth: '150px',
+  },
+  {
+    id: 'timestamp' as const,
+    label: 'Timestamp',
+    width: '30%',
+    minWidth: '180px',
+  },
 ] as const;
 
 const useActivitiesGridClasses = makeStyles({
@@ -167,7 +167,7 @@ const useActivitiesGridClasses = makeStyles({
   emptyTable: {
     textAlign: 'center',
     padding: tokens.spacingHorizontalS,
-  }
+  },
 });
 
 export default useActivitiesGridClasses;

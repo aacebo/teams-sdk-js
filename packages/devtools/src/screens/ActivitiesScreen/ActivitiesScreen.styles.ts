@@ -1,11 +1,13 @@
 import { makeStyles } from '@fluentui/react-components';
 
-const useStyles = makeStyles({
+const useActivitiesScreenClasses = makeStyles({
   activitiesContainer: {
     display: 'flex',
     flexDirection: 'row',
     flex: 1,
+    position: 'relative',
+    height: '100%',
   },
 });
 
-export default useStyles;
+export default useActivitiesScreenClasses;
