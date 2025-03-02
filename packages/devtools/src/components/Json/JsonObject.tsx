@@ -1,6 +1,6 @@
 import { ComponentProps, useState } from 'react';
 import { Button, mergeClasses } from '@fluentui/react-components';
-import { TriangleDownFilled, TriangleRightFilled } from '@fluentui/react-icons';
+import { TriangleDownFilled, TriangleRightFilled } from '@fluentui/react-icons/lib/fonts';
 import { useJsonObjectClasses } from './Json.styles';
 import Json from './Json';
 
