@@ -1,9 +1,10 @@
 import { FC, HTMLProps } from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { Link } from '@fluentui/react-components';
 
 const MarkdownLink: FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = (props) => (
-  <a {...props} target="_blank" rel="noopener noreferrer" />
+  <Link {...props} target="_blank" rel="noopener noreferrer" />
 );
 
 const MarkdownCode: FC<HTMLProps<HTMLElement>> = ({ children, className, ...props }) => {
@@ -18,7 +19,7 @@ interface ChatMessageMarkdownProps {
   content: string;
 }
 
-export const ChatMessageMarkdown: FC<ChatMessageMarkdownProps> = ({ content }) => {
+export const MarkdownContent: FC<ChatMessageMarkdownProps> = ({ content }) => {
   return (
     <Markdown
       children={content}

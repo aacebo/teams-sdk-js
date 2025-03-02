@@ -1,5 +1,5 @@
 import { FC, useContext, useEffect, useState } from 'react';
-import { ChatMessageMarkdown } from './ChatMessageMarkdown';
+import { MarkdownContent } from '../MarkdownContent';
 import { useChatMessageStyles } from './ChatMessage.styles';
 import {
   Button,
@@ -119,7 +119,7 @@ const ChatMessage: FC<ChatMessageProps> = ({
               >
                 <div className={classes.messageContent}>
                   <span className={classes.messageText}>
-                    {html ? <ChatMessageMarkdown content={html} /> : content}
+                    {html ? <MarkdownContent content={html} /> : content}
                     {streaming && <span className={classes.streamingCursor} />}
                   </span>
                 </div>
