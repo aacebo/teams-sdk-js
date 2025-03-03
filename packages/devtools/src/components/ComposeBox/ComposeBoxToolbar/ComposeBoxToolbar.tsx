@@ -102,7 +102,7 @@ const ComposeBoxToolbar: FC<ComposeBoxToolbarProps> = ({
 
   return (
     <Toolbar aria-label="New message actions" {...props} className={classes.toolbar}>
-      <Menu open={menuOpen} onOpenChange={(e, data) => setMenuOpen(data.open)}>
+      <Menu open={menuOpen} onOpenChange={(_e, data) => setMenuOpen(data.open)}>
         <MenuTrigger disableButtonEnhancement>
           <ToolbarButton
             aria-label="Attach file"
@@ -124,7 +124,7 @@ const ComposeBoxToolbar: FC<ComposeBoxToolbarProps> = ({
           </MenuList>
         </MenuPopover>
       </Menu>
-      <Dialog open={isDialogOpen} onOpenChange={(e, data) => setIsDialogOpen(data.open)}>
+      <Dialog open={isDialogOpen} onOpenChange={(_e, data) => setIsDialogOpen(data.open)}>
         <DialogSurface>
           <DialogBody>
             <DialogTitle id={dialogTitleId}>Paste Card JSON</DialogTitle>

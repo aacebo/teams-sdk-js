@@ -1,4 +1,4 @@
-import { FC, useContext, useState, useCallback, useEffect } from 'react';
+import { FC, useContext, useCallback } from 'react';
 import { ChatContext } from '../../stores/ChatStore';
 import { useClasses } from './ChatScreen.styles';
 import { Attachment } from '@teams.sdk/api';

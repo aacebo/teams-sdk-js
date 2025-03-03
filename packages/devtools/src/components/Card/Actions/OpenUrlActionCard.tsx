@@ -1,5 +1,5 @@
 import { OpenUrlAction } from '@teams.sdk/cards';
-import { Link, Tooltip, Button } from '@fluentui/react-components';
+import { Tooltip, Button } from '@fluentui/react-components';
 import { useOpenUrlActionCardClasses } from './Actions.styles';
 
 export interface OpenUrlActionCardProps {

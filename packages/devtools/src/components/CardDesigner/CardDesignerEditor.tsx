@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Card, TextBlock, ActionSet } from '@teams.sdk/cards';
+import { Card } from '@teams.sdk/cards';
 import { Tab, TabList } from '@fluentui/react-components';
 
 import { json } from '@codemirror/lang-json';
