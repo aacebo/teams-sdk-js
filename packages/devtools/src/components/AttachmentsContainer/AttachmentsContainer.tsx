@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { Button, Image } from '@fluentui/react-components';
-import { Dismiss24Regular } from '@fluentui/react-icons';
+import { Dismiss20Regular } from '@fluentui/react-icons';
 import { useClasses } from './AttachmentsContainer.styles';
 import AdaptiveCard from '../Card/AdaptiveCard';
 import { AttachmentType } from '../../types/Attachment';
@@ -52,7 +52,7 @@ const AttachmentItem = memo(
         {showRemoveButton && (
           <Button
             appearance="transparent"
-            icon={<Dismiss24Regular />}
+            icon={<Dismiss20Regular />}
             onClick={() => onRemove(index)}
             aria-label="Remove attachment"
             className={classes.removeAttachmentButton}
