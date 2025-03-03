@@ -26,5 +26,17 @@ export const useClasses = makeStyles({
     maxWidth: '300px',
     maxHeight: '300px',
     overflow: 'auto',
+  },
+  attachmentImage: {
+    maxWidth: '300px',
+    borderRadius: tokens.borderRadiusSmall,
+  },
+  fileAttachment: {
+    display: 'inline-block',
+    padding: `${tokens.spacingVerticalXXS} ${tokens.spacingHorizontalS}`,
+    backgroundColor: tokens.colorNeutralBackground1,
+    borderRadius: tokens.borderRadiusSmall,
+    border: `1px solid ${tokens.colorNeutralStroke1}`,
+    color: tokens.colorNeutralForeground1,
   }
 }); 
