@@ -6,7 +6,7 @@ import {
   ActivityReceivedEvent,
   ActivitySendingEvent,
   ActivitySentEvent,
-} from './Types';
+} from './types/Event';
 
 interface SocketEventTypes {
   readonly activity: ActivityEvent;

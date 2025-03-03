@@ -1,164 +1,116 @@
-import { useEffect, useState } from 'react';
-import { BrowserRouter, NavLink, Navigate, Route, Routes } from 'react-router';
-
-import { ConsoleLogger } from '@teams.sdk/common/logging';
 import {
-  CardUiFilled,
-  CardUiRegular,
-  ChatFilled,
-  ChatRegular,
-  DocumentBulletListFilled,
-  DocumentBulletListRegular,
-  SearchFilled,
-  SearchRegular,
-} from '@fluentui/react-icons';
-
+  Body1,
+  FluentProvider,
+  mergeClasses,
+  teamsDarkTheme,
+  teamsLightTheme,
+  Toaster,
+} from '@fluentui/react-components';
+import { useEffect, useMemo, useState } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
+import useTheme from './hooks/useTheme';
+import useAppClasses from './App.styles';
 import { SocketClient } from './socket-client';
-import { ActivityContext, ChatContext, useActivityStore, useChatStore } from './Stores';
 
-import Cards from './Screens/Cards';
-import Activities from './Screens/Activities';
-import Logs from './Screens/Logs';
-import Chat from './Screens/Chat';
-import './App.css';
+import { ChatContext, useChatStore } from './stores/ChatStore';
+import { ActivityContext, useActivityStore } from './stores/ActivityStore';
+import { CardContext, useCardStore } from './stores/CardStore';
+import ChatScreen from './screens/ChatScreen/ChatScreen';
+import DevtoolsBanner from './components/DevtoolsBanner/DevtoolsBanner';
+import PageNavButton from './components/PageNavButton/PageNavButton';
+import ActivitiesScreen from './screens/ActivitiesScreen/ActivitiesScreen';
+import CardsScreen from './screens/CardsScreen';
 
 const socket = new SocketClient();
-const log = new ConsoleLogger('devtools');
 
 export default function App() {
-  const [connected, setConnected] = useState(false);
+  const classes = useAppClasses();
+  const [theme] = useTheme();
   const activityStore = useActivityStore();
   const chatStore = useChatStore();
+  const cardStore = useCardStore();
+
+  const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    socket.connect(() => {
-      log.info('connected...');
-      setConnected(true);
+    const connectSocket = async () => {
+      try {
+        await socket.connect();
+        console.info('Connected to server...');
+        setConnected(true);
+      } catch (error) {
+        console.error('Connection error:', error);
+      }
+    };
 
-      socket.disconnect(() => {
-        log.info('disconnected...');
-        setConnected(false);
-      });
-    });
+    connectSocket();
 
     socket.on('activity', (event) => {
       activityStore.put(event);
       chatStore.onActivity(event);
     });
+
+    return () => {
+      socket.off('activity');
+      socket.disconnect(() => {
+        console.info('Disconnected from server...');
+        setConnected(false);
+      });
+    };
   }, []);
 
+  const fluentTheme = useMemo(() => {
+    return theme === 'dark' ? teamsDarkTheme : teamsLightTheme;
+  }, [theme]);
+
   return (
-    <div className="App">
-      <BrowserRouter basename="/devtools">
-        <div className="flex px-5 py-2 border-b dark:border-stone-800 shadow-md">
-          <div className="flex font-semibold my-auto">
-            <img src="/devtools/teams.png" className="w-10 my-auto" />
-            <div className="flex my-auto">
-              DevTools
-              <span className="relative flex h-3 w-3">
-                <span
-                  className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${connected ? 'bg-green-400' : 'bg-red-400'}`}
-                />
-                <span
-                  className={`relative inline-flex rounded-full h-3 w-3 ${connected ? 'bg-green-500' : 'bg-red-500'}`}
-                />
-              </span>
-            </div>
-          </div>
-
-          <div className="flex flex-1 justify-end">
-            <NavLink
-              to="/"
-              className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
-              children={({ isActive }) => {
-                let Icon: JSX.Element = <ChatRegular className="size-5 my-auto mr-1" />;
-
-                if (isActive) {
-                  Icon = <ChatFilled className="size-5 my-auto mr-1" />;
-                }
-
-                return (
-                  <div className="flex">
-                    {Icon}
-                    Chat
-                  </div>
-                );
-              }}
-            />
-
-            <NavLink
-              to="/cards"
-              className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
-              children={({ isActive }) => {
-                let Icon: JSX.Element = <CardUiRegular className="size-5 my-auto mr-1" />;
-
-                if (isActive) {
-                  Icon = <CardUiFilled className="size-5 my-auto mr-1" />;
-                }
-
-                return (
-                  <div className="flex">
-                    {Icon}
-                    Cards
-                  </div>
-                );
-              }}
-            />
-
-            <NavLink
-              to="/activities"
-              className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
-              children={({ isActive }) => {
-                let Icon: JSX.Element = <SearchRegular className="size-5 my-auto mr-1" />;
-
-                if (isActive) {
-                  Icon = <SearchFilled className="size-5 my-auto mr-1" />;
-                }
-
-                return (
-                  <div className="flex">
-                    {Icon}
-                    Activities
-                  </div>
-                );
-              }}
-            />
-
-            <NavLink
-              to="/logs"
-              className={({ isActive }) => (isActive ? 'App__route active' : 'App__route')}
-              children={({ isActive }) => {
-                let Icon: JSX.Element = (
-                  <DocumentBulletListRegular className="size-5 my-auto mr-1" />
-                );
-
-                if (isActive) {
-                  Icon = <DocumentBulletListFilled className="size-5 my-auto mr-1" />;
-                }
-
-                return (
-                  <div className="flex">
-                    {Icon}
-                    Logs
-                  </div>
-                );
-              }}
-            />
-          </div>
-        </div>
-
+    <FluentProvider theme={fluentTheme}>
+      <ChatContext.Provider value={chatStore}>
         <ActivityContext.Provider value={activityStore}>
-          <ChatContext.Provider value={chatStore}>
-            <Routes>
-              <Route path="" element={<Chat />} />
-              <Route path="cards" element={<Cards />} />
-              <Route path="activities" element={<Activities />} />
-              <Route path="logs" element={<Logs />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </ChatContext.Provider>
+          <CardContext.Provider value={cardStore}>
+            <Toaster />
+            <Body1 id="app-root" className={mergeClasses(classes.default, classes.appContainer)}>
+              <BrowserRouter basename="/devtools" data-tid="browser-router">
+                <nav id="app-sidebar" className={classes.sideBar} aria-label="Sidebar navigation">
+                  <header id="banner" className={classes.header}>
+                    <DevtoolsBanner connected={connected} />
+                  </header>
+                </nav>
+                <div id="app-content" className={classes.mainLayout} data-tid="main-layout">
+                  <nav
+                    id="top-nav"
+                    className={classes.pageNavContainer}
+                    aria-label="Page navigation"
+                    data-tid="top-nav"
+                  >
+                    <div className={classes.navButtonContainer}>
+                      <PageNavButton to="/" iconType="chat" label="Chat" />
+                      <PageNavButton to="/cards" iconType="cards" label="Cards" />
+                      <PageNavButton to="/activities" iconType="activities" label="Activities" />
+
+                      {/* TODO: Add logs page back once implemented */}
+                      {/* <PageNavButton
+                        to="/logs"
+                        iconType="logs"
+                        label="Logs"
+                      /> */}
+                    </div>
+                  </nav>
+                  <main id="page-content" className={classes.mainContent}>
+                    <Routes>
+                      <Route path="" element={<ChatScreen isConnected={connected} />} />
+                      <Route path="cards" element={<CardsScreen />} />
+                      <Route path="activities" element={<ActivitiesScreen />} />
+                      {/* <Route path="logs" element={<Logs />} /> */}
+                      <Route path="*" element={<Navigate to="/" replace />} />
+                    </Routes>
+                  </main>
+                </div>
+              </BrowserRouter>
+            </Body1>
+          </CardContext.Provider>
         </ActivityContext.Provider>
-      </BrowserRouter>
-    </div>
+      </ChatContext.Provider>
+    </FluentProvider>
   );
 }
