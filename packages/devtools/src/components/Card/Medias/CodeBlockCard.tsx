@@ -8,9 +8,9 @@ import typescript from 'highlight.js/lib/languages/typescript';
 import 'highlight.js/styles/atom-one-dark.min.css';
 
 hljs.registerLanguage('json', json);
-hljs.registerLanguage('json', bash);
-hljs.registerLanguage('json', c);
-hljs.registerLanguage('json', typescript);
+hljs.registerLanguage('bash', bash);
+hljs.registerLanguage('c', c);
+hljs.registerLanguage('typescript', typescript);
 
 export interface CodeBlockCardProps {
   readonly value: CodeBlock;
