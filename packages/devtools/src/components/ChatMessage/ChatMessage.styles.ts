@@ -146,4 +146,9 @@ export const useChatMessageStyles = makeStyles({
     gap: tokens.spacingHorizontalS,
     padding: tokens.spacingVerticalXS,
   },
+  attachmentImage: {
+    maxWidth: '100%',
+    borderRadius: tokens.borderRadiusSmall,
+    marginTop: tokens.spacingVerticalS,
+  },
 });

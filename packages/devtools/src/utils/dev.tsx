@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router';
+import { Attachment } from '@teams.sdk/api';
 
 // Type definitions
 type DevModeOnRouteHook = (pathname: string, callback: () => void) => void;
-type DevModeSendMessageHook = (sendMessageFn: (message: string) => void) => void;
+type DevModeSendMessageHook = (sendMessageFn: (message: string, attachments?: Attachment[]) => void) => void;
 type DevOnlyComponent = React.FC<{ children: React.ReactNode }>;
 
 // Create no-op versions of the functions for production
@@ -20,6 +21,9 @@ let DevOnly = NoOpDevOnly;
 
 // Conditional compilation - this code will be completely removed in production builds
 if (import.meta.env.DEV) {
+  // Module-level flag to track if message has been sent
+  let hasDevMessageBeenSent = false;
+
   /**
    * Fills the compose box with a message and sends it
    * Only works in development mode
@@ -100,25 +104,26 @@ if (import.meta.env.DEV) {
    * This should be used in the ChatScreen component
    * @param sendMessageFn The function that sends a message
    */
-  useDevModeSendMessage = (sendMessageFn: (message: string) => void) => {
-    const hasSentMessage = useRef(false);
-    const location = useLocation();
+  useDevModeSendMessage = (sendMessageFn: (message: string, attachments?: Attachment[]) => void) => {
+    const sendMessageRef = useRef(sendMessageFn);
     
     useEffect(() => {
-      // Only run on the root route, and if we haven't sent a message yet
-      if (location.pathname === '/' && !hasSentMessage.current) {
+      sendMessageRef.current = sendMessageFn;
+    }, [sendMessageFn]);
+    
+    useEffect(() => {
+      if (!hasDevMessageBeenSent) {
         const devMessage = import.meta.env.VITE_DEV_MESSAGE || 'This is a development test message';
         
-        // Wait a bit for everything to initialize
         const timer = setTimeout(() => {
           console.log('Dev mode: Sending message programmatically:', devMessage);
-          sendMessageFn(devMessage);
-          hasSentMessage.current = true;
+          sendMessageRef.current(devMessage);
+          hasDevMessageBeenSent = true;
         }, 1500);
         
         return () => clearTimeout(timer);
       }
-    }, [location.pathname, sendMessageFn]);
+    }, []);
   };
 
   /**

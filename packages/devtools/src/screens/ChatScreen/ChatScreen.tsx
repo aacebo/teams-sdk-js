@@ -1,4 +1,4 @@
-import { FC, useContext, useState, useCallback } from 'react';
+import { FC, useContext, useState, useCallback, useEffect } from 'react';
 import { ChatContext } from '../../stores/ChatStore';
 import { useClasses } from './ChatScreen.styles';
 import { Attachment } from '@teams.sdk/api';
@@ -11,6 +11,7 @@ import ChatMessage from '../../components/ChatMessage/ChatMessage';
 import ComposeBox from '../../components/ComposeBox/ComposeBox';
 import TypingIndicator from '../../components/TypingIndicator/TypingIndicator';
 import { useScreensClasses } from '../Screens.styles';
+
 interface ChatScreenProps {
   isConnected: boolean;
 }
@@ -23,19 +24,20 @@ const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const sparkApi = useSparkApi();
 
-  const handleSendMessage = useCallback(async (message: string) => {
+  const handleSendMessage = useCallback(async (message: string, messageAttachments?: Attachment[]) => {
+    if (messageAttachments) {
+      setAttachments([...attachments, ...(messageAttachments || [])]);
+    }
     try {
       await sparkApi.conversations.activities(chat.id).create({
         type: 'message',
         text: message,
-        attachments,
+        attachments: attachments || [],
       });
-
-      setAttachments([]);
     } catch (err) {
-      console.error(err);
+      console.error('Error sending message:', err);
     }
-  }, [sparkApi, chat?.id, attachments, setAttachments]);
+  }, [sparkApi, chat?.id]);
 
   // Use the hook to automatically send a message in development mode
   // This will be a no-op in production builds

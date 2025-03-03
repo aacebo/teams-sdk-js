@@ -4,21 +4,18 @@ import { useClasses } from './ComposeBox.styles';
 import NewMessageToolbar from './ComposeBoxToolbar/ComposeBoxToolbar';
 import { useCardStore } from '../../stores/CardStore';
 import AttachmentsContainer from '../AttachmentsContainer/AttachmentsContainer';
+import { Attachment } from '@teams.sdk/api';
+import { AttachmentType } from '../../types/Attachment';
 
 export interface ComposeBoxProps {
-  onSend: (message: string, attachments?: AttachmentType[]) => void;
-}
-
-export interface AttachmentType {
-  type: 'card' | 'file' | 'image';
-  content: any;
-  name?: string;
+  onSend: (message: string, attachments?: Attachment[]) => void;
 }
 
 const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
   const classes = useClasses();
   const [message, setMessage] = useState('');
-  const [attachments, setAttachments] = useState<AttachmentType[]>([]);
+  const [attachments, setAttachments] = useState<Attachment[]>([]);
+  const [uiAttachments, setUiAttachments] = useState<AttachmentType[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { currentCard, clearCurrentCard } = useCardStore();
 
@@ -31,14 +28,47 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
     }
   }, []);
 
+  // Convert API Attachment to UI AttachmentType
+  const convertToAttachmentType = (attachment: Attachment): AttachmentType => {
+    // Check if it's a card attachment
+    if (attachment.contentType?.startsWith('application/vnd.microsoft.card.')) {
+      return {
+        type: 'card',
+        content: attachment.content,
+        name: attachment.name
+      };
+    }
+    
+    // Handle image attachments
+    if (attachment.contentType?.startsWith('image/')) {
+      return {
+        type: 'image',
+        content: attachment.contentUrl || attachment.content,
+        name: attachment.name
+      };
+    }
+    
+    // Handle other file attachments
+    return {
+      type: 'file',
+      content: attachment.contentUrl || attachment.content,
+      name: attachment.name
+    };
+  };
+
+  // Update UI attachments when API attachments change
+  useEffect(() => {
+    setUiAttachments(attachments.map(convertToAttachmentType));
+  }, [attachments]);
+
   // Process currentCard only once when it changes
   useEffect(() => {
     if (currentCard && JSON.stringify(processedCardRef.current) !== JSON.stringify(currentCard)) {
       console.log('Processing new card from CardStore:', currentCard);
       processedCardRef.current = currentCard;
 
-      const newAttachment: AttachmentType = {
-        type: 'card',
+      const newAttachment: Attachment = {
+        contentType: 'application/vnd.microsoft.card.adaptive',
         content: currentCard
       };
 
@@ -73,9 +103,11 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
       console.log('Processing attachments from toolbar:', toolbarAttachments);
 
       // If we have new attachments, add them directly
-      const newAttachments: AttachmentType[] = toolbarAttachments.map(attachment => ({
-        type: 'card' as const,
-        content: attachment.content || attachment
+      const newAttachments: Attachment[] = toolbarAttachments.map(attachment => ({
+        contentType: attachment.type === 'card' ? 'application/vnd.microsoft.card.adaptive' : 
+                    attachment.type === 'image' ? 'image/png' : 'application/octet-stream',
+        content: attachment.content,
+        name: attachment.name
       }));
 
       // Add attachments directly without checking for duplicates
@@ -83,9 +115,12 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
       setAttachments(prev => [...prev, ...newAttachments]);
     } else {
       // If no attachments, this is a send action
-      handleSendMessage();
+      // Only proceed if there's text content or existing attachments
+      if (message.trim() || attachments.length > 0) {
+        handleSendMessage();
+      }
     }
-  }, [handleSendMessage]);
+  }, [handleSendMessage, message, attachments]);
 
   const handleRemoveAttachment = useCallback((index: number) => {
     const newAttachments = [...attachments];
@@ -98,9 +133,12 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
     setMessage(e.target.value);
   }, []);
 
+  // Check if there's content to send
+  const hasContent = message.trim().length > 0 || attachments.length > 0;
+
   const memoizedToolbar = React.useMemo(() => (
-    <NewMessageToolbar onSend={handleToolbarAction} />
-  ), [handleToolbarAction]);
+    <NewMessageToolbar onSend={handleToolbarAction} hasContent={hasContent} />
+  ), [handleToolbarAction, hasContent]);
 
   return (
     <div className={classes.composeBoxContainer}>
@@ -116,7 +154,7 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
         {memoizedToolbar}
 
         <AttachmentsContainer
-          attachments={attachments}
+          attachments={uiAttachments}
           onRemoveAttachment={handleRemoveAttachment}
           showRemoveButtons={true}
         />

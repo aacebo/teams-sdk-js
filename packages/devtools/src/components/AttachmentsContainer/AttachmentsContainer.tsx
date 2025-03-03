@@ -1,9 +1,9 @@
 import { memo } from 'react';
-import { Button } from '@fluentui/react-components';
+import { Button, Image } from '@fluentui/react-components';
 import { Dismiss24Regular } from '@fluentui/react-icons';
 import { useClasses } from './AttachmentsContainer.styles';
 import AdaptiveCard from '../Card/AdaptiveCard';
-import { AttachmentType } from '../ComposeBox/ComposeBox';
+import { AttachmentType } from '../../types/Attachment';
 
 // Memoized attachment component to prevent re-renders
 const AttachmentItem = memo(({
@@ -24,6 +24,29 @@ const AttachmentItem = memo(({
     ? JSON.stringify(attachment.content).substring(0, 20)
     : String(attachment.content).substring(0, 20);
 
+  const renderAttachmentContent = () => {
+    switch (attachment.type) {
+      case 'card':
+        return attachment.content && <AdaptiveCard value={attachment.content} />;
+      case 'image':
+        return (
+          <Image
+            src={attachment.content}
+            alt={attachment.name || 'Image attachment'}
+            className={classes.attachmentImage}
+          />
+        );
+      case 'file':
+        return (
+          <div className={classes.fileAttachment}>
+            {attachment.name || 'File attachment'}
+          </div>
+        );
+      default:
+        return <div>{attachment.name || 'Attachment'}</div>;
+    }
+  };
+
   return (
     <div
       key={`attachment-${index}-${contentKey}`}
@@ -39,9 +62,7 @@ const AttachmentItem = memo(({
         />
       )}
       <div className={classes.inlineCardContent}>
-        {attachment.type === 'card' && attachment.content && (
-          <AdaptiveCard value={attachment.content} />
-        )}
+        {renderAttachmentContent()}
       </div>
     </div>
   );

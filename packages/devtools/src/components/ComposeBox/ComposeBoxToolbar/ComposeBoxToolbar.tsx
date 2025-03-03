@@ -36,11 +36,17 @@ import { useNavigate } from 'react-router';
 interface ComposeBoxToolbarProps extends ToolbarProps {
   onSend?: (attachments?: any[]) => void;
   onAttachment?: (attachment: any) => void;
+  hasContent?: boolean;
 }
 
 const Send = bundleIcon(SendFilled as FluentIcon, SendRegular as FluentIcon);
 
-const ComposeBoxToolbar: FC<ComposeBoxToolbarProps> = ({ onSend, onAttachment, ...props }) => {
+const ComposeBoxToolbar: FC<ComposeBoxToolbarProps> = ({ 
+  onSend, 
+  onAttachment, 
+  hasContent = false,
+  ...props 
+}) => {
   const classes = useClasses();
   const navigate = useNavigate();
   const { dispatchToast } = useToastController();
@@ -88,10 +94,10 @@ const ComposeBoxToolbar: FC<ComposeBoxToolbarProps> = ({ onSend, onAttachment, .
   }, [jsonInput, onAttachment, onSend, dispatchToast, setIsDialogOpen]);
 
   const handleSend = useCallback(() => {
-    if (onSend) {
+    if (onSend && hasContent) {
       onSend();
     }
-  }, [onSend]);
+  }, [onSend, hasContent]);
 
   return (
     <Toolbar aria-label="New message actions" {...props} className={classes.toolbar}>
@@ -141,6 +147,7 @@ const ComposeBoxToolbar: FC<ComposeBoxToolbarProps> = ({ onSend, onAttachment, .
         className={classes.toolbarButton}
         onClick={handleSend}
         icon={<Send tabIndex={-1} />}
+        disabled={!hasContent}
       />
     </Toolbar>
   );
