@@ -11,7 +11,7 @@ import {
   Tooltip,
   Image,
 } from '@fluentui/react-components';
-import MessageActionsToolbar, { MessageReactionsEmoji } from '../Toolbar/MessageActionsToolbar';
+import MessageActionsToolbar, { MessageReactionsEmoji } from '../MessageActionsToolbar/MessageActionsToolbar';
 import { Message, MessageReaction, MessageUser, Attachment } from '@teams.sdk/api';
 import { ChatContext } from '../../stores/ChatStore';
 import useSparkApi from '../../hooks/useSparkApi';
