@@ -18,8 +18,8 @@ export default function ActionSetCard({ value }: ActionSetCardProps) {
         value.spacing ? classes[value.spacing] : classes.default
       )}
     >
-      {value.actions?.map((action) => {
-        return <ActionCard value={action} />;
+      {value.actions?.map((action, index) => {
+        return <ActionCard key={`action-${index}`} value={action} />;
       })}
     </div>
   );

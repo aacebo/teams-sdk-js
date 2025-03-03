@@ -17,8 +17,8 @@ export default function ContainerCard({ value }: ContainerCardProps) {
         value.spacing ? classes[value.spacing] : classes.default
       )}
     >
-      {value.items.map((item) => {
-        return <Card value={item} />;
+      {value.items.map((item, index) => {
+        return <Card key={`container-item-${index}`} value={item} />;
       })}
     </div>
   );

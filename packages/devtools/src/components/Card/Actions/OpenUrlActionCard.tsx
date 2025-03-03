@@ -1,5 +1,5 @@
 import { OpenUrlAction } from '@teams.sdk/cards';
-import { Link, Tooltip } from '@fluentui/react-components';
+import { Link, Tooltip, Button } from '@fluentui/react-components';
 import { useOpenUrlActionCardClasses } from './Actions.styles';
 
 export interface OpenUrlActionCardProps {
@@ -23,16 +23,20 @@ function OpenUrlActionCardContent({ value }: OpenUrlActionCardProps) {
 
   // Determine which style variant to use based on action style
   const styleVariant =
-    value.style === 'default'
-      ? ''
-      : value.style === 'positive'
-        ? classes.positiveStyle
-        : classes.destructiveStyle;
+    value.style === 'positive'
+      ? classes.positiveStyle
+      : value.style === 'destructive'
+        ? classes.destructiveStyle
+        : '';
 
   return (
-    <Link href={value.url} target="_blank" className={styleVariant}>
+    <Button 
+      appearance="transparent"
+      onClick={() => window.open(value.url, '_blank')}
+      className={styleVariant}
+    >
       {value.iconUrl && <img alt="" src={value.iconUrl} draggable={false} />}
       {value.title}
-    </Link>
+    </Button>
   );
 }

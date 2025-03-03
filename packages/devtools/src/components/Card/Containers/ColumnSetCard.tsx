@@ -17,8 +17,8 @@ export default function ColumnSetCard({ value }: ColumnSetCardProps) {
         value.spacing ? classes[value.spacing] : classes.default
       )}
     >
-      {value.columns?.map((column) => {
-        return <ColumnCard value={column} />;
+      {value.columns?.map((column, index) => {
+        return <ColumnCard key={`column-${index}`} value={column} />;
       })}
     </div>
   );

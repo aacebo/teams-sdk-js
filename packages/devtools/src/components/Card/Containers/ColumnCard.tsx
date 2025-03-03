@@ -17,8 +17,8 @@ export default function ColumnCard({ value }: ColumnCardProps) {
         value.spacing ? classes[value.spacing] : classes.default
       )}
     >
-      {value.items?.map((item) => {
-        return <Card value={item} />;
+      {value.items?.map((item, index) => {
+        return <Card key={`column-item-${index}`} value={item} />;
       })}
     </div>
   );

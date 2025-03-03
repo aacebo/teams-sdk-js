@@ -17,8 +17,8 @@ export default function FactSetCard({ value }: FactSetCardProps) {
         value.spacing ? classes[value.spacing] : classes.default
       )}
     >
-      {value.facts?.map((fact) => {
-        return <FactCard value={fact} />;
+      {value.facts?.map((fact, index) => {
+        return <FactCard key={`fact-${index}`} value={fact} />;
       })}
     </div>
   );
