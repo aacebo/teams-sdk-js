@@ -16,8 +16,12 @@
     "build:bundle:visualize": "npx vite-bundle-visualizer"
   },
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.2.3",
+    "@codemirror/lang-json": "^6.0.1",
     "@fluentui/react-components": "latest",
     "@fluentui/react-icons": "latest",
+    "@uiw/codemirror-themes-all": "^4.23.9",
+    "codemirror": "^6.0.1",
     "date-fns": "^4.1.0",
     "highlight.js": "^11.11.1",
     "react": "^18.3.1",
