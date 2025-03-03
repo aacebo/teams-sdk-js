@@ -1,8 +1,10 @@
 import { isCard } from '@teams.sdk/cards';
+
 import { ActivityParams } from '../../clients';
+import { ActivityLike } from '../../models';
+
 import { isActivityBuilder } from '../builder';
 import { MessageSendActivityBuilder } from '../message';
-import { ActivityLike } from '../../models';
 
 /**
  * @hidden
