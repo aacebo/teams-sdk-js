@@ -473,9 +473,6 @@ export class App {
 
   /**
    * send an activity proactively
-   * @remark
-   * only personal conversations support
-   * proactive messaging currently
    * @param conversationId the conversation to send to
    * @param activity the activity to send
    */

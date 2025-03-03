@@ -24,8 +24,6 @@ Model and client implementations used to send and receive requests from Teams.
     <img src="https://img.shields.io/badge/📖 Getting Started-blue?style=for-the-badge" />
 </a>
 
-> ⚠️ **Warning**: this project is not supported or affiliated with Microsoft in any way!
-
 ## Install
 
 ```bash

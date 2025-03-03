@@ -24,8 +24,6 @@ OpenAI model implementations to be used with `@teams.sdk/ai`. Supports all OpenA
     <img src="https://img.shields.io/badge/📖 Getting Started-blue?style=for-the-badge" />
 </a>
 
-> ⚠️ **Warning**: this project is not supported or affiliated with Microsoft in any way!
-
 ## Install
 
 ```bash

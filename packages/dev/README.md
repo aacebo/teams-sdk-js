@@ -24,8 +24,6 @@ developer tools for making debugging/development of Teams apps easier.
     <img src="https://img.shields.io/badge/📖 Getting Started-blue?style=for-the-badge" />
 </a>
 
-> ⚠️ **Warning**: this project is not supported or affiliated with Microsoft in any way!
-
 ## Install
 
 ```bash
