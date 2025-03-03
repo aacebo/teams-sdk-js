@@ -1,16 +1,18 @@
+import { FC } from 'react';
 import {
   Button,
-  Tooltip,
-  Switch,
   InfoLabel,
-  useToastController,
+  Switch,
   Toast,
   ToastTitle,
+  Tooltip,
+  useToastController,
 } from '@fluentui/react-components';
 import { CopyRegular } from '@fluentui/react-icons/lib/fonts';
+
 import Json from '../Json/Json';
-import useActivityDetailsClasses from './ActivityDetails.styles';
 import { ActivityEvent } from '../../types/Event';
+import useActivityDetailsClasses from './ActivityDetails.styles';
 
 interface ActivityDetailsProps {
   selected: ActivityEvent;
@@ -18,7 +20,7 @@ interface ActivityDetailsProps {
   setView: (view: 'preview' | 'json') => void;
 }
 
-const ActivityDetails: React.FC<ActivityDetailsProps> = ({ selected, view, setView }) => {
+const ActivityDetails: FC<ActivityDetailsProps> = ({ selected, view, setView }) => {
   const classes = useActivityDetailsClasses();
   const { dispatchToast } = useToastController();
 

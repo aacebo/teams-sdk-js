@@ -1,6 +1,7 @@
-import { Fact } from '@teams.sdk/cards';
 import { Body1, Subtitle2 } from '@fluentui/react-components';
-import { useContainerClasses } from './Containers.styles';
+import { Fact } from '@teams.sdk/cards';
+
+import useContainerClasses from './Containers.styles';
 
 export interface FactCardProps {
   readonly value: Fact;

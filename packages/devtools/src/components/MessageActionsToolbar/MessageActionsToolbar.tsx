@@ -113,20 +113,20 @@ const MessageActionsToolbar: FC<MessageActionsProps> = ({
         ))}
       </ToolbarGroup>
       <ToolbarDivider />
-        <Tooltip content="Examine activity" relationship="label">
-          <ToolbarButton
-            appearance="subtle"
-            className={classes.toolbarButton}
-            icon={<SearchIcon />}
-            key="examine-activity"
-            onClick={() => {
-              navigate({
-                pathname: '/activities',
-                search: `body.id=${value.id}`,
-              });
-            }}
-          />
-        </Tooltip>
+      <Tooltip content="Examine activity" relationship="label">
+        <ToolbarButton
+          appearance="subtle"
+          className={classes.toolbarButton}
+          icon={<SearchIcon />}
+          key="examine-activity"
+          onClick={() => {
+            navigate({
+              pathname: '/activities',
+              search: `body.id=${value.id}`,
+            });
+          }}
+        />
+      </Tooltip>
       {!sent && (
         <Tooltip content="Reply with quote" relationship="label">
           <ToolbarButton

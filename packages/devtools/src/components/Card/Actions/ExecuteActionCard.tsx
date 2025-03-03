@@ -1,12 +1,14 @@
+import { FC } from 'react';
+import { Button, mergeClasses, Tooltip } from '@fluentui/react-components';
 import { ExecuteAction } from '@teams.sdk/cards';
-import { Button, Tooltip, mergeClasses } from '@fluentui/react-components';
+
 import { useExecuteActionCardClasses } from './Actions.styles';
 
 export interface ExecuteActionCardProps {
   readonly value: ExecuteAction;
 }
 
-export default function ExecuteActionCard({ value }: ExecuteActionCardProps) {
+const ExecuteActionCard: FC<ExecuteActionCardProps> = ({ value }) => {
   if (value.tooltip) {
     return (
       <Tooltip content={value.tooltip} relationship="label">
@@ -16,18 +18,18 @@ export default function ExecuteActionCard({ value }: ExecuteActionCardProps) {
   }
 
   return <ExecuteActionCardContent value={value} />;
-}
+};
 
-function ExecuteActionCardContent({ value }: ExecuteActionCardProps) {
+const ExecuteActionCardContent: FC<ExecuteActionCardProps> = ({ value }) => {
   const classes = useExecuteActionCardClasses();
 
   // Determine which style variant to use based on action style
   const styleVariant =
-    value.style === 'default'
-      ? ''
-      : value.style === 'positive'
-        ? classes.positiveStyle
-        : classes.destructiveStyle;
+    value.style === 'positive'
+      ? classes.positiveStyle
+      : value.style === 'destructive'
+        ? classes.destructiveStyle
+        : '';
 
   return (
     <Button
@@ -37,4 +39,6 @@ function ExecuteActionCardContent({ value }: ExecuteActionCardProps) {
       {value.title}
     </Button>
   );
-}
+};
+
+export default ExecuteActionCard;

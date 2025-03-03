@@ -1,19 +1,22 @@
+import { FC } from 'react';
 import { Action } from '@teams.sdk/cards';
 
-import OpenUrlActionCard from './OpenUrlActionCard';
 import ExecuteActionCard from './ExecuteActionCard';
+import OpenUrlActionCard from './OpenUrlActionCard';
 
 export interface ActionCardProps {
   readonly value: Action;
 }
 
-export function ActionCard({ value }: ActionCardProps) {
+const ActionCard: FC<ActionCardProps> = ({ value }) => {
   switch (value.type) {
-    case 'Action.OpenUrl':
-      return <OpenUrlActionCard value={value} />;
     case 'Action.Execute':
       return <ExecuteActionCard value={value} />;
+    case 'Action.OpenUrl':
+      return <OpenUrlActionCard value={value} />;
   }
 
   return <>not found</>;
-}
+};
+
+export default ActionCard;

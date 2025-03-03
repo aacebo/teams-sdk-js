@@ -1,11 +1,11 @@
 import { memo } from 'react';
 import { Button, Image } from '@fluentui/react-components';
-import { Dismiss20Regular } from '@fluentui/react-icons';
-import { useClasses } from './AttachmentsContainer.styles';
-import AdaptiveCard from '../Card/AdaptiveCard';
-import { AttachmentType } from '../../types/Attachment';
+import { Dismiss20Regular } from '@fluentui/react-icons/lib/fonts';
 
-// Memoized attachment component to prevent re-renders
+import { AttachmentType } from '../../types/Attachment';
+import AdaptiveCard from '../Card/AdaptiveCard';
+import { useClasses } from './AttachmentsContainer.styles';
+
 const AttachmentItem = memo(
   ({
     attachment,

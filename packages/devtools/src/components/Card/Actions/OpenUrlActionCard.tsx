@@ -1,12 +1,14 @@
+import { FC } from 'react';
+import { Button, Tooltip } from '@fluentui/react-components';
 import { OpenUrlAction } from '@teams.sdk/cards';
-import { Tooltip, Button } from '@fluentui/react-components';
+
 import { useOpenUrlActionCardClasses } from './Actions.styles';
 
 export interface OpenUrlActionCardProps {
   readonly value: OpenUrlAction;
 }
 
-export default function OpenUrlActionCard({ value }: OpenUrlActionCardProps) {
+const OpenUrlActionCard: FC<OpenUrlActionCardProps> = ({ value }) => {
   if (value.tooltip) {
     return (
       <Tooltip content={value.tooltip} relationship="label">
@@ -16,9 +18,9 @@ export default function OpenUrlActionCard({ value }: OpenUrlActionCardProps) {
   }
 
   return <OpenUrlActionCardContent value={value} />;
-}
+};
 
-function OpenUrlActionCardContent({ value }: OpenUrlActionCardProps) {
+const OpenUrlActionCardContent: FC<OpenUrlActionCardProps> = ({ value }) => {
   const classes = useOpenUrlActionCardClasses();
 
   // Determine which style variant to use based on action style
@@ -39,4 +41,6 @@ function OpenUrlActionCardContent({ value }: OpenUrlActionCardProps) {
       {value.title}
     </Button>
   );
-}
+};
+
+export default OpenUrlActionCard;

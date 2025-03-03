@@ -1,18 +1,20 @@
-import React from 'react';
+import { FC } from 'react';
 import {
-  mergeClasses,
   Menu,
   MenuButton,
   MenuItem,
-  MenuTrigger,
-  MenuPopover,
   MenuList,
+  MenuPopover,
+  MenuTrigger,
+  mergeClasses,
 } from '@fluentui/react-components';
 import { CheckmarkFilled, Filter20Regular } from '@fluentui/react-icons/lib/fonts';
+
 import { ActivityEvent } from '../../types/Event';
 import { getPath } from '../../utils/get-path';
+
 import useActivitiesGridClasses, { GRID_COLUMNS, ColumnId } from './ActivitiesGrid.styles';
-import { ActivityRow } from './ActivityRow';
+import ActivityRow from './ActivityRow';
 import { getActivityPath } from './utils';
 
 const columnClassMap: Record<ColumnId, `column${Capitalize<ColumnId>}`> = {
@@ -51,7 +53,7 @@ interface ActivitiesGridProps {
   setParams: (params: URLSearchParams) => void;
 }
 
-const ActivitiesGrid: React.FC<ActivitiesGridProps> = ({
+const ActivitiesGrid: FC<ActivitiesGridProps> = ({
   list,
   selected,
   setSelected,

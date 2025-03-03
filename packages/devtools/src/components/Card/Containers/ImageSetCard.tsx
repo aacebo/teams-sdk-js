@@ -1,7 +1,7 @@
 import { ImageSet } from '@teams.sdk/cards';
 import ImageCard from '../Medias/ImageCard';
 import { mergeClasses } from '@fluentui/react-components';
-import { useContainerClasses } from './Containers.styles';
+import useContainerClasses from './Containers.styles';
 
 export interface ImageSetCardProps {
   readonly value: ImageSet;

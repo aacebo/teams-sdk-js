@@ -1,6 +1,8 @@
-import { FactSet } from '@teams.sdk/cards';
+import { FC } from 'react';
 import { mergeClasses } from '@fluentui/react-components';
-import { useContainerClasses } from './Containers.styles';
+import { FactSet } from '@teams.sdk/cards';
+
+import useContainerClasses from './Containers.styles';
 
 import FactCard from './FactCard';
 
@@ -8,7 +10,7 @@ export interface FactSetCardProps {
   readonly value: FactSet;
 }
 
-export default function FactSetCard({ value }: FactSetCardProps) {
+const FactSetCard: FC<FactSetCardProps> = ({ value }) => {
   const classes = useContainerClasses();
   return (
     <div
@@ -22,4 +24,6 @@ export default function FactSetCard({ value }: FactSetCardProps) {
       })}
     </div>
   );
-}
+};
+
+export default FactSetCard;

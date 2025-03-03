@@ -1,14 +1,15 @@
-import { Column } from '@teams.sdk/cards';
+import { FC } from 'react';
 import { mergeClasses } from '@fluentui/react-components';
-import { useContainerClasses } from './Containers.styles';
+import { Column } from '@teams.sdk/cards';
 
 import Card from '../Card';
+import useContainerClasses from './Containers.styles';
 
 export interface ColumnCardProps {
   readonly value: Column;
 }
 
-export default function ColumnCard({ value }: ColumnCardProps) {
+const ColumnCard: FC<ColumnCardProps> = ({ value }) => {
   const classes = useContainerClasses();
   return (
     <div
@@ -22,4 +23,6 @@ export default function ColumnCard({ value }: ColumnCardProps) {
       })}
     </div>
   );
-}
+};
+
+export default ColumnCard;

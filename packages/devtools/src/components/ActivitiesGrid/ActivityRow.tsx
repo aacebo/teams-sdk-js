@@ -1,6 +1,7 @@
-import React from 'react';
+import { FC } from 'react';
 import { mergeClasses } from '@fluentui/react-components';
 import { ArrowDownFilled, ArrowUpFilled } from '@fluentui/react-icons/lib/fonts';
+
 import { ActivityEvent } from '../../types/Event';
 import useActivitiesGridClasses from './ActivitiesGrid.styles';
 import { getActivityPath } from './utils';
@@ -12,7 +13,7 @@ interface ActivityRowProps {
   onSelect: (event: ActivityEvent) => void;
 }
 
-export const ActivityRow: React.FC<ActivityRowProps> = ({ event, index, isSelected, onSelect }) => {
+const ActivityRow: FC<ActivityRowProps> = ({ event, index, isSelected, onSelect }) => {
   const classes = useActivitiesGridClasses();
   const path = getActivityPath(event.body);
 
@@ -53,3 +54,5 @@ export const ActivityRow: React.FC<ActivityRowProps> = ({ event, index, isSelect
     </tr>
   );
 };
+
+export default ActivityRow;

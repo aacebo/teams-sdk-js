@@ -1,8 +1,8 @@
-import { Container } from '@teams.sdk/cards';
 import { mergeClasses } from '@fluentui/react-components';
-import { useContainerClasses } from './Containers.styles';
+import { Container } from '@teams.sdk/cards';
 
 import Card from '../Card';
+import useContainerClasses from './Containers.styles';
 
 export interface ContainerCardProps {
   readonly value: Container;

@@ -1,14 +1,15 @@
+import { FC } from 'react';
+import { mergeClasses } from '@fluentui/react-components';
 import { ActionSet } from '@teams.sdk/cards';
 
-import { ActionCard } from '../Actions/ActionCard';
-import { useContainerClasses } from './Containers.styles';
-import { mergeClasses } from '@fluentui/react-components';
+import ActionCard from '../Actions/ActionCard';
+import useContainerClasses from './Containers.styles';
 
 export interface ActionSetCardProps {
   readonly value: ActionSet;
 }
 
-export default function ActionSetCard({ value }: ActionSetCardProps) {
+const ActionSetCard: FC<ActionSetCardProps> = ({ value }) => {
   const classes = useContainerClasses();
 
   return (
@@ -23,4 +24,6 @@ export default function ActionSetCard({ value }: ActionSetCardProps) {
       })}
     </div>
   );
-}
+};
+
+export default ActionSetCard;

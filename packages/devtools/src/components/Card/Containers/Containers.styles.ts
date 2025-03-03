@@ -1,6 +1,6 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
-export const useContainerClasses = makeStyles({
+const useContainerClasses = makeStyles({
   container: {
     flexWrap: 'wrap',
     flex: '1 1 auto',
@@ -27,3 +27,5 @@ export const useContainerClasses = makeStyles({
     gap: tokens.spacingHorizontalXL,
   },
 });
+
+export default useContainerClasses;

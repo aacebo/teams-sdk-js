@@ -3,7 +3,7 @@ import { makeStyles, mergeClasses } from '@fluentui/react-components';
 import * as cards from '@teams.sdk/cards';
 
 import Card from './Card';
-import { ActionCard } from './Actions/ActionCard';
+import ActionCard from './Actions/ActionCard';
 
 export interface AdaptiveCardProps extends ComponentProps<'div'> {
   readonly value: cards.Card;
