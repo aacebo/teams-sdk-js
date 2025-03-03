@@ -1,4 +1,13 @@
-import { FC } from 'react';
+import { FC, KeyboardEvent } from 'react';
+import {
+  Toolbar,
+  ToolbarButton,
+  ToolbarDivider,
+  ToolbarGroup,
+  ToolbarToggleButton,
+  ToolbarProps,
+  Tooltip,
+} from '@fluentui/react-components';
 import {
   bundleIcon,
   Edit16Filled,
@@ -6,21 +15,14 @@ import {
   FluentIcon,
   MoreHorizontal16Filled,
   MoreHorizontal16Regular,
+  SearchRegular,
+  SearchFilled,
   TextQuote16Filled,
   TextQuote16Regular,
 } from '@fluentui/react-icons/lib/fonts';
 import { Message, MessageReaction, MessageUser } from '@teams.sdk/api';
-import {
-  Toolbar,
-  ToolbarButton,
-  ToolbarDivider,
-  ToolbarGroup,
-  ToolbarToggleButton,
-  Tooltip,
-} from '@fluentui/react-components';
-import type { ToolbarProps } from '@fluentui/react-components';
-import React from 'react';
 import { MessageReactionType } from '@teams.sdk/api';
+import { useNavigate } from 'react-router';
 
 import { useClasses } from './MessageActionsToolbar.styles';
 
@@ -48,6 +50,7 @@ const MoreHorizontalIcon = bundleIcon(
 );
 const EditIcon = bundleIcon(Edit16Filled as FluentIcon, Edit16Regular as FluentIcon);
 const TextQuoteIcon = bundleIcon(TextQuote16Filled as FluentIcon, TextQuote16Regular as FluentIcon);
+const SearchIcon = bundleIcon(SearchFilled as FluentIcon, SearchRegular as FluentIcon);
 
 const MessageActionsToolbar: FC<MessageActionsProps> = ({
   sent,
@@ -57,7 +60,7 @@ const MessageActionsToolbar: FC<MessageActionsProps> = ({
   ...props
 }) => {
   const classes = useClasses();
-
+  const navigate = useNavigate();
   const createReactionActivity = (
     type: MessageReactionType,
     user: MessageUser | undefined
@@ -70,7 +73,7 @@ const MessageActionsToolbar: FC<MessageActionsProps> = ({
   };
 
   const handleKeyDown = (
-    event: React.KeyboardEvent<HTMLButtonElement>,
+    event: KeyboardEvent<HTMLButtonElement>,
     id: string,
     type: MessageReactionType
   ) => {
@@ -110,6 +113,20 @@ const MessageActionsToolbar: FC<MessageActionsProps> = ({
         ))}
       </ToolbarGroup>
       <ToolbarDivider />
+        <Tooltip content="Examine activity" relationship="label">
+          <ToolbarButton
+            appearance="subtle"
+            className={classes.toolbarButton}
+            icon={<SearchIcon />}
+            key="examine-activity"
+            onClick={() => {
+              navigate({
+                pathname: '/activities',
+                search: `body.id=${value.id}`,
+              });
+            }}
+          />
+        </Tooltip>
       {!sent && (
         <Tooltip content="Reply with quote" relationship="label">
           <ToolbarButton
