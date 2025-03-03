@@ -4,7 +4,7 @@ export const useClasses = makeStyles({
   inlineAttachmentsContainer: {
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
+    width: 'fit-content',
     padding: '8px',
   },
   inlineAttachmentCard: {

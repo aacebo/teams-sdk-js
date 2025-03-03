@@ -21,19 +21,15 @@ const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
   const screenClasses = useScreensClasses();
   const { chat, feedback, messages, streaming, typing } = useContext(ChatContext);
 
-  const [attachments, setAttachments] = useState<Attachment[]>([]);
   const sparkApi = useSparkApi();
 
   const handleSendMessage = useCallback(
     async (message: string, messageAttachments?: Attachment[]) => {
-      if (messageAttachments) {
-        setAttachments([...attachments, ...(messageAttachments || [])]);
-      }
       try {
         await sparkApi.conversations.activities(chat.id).create({
           type: 'message',
           text: message,
-          attachments: attachments || [],
+          attachments: messageAttachments || [],
         });
       } catch (err) {
         console.error('Error sending message:', err);
