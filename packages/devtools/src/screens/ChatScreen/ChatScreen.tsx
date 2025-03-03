@@ -1,4 +1,4 @@
-import { FC, useContext, useCallback } from 'react';
+import { FC, useContext, useCallback, useState } from 'react';
 import { ChatContext } from '../../stores/ChatStore';
 import { useClasses } from './ChatScreen.styles';
 import { Attachment } from '@teams.sdk/api';
@@ -12,6 +12,8 @@ import ComposeBox from '../../components/ComposeBox/ComposeBox';
 import TypingIndicator from '../../components/TypingIndicator/TypingIndicator';
 import { useScreensClasses } from '../Screens.styles';
 
+const MAX_HISTORY = 5;
+
 interface ChatScreenProps {
   isConnected: boolean;
 }
@@ -20,6 +22,7 @@ const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
   const classes = useClasses();
   const screenClasses = useScreensClasses();
   const { chat, feedback, messages, streaming, typing } = useContext(ChatContext);
+  const [messageHistory, setMessageHistory] = useState<string[]>([]);
 
   const sparkApi = useSparkApi();
 
@@ -38,9 +41,18 @@ const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
     [sparkApi, chat?.id]
   );
 
+  const handleMessageSent = useCallback((message: string) => {
+    setMessageHistory((prev) => [message, ...prev].slice(0, MAX_HISTORY));
+  }, []);
+
   // Use the hook to automatically send a message in development mode
   // This will be a no-op in production builds
-  useDevModeSendMessage(handleSendMessage);
+  useDevModeSendMessage((message: string, attachments?: Attachment[]) => {
+    handleSendMessage(message, attachments);
+    if (message.trim()) {
+      handleMessageSent(message.trim());
+    }
+  });
 
   return (
     <Chat className={screenClasses.screenContainer}>
@@ -64,7 +76,11 @@ const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
         <div className={classes.composeInner}>
           <div className={classes.typingIndicator}>{typing[chat.id] && <TypingIndicator />}</div>
           {/* <div className={classes.bannerContainer}>{/* TODO: Optional banner/toast content </div> */}
-          <ComposeBox onSend={handleSendMessage} />
+          <ComposeBox
+            onSend={handleSendMessage}
+            messageHistory={messageHistory}
+            onMessageSent={handleMessageSent}
+          />
         </div>
       </div>
     </Chat>

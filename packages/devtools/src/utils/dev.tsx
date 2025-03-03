@@ -121,15 +121,16 @@ if (import.meta.env.DEV) {
 
     useEffect(() => {
       if (!hasDevMessageBeenSent) {
-        const devMessage = import.meta.env.VITE_DEV_MESSAGE || 'This is a development test message';
+        const devMessage = import.meta.env.VITE_DEV_MESSAGE;
 
-        const timer = setTimeout(() => {
-          console.log('Dev mode: Sending message programmatically:', devMessage);
-          sendMessageRef.current(devMessage);
-          hasDevMessageBeenSent = true;
-        }, 1500);
+        if (devMessage) {
+          const timer = setTimeout(() => {
+            sendMessageRef.current(devMessage);
+            hasDevMessageBeenSent = true;
+          }, 1500);
 
-        return () => clearTimeout(timer);
+          return () => clearTimeout(timer);
+        }
       }
     }, []);
   };

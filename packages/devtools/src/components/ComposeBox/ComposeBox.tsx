@@ -9,17 +9,18 @@ import { AttachmentType } from '../../types/Attachment';
 
 export interface ComposeBoxProps {
   onSend: (message: string, attachments?: Attachment[]) => void;
+  messageHistory: string[];
+  onMessageSent: (message: string) => void;
 }
 
-const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
+const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend, messageHistory, onMessageSent }) => {
   const classes = useClasses();
   const [message, setMessage] = useState('');
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [uiAttachments, setUiAttachments] = useState<AttachmentType[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { currentCard, clearCurrentCard } = useCardStore();
-
-  // Track if we've processed the current card
   const processedCardRef = useRef<any>(null);
 
   useEffect(() => {
@@ -83,21 +84,44 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
   const handleSendMessage = useCallback(() => {
     if (message.trim() || attachments.length > 0) {
       onSend(message, attachments);
+      if (message.trim()) {
+        onMessageSent(message.trim());
+      }
       setMessage('');
       setAttachments([]);
-      // Reset the processed card reference
+      setHistoryIndex(-1);
       processedCardRef.current = null;
     }
-  }, [message, attachments, onSend]);
+  }, [message, attachments, onSend, onMessageSent]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         handleSendMessage();
+      } else if (e.key === 'ArrowUp' && !e.shiftKey && (message === '' || historyIndex !== -1)) {
+        e.preventDefault();
+        if (messageHistory.length > 0) {
+          const newIndex =
+            historyIndex === -1 ? 0 : Math.min(historyIndex + 1, messageHistory.length - 1);
+          if (newIndex < messageHistory.length) {
+            setHistoryIndex(newIndex);
+            setMessage(messageHistory[newIndex]);
+          }
+        }
+      } else if (e.key === 'ArrowDown' && !e.shiftKey && historyIndex !== -1) {
+        e.preventDefault();
+        const newIndex = historyIndex - 1;
+        if (newIndex >= 0) {
+          setHistoryIndex(newIndex);
+          setMessage(messageHistory[newIndex]);
+        } else {
+          setHistoryIndex(-1);
+          setMessage('');
+        }
       }
     },
-    [handleSendMessage]
+    [handleSendMessage, message, historyIndex, messageHistory]
   );
 
   // Handle toolbar actions
