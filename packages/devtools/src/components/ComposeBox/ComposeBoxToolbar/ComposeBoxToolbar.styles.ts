@@ -13,9 +13,9 @@ export const useClasses = makeStyles({
     padding: '0',
   },
   jsonTextarea: {
-    minHeight: '250px', 
+    minHeight: '250px',
     height: 'auto',
-    width: '100%', 
+    width: '100%',
     fontFamily: 'monospace',
   },
-}); 
+});

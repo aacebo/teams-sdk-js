@@ -1,4 +1,10 @@
-import { Button, Toast, ToastBody, ToastTitle, useToastController } from '@fluentui/react-components';
+import {
+  Button,
+  Toast,
+  ToastBody,
+  ToastTitle,
+  useToastController,
+} from '@fluentui/react-components';
 import { AttachRegular } from '@fluentui/react-icons';
 import CardDesigner from '../components/CardDesigner/CardDesigner';
 import { useScreensClasses } from './Screens.styles';
@@ -11,7 +17,7 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'flex-end',
     padding: '8px 16px',
-  }
+  },
 });
 
 export default function CardsScreen() {
@@ -19,25 +25,23 @@ export default function CardsScreen() {
   const classes = useStyles();
   const { setCurrentCard } = useCardStore();
   const { dispatchToast } = useToastController();
-  
+
   const handleAttachCard = (card: Card) => {
     setCurrentCard(card);
-    
+
     dispatchToast(
       <Toast>
         <ToastTitle>Card Attached</ToastTitle>
-        <ToastBody>
-          Card has been attached to the compose box.
-        </ToastBody>
+        <ToastBody>Card has been attached to the compose box.</ToastBody>
       </Toast>,
       { intent: 'success' }
     );
   };
-  
+
   return (
     <div className={screenClasses.screenContainer}>
       <div className={classes.buttonContainer}>
-        <Button 
+        <Button
           appearance="primary"
           icon={<AttachRegular />}
           onClick={() => {

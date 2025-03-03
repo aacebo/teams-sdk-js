@@ -16,17 +16,17 @@ export interface CardDesignerProps {
 
 const placeholderCard = Card([
   Icon('Warning'),
-  TextBlock("Use this site instead of this Cards editor page:", {
+  TextBlock('Use this site instead of this Cards editor page:', {
     wrap: true,
-    style: "heading"
+    style: 'heading',
   }),
   ActionSet([
     {
-      type: "Action.OpenUrl",
-      title: "Adaptive Cards Designer",
-      url: "https://adaptivecards.microsoft.com/designer"
-    }
-  ])
+      type: 'Action.OpenUrl',
+      title: 'Adaptive Cards Designer',
+      url: 'https://adaptivecards.microsoft.com/designer',
+    },
+  ]),
 ]);
 
 export default function CardDesigner({ value, onChange }: CardDesignerProps) {
@@ -87,7 +87,7 @@ export default function CardDesigner({ value, onChange }: CardDesignerProps) {
     isAddingElementRef.current = true;
 
     try {
-      setCard(prevCard => {
+      setCard((prevCard) => {
         const newCard = { ...prevCard };
         if (!newCard.body) {
           newCard.body = [];
@@ -95,14 +95,14 @@ export default function CardDesigner({ value, onChange }: CardDesignerProps) {
         newCard.body = [...newCard.body, el];
         return newCard;
       });
-      
-      setTypescript(prevTs => {
+
+      setTypescript((prevTs) => {
         // If previous TypeScript is empty or contains [object Object], replace it
         if (!prevTs || prevTs.includes('[object Object]')) {
           return ts;
         }
         // Otherwise append the new TypeScript
-        return [prevTs, ts].filter(v => !!v).join(',\n  ');
+        return [prevTs, ts].filter((v) => !!v).join(',\n  ');
       });
     } finally {
       // Use setTimeout to ensure this runs after state updates are processed

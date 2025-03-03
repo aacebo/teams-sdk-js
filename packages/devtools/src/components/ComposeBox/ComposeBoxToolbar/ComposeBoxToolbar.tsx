@@ -6,14 +6,14 @@ import {
   SendFilled,
   SendRegular,
 } from '@fluentui/react-icons/lib/fonts';
-import { 
-  Toolbar, 
-  ToolbarButton, 
-  ToolbarDivider, 
-  Menu, 
-  MenuTrigger, 
-  MenuPopover, 
-  MenuList, 
+import {
+  Toolbar,
+  ToolbarButton,
+  ToolbarDivider,
+  Menu,
+  MenuTrigger,
+  MenuPopover,
+  MenuList,
   MenuItem,
   Dialog,
   DialogSurface,
@@ -41,11 +41,11 @@ interface ComposeBoxToolbarProps extends ToolbarProps {
 
 const Send = bundleIcon(SendFilled as FluentIcon, SendRegular as FluentIcon);
 
-const ComposeBoxToolbar: FC<ComposeBoxToolbarProps> = ({ 
-  onSend, 
-  onAttachment, 
+const ComposeBoxToolbar: FC<ComposeBoxToolbarProps> = ({
+  onSend,
+  onAttachment,
   hasContent = false,
-  ...props 
+  ...props
 }) => {
   const classes = useClasses();
   const navigate = useNavigate();
@@ -65,20 +65,21 @@ const ComposeBoxToolbar: FC<ComposeBoxToolbarProps> = ({
   const handleSaveJson = useCallback(() => {
     try {
       const card = JSON.parse(jsonInput);
-      
+
       if (onAttachment) {
         onAttachment({
           type: 'card',
-          content: card
+          content: card,
         });
-      } 
-      else if (onSend) {
-        onSend([{
-          contentType: 'application/vnd.microsoft.card.adaptive',
-          content: card
-        }]);
+      } else if (onSend) {
+        onSend([
+          {
+            contentType: 'application/vnd.microsoft.card.adaptive',
+            content: card,
+          },
+        ]);
       }
-      
+
       setIsDialogOpen(false);
     } catch (error) {
       dispatchToast(
@@ -111,10 +112,14 @@ const ComposeBoxToolbar: FC<ComposeBoxToolbarProps> = ({
         </MenuTrigger>
         <MenuPopover>
           <MenuList>
-            <MenuItem onClick={() => {
-              setIsDialogOpen(true);
-              setMenuOpen(false);
-            }}>Paste custom JSON</MenuItem>
+            <MenuItem
+              onClick={() => {
+                setIsDialogOpen(true);
+                setMenuOpen(false);
+              }}
+            >
+              Paste custom JSON
+            </MenuItem>
             <MenuItem onClick={handleNavigateToCards}>Open card designer</MenuItem>
           </MenuList>
         </MenuPopover>
@@ -134,8 +139,12 @@ const ComposeBoxToolbar: FC<ComposeBoxToolbarProps> = ({
               />
             </DialogContent>
             <DialogActions>
-              <Button appearance="secondary" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
-              <Button appearance="primary" onClick={handleSaveJson}>Attach Card</Button>
+              <Button appearance="secondary" onClick={() => setIsDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button appearance="primary" onClick={handleSaveJson}>
+                Attach Card
+              </Button>
             </DialogActions>
           </DialogBody>
         </DialogSurface>
@@ -153,4 +162,4 @@ const ComposeBoxToolbar: FC<ComposeBoxToolbarProps> = ({
   );
 };
 
-export default ComposeBoxToolbar; 
+export default ComposeBoxToolbar;

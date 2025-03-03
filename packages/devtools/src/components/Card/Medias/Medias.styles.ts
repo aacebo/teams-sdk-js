@@ -38,10 +38,10 @@ export const useIconCardStyles = makeStyles({
     fontSize: tokens.fontSizeHero700,
   },
   xLarge: {
-    fontSize: tokens.fontSizeHero800
+    fontSize: tokens.fontSizeHero800,
   },
   xxLarge: {
-    fontSize: tokens.fontSizeHero900
+    fontSize: tokens.fontSizeHero900,
   },
 });
 

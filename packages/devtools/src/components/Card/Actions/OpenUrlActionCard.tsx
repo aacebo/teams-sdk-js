@@ -30,7 +30,7 @@ function OpenUrlActionCardContent({ value }: OpenUrlActionCardProps) {
         : '';
 
   return (
-    <Button 
+    <Button
       appearance="transparent"
       onClick={() => window.open(value.url, '_blank')}
       className={styleVariant}

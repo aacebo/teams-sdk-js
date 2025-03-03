@@ -17,4 +17,4 @@ export const useCardStore = create<CardStore>()(
   }))
 );
 
-export const CardContext = createContext<CardStore>(null as any); 
+export const CardContext = createContext<CardStore>(null as any);

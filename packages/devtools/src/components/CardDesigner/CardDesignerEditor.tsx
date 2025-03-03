@@ -24,7 +24,7 @@ export default function CardDesignerEditor({
   onChange,
 }: CardDesignerEditorProps) {
   const classes = useCardDesignerEditorClasses();
-  const [selectedValue, setSelectedValue] = useState<TabValue>("json");
+  const [selectedValue, setSelectedValue] = useState<TabValue>('json');
 
   const onTabSelect = (_event: SelectTabEvent, data: SelectTabData) => {
     setSelectedValue(data.value);
@@ -41,12 +41,12 @@ export default function CardDesignerEditor({
         </Tab>
       </TabList>
       <div className={classes.tabPanels}>
-        {selectedValue === "json" && (
+        {selectedValue === 'json' && (
           <div role="tabpanel" aria-labelledby="json" className={classes.tabPanel}>
             <CardDesignerJsonEditor value={value} onChange={onChange} />
           </div>
         )}
-        {selectedValue === "typescript" && (
+        {selectedValue === 'typescript' && (
           <div role="tabpanel" aria-labelledby="typescript" className={classes.tabPanel}>
             <CardDesignerTypescriptEditor value={typescript} />
           </div>
@@ -71,9 +71,9 @@ export function CardDesignerJsonEditor({ value, onChange }: CardDesignerJsonEdit
   // Initialize the editor once
   useEffect(() => {
     if (!ref.current || initializedRef.current || viewRef.current) return;
-    
+
     initializedRef.current = true;
-    
+
     const view = new EditorView({
       parent: ref.current,
       state: EditorState.create({
@@ -95,9 +95,9 @@ export function CardDesignerJsonEditor({ value, onChange }: CardDesignerJsonEdit
         ],
       }),
     });
-    
+
     viewRef.current = view;
-    
+
     return () => {
       view.destroy();
       viewRef.current = null;
@@ -108,12 +108,12 @@ export function CardDesignerJsonEditor({ value, onChange }: CardDesignerJsonEdit
   // Update the editor content when value changes
   useEffect(() => {
     if (!viewRef.current || !value) return;
-    
+
     const currentContent = viewRef.current.state.doc.toString();
     const parsedDoc = tryParseJson(currentContent);
-    
+
     if (parsedDoc && JSON.stringify(parsedDoc) === JSON.stringify(value)) return;
-    
+
     setIsUpdating(true);
     viewRef.current.dispatch({
       changes: {
@@ -142,9 +142,9 @@ export function CardDesignerTypescriptEditor({ value }: CardDesignerTypescriptEd
   // Initialize the editor once
   useEffect(() => {
     if (!ref.current || initializedRef.current || viewRef.current) return;
-    
+
     initializedRef.current = true;
-    
+
     const view = new EditorView({
       parent: ref.current,
       state: EditorState.create({
@@ -157,9 +157,9 @@ export function CardDesignerTypescriptEditor({ value }: CardDesignerTypescriptEd
         ],
       }),
     });
-    
+
     viewRef.current = view;
-    
+
     return () => {
       view.destroy();
       viewRef.current = null;
@@ -170,9 +170,9 @@ export function CardDesignerTypescriptEditor({ value }: CardDesignerTypescriptEd
   // Update the editor content when value changes
   useEffect(() => {
     if (!viewRef.current || !value || isUpdating) return;
-    
+
     if (viewRef.current.state.doc.toString() === value) return;
-    
+
     setIsUpdating(true);
     viewRef.current.dispatch({
       changes: {

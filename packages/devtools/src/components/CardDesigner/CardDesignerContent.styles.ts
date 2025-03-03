@@ -8,7 +8,7 @@ export const useCardDesignerContentClasses = makeStyles({
     justifyContent: 'center',
     padding: '1rem',
     backgroundColor: tokens.colorNeutralBackground3,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   card: {
     width: '100%',

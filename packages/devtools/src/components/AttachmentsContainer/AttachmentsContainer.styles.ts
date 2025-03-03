@@ -38,5 +38,5 @@ export const useClasses = makeStyles({
     borderRadius: tokens.borderRadiusSmall,
     border: `1px solid ${tokens.colorNeutralStroke1}`,
     color: tokens.colorNeutralForeground1,
-  }
-}); 
+  },
+});

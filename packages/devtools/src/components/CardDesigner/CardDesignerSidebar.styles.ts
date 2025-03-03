@@ -21,4 +21,4 @@ export const useCardDesignerSidebarClasses = makeStyles({
     visibility: 'hidden',
     transition: `visibility ${tokens.durationNormal}`,
   },
-}); 
+});

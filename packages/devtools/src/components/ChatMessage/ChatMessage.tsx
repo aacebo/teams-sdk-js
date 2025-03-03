@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
   PositioningShorthand,
   Tooltip,
-  Image
+  Image,
 } from '@fluentui/react-components';
 import MessageActionsToolbar, { MessageReactionsEmoji } from '../Toolbar/MessageActionsToolbar';
 import { Message, MessageReaction, MessageUser, Attachment } from '@teams.sdk/api';
@@ -115,7 +115,7 @@ const ChatMessage: FC<ChatMessageProps> = ({
       return {
         type: 'card',
         content: attachment.content,
-        name: attachment.name
+        name: attachment.name,
       };
     }
 
@@ -124,7 +124,7 @@ const ChatMessage: FC<ChatMessageProps> = ({
       return {
         type: 'image',
         content: attachment.contentUrl || attachment.content,
-        name: attachment.name
+        name: attachment.name,
       };
     }
 
@@ -132,14 +132,14 @@ const ChatMessage: FC<ChatMessageProps> = ({
     return {
       type: 'file',
       content: attachment.contentUrl || attachment.content,
-      name: attachment.name
+      name: attachment.name,
     };
   };
 
   const getNonImageAttachments = (): AttachmentType[] => {
     if (!value.attachments) return [];
     const nonImageAttachments = value.attachments
-      .filter(attachment => !attachment.contentType?.startsWith('image/'))
+      .filter((attachment) => !attachment.contentType?.startsWith('image/'))
       .map(convertToAttachmentType);
 
     return nonImageAttachments;
@@ -184,15 +184,16 @@ const ChatMessage: FC<ChatMessageProps> = ({
                   {html ? <MarkdownContent content={html} /> : content}
                   {hasAttachments && (
                     <div className={classes.attachments}>
-                      {value.attachments && value.attachments
-                        .filter(attachment => attachment.contentType?.startsWith('image/'))
-                        .map(attachment => renderAttachment(attachment))}
+                      {value.attachments &&
+                        value.attachments
+                          .filter((attachment) => attachment.contentType?.startsWith('image/'))
+                          .map((attachment) => renderAttachment(attachment))}
                     </div>
                   )}
                   {nonImageAttachments.length > 0 && (
                     <AttachmentsContainer
                       attachments={nonImageAttachments}
-                      onRemoveAttachment={() => { }}
+                      onRemoveAttachment={() => {}}
                       showRemoveButtons={false}
                     />
                   )}

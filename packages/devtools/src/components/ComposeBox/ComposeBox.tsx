@@ -35,24 +35,24 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
       return {
         type: 'card',
         content: attachment.content,
-        name: attachment.name
+        name: attachment.name,
       };
     }
-    
+
     // Handle image attachments
     if (attachment.contentType?.startsWith('image/')) {
       return {
         type: 'image',
         content: attachment.contentUrl || attachment.content,
-        name: attachment.name
+        name: attachment.name,
       };
     }
-    
+
     // Handle other file attachments
     return {
       type: 'file',
       content: attachment.contentUrl || attachment.content,
-      name: attachment.name
+      name: attachment.name,
     };
   };
 
@@ -69,10 +69,10 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
 
       const newAttachment: Attachment = {
         contentType: 'application/vnd.microsoft.card.adaptive',
-        content: currentCard
+        content: currentCard,
       };
 
-      setAttachments(prev => [...prev, newAttachment]);
+      setAttachments((prev) => [...prev, newAttachment]);
 
       // Clear the current card from the store
       clearCurrentCard();
@@ -90,43 +90,56 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
     }
   }, [message, attachments, onSend]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  }, [handleSendMessage]);
-
-  // Handle toolbar actions
-  const handleToolbarAction = useCallback((toolbarAttachments?: any[]) => {
-    if (toolbarAttachments && toolbarAttachments.length > 0) {
-      console.log('Processing attachments from toolbar:', toolbarAttachments);
-
-      // If we have new attachments, add them directly
-      const newAttachments: Attachment[] = toolbarAttachments.map(attachment => ({
-        contentType: attachment.type === 'card' ? 'application/vnd.microsoft.card.adaptive' : 
-                    attachment.type === 'image' ? 'image/png' : 'application/octet-stream',
-        content: attachment.content,
-        name: attachment.name
-      }));
-
-      // Add attachments directly without checking for duplicates
-      // This is safe because we're handling toolbar actions directly
-      setAttachments(prev => [...prev, ...newAttachments]);
-    } else {
-      // If no attachments, this is a send action
-      // Only proceed if there's text content or existing attachments
-      if (message.trim() || attachments.length > 0) {
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
         handleSendMessage();
       }
-    }
-  }, [handleSendMessage, message, attachments]);
+    },
+    [handleSendMessage]
+  );
 
-  const handleRemoveAttachment = useCallback((index: number) => {
-    const newAttachments = [...attachments];
-    newAttachments.splice(index, 1);
-    setAttachments(newAttachments);
-  }, [attachments]);
+  // Handle toolbar actions
+  const handleToolbarAction = useCallback(
+    (toolbarAttachments?: any[]) => {
+      if (toolbarAttachments && toolbarAttachments.length > 0) {
+        console.log('Processing attachments from toolbar:', toolbarAttachments);
+
+        // If we have new attachments, add them directly
+        const newAttachments: Attachment[] = toolbarAttachments.map((attachment) => ({
+          contentType:
+            attachment.type === 'card'
+              ? 'application/vnd.microsoft.card.adaptive'
+              : attachment.type === 'image'
+                ? 'image/png'
+                : 'application/octet-stream',
+          content: attachment.content,
+          name: attachment.name,
+        }));
+
+        // Add attachments directly without checking for duplicates
+        // This is safe because we're handling toolbar actions directly
+        setAttachments((prev) => [...prev, ...newAttachments]);
+      } else {
+        // If no attachments, this is a send action
+        // Only proceed if there's text content or existing attachments
+        if (message.trim() || attachments.length > 0) {
+          handleSendMessage();
+        }
+      }
+    },
+    [handleSendMessage, message, attachments]
+  );
+
+  const handleRemoveAttachment = useCallback(
+    (index: number) => {
+      const newAttachments = [...attachments];
+      newAttachments.splice(index, 1);
+      setAttachments(newAttachments);
+    },
+    [attachments]
+  );
 
   // Memoized message input handler to prevent re-renders
   const handleMessageChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -136,9 +149,10 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
   // Check if there's content to send
   const hasContent = message.trim().length > 0 || attachments.length > 0;
 
-  const memoizedToolbar = React.useMemo(() => (
-    <NewMessageToolbar onSend={handleToolbarAction} hasContent={hasContent} />
-  ), [handleToolbarAction, hasContent]);
+  const memoizedToolbar = React.useMemo(
+    () => <NewMessageToolbar onSend={handleToolbarAction} hasContent={hasContent} />,
+    [handleToolbarAction, hasContent]
+  );
 
   return (
     <div className={classes.composeBoxContainer}>
@@ -163,4 +177,4 @@ const ComposeBox: React.FC<ComposeBoxProps> = ({ onSend }) => {
   );
 };
 
-export default ComposeBox; 
+export default ComposeBox;

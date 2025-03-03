@@ -56,15 +56,17 @@ const groups: CardGroup[] = [
       {
         icon: TableLightningRegular as FluentIcon,
         label: 'ActionSet',
-        value: ActionSet([{
-          "type": "Action.OpenUrl",
-          "title": "Action.OpenUrl",
-          "url": "https://microsoft.com"
-        },
-        {
-          "type": "Action.Submit",
-          "title": "Action.Submit"
-        }]),
+        value: ActionSet([
+          {
+            type: 'Action.OpenUrl',
+            title: 'Action.OpenUrl',
+            url: 'https://microsoft.com',
+          },
+          {
+            type: 'Action.Submit',
+            title: 'Action.Submit',
+          },
+        ]),
         typescript: 'ActionSet()',
       },
       {
@@ -89,12 +91,18 @@ const groups: CardGroup[] = [
         icon: TableImageRegular as FluentIcon,
         label: 'ImageSet',
         value: ImageSet([
-          Image('https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true', {
-            size: 'medium',
-          }),
-          Image('https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true', {
-            size: 'medium',
-          }),
+          Image(
+            'https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true',
+            {
+              size: 'medium',
+            }
+          ),
+          Image(
+            'https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true',
+            {
+              size: 'medium',
+            }
+          ),
         ]),
         typescript: [
           'ImageSet([',
@@ -159,7 +167,7 @@ const groups: CardGroup[] = [
         label: 'Image',
         value: Image(
           'https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true',
-          { size: "medium" }
+          { size: 'medium' }
         ),
         typescript:
           'Image("https://github.com/aacebo/teams-sdk-js/blob/main/assets/icons/teams.png?raw=true", { size: "medium"} )',
@@ -190,31 +198,31 @@ export default function CardDesignerSidebar({ onSelect }: CardDesignerSidebarPro
   const classes = useCardDesignerSidebarClasses();
   const [isClickDisabled, setIsClickDisabled] = useState(false);
 
-  const handleCardClick = useCallback((card: { value: Element; typescript: string }) => {
-    if (!onSelect || isClickDisabled) return;
+  const handleCardClick = useCallback(
+    (card: { value: Element; typescript: string }) => {
+      if (!onSelect || isClickDisabled) return;
 
-    // Disable clicking temporarily to prevent double-clicks
-    setIsClickDisabled(true);
+      // Disable clicking temporarily to prevent double-clicks
+      setIsClickDisabled(true);
 
-    // Call the onSelect handler
-    onSelect(card.value, card.typescript);
+      // Call the onSelect handler
+      onSelect(card.value, card.typescript);
 
-    // Re-enable clicking after a short delay
-    setTimeout(() => {
-      setIsClickDisabled(false);
-    }, 300); // 300ms should be enough to prevent accidental double-clicks
-  }, [onSelect, isClickDisabled]);
+      // Re-enable clicking after a short delay
+      setTimeout(() => {
+        setIsClickDisabled(false);
+      }, 300); // 300ms should be enough to prevent accidental double-clicks
+    },
+    [onSelect, isClickDisabled]
+  );
 
   return (
     <div className={classes.container}>
       {groups.map((group, groupIndex) => (
         <div key={`group-${groupIndex}`} className={classes.group}>
-          <Title3>
-            {group.label}
-          </Title3>
+          <Title3>{group.label}</Title3>
 
           {group.cards.map((card, cardIndex) => {
-
             return (
               <Button
                 appearance="transparent"

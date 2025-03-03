@@ -37,7 +37,7 @@ export const useOpenUrlActionCardClasses = makeStyles({
     ':hover': {
       color: tokens.colorPaletteRedForeground2,
     },
-    ':active' : {
+    ':active': {
       color: tokens.colorPaletteRedBorderActive,
     },
   },

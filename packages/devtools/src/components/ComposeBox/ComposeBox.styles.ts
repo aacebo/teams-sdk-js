@@ -17,5 +17,5 @@ export const useClasses = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
-  }
+  },
 });

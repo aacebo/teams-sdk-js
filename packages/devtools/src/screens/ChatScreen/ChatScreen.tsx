@@ -24,20 +24,23 @@ const ChatScreen: FC<ChatScreenProps> = ({ isConnected }) => {
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const sparkApi = useSparkApi();
 
-  const handleSendMessage = useCallback(async (message: string, messageAttachments?: Attachment[]) => {
-    if (messageAttachments) {
-      setAttachments([...attachments, ...(messageAttachments || [])]);
-    }
-    try {
-      await sparkApi.conversations.activities(chat.id).create({
-        type: 'message',
-        text: message,
-        attachments: attachments || [],
-      });
-    } catch (err) {
-      console.error('Error sending message:', err);
-    }
-  }, [sparkApi, chat?.id]);
+  const handleSendMessage = useCallback(
+    async (message: string, messageAttachments?: Attachment[]) => {
+      if (messageAttachments) {
+        setAttachments([...attachments, ...(messageAttachments || [])]);
+      }
+      try {
+        await sparkApi.conversations.activities(chat.id).create({
+          type: 'message',
+          text: message,
+          attachments: attachments || [],
+        });
+      } catch (err) {
+        console.error('Error sending message:', err);
+      }
+    },
+    [sparkApi, chat?.id]
+  );
 
   // Use the hook to automatically send a message in development mode
   // This will be a no-op in production builds
