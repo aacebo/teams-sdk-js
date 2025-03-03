@@ -1,11 +1,10 @@
-import qs from 'qs';
 import { Client, ClientOptions } from '@teams.sdk/common/http';
+import qs from 'qs';
 
 import { Account, Conversation, ConversationResource } from '../../models';
-import { Activity } from '../../activities';
 
-import { ConversationMemberClient } from './member';
 import { ActivityParams, ConversationActivityClient } from './activity';
+import { ConversationMemberClient } from './member';
 
 export interface GetConversationsParams {
   readonly continuationToken?: string;
@@ -17,7 +16,7 @@ export interface CreateConversationParams {
   readonly members?: Account[];
   readonly topicName?: string;
   readonly tenantId?: string;
-  readonly activity?: Activity;
+  readonly activity?: ActivityParams;
   readonly channelData?: Record<string, any>;
 }
 
