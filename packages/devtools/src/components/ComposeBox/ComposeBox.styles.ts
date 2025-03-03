@@ -1,16 +1,21 @@
-import { makeStyles } from '@fluentui/react-components';
+import { makeStyles, tokens } from '@fluentui/react-components';
 
 export const useClasses = makeStyles({
   composeBoxContainer: {
     position: 'relative',
     margin: '1rem 3.125rem',
     width: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
   },
   composeInput: {
     width: '100%',
     padding: '10px 0',
     paddingRight: '100px',
-    lineHeight: '3rem',
-    borderRadius: '5px',
   },
+  textareaContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+  }
 });

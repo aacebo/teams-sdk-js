@@ -36,6 +36,7 @@ export default function CardDesigner({ value, onChange }: CardDesignerProps) {
   const [formatted, setFormatted] = useState<string>();
   const isUpdatingRef = useRef(false);
   const isAddingElementRef = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!onChange) return;
@@ -73,6 +74,12 @@ export default function CardDesigner({ value, onChange }: CardDesignerProps) {
     })();
   }, [typescript]);
 
+  // Expose the card data for the Attach button
+  useEffect(() => {
+    if (containerRef.current) {
+      (containerRef.current as any).__CARD_DESIGNER__ = { card };
+    }
+  }, [card]);
 
   const onSelect = useCallback((el: Element, ts: string) => {
     // Prevent duplicate additions
@@ -115,7 +122,7 @@ export default function CardDesigner({ value, onChange }: CardDesignerProps) {
   }, []);
 
   return (
-    <div className={classes.container}>
+    <div className={classes.container} ref={containerRef} data-testid="card-designer">
       <CardDesignerSidebar onSelect={onSelect} />
       <CardDesignerContent value={card} />
       <CardDesignerEditor value={card} typescript={formatted} onChange={onEditorUpdate} />

@@ -3,9 +3,8 @@ import { makeStyles } from '@fluentui/react-components';
 export const useClasses = makeStyles({
   toolbar: {
     position: 'absolute',
-    right: '0',
-    top: '0',
-    margin: '16px 0',
+    right: '10px',
+    top: '10px',
   },
   toolbarButton: {
     minWidth: '0',
@@ -13,4 +12,10 @@ export const useClasses = makeStyles({
     height: '2rem',
     padding: '0',
   },
-});
+  jsonTextarea: {
+    minHeight: '250px', 
+    height: 'auto',
+    width: '100%', 
+    fontFamily: 'monospace',
+  },
+}); 
