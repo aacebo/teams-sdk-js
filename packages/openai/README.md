@@ -24,6 +24,8 @@ OpenAI model implementations to be used with `@teams.sdk/ai`. Supports all OpenA
     <img src="https://img.shields.io/badge/📖 Getting Started-blue?style=for-the-badge" />
 </a>
 
+> ⚠️ **this repository has been moved to https://github.com/microsoft/spark.js** and renamed `@microsoft/spark.openai`.
+
 ## Install
 
 ```bash

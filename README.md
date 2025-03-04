@@ -13,6 +13,8 @@ a suite of packages used to build on the Teams Platform.
     <img src="https://img.shields.io/badge/📖 Getting Started-blue?style=for-the-badge" />
 </a>
 
+> ⚠️ **this repository has been moved to https://github.com/microsoft/spark.js** and renamed `@microsoft/spark.{package}`.
+
 - [Documentation](https://aacebo.github.io/teams-sdk-js)
 - [Why?](#why)
 - [Design Philosophy](#design-philosophy)

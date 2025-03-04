@@ -24,6 +24,8 @@ developer tools for making debugging/development of Teams apps easier.
     <img src="https://img.shields.io/badge/📖 Getting Started-blue?style=for-the-badge" />
 </a>
 
+> ⚠️ **this repository has been moved to https://github.com/microsoft/spark.js** and renamed `@microsoft/spark.dev`.
+
 ## Install
 
 ```bash

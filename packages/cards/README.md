@@ -24,6 +24,8 @@ An Adaptive Cards implementation with support for Teams-specific Adaptive Card e
     <img src="https://img.shields.io/badge/📖 Getting Started-blue?style=for-the-badge" />
 </a>
 
+> ⚠️ **this repository has been moved to https://github.com/microsoft/spark.js** and renamed `@microsoft/spark.cards`.
+
 ## Install
 
 ```bash

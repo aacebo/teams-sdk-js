@@ -25,6 +25,8 @@ minimizing external dependencies.
     <img src="https://img.shields.io/badge/📖 Getting Started-blue?style=for-the-badge" />
 </a>
 
+> ⚠️ **this repository has been moved to https://github.com/microsoft/spark.js** and renamed `@microsoft/spark.common`.
+
 ## Install
 
 ```bash

@@ -25,6 +25,8 @@ A package used to make the `@teams.sdk/apps` package backwards compatible with l
     <img src="https://img.shields.io/badge/📖 Getting Started-blue?style=for-the-badge" />
 </a>
 
+> ⚠️ **this repository has been moved to https://github.com/microsoft/spark.js** and renamed `@microsoft/spark.botbuilder`.
+
 ## Install
 
 ```bash
