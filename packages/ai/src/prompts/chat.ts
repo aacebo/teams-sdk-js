@@ -7,22 +7,28 @@ import { Schema } from '../schema';
 import { Template } from '../template';
 import { StringTemplate } from '../templates';
 
-export interface ChatPromptOptions {
-  readonly model: ChatModel;
+export type ChatPromptOptions<TModelExtraParams extends {}> = {
+  readonly model: ChatModel<TModelExtraParams>;
   readonly instructions?: string | Template;
   readonly role?: 'system' | 'user';
   readonly messages?: Message[] | Memory;
-}
+} & Omit<TModelExtraParams, 'model' | 'instructions' | 'role' | 'messages'>;
 
-export class ChatPrompt {
+type CheckIfContainsNonOptional<T> = {} extends {
+  [K in keyof T]: T[K] extends Required<T>[K] ? never : K;
+}
+  ? never
+  : T;
+
+export class ChatPrompt<TModelExtraParams extends {}> {
   readonly messages: Memory;
 
   protected readonly _role: 'system' | 'user';
-  protected readonly _model: ChatModel;
+  protected readonly _model: ChatModel<TModelExtraParams>;
   protected readonly _template: Template;
   protected readonly _functions: Record<string, Function> = {};
 
-  constructor(options: ChatPromptOptions) {
+  constructor(options: ChatPromptOptions<TModelExtraParams>) {
     this._role = options.role || 'system';
     this.messages =
       typeof options.messages === 'object' && !Array.isArray(options.messages)
@@ -63,9 +69,16 @@ export class ChatPrompt {
     return await fn.handler(args || {});
   }
 
-  async chat(input: string | ContentPart[], onChunk?: (chunk: string) => void | Promise<void>) {
-    if (typeof input === 'string') {
-      input = input.trim();
+  async chat(
+    inputArgs: CheckIfContainsNonOptional<TModelExtraParams> extends never
+      ? { input: string | ContentPart[]; extraArgs: TModelExtraParams }
+      : string | ContentPart[] | { input: string | ContentPart[]; extraArgs?: TModelExtraParams },
+    onChunk?: (chunk: string) => void | Promise<void>
+  ) {
+    let input: string | ContentPart[] =
+      typeof inputArgs === 'object' && 'input' in inputArgs ? inputArgs.input : inputArgs;
+    if (typeof inputArgs === 'string') {
+      input = inputArgs.trim();
     }
 
     let buffer = '';
@@ -79,6 +92,9 @@ export class ChatPrompt {
       };
     }
 
+    const extraArgs =
+      typeof inputArgs === 'object' && 'extraArgs' in inputArgs ? inputArgs.extraArgs : undefined;
+
     const res = await this._model.chat(
       {
         input: {
@@ -88,6 +104,7 @@ export class ChatPrompt {
         system,
         messages: this.messages,
         functions: this._functions,
+        ...(extraArgs || ({} as TModelExtraParams)),
       },
       async (chunk) => {
         if (!chunk.content || !onChunk) return;
